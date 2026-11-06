@@ -1,0 +1,77 @@
+name: Windows build, release and verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Engine regressions
+        run: node --test source/tests/*.test.js
+      - name: Build the UI
+        run: |
+          node source/tools/build.js build
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item build/EightMax-Offline.html EightMax-Offline.html
+      - name: Test the previously shipped host
+        shell: powershell
+        run: ./source/tools/test_windows.ps1 -Report shipped-windows.json
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc python
+      - name: Compile a fresh native host from the current source
+        shell: msys2 {0}
+        run: CC=gcc sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
+      - name: Test the fresh host, including the 2.5 host fixes
+        shell: powershell
+        run: ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Fresh -Report fresh-windows.json
+      - name: Assemble the release around the fresh host
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          New-Item -ItemType Directory -Force $r | Out-Null
+          Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
+          Copy-Item EightMax-Offline.html, README.txt, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', VALIDATION-2.3.json, VALIDATION-2.5.json $r
+          Copy-Item -Recurse source, validation, .github $r
+          Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
+          Copy-Item shipped-windows.json, fresh-windows.json "$r/validation/"
+      - name: Verify the assembled release
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          node source/tools/package_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/mtt_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/checkpoint_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Fresh -Report "$r/validation/Windows-release-test.json"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/accuracy_report.js "$r/validation"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node --test source/tests/*.test.js 2>&1 | Out-File -Encoding utf8 "$r/validation/regression-tests.txt"
+          Compress-Archive -Path $r -DestinationPath release/EightMax-Windows-2.5.zip
+      - name: Upload the release and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: EightMax-Windows-release
+          path: |
+            release/EightMax-Windows-2.5.zip
+            shipped-windows.json
+            fresh-windows.json
+            release/EightMax/validation/

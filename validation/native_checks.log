@@ -1,0 +1,12 @@
+Native host (Linux build of the current source), 2026-11-06T23:15:23Z
+river output: {'running': False, 'kind': 1, 'it': 10000, 'done': True, 'stopped': False, 'ex': 0.0031, 'chips': 0.0003, 'elapsed': 0.05, 'error': None, 'engine': 'native-gen', 'gpu': {'available': False, 'device': 'turned off (EIGHTMAX_GPU=off)', 'on': False, 'why': 'GPU turned off for this solve'}} aggressor {'acts': ['Check', 'All-in 10'], 'strategy': [0.5001, 0, 0.4999, 1], 'ev': [[2.5], [0, 15]], 'action_ev': [[0, 10], [0.001, 15]]} defender {'acts': ['Fold', 'Call 10'], 'strategy': [0.5, 0.5], 'ev': [[-0.001], [10.001, 25]], 'action_ev': [[0], [-0.001]]}
+river result {'Vbet': 1, 'Wbet': 0.4999, 'defend': 0.5}
+same game check only {'valueRoot': 5, 'exploitPct': 0}
+heads-up checkdown {'comparedRunouts': 990, 'wins': 907, 'ties': 0, 'exactEquity': 0.9161616161616162, 'nativeEquity': 0.9162, 'nativeEV': 9.162, 'exactEV': 9.161616161616163}
+
+GPU emulator self-test:
+    CPU 0.48 s per iteration, GPU 24.74 s per iteration
+    speed-up 0.0x
+    GPU with 16-bit storage 29.25 s per iteration (half the memory)
+
+  PASS: the GPU engine agrees with the CPU engine.

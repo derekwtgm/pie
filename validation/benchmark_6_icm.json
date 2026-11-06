@@ -1,0 +1,28 @@
+{
+ "spot": "6-player linked preflop to river, ICM 50/30/20 with two players at other tables, 25 bb, detailed grouping, 10,000 iterations, 2 CPU cores",
+ "runs": {
+  "2.3": {
+   "secondsMin": 12.54,
+   "secondsAll": [
+    12.54,
+    13.37,
+    12.55
+   ],
+   "peakMiB": 295,
+   "infos": 338603,
+   "stateVisits": 3081880
+  },
+  "2.5": {
+   "secondsMin": 9.23,
+   "secondsAll": [
+    9.77,
+    10.46,
+    9.23
+   ],
+   "peakMiB": 258,
+   "infos": 331959,
+   "stateVisits": 3059858
+  }
+ },
+ "speedup": 1.36
+}

@@ -1,0 +1,54 @@
+{
+ "version": "2.5",
+ "generated": "2026-11-06T23:22:56Z",
+ "builtOn": "Linux x86-64 (no Windows toolchain available here)",
+ "windowsVerified": false,
+ "windowsNote": "EightMax.exe in this package is the verified 2.3 host with the 2.5 interface inside. .github/workflows/windows.yml compiles a fresh 2.5 host from source on a Windows runner, tests it (including the 2.5 host fixes) and builds a release zip around it with Windows test reports.",
+ "regressionTests": {
+  "pass": 85,
+  "fail": 0
+ },
+ "packageSmoke": "passed",
+ "interfaceSmoke": "passed",
+ "checkpointSmoke": "passed",
+ "nativeReference": "passed",
+ "gpuEmulator": "passed",
+ "accuracy": {
+  "pushfoldExactGameGainMax": 0.0004020567259815904,
+  "pushfoldEVGapMax": 0.009582699666488281,
+  "headsUpJsVsWasmPctPot": [
+   0.013355320478523615,
+   0.013356124962697889
+  ],
+  "multiwayExactGainBb": [
+   {
+    "iterations": 100,
+    "maxGainBb": 0.033681587442282
+   },
+   {
+    "iterations": 1000,
+    "maxGainBb": 0.0015849895452184626
+   },
+   {
+    "iterations": 5000,
+    "maxGainBb": 0.00029153327255038164
+   }
+  ]
+ },
+ "benchmark6PlayerICM": {
+  "seconds2_3": 12.54,
+  "seconds2_5": 9.23,
+  "speedup": 1.36
+ },
+ "files": [
+  "validation/regressions.log",
+  "validation/package_smoke.log",
+  "validation/mtt_ui.log",
+  "validation/checkpoint_ui.log",
+  "validation/native_checks.log",
+  "validation/ACCURACY.json",
+  "validation/ACCURACY.txt",
+  "validation/benchmark_6_icm.json",
+  "validation/2.3/ (previous reports)"
+ ]
+}

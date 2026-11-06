@@ -1,0 +1,91 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "solver.h"
+/* ---------------- config parsing ---------------- */
+// size tokens: 33 or 33% (of the pot), 2.5x (raises: times the bet faced), g (bets: geometric, all-in by
+// the river), a (all-in). Encoded as floats: > 0 % of pot, SZ_ALLIN, SZ_GEO, or SZ_X(m) for multiples.
+static int parse_sizes(const JV *v, float *out, int *n, int isRaise, char *bad, size_t badn) {
+  *n = 0;
+  if (!v) return 1;
+  const char *s = jstr(v);
+  if (!s) return 0;
+  while (*s) {
+    while (*s == ' ' || *s == ',' || *s == ';' || *s == '\t') s++;
+    if (!*s) break;
+    const char *tok = s;
+    while (*s && *s != ',' && *s != ' ' && *s != ';' && *s != '\t') s++;
+    const size_t L = (size_t)(s - tok);
+    snprintf(bad, badn, "%.*s", (int)(L < 20 ? L : 20), tok);
+    if (*n >= 8) return 0;
+    if (tok[0] == 'a' || tok[0] == 'A') { out[(*n)++] = SZ_ALLIN; continue; }
+    if ((tok[0] == 'g' || tok[0] == 'G') && (L == 1 || (L == 3 && (tok[1] == 'e' || tok[1] == 'E')))) { if (isRaise) return 0; out[(*n)++] = SZ_GEO; continue; }
+    char *e; double d = strtod(tok, &e);
+    if (e == tok) return 0;
+    if (e < s && (*e == 'x' || *e == 'X')) {
+      if (!isRaise || !(d >= 1.5) || d > 20 || e + 1 != s) return 0;
+      out[(*n)++] = SZ_X(d); continue;
+    }
+    if (e < s && *e == '%') e++;
+    if (e != s || !(d > 0) || d > 2000) return 0;
+    out[(*n)++] = (float)d;
+  }
+  return 1;
+}
+int solver_parse_cfg(const char *json, GameCfg *cfg, char *err, int errlen) {
+  memset(cfg, 0, sizeof *cfg);
+  if (!json) json = "{}";
+  JV *v = json_parse(json, strlen(json), err, errlen);
+  if (!v) return 0;
+  JV *b = jget(v, "board"), *rg = jget(v, "ranges"), *sz = jget(v, "sizes");
+  if (!b || b->type != J_ARR || b->n < 3 || b->n > 5) { snprintf(err, (size_t)errlen, "Board needs 3-5 cards"); json_free(v); return 0; }
+  cfg->nb = b->n; for (int i = 0; i < b->n; i++) cfg->board[i] = (int)jnum(b->items[i], -1);
+  cfg->pot = jnum(jget(v, "pot"), 0); cfg->stack = jnum(jget(v, "stack"), 0);
+  cfg->maxBets = (int)jnum(jget(v, "maxBets"), 3); cfg->forceAllin = jnum(jget(v, "forceAllin"), 0.2);
+  if (!(cfg->forceAllin >= 0)) cfg->forceAllin = 0;
+  if (cfg->forceAllin > 1) cfg->forceAllin = 1;
+  cfg->compress = (int)jnum(jget(v, "compress"), -1); cfg->compressAboveMB = jnum(jget(v, "compressAboveMB"), 4000);
+  cfg->iso = (int)jnum(jget(v, "iso"), 1);
+  cfg->gamma = jnum(jget(v, "gamma"), 3);
+  cfg->gpu = (int)jnum(jget(v, "gpu"), 1);
+  { const char *rr = jstr(jget(v, "reraise")); cfg->reraiseAllin = rr && !strcmp(rr, "allin"); }
+  JV *ic = jget(v, "icm");
+  if (ic && ic->type == J_OBJ) {
+    JV *u0 = jget(ic, "u0"), *u1 = jget(ic, "u1");
+    if (!u0 || !u1 || u0->type != J_ARR || u1->type != J_ARR || u0->n != u1->n || u0->n < 2 || u0->n > 1024) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
+    cfg->icm = 1; cfg->icmN = u0->n;
+    cfg->icmX0 = jnum(jget(ic, "x0"), 0); cfg->icmDx = jnum(jget(ic, "dx"), 1); cfg->icmB0 = jnum(jget(ic, "b0"), 0);
+    if (!(cfg->icmDx > 0)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
+    for (int i = 0; i < u0->n; i++) { cfg->icmU[0][i] = (float)jnum(u0->items[i], 0); cfg->icmU[1][i] = (float)jnum(u1->items[i], 0); }
+  }
+  if (!rg || rg->type != J_ARR || rg->n != 2) { snprintf(err, (size_t)errlen, "Missing ranges"); json_free(v); return 0; }
+  for (int p = 0; p < 2; p++) {
+    JV *a = rg->items[p];
+    if (!a || a->type != J_ARR || a->n != 1326) { snprintf(err, (size_t)errlen, "Range needs 1326 weights"); json_free(v); return 0; }
+    for (int i = 0; i < 1326; i++) cfg->ranges[p][i] = (float)jnum(a->items[i], 0);
+  }
+  if (!sz) { snprintf(err, (size_t)errlen, "Missing bet sizes"); json_free(v); return 0; }
+  JV *bet = jget(sz, "bet"), *raise = jget(sz, "raise"), *donk = jget(sz, "donk");
+  static const char *ST[3] = { "flop", "turn", "river" };
+  char bad[32] = "";
+  for (int s = 0; s < 3; s++) for (int p = 0; p < 2; p++) {
+    JV *x = bet && bet->type == J_ARR && s < bet->n && bet->items[s]->type == J_ARR && p < bet->items[s]->n ? bet->items[s]->items[p] : NULL;
+    JV *y = raise && raise->type == J_ARR && s < raise->n && raise->items[s]->type == J_ARR && p < raise->items[s]->n ? raise->items[s]->items[p] : NULL;
+    if (!parse_sizes(x, cfg->bet[s][p], &cfg->nbet[s][p], 0, bad, sizeof bad)) {
+      snprintf(err, (size_t)errlen, "Bad %s %s bet size \"%s\": use %% of pot (33), g (geometric) or a (all-in), up to 8 sizes", ST[s], p ? "IP" : "OOP", bad); json_free(v); return 0;
+    }
+    if (!parse_sizes(y, cfg->raise[s][p], &cfg->nraise[s][p], 1, bad, sizeof bad)) {
+      snprintf(err, (size_t)errlen, "Bad %s %s raise size \"%s\": use %% of pot (75), a multiple (3x) or a (all-in), up to 8 sizes", ST[s], p ? "IP" : "OOP", bad); json_free(v); return 0;
+    }
+  }
+  // OOP leads on the turn and river after calling IP's bet ("donk" bets); without this list they use OOP's bet sizes
+  if (donk && donk->type == J_ARR) {
+    cfg->hasDonk = 1;
+    for (int s = 0; s < 3; s++) {
+      JV *x = s < donk->n ? donk->items[s] : NULL;
+      if (!parse_sizes(x, cfg->donk[s], &cfg->ndonk[s], 0, bad, sizeof bad)) { snprintf(err, (size_t)errlen, "Bad %s donk size \"%s\"", ST[s], bad); json_free(v); return 0; }
+    }
+  }
+  json_free(v);
+  return 1;
+}

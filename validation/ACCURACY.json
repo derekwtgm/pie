@@ -1,0 +1,206 @@
+{
+ "version": "2.5",
+ "generated": "2026-11-06T23:14:17.785Z",
+ "node": "v22.23.4",
+ "sections": {
+  "pushfoldOracle": {
+   "note": "The solver models card removal pairwise; the oracle removes all three hands. The exact-game gain is the true exploitability of the solved strategy in the full game.",
+   "rows": [
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       10,
+       10,
+       10
+      ],
+      "anteType": "classic",
+      "ante": 0.1,
+      "model": "chip"
+     },
+     "unit": "bb",
+     "solverEV": [
+      10.23986230807973,
+      9.947462916178475,
+      9.81267477574179
+     ],
+     "oracleEV": [
+      10.236528247678553,
+      9.946966424761058,
+      9.816505327598891
+     ],
+     "claimedGain": [
+      1.1276563090708195e-8,
+      1.3297967850479777e-7,
+      1.4996771078904151e-7
+     ],
+     "exactGain": [
+      0.0001990488807307282,
+      0.00025546278779392355,
+      0.00014156793883867043
+     ],
+     "seconds": 3.046
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       6,
+       14,
+       9
+      ],
+      "anteType": "bba",
+      "ante": 1,
+      "model": "icm",
+      "payouts": [
+       50,
+       30,
+       20
+      ]
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      30.424591252571453,
+      38.21442662883503,
+      31.360982118593526
+     ],
+     "oracleEV": [
+      30.431467546632074,
+      38.20484392916854,
+      31.363688524009106
+     ],
+     "claimedGain": [
+      8.212979336337912e-8,
+      5.126710645502891e-8,
+      1.7822974806977568e-8
+     ],
+     "exactGain": [
+      0.00010616766041765535,
+      0.000026414076225254185,
+      1.627362709866187e-8
+     ],
+     "seconds": 2.896
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       20,
+       4,
+       12
+      ],
+      "anteType": "none",
+      "model": "icm",
+      "payouts": [
+       65,
+       35
+      ]
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      49.03016388347373,
+      13.789873922703489,
+      37.17996219382282
+     ],
+     "oracleEV": [
+      49.03287515765725,
+      13.788163671115315,
+      37.17896117131376
+     ],
+     "claimedGain": [
+      3.370221530429273e-7,
+      2.0254693425185613e-7,
+      7.558166164993729e-9
+     ],
+     "exactGain": [
+      0.00002292972820058803,
+      0.0004020567259815904,
+      0.00006230489260404884
+     ],
+     "seconds": 2.94
+    }
+   ]
+  },
+  "headsUp": {
+   "js": {
+    "engine": "js",
+    "exploitPctPot": 0.013355320478523615,
+    "seconds": 0.145
+   },
+   "wasm": {
+    "engine": "wasm-simd",
+    "exploitPctPot": 0.013356124962697889,
+    "seconds": 0.044
+   }
+  },
+  "multiwayExact": {
+   "pot": 12,
+   "rows": [
+    {
+     "iterations": 100,
+     "maxGainBb": 0.033681587442282
+    },
+    {
+     "iterations": 1000,
+     "maxGainBb": 0.0015849895452184626
+    },
+    {
+     "iterations": 5000,
+     "maxGainBb": 0.00029153327255038164
+    }
+   ]
+  },
+  "sampled": {
+   "note": "A trained response is a lower bound on true exploitability; spread across seeds shows sampling noise.",
+   "rows": [
+    {
+     "iterations": 3000,
+     "maxTestedGainBySeed": [
+      0.8287353515625002,
+      0.533935546874999,
+      0.29626464843749983,
+      0.30688476562500017
+     ]
+    },
+    {
+     "iterations": 12000,
+     "maxTestedGainBySeed": [
+      0,
+      0,
+      0.2420654296875003,
+      0
+     ]
+    }
+   ]
+  },
+  "fgs": {
+   "headsUpValueShift": 0.018720833243584423,
+   "fourHandedPoolError": 8.526512829121202e-14
+  },
+  "deepCalibration": {
+   "flops": 20,
+   "spots": [
+    "BTN vs BB 25bb",
+    "SB vs BB 25bb",
+    "BTN vs BB 60bb",
+    "SB vs BB 60bb"
+   ],
+   "solveExploitPctPot": 0.5,
+   "potShareRMSE": {
+    "rawEquity": 0.1162,
+    "model24": 0.1035,
+    "model25": 0.0747
+   },
+   "heldOutFlops": {
+    "model24": [
+     0.127,
+     0.1016
+    ],
+    "model25": [
+     0.1035,
+     0.087
+    ]
+   }
+  }
+ }
+}

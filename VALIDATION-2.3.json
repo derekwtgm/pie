@@ -1,0 +1,115 @@
+{
+  "version": "2.3",
+  "regression_tests": {
+    "passed": 70,
+    "failed": 0,
+    "command": "node --test source/tests/*.test.js"
+  },
+  "packaged_ui_worker_checks": {
+    "method": "Bundled app JavaScript with a DOM fixture and a separate Node worker thread",
+    "checkpoint_controls_passed": true,
+    "existing_workflows_passed": true,
+    "native_and_offline_ui_match": true,
+    "real_browser_rendering_tested": false
+  },
+  "checkpoint_validation": {
+    "full_and_external_traversal": true,
+    "compact_detailed_and_exact_card_groups": true,
+    "enumerated_ICM": true,
+    "linked_six_player_ICM": true,
+    "corrupt_file_preserves_active_study": true,
+    "saved_memory_stop_can_resume_with_larger_budget": true,
+    "continuation_bit_identical": true,
+    "larger_checkpoint_run": {
+      "players": 6,
+      "grouping": "detailed",
+      "training": 2000,
+      "infos": 62449,
+      "estimatedStrategyMiB": 18.88409996032715,
+      "fileMiB": 7.720991134643555,
+      "saveSeconds": 0.18274834599999987,
+      "loadSeconds": 0.42361266999999997,
+      "resumedIterations": 2200,
+      "bitIdentical": true
+    }
+  },
+  "native_cpu_checks": {
+    "platform": "Linux",
+    "passed": true,
+    "independent_checkdown_runouts": 990,
+    "analytic_river_bluff_equilibrium": true,
+    "served_ui_matches_release": true
+  },
+  "windows_packaging": {
+    "immutable_native_host_bytes_preserved": true,
+    "ui_resource_bytes": 768956,
+    "ui_resource_capacity": 835953,
+    "direct_windows_runtime_tested": false,
+    "physical_gpu_tested": false,
+    "cpu_self_test_included": true,
+    "clean_windows_CI_workflow_included": true,
+    "windows_workflow_executed": false
+  },
+  "training_smoke_run": {
+    "n": 6,
+    "mode": "linked",
+    "icm": true,
+    "seconds": 16.203350066000002,
+    "metrics": {
+      "utility": "icm",
+      "unit": "prize units",
+      "prizePool": 100,
+      "reportThreshold": 0.1,
+      "icmPlayers": 8,
+      "wide": true,
+      "ev": [
+        12.936565544081315,
+        12.148330800268043,
+        12.277477320130005,
+        12.036509622257956,
+        12.245296033678553,
+        11.61248673834659
+      ],
+      "se": [
+        0.27354007174394107,
+        0.2912028531079901,
+        0.3203811483926539,
+        0.3473701617011418,
+        0.3816411571403088,
+        0.3854755486126347
+      ],
+      "iterations": 10000,
+      "abstraction": "detailed",
+      "memoryBudgetMiB": 112,
+      "strategyMiB": 88.75975227355957,
+      "evaluationDeals": 512,
+      "infos": 338603,
+      "nodes": 109659,
+      "seed": 17,
+      "evaluationSeed": 2911926124,
+      "startStreet": "Preflop",
+      "runoutMode": "fresh",
+      "deals": 10000,
+      "algorithm": "external",
+      "stateVisits": 3081880,
+      "limitReached": false
+    },
+    "peakMiB": 353.65234375
+  },
+  "scope": {
+    "linked_preflop_live_seats_max": 6,
+    "other_dealt_seats_assumed_folded": true,
+    "shove_call_seats_max": 8,
+    "shove_call_postflop": "checkdown",
+    "postflop_live_seats_max": 6,
+    "icm_remaining_players_max": 16,
+    "ante_bb_per_dealt_player": 0.1,
+    "big_blind_ante": false,
+    "full_game_gto_certified": false,
+    "finer_groups_proven_to_reduce_exploitability": false
+  },
+  "sha256": {
+    "EightMax.exe": "7cf3f97987c4b505dc37a2874e7a16662dd2d80a0aae5cd34b6724933debead9",
+    "EightMax-Offline.html": "fb2e4051bdaba620938443a36e6ba1ba504e2d87f5b922a22934100eb18ae3bc"
+  }
+}

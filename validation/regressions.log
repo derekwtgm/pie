@@ -1,0 +1,520 @@
+TAP version 13
+# Subtest: Wide full/compact checkpoint resumes bit-for-bit
+ok 1 - Wide full/compact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 47.534711
+  type: 'test'
+  ...
+# Subtest: Wide full/detailed checkpoint resumes bit-for-bit
+ok 2 - Wide full/detailed checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 11.901686
+  type: 'test'
+  ...
+# Subtest: Wide full/exact checkpoint resumes bit-for-bit
+ok 3 - Wide full/exact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 16.387151
+  type: 'test'
+  ...
+# Subtest: Wide external/compact checkpoint resumes bit-for-bit
+ok 4 - Wide external/compact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 69.010097
+  type: 'test'
+  ...
+# Subtest: Wide external/detailed checkpoint resumes bit-for-bit
+ok 5 - Wide external/detailed checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 54.769702
+  type: 'test'
+  ...
+# Subtest: Wide external/exact checkpoint resumes bit-for-bit
+ok 6 - Wide external/exact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 34.225461
+  type: 'test'
+  ...
+# Subtest: Enumerated seeded-turn ICM checkpoints restore regrets, averages and iteration weights
+ok 7 - Enumerated seeded-turn ICM checkpoints restore regrets, averages and iteration weights
+  ---
+  duration_ms: 22.810198
+  type: 'test'
+  ...
+# Subtest: Six-player linked preflop ICM preserves both independent random streams
+ok 8 - Six-player linked preflop ICM preserves both independent random streams
+  ---
+  duration_ms: 359.013941
+  type: 'test'
+  ...
+# Subtest: Eight-player linked preflop-to-river resumes exactly from a checkpoint
+ok 9 - Eight-player linked preflop-to-river resumes exactly from a checkpoint
+  ---
+  duration_ms: 500.759948
+  type: 'test'
+  ...
+# Subtest: Corrupt, incompatible and non-finite checkpoints are rejected
+ok 10 - Corrupt, incompatible and non-finite checkpoints are rejected
+  ---
+  duration_ms: 3.051034
+  type: 'test'
+  ...
+# Subtest: A saved memory stop can continue after increasing the budget
+ok 11 - A saved memory stop can continue after increasing the budget
+  ---
+  duration_ms: 122.131048
+  type: 'test'
+  ...
+# Subtest: Worker export, failed load, successful load and resume preserve the active study
+ok 12 - Worker export, failed load, successful load and resume preserve the active study
+  ---
+  duration_ms: 29.921971
+  type: 'test'
+  ...
+# Subtest: FGS barely changes heads-up play, where ICM is linear in chips
+ok 13 - FGS barely changes heads-up play, where ICM is linear in chips
+  ---
+  duration_ms: 140.325189
+  type: 'test'
+  ...
+# Subtest: FGS conserves the prize pool and makes the next big blind jam wider
+ok 14 - FGS conserves the prize pool and makes the next big blind jam wider
+  ---
+  duration_ms: 1172.219926
+  type: 'test'
+  ...
+# Subtest: FGS falls back to ICM when a survivor cannot post the next hand
+ok 15 - FGS falls back to ICM when a survivor cannot post the next hand
+  ---
+  duration_ms: 253.07375
+  type: 'test'
+  ...
+# Subtest: two-hand FGS is limited to small tables and stays consistent
+ok 16 - two-hand FGS is limited to small tables and stays consistent
+  ---
+  duration_ms: 2160.393683
+  type: 'test'
+  ...
+# Subtest: deep model uses the fitted realization constants and still accepts the 2.4 values
+ok 17 - deep model uses the fitted realization constants and still accepts the 2.4 values
+  ---
+  duration_ms: 766.998591
+  type: 'test'
+  ...
+# Subtest: Detailed groups distinguish nut and weak flush draws and one-card draws
+ok 18 - Detailed groups distinguish nut and weak flush draws and one-card draws
+  ---
+  duration_ms: 1.192284
+  type: 'test'
+  ...
+# Subtest: Straight features separate open ends, inside draws, double gutters and backdoors
+ok 19 - Straight features separate open ends, inside draws, double gutters and backdoors
+  ---
+  duration_ms: 0.232124
+  type: 'test'
+  ...
+# Subtest: Detailed information is invariant under suit renaming and hole-card order
+ok 20 - Detailed information is invariant under suit renaming and hole-card order
+  ---
+  duration_ms: 0.853083
+  type: 'test'
+  ...
+# Subtest: Exact-card keys retain suits and turn/river order while canonicalizing the flop
+ok 21 - Exact-card keys retain suits and turn/river order while canonicalizing the flop
+  ---
+  duration_ms: 0.132029
+  type: 'test'
+  ...
+# Subtest: Detailed root signals use only current cards and retain histories on later streets
+ok 22 - Detailed root signals use only current cards and retain histories on later streets
+  ---
+  duration_ms: 9.176214
+  type: 'test'
+  ...
+# Subtest: ICM integrates joint side-pot outcomes before averaging and includes folded seats
+ok 23 - ICM integrates joint side-pot outcomes before averaging and includes folded seats
+  ---
+  duration_ms: 13.227236
+  type: 'test'
+  ...
+# Subtest: Six-player ICM agrees with independent tied-pot and simultaneous-bust calculations
+ok 24 - Six-player ICM agrees with independent tied-pot and simultaneous-bust calculations
+  ---
+  duration_ms: 3.712689
+  type: 'test'
+  ...
+# Subtest: Wide ICM uses the same settlements and payout scaling preserves strategy
+ok 25 - Wide ICM uses the same settlements and payout scaling preserves strategy
+  ---
+  duration_ms: 10.84456
+  type: 'test'
+  ...
+# Subtest: ICM rejects inconsistent payouts, omitted remaining seats and invalid stacks
+ok 26 - ICM rejects inconsistent payouts, omitted remaining seats and invalid stacks
+  ---
+  duration_ms: 0.646537
+  type: 'test'
+  ...
+# Subtest: Four, five and six live preflop players continue through all postflop streets
+ok 27 - Four, five and six live preflop players continue through all postflop streets
+  ---
+  duration_ms: 658.285628
+  type: 'test'
+  ...
+# Subtest: Heads-up preflop starts with SB and postflop starts with BB
+ok 28 - Heads-up preflop starts with SB and postflop starts with BB
+  ---
+  duration_ms: 11.222184
+  type: 'test'
+  ...
+# Subtest: Eight-way shove/call retains every overcaller and conserves all chips and antes
+ok 29 - Eight-way shove/call retains every overcaller and conserves all chips and antes
+  ---
+  duration_ms: 59.531207
+  type: 'test'
+  ...
+# Subtest: Unequal preflop all-ins form three correct side pots without ending at the first call
+ok 30 - Unequal preflop all-ins form three correct side pots without ending at the first call
+  ---
+  duration_ms: 14.29034
+  type: 'test'
+  ...
+# Subtest: Short blind all-ins return excess and do not force a sole live player to fold
+ok 31 - Short blind all-ins return excess and do not force a sole live player to fold
+  ---
+  duration_ms: 9.752407
+  type: 'test'
+  ...
+# Subtest: Short preflop raises do not reopen a previous raiser
+ok 32 - Short preflop raises do not reopen a previous raiser
+  ---
+  duration_ms: 20.424535
+  type: 'test'
+  ...
+# Subtest: Preflop decisions use postflop continuation values and keep future cards hidden
+ok 33 - Preflop decisions use postflop continuation values and keep future cards hidden
+  ---
+  duration_ms: 980.368926
+  type: 'test'
+  ...
+# Subtest: Preflop ICM supports eight seats and checks do not alter the configured action model
+ok 34 - Preflop ICM supports eight seats and checks do not alter the configured action model
+  ---
+  duration_ms: 24.627038
+  type: 'test'
+  ...
+# Subtest: ICM profile EV and unilateral gains match independent exhaustive three-player policies
+ok 35 - ICM profile EV and unilateral gains match independent exhaustive three-player policies
+  ---
+  duration_ms: 17.286016
+  type: 'test'
+  ...
+# Subtest: Exact three-, five- and six-player flop all-ins match independent runouts and side pots
+ok 36 - Exact three-, five- and six-player flop all-ins match independent runouts and side pots
+  ---
+  duration_ms: 201.675307
+  type: 'test'
+  ...
+# Subtest: Contributions, stacks, acting order, folds and per-street sizes carry through the river
+ok 37 - Contributions, stacks, acting order, folds and per-street sizes carry through the river
+  ---
+  duration_ms: 102.863087
+  type: 'test'
+  ...
+# Subtest: Range weights, observed actions and folded hole cards determine the next-card odds
+ok 38 - Range weights, observed actions and folded hole cards determine the next-card odds
+  ---
+  duration_ms: 208.018792
+  type: 'test'
+  ...
+# Subtest: Seeded subsets repeat, normalize for each private deal, and agree between all-in and checkdown
+ok 39 - Seeded subsets repeat, normalize for each private deal, and agree between all-in and checkdown
+  ---
+  duration_ms: 6.875024
+  type: 'test'
+  ...
+# Subtest: All-in seat remains in the main pot while covering seats bet a separate turn and river
+ok 40 - All-in seat remains in the main pot while covering seats bet a separate turn and river
+  ---
+  duration_ms: 1.080931
+  type: 'test'
+  ...
+# Subtest: Action EVs use the current decision as baseline and the weighted mix gives the root EV
+ok 41 - Action EVs use the current decision as baseline and the weighted mix gives the root EV
+  ---
+  duration_ms: 13.451347
+  type: 'test'
+  ...
+# Subtest: Exact turn-through-river EVs and best responses match an independent whole-strategy oracle for all three seats
+ok 42 - Exact turn-through-river EVs and best responses match an independent whole-strategy oracle for all three seats
+  ---
+  duration_ms: 37.951197
+  type: 'test'
+  ...
+# Subtest: Sampled flop-through-river EVs and best responses match the independent oracle across both public-card reveals
+ok 43 - Sampled flop-through-river EVs and best responses match the independent oracle across both public-card reveals
+  ---
+  duration_ms: 14.083138
+  type: 'test'
+  ...
+# Subtest: Worker returns a connected flop solve, explains an oversized exact tree, and can solve again
+ok 44 - Worker returns a connected flop solve, explains an oversized exact tree, and can solve again
+  ---
+  duration_ms: 279.804238
+  type: 'test'
+  ...
+# Subtest: Exact flop with betting on all three streets keeps full ordered turn/river branches
+ok 45 - Exact flop with betting on all three streets keeps full ordered turn/river branches
+  ---
+  duration_ms: 71.218154
+  type: 'test'
+  ...
+# Subtest: A three-way preflop node transfers its live ranges, pot and action order into the flop solver
+ok 46 - A three-way preflop node transfers its live ranges, pot and action order into the flop solver
+  ---
+  duration_ms: 34.438709
+  type: 'test'
+  ...
+# Subtest: oracle ICM agrees with the solver ICM, including busted players
+ok 47 - oracle ICM agrees with the solver ICM, including busted players
+  ---
+  duration_ms: 0.884941
+  type: 'test'
+  ...
+# Subtest: push/fold equilibrium checked by the independent oracle: chip
+ok 48 - push/fold equilibrium checked by the independent oracle: chip
+  ---
+  duration_ms: 6505.323075
+  type: 'test'
+  ...
+# Subtest: push/fold equilibrium checked by the independent oracle: icm
+ok 49 - push/fold equilibrium checked by the independent oracle: icm
+  ---
+  duration_ms: 6753.426848
+  type: 'test'
+  ...
+# Subtest: External sampling reproduces the known river bluff equilibrium
+ok 50 - External sampling reproduces the known river bluff equilibrium
+  ---
+  duration_ms: 566.764606
+  type: 'test'
+  ...
+# Subtest: Six-player small bets and raises train beyond the previous full-tree limit
+ok 51 - Six-player small bets and raises train beyond the previous full-tree limit
+  ---
+  duration_ms: 483.121153
+  type: 'test'
+  ...
+# Subtest: A memory stop leaves a finite, inspectable profile and terminates further training
+ok 52 - A memory stop leaves a finite, inspectable profile and terminates further training
+  ---
+  duration_ms: 96.149295
+  type: 'test'
+  ...
+# Subtest: Response training finds the analytic uniform-policy leak without altering the original strategy
+ok 53 - Response training finds the analytic uniform-policy leak without altering the original strategy
+  ---
+  duration_ms: 117.967111
+  type: 'test'
+  ...
+# Subtest: Seed planning validates extra sizes, handles card arrays, and expands raise caps explicitly
+ok 54 - Seed planning validates extra sizes, handles card arrays, and expands raise caps explicitly
+  ---
+  duration_ms: 0.770903
+  type: 'test'
+  ...
+# Subtest: Worker completes paired seed and bet-size checks and preserves the original explorer
+ok 55 - Worker completes paired seed and bet-size checks and preserves the original explorer
+  ---
+  duration_ms: 78.281262
+  type: 'test'
+  ...
+# Subtest: Invalid and cancelled accuracy checks retain the solved profile and permit a retry
+ok 56 - Invalid and cancelled accuracy checks retain the solved profile and permit a retry
+  ---
+  duration_ms: 15.244476
+  type: 'test'
+  ...
+# Subtest: An expanded exact tree that exceeds limits is reported without losing the original solve
+ok 57 - An expanded exact tree that exceeds limits is reported without losing the original solve
+  ---
+  duration_ms: 216.187158
+  type: 'test'
+  ...
+# Subtest: External multiplayer profile and trained response agree with an independent exhaustive oracle
+ok 58 - External multiplayer profile and trained response agree with an independent exhaustive oracle
+  ---
+  duration_ms: 698.184859
+  type: 'test'
+  ...
+# Subtest: Preflop skips all-in seats and retains two covering stacks
+ok 59 - Preflop skips all-in seats and retains two covering stacks
+  ---
+  duration_ms: 48.920177
+  type: 'test'
+  ...
+# Subtest: Each ICM side pot has its own eligible winner; equal starting busts share prizes
+ok 60 - Each ICM side pot has its own eligible winner; equal starting busts share prizes
+  ---
+  duration_ms: 78.936162
+  type: 'test'
+  ...
+# Subtest: Deeper preflop prices AA against AA with a separate ICM tie outcome
+ok 61 - Deeper preflop prices AA against AA with a separate ICM tie outcome
+  ---
+  duration_ms: 27.877482
+  type: 'test'
+  ...
+# Subtest: Two-seat and full-table postflop orders and chip/ICM handoff
+ok 62 - Two-seat and full-table postflop orders and chip/ICM handoff
+  ---
+  duration_ms: 8.510818
+  type: 'test'
+  ...
+# Subtest: Every freshly trained chart decodes, evaluates, and matches its published local metric
+ok 63 - Every freshly trained chart decodes, evaluates, and matches its published local metric
+  ---
+  duration_ms: 1302.663167
+  type: 'test'
+  ...
+# Subtest: River awards main, side, folded contributions and tied layers for 3 to 5 seats
+ok 64 - River awards main, side, folded contributions and tied layers for 3 to 5 seats
+  ---
+  duration_ms: 7.080119
+  type: 'test'
+  ...
+# Subtest: A single short raise closes rights, cumulative short raises reopen them
+ok 65 - A single short raise closes rights, cumulative short raises reopen them
+  ---
+  duration_ms: 28.806557
+  type: 'test'
+  ...
+# Subtest: Three-seat river reproduces a known hidden-card bluff equilibrium
+ok 66 - Three-seat river reproduces a known hidden-card bluff equilibrium
+  ---
+  duration_ms: 14.311877
+  type: 'test'
+  ...
+# Subtest: Reject impossible inputs or excessive trees without truncating ranges
+ok 67 - Reject impossible inputs or excessive trees without truncating ranges
+  ---
+  duration_ms: 1.856266
+  type: 'test'
+  ...
+# Subtest: Complete unilateral best responses match exhaustive pure policies in a genuine three-player game
+ok 68 - Complete unilateral best responses match exhaustive pure policies in a genuine three-player game
+  ---
+  duration_ms: 2.854121
+  type: 'test'
+  ...
+# Subtest: Worker accepts a river solve, can stop it, and returns a navigable strategy
+ok 69 - Worker accepts a river solve, can stop it, and returns a navigable strategy
+  ---
+  duration_ms: 8.494534
+  type: 'test'
+  ...
+# Subtest: Five-seat example with mixed hands and the default sizing tree fits the desktop budget
+ok 70 - Five-seat example with mixed hands and the default sizing tree fits the desktop budget
+  ---
+  duration_ms: 133.903828
+  type: 'test'
+  ...
+# Subtest: Every dealt player pays 0.1 bb separately from the blinds and other tables
+ok 71 - Every dealt player pays 0.1 bb separately from the blinds and other tables
+  ---
+  duration_ms: 59.79083
+  type: 'test'
+  ...
+# Subtest: Six-way pot accounting keeps every ante live on a tied board and validates dealt seats
+ok 72 - Six-way pot accounting keeps every ante live on a tied board and validates dealt seats
+  ---
+  duration_ms: 5.362438
+  type: 'test'
+  ...
+# Subtest: Big blind ante posts once from the BB; no-ante posts only blinds
+ok 73 - Big blind ante posts once from the BB; no-ante posts only blinds
+  ---
+  duration_ms: 361.746136
+  type: 'test'
+  ...
+# Subtest: Chip EV sums to the dead antes of folded dealt seats
+ok 74 - Chip EV sums to the dead antes of folded dealt seats
+  ---
+  duration_ms: 177.586883
+  type: 'test'
+  ...
+# Subtest: Push/fold accepts a big blind ante
+ok 75 - Push/fold accepts a big blind ante
+  ---
+  duration_ms: 132.074623
+  type: 'test'
+  ...
+# Subtest: Geometric bets reach all-in on the river at a constant pot fraction
+ok 76 - Geometric bets reach all-in on the river at a constant pot fraction
+  ---
+  duration_ms: 3.681713
+  type: 'test'
+  ...
+# Subtest: Linear weighting is the default and 2.3 checkpoints resume uniformly
+ok 77 - Linear weighting is the default and 2.3 checkpoints resume uniformly
+  ---
+  duration_ms: 58.506116
+  type: 'test'
+  ...
+# Subtest: Locks after a suit-twin turn card are refused unless isomorphism is off
+ok 78 - Locks after a suit-twin turn card are refused unless isomorphism is off
+  ---
+  duration_ms: 1406.27906
+  type: 'test'
+  ...
+# Subtest: Fresh-deal training approximates the independently known pot-size bluff game
+ok 79 - Fresh-deal training approximates the independently known pot-size bluff game
+  ---
+  duration_ms: 108.113539
+  type: 'test'
+  ...
+# Subtest: Whole-tuple resampling preserves weighted blocker-conditioned marginals
+ok 80 - Whole-tuple resampling preserves weighted blocker-conditioned marginals
+  ---
+  duration_ms: 37.628471
+  type: 'test'
+  ...
+# Subtest: Sampled full-deck flop runouts reproduce exact equity including unequal side pots
+ok 81 - Sampled full-deck flop runouts reproduce exact equity including unequal side pots
+  ---
+  duration_ms: 132.15414
+  type: 'test'
+  ...
+# Subtest: Inspection uses an independent random stream and leaves training deterministic
+ok 82 - Inspection uses an independent random stream and leaves training deterministic
+  ---
+  duration_ms: 38.271544
+  type: 'test'
+  ...
+# Subtest: 25bb chart reaches a button open and two blind calls with all three full ranges
+ok 83 - 25bb chart reaches a button open and two blind calls with all three full ranges
+  ---
+  duration_ms: 135.637475
+  type: 'test'
+  ...
+# Subtest: Wide explorer preserves folded card removal and supports a five-way side-pot line
+ok 84 - Wide explorer preserves folded card removal and supports a five-way side-pot line
+  ---
+  duration_ms: 16.363774
+  type: 'test'
+  ...
+# Subtest: Wide six-way play retains folded cards and gives seat six the contested side pot
+ok 85 - Wide six-way play retains folded cards and gives seat six the contested side pot
+  ---
+  duration_ms: 43.520878
+  type: 'test'
+  ...
+1..85
+# tests 85
+# suites 0
+# pass 85
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29197.79059

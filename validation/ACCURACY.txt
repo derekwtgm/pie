@@ -1,0 +1,16 @@
+EightMax 2.5 accuracy report, 2026-11-06T23:14:17.785Z
+
+1. Push/fold vs independent oracle (3-handed, exact card removal)
+   chip 10/10/10 classic: EV gap 0.0038 bb; claimed gain 1.5e-7, exact-game gain 2.6e-4
+   icm 6/14/9 bba: EV gap 0.0096 prize units of 100; claimed gain 8.2e-8, exact-game gain 1.1e-4
+   icm 20/4/12 none: EV gap 0.0027 prize units of 100; claimed gain 3.4e-7, exact-game gain 4.0e-4
+2. Heads-up postflop: JS and WebAssembly engines
+   exploitability after 500 iterations: JS 0.0134% of pot (js), WASM 0.0134% (wasm-simd)
+3. Three-player river, exact deals: full best-response gain vs iterations
+   100 it: 0.0337 bb · 1000 it: 0.0016 bb · 5000 it: 0.0003 bb
+4. Three-player river, sampled deals: tested best-response gain (lower bound)
+   3000 it: worst tested gain per seed 0.829 / 0.534 / 0.296 / 0.307 bb
+   12000 it: worst tested gain per seed 0.000 / 0.000 / 0.242 / 0.000 bb
+5. Future-game ICM (FGS) invariants
+   heads-up (ICM linear) value shift 0.0187 of 100; 4-handed prize pool error 8.5e-14
+6. Deep preflop realization: pot-share error 0.104 (2.4) -> 0.075 (2.5); held-out flops 0.127/0.102 -> 0.104/0.087
