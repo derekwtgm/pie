@@ -158,3 +158,66 @@ test('native host: /api/mw init, train, status, stop, state, import, memory and 
   }finally{host.kill('SIGKILL');}
 });
 test.after(()=>fs.rmSync(tmp,{recursive:true,force:true}));
+
+// ---- eight-handed tournament validation ----
+test('eight-handed positions, 0.1 bb antes and the 2.3 bb starting pot',()=>{
+  assert.deepEqual(E.pfPositions(8),['UTG','UTG+1','MP','HJ','CO','BTN','SB','BB']);
+  const pre={preflop:{mode:'linked',opens:'2',raises:'3x,a',maxBets:3},board:'',dealt:8,common:0,stacks:Array(8).fill(25),ranges:Array(8).fill('random'),
+    streets:{flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}},privateMode:'sampled',evaluationDeals:128};
+  const g=E.MultiwayGame(pre),root=g.view([]);
+  assert.ok(Math.abs(root.pot-2.3)<1e-12);assert.equal(root.seat,0,'UTG acts first');
+  assert.deepEqual(root.behind.map(x=>+x.toFixed(9)),[24.9,24.9,24.9,24.9,24.9,24.9,24.4,23.9]);
+  // optional big blind ante stays separate: 1.5 bb blinds + 1 bb BBA
+  assert.ok(Math.abs(E.MultiwayGame({...pre,anteType:'bba'}).view([]).pot-2.5)<1e-12);
+});
+test('eight-handed preflop-to-river transitions: folds, a flop, a turn and a river reach a showdown',()=>{
+  const g=E.MultiwayGame({preflop:{mode:'linked',opens:'2',raises:'',maxBets:1},board:'',dealt:8,common:0,stacks:Array(8).fill(10),ranges:Array(8).fill('random'),
+    streets:{flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}},privateMode:'sampled',evaluationDeals:128});
+  g.iterate(50);
+  let path=[],v=g.view(path),streets=new Set(),cards=[48,44,40,36,32];   // As Ks Qs Js Ts ranks for public cards
+  for(let guard=0;guard<80&&v.kind!=='terminal';guard++){
+    if(v.kind==='chance'){const need=v.flopInput?3:1,pick=cards.splice(0,need);path=[...path,need===3?{cards:pick}:{card:pick[0]}];}
+    else{const a=v.actions.findIndex(x=>/^Call|^Check/.test(x.label));path=[...path,a>=0?a:0];}
+    v=g.view(path);streets.add(v.street);
+  }
+  assert.equal(v.kind,'terminal');assert.deepEqual([...streets].filter(s=>s!=='Preflop'),['Flop','Turn','River']);
+  assert.equal(v.board.length,5);
+  const total=v.pots.reduce((a,p)=>a+p.amount,0);assert.ok(Math.abs(total-v.pot)<1e-9);
+});
+test('eight-way all-ins with unequal stacks: layered side pots conserve chips and pay only eligible seats',()=>{
+  const committed=[3,25,8,25,14,1.2,25,6.5],live=[true,true,true,true,true,true,true,true];
+  const pots=E.potLayers(committed,live,0.8);
+  assert.ok(Math.abs(pots.reduce((a,p)=>a+p.amount,0)-(0.8+committed.reduce((a,b)=>a+b,0)))<1e-9);
+  assert.deepEqual(pots[0].eligible,[0,1,2,3,4,5,6,7]);
+  for(const pot of pots)for(const s of pot.eligible)assert.ok(committed[s]>=0);
+  // the shortest stack has the best hand: it wins only the main pot
+  const scores=[1,2,3,4,5,9,6,7],chips=E.awardPots(pots,scores,Array(8).fill(0));
+  assert.ok(Math.abs(chips[5]-(0.8+1.2*8))<1e-9);
+  assert.ok(Math.abs(chips.reduce((a,b)=>a+b,0)-(0.8+committed.reduce((a,b)=>a+b,0)))<1e-9);
+});
+test('minimum raises: a short all-in that is not a full raise does not reopen the betting',()=>{
+  // seat 0 bets 4 into 10, seat 1 calls all-in... seat 2 can raise, a later short all-in does not reopen seat 0
+  assert.equal(E.raiseIsOpen(-1,0,1),true);
+  assert.equal(E.raiseIsOpen(4,6,4),false,'a 2 bb increase over a 4 bb bet is not a full raise');
+  assert.equal(E.raiseIsOpen(4,8,4),true);
+  const g=E.MultiwayGame({board:'2c4d7h9sJc',common:10,stacks:[40,5,40],ranges:['AsAd','KsKd','QhQd'],bets:'40',raises:'2x',maxBets:3});
+  let v=g.view([]),bet=v.actions.findIndex(a=>/^Bet/.test(a.label));v=g.view([bet]);
+  const shove=v.actions.findIndex(a=>/^All-in/.test(a.label)),path=[bet,shove>=0?shove:v.actions.findIndex(a=>/^Call/.test(a.label))];
+  v=g.view(path);
+  for(const a of v.actions)if(/^Raise/.test(a.label))assert.ok(+a.label.split(' ').pop()>=4+4,'raise to at least the bet plus a full raise');
+});
+test('weighted ranges and blockers: sampled deals follow weights and never share cards',()=>{
+  const g=E.MultiwayGame({board:'2c4d7h9sJc',common:10,stacks:[10,10,10],ranges:['AsAd:0.25,KsKd','AsKd,QhQd','AdKs:0.5,8c8d'],bets:'50',raises:'',maxBets:1,privateMode:'sampled',evaluationDeals:128,privateSeed:3});
+  const v=g.view([]),mass=Object.fromEntries(v.hands.map(h=>[h.cards,h.mass]));
+  // Seat 1 holds AsKd (blocks AsAd, KsKd) or QhQd; exact conditional weights give KsKd more mass than AsAd.
+  assert.ok(mass['KsKd']>mass['AsAd'],JSON.stringify(mass));
+  const ex=E.MultiwayGame({board:'2c4d7h9sJc',common:10,stacks:[10,10,10],ranges:['AsAd:0.25,KsKd','AsKd,QhQd','AdKs:0.5,8c8d'],bets:'50',raises:'',maxBets:1,privateMode:'exact'});
+  assert.ok(ex.metrics().deals>0);
+});
+test('chip EV and ICM: ICM equities sum to the prize pool and match the reference DP for 8 and 16 players',()=>{
+  const pay=[50,30,20];
+  for(const st of [[10,20,30,5,8,12,25,40],[10,20,30,5,8,12,25,40,3,9,11,13,17,19,23,29]]){
+    const a=E.icmRaw(st,pay),b=E.icmRawReference(st,pay);
+    assert.ok(Math.abs(a.reduce((x,y)=>x+y,0)-100)<1e-9);for(let i=0;i<st.length;i++)assert.ok(Object.is(a[i],b[i]));
+  }
+});

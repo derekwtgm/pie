@@ -6,7 +6,7 @@
 // pairwise card removal from the exhaustive equity table.
 const NC = 169;
 let TB = null;
-const POS8 = ['UTG', 'UTG+1', 'LJ', 'HJ', 'CO', 'BTN', 'SB', 'BB'];
+const POS8 = ['UTG', 'UTG+1', 'MP', 'HJ', 'CO', 'BTN', 'SB', 'BB'];   // MP is also called LJ (lojack)
 function positions(n) { return n === 2 ? ['SB', 'BB'] : POS8.slice(8 - n); }
 
 function initTables() {

@@ -41,4 +41,5 @@ else
   "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -c mw.cpp -o "$obj/mw.o"
   for f in server gpu selftest cfg json; do "$cc" -O2 -DEM_DUAL -include "$obj/build_info.h" -I"$obj" -c $f.c -o "$obj/$f.o"; done
   "$cxx" -static -pthread "$obj/server.o" "$obj/gpu.o" "$obj/selftest.o" "$obj/cfg.o" "$obj/json.o" "$obj/avx2.o" "$obj/sse.o" "$obj/mw.o" -lpsapi -lws2_32 -lshell32 -lwinmm -Wl,--no-insert-timestamp -s -o "$dest/EightMax.exe"
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -static -pthread -I. mwcli.cpp "$obj/mw.o" "$obj/json.o" -Wl,--no-insert-timestamp -s -o "$dest/mwcli.exe"
 fi

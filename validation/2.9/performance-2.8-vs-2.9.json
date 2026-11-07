@@ -1,0 +1,521 @@
+{
+ "generated": "2026-11-07T04:26:50.606Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "cores": 4,
+ "memoryGiB": 15.709304809570312,
+ "node": "v22.23.4",
+ "repeat": 3,
+ "partA": [
+  {
+   "name": "2-player river",
+   "updates": 20000,
+   "2.8": {
+    "medianUpdatesPerSec": 43480.858378235294,
+    "min": 42277.72709054102,
+    "max": 45822.24974255628,
+    "medianDealsPerSec": 173923.43351294118,
+    "visitsPerDeal": 27,
+    "peakRSSMiB": 55,
+    "algorithm": "full",
+    "ev": [
+     3.872233824094081,
+     0.9277661759059223
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 41462.331228487725,
+    "min": 41056.61868658826,
+    "max": 44003.62183250434,
+    "medianDealsPerSec": 165849.3249139509,
+    "visitsPerDeal": 27,
+    "peakRSSMiB": 62.30078125,
+    "algorithm": "full",
+    "ev": [
+     3.872233824094081,
+     0.9277661759059223
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.0464233509878903
+  },
+  {
+   "name": "3-player river",
+   "updates": 20000,
+   "2.8": {
+    "medianUpdatesPerSec": 8318.799932317579,
+    "min": 8230.854425272646,
+    "max": 8433.651128572767,
+    "medianDealsPerSec": 33275.199729270316,
+    "visitsPerDeal": 148,
+    "peakRSSMiB": 56.578125,
+    "algorithm": "full",
+    "ev": [
+     0.8985845308926929,
+     -0.07458592578055194,
+     5.976001394887858
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 8058.817414286302,
+    "min": 7847.332337215724,
+    "max": 8164.848456907878,
+    "medianDealsPerSec": 32235.269657145207,
+    "visitsPerDeal": 148,
+    "peakRSSMiB": 64.171875,
+    "algorithm": "full",
+    "ev": [
+     0.8985845308926929,
+     -0.07458592578055194,
+     5.976001394887858
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.031252406614717954
+  },
+  {
+   "name": "4-player flop",
+   "updates": 3000,
+   "2.8": {
+    "medianUpdatesPerSec": 649.395268709203,
+    "min": 632.0365824375074,
+    "max": 650.6653292110692,
+    "medianDealsPerSec": 2597.581074836812,
+    "visitsPerDeal": 187.91841666666667,
+    "peakRSSMiB": 136.0859375,
+    "algorithm": "external",
+    "ev": [
+     2.5115234374999993,
+     7.027148437500002,
+     -0.3238281249999996,
+     -0.4148437499999996
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 631.0033660243557,
+    "min": 614.5184204723321,
+    "max": 642.9192091295222,
+    "medianDealsPerSec": 2524.013464097423,
+    "visitsPerDeal": 187.91841666666667,
+    "peakRSSMiB": 140.4375,
+    "algorithm": "external",
+    "ev": [
+     2.5115234374999993,
+     7.027148437500002,
+     -0.3238281249999996,
+     -0.4148437499999996
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.02832158405065799
+  },
+  {
+   "name": "6-player flop",
+   "updates": 1500,
+   "2.8": {
+    "medianUpdatesPerSec": 209.6976182028249,
+    "min": 201.31451752671026,
+    "max": 213.36511055598336,
+    "medianDealsPerSec": 838.7904728112997,
+    "visitsPerDeal": 411.3598333333333,
+    "peakRSSMiB": 151.5078125,
+    "algorithm": "external",
+    "ev": [
+     3.279882812499999,
+     4.747558593750003,
+     0.05156250000000017,
+     -2.3299804687500014,
+     -3.0369140624999984,
+     10.087890625000005
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 210.38798319539504,
+    "min": 209.67225099697876,
+    "max": 215.02476157923272,
+    "medianDealsPerSec": 841.5519327815801,
+    "visitsPerDeal": 411.3598333333333,
+    "peakRSSMiB": 157.390625,
+    "algorithm": "external",
+    "ev": [
+     3.279882812499999,
+     4.747558593750003,
+     0.05156250000000017,
+     -2.3299804687500014,
+     -3.0369140624999984,
+     10.087890625000005
+    ]
+   },
+   "identicalEV": true,
+   "change": 0.003292192817861972
+  },
+  {
+   "name": "7-player flop",
+   "updates": 1500,
+   "2.8": {
+    "medianUpdatesPerSec": 168.95219555689957,
+    "min": 168.47640607618544,
+    "max": 169.65178156374478,
+    "medianDealsPerSec": 675.8087822275983,
+    "visitsPerDeal": 511.4865,
+    "peakRSSMiB": 163.2890625,
+    "algorithm": "external",
+    "ev": [
+     3.514062499999999,
+     2.256640624999999,
+     4.644140625000002,
+     -4.132812499999997,
+     -2.2411132812499988,
+     12.656152343750009,
+     -1.8970703125000006
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 167.41417749834972,
+    "min": 164.14973127806414,
+    "max": 167.65079951128368,
+    "medianDealsPerSec": 669.6567099933989,
+    "visitsPerDeal": 511.4865,
+    "peakRSSMiB": 166.73046875,
+    "algorithm": "external",
+    "ev": [
+     3.514062499999999,
+     2.256640624999999,
+     4.644140625000002,
+     -4.132812499999997,
+     -2.2411132812499988,
+     12.656152343750009,
+     -1.8970703125000006
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.00910327358268559
+  },
+  {
+   "name": "8-player flop",
+   "updates": 1500,
+   "2.8": {
+    "medianUpdatesPerSec": 126.69191511982775,
+    "min": 124.9805304912999,
+    "max": 130.09764735040787,
+    "medianDealsPerSec": 506.767660479311,
+    "visitsPerDeal": 628.3688333333333,
+    "peakRSSMiB": 178.41796875,
+    "algorithm": "external",
+    "ev": [
+     -1.718066406250001,
+     4.998242187500005,
+     6.290820312499998,
+     -2.3248046875,
+     -0.7736328125000005,
+     16.525585937500008,
+     -4.5313476562499995,
+     -1.6667968750000002
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 122.64847164619304,
+    "min": 122.63331559488478,
+    "max": 129.1773862633232,
+    "medianDealsPerSec": 490.5938865847722,
+    "visitsPerDeal": 628.3688333333333,
+    "peakRSSMiB": 190.8828125,
+    "algorithm": "external",
+    "ev": [
+     -1.718066406250001,
+     4.998242187500005,
+     6.290820312499998,
+     -2.3248046875,
+     -0.7736328125000005,
+     16.525585937500008,
+     -4.5313476562499995,
+     -1.6667968750000002
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.03191556043501542
+  },
+  {
+   "name": "8-player river",
+   "updates": 3000,
+   "2.8": {
+    "medianUpdatesPerSec": 590.0700508761407,
+    "min": 580.4970365356353,
+    "max": 607.6393768992634,
+    "medianDealsPerSec": 2360.280203504563,
+    "visitsPerDeal": 229.94375,
+    "peakRSSMiB": 110.90234375,
+    "algorithm": "external",
+    "ev": [
+     3.084375000000002,
+     0,
+     13.715625000000001,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 611.6605037827155,
+    "min": 601.6169322586067,
+    "max": 614.4373552744653,
+    "medianDealsPerSec": 2446.642015130862,
+    "visitsPerDeal": 229.94375,
+    "peakRSSMiB": 121.0546875,
+    "algorithm": "external",
+    "ev": [
+     3.084375000000002,
+     0,
+     13.715625000000001,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "identicalEV": true,
+   "change": 0.03658964367792783
+  },
+  {
+   "name": "8-player linked preflop-river",
+   "updates": 2000,
+   "2.8": {
+    "medianUpdatesPerSec": 170.48626611953293,
+    "min": 168.54688560608668,
+    "max": 170.5893963481272,
+    "medianDealsPerSec": 681.9450644781317,
+    "visitsPerDeal": 379.3425,
+    "peakRSSMiB": 210.78515625,
+    "algorithm": "external",
+    "ev": [
+     0.9019042968749993,
+     0.16389973958333318,
+     0.1973177083333327,
+     0.45609049479166675,
+     1.3101106770833328,
+     -0.46422526041666773,
+     -0.9826953125000021,
+     -1.5824023437500006
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 170.24827131412005,
+    "min": 166.40722644334826,
+    "max": 173.502850302656,
+    "medianDealsPerSec": 680.9930852564802,
+    "visitsPerDeal": 379.3425,
+    "peakRSSMiB": 214.2265625,
+    "algorithm": "external",
+    "ev": [
+     0.9019042968749993,
+     0.16389973958333318,
+     0.1973177083333327,
+     0.45609049479166675,
+     1.3101106770833328,
+     -0.46422526041666773,
+     -0.9826953125000021,
+     -1.5824023437500006
+    ]
+   },
+   "identicalEV": true,
+   "change": -0.0013959764081290515
+  },
+  {
+   "name": "8-player linked ICM 50/30/20",
+   "updates": 1000,
+   "2.8": {
+    "medianUpdatesPerSec": 110.00645210942976,
+    "min": 107.85418547180338,
+    "max": 113.29872596557021,
+    "medianDealsPerSec": 440.02580843771904,
+    "visitsPerDeal": 394.385,
+    "peakRSSMiB": 218.6796875,
+    "algorithm": "external",
+    "ev": [
+     14.617156787458322,
+     13.50777318378644,
+     12.933670392892259,
+     12.311126468768327,
+     11.216930133729537,
+     11.533442016293462,
+     11.813100655020255,
+     12.066800362051412
+    ]
+   },
+   "2.9": {
+    "medianUpdatesPerSec": 112.69651855919012,
+    "min": 112.29599207753662,
+    "max": 117.31138696056578,
+    "medianDealsPerSec": 450.7860742367605,
+    "visitsPerDeal": 394.385,
+    "peakRSSMiB": 226.2265625,
+    "algorithm": "external",
+    "ev": [
+     14.617156787458322,
+     13.50777318378644,
+     12.933670392892259,
+     12.311126468768327,
+     11.216930133729537,
+     11.533442016293462,
+     11.813100655020255,
+     12.066800362051412
+    ]
+   },
+   "identicalEV": true,
+   "change": 0.024453715197399584
+  }
+ ],
+ "partB": [
+  {
+   "name": "2-player river",
+   "native": true,
+   "batchDeals": 16,
+   "nodes": 27,
+   "visitsPerDeal": 27,
+   "updates": 20000,
+   "threads": {
+    "1": {
+     "dealsPerSec": 1267447.2029024542,
+     "traverseSeconds": 0.1912,
+     "mergeSeconds": 0.0338,
+     "tableMiB": 0.002
+    },
+    "2": {
+     "dealsPerSec": 1171067.3180728622,
+     "traverseSeconds": 0.205,
+     "mergeSeconds": 0.0385,
+     "tableMiB": 0.002
+    },
+    "4": {
+     "dealsPerSec": 1193891.7513272718,
+     "traverseSeconds": 0.2004,
+     "mergeSeconds": 0.0373,
+     "tableMiB": 0.002
+    }
+   },
+   "jsDealsPerSec": 168760.40386794796,
+   "speedup1": 7.510335208098988,
+   "scaling4": 0.9419656681503258
+  },
+  {
+   "name": "3-player river",
+   "native": true,
+   "batchDeals": 16,
+   "nodes": 148,
+   "visitsPerDeal": 148,
+   "updates": 19802,
+   "threads": {
+    "1": {
+     "dealsPerSec": 225586.69400774664,
+     "traverseSeconds": 1.1258,
+     "mergeSeconds": 0.2152,
+     "tableMiB": 0.014
+    },
+    "2": {
+     "dealsPerSec": 223491.7768552776,
+     "traverseSeconds": 1.1448,
+     "mergeSeconds": 0.2115,
+     "tableMiB": 0.014
+    },
+    "4": {
+     "dealsPerSec": 223370.60970915403,
+     "traverseSeconds": 1.1443,
+     "mergeSeconds": 0.2147,
+     "tableMiB": 0.014
+    }
+   },
+   "jsDealsPerSec": 31208.10179345159,
+   "speedup1": 7.228465720240684,
+   "scaling4": 0.9901763518972599
+  },
+  {
+   "name": "4-player flop",
+   "native": true,
+   "batchDeals": 16,
+   "nodes": 25607,
+   "visitsPerDeal": 25607,
+   "updates": 31,
+   "threads": {
+    "1": {
+     "dealsPerSec": 181.1063039233979,
+     "traverseSeconds": 1.2376,
+     "mergeSeconds": 1.3865,
+     "tableMiB": 446.185
+    },
+    "2": {
+     "dealsPerSec": 218.8091137525057,
+     "traverseSeconds": 0.7845,
+     "mergeSeconds": 1.3812,
+     "tableMiB": 446.185
+    },
+    "4": {
+     "dealsPerSec": 241.57189272064988,
+     "traverseSeconds": 0.4995,
+     "mergeSeconds": 1.4344,
+     "tableMiB": 446.185
+    }
+   },
+   "jsDealsPerSec": 55.226847850030715,
+   "speedup1": 3.2793163284494278,
+   "scaling4": 1.3338679410233394
+  },
+  {
+   "name": "6-player flop",
+   "native": false,
+   "reason": "native training needs a full betting tree (choose Full traversal or a smaller tree)"
+  },
+  {
+   "name": "7-player flop",
+   "native": false,
+   "reason": "native training needs a full betting tree (choose Full traversal or a smaller tree)"
+  },
+  {
+   "name": "8-player flop",
+   "native": false,
+   "reason": "native training needs a full betting tree (choose Full traversal or a smaller tree)"
+  },
+  {
+   "name": "8-player river",
+   "native": true,
+   "batchDeals": 16,
+   "nodes": 133833,
+   "visitsPerDeal": 133833,
+   "updates": 17,
+   "threads": {
+    "1": {
+     "dealsPerSec": 151.53718315775632,
+     "traverseSeconds": 1.5408,
+     "mergeSeconds": 0.2322,
+     "tableMiB": 11.546
+    },
+    "2": {
+     "dealsPerSec": 194.72063673648213,
+     "traverseSeconds": 1.1449,
+     "mergeSeconds": 0.2253,
+     "tableMiB": 11.546
+    },
+    "4": {
+     "dealsPerSec": 325.9503189399904,
+     "traverseSeconds": 0.6407,
+     "mergeSeconds": 0.1641,
+     "tableMiB": 11.546
+    }
+   },
+   "jsDealsPerSec": 14.337667643716587,
+   "speedup1": 10.56916556607216,
+   "scaling4": 2.1509593364993655
+  },
+  {
+   "name": "8-player linked preflop-river",
+   "native": false,
+   "reason": "preflop studies train in JavaScript (sampled betting traversal)"
+  },
+  {
+   "name": "8-player linked ICM 50/30/20",
+   "native": false,
+   "reason": "preflop studies train in JavaScript (sampled betting traversal)"
+  }
+ ]
+}

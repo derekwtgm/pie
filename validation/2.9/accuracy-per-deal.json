@@ -1,0 +1,3749 @@
+{
+ "generated": "2026-11-07T04:17:09.841Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "cores": 4,
+ "node": "v22.23.4",
+ "cfg": {
+  "board": "Ks8d5h2c2s",
+  "common": 12,
+  "stacks": [
+   30,
+   30,
+   30
+  ],
+  "ranges": [
+   "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+   "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+   "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+  ],
+  "streets": {
+   "river": {
+    "bets": "50,125",
+    "raises": "2.5x",
+    "maxBets": 2
+   }
+  },
+  "privateMode": "sampled",
+  "abstraction": "exact",
+  "traversal": "full",
+  "evaluationDeals": 128
+ },
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "budgets": [
+  4000,
+  20000,
+  50000,
+  100000,
+  250000,
+  500000
+ ],
+ "variants": [
+  {
+   "name": "2.8 JS, 4 deals per update (default)",
+   "engine": "js28",
+   "batchDeals": 4
+  },
+  {
+   "name": "2.8 JS, 1 deal per update",
+   "engine": "js28",
+   "batchDeals": 1
+  },
+  {
+   "name": "2.8 JS, stratified 4",
+   "engine": "js28",
+   "batchDeals": 4,
+   "riverStrata": true
+  },
+  {
+   "name": "2.9 native, 4 deals per update",
+   "engine": "native",
+   "batchDeals": 4,
+   "threads": 1
+  },
+  {
+   "name": "2.9 native, 16 deals per update",
+   "engine": "native",
+   "batchDeals": 16,
+   "threads": 1
+  },
+  {
+   "name": "2.9 native, own-hand enumeration, 4",
+   "engine": "native",
+   "batchDeals": 4,
+   "updates": "enumerate",
+   "threads": 1
+  },
+  {
+   "name": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "engine": "native",
+   "batchDeals": 4,
+   "updates": "enumerate",
+   "threads": 4
+  }
+ ],
+ "summary": [
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 4000,
+   "meanGainBb": 0.4018476766132261,
+   "ci95": 0.04128084262844717,
+   "meanTrainingSeconds": 0.15132279433333107,
+   "dealsPerSecond": 26433.558920336043,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 20000,
+   "meanGainBb": 0.18654516885928615,
+   "ci95": 0.036531893923142704,
+   "meanTrainingSeconds": 0.7385638979999961,
+   "dealsPerSecond": 27079.57978200568,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 50000,
+   "meanGainBb": 0.11009797697632721,
+   "ci95": 0.0143474080392296,
+   "meanTrainingSeconds": 1.7606883798333295,
+   "dealsPerSecond": 28397.983750385803,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 100000,
+   "meanGainBb": 0.08086046988157802,
+   "ci95": 0.008916436538287694,
+   "meanTrainingSeconds": 3.4748574063333275,
+   "dealsPerSecond": 28778.159304533903,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 250000,
+   "meanGainBb": 0.04957309439836951,
+   "ci95": 0.0076439838136207645,
+   "meanTrainingSeconds": 8.610230455999995,
+   "dealsPerSecond": 29035.227486366384,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "deals": 500000,
+   "meanGainBb": 0.03764646348069093,
+   "ci95": 0.004349989897434927,
+   "meanTrainingSeconds": 17.12582588416666,
+   "dealsPerSecond": 29195.672277753627,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 4000,
+   "meanGainBb": 0.4199304406826614,
+   "ci95": 0.056504792004660964,
+   "meanTrainingSeconds": 0.13978331266667132,
+   "dealsPerSecond": 28615.719027481053,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 20000,
+   "meanGainBb": 0.16480129339845417,
+   "ci95": 0.02451356942534552,
+   "meanTrainingSeconds": 0.6249524738333349,
+   "dealsPerSecond": 32002.433524783024,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 50000,
+   "meanGainBb": 0.10127220031509498,
+   "ci95": 0.011669735611275036,
+   "meanTrainingSeconds": 1.5071789311666581,
+   "dealsPerSecond": 33174.56140479394,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 100000,
+   "meanGainBb": 0.07594037472671895,
+   "ci95": 0.021026052082153628,
+   "meanTrainingSeconds": 3.010074241333328,
+   "dealsPerSecond": 33221.77195061624,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 250000,
+   "meanGainBb": 0.05320390597590574,
+   "ci95": 0.012072182828562636,
+   "meanTrainingSeconds": 7.572353520166662,
+   "dealsPerSecond": 33014.8347319233,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "deals": 500000,
+   "meanGainBb": 0.03433361915171673,
+   "ci95": 0.008146769583179015,
+   "meanTrainingSeconds": 15.101594705666665,
+   "dealsPerSecond": 33109.0861425636,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 4000,
+   "meanGainBb": 0.38716554732979347,
+   "ci95": 0.038780282517931114,
+   "meanTrainingSeconds": 0.14650929233333834,
+   "dealsPerSecond": 27302.022529050166,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 20000,
+   "meanGainBb": 0.1783614263410637,
+   "ci95": 0.029327454807794435,
+   "meanTrainingSeconds": 0.6898478593333371,
+   "dealsPerSecond": 28991.899778203013,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 50000,
+   "meanGainBb": 0.11543290880719326,
+   "ci95": 0.013848350216076307,
+   "meanTrainingSeconds": 1.6988886335000037,
+   "dealsPerSecond": 29431.0050782972,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 100000,
+   "meanGainBb": 0.08272956255670645,
+   "ci95": 0.015318423253162133,
+   "meanTrainingSeconds": 3.4387151328333374,
+   "dealsPerSecond": 29080.62928655703,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 250000,
+   "meanGainBb": 0.04566293553759726,
+   "ci95": 0.005818015671617942,
+   "meanTrainingSeconds": 8.589019100333342,
+   "dealsPerSecond": 29106.932593769343,
+   "seeds": 6
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "deals": 500000,
+   "meanGainBb": 0.038924883540193335,
+   "ci95": 0.005456994691800988,
+   "meanTrainingSeconds": 17.318109528166687,
+   "dealsPerSecond": 28871.511592347026,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 4000,
+   "meanGainBb": 0.4018476766132261,
+   "ci95": 0.04128084262844717,
+   "meanTrainingSeconds": 0.02647066666666667,
+   "dealsPerSecond": 151110.6633758122,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 20000,
+   "meanGainBb": 0.18654516885928615,
+   "ci95": 0.036531893923142704,
+   "meanTrainingSeconds": 0.12479283333333334,
+   "dealsPerSecond": 160265.61354351277,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 50000,
+   "meanGainBb": 0.11009797697632721,
+   "ci95": 0.0143474080392296,
+   "meanTrainingSeconds": 0.303365,
+   "dealsPerSecond": 164817.95856476523,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 100000,
+   "meanGainBb": 0.08086046988157802,
+   "ci95": 0.008916436538287694,
+   "meanTrainingSeconds": 0.5792046666666667,
+   "dealsPerSecond": 172650.5426406555,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 250000,
+   "meanGainBb": 0.04957309439836951,
+   "ci95": 0.0076439838136207645,
+   "meanTrainingSeconds": 1.4250488333333333,
+   "dealsPerSecond": 175432.5845909608,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "deals": 500000,
+   "meanGainBb": 0.03764646348069093,
+   "ci95": 0.004349989897434927,
+   "meanTrainingSeconds": 2.824672833333333,
+   "dealsPerSecond": 177011.6503757928,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 4000,
+   "meanGainBb": 0.43377013695785216,
+   "ci95": 0.07763558103157452,
+   "meanTrainingSeconds": 0.025250666666666668,
+   "dealsPerSecond": 158411.6590981096,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 20000,
+   "meanGainBb": 0.2173371079355039,
+   "ci95": 0.03973719802044168,
+   "meanTrainingSeconds": 0.11687866666666669,
+   "dealsPerSecond": 171117.62625628855,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 50000,
+   "meanGainBb": 0.10563370850245783,
+   "ci95": 0.008264314369465373,
+   "meanTrainingSeconds": 0.27665183333333326,
+   "dealsPerSecond": 180732.58144563177,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 100000,
+   "meanGainBb": 0.0730377461509814,
+   "ci95": 0.007222405303999141,
+   "meanTrainingSeconds": 0.5521918333333334,
+   "dealsPerSecond": 181096.48488704558,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 250000,
+   "meanGainBb": 0.04830153449419846,
+   "ci95": 0.008249883363235502,
+   "meanTrainingSeconds": 1.3351468333333332,
+   "dealsPerSecond": 187245.3229551157,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "deals": 500000,
+   "meanGainBb": 0.03483257892290966,
+   "ci95": 0.005977085829300851,
+   "meanTrainingSeconds": 2.6669421666666664,
+   "dealsPerSecond": 187480.6309073194,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 4000,
+   "meanGainBb": 0.30294412197123854,
+   "ci95": 0.03742366957153637,
+   "meanTrainingSeconds": 0.11922933333333334,
+   "dealsPerSecond": 33548.79112522645,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 20000,
+   "meanGainBb": 0.1208976743438986,
+   "ci95": 0.02319481178136593,
+   "meanTrainingSeconds": 0.5714426666666667,
+   "dealsPerSecond": 34999.1366879617,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 50000,
+   "meanGainBb": 0.0753345150757192,
+   "ci95": 0.014153658745042054,
+   "meanTrainingSeconds": 1.4260335,
+   "dealsPerSecond": 35062.28991114164,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 100000,
+   "meanGainBb": 0.05492959918833865,
+   "ci95": 0.010901802883014532,
+   "meanTrainingSeconds": 2.8413074999999997,
+   "dealsPerSecond": 35195.0642441904,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 250000,
+   "meanGainBb": 0.03712004330207389,
+   "ci95": 0.009030518606232059,
+   "meanTrainingSeconds": 7.052434000000001,
+   "dealsPerSecond": 35448.7542882358,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "deals": 500000,
+   "meanGainBb": 0.027836987674811464,
+   "ci95": 0.005129145390872024,
+   "meanTrainingSeconds": 14.013290499999998,
+   "dealsPerSecond": 35680.41353313842,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 4000,
+   "meanGainBb": 0.30294412197123854,
+   "ci95": 0.03742366957153637,
+   "meanTrainingSeconds": 0.12450266666666665,
+   "dealsPerSecond": 32127.825910020674,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 20000,
+   "meanGainBb": 0.1208976743438986,
+   "ci95": 0.02319481178136593,
+   "meanTrainingSeconds": 0.5822696666666666,
+   "dealsPerSecond": 34348.34604126725,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 50000,
+   "meanGainBb": 0.0753345150757192,
+   "ci95": 0.014153658745042054,
+   "meanTrainingSeconds": 1.4192723333333335,
+   "dealsPerSecond": 35229.32056497496,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 100000,
+   "meanGainBb": 0.05492959918833865,
+   "ci95": 0.010901802883014532,
+   "meanTrainingSeconds": 2.842568,
+   "dealsPerSecond": 35179.45744833545,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 250000,
+   "meanGainBb": 0.03712004330207389,
+   "ci95": 0.009030518606232059,
+   "meanTrainingSeconds": 7.0939705,
+   "dealsPerSecond": 35241.19532214012,
+   "seeds": 6
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "deals": 500000,
+   "meanGainBb": 0.027836987674811464,
+   "ci95": 0.005129145390872024,
+   "meanTrainingSeconds": 14.042262999999998,
+   "dealsPerSecond": 35606.79642590372,
+   "seeds": 6
+  }
+ ],
+ "rows": [
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.153031846,
+   "gains": [
+    0.3826258704588037,
+    0.2563300597591569,
+    0.27848977450177936
+   ],
+   "maxGain": 0.3826258704588037
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.6806337950000001,
+   "gains": [
+    0.17545580748030076,
+    0.1306823251934679,
+    0.11305739205351983
+   ],
+   "maxGain": 0.17545580748030076
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.635428155,
+   "gains": [
+    0.09485327143478983,
+    0.12699832941601752,
+    0.04472410960360684
+   ],
+   "maxGain": 0.12699832941601752
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.205051446,
+   "gains": [
+    0.08022791041848265,
+    0.071848678157167,
+    0.027040066132582252
+   ],
+   "maxGain": 0.08022791041848265
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 7.872137292,
+   "gains": [
+    0.047358049906443433,
+    0.030355342111454853,
+    0.022865409392924363
+   ],
+   "maxGain": 0.047358049906443433
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 1,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 15.886904293,
+   "gains": [
+    0.037166903124742134,
+    0.027686822241286713,
+    0.016968872151597036
+   ],
+   "maxGain": 0.037166903124742134
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.1840020179999992,
+   "gains": [
+    0.29179026654762286,
+    0.34717907065361153,
+    0.28556566215579093
+   ],
+   "maxGain": 0.34717907065361153
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.7507522220000009,
+   "gains": [
+    0.17646838850470647,
+    0.11642323452593928,
+    0.07959297900765483
+   ],
+   "maxGain": 0.17646838850470647
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.7804512699999995,
+   "gains": [
+    0.10087916673528419,
+    0.09162346131577426,
+    0.05770656050744116
+   ],
+   "maxGain": 0.10087916673528419
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.562978266,
+   "gains": [
+    0.0958605537385564,
+    0.04856325572820985,
+    0.031234699667626264
+   ],
+   "maxGain": 0.0958605537385564
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.720906129000001,
+   "gains": [
+    0.04585005657166885,
+    0.035197732861014686,
+    0.02636305564863073
+   ],
+   "maxGain": 0.04585005657166885
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 2,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.393130965000005,
+   "gains": [
+    0.031438562262181335,
+    0.024480360036063686,
+    0.016206721951713687
+   ],
+   "maxGain": 0.031438562262181335
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.14456650999999693,
+   "gains": [
+    0.4286654487102046,
+    0.3428126519870567,
+    0.2997982062446838
+   ],
+   "maxGain": 0.4286654487102046
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.8385779609999955,
+   "gains": [
+    0.24903841592504516,
+    0.19153524783361586,
+    0.11703338765780913
+   ],
+   "maxGain": 0.24903841592504516
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.8751412609999971,
+   "gains": [
+    0.09988341673495249,
+    0.09311947730069647,
+    0.05963867875663009
+   ],
+   "maxGain": 0.09988341673495249
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.6628105169999983,
+   "gains": [
+    0.08068326899237022,
+    0.05415923283148505,
+    0.03223563600125767
+   ],
+   "maxGain": 0.08068326899237022
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 9.143394482000003,
+   "gains": [
+    0.03835242051918186,
+    0.033653501760922744,
+    0.02075223660425074
+   ],
+   "maxGain": 0.03835242051918186
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 3,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.856700134,
+   "gains": [
+    0.04277265706600364,
+    0.02370425837304513,
+    0.014681706610438106
+   ],
+   "maxGain": 0.04277265706600364
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.13551702300000035,
+   "gains": [
+    0.315577794123695,
+    0.37583736780620214,
+    0.348526668906769
+   ],
+   "maxGain": 0.37583736780620214
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.7020147499999948,
+   "gains": [
+    0.1169743344716414,
+    0.16205285025535776,
+    0.06783238273803294
+   ],
+   "maxGain": 0.16205285025535776
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.740748633999996,
+   "gains": [
+    0.09358009185942961,
+    0.05901388347580827,
+    0.07154487414167399
+   ],
+   "maxGain": 0.09358009185942961
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.5243104329999912,
+   "gains": [
+    0.06950819351177717,
+    0.05940274977993454,
+    0.04263881947952819
+   ],
+   "maxGain": 0.06950819351177717
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.882981070999994,
+   "gains": [
+    0.054279699277635984,
+    0.054854882675365424,
+    0.023297909006157358
+   ],
+   "maxGain": 0.054854882675365424
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 4,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.61325244399999,
+   "gains": [
+    0.03843102453445013,
+    0.030969512028010016,
+    0.023649824278152654
+   ],
+   "maxGain": 0.03843102453445013
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.1486845609999873,
+   "gains": [
+    0.3073936646202613,
+    0.4259441373066801,
+    0.28329510410946734
+   ],
+   "maxGain": 0.4259441373066801
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.7650132339999837,
+   "gains": [
+    0.15378075942012792,
+    0.1267593750379019,
+    0.07684388094746031
+   ],
+   "maxGain": 0.15378075942012792
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.7742438499999844,
+   "gains": [
+    0.12120414423275161,
+    0.07762583842168347,
+    0.05216179465372117
+   ],
+   "maxGain": 0.12120414423275161
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.38382701199998,
+   "gains": [
+    0.07832517662529437,
+    0.05526795922802119,
+    0.036717947601244694
+   ],
+   "maxGain": 0.07832517662529437
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.397836861999982,
+   "gains": [
+    0.058834999325374504,
+    0.03779919212044458,
+    0.03986778512207656
+   ],
+   "maxGain": 0.058834999325374504
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 5,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.013754068999972,
+   "gains": [
+    0.04119054663583377,
+    0.0294455046709583,
+    0.01557281458963411
+   ],
+   "maxGain": 0.04119054663583377
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.14213480800000253,
+   "gains": [
+    0.39791818523502,
+    0.4508341647438545,
+    0.33564713660150547
+   ],
+   "maxGain": 0.4508341647438545
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.694391426000002,
+   "gains": [
+    0.20247479157017878,
+    0.12412451454330409,
+    0.07237140294234212
+   ],
+   "maxGain": 0.20247479157017878
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.7581171089999992,
+   "gains": [
+    0.11804271287952783,
+    0.08847869346219905,
+    0.05641882444974189
+   ],
+   "maxGain": 0.11804271287952783
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.5101667639999947,
+   "gains": [
+    0.08055771600298733,
+    0.05974734588590902,
+    0.04466947454497561
+   ],
+   "maxGain": 0.08055771600298733
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.64412689999999,
+   "gains": [
+    0.052188157392182966,
+    0.036494022981623964,
+    0.023555487675992026
+   ],
+   "maxGain": 0.052188157392182966
+  },
+  {
+   "variant": "2.8 JS, 4 deals per update (default)",
+   "seed": 6,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 16.991213399999978,
+   "gains": [
+    0.03319632928420191,
+    0.03487908726093458,
+    0.03361351564756809
+   ],
+   "maxGain": 0.03487908726093458
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.206565168000001,
+   "gains": [
+    0.4070176484521566,
+    0.3842052533153941,
+    0.48991502146882926
+   ],
+   "maxGain": 0.48991502146882926
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.6746600959999923,
+   "gains": [
+    0.19369764030331194,
+    0.18020980264328035,
+    0.09445866468162611
+   ],
+   "maxGain": 0.19369764030331194
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.5360663609999903,
+   "gains": [
+    0.09217683789656128,
+    0.0880655088131359,
+    0.061960913021637865
+   ],
+   "maxGain": 0.09217683789656128
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 2.9782683859999963,
+   "gains": [
+    0.06956674618201042,
+    0.05105474460813042,
+    0.029921072306104746
+   ],
+   "maxGain": 0.06956674618201042
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.439057214000001,
+   "gains": [
+    0.037382597281765406,
+    0.041608747962543546,
+    0.0144410111807447
+   ],
+   "maxGain": 0.041608747962543546
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 1,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 14.920705468000001,
+   "gains": [
+    0.03461605601412643,
+    0.02201711616727664,
+    0.014383821657029783
+   ],
+   "maxGain": 0.03461605601412643
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.12082861799999955,
+   "gains": [
+    0.44520687142086324,
+    0.21099856967401198,
+    0.2346961702673691
+   ],
+   "maxGain": 0.44520687142086324
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.5847154980000051,
+   "gains": [
+    0.10624043846391285,
+    0.12265924851801646,
+    0.09984795353606857
+   ],
+   "maxGain": 0.12265924851801646
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.4547353529999965,
+   "gains": [
+    0.0969018122219536,
+    0.10059478998463067,
+    0.04506736704868497
+   ],
+   "maxGain": 0.10059478998463067
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 2.961028217999992,
+   "gains": [
+    0.1144888084653859,
+    0.04525025941369076,
+    0.03517078742176816
+   ],
+   "maxGain": 0.1144888084653859
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.395601114999997,
+   "gains": [
+    0.04871625285483194,
+    0.03411063945837434,
+    0.020861367709336776
+   ],
+   "maxGain": 0.04871625285483194
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 2,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 14.659052827000007,
+   "gains": [
+    0.02412042009177018,
+    0.028509546009454212,
+    0.01150553754898831
+   ],
+   "maxGain": 0.028509546009454212
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.12669204500000342,
+   "gains": [
+    0.41024485015021384,
+    0.29752785775190116,
+    0.23802397964879507
+   ],
+   "maxGain": 0.41024485015021384
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.6168054620000185,
+   "gains": [
+    0.16787135610949555,
+    0.10462427871770075,
+    0.07782419329015355
+   ],
+   "maxGain": 0.16787135610949555
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.5200401060000004,
+   "gains": [
+    0.10877881008346435,
+    0.05997775827098906,
+    0.038911782288189256
+   ],
+   "maxGain": 0.10877881008346435
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 3.020817669000011,
+   "gains": [
+    0.06047549281356179,
+    0.04627650745365308,
+    0.03807281863760825
+   ],
+   "maxGain": 0.06047549281356179
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.847669591999991,
+   "gains": [
+    0.031955071317252504,
+    0.04098569535498786,
+    0.028507411816912853
+   ],
+   "maxGain": 0.04098569535498786
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 3,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 15.72689081499999,
+   "gains": [
+    0.036681143177111686,
+    0.031838044223256645,
+    0.009725413291537421
+   ],
+   "maxGain": 0.036681143177111686
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.12793391900000278,
+   "gains": [
+    0.3620331651879036,
+    0.33952569003637567,
+    0.3379023921537154
+   ],
+   "maxGain": 0.3620331651879036
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.6483129159999954,
+   "gains": [
+    0.16090364421120285,
+    0.1672031765774813,
+    0.1362859703616217
+   ],
+   "maxGain": 0.1672031765774813
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.5289918779999718,
+   "gains": [
+    0.09379412954140243,
+    0.10090397809879015,
+    0.048565286035242794
+   ],
+   "maxGain": 0.10090397809879015
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 3.019075304999977,
+   "gains": [
+    0.07246292054168801,
+    0.05669654465540841,
+    0.041617542484484016
+   ],
+   "maxGain": 0.07246292054168801
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.609746109999978,
+   "gains": [
+    0.06709988047894111,
+    0.027297977388597516,
+    0.02604180781847165
+   ],
+   "maxGain": 0.06709988047894111
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 4,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 15.134915228999976,
+   "gains": [
+    0.04632111268173578,
+    0.02895422287303262,
+    0.015051687338349717
+   ],
+   "maxGain": 0.04632111268173578
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.12670080099999906,
+   "gains": [
+    0.38290589775258255,
+    0.45671230552863484,
+    0.3652612718024777
+   ],
+   "maxGain": 0.45671230552863484
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.6150031389999786,
+   "gains": [
+    0.174643094713546,
+    0.12479205869651544,
+    0.11740309095085055
+   ],
+   "maxGain": 0.174643094713546
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.5149425689999771,
+   "gains": [
+    0.08717944774108677,
+    0.05249609451454784,
+    0.06443679862390761
+   ],
+   "maxGain": 0.08717944774108677
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 3.0860742609999727,
+   "gains": [
+    0.07772236276440747,
+    0.04862824213408157,
+    0.04753987745300181
+   ],
+   "maxGain": 0.07772236276440747
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.679749239999976,
+   "gains": [
+    0.06591620048867419,
+    0.02370713967150717,
+    0.046085673707116026
+   ],
+   "maxGain": 0.06591620048867419
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 5,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 15.450724049999991,
+   "gains": [
+    0.0362357634083601,
+    0.025237656196654967,
+    0.017280167429571947
+   ],
+   "maxGain": 0.0362357634083601
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 4000,
+   "updates": 4000,
+   "seconds": 0.12997932500002207,
+   "gains": [
+    0.3554704303395235,
+    0.271888926547887,
+    0.3529967796410143
+   ],
+   "maxGain": 0.3554704303395235
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 20000,
+   "updates": 20000,
+   "seconds": 0.6102177320000192,
+   "gains": [
+    0.1627332441688738,
+    0.13908107057285424,
+    0.0971609962492439
+   ],
+   "maxGain": 0.1627332441688738
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 50000,
+   "updates": 50000,
+   "seconds": 1.4882973200000125,
+   "gains": [
+    0.11799933808603669,
+    0.08731164361822241,
+    0.07708453069591137
+   ],
+   "maxGain": 0.11799933808603669
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 100000,
+   "updates": 100000,
+   "seconds": 2.995181609000021,
+   "gains": [
+    0.050239706556983066,
+    0.06092591759326016,
+    0.03923994728764124
+   ],
+   "maxGain": 0.06092591759326016
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 250000,
+   "updates": 250000,
+   "seconds": 7.4622978500000325,
+   "gains": [
+    0.05489665871545579,
+    0.038375679537428375,
+    0.01991890593829626
+   ],
+   "maxGain": 0.05489665871545579
+  },
+  {
+   "variant": "2.8 JS, 1 deal per update",
+   "seed": 6,
+   "deals": 500000,
+   "updates": 500000,
+   "seconds": 14.717279845000043,
+   "gains": [
+    0.021256802977311473,
+    0.02363809361951219,
+    0.014567646126651956
+   ],
+   "maxGain": 0.02363809361951219
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.1701924599999911,
+   "gains": [
+    0.39008538832517736,
+    0.3646673880385398,
+    0.28663548485276835
+   ],
+   "maxGain": 0.39008538832517736
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.6943970980000158,
+   "gains": [
+    0.20132741333289506,
+    0.15192317836106017,
+    0.11258253028443765
+   ],
+   "maxGain": 0.20132741333289506
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.6986836610000173,
+   "gains": [
+    0.1049029243588242,
+    0.05397651806142356,
+    0.04311756546299539
+   ],
+   "maxGain": 0.1049029243588242
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.4037042629999923,
+   "gains": [
+    0.08371036087842576,
+    0.06471347367650981,
+    0.0281930932087342
+   ],
+   "maxGain": 0.08371036087842576
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.415942788999994,
+   "gains": [
+    0.04456406303946103,
+    0.04312446033002981,
+    0.029737300102703035
+   ],
+   "maxGain": 0.04456406303946103
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 1,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 16.99605000800002,
+   "gains": [
+    0.03912091197984768,
+    0.039612377156741374,
+    0.0158145267048877
+   ],
+   "maxGain": 0.039612377156741374
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.14200550500000828,
+   "gains": [
+    0.329003040204074,
+    0.3684854549847074,
+    0.31643643126074794
+   ],
+   "maxGain": 0.3684854549847074
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.6947936559999944,
+   "gains": [
+    0.1349162548686671,
+    0.13249470824505494,
+    0.10501316587543919
+   ],
+   "maxGain": 0.1349162548686671
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.673506549999991,
+   "gains": [
+    0.09008663951676077,
+    0.11280673368452376,
+    0.06646005655883558
+   ],
+   "maxGain": 0.11280673368452376
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.326538167999999,
+   "gains": [
+    0.096575706662132,
+    0.07910969689885139,
+    0.04149757657987041
+   ],
+   "maxGain": 0.096575706662132
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.343953429999994,
+   "gains": [
+    0.028247595574553586,
+    0.03633856891597986,
+    0.023063140830716256
+   ],
+   "maxGain": 0.03633856891597986
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 2,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.460043282,
+   "gains": [
+    0.033656661393888676,
+    0.024229808564919963,
+    0.024773073648670207
+   ],
+   "maxGain": 0.033656661393888676
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.14347102900000755,
+   "gains": [
+    0.3368843001689932,
+    0.30255289271084695,
+    0.4031440042345631
+   ],
+   "maxGain": 0.4031440042345631
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.7180397860000084,
+   "gains": [
+    0.1660189881676004,
+    0.1675027106128546,
+    0.0556493623880685
+   ],
+   "maxGain": 0.1675027106128546
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.7339080360000079,
+   "gains": [
+    0.10351919932089615,
+    0.07158344919492521,
+    0.06635556479836668
+   ],
+   "maxGain": 0.10351919932089615
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.4684731200000094,
+   "gains": [
+    0.08473450413499961,
+    0.03887284461820428,
+    0.03829738033126118
+   ],
+   "maxGain": 0.08473450413499961
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.625943874999997,
+   "gains": [
+    0.04329494119671207,
+    0.028098824827782032,
+    0.016987746018469085
+   ],
+   "maxGain": 0.04329494119671207
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 3,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.291357332999993,
+   "gains": [
+    0.04122757321265347,
+    0.020346330031122406,
+    0.01319303701312613
+   ],
+   "maxGain": 0.04122757321265347
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.140341734000016,
+   "gains": [
+    0.4422036934204998,
+    0.2854293243320294,
+    0.27676516651396477
+   ],
+   "maxGain": 0.4422036934204998
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.7027822700000252,
+   "gains": [
+    0.215147993895207,
+    0.10950000680030314,
+    0.14007897184129514
+   ],
+   "maxGain": 0.215147993895207
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.7485321440000263,
+   "gains": [
+    0.12927303537507306,
+    0.07665827585139517,
+    0.0684519557951857
+   ],
+   "maxGain": 0.12927303537507306
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.622592464000045,
+   "gains": [
+    0.09982698019647795,
+    0.05285615945955957,
+    0.03435112170698229
+   ],
+   "maxGain": 0.09982698019647795
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.975708860000072,
+   "gains": [
+    0.051808279621320175,
+    0.04594233153188476,
+    0.0331074081455649
+   ],
+   "maxGain": 0.051808279621320175
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 4,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.835652431000085,
+   "gains": [
+    0.04745106979086522,
+    0.04314612851435573,
+    0.022082798730665987
+   ],
+   "maxGain": 0.04745106979086522
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.14583165000000736,
+   "gains": [
+    0.37798754985659766,
+    0.38832069703990335,
+    0.22155759835946953
+   ],
+   "maxGain": 0.38832069703990335
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.6682160819999989,
+   "gains": [
+    0.17679427210962384,
+    0.11265317751125448,
+    0.08872273599674396
+   ],
+   "maxGain": 0.17679427210962384
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.6950263339999947,
+   "gains": [
+    0.13439079438568502,
+    0.06193711671072322,
+    0.051872918496416176
+   ],
+   "maxGain": 0.13439079438568502
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.392693596999976,
+   "gains": [
+    0.06619581819042519,
+    0.0644268620345807,
+    0.03362276777715212
+   ],
+   "maxGain": 0.06619581819042519
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.578023690999952,
+   "gains": [
+    0.04888878827962451,
+    0.042597629277914884,
+    0.0187970467554468
+   ],
+   "maxGain": 0.04888878827962451
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 5,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 16.86999074499996,
+   "gains": [
+    0.037969658430263564,
+    0.024761274738594352,
+    0.017737744721254778
+   ],
+   "maxGain": 0.037969658430263564
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.1372133759999997,
+   "gains": [
+    0.25525178643949875,
+    0.3307540459739098,
+    0.3124933899464173
+   ],
+   "maxGain": 0.3307540459739098
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.6608582639999804,
+   "gains": [
+    0.17447991322713463,
+    0.1397754599455414,
+    0.07765014224184319
+   ],
+   "maxGain": 0.17447991322713463
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 1.643675075999985,
+   "gains": [
+    0.10770476571815735,
+    0.06188454330119342,
+    0.06705709140470151
+   ],
+   "maxGain": 0.10770476571815735
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 3.4182891850000017,
+   "gains": [
+    0.059511519135023505,
+    0.06533400527777822,
+    0.05168617877388648
+   ],
+   "maxGain": 0.06533400527777822
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 8.594541957000038,
+   "gains": [
+    0.04908297217248592,
+    0.03366319425832387,
+    0.02507185320282357
+   ],
+   "maxGain": 0.04908297217248592
+  },
+  {
+   "variant": "2.8 JS, stratified 4",
+   "seed": 6,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 17.45556337000005,
+   "gains": [
+    0.026823490302447794,
+    0.03363196125674772,
+    0.019779044255460176
+   ],
+   "maxGain": 0.03363196125674772
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.033071,
+   "gains": [
+    0.3826258704588037,
+    0.2563300597591569,
+    0.27848977450177936
+   ],
+   "maxGain": 0.3826258704588037
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.124475,
+   "gains": [
+    0.17545580748030076,
+    0.1306823251934679,
+    0.11305739205351983
+   ],
+   "maxGain": 0.17545580748030076
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.33847,
+   "gains": [
+    0.09485327143478983,
+    0.12699832941601752,
+    0.04472410960360684
+   ],
+   "maxGain": 0.12699832941601752
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.6191880000000001,
+   "gains": [
+    0.08022791041848265,
+    0.071848678157167,
+    0.027040066132582252
+   ],
+   "maxGain": 0.08022791041848265
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.4846570000000001,
+   "gains": [
+    0.047358049906443433,
+    0.030355342111454853,
+    0.022865409392924363
+   ],
+   "maxGain": 0.047358049906443433
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 1,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.893865,
+   "gains": [
+    0.037166903124742134,
+    0.027686822241286713,
+    0.016968872151597036
+   ],
+   "maxGain": 0.037166903124742134
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.02416,
+   "gains": [
+    0.29179026654762286,
+    0.34717907065361153,
+    0.28556566215579093
+   ],
+   "maxGain": 0.34717907065361153
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.112125,
+   "gains": [
+    0.17646838850470647,
+    0.11642323452593928,
+    0.07959297900765483
+   ],
+   "maxGain": 0.17646838850470647
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.28026300000000004,
+   "gains": [
+    0.10087916673528419,
+    0.09162346131577426,
+    0.05770656050744116
+   ],
+   "maxGain": 0.10087916673528419
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.56161,
+   "gains": [
+    0.0958605537385564,
+    0.04856325572820985,
+    0.031234699667626264
+   ],
+   "maxGain": 0.0958605537385564
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.435499,
+   "gains": [
+    0.04585005657166885,
+    0.035197732861014686,
+    0.02636305564863073
+   ],
+   "maxGain": 0.04585005657166885
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 2,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.82073,
+   "gains": [
+    0.031438562262181335,
+    0.024480360036063686,
+    0.016206721951713687
+   ],
+   "maxGain": 0.031438562262181335
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.02326,
+   "gains": [
+    0.4286654487102046,
+    0.3428126519870567,
+    0.2997982062446838
+   ],
+   "maxGain": 0.4286654487102046
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.119091,
+   "gains": [
+    0.24903841592504516,
+    0.19153524783361586,
+    0.11703338765780913
+   ],
+   "maxGain": 0.24903841592504516
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.295805,
+   "gains": [
+    0.09988341673495249,
+    0.09311947730069647,
+    0.05963867875663009
+   ],
+   "maxGain": 0.09988341673495249
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.5731999999999999,
+   "gains": [
+    0.08068326899237022,
+    0.05415923283148505,
+    0.03223563600125767
+   ],
+   "maxGain": 0.08068326899237022
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.4055399999999998,
+   "gains": [
+    0.03835242051918186,
+    0.033653501760922744,
+    0.02075223660425074
+   ],
+   "maxGain": 0.03835242051918186
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 3,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.777122,
+   "gains": [
+    0.04277265706600364,
+    0.02370425837304513,
+    0.014681706610438106
+   ],
+   "maxGain": 0.04277265706600364
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.031961,
+   "gains": [
+    0.315577794123695,
+    0.37583736780620214,
+    0.348526668906769
+   ],
+   "maxGain": 0.37583736780620214
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.138391,
+   "gains": [
+    0.1169743344716414,
+    0.16205285025535776,
+    0.06783238273803294
+   ],
+   "maxGain": 0.16205285025535776
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.301627,
+   "gains": [
+    0.09358009185942961,
+    0.05901388347580827,
+    0.07154487414167399
+   ],
+   "maxGain": 0.09358009185942961
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.5777410000000001,
+   "gains": [
+    0.06950819351177717,
+    0.05940274977993454,
+    0.04263881947952819
+   ],
+   "maxGain": 0.06950819351177717
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.3863370000000002,
+   "gains": [
+    0.054279699277635984,
+    0.054854882675365424,
+    0.023297909006157358
+   ],
+   "maxGain": 0.054854882675365424
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 4,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.83949,
+   "gains": [
+    0.03843102453445013,
+    0.030969512028010016,
+    0.023649824278152654
+   ],
+   "maxGain": 0.03843102453445013
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.022604,
+   "gains": [
+    0.3073936646202613,
+    0.4259441373066801,
+    0.28329510410946734
+   ],
+   "maxGain": 0.4259441373066801
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.131867,
+   "gains": [
+    0.15378075942012792,
+    0.1267593750379019,
+    0.07684388094746031
+   ],
+   "maxGain": 0.15378075942012792
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.321666,
+   "gains": [
+    0.12120414423275161,
+    0.07762583842168347,
+    0.05216179465372117
+   ],
+   "maxGain": 0.12120414423275161
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.59143,
+   "gains": [
+    0.07832517662529437,
+    0.05526795922802119,
+    0.036717947601244694
+   ],
+   "maxGain": 0.07832517662529437
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.441152,
+   "gains": [
+    0.058834999325374504,
+    0.03779919212044458,
+    0.03986778512207656
+   ],
+   "maxGain": 0.058834999325374504
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 5,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.820792,
+   "gains": [
+    0.04119054663583377,
+    0.0294455046709583,
+    0.01557281458963411
+   ],
+   "maxGain": 0.04119054663583377
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 4000,
+   "updates": 1000,
+   "seconds": 0.023768,
+   "gains": [
+    0.39791818523502,
+    0.4508341647438545,
+    0.33564713660150547
+   ],
+   "maxGain": 0.4508341647438545
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 20000,
+   "updates": 5000,
+   "seconds": 0.122808,
+   "gains": [
+    0.20247479157017878,
+    0.12412451454330409,
+    0.07237140294234212
+   ],
+   "maxGain": 0.20247479157017878
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 50000,
+   "updates": 12500,
+   "seconds": 0.282359,
+   "gains": [
+    0.11804271287952783,
+    0.08847869346219905,
+    0.05641882444974189
+   ],
+   "maxGain": 0.11804271287952783
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 100000,
+   "updates": 25000,
+   "seconds": 0.5520590000000001,
+   "gains": [
+    0.08055771600298733,
+    0.05974734588590902,
+    0.04466947454497561
+   ],
+   "maxGain": 0.08055771600298733
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 250000,
+   "updates": 62500,
+   "seconds": 1.3971080000000002,
+   "gains": [
+    0.052188157392182966,
+    0.036494022981623964,
+    0.023555487675992026
+   ],
+   "maxGain": 0.052188157392182966
+  },
+  {
+   "variant": "2.9 native, 4 deals per update",
+   "seed": 6,
+   "deals": 500000,
+   "updates": 125000,
+   "seconds": 2.7960380000000002,
+   "gains": [
+    0.03319632928420191,
+    0.03487908726093458,
+    0.03361351564756809
+   ],
+   "maxGain": 0.03487908726093458
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.023014,
+   "gains": [
+    0.41459858104069625,
+    0.31404579157291224,
+    0.22434567353876433
+   ],
+   "maxGain": 0.41459858104069625
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.122536,
+   "gains": [
+    0.27716921188753574,
+    0.1462671429005491,
+    0.11465256600303553
+   ],
+   "maxGain": 0.27716921188753574
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.27277700000000005,
+   "gains": [
+    0.09656980744782118,
+    0.09350999829975404,
+    0.06779320823691215
+   ],
+   "maxGain": 0.09656980744782118
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.5265960000000001,
+   "gains": [
+    0.06236457095097858,
+    0.06408656146011449,
+    0.049962562151040446
+   ],
+   "maxGain": 0.06408656146011449
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.2987250000000001,
+   "gains": [
+    0.038198311274272534,
+    0.037073065646155534,
+    0.016832133109176306
+   ],
+   "maxGain": 0.038198311274272534
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 1,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.590609,
+   "gains": [
+    0.039487357804183,
+    0.04001962266123815,
+    0.01378261375802925
+   ],
+   "maxGain": 0.04001962266123815
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.022143,
+   "gains": [
+    0.5782645627122021,
+    0.33996121455017914,
+    0.33000845667128864
+   ],
+   "maxGain": 0.5782645627122021
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.103778,
+   "gains": [
+    0.1710605160553209,
+    0.1061943460347834,
+    0.08846415470720759
+   ],
+   "maxGain": 0.1710605160553209
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.26939599999999997,
+   "gains": [
+    0.11857349365120395,
+    0.08901570805149106,
+    0.06696042324324747
+   ],
+   "maxGain": 0.11857349365120395
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.55687,
+   "gains": [
+    0.0749744067302398,
+    0.06668829475758642,
+    0.030601947526182283
+   ],
+   "maxGain": 0.0749744067302398
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.3649550000000001,
+   "gains": [
+    0.05337974923848421,
+    0.040593835953846025,
+    0.03028367446681135
+   ],
+   "maxGain": 0.05337974923848421
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 2,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.661143,
+   "gains": [
+    0.026830126959240808,
+    0.022299265919049738,
+    0.015438294544549036
+   ],
+   "maxGain": 0.026830126959240808
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.02123,
+   "gains": [
+    0.4115353568510134,
+    0.38726788114797905,
+    0.3768497329984237
+   ],
+   "maxGain": 0.4115353568510134
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.117558,
+   "gains": [
+    0.19143821695305174,
+    0.1589393634356533,
+    0.09700828747459389
+   ],
+   "maxGain": 0.19143821695305174
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.287649,
+   "gains": [
+    0.11015489145223345,
+    0.0877590812331217,
+    0.046857484049356746
+   ],
+   "maxGain": 0.11015489145223345
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.53851,
+   "gains": [
+    0.07052768225467076,
+    0.0729347482985574,
+    0.03276555786709978
+   ],
+   "maxGain": 0.0729347482985574
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.341858,
+   "gains": [
+    0.03942780508462551,
+    0.029306408779127047,
+    0.020254798816185415
+   ],
+   "maxGain": 0.03942780508462551
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 3,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.684093,
+   "gains": [
+    0.028934224163842615,
+    0.031561205037432316,
+    0.016922791177056196
+   ],
+   "maxGain": 0.031561205037432316
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.021169,
+   "gains": [
+    0.3122399128852926,
+    0.4361801365164464,
+    0.34405272422978994
+   ],
+   "maxGain": 0.4361801365164464
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.11696799999999999,
+   "gains": [
+    0.241975316030838,
+    0.12578693297479848,
+    0.09974968909694293
+   ],
+   "maxGain": 0.241975316030838
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.279311,
+   "gains": [
+    0.10194721643705584,
+    0.09580111010690473,
+    0.06291676408478897
+   ],
+   "maxGain": 0.10194721643705584
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.53312,
+   "gains": [
+    0.0784959389982669,
+    0.04513434334590638,
+    0.04117835934935754
+   ],
+   "maxGain": 0.0784959389982669
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.305132,
+   "gains": [
+    0.056022613238838836,
+    0.03598172525144783,
+    0.027099608308521317
+   ],
+   "maxGain": 0.056022613238838836
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 4,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.648101,
+   "gains": [
+    0.03690860321664058,
+    0.041984470118866746,
+    0.028100419057719206
+   ],
+   "maxGain": 0.041984470118866746
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.032202,
+   "gains": [
+    0.38570196982399807,
+    0.36504704881767047,
+    0.28095478348874314
+   ],
+   "maxGain": 0.38570196982399807
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.119643,
+   "gains": [
+    0.20441492401445416,
+    0.1486554118547474,
+    0.1082282984869114
+   ],
+   "maxGain": 0.20441492401445416
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.27934899999999996,
+   "gains": [
+    0.10604062127676261,
+    0.08441776319545635,
+    0.05945915148721692
+   ],
+   "maxGain": 0.10604062127676261
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.6386259999999999,
+   "gains": [
+    0.04992543460908028,
+    0.06606704298224919,
+    0.04899113754697648
+   ],
+   "maxGain": 0.06606704298224919
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.423171,
+   "gains": [
+    0.04795575655936091,
+    0.03749197273391669,
+    0.018776475076401455
+   ],
+   "maxGain": 0.04795575655936091
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 5,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.7529500000000002,
+   "gains": [
+    0.03639512408187695,
+    0.025766872011292463,
+    0.02064408722108002
+   ],
+   "maxGain": 0.03639512408187695
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 4000,
+   "updates": 250,
+   "seconds": 0.031746,
+   "gains": [
+    0.32742619171077525,
+    0.3763402148027568,
+    0.299789708858784
+   ],
+   "maxGain": 0.3763402148027568
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 20000,
+   "updates": 1250,
+   "seconds": 0.12078900000000001,
+   "gains": [
+    0.2179644626718229,
+    0.15981331487049655,
+    0.15713468196575864
+   ],
+   "maxGain": 0.2179644626718229
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 50000,
+   "updates": 3125,
+   "seconds": 0.27142900000000003,
+   "gains": [
+    0.09426295105342852,
+    0.10051622074966993,
+    0.03504927477581532
+   ],
+   "maxGain": 0.10051622074966993
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 100000,
+   "updates": 6250,
+   "seconds": 0.519429,
+   "gains": [
+    0.06589521206866955,
+    0.08166777843646056,
+    0.04627830124760912
+   ],
+   "maxGain": 0.08166777843646056
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 250000,
+   "updates": 15625,
+   "seconds": 1.27704,
+   "gains": [
+    0.05204365923154697,
+    0.05482497156960875,
+    0.025520698959651922
+   ],
+   "maxGain": 0.05482497156960875
+  },
+  {
+   "variant": "2.9 native, 16 deals per update",
+   "seed": 6,
+   "deals": 500000,
+   "updates": 31250,
+   "seconds": 2.664757,
+   "gains": [
+    0.03220492467880298,
+    0.03018237296656956,
+    0.018802780065244384
+   ],
+   "maxGain": 0.03220492467880298
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.119123,
+   "gains": [
+    0.24853446911700683,
+    0.26587306553830814,
+    0.12852606077128326
+   ],
+   "maxGain": 0.26587306553830814
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.588282,
+   "gains": [
+    0.1156873578578077,
+    0.08391991506224983,
+    0.06823313189942293
+   ],
+   "maxGain": 0.1156873578578077
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.464407,
+   "gains": [
+    0.07661736140378039,
+    0.08810897182905908,
+    0.029706982688349592
+   ],
+   "maxGain": 0.08810897182905908
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.8598730000000003,
+   "gains": [
+    0.05282451279253131,
+    0.05162079480346282,
+    0.03563115909550252
+   ],
+   "maxGain": 0.05282451279253131
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 6.99837,
+   "gains": [
+    0.03247693185237299,
+    0.04093648265081651,
+    0.02405995766350011
+   ],
+   "maxGain": 0.04093648265081651
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 1,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.988161999999999,
+   "gains": [
+    0.02802946517483651,
+    0.022873757887255763,
+    0.01349711508367557
+   ],
+   "maxGain": 0.02802946517483651
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.109868,
+   "gains": [
+    0.31173408681296433,
+    0.33222350754790764,
+    0.1922779502378127
+   ],
+   "maxGain": 0.33222350754790764
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.555933,
+   "gains": [
+    0.10001392004949494,
+    0.08790558930384673,
+    0.05171595752354441
+   ],
+   "maxGain": 0.10001392004949494
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.422654,
+   "gains": [
+    0.06100808859179274,
+    0.06589135270605517,
+    0.033769587196416095
+   ],
+   "maxGain": 0.06589135270605517
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.793534,
+   "gains": [
+    0.05026177770517126,
+    0.032344269210778265,
+    0.032911943555494316
+   ],
+   "maxGain": 0.05026177770517126
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 6.940556,
+   "gains": [
+    0.017856021228634056,
+    0.027780548833829855,
+    0.009753236659200804
+   ],
+   "maxGain": 0.027780548833829855
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 2,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.890031,
+   "gains": [
+    0.019412372073100315,
+    0.024217863808367213,
+    0.0071530941763593425
+   ],
+   "maxGain": 0.024217863808367213
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.109003,
+   "gains": [
+    0.18694764177378076,
+    0.25386771997250346,
+    0.21225366636216525
+   ],
+   "maxGain": 0.25386771997250346
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.565533,
+   "gains": [
+    0.09244241804786313,
+    0.10020042195835899,
+    0.07027776660673024
+   ],
+   "maxGain": 0.10020042195835899
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.408599,
+   "gains": [
+    0.08654698666940952,
+    0.07733765293265371,
+    0.04210634097321431
+   ],
+   "maxGain": 0.08654698666940952
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.777083,
+   "gains": [
+    0.052550128185933076,
+    0.04302179662709449,
+    0.020846678009006414
+   ],
+   "maxGain": 0.052550128185933076
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.226897,
+   "gains": [
+    0.03223376628971408,
+    0.02545393165800114,
+    0.010420586477389415
+   ],
+   "maxGain": 0.03223376628971408
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 3,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.177533,
+   "gains": [
+    0.03369534442399846,
+    0.023201536018173208,
+    0.012348637835132958
+   ],
+   "maxGain": 0.03369534442399846
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.111636,
+   "gains": [
+    0.2927943683388392,
+    0.3035955555639607,
+    0.16565046680148665
+   ],
+   "maxGain": 0.3035955555639607
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.559475,
+   "gains": [
+    0.15233216485631917,
+    0.15951573143029663,
+    0.14722154146062372
+   ],
+   "maxGain": 0.15951573143029663
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.399082,
+   "gains": [
+    0.08649080432147649,
+    0.06396143100170804,
+    0.049492192032102755
+   ],
+   "maxGain": 0.08649080432147649
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.947866,
+   "gains": [
+    0.0754216427351535,
+    0.04421256241269944,
+    0.03355794929623945
+   ],
+   "maxGain": 0.0754216427351535
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.070494999999999,
+   "gains": [
+    0.0499159478971416,
+    0.03839770147719346,
+    0.02940345856293769
+   ],
+   "maxGain": 0.0499159478971416
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 4,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.184974,
+   "gains": [
+    0.02355545731875619,
+    0.01902174766879039,
+    0.014102015302516202
+   ],
+   "maxGain": 0.02355545731875619
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.145962,
+   "gains": [
+    0.32281346936290145,
+    0.25231313932987565,
+    0.23313986481768478
+   ],
+   "maxGain": 0.32281346936290145
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.59096,
+   "gains": [
+    0.12854283553769186,
+    0.11581536490568567,
+    0.07339859746873212
+   ],
+   "maxGain": 0.12854283553769186
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.460175,
+   "gains": [
+    0.05003671205471161,
+    0.05630383281111939,
+    0.030770816766275022
+   ],
+   "maxGain": 0.05630383281111939
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.818315,
+   "gains": [
+    0.04310210617832677,
+    0.0526732559292471,
+    0.043921995180786766
+   ],
+   "maxGain": 0.0526732559292471
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.058885,
+   "gains": [
+    0.04216654207762893,
+    0.026213791601268355,
+    0.015429085667763465
+   ],
+   "maxGain": 0.04216654207762893
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 5,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.097422,
+   "gains": [
+    0.03385615423587751,
+    0.021166993255466338,
+    0.013887074101778474
+   ],
+   "maxGain": 0.03385615423587751
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.119784,
+   "gains": [
+    0.3392914138418499,
+    0.22785912370729022,
+    0.22259068841508411
+   ],
+   "maxGain": 0.3392914138418499
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.568473,
+   "gains": [
+    0.12142577922974152,
+    0.10245466441080175,
+    0.09714382459663895
+   ],
+   "maxGain": 0.12142577922974152
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.401284,
+   "gains": [
+    0.06265672178290593,
+    0.06866514211719554,
+    0.03690923615513442
+   ],
+   "maxGain": 0.06866514211719554
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.851174,
+   "gains": [
+    0.04584627778199568,
+    0.03552953495294897,
+    0.031139345629310533
+   ],
+   "maxGain": 0.04584627778199568
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.019401,
+   "gains": [
+    0.02968697206331239,
+    0.02588306210267266,
+    0.017270815282829588
+   ],
+   "maxGain": 0.02968697206331239
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4",
+   "seed": 6,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.741621,
+   "gains": [
+    0.023667641087032898,
+    0.022339603126466656,
+    0.011944446311757062
+   ],
+   "maxGain": 0.023667641087032898
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.111002,
+   "gains": [
+    0.24853446911700683,
+    0.26587306553830814,
+    0.12852606077128326
+   ],
+   "maxGain": 0.26587306553830814
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.570349,
+   "gains": [
+    0.1156873578578077,
+    0.08391991506224983,
+    0.06823313189942293
+   ],
+   "maxGain": 0.1156873578578077
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.414514,
+   "gains": [
+    0.07661736140378039,
+    0.08810897182905908,
+    0.029706982688349592
+   ],
+   "maxGain": 0.08810897182905908
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.860308,
+   "gains": [
+    0.05282451279253131,
+    0.05162079480346282,
+    0.03563115909550252
+   ],
+   "maxGain": 0.05282451279253131
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.199231,
+   "gains": [
+    0.03247693185237299,
+    0.04093648265081651,
+    0.02405995766350011
+   ],
+   "maxGain": 0.04093648265081651
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 1,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.968584,
+   "gains": [
+    0.02802946517483651,
+    0.022873757887255763,
+    0.01349711508367557
+   ],
+   "maxGain": 0.02802946517483651
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.125241,
+   "gains": [
+    0.31173408681296433,
+    0.33222350754790764,
+    0.1922779502378127
+   ],
+   "maxGain": 0.33222350754790764
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.570572,
+   "gains": [
+    0.10001392004949494,
+    0.08790558930384673,
+    0.05171595752354441
+   ],
+   "maxGain": 0.10001392004949494
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.425991,
+   "gains": [
+    0.06100808859179274,
+    0.06589135270605517,
+    0.033769587196416095
+   ],
+   "maxGain": 0.06589135270605517
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.873697,
+   "gains": [
+    0.05026177770517126,
+    0.032344269210778265,
+    0.032911943555494316
+   ],
+   "maxGain": 0.05026177770517126
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.358021,
+   "gains": [
+    0.017856021228634056,
+    0.027780548833829855,
+    0.009753236659200804
+   ],
+   "maxGain": 0.027780548833829855
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 2,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.394336,
+   "gains": [
+    0.019412372073100315,
+    0.024217863808367213,
+    0.0071530941763593425
+   ],
+   "maxGain": 0.024217863808367213
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.162095,
+   "gains": [
+    0.18694764177378076,
+    0.25386771997250346,
+    0.21225366636216525
+   ],
+   "maxGain": 0.25386771997250346
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.631023,
+   "gains": [
+    0.09244241804786313,
+    0.10020042195835899,
+    0.07027776660673024
+   ],
+   "maxGain": 0.10020042195835899
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.458763,
+   "gains": [
+    0.08654698666940952,
+    0.07733765293265371,
+    0.04210634097321431
+   ],
+   "maxGain": 0.08654698666940952
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.963882,
+   "gains": [
+    0.052550128185933076,
+    0.04302179662709449,
+    0.020846678009006414
+   ],
+   "maxGain": 0.052550128185933076
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.104342,
+   "gains": [
+    0.03223376628971408,
+    0.02545393165800114,
+    0.010420586477389415
+   ],
+   "maxGain": 0.03223376628971408
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 3,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.115368,
+   "gains": [
+    0.03369534442399846,
+    0.023201536018173208,
+    0.012348637835132958
+   ],
+   "maxGain": 0.03369534442399846
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.110651,
+   "gains": [
+    0.2927943683388392,
+    0.3035955555639607,
+    0.16565046680148665
+   ],
+   "maxGain": 0.3035955555639607
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.572661,
+   "gains": [
+    0.15233216485631917,
+    0.15951573143029663,
+    0.14722154146062372
+   ],
+   "maxGain": 0.15951573143029663
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.397881,
+   "gains": [
+    0.08649080432147649,
+    0.06396143100170804,
+    0.049492192032102755
+   ],
+   "maxGain": 0.08649080432147649
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.781256,
+   "gains": [
+    0.0754216427351535,
+    0.04421256241269944,
+    0.03355794929623945
+   ],
+   "maxGain": 0.0754216427351535
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 6.960348,
+   "gains": [
+    0.0499159478971416,
+    0.03839770147719346,
+    0.02940345856293769
+   ],
+   "maxGain": 0.0499159478971416
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 4,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.901250000000001,
+   "gains": [
+    0.02355545731875619,
+    0.01902174766879039,
+    0.014102015302516202
+   ],
+   "maxGain": 0.02355545731875619
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.122132,
+   "gains": [
+    0.32281346936290145,
+    0.25231313932987565,
+    0.23313986481768478
+   ],
+   "maxGain": 0.32281346936290145
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.581221,
+   "gains": [
+    0.12854283553769186,
+    0.11581536490568567,
+    0.07339859746873212
+   ],
+   "maxGain": 0.12854283553769186
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.427989,
+   "gains": [
+    0.05003671205471161,
+    0.05630383281111939,
+    0.030770816766275022
+   ],
+   "maxGain": 0.05630383281111939
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.78375,
+   "gains": [
+    0.04310210617832677,
+    0.0526732559292471,
+    0.043921995180786766
+   ],
+   "maxGain": 0.0526732559292471
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 6.918906,
+   "gains": [
+    0.04216654207762893,
+    0.026213791601268355,
+    0.015429085667763465
+   ],
+   "maxGain": 0.04216654207762893
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 5,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 13.859252,
+   "gains": [
+    0.03385615423587751,
+    0.021166993255466338,
+    0.013887074101778474
+   ],
+   "maxGain": 0.03385615423587751
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 3996,
+   "updates": 333,
+   "seconds": 0.115895,
+   "gains": [
+    0.3392914138418499,
+    0.22785912370729022,
+    0.22259068841508411
+   ],
+   "maxGain": 0.3392914138418499
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 20004,
+   "updates": 1667,
+   "seconds": 0.567792,
+   "gains": [
+    0.12142577922974152,
+    0.10245466441080175,
+    0.09714382459663895
+   ],
+   "maxGain": 0.12142577922974152
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 50004,
+   "updates": 4167,
+   "seconds": 1.390496,
+   "gains": [
+    0.06265672178290593,
+    0.06866514211719554,
+    0.03690923615513442
+   ],
+   "maxGain": 0.06866514211719554
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 99996,
+   "updates": 8333,
+   "seconds": 2.792515,
+   "gains": [
+    0.04584627778199568,
+    0.03552953495294897,
+    0.031139345629310533
+   ],
+   "maxGain": 0.04584627778199568
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 249996,
+   "updates": 20833,
+   "seconds": 7.022975,
+   "gains": [
+    0.02968697206331239,
+    0.02588306210267266,
+    0.017270815282829588
+   ],
+   "maxGain": 0.02968697206331239
+  },
+  {
+   "variant": "2.9 native, own-hand enumeration, 4, 4 threads",
+   "seed": 6,
+   "deals": 500004,
+   "updates": 41667,
+   "seconds": 14.014788,
+   "gains": [
+    0.023667641087032898,
+    0.022339603126466656,
+    0.011944446311757062
+   ],
+   "maxGain": 0.023667641087032898
+  }
+ ]
+}
