@@ -37,7 +37,13 @@ typedef int sock_t;
 #include "gpu.h"
 #include "ui_html.h"
 
-#define VERSION "2.5"
+#ifndef EM_VERSION
+#error "Build with -DEM_VERSION (see native/build.sh, which reads source/VERSION)"
+#endif
+#ifndef EM_BUILD_ID
+#define EM_BUILD_ID "unknown"
+#endif
+#define VERSION EM_VERSION
 static const SolverVT *VT;
 static int PORT = 0, THREADS = 1;
 static double RAM_MB = 0;
@@ -313,7 +319,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   char err[512] = "";
   if (!strcmp(path, "/api/info")) {
     JB b; jb_init(&b);
-    jb_printf(&b, "{\"native\":true,\"version\":\"%s\",\"threads\":%d,\"power\":%d,\"ramMB\":%.0f,\"engine\":\"%s\",\"saveDir\":", VERSION, THREADS, POWER, RAM_MB, VT->name);
+    jb_printf(&b, "{\"native\":true,\"build\":\"%s\",\"version\":\"%s\",\"threads\":%d,\"power\":%d,\"ramMB\":%.0f,\"engine\":\"%s\",\"saveDir\":", EM_BUILD_ID, VERSION, THREADS, POWER, RAM_MB, VT->name);
     jb_str(&b, SAVE_DIR); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
     jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
     respond_json(s, 200, &b); jb_free(&b); return;
@@ -408,6 +414,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   if (!strcmp(path, "/api/solve")) {
     if (!G) { json_free(v); respond_err(s, 400, "Set up the spot first"); return; }
     SolveArgs *A = (SolveArgs *)malloc(sizeof *A);
+    if (!A) { json_free(v); respond_err(s, 503, "Out of memory"); return; }
     A->target = jnum(jget(v, "target"), 0.5); A->maxIter = (int)jnum(jget(v, "maxIter"), 1000); A->reset = (int)jnum(jget(v, "reset"), 0);
     if (jget(v, "power")) apply_power((int)jnum(jget(v, "power"), 1));
     if (A->maxIter < 1) A->maxIter = 1;
@@ -533,14 +540,17 @@ static void handle(sock_t s) {
   const char *cl = find_header(buf, "Content-Length");
   size_t blen = cl ? (size_t)strtoul(cl, NULL, 10) : 0;
   if (blen > (64u << 20)) { respond_err(s, 400, "Request too large"); free(buf); return; }
-  if (hlen + blen > cap) { cap = hlen + blen; buf = (char *)realloc(buf, cap + 1); }
+  if (hlen + blen > cap) { cap = hlen + blen; char *grown = (char *)realloc(buf, cap + 1); if (!grown) { respond_err(s, 503, "Out of memory"); free(buf); return; } buf = grown; }
   while (n < hlen + blen) { int k = recv(s, buf + n, (int)(hlen + blen - n), 0); if (k <= 0) { free(buf); return; } n += (size_t)k; }
   buf[hlen + blen] = 0;
   // only same-machine pages may talk to us: check Host, and require a custom header on POST
   const char *host = find_header(buf, "Host");
   char want1[64], want2[64];
   snprintf(want1, sizeof want1, "127.0.0.1:%d", PORT); snprintf(want2, sizeof want2, "localhost:%d", PORT);
-  if (!host || (strncmp(host, want1, strlen(want1)) && strncmp(host, want2, strlen(want2)))) { respond_err(s, 403, "Forbidden host"); free(buf); return; }
+  // exact match only: a prefix test would also accept hosts such as "127.0.0.1:8708.example"
+  size_t hostLen = 0; if (host) while (host[hostLen] && host[hostLen] != '\r' && host[hostLen] != '\n') hostLen++;
+  while (hostLen && (host[hostLen - 1] == ' ' || host[hostLen - 1] == '\t')) hostLen--;
+  if (!host || !((hostLen == strlen(want1) && !strncmp(host, want1, hostLen)) || (hostLen == strlen(want2) && !strncasecmp(host, want2, hostLen)))) { respond_err(s, 403, "Forbidden host"); free(buf); return; }
   char *q = strchr(path, '?'); if (q) *q = 0;
   if (!strcmp(method, "GET") && (!strcmp(path, "/") || !strcmp(path, "/index.html"))) {
     respond(s, 200, "text/html; charset=utf-8", (const char *)UI_HTML, UI_HTML_LEN);
@@ -622,7 +632,7 @@ int main(int argc, char **argv) {
   }
   if (ls == INVALID_SOCKET) { fprintf(stderr, "Could not open a local port (8708-8727).\n"); return 1; }
   char url[64]; snprintf(url, sizeof url, "http://127.0.0.1:%d/", PORT);
-  printf("\n  EightMax %s  -  8-max MTT solver\n  ------------------------------------------\n", VERSION);
+  printf("\n  EightMax %s (build %s)  -  8-max MTT solver\n  ------------------------------------------\n", VERSION, EM_BUILD_ID);
   printf("  Open:     %s\n  Engine:   %s, %d threads\n  GPU:      %s%s\n  Memory:   %.1f GB RAM\n  Saves:    %s\n\n  Keep this window open while you use EightMax. Close it to quit.\n\n",
     url, VT->name, THREADS, gpu_ready() ? "" : "none - ", gpu_desc(), RAM_MB / 1024.0, SAVE_DIR);
   fflush(stdout);

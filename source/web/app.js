@@ -2046,6 +2046,12 @@ if (NATIVE) {
     NINFO = info;
     DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.max(2000, info.ramMB * 0.78) };
     $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
+    // The interface and the native host are built together; a different version or
+    // build identifier means mixed files from different releases.
+    if (EM.BUILD && (info.version !== EM.BUILD.version || info.build !== EM.BUILD.build)) {
+      $('#engine').textContent += ` · version mismatch: engine ${info.version} (${info.build || 'no build id'}), interface ${EM.BUILD.version} (${EM.BUILD.build})`;
+      $('#engine').classList.add('off');
+    }
     if (info.gpu) $('#engine').title = info.gpu.available ? 'GPU: ' + info.gpu.device : 'No GPU: ' + info.gpu.device;
     render();
   }).catch(() => { $('#engine').textContent = 'Native engine not responding'; });
