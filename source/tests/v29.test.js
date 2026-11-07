@@ -11,12 +11,10 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{exe
 const E=require('../tools/loadlib');
 for(const l of ['lib_runouts','lib_wide','lib_river','lib_river_ui'])require('../web/'+l+'.js');
 const native=path.join(__dirname,'../native'),tmp=fs.mkdtempSync(path.join(os.tmpdir(),'em29-'));
-let cli=null,why='';
-try{
-  execFileSync('gcc',['-O2','-c',path.join(native,'json.c'),'-o',path.join(tmp,'json.o')]);
-  execFileSync('g++',['-std=c++20','-O2','-ffp-contract=off','-I'+native,path.join(native,'mw.cpp'),path.join(native,'mwcli.cpp'),path.join(tmp,'json.o'),'-lpthread','-o',path.join(tmp,'mwcli')]);
-  cli=path.join(tmp,'mwcli');
-}catch(e){why='C/C++ compiler unavailable: '+e.message.split('\n')[0];}
+// 3.1: the native CLI and the CUDA test double come from the shared build cache
+// (tests/native_build.js), so parallel suites compile them once per source version.
+const shared=require('./native_build').cli();
+let cli=shared.cli,why=shared.why;
 const skip=cli?false:why;
 let seq=0;
 function runNative(spec,iterations,threads,{memoryMiB=1024,from=null}={}){
@@ -90,7 +88,9 @@ test('JavaScript continues a native-trained study exactly, and native continues 
   assert.deepEqual(restored.metrics(),a.metrics());
 });
 test('native engine refuses tables over its memory budget and stops cleanly when hashed rows reach it',{skip},()=>{
-  const big=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(8,'River',8)),privateMode:'sampled',abstraction:'exact',engine:'native',batchDeals:4,evaluationDeals:128});
+  // 3.1: automatic native traversal now samples betting on this tree (protocol 4);
+  // an explicit full tree keeps the up-front table refusal under test.
+  const big=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(8,'River',8)),privateMode:'sampled',abstraction:'exact',engine:'native',batchDeals:4,evaluationDeals:128,traversal:'full',fullTreeStates:250000});
   assert.throws(()=>runNative(big.nativeSpec(),1,1,{memoryMiB:1}),/native budget/);
   const flop=E.MultiwayGame({...flop3,ranges:Array(3).fill('random'),batchDeals:4});
   const r=runNative(flop.nativeSpec(),200,2,{memoryMiB:4});
@@ -111,7 +111,9 @@ test('malformed specs and native states are rejected',{skip},()=>{
 test('studies outside native support say why and keep JavaScript training',()=>{
   assert.match(E.MultiwayGame({...river3,abstraction:'detailed'}).nativeSupport(),/Exact cards/);
   assert.equal(E.MultiwayGame({...river3,icm:{payouts:[50,30,20]}}).nativeSupport(),null);
-  assert.match(E.MultiwayGame({...river3,traversal:'external'}).nativeSupport(),/full betting tree/);
+  // 3.1: sampled betting traversal is native (spec protocol 4); grouped abstractions still are not.
+  assert.equal(E.MultiwayGame({...river3,traversal:'external'}).nativeSupport(),null);
+  assert.equal(E.MultiwayGame({...river3,traversal:'external'}).nativeSpec().protocol,4);
   assert.equal(E.MultiwayGame(river3).nativeSupport(),null);
   // engine:'native' asks automatic traversal for a full tree with exact cards only
   const g=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(4,'Flop',8)),privateMode:'sampled',abstraction:'exact',engine:'native'});
@@ -120,9 +122,7 @@ test('studies outside native support say why and keep JavaScript training',()=>{
 
 // ---- native host protocol ----
 test('native host: /api/mw init, train, status, stop, state, import, memory and errors',{skip,timeout:240000},async()=>{
-  const build=path.join(tmp,'build');
-  execFileSync(process.execPath,[path.join(__dirname,'../tools/build.js'),build]);
-  execFileSync('sh',[path.join(native,'build.sh'),'linux',path.join(build,'native.html'),path.join(build,'linux')]);
+  const build=require('./native_build').host().dir;
   const port=18000+Math.floor(Math.random()*20000),home=fs.mkdtempSync(path.join(tmp,'home'));
   const host=spawn(path.join(build,'linux','eightmax'),['--no-browser','--port='+port],{env:{...process.env,HOME:home,EIGHTMAX_GPU:'off',EIGHTMAX_THREADS:'4'},stdio:'ignore'});
   const base='http://127.0.0.1:'+port;
@@ -249,7 +249,7 @@ test('3.0 exact-card sampled flops agree for every table size from two to eight'
  }
 });
 test('3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures',{skip:skip||process.platform!=='linux'},()=>{
- execFileSync('g++',['-std=c++20','-O2','-shared','-fPIC',path.join(__dirname,'cuda_driver_fixture.cpp'),'-o',path.join(tmp,'libcuda.so.1')]);
+ fs.copyFileSync(path.join(shared.fixtureDir,'libcuda.so.1'),path.join(tmp,'libcuda.so.1'));
  const cfg={...turn3,batchDeals:7},spec=E.MultiwayGame(cfg).nativeSpec();
  const reference=runNative(spec,24,3);
  const original=process.env.LD_LIBRARY_PATH, fault=process.env.EM_FIXTURE_FAULT;

@@ -1,66 +1,19 @@
-# EightMax Windows 3.0 remaining work
+# EightMax Windows 3.1 remaining work
 
-1. Exercise the rebuilt host on Windows x64 and run the four-mode comparison on the 13th-generation i7 and RTX 4060 Ti with 8 GB of VRAM. Measure target accuracy at matched elapsed time with independent seeds.
-2. Profile end-to-end GPU utilization, transfer costs, actual driver reservations, and the overlap of CPU work with CUDA launches. Use these measurements before changing the default execution mode.
-3. Extend native traversal to sampled betting branches, Detailed and Compact abstractions, and trees that exceed the full-tree cap. The JavaScript solver handles these configurations today.
-4. Independently evaluate larger eight-handed games, including linked ICM, using attainable accuracy criteria. Add signed Windows binaries when a signing certificate is available.
+1. Run `Run self-tests.bat`, `Compare processing modes.bat` and `Validate CUDA hardware.bat` on the
+   owner's 13th-generation Core i7 / RTX 4060 Ti 8 GB / 16 GB Windows PC and keep the JSON reports.
+   3.1 was cross-compiled and exercised under Wine on Linux only; no physical GPU was available.
+2. Decide from those measurements whether any CUDA workload should be enabled by default. Hand
+   scoring is too small a stage to win end-to-end on the CPU-bound sampled solvers; exact all-in
+   equity enumeration is the workload most likely to benefit.
+3. Native Compact and Detailed hand groups (`lib_information.js` features ported with an identical
+   partition) so grouped abstractions also train natively. Today they train in JavaScript and the
+   result says so.
+4. Variance reduction for sampled CFR (baselines / VR-MCCFR) and a native exact-enumeration
+   (vectorised) river solver; neither is implemented. Measured sampled error still falls at about
+   1/sqrt(T).
+5. Better large-game accuracy measures: the trained-response probe is too noisy on Exact-cards
+   8-player games to bound exploitability usefully. Abstracted (bucketed) reference games would make
+   approximate best responses tractable.
+6. Code signing and an executable icon.
 
-# Historical roadmap after 2.9
-
-- Measure on the intended Windows desktop (13th-gen Core i7, RTX 3060 Ti, 16 GB):
-  run Run self-tests.bat, tools/perf29.js and tools/bench29.js there.
-- CUDA: prototype batched showdowns for own-hand enumeration on real NVIDIA
-  hardware, keep it only if end-to-end time improves, and validate against the CPU engine.
-- Native betting-tree generation and external (sampled-betting) traversal, so
-  the 6-8 player flop presets (above 250,000 states) can train natively.
-- Native Detailed/Compact hand groups and ICM utilities (currently JavaScript only).
-- Variance reduction with baselines for sampled multiway CFR.
-- Code signing and an executable icon.
-
-# EightMax upgrade status
-
-Version 2.6 compiles the Windows host from source with matching version and
-build ids, adds automatic exact/sampled mode selection (7- and 8-player
-presets solve again), exact cross-checks of sampled training, itemized
-short-stack antes and regenerated accuracy reports. Windows execution was
-checked only under Wine. Real Windows hardware and physical GPUs are still
-outstanding (run `Run self-tests.bat` or the workflow).
-
-Next practical work after 2.6:
-- Variance reduction for sampled multiway training (baselines or vectorized
-  private-hand evaluation). Measured sampled error falls at about 1/sqrt(T),
-  far slower than exact enumeration.
-- Code-sign the Windows executable and add an icon resource.
-
-Version 2.3 adds finer observable hand groups, an Exact cards option, configurable
-strategy budgets, and multiway save/load/resume preserving regrets, averages and
-training random state. Automatic traversal now samples betting branches for finer
-hand groups when future streets remain. Windows CPU self-tests and a clean build
-workflow are included; execution on Windows and physical GPUs is still outstanding.
-
-Version 2.2 added regular-payout multiway ICM (up to 16 remaining players),
-conditional linked preflop-to-river studies for up to six live seats, and
-shove/call studies for up to eight seats with overcalls and side pots.
-Eight-handed tables post 0.1 bb per dealt player; there is no big-blind ante.
-
-## Next practical work
-
-- Run the included Windows CPU and GPU tests on actual Windows hardware and
-  record the results. Check real browser rendering and file downloads there.
-- Measure abstraction and action-size sensitivity with larger training budgets
-  and independent held-out response searches; finer groups alone are not evidence
-  of lower exploitability.
-- Improve card-information storage and configurable deviation searches to permit
-  longer multiway runs within desktop memory limits.
-
-## Longer-term scope
-
-- Full eight-player linked preflop-through-river play and regenerated preflop
-  charts using those continuation values. Current linked studies have at most
-  six live seats, with other dealt seats assumed already folded.
-- Large-field tournament evaluation beyond 16 remaining players, future-game
-  simulation, and multiway knockout bounty modeling.
-
-Multiplayer stability and tested response gains do not certify a full-game Nash
-equilibrium. Enumeration gains apply only to the configured game tree. Exact
-cards removes card grouping but still samples training deals and may sample actions.

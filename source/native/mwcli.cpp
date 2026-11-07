@@ -1,5 +1,7 @@
 // Command-line driver for the native multiway engine (tests and benchmarks).
 // usage: mwcli <spec.json> <iterations> <threads> <out.state> [memoryMiB] [in.state]
+//        mwcli --cuda-info            CUDA device probe (JSON)
+//        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
 // Prints mw_info JSON plus "seconds" (training wall time) on stdout.
 #include "mw.h"
 #include <cstring>
@@ -18,6 +20,13 @@ static std::vector<unsigned char> slurp(const char *f) {
 }
 int main(int argc, char **argv) {
   if (argc == 2 && !std::strcmp(argv[1], "--build-id")) { std::puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
+  if (argc == 2 && !std::strcmp(argv[1], "--cuda-info")) { JB j; jb_init(&j); mw_cuda_info(&j); std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0; }
+  if (argc == 3 && !std::strcmp(argv[1], "--equity")) {
+    std::vector<unsigned char> spec = slurp(argv[2]); char err[512] = "";
+    JB j; jb_init(&j);
+    if (!mw_equity((const char *)spec.data(), spec.size(), &j, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); jb_free(&j); return 1; }
+    std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0;
+  }
   if (argc < 5) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
   std::vector<unsigned char> spec = slurp(argv[1]);
   if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[1]); return 2; }

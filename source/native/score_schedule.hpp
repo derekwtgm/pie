@@ -12,8 +12,11 @@ public:
   void run(MW &m,std::vector<DealWork> &work,size_t units){
     auto cpu=[&](size_t from){for(size_t i=from;i<units;i++)m.score(work[i].w);};
     if(m.mode=="cpu"){cpu(0);return;}
-    if(!attempted){available=device.open();attempted=true;}
-    if(!available){m.route="CPU (CUDA unavailable)";cpu(0);return;}
+    // River starts read precomputed per-hand scores; sending them to a GPU would
+    // only add transfers (3.0 did this in GPU, Hybrid and Automatic modes).
+    if(m.startLen==5){m.route="CPU (river hand scores are precomputed; GPU not needed)";cpu(0);return;}
+    if(!attempted){available=device.open();attempted=true;m.cuda=device.info;}
+    if(!available){m.route="CPU (CUDA unavailable: "+device.info.reason+")";cpu(0);return;}
     const size_t count=units*m.n;
     auto &trial=trials[std::bit_width(count)-1];
     auto evaluate=[&](int route){
@@ -44,7 +47,7 @@ public:
         if((route>=2 && (units<2 || m.mode=="gpu")) || (route==1 && m.mode=="hybrid" && units>=2))continue;
         t=now();bool ok=evaluate(route);double elapsed=now()-t;
         if(ok)for(size_t i=0;i<units;i++)if(!std::equal(work[i].w.score,work[i].w.score+m.n,reference.data()+i*m.n)) {ok=false;break;}
-        if(!ok){available=false;m.route="CPU (CUDA validation or allocation failed)";cpu(0);return;}
+        if(!ok){available=false;device.releaseBuffers();m.route="CPU (CUDA validation, allocation or VRAM reserve check failed)";cpu(0);return;}
         if(m.mode=="hybrid" && route>=2){
           if(elapsed<hybridBest){hybridBest=elapsed;chosen=route;}
         }else if(elapsed<best*0.90){best=elapsed;chosen=route;}
@@ -52,7 +55,7 @@ public:
       trial.route=chosen;trial.remaining=256;
     }
     --trial.remaining;
-    if(!evaluate(trial.route)){available=false;m.route="CPU (CUDA task failed)";cpu(0);return;}
-    m.route=trial.route>=2?"Hybrid scoring":trial.route==1?"CUDA scoring":"CPU scoring";
+    if(!evaluate(trial.route)){available=false;device.releaseBuffers();m.route="CPU (CUDA task failed; batch rescored on CPU)";cpu(0);return;}
+    m.route=trial.route>=2?"Hybrid scoring":trial.route==1?"CUDA scoring":"CPU scoring (measured faster than CUDA for this batch size)";
   }
 };

@@ -1,4 +1,28 @@
-EightMax 2.8 source
+EightMax 3.1 source
+
+3.1 BUILD, TEST AND BENCHMARK
+Toolchains used for this release (Ubuntu 24.04): Node 22, GCC 13, MinGW-w64 GCC 13
+(winpthreads, the -posix variant; std::thread is required), Python 3, cppcheck 2.13.
+  node tools/build.js                       # interface + build-info.json
+  sh native/build.sh linux                  # build/linux/eightmax, mwcli
+  sh native/build.sh windows                # build/windows/EightMax.exe, mwcli.exe
+  node tools/run_tests.js report.json       # all suites, per-file limit, counts
+                                            # pass / fail / skip / timeout separately
+  sh tools/sanitize29.sh .                  # -Werror, TSan, ASan+UBSan, cppcheck
+  EM_TEST_MWCLI=/path/to/sanitizer/mwcli node --test tests/v31.test.js
+  sh tools/release.sh                       # full release gate and ZIP
+Benchmarks (build a 3.0 mwcli and tools/timed_training.cpp against each mw.cpp):
+  node tools/bench31.js mwcli30 mwcli31 timed30 timed31 bench31.json
+  node tools/large31.js timed31 large31.json
+CUDA module (needs NVRTC 12.9 and ptxas, e.g. the nvidia-cuda-nvrtc-cu12 and
+nvidia-cuda-nvcc-cu12 wheels; no GPU needed to build):
+  python3 native/gen_ptx.py <libnvrtc.so.12> <ptxas>
+The tests compile the native CLI and the CUDA driver test double once per source
+fingerprint into the OS temp directory (tests/native_build.js).
+New engine files: native/mw_es.hpp (betting rules, state table, workers) and
+native/mw_es_impl.hpp (external-sampling traversal, merge, EMMW4). Protocol and
+state formats: native/MW-PROTOCOL.md.
+
 
 web/       Browser UI, preflop models and shared pot rules. lib_river.js
            implements the multi-street postflop betting tree and alternating

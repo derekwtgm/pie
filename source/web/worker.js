@@ -82,8 +82,17 @@ async function nativeStart(m,g){
   try{
     const init=await nativeCall(m.native.base,'init',g.nativeSpec());
     if(g.iterations>0)await nativeCall(m.native.base,'import',g.exportNative(),true);
-    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB};
+    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB,algorithm:init.engine.algorithm||'full'};
   }catch(e){return {used:false,reason:e.message};}
+}
+// 3.1 progress diagnostics: only values that are measured or configured.
+function trainingDiagnostics(g,nativeEngine,saveStatus,native){
+  const d=typeof g.diagnostics==='function'?g.diagnostics():{};
+  const used=Boolean(nativeEngine?.used);
+  return {...d,engine:used?'native C++':'JavaScript',fallbackReason:nativeEngine&&!used?nativeEngine.reason:native?null:'desktop host not connected',
+    devicePath:used?nativeEngine.devicePath||'CPU':'JavaScript worker (CPU)',threads:used?nativeEngine.workerThreads||nativeEngine.threads||native?.threads:1,
+    nativeTableMiB:used?nativeEngine.tableMiB:null,nativeBudgetMiB:used?nativeEngine.budgetMiB:null,gpuPeakMiB:used?nativeEngine.gpuPeakMiB||0:null,
+    states:used?nativeEngine.states:null,checkpoint:saveStatus||'no checkpoint saved in this run'};
 }
 function trainMultiway(m,g,max,target,wide){
   let interval=Number(m.autosaveSeconds??0);
@@ -110,9 +119,11 @@ function trainMultiway(m,g,max,target,wide){
         const st=await nativeChunk(m,g,Math.min(max,next)-g.iterations,s=>{
           const elapsed=(performance.now()-started)/1000;
           post({type:'progress',id:m.id,it:s.iterations,elapsed,trainingDeals:s.trainingDeals,strategyMiB:g.strategyMiB,engine:'native',threads:s.threads,
-            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+            diagnostics:{...trainingDiagnostics(g,nativeEngine,saveStatus,m.native),iterations:s.iterations,trainingDeals:s.trainingDeals}});
         });
         nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;nativeEngine.devicePath=st.engine?.devicePath;
+        if(st.engine){nativeEngine.tableMiB=st.engine.tableMiB;nativeEngine.gpuPeakMiB=(st.engine.gpuBufferPeakBytes||0)/1048576;nativeEngine.states=st.engine.states;nativeEngine.workerThreads=st.engine.threads;}
         if(st.engine&&st.engine.limitReached)nativeEngine.limitReached=true;
         if(g.iterations===begin&&!riverStop&&!nativeEngine.limitReached)throw Error('Native training made no progress');
         void dealsBefore;
@@ -134,7 +145,7 @@ function trainMultiway(m,g,max,target,wide){
           await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
           // Recorded only when native training was requested (desktop app).
-          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
+          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',algorithm:nativeEngine.algorithm,devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB,gpuPeakMiB:nativeEngine.gpuPeakMiB,states:nativeEngine.states}:
             {name:'JavaScript',fallbackReason:nativeEngine?.reason};
           riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?'native memory budget reached':reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
@@ -144,7 +155,8 @@ function trainMultiway(m,g,max,target,wide){
       await autosave(false);
       const elapsed=(performance.now()-started)/1000;
       post({type:'progress',id:m.id,it:g.iterations,elapsed,trainingDeals:g.trainingDeals,strategyMiB:g.strategyMiB,
-        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+        diagnostics:wide?trainingDiagnostics(g,nativeEngine,saveStatus,m.native):null});
       setTimeout(step,0);
     } catch(e) { riverBusy=false; river=null; post({type:'error',id:m.id,message:e.message}); }
   }

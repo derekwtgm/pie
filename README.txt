@@ -1,4 +1,4 @@
-EightMax 3.0 - 8-max MTT solver for Windows
+EightMax 3.1 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -16,7 +16,23 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 3.0
+NEW IN 3.1
+Read RELEASE-3.1.md for the supported configuration matrix, measured accuracy per
+second, CUDA status and known limitations.
+- Large and preflop Multiway studies now train in native C++ too. Choose Wide
+  ranges, Exact cards and Training engine = Native C++ when eligible. Big trees
+  use native external sampling (sampled betting) instead of falling back to
+  JavaScript; small trees still use full traversal. Results are identical to the
+  JavaScript engine, only faster (about 8-9x on one thread, more with threads).
+- Sampled-betting action streams = Per deal lets frozen batches (Deals per update
+  above 1) use every CPU core. Shared keeps a single stream.
+- The progress line shows which engine, algorithm, device and memory are in use,
+  and why JavaScript was used if it was.
+- Validate CUDA hardware.bat checks your NVIDIA GPU (e.g. RTX 4060 Ti) against the
+  CPU with exact all-in equities and records speed. CUDA was not run on a physical
+  GPU while preparing this release.
+
+PREVIOUS RELEASE: NEW IN 3.0
 Read RELEASE-3.0.md for supported games, accuracy measurements and outstanding hardware checks.
 Balanced remains the accuracy preset. CPU Only is the initial multiway scoring device.
 For native training choose Wide ranges, Exact cards and Native C++ when eligible.

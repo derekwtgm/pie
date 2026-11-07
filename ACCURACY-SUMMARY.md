@@ -1,3 +1,18 @@
+# EightMax 3.1 accuracy summary
+
+What is measured, and what is not:
+- **Exact games** (3-player river, heads-up turn): largest exact unilateral best-response
+  gain in the configured finite game, 5 seeds, 95% intervals (validation/3.1/bench31.json).
+  For heads-up this is the exploitability of that game; for three players it is a
+  unilateral-deviation measurement, not a Nash certificate.
+- **3.1 vs 3.0 at equal time**: for studies that 3.0 trained in JavaScript (sampled betting),
+  3.1's native engine reaches 2.2-2.5x lower exact gain at 1 s and 4 s. For full-traversal
+  studies 3.1 equals 3.0 (identical strategies, no measurable speed change).
+- **Large games** (6- and 8-player, ICM, linked preflop to river): throughput and seed-to-seed
+  root-strategy dispersion only (validation/3.1/large31.json). These are stability
+  diagnostics and do not bound exploitability.
+- No full eight-handed No-Limit Hold'em game has been solved to an exact Nash equilibrium.
+
 # EightMax Windows 3.0 accuracy
 
 See RELEASE-3.0.md and validation/3.0 for the finite-game response measurements, confidence intervals, settings, raw seed results and thread comparisons. Earlier reports below describe their respective builds.

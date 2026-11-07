@@ -1,3 +1,48 @@
+# EightMax Windows 3.1
+
+Full details, measurements and limitations: RELEASE-3.1.md; raw results: validation/3.1/.
+
+- **Native external-sampling MCCFR with native betting rules (spec protocol 4).** New
+  `source/native/mw_es.hpp` / `mw_es_impl.hpp` generate betting states on demand from the
+  study's rules (stacks, earlier and folded wagers, blinds and antes, per-street bet/raise
+  abstraction, raise caps, minimum raises, all-ins, side pots, opening permissions) and train
+  them with the external-sampling update of `lib_wide.js`. Studies that 3.0 sent to
+  JavaScript (sampled betting, trees above the full-tree cap, all preflop studies) now train
+  natively: preflop linked and shove/call, flop, turn and river, 2-8 seats, chip EV and ICM.
+  Bit-identical to JavaScript in 12 tested configurations, under Linux and (Windows build)
+  under Wine.
+- **Per-deal action streams** (`actionStreams: 'deal'`, also in JavaScript): deals of a frozen
+  batch traverse in parallel with thread-count-independent results. 8-seat linked preflop:
+  about 8,900 deals/s on one thread and 16,400 on four (JavaScript: about 950).
+- **EMMW4 training state**: parent-first state table plus rows, CRC32, study tag, and a full
+  replay of every state through the betting rules before import. JS -> native -> native
+  resume is identical to uninterrupted JavaScript training.
+- **Automatic full-tree limit replaced**: the tree is counted without being kept; full traversal
+  is used up to 20,000 states and native external sampling beyond. The 3.0 attempt allocated
+  about 290 MiB of browser heap and 1.3 s before abandoning a 250,000-state tree. 3.0 checkpoints
+  restore with the traversal they were trained with.
+- **Accuracy per second**: on exactly evaluable benchmark games, native external sampling reaches
+  2.2-2.5x lower exact response gain than the 3.0 JavaScript path at equal time (5 seeds,
+  95% intervals in RELEASE-3.1.md). Full traversal is unchanged and remains the better choice for
+  small trees; no tested variant (CFR+, DCFR, enumeration, stratification) beat the 3.0 default
+  with non-overlapping intervals, so defaults are unchanged.
+- **CUDA**: kernels rebuilt with NVRTC 12.9 and assembled to SASS for sm_75/80/86/89 (RTX 4060 Ti
+  is sm_89), so a CUDA 12 driver suffices; PTX JIT is the fallback. Device probe (name, compute
+  capability, VRAM, driver) in `/api/info` and `mwcli --cuda-info`; GPUs below 7.5 are refused.
+  New exact multiway all-in equity kernel (integer share units) with CPU reference,
+  `/api/equity` and `mwcli --equity`. River starts no longer send work to the GPU. Every GPU
+  failure falls back to the CPU with the reason. Physical GPU execution remains unverified.
+- **Hardware validation utility**: `Validate CUDA hardware.bat` / `source/tools/validate_hardware.ps1`.
+- **Diagnostics**: training progress shows engine, algorithm, players, street, utility,
+  device path, threads, native and browser memory, VRAM buffers, visited states, CUDA status and
+  the JavaScript fallback reason. No completion percentage is shown for sampled training.
+- **Tests**: 201 automated regressions (172 retained, 29 new in `tests/v31.test.js`), counted by
+  `tools/run_tests.js` with per-file limits; timeouts and skips are reported separately. Native
+  builds are shared across suites (`tests/native_build.js`). Two 2.9 assertions were updated for
+  the intended 3.1 behaviour (see RELEASE-3.1.md).
+- **Host**: `/api/mw/import` accepts states up to half the application budget (2 GiB maximum).
+  Strategy budgets up to 2,048 MiB in the desktop app.
+
 # EightMax Windows 3.0
 
 - Embedded a source and build-configuration identifier in both executables and the offline interface. Packaging checks all three against a fresh fingerprint.

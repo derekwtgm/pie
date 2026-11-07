@@ -11,14 +11,22 @@ exact cross-checks and `.emstudy` checkpoints use unchanged JavaScript code.
 POST requests need the `X-EightMax: 1` header and a `Host` of `127.0.0.1:<port>`
 or `localhost:<port>` (same rules as every other host route).
 
-## Eligibility
+## Eligibility (3.1)
 
-Native training is used when all of these hold (`wideGame.nativeSupport()` returns `null`):
-sampled private ranges, Exact cards grouping, a full betting tree (up to 250,000
-betting states with `engine: 'native'`), chip EV, no stratified river batches, and
-a postflop start. Update schemes: simultaneous, alternating, or own-hand enumeration
-(`updates: 'enumerate'`). Anything else trains in JavaScript, and the result
-records why (`metrics.trainingEngine.fallbackReason`).
+Native training is used when `wideGame.nativeSupport()` returns `null`: sampled
+private ranges and Exact cards grouping, with chip EV or ICM, from any street
+(preflop linked or shove/call, flop, turn, river), two to eight live seats.
+
+- Full betting traversal (spec protocols 1 and 3): the JavaScript tree is sent as
+  `nodes`. Automatic native traversal first COUNTS the tree without keeping it
+  and uses full traversal up to 20,000 states. An explicit full traversal still
+  accepts up to 250,000.
+- Sampled betting traversal (external-sampling MCCFR, spec protocol 4): the
+  betting RULES are sent and the engine generates states on demand. There is no
+  tree-size limit other than the memory budget.
+
+Compact and Detailed hand groups train in JavaScript and the result records
+why (`metrics.trainingEngine.fallbackReason`).
 
 ## Routes
 
@@ -104,3 +112,66 @@ or row checksum.
 Execution fields are device (cpu, auto, gpu, hybrid) and gpuMiB (1–8192).
 Training counters, RNG draws and regret reduction order are independent of the
 scoring device. GPU batches finish before traversal, checkpoint export or cancellation.
+
+## Version 3.1: spec protocol 4 (native betting rules + external sampling)
+
+```
+{ "protocol": 4, "algorithm": "external", "n", "board", "hands", "anteOf", "icm"?,
+  "rules": { "stacks":[n], "prior":[n], "folded":[...], "common", "pot0", "ownAnte":[n],
+             "posted":[n], "open":[bool n], "pre", "shove", "noLimp",
+             "sizes": { "0"|"3"|"4"|"5": { "cap", "bets":[[kind,value]], "raises":[[kind,value]] } } },
+  "batchDeals", "weighting": "linear"|"uniform", "regretMatching", "actionStreams": "shared"|"deal",
+  "actionSeed": uint32, "device", "gpuMiB",
+  "state": { "rng", "actionRng", "iterations", "trainingDeals", "stateVisits" } }
+```
+
+Size kinds: 0 all-in, 1 geometric, 2 pot fraction, 3 raise multiple, 4 absolute
+(preflop opens). `mw_es.hpp` regenerates every state with the operations of
+`lib_river.js` `build()`, `advance()`, `nextStreet()` and `EM.potLayers()`, and
+trains with the update of `lib_wide.js` `learn()`. Results are bit-identical to
+JavaScript (tests/v31.test.js covers 12 configurations, including 8-seat linked
+preflop to river, ICM, shove/call, all-ins, CFR+ and uniform weighting).
+
+`actionStreams: "shared"` reproduces JavaScript's single opponent-action stream
+and traverses one deal at a time. `"deal"` gives each (iteration, deal) its own
+stream seeded with `actionSeed ^ (it+1)*0x9e3779b1 ^ (deal+1)*0x85ebca6b`
+(also implemented in JavaScript), so the deals of a frozen batch are traversed
+in parallel. Results never depend on the thread count. DCFR and stratified
+sampling are refused in protocol 4.
+
+### EMMW4 state
+
+```
+"EMMW4\0\0\0" | u32 header length | header JSON (info + rowCrc32) | u32 state count |
+states x (u32 parent, 0xffffffff for the root | u8 action slot, 7 = next street |
+          u8 kind 0 decision / 1 chance | u8 actor | u8 street length | u8 actions) |
+u32 row count | rows x (u32 state | u16 hand index | u8 x5 public cards +1, 0 unrevealed,
+                        flop sorted | u8 k | k f64 regrets | k f64 average weights)
+```
+
+States are listed parent-first and reproduce the JavaScript action paths
+(`'r' + slots`, `'c'` for a street change). `rowCrc32` covers everything after
+the header. The engine rejects an import unless every state replays from the
+rules with the stored description, every row's cards match the board and street,
+and the estimated tables fit the budget; nothing changes before validation
+completes. JavaScript checks every state (up to 20,000, otherwise an evenly
+spaced sample) against its own tree.
+
+### Other 3.1 routes
+
+| Route | Method | Result |
+|---|---|---|
+| `/api/info` | GET | adds `multiwaySpecProtocols: [1,3,4]` and `cuda` (probe, cached) |
+| `/api/equity` | POST `{hands:[[a,b],...], board?, device: cpu/gpu/both, threads?, gpuMiB?}` | exact all-in equity by complete board enumeration |
+| `/api/mw/import` | POST | body limit raised to half the application budget (at most 2 GiB) |
+
+`cuda` = `{available, reason, name, computeCapability, driverVersion, image,
+totalMiB, freeMiB, reserveMiB, defaultBufferCapMiB}`. Devices below compute
+capability 7.5 are refused. The module loads the embedded SASS for the device's
+architecture family (sm_75, sm_80, sm_86, sm_89) when available, otherwise JIT
+compiles the compute_75 PTX. Every GPU allocation leaves max(1 GiB, 25% of the
+device) free and stays under `gpuMiB`.
+
+Equity accumulates 840 share units per board (divisible by 1..8 winners), so CPU
+and GPU totals are exact integers and must be equal. A GPU failure returns the
+CPU answer with `gpuFallbackReason`.

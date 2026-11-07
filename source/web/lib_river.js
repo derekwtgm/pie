@@ -130,11 +130,21 @@ function buildMultiway(input, opts={}) {
   // trees of up to 250,000 states with Exact cards; automatic traversal tries a
   // full tree first and falls back to sampled betting if it is larger.
   const nativeFull=wide && cfg.engine==='native' && traversal==='auto' && cfg.abstraction==='exact';
-  let external=wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
+  // opts.restoredExternal (checkpoint restore only): keep the traversal a saved
+  // automatic study was trained with, whatever the current automatic rule says.
+  const restored=traversal==='auto' && typeof opts.restoredExternal==='boolean'?opts.restoredExternal:null;
+  let external=restored!==null?wide&&restored:wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
     (traversal==='auto' && !nativeFull && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
   // Full betting traversal keeps every betting state. JavaScript training defaults to
-  // 2,200 states; native training (or a caller) may allow up to 250,000.
-  const fullStates=cfg.fullTreeStates??(nativeFull?250000:2200);
+  // 2,200 states. 3.1: automatic native training counts the tree first (without
+  // keeping it) and uses full traversal up to 20,000 states. Larger games train
+  // with native external sampling (protocol 4), which never builds the tree.
+  // Measured (validation/3.1): JavaScript keeps about 1.2 KB of heap per full-tree
+  // state, so the 3.0 automatic attempt allocated about 290 MiB and 1.3 s before
+  // abandoning a 250,000-state tree, and full traversal of such a tree visits
+  // every state on every deal. An explicit full traversal still accepts up to 250,000.
+  const AUTO_NATIVE_FULL_STATES=20000;
+  const fullStates=cfg.fullTreeStates??(restored===false?250000:nativeFull?AUTO_NATIVE_FULL_STATES:2200);
   if(!Number.isInteger(fullStates)||fullStates<1||fullStates>250000)throw Error('Full-tree state limit must be 1 to 250,000');
   const fullTreeLimit=new Error('Full traversal exceeds '+fullStates.toLocaleString('en-US')+' betting states. Choose automatic traversal.');
 
@@ -249,15 +259,34 @@ function buildMultiway(input, opts={}) {
   let tree;
   const posted=pre?stacks.map((s,p)=>Math.min(s,p===n-1?1:p===n-2?0.5:0)):zeros();
   const makeRoot=()=>build(board.length,zeros(),posted,Array(n).fill(true),Array(n).fill(-1),pre?1:0,1,0,-1);
+  // Count betting states depth-first without keeping them; stops past limit.
+  function countStates(limit){
+    const saved=external,stopCount={};let count=0;external=true;
+    try{(function visit(t){
+      if(++count>limit)throw stopCount;
+      if(t.kind==='player')for(let a=0;a<t.actions.length;a++)visit(advanceBuild(t,a));
+      else if(t.kind==='chance')visit(nextStreetBuild(t));
+    })(makeRoot());}
+    catch(e){if(e!==stopCount)throw e;}
+    finally{external=saved;}
+    return count;
+  }
+  if(nativeFull && !external && restored===null && countStates(fullStates)>fullStates)external=true;
   try {tree=makeRoot();}
   catch(e){
-    if(e!==fullTreeLimit || traversal!=='auto')throw e;
+    if(e!==fullTreeLimit || traversal!=='auto' || restored!==null)throw e;
     external=true;
     Object.values(byStreet).forEach(list=>list.length=0);
     templateCount=0;
     tree=makeRoot();
   }
-  if(wide)return EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0)});
+  // Betting rules for the native external-sampling engine (protocol 4), which
+  // regenerates these states with the same operations as build() above.
+  const sizeKind={jam:0,geo:1,pot:2,multiple:3,absolute:4};
+  const rules={stacks:stacks.slice(),prior:prior.slice(),folded:folded.slice(),common,pot0,ownAnte:ownAnte.slice(),posted:posted.slice(),
+    open:open.map(Boolean),pre:Boolean(pre),shove:Boolean(shove),noLimp:Boolean(pre)&&pre.limps===false,
+    sizes:Object.fromEntries(Object.entries(sizes).map(([k,v])=>[k,{cap:v.cap,bets:v.bets.map(z=>[sizeKind[z.kind],z.value??0]),raises:v.raises.map(z=>[sizeKind[z.kind],z.value??0])}]))};
+  if(wide)return EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0),rules});
   // Enumerate the conditional joint deal once. Private cards in folded river
   // hands still block other hands; seats never see their opponents' hole cards.
   const deals=[], weights=[], picked=Array(n), used=new Uint8Array(52);
@@ -535,9 +564,9 @@ function planMultiwayMode(input) {
     reason:'Exact enumeration fits in memory but needs about '+Math.round(plan.work/1e3)+'k deal-node visits per iteration (limit '+AUTO_MAX_WORK/1e3+'k)'};
   return {...base,chosen:'exact',...plan,reason:'Exact enumeration fits: '+plan.deals+' deals, '+plan.publicStates+' public states, about '+plan.estimatedMiB.toFixed(1)+' MiB'};
 }
-function MultiwayGame(input) {
+function MultiwayGame(input,opts={}) {
   if(!input || input.privateMode!=='auto'){
-    const game=buildMultiway(input);
+    const game=buildMultiway(input,opts);
     game.resolvedConfig=EM.copyStudyConfig(input);
     return game;
   }

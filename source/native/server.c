@@ -542,6 +542,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   respond_err(s, 404, "Not found"); return 1;
 }
 
+static pthread_mutex_t CUDA_MU = PTHREAD_MUTEX_INITIALIZER; static JB CUDA_INFO;
 static void api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   if (mw_api(s, method, path, body, blen)) return;
   char err[512] = "";
@@ -552,7 +553,20 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     jb_str(&b, SAVE_DIR);
     jb_printf(&b,",\"physicalCores\":%d,\"performanceCores\":%d,\"efficiencyCores\":%d",PHYSICAL_CORES,PERFORMANCE_CORES,EFFICIENCY_CORES);
     jb_printf(&b,",\"multiwayProtocol\":%d",MW_PROTOCOL); jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
-    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
+    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b);
+    jb_printf(&b, ",\"multiwaySpecProtocols\":[1,3,4]");
+    /* 3.1: CUDA probe for the multiway engine, cached after the first request. */
+    pthread_mutex_lock(&CUDA_MU);
+    if (!CUDA_INFO.s) { jb_init(&CUDA_INFO); mw_cuda_info(&CUDA_INFO); }
+    jb_puts(&b, ",\"cuda\":"); jb_puts(&b, CUDA_INFO.s ? CUDA_INFO.s : "null");
+    pthread_mutex_unlock(&CUDA_MU);
+    jb_putc(&b, '}');
+    respond_json(s, 200, &b); jb_free(&b); return;
+  }
+  if (!strcmp(path, "/api/equity") && !strcmp(method, "POST")) {
+    /* Exact multiway all-in equity (CPU, GPU or both with an exact comparison). */
+    char err[256] = ""; JB b; jb_init(&b);
+    if (!body || !mw_equity(body, blen, &b, err, sizeof err)) { jb_free(&b); respond_err(s, 400, err[0] ? err : "Invalid equity request"); return; }
     respond_json(s, 200, &b); jb_free(&b); return;
   }
   if (!strcmp(path, "/api/status")) {
@@ -772,7 +786,10 @@ static void handle(sock_t s) {
   if (sscanf(buf, "%7s %255s", method, path) != 2) { free(buf); return; }
   const char *cl = find_header(buf, "Content-Length");
   size_t blen = cl ? (size_t)strtoul(cl, NULL, 10) : 0;
-  if (blen > (64u << 20)) { respond_err(s, 400, "Request too large"); free(buf); return; }
+  /* 3.1: a native training state being resumed may be larger than ordinary requests. */
+  size_t limit = 64u << 20;
+  if (!strcmp(path, "/api/mw/import")) { double mib = APP_LIMIT_MIB / 2.0; if (mib > 2048) mib = 2048; if (mib > 64) limit = (size_t)(mib * 1048576.0); }
+  if (blen > limit) { respond_err(s, 400, "Request too large"); free(buf); return; }
   if (hlen + blen > cap) { cap = hlen + blen; char *grown = (char *)realloc(buf, cap + 1); if (!grown) { respond_err(s, 503, "Out of memory"); free(buf); return; } buf = grown; }
   while (n < hlen + blen) { int k = recv(s, buf + n, (int)(hlen + blen - n), 0); if (k <= 0) { free(buf); return; } n += (size_t)k; }
   buf[hlen + blen] = 0;
