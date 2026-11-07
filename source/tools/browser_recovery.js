@@ -29,7 +29,7 @@ const checks = [], pass = (m) => { checks.push(m); console.log('PASS  ' + m); };
   const url = `http://127.0.0.1:${server.address().port}/EightMax-Offline.html`;
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'em-browser-'));
   let ctx, failure = null, info = {};
-  const open = async () => { ctx = await chromium.launchPersistentContext(profile, { headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] }); const p = await ctx.newPage(); await p.goto(url); await p.evaluate(setup); return p; };
+  const open = async () => { ctx = await chromium.launchPersistentContext(profile, { executablePath:process.env.CHROMIUM_PATH||undefined,headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] }); const p = await ctx.newPage(); await p.goto(url); await p.evaluate(setup); return p; };
   try {
     let p = await open();
     const killed = await p.evaluate((cfg) => sendJob('multi-solve', { cfg, maxIter: 1000000, target: 0, autosaveSeconds: 1 }, true), config);

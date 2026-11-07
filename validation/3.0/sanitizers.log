@@ -1,0 +1,12 @@
+== warnings (g++ -Wall -Wextra -Wshadow -Werror)
+no warnings
+== ThreadSanitizer
+{"protocol":1,"iterations":4,"trainingDeals":64,"stateVisits":253632,"rng":563648987,"rows":119752,"tableMiB":13.964,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0005,"traverse":0.1504,"merge":0.2101},"wallSeconds":0.385918}
+{"protocol":1,"iterations":4,"trainingDeals":384,"stateVisits":8078592,"rng":2269748497,"rows":10140,"tableMiB":1.029,"studyId":"19c823650117b31b","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0017,"traverse":2.9265,"merge":0.3030},"wallSeconds":3.269676}
+== AddressSanitizer + UndefinedBehaviorSanitizer
+{"protocol":1,"iterations":4,"trainingDeals":64,"stateVisits":253632,"rng":563648987,"rows":119752,"tableMiB":13.964,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0005,"traverse":0.0425,"merge":0.1179},"wallSeconds":0.172324}
+{"protocol":1,"iterations":4,"trainingDeals":384,"stateVisits":8078592,"rng":2269748497,"rows":10140,"tableMiB":1.029,"studyId":"19c823650117b31b","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0018,"traverse":0.7946,"merge":0.0266},"wallSeconds":0.830991}
+{"protocol":1,"iterations":6,"trainingDeals":96,"stateVisits":380448,"rng":2300968403,"rows":179592,"tableMiB":22.442,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":2,"batchDeals":16,"seconds":{"deal":0.0002,"traverse":0.0498,"merge":0.0907},"wallSeconds":0.146352}
+== cppcheck
+cppcheck not installed
+sanitizers passed

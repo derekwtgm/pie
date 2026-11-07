@@ -1,0 +1,2 @@
+Verified both executables, interface and source: 8ff0e71cd306a4f9
+Negative test: rejected a mwcli.exe carrying a different build ID.

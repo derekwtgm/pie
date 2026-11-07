@@ -1,3 +1,7 @@
+# EightMax Windows 3.0 accuracy
+
+See RELEASE-3.0.md and validation/3.0 for the finite-game response measurements, confidence intervals, settings, raw seed results and thread comparisons. Earlier reports below describe their respective builds.
+
 # Accuracy and performance — EightMax 2.9
 
 Current results are in RELEASE-2.9.md §2–3 and validation/2.9/

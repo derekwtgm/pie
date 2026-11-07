@@ -112,7 +112,7 @@ function trainMultiway(m,g,max,target,wide){
           post({type:'progress',id:m.id,it:s.iterations,elapsed,trainingDeals:s.trainingDeals,strategyMiB:g.strategyMiB,engine:'native',threads:s.threads,
             dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
         });
-        nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;
+        nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;nativeEngine.devicePath=st.engine?.devicePath;
         if(st.engine&&st.engine.limitReached)nativeEngine.limitReached=true;
         if(g.iterations===begin&&!riverStop&&!nativeEngine.limitReached)throw Error('Native training made no progress');
         void dealsBefore;
@@ -134,7 +134,7 @@ function trainMultiway(m,g,max,target,wide){
           await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
           // Recorded only when native training was requested (desktop app).
-          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
+          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
             {name:'JavaScript',fallbackReason:nativeEngine?.reason};
           riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?'native memory budget reached':reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;

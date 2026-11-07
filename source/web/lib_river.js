@@ -129,8 +129,8 @@ function buildMultiway(input, opts={}) {
   // Native training (cfg.engine === 'native') traverses every betting branch on
   // trees of up to 250,000 states with Exact cards; automatic traversal tries a
   // full tree first and falls back to sampled betting if it is larger.
-  const nativeFull=wide && cfg.engine==='native' && traversal==='auto' && !pre && cfg.abstraction==='exact';
-  let external=wide && (traversal==='external' || Boolean(pre) ||
+  const nativeFull=wide && cfg.engine==='native' && traversal==='auto' && cfg.abstraction==='exact';
+  let external=wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
     (traversal==='auto' && !nativeFull && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
   // Full betting traversal keeps every betting state. JavaScript training defaults to
   // 2,200 states; native training (or a caller) may allow up to 250,000.

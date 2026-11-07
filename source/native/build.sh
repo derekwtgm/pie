@@ -12,6 +12,8 @@ info="$(dirname -- "$html")/build-info.json"
 if [ ! -f "$info" ]; then echo 'build-info.json from build.js is missing next to the HTML.' >&2; exit 1; fi
 version=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$info")
 build_id=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["build"])' "$info")
+actual=$(node -e 'console.log(require(process.argv[1])(process.argv[2]).build)' "$native_dir/../tools/fingerprint.js" "$native_dir/..")
+[ "$actual" = "$build_id" ] || { echo "Rebuild the interface after changing source or compiler flags." >&2; exit 1; }
 case "$version$build_id" in *[!0-9a-f.]*) echo 'Bad version or build id' >&2; exit 1 ;; esac
 grep -q "EM.BUILD = Object.freeze({version:\"$version\",build:\"$build_id\"})" "$html" || { echo 'HTML and build-info.json disagree' >&2; exit 1; }
 obj=$(mktemp -d)
@@ -28,7 +30,7 @@ if [ "$target" = linux ]; then
   "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -c mw.cpp -o "$obj/mw.o"
   for f in server gpu selftest cfg json; do "$cc" -O2 -include "$obj/build_info.h" -I"$obj" -c $f.c -o "$obj/$f.o"; done
   "$cxx" "$obj/server.o" "$obj/gpu.o" "$obj/selftest.o" "$obj/cfg.o" "$obj/json.o" "$obj/solver.o" "$obj/mw.o" -lpthread -lm -ldl -o "$dest/eightmax"
-  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. mwcli.cpp "$obj/mw.o" "$obj/json.o" -lpthread -o "$dest/mwcli"
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -include "$obj/build_info.h" mwcli.cpp "$obj/mw.o" "$obj/json.o" -lpthread -o "$dest/mwcli"
 else
   if [ -n "${CC:-}" ]; then cc=$CC
   elif command -v x86_64-w64-mingw32-clang >/dev/null; then cc=x86_64-w64-mingw32-clang
@@ -41,5 +43,5 @@ else
   "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -c mw.cpp -o "$obj/mw.o"
   for f in server gpu selftest cfg json; do "$cc" -O2 -DEM_DUAL -include "$obj/build_info.h" -I"$obj" -c $f.c -o "$obj/$f.o"; done
   "$cxx" -static -pthread "$obj/server.o" "$obj/gpu.o" "$obj/selftest.o" "$obj/cfg.o" "$obj/json.o" "$obj/avx2.o" "$obj/sse.o" "$obj/mw.o" -lpsapi -lws2_32 -lshell32 -lwinmm -Wl,--no-insert-timestamp -s -o "$dest/EightMax.exe"
-  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -static -pthread -I. mwcli.cpp "$obj/mw.o" "$obj/json.o" -Wl,--no-insert-timestamp -s -o "$dest/mwcli.exe"
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -static -pthread -I. -include "$obj/build_info.h" mwcli.cpp "$obj/mw.o" "$obj/json.o" -Wl,--no-insert-timestamp -s -o "$dest/mwcli.exe"
 fi

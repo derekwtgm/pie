@@ -1,4 +1,11 @@
-# EightMax roadmap after 2.9
+# EightMax Windows 3.0 remaining work
+
+1. Exercise the rebuilt host on Windows x64 and run the four-mode comparison on the 13th-generation i7 and RTX 4060 Ti with 8 GB of VRAM. Measure target accuracy at matched elapsed time with independent seeds.
+2. Profile end-to-end GPU utilization, transfer costs, actual driver reservations, and the overlap of CPU work with CUDA launches. Use these measurements before changing the default execution mode.
+3. Extend native traversal to sampled betting branches, Detailed and Compact abstractions, and trees that exceed the full-tree cap. The JavaScript solver handles these configurations today.
+4. Independently evaluate larger eight-handed games, including linked ICM, using attainable accuracy criteria. Add signed Windows binaries when a signing certificate is available.
+
+# Historical roadmap after 2.9
 
 - Measure on the intended Windows desktop (13th-gen Core i7, RTX 3060 Ti, 16 GB):
   run Run self-tests.bat, tools/perf29.js and tools/bench29.js there.

@@ -16,7 +16,7 @@ const checks=[],pass=m=>{checks.push(m);console.log('PASS  '+m);};
   let browser,failure=null;
   try{
     for(let i=0;i<600;i++){try{await fetch('http://127.0.0.1:'+port+'/api/info');break;}catch(e){await new Promise(r=>setTimeout(r,100));}}
-    browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+    browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
     const page=await browser.newPage();await page.goto('http://127.0.0.1:'+port+'/');
     await page.evaluate(()=>{
       const url=URL.createObjectURL(new Blob([document.querySelector('#em-lib').textContent+'\n;EM.workerMain(self);'],{type:'text/javascript'}));

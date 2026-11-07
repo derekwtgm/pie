@@ -83,3 +83,24 @@ memory budget.
   refused and the message names its engine and writer.
 - **Versioning.** A different `protocol` number is refused by both sides. A
   future incompatible change will bump it.
+
+## Version 3.0 extensions
+
+The service continues to advertise transport protocol 1. A spec using native ICM,
+a preflop root, or stratified sampling declares spec protocol 3. A 2.9 host
+rejects that spec. The UI can train the selected utility in JavaScript.
+For ICM the spec includes start stacks for every remaining player, off-table
+stacks, and descending payouts. Each terminal also supplies chips behind before
+pot awards. The engine awards every layer before calculating tournament prizes.
+
+Linked roots use EMMW3 row records with three additional bytes immediately after
+the action count. Five card slots retain the sorted flop, then turn and river.
+Zero represents an unrevealed card; a revealed card uses card ID plus one.
+Postflop EMMW1 records retain the two-card extension. New headers include a
+study tag and CRC32 over the count and row payload. The portable .emstudy
+envelope continues to use SHA-256. Legacy chip-EV rows have no study identity
+or row checksum.
+
+Execution fields are device (cpu, auto, gpu, hybrid) and gpuMiB (1–8192).
+Training counters, RNG draws and regret reduction order are independent of the
+scoring device. GPU batches finish before traversal, checkpoint export or cancellation.

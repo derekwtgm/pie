@@ -436,7 +436,7 @@ static double mw_budget_mib(void) {
   double room = (double)PROCESS_LIMIT_MIB - resident - 256.0;
   double app = (double)APP_LIMIT_MIB - resident - BROWSER_MIB - 256.0;   // leave a margin for transient allocations
   if (app < room) room = app;
-  return room < 32 ? 32 : room;
+  return room < 0 ? 0 : room;
 }
 static void mw_progress(void *ctx, long long it, long long deals) {
   (void)ctx; pthread_mutex_lock(&MW_MU); MW_IT = it; MW_DEALS = deals; MW_ELAPSED = now_s() - MW_T0; pthread_mutex_unlock(&MW_MU);
@@ -496,7 +496,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     respond(s, 200, "application/octet-stream", (const char *)buf, n); free(buf); return 1;
   }
   if (strcmp(method, "POST")) { respond_err(s, 404, "Not found"); return 1; }
-  if (!strcmp(r, "stop")) { MW_STOP = 1; respond_ok(s); return 1; }
+  if (!strcmp(r, "stop")) { __atomic_store_n(&MW_STOP,1,__ATOMIC_RELAXED); respond_ok(s); return 1; }
   pthread_mutex_lock(&MW_MU);
   if (MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
   if (!strcmp(r, "free")) { mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
@@ -504,6 +504,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
     mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0;
     double budget = mw_budget_mib();
+    if(budget<1){pthread_mutex_unlock(&MW_MU);respond_err(s,503,"Insufficient process or application RAM budget");return 1;}
     MW *m = mw_create(body, blen, budget, err, sizeof err);
     if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
     MWG = m; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
@@ -530,7 +531,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     MwArgs *A = (MwArgs *)malloc(sizeof *A);
     if (!A) { pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Out of memory"); return 1; }
     A->iterations = (long long)it; A->threads = (int)th > LOGICAL_CPUS ? LOGICAL_CPUS : (int)th;
-    MW_THREADS = A->threads; MW_STOP = 0; MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
+    MW_THREADS = A->threads; __atomic_store_n(&MW_STOP,0,__ATOMIC_RELAXED); MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
     pthread_t t;
     if (pthread_create(&t, NULL, mw_job, A)) { MW_RUNNING = 0; free(A); pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Could not start a training thread"); return 1; }
     pthread_detach(t);
@@ -820,6 +821,7 @@ static int cpu_has_avx2(void) {
 
 int gpu_selftest(const SolverVT *VT);
 int main(int argc, char **argv) {
+    if(argc==2 && !strcmp(argv[1],"--build-id")) { puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
   int noBrowser = 0, wantPort = 8708, gpuTest = 0;
   for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) wantPort = atoi(argv[i] + 7); else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
 #ifdef _WIN32

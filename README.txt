@@ -1,4 +1,4 @@
-EightMax 2.9 - 8-max MTT solver for Windows
+EightMax 3.0 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -16,7 +16,16 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.9
+NEW IN 3.0
+Read RELEASE-3.0.md for supported games, accuracy measurements and outstanding hardware checks.
+Balanced remains the accuracy preset. CPU Only is the initial multiway scoring device.
+For native training choose Wide ranges, Exact cards and Native C++ when eligible.
+The desktop interface offers CPU Only, Automatic, GPU Preferred and Hybrid CPU/GPU.
+Run Compare processing modes.bat on Windows to test an identical turn study on your machine.
+It records the observed device, wall time and a digest of the final strategy for each mode.
+The earlier GPU self-test exercises the separate OpenCL heads-up engine.
+
+ADDED IN 2.9
 Read RELEASE-2.9.md for everything measured in this release and what remains
 untested.
 - Native C++ multiway training: in EightMax.exe, sampled Multiway studies that
@@ -30,7 +39,7 @@ untested.
   within half of your RAM (at most 8 GB). EIGHTMAX_APP_MIB changes this. Studies
   too large for the budget are refused with an estimate.
 - Browser checkpoints were tested across browser restarts and crashes.
-- No CUDA support. The executables are unsigned and were tested under Wine on
+- Version 2.9 had no CUDA support. Its executables were unsigned and tested under Wine on
   Linux, not on Windows.
 
 PREVIOUS RELEASE: NEW IN 2.8
@@ -473,7 +482,7 @@ THE GPU ENGINE
   solves every river subgame at once, and the CPU finishes the iteration
   with the river results. Results match the CPU engine.
 - Requirements: a graphics card with OpenCL, which the normal NVIDIA, AMD and
-  Intel drivers include. An RTX 3060 Ti with an up-to-date NVIDIA driver is
+  Intel drivers include. An RTX 4060 Ti with an up-to-date NVIDIA driver is
   fine. Nothing else to install.
 - GPU self-test: double-click "GPU self-test.bat". It checks the GPU results
   against the CPU engine on a turn spot, in full precision and in 16-bit,

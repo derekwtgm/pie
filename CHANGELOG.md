@@ -1,3 +1,11 @@
+# EightMax Windows 3.0
+
+- Embedded a source and build-configuration identifier in both executables and the offline interface. Packaging checks all three against a fresh fingerprint.
+- Added exact native ICM terminal utility, weighted stratified river sampling and linked preflop full-tree training with complete public-card histories.
+- Added optional integer CUDA hand scoring with CPU cross-checks, score-stage timing, adaptive device partitions and fallback. Kept CPU Only as the initial device.
+- Added advance reservation for sparse immediate updates, frozen-batch RNG rollback on budget failure, native state integrity checks and atomic CLI state replacement.
+- Included matched-deal, equal-training-time and worker-count measurements. See RELEASE-3.0.md for release scope and test limitations.
+
 # EightMax changelog
 
 ## 2.9 (2026-11-07)

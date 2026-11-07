@@ -1,0 +1,3 @@
+Embedded default example: {"utility":"chips","unit":"bb","reportThreshold":0.1,"iterations":100,"ev":[2.227303210020912,0.7270932883389654,9.045603501640125],"best":[2.2619434077521587,0.744276994831536,9.059688152208638],"gain":[0.034640197731246936,0.017183706492570616,0.014084650568513268],"maxGain":0.034640197731246936,"deals":8,"nodes":148,"startStreet":"River","runoutMode":"fixed","seed":17,"sampleCount":4,"turnBoards":0,"riverBoards":1}
+Embedded five-seat solve: 1 deals 2063 nodes
+Checkpoint UI/worker passed: six-way ICM, grouping and budget controls, file download/load, exact replay, corrupt-file preservation, linked preflop and enumerated continuation.
