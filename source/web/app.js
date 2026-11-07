@@ -2055,6 +2055,13 @@ if (NATIVE) {
     if (info.gpu) $('#engine').title = info.gpu.available ? 'GPU: ' + info.gpu.device : 'No GPU: ' + info.gpu.device;
     render();
   }).catch(() => { $('#engine').textContent = 'Native engine not responding'; });
+  // Report this page's JavaScript heap (where the browser exposes it) plus the
+  // multiway worker's strategy storage, so the host's application budget covers both.
+  setInterval(() => {
+    const heap = performance.memory ? performance.memory.usedJSHeapSize / 1048576 : 0;
+    const browserMiB = Math.max(0, heap + (EM.WORKER_STRATEGY_MIB || 0));
+    fetch('/api/memory', { method: 'POST', headers: { 'X-EightMax': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ browserMiB }) }).catch(() => {});
+  }, 5000);
   setInterval(() => { fetch('/api/status').then(r=>{if(!r.ok)throw Error();return r.json();}).then(st=>{const el=$('#engine');el.classList.remove('off');if(NINFO && st.residentMiB>=0)el.textContent='Native · '+NINFO.threads+' threads · '+Math.round(st.residentMiB)+' MiB native RSS'+(NINFO.gpu?.available?' · GPU':'');}).catch(() => { $('#engine').textContent = 'EightMax.exe closed'; $('#engine').classList.add('off'); }); }, 5000);
 }
 setTab(location.hash.slice(1) || 'preflop', false);

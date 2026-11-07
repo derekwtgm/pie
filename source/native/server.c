@@ -52,6 +52,9 @@ static const SolverVT *VT;
 static int PORT = 0, THREADS = 1;
 static double RAM_MB = 0;
 static long PROCESS_LIMIT_MIB=6144;
+// Whole-application budget: native host + the browser memory the interface reports.
+// Default: half of physical RAM, at most 8 GiB (8,192 MiB on a 16 GB PC). EIGHTMAX_APP_MIB overrides.
+static long APP_LIMIT_MIB=0;
 static int LOGICAL_CPUS=1,PHYSICAL_CORES=0,PERFORMANCE_CORES=0,EFFICIENCY_CORES=0;
 #ifdef _WIN32
 static void detect_core_classes(void){
@@ -431,6 +434,8 @@ static double BROWSER_MIB = 0;          // last memory figure reported by the in
 static double mw_budget_mib(void) {
   double resident = resident_mib(); if (resident < 0) resident = 0;
   double room = (double)PROCESS_LIMIT_MIB - resident - 256.0;
+  double app = (double)APP_LIMIT_MIB - resident - BROWSER_MIB - 256.0;   // leave a margin for transient allocations
+  if (app < room) room = app;
   return room < 32 ? 32 : room;
 }
 static void mw_progress(void *ctx, long long it, long long deals) {
@@ -460,7 +465,7 @@ static void mw_status_json(JB *b) {
 static void memory_json(JB *b) {
   pthread_mutex_lock(&MW_MU); double table = MW_TABLE_MIB, browser = BROWSER_MIB; pthread_mutex_unlock(&MW_MU);
   double resident = resident_mib();
-  jb_printf(b, "{\"processLimitMiB\":%ld,\"residentMiB\":", PROCESS_LIMIT_MIB); jb_num(b, resident, 1);
+  jb_printf(b, "{\"appLimitMiB\":%ld,\"processLimitMiB\":%ld,\"residentMiB\":", APP_LIMIT_MIB, PROCESS_LIMIT_MIB); jb_num(b, resident, 1);
   jb_puts(b, ",\"multiwayTablesMiB\":"); jb_num(b, table, 1);
   jb_puts(b, ",\"browserReportedMiB\":"); jb_num(b, browser, 1);
   jb_puts(b, ",\"availableForTablesMiB\":"); jb_num(b, mw_budget_mib(), 1);
@@ -835,6 +840,13 @@ int main(int argc, char **argv) {
     if(end==limit||*end||value<64||value>32768){fprintf(stderr,"EIGHTMAX_PROCESS_MIB must be 64 to 32768\n");return 2;}
     PROCESS_LIMIT_MIB=value;
   }
+  APP_LIMIT_MIB=(long)(RAM_MB/2);if(APP_LIMIT_MIB>8192)APP_LIMIT_MIB=8192;if(APP_LIMIT_MIB<512)APP_LIMIT_MIB=512;
+  const char *app=getenv("EIGHTMAX_APP_MIB");
+  if(app){char *end=NULL;long value=strtol(app,&end,10);
+    if(end==app||*end||value<256||value>65536){fprintf(stderr,"EIGHTMAX_APP_MIB must be 256 to 65536\n");return 2;}
+    APP_LIMIT_MIB=value;
+  }
+  if(PROCESS_LIMIT_MIB>APP_LIMIT_MIB)PROCESS_LIMIT_MIB=APP_LIMIT_MIB;
   const char *te = getenv("EIGHTMAX_THREADS");
   if(te){char *end=NULL;long requested=strtol(te,&end,10);
     if(end==te || *end || requested<1 || requested>256){fprintf(stderr,"EIGHTMAX_THREADS must be an integer from 1 to 256\n");return 2;}

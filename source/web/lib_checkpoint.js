@@ -28,8 +28,10 @@ function unpack(text,length,nonnegative=false){
   for(let i=0;i<length;i++){const x=view.getFloat64(i*8,true);if(!Number.isFinite(x)||(nonnegative&&x<0))fail();out[i]=x;}
   return out;
 }
-function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'2.8',cfg:copy(cfg),state,labels:labels||[]};}
+function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'2.9',cfg:copy(cfg),state,labels:labels||[]};}
 function validate(p){
+  if(p&&p.format==='EightMax training'&&(p.version!==1||(typeof p.engine==='string'&&!ENGINES.includes(p.engine))))
+    throw Error('This checkpoint was written by an incompatible EightMax engine ('+String(p.engine).slice(0,40)+', format '+String(p.version).slice(0,8)+(p.writer?', writer '+String(p.writer).slice(0,12):'')+'). This version reads formats from '+ENGINES.join(', ')+'.');
   if(!p||p.format!=='EightMax training'||p.version!==1||!ENGINES.includes(p.engine)||!p.cfg||!p.state)fail();
   if(!Array.isArray(p.labels)||p.labels.length>8||p.labels.some(v=>typeof v!=='string'||v.length>80))fail();
   integer(p.state.iterations);return p;
@@ -83,21 +85,32 @@ async function autosaveTraining(text,host){
     if(!r.ok)throw Error('Desktop checkpoint write failed (HTTP '+r.status+')');
     return;
   }
-  await checkpointTransaction(true,store=>{
-    const old=store.get('latest');
-    old.onsuccess=()=>{if(old.result)store.put(old.result,'previous');store.put(text,'latest');};
-    return ()=>true;
-  });
+  try{
+    await checkpointTransaction(true,store=>{
+      const old=store.get('latest');
+      old.onsuccess=()=>{if(old.result)store.put(old.result,'previous');store.put(text,'latest');};
+      return ()=>true;
+    });
+  }catch(e){
+    // The transaction is atomic: on failure both stored generations are unchanged.
+    const quota=e&&(e.name==='QuotaExceededError'||/quota|space/i.test(e.message||''));
+    throw Error((quota?'Browser storage is full or blocked':'Browser checkpoint write failed')+' ('+((e&&e.message)||e)+'). The previous checkpoints are unchanged; use Save training to download this study.');
+  }
 }
 async function recoverTraining(host){
-  let lastError;
+  let lastError;const skipped=[];
   for(const key of ['latest','previous']){
     try{
       let text;
-      if(host){const r=await fetch(host+'/api/checkpoint/'+key);if(!r.ok){if(r.status===404)continue;throw Error('Checkpoint read failed');}text=await r.text();}
+      if(host){const r=await fetch(host+'/api/checkpoint/'+key);if(!r.ok){if(r.status===404){skipped.push({generation:key,reason:'missing'});continue;}throw Error('Checkpoint read failed');}text=await r.text();}
       else text=await checkpointTransaction(false,store=>{const r=store.get(key);return ()=>r.result;});
-      if(text)return restore(await decode(text));
-    }catch(e){lastError=e;}
+      if(!text){skipped.push({generation:key,reason:'missing'});continue;}
+      const restored=restore(await decode(text));
+      restored.generation=key;restored.skipped=skipped;
+      restored.message=key==='latest'?'Recovered the newest automatic checkpoint.':
+        'The newest automatic checkpoint was '+(skipped[0]?.reason==='missing'?'missing':'damaged or incompatible ('+skipped[0]?.reason+')')+'; recovered the previous one.';
+      return restored;
+    }catch(e){lastError=e;skipped.push({generation:key,reason:e.message});}
   }
   throw lastError||Error('No automatic checkpoint is available for this browser and address');
 }

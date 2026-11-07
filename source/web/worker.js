@@ -173,7 +173,7 @@ async function checkpointFile(m){
     }else{
       const loaded=m.type==='multi-recover'?await EM.recoverTraining(m.checkpointHost):EM.restoreCheckpoint(await EM.decodeCheckpoint(m.text));
       // Only commit after both validation and evaluation succeed.
-      const result={metrics:loaded.game.metrics(),node:loaded.game.view([]),reason:'loaded training checkpoint',checkpoints:[]};
+      const result={metrics:loaded.game.metrics(),node:loaded.game.view([]),reason:loaded.message||'loaded training checkpoint',checkpoints:[],recovery:loaded.generation?{generation:loaded.generation,skipped:loaded.skipped}:undefined};
       river=loaded.game;riverConfig=loaded.cfg;riverResult=result;
       post({type:'result',id:m.id,result:{...result,cfg:loaded.cfg,labels:loaded.labels}});
     }

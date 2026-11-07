@@ -1,7 +1,58 @@
 (function (EM) {
 'use strict';
 // Malmuth-Harville ICM, exact via dynamic programming over finishing sets.
+// Only finishing sets smaller than the number of paid places can pay, so the DP
+// visits just those sets, in the same increasing order and with the same
+// floating-point operations as the full 2^n sweep (results are bit-identical):
+// with 16 players and 3 paid places that is 137 sets instead of 65,536.
+const icmScratch=new Map();   // n -> reusable probability table (zeroed after each use)
+const popcount=x=>{let c=0;while(x){x&=x-1;c++;}return c;};
 function icmRaw(stacks, payouts) {
+  const n = stacks.length;
+  const res = new Float64Array(n);
+  if (n === 0) return res;
+  if (n > 16) throw new Error('ICM supports up to 16 players');
+  const P = Math.min(payouts.length, n);
+  let total = 0; for (const s of stacks) total += s;
+  const size = 1 << n;
+  // Sparse sweep only when it visits a small share of the 2^n sets.
+  let sets = 0, c = 1; for (let k = 0; k < P; k++) { sets += c; c = c * (n - k) / (k + 1); }
+  if (sets * 6 > size) return icmRawReference(stacks, payouts);
+  let prob = icmScratch.get(n);
+  if (!prob) { prob = new Float64Array(size); icmScratch.set(n, prob); }
+  const touched = [0];
+  prob[0] = 1;
+  for (let mask = 0; mask < size;) {
+    const pm = prob[mask];
+    if (pm !== 0) {
+      const k = popcount(mask);
+      // msum as the full sweep builds it: 0 + stacks from the highest set bit down
+      let msum = 0;
+      for (let b = n - 1; b >= 0; b--) if (mask & (1 << b)) msum = msum + stacks[b];
+      const rem = total - msum;
+      if (rem > 1e-12) {
+        const pay = payouts[k];
+        for (let i = 0; i < n; i++) {
+          if (mask & (1 << i)) continue;
+          const p = pm * stacks[i] / rem;
+          if (p === 0) continue;
+          res[i] += p * pay;
+          const to = mask | (1 << i);
+          if (prob[to] === 0) touched.push(to);
+          prob[to] += p;
+        }
+      }
+    }
+    // next mask in increasing order with fewer than P set bits (the full sweep skips the rest)
+    let next = mask + 1;
+    while (next < size && popcount(next) >= P) next += next & -next;
+    mask = next;
+  }
+  for (const m of touched) prob[m] = 0;
+  return res;
+}
+// The original full sweep, kept as a reference for tests.
+function icmRawReference(stacks, payouts) {
   const n = stacks.length;
   const res = new Float64Array(n);
   if (n === 0) return res;
@@ -94,5 +145,5 @@ function multiwayICM(cfg, stacks, prior, n, ownAnte) {
   return {evaluate,unit:'prize units',utility:'icm',prizePool:pool,
     reportThreshold:pool*0.001,players:count};
 }
-Object.assign(EM, { icmRaw, icmWithBusts, parseNumberList, multiwayICM });
+Object.assign(EM, { icmRaw, icmRawReference, icmWithBusts, parseNumberList, multiwayICM });
 })(globalThis.EM || (globalThis.EM = {}));
