@@ -13,7 +13,7 @@ const info = JSON.parse(fs.readFileSync(path.join(buildDir, 'build-info.json'), 
 const nativeHtml = fs.readFileSync(path.join(buildDir, 'native.html'));
 const viaWine = exe.toLowerCase().endsWith('.exe') && process.platform !== 'win32';
 const checks = [], timings = {};
-let child = null, port = 0, failure = null, stdout = '';
+let child = null, port = 0, failure = null, stdout = '', env = process.env;
 const pass = (msg) => { checks.push(msg); console.log('PASS  ' + msg); };
 
 function freePort() { return new Promise((res) => { const s = net.createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)); }); }); }
@@ -47,7 +47,7 @@ async function waitDone(limitMs) {
   try {
     port = await freePort();
     const args = ['--no-browser', '--port=' + port];
-    const env = { ...process.env, EIGHTMAX_GPU: 'off', EIGHTMAX_THREADS: '2', HOME: home, USERPROFILE: home, WINEDEBUG: '-all' };
+    env = { ...process.env, EIGHTMAX_GPU: 'off', EIGHTMAX_THREADS: '2', HOME: home, USERPROFILE: home, WINEDEBUG: '-all' };
     const t0 = Date.now();
     child = viaWine ? spawn('wine', [exe, ...args], { env }) : spawn(exe, args, { env });
     child.stdout.on('data', (d) => { stdout += d; }); child.stderr.on('data', (d) => { stdout += d; });
@@ -102,7 +102,7 @@ async function waitDone(limitMs) {
     const again = await api('node', { path: [0] }); assert.deepEqual(again.strategy, aggressor.strategy);
     pass('Saved solution lists, reloads and reproduces the identical strategy');
     assert.equal((await request('POST', '/api/load', { name: 'missing file' })).status, 400); pass('Loading a missing file is refused');
-    const savedFile = /^[A-Za-z]:\\/.test(saved.file) && viaWine ? require('node:child_process').execFileSync('winepath', ['-u', saved.file], { env: process.env }).toString().trim() : saved.file;
+    const savedFile = /^[A-Za-z]:\\/.test(saved.file) && viaWine ? require('node:child_process').execFileSync('winepath', ['-u', saved.file], { env }).toString().trim() : saved.file;
     fs.writeFileSync(path.join(path.dirname(savedFile), 'junk.em8'), 'EM8SOL2\0garbage');
     const junk = await request('POST', '/api/load', { name: 'junk' }); assert.equal(junk.status, 400);
     pass('A corrupted solution file is refused without crashing');

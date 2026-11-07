@@ -1,0 +1,16 @@
+GPU emulator vs CPU engine (Linux build, EIGHTMAX_GPU=emu:32x4, 3 iterations per spot), 2026-11-07T00:29:36Z
+== turn
+GPU: it 3  exploitability 85.938352%  (8.593835)  19.26s  gpu {"available":true,"device":"GPU emulator (4 x 32 threads)","memMB":4096,"budgetMB":3482,"on":true,"why":"river on the GPU: 9 requests, 432 subgames, 37 MB","gpuShare":1,"mb":37}
+  river node strategy head: 0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.33
+root strategy max diff 0.00010 over 1146 values; exploitability rel diff 0.0000
+PASS
+== turn_icm
+GPU: it 3  exploitability 65.297688%  (0.019461)  21.44s  gpu {"available":true,"device":"GPU emulator (4 x 32 threads)","memMB":4096,"budgetMB":3482,"on":true,"why":"river on the GPU: 9 requests, 432 subgames, 37 MB","gpuShare":1,"mb":37}
+  river node strategy head: 0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.33
+root strategy max diff 0.00010 over 1146 values; exploitability rel diff 0.0002
+PASS
+== turn_c16
+GPU: it 3  exploitability 85.938571%  (8.593857)  22.16s  gpu {"available":true,"device":"GPU emulator (4 x 32 threads)","memMB":4096,"budgetMB":3482,"on":true,"why":"river on the GPU: 9 requests, 432 subgames, 20 MB, 16-bit","gpuShare":1,"mb":20}
+  river node strategy head: 0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.33
+root strategy max diff 0.00010 over 1146 values; exploitability rel diff 0.0000
+PASS

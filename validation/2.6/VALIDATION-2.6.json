@@ -1,0 +1,149 @@
+{
+ "version": "2.6",
+ "generated": "2026-11-07T00:36:58.284Z",
+ "windowsVerified": false,
+ "windowsNote": "EightMax.exe was cross-compiled with MinGW-w64 and exercised under Wine, not on Windows. Run Run self-tests.bat or the GitHub workflow on Windows.",
+ "signed": false,
+ "regressionTests": {
+  "pass": 127,
+  "fail": 0
+ },
+ "packageSmoke": "passed",
+ "interfaceSmoke": "passed",
+ "checkpointSmoke": "passed",
+ "nativeHostLinux": true,
+ "nativeHostWine": true,
+ "accuracy": {
+  "exact3pRiver": [
+   {
+    "iterations": 100,
+    "maxGainBb": 0.033681587442282
+   },
+   {
+    "iterations": 500,
+    "maxGainBb": 0.00393242832922347
+   },
+   {
+    "iterations": 1000,
+    "maxGainBb": 0.0015849895452184626
+   },
+   {
+    "iterations": 2000,
+    "maxGainBb": 0.0006005038950043229
+   },
+   {
+    "iterations": 5000,
+    "maxGainBb": 0.00029153327255038164
+   }
+  ],
+  "sampled3pRiver": [
+   {
+    "traversal": "external",
+    "updates": "simultaneous",
+    "iterations": 3000,
+    "meanGainBb": 0.9049639269187011,
+    "ci95": 0.1478590208432677
+   },
+   {
+    "traversal": "external",
+    "updates": "simultaneous",
+    "iterations": 12000,
+    "meanGainBb": 0.3451858864122299,
+    "ci95": 0.08405485652665189
+   },
+   {
+    "traversal": "external",
+    "updates": "simultaneous",
+    "iterations": 48000,
+    "meanGainBb": 0.2187304687185792,
+    "ci95": 0.08504485107020868
+   },
+   {
+    "traversal": "full",
+    "updates": "simultaneous",
+    "iterations": 3000,
+    "meanGainBb": 0.47906304184519455,
+    "ci95": 0.140579864394091
+   },
+   {
+    "traversal": "full",
+    "updates": "simultaneous",
+    "iterations": 12000,
+    "meanGainBb": 0.2243341070736337,
+    "ci95": 0.04122581852674694
+   },
+   {
+    "traversal": "full",
+    "updates": "simultaneous",
+    "iterations": 48000,
+    "meanGainBb": 0.09879457412238093,
+    "ci95": 0.02333620414392261
+   },
+   {
+    "traversal": "full",
+    "updates": "alternating",
+    "iterations": 3000,
+    "meanGainBb": 0.4441195052760672,
+    "ci95": 0.10609250219226297
+   },
+   {
+    "traversal": "full",
+    "updates": "alternating",
+    "iterations": 12000,
+    "meanGainBb": 0.20396186696853197,
+    "ci95": 0.05710385654032035
+   },
+   {
+    "traversal": "full",
+    "updates": "alternating",
+    "iterations": 48000,
+    "meanGainBb": 0.1078405442286865,
+    "ci95": 0.02231662023105414
+   }
+  ]
+ },
+ "benchmark": [
+  {
+   "name": "6-player flop, 2 sizes + raise per street",
+   "itPerSec": 1032,
+   "peakRSSMiB": 116,
+   "deterministic": true
+  },
+  {
+   "name": "7-player flop, 2 sizes + raise per street",
+   "itPerSec": 997,
+   "peakRSSMiB": 119,
+   "deterministic": true
+  },
+  {
+   "name": "8-player flop, 2 sizes + raise per street",
+   "itPerSec": 735,
+   "peakRSSMiB": 126,
+   "deterministic": true
+  },
+  {
+   "name": "8-player river, 2 sizes + raise",
+   "itPerSec": 2940,
+   "peakRSSMiB": 105,
+   "deterministic": true
+  },
+  {
+   "name": "6-player linked preflop-river, random ranges, 25 bb",
+   "itPerSec": 1157,
+   "peakRSSMiB": 133,
+   "deterministic": true
+  },
+  {
+   "name": "8-player linked preflop-river, random ranges, 25 bb",
+   "itPerSec": 858,
+   "peakRSSMiB": 140,
+   "deterministic": true
+  },
+  {
+   "name": "8-player linked ICM 50/30/20, random ranges, 25 bb",
+   "itPerSec": 606,
+   "peakRSSMiB": 154,
+   "deterministic": true
+  }
+ ]
+}

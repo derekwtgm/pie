@@ -1,4 +1,4 @@
-EightMax 2.5 - 8-max MTT solver for Windows
+EightMax 2.6 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -15,6 +15,40 @@ EightMax-Offline.html is a browser-only alternative. Open it in a current
 version of Edge, Chrome or Firefox. It includes the same multiway postflop solver
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
+
+NEW IN 2.6
+Full details: CHANGELOG.md. Test and benchmark results: validation/2.6/.
+
+Seven- and eight-player presets solve again. Multiway postflop now has
+Private ranges = Automatic (the default). It uses exact deal enumeration when
+the spot fits the desktop limits and is practical to run, and sampled deals
+(Wide ranges) otherwise. The result says which mode was chosen and why. In
+2.5 the 7- and 8-player presets asked for exact enumeration and stopped with
+a tree-limit error.
+
+Fresh Windows engine. EightMax.exe is compiled from the included source
+(MinGW-w64, 64-bit) and contains the native fixes that the 2.5 package's
+older binary lacked. The interface, the engine and BUILD-INFO.json share a
+version (2.6) and build id. The app warns if they ever differ. SHA256SUMS.txt
+lists a checksum for every file. The executable is not digitally signed.
+
+Honest accuracy numbers. Check accuracy now measures a sampled study exactly
+whenever its spot can be enumerated. It copies the strategy into the exact
+game and computes each seat's full best response. This showed that the old
+tested-response figure understated the error: on the 3-player reference
+river, sampled training is about 0.24 bb from a best response after 12,000
+iterations, against 0.0003 bb for exact enumeration. Prefer exact
+enumeration (Automatic does) when a spot fits. The tested-response check
+used for larger spots is stronger now, but it is still a lower bound.
+Completing the iterations does not make a strategy GTO.
+
+Antes. 0.1 bb per dealt player remains the default (0.8 bb with eight dealt).
+A preflop seat too short for the ante posts what it has and can win only what
+it matched. With a big blind ante, the blind is posted before the ante.
+
+Windows status: the new EightMax.exe was tested under Wine on Linux, not on
+Windows. Run "Run self-tests.bat" on your PC once. GPU solving was checked
+only with the built-in CPU emulator.
 
 NEW IN 2.5
 Future-game ICM (FGS). Custom push/fold with ICM has a Future hands setting:

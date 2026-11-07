@@ -1,0 +1,7 @@
+6-player flop, 2 sizes + raise per street: 1032 it/s (min 1025, max 1074), peak RSS 116 MiB, strategy 17.5 MiB, 60649 information sets
+7-player flop, 2 sizes + raise per street: 997 it/s (min 978, max 1010), peak RSS 119 MiB, strategy 18.3 MiB, 59798 information sets
+8-player flop, 2 sizes + raise per street: 735 it/s (min 686, max 763), peak RSS 126 MiB, strategy 22.9 MiB, 71360 information sets
+8-player river, 2 sizes + raise: 2940 it/s (min 2783, max 2992), peak RSS 105 MiB, strategy 3.0 MiB, 10558 information sets
+6-player linked preflop-river, random ranges, 25 bb: 1157 it/s (min 1126, max 1254), peak RSS 133 MiB, strategy 27.4 MiB, 92739 information sets
+8-player linked preflop-river, random ranges, 25 bb: 858 it/s (min 801, max 872), peak RSS 140 MiB, strategy 28.5 MiB, 92962 information sets
+8-player linked ICM 50/30/20, random ranges, 25 bb: 606 it/s (min 594, max 631), peak RSS 154 MiB, strategy 16.2 MiB, 50925 information sets

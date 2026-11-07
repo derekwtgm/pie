@@ -107,9 +107,9 @@ async function verify() {
       await waitFor(()=>out().includes('to act'),'card did not advance');
     }
     click({rvExample:'Turn'});assert.equal(elements.get('#rv-solve').textContent,'Solve turn');
-    assert.equal(elements.get('#rv-privateMode').value,'sampled');
-    click({rvSolve:'1'});await waitFor(()=>out().includes('Turn solution'),'exact turn did not finish');
-    assert.match(out(),/Wide ranges/);
+    assert.equal(elements.get('#rv-privateMode').value,'auto');
+    click({rvSolve:'1'});await waitFor(()=>out().includes('Turn solution'),'six-seat turn did not finish');
+    assert.match(out(),/Wide ranges/);assert.match(out(),/Automatic private-range mode chose sampled deals/);
     click({rvExample:'River'});assert.equal(elements.get('#rv-solve').textContent,'Solve river');
     click({rvSolve:'1'});await waitFor(()=>out().includes('River solution'),'fixed river did not finish');assert.match(out(),/Wide ranges/);
     // Exercise the real comparison controls and response report after a
@@ -127,9 +127,9 @@ async function verify() {
     // The three-seat example still supports exact enumeration.
     click({rvExample:'Turn'});
     const fewer=elements.get('#rv-count');fewer.value='3';root.listeners.change({target:fewer});
-    assert.equal(elements.get('#rv-privateMode').value,'exact');
+    assert.equal(elements.get('#rv-privateMode').value,'auto');
     click({rvSolve:'1'});await waitFor(()=>out().includes('Turn solution'),'exact turn failed');
-    assert.match(out(),/All legal future cards/);
+    assert.match(out(),/All legal future cards/);assert.match(out(),/Automatic private-range mode chose exact deal enumeration/);
     eventClick(events.click,{dpWide25:'1'});
     assert.match(preview(),/0.8 bb in antes · Starting pot 6.80 bb/);
     assert.equal(elements.get('#rv-stack0').value,'22.9');

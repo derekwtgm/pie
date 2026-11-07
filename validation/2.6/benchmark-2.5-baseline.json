@@ -1,0 +1,161 @@
+{
+ "generated": "2026-11-07T00:21:00.745Z",
+ "source": "/tmp/claude-0/-home-user-pie/214f9022-c2f5-572c-93bd-03b374eff1dc/scratchpad/src/EightMax/source",
+ "node": "v22.23.4",
+ "platform": "linux 6.18.44-fc-v300",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "cores": 4,
+ "memoryGiB": 15.709304809570312,
+ "repeat": 3,
+ "results": [
+  {
+   "name": "6-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 964.1924452817352,
+   "minItPerSec": 937.0545207668729,
+   "maxItPerSec": 973.005806975037,
+   "maxRSSMiB": 113.0078125,
+   "strategyMiB": 17.466266632080078,
+   "infos": 60649,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    2.1361328124999983,
+    5.266276041666667,
+    -0.6654296875000006,
+    -2.5987630208333368,
+    -2.1292317708333326,
+    10.791015624999993
+   ]
+  },
+  {
+   "name": "7-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 922.6871564580247,
+   "minItPerSec": 897.8760736987276,
+   "maxItPerSec": 979.9813275533826,
+   "maxRSSMiB": 117.96875,
+   "strategyMiB": 18.256132125854492,
+   "infos": 59798,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.3189453124999995,
+    2.540234375000001,
+    1.3476562499999996,
+    -1.8139648437500013,
+    -2.581835937499997,
+    12.417187500000004,
+    -0.42822265624999983
+   ]
+  },
+  {
+   "name": "8-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 646.7260341570224,
+   "minItPerSec": 615.6462877884807,
+   "maxItPerSec": 682.4962336052913,
+   "maxRSSMiB": 126.6015625,
+   "strategyMiB": 22.91720962524414,
+   "infos": 71360,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    -0.5052734375,
+    4.841406249999995,
+    2.140625,
+    -0.10371093749999977,
+    -1.4492187499999993,
+    13.925781249999996,
+    -1.3406249999999986,
+    -0.7089843749999996
+   ]
+  },
+  {
+   "name": "8-player river, 2 sizes + raise",
+   "iterations": 4000,
+   "medianItPerSec": 2231.852478439062,
+   "minItPerSec": 2187.5279056782506,
+   "maxItPerSec": 2455.0529459050617,
+   "maxRSSMiB": 99.18359375,
+   "strategyMiB": 2.9604148864746094,
+   "infos": 10558,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.5214843750000004,
+    0,
+    13.278515624999999,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "6-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 1240.1514734899417,
+   "minItPerSec": 1219.0728630666572,
+   "maxItPerSec": 1324.8669383911936,
+   "maxRSSMiB": 136.375,
+   "strategyMiB": 27.283302307128906,
+   "infos": 92542,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    0.30939941406249877,
+    -2.015332031250002,
+    1.9365641276041643,
+    -0.44726562500000105,
+    0.10338541666666472,
+    0.31324869791666554
+   ]
+  },
+  {
+   "name": "8-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 859.7623341039462,
+   "minItPerSec": 847.246524398337,
+   "maxItPerSec": 888.948614909947,
+   "maxRSSMiB": 141.7421875,
+   "strategyMiB": 28.504261016845703,
+   "infos": 92962,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    1.3474609375000004,
+    0.8326171875000004,
+    -0.7842285156250011,
+    -0.513305664062501,
+    -1.0074462890624991,
+    -0.5826660156250012,
+    1.2137695312499996,
+    -0.5062011718750009
+   ]
+  },
+  {
+   "name": "8-player linked ICM 50/30/20, random ranges, 25 bb",
+   "iterations": 1500,
+   "medianItPerSec": 626.080683084411,
+   "minItPerSec": 603.8851122616264,
+   "maxItPerSec": 654.7917925513892,
+   "maxRSSMiB": 153.59765625,
+   "strategyMiB": 16.17549705505371,
+   "infos": 50925,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    13.706045431427832,
+    13.007609449572842,
+    11.992212756100349,
+    12.144102643176206,
+    12.151552498601895,
+    12.516967429366172,
+    12.305974436014909,
+    12.17553535573981
+   ]
+  }
+ ]
+}

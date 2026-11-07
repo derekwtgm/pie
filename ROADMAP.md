@@ -1,5 +1,18 @@
 # EightMax upgrade status
 
+Version 2.6 compiles the Windows host from source with matching version and
+build ids, adds automatic exact/sampled mode selection (7- and 8-player
+presets solve again), exact cross-checks of sampled training, itemized
+short-stack antes and regenerated accuracy reports. Windows execution was
+checked only under Wine. Real Windows hardware and physical GPUs are still
+outstanding (run `Run self-tests.bat` or the workflow).
+
+Next practical work after 2.6:
+- Variance reduction for sampled multiway training (baselines or vectorized
+  private-hand evaluation). Measured sampled error falls at about 1/sqrt(T),
+  far slower than exact enumeration.
+- Code-sign the Windows executable and add an icon resource.
+
 Version 2.3 adds finer observable hand groups, an Exact cards option, configurable
 strategy budgets, and multiway save/load/resume preserving regrets, averages and
 training random state. Automatic traversal now samples betting branches for finer

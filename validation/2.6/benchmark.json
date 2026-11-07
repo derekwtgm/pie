@@ -1,0 +1,161 @@
+{
+ "generated": "2026-11-07T00:36:58.259Z",
+ "source": "/home/user/pie/source",
+ "node": "v22.23.4",
+ "platform": "linux 6.18.44-fc-v300",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "cores": 4,
+ "memoryGiB": 15.709304809570312,
+ "repeat": 3,
+ "results": [
+  {
+   "name": "6-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 1032.05458063996,
+   "minItPerSec": 1024.8361776439326,
+   "maxItPerSec": 1074.4757599324232,
+   "maxRSSMiB": 115.78515625,
+   "strategyMiB": 17.466266632080078,
+   "infos": 60649,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    2.1361328124999983,
+    5.266276041666667,
+    -0.6654296875000006,
+    -2.5987630208333368,
+    -2.1292317708333326,
+    10.791015624999993
+   ]
+  },
+  {
+   "name": "7-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 996.7253455921621,
+   "minItPerSec": 977.7696707635142,
+   "maxItPerSec": 1009.5146029525336,
+   "maxRSSMiB": 118.54296875,
+   "strategyMiB": 18.256132125854492,
+   "infos": 59798,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.3189453124999995,
+    2.540234375000001,
+    1.3476562499999996,
+    -1.8139648437500013,
+    -2.581835937499997,
+    12.417187500000004,
+    -0.42822265624999983
+   ]
+  },
+  {
+   "name": "8-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 734.8394578857404,
+   "minItPerSec": 686.2610973017382,
+   "maxItPerSec": 763.1362399427323,
+   "maxRSSMiB": 125.5390625,
+   "strategyMiB": 22.91720962524414,
+   "infos": 71360,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    -0.5052734375,
+    4.841406249999995,
+    2.140625,
+    -0.10371093749999977,
+    -1.4492187499999993,
+    13.925781249999996,
+    -1.3406249999999986,
+    -0.7089843749999996
+   ]
+  },
+  {
+   "name": "8-player river, 2 sizes + raise",
+   "iterations": 4000,
+   "medianItPerSec": 2939.5289899516333,
+   "minItPerSec": 2782.757452670395,
+   "maxItPerSec": 2992.2492746999083,
+   "maxRSSMiB": 105.42578125,
+   "strategyMiB": 2.9604148864746094,
+   "infos": 10558,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.5214843750000004,
+    0,
+    13.278515624999999,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "6-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 1157.4041289887673,
+   "minItPerSec": 1125.5930733019331,
+   "maxItPerSec": 1254.3238765222252,
+   "maxRSSMiB": 133.48828125,
+   "strategyMiB": 27.401599884033203,
+   "infos": 92739,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    1.5037434895833324,
+    -0.534472656250001,
+    0.23578287760416594,
+    -0.7244791666666679,
+    0.3959472656249991,
+    -0.6765218098958347
+   ]
+  },
+  {
+   "name": "8-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 857.9401406704565,
+   "minItPerSec": 800.7062346426463,
+   "maxItPerSec": 871.8199783622883,
+   "maxRSSMiB": 140.23046875,
+   "strategyMiB": 28.504261016845703,
+   "infos": 92962,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    1.3474609375000004,
+    0.8326171875000004,
+    -0.7842285156250006,
+    -0.513305664062501,
+    -1.0074462890624991,
+    -0.5826660156250012,
+    1.2137695312499996,
+    -0.5062011718750001
+   ]
+  },
+  {
+   "name": "8-player linked ICM 50/30/20, random ranges, 25 bb",
+   "iterations": 1500,
+   "medianItPerSec": 605.6963378357736,
+   "minItPerSec": 594.2071051179263,
+   "maxItPerSec": 631.1767509123944,
+   "maxRSSMiB": 153.83984375,
+   "strategyMiB": 16.17549705505371,
+   "infos": 50925,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    13.706045431427832,
+    13.00760944957284,
+    11.992212756100349,
+    12.144102643176206,
+    12.151552498601895,
+    12.516967429366172,
+    12.305974436014909,
+    12.17553535573981
+   ]
+  }
+ ]
+}

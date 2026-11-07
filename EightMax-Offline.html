@@ -293,7 +293,7 @@ details[open] summary { margin-bottom: 8px; }
       <circle cx="16" cy="16" r="9.5" fill="#0a0e16" stroke="#1d1505" stroke-width="1.5"/>
       <text x="16" y="20.6" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#f2b84b">8</text>
     </svg>
-    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 2.5</p></div>
+    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 2.6</p></div>
     <span class="engine" id="engine"></span>
   </div>
   <nav class="tabs" role="tablist" aria-label="Sections">
@@ -3170,6 +3170,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   const weighting=cfg.weighting??'linear';
   if(!['linear','uniform'].includes(weighting))throw Error('Choose linear or uniform iteration weighting');
   let step=1;
+  const updates=cfg.updates??'simultaneous';
+  if(!['simultaneous','alternating','enumerate'].includes(updates))throw Error('Unknown update scheme');
   const profile=newStore(budget);
   let iterations=0, limitReached=false, stateVisits=0;
   const memoryError=new Error('Strategy memory budget reached');
@@ -3192,7 +3194,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     // A betting history occurs once in a traversal. Its scratch row pointer
     // stays valid while descendants use their own history entries.
     node.buffer=pool.blocks[Math.floor(index/256)];node.offset=index%256*2*k;
-    if(store===profile && !external){t.profileNode=node;t.profileGen=profile.gen;}
+    if(store===profile){t.profileNode=node;t.profileGen=profile.gen;}
     return node;
   }
   function probabilities(t,w,store,average,create=false){
@@ -3204,22 +3206,45 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)sig[a]=total?sig[a]/total:1/k;
     return sig;
   }
+  const streetLengths=board.length===0?(cfg.preflop.mode==='shove'?[0,5]:[0,3,4,5]):[3,4,5].filter(k=>k>=board.length);
+  function seatKey(p,h,publicCards,previous,score){
+    if(abstraction==='exact')return EM.exactHandKey(h,publicCards);
+    const length=publicCards.length;
+    const signal=length===board.length && hands[p].length<=12?256+h.id:length===0?EM.CLS[h.id]:
+      abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
+    return abstraction==='compact'?previous*2048+signal:previous+'/'+signal;
+  }
   function world(raw){
     const {seats,cards}=raw, keys={}, finalScores=[];
     let prev=seats.map(()=>0);
-    for(const length of (board.length===0?(cfg.preflop.mode==='shove'?[0,5]:[0,3,4,5]):[3,4,5].filter(k=>k>=board.length))){
+    for(const length of streetLengths){
       const publicCards=cards.slice(0,length);
       prev=seats.map((h,p)=>{
         const score=length===0?0:EM.evalCards([...publicCards,h.a,h.b]);
         if(length===5)finalScores[p]=score;
-        if(abstraction==='exact')return EM.exactHandKey(h,publicCards);
-        const signal=length===board.length && hands[p].length<=12?256+h.id:length===0?EM.CLS[h.id]:
-          abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
-        return abstraction==='compact'?prev[p]*2048+signal:prev[p]+'/'+signal;
+        return seatKey(p,h,publicCards,prev[p],score);
       });
       keys[length]=prev;
     }
     return {seats,cards,keys,finalScores};
+  }
+  // The trained average strategy of one seat's information set, as the solver
+  // itself would look it up. Used to evaluate sampled training independently in
+  // the exact enumerated game. Returns null for information sets never visited.
+  function averageAt(path,publicCards,p,h){
+    let key=0;
+    for(const length of streetLengths){
+      if(length>publicCards.length)break;
+      const cards=publicCards.slice(0,length);
+      key=seatKey(p,h,cards,key,length===0?0:EM.evalCards([...cards,h.a,h.b]));
+    }
+    const node=profile.nodes.get(path),index=node?.rows.get(key);
+    if(index===undefined)return null;
+    const k=node.k,pool=profile.pools[k],buffer=pool.blocks[Math.floor(index/256)],offset=index%256*2*k+k;
+    const out=new Float64Array(k);let total=0;
+    for(let a=0;a<k;a++){out[a]=Math.max(0,buffer[offset+a]);total+=out[a];}
+    for(let a=0;a<k;a++)out[a]=total?out[a]/total:1/k;
+    return out;
   }
   function payoff(t,w){
     if(icm)return icm.evaluate(EM.awardPots(t.pots,w.finalScores,t.behind));
@@ -3241,13 +3266,15 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     return sig.length-1;
   }
   // A full chance-sampled update remains the reference on compact trees.
+  // train: false (evaluate the average), true (update every seat), or an
+  // object {seat, weight} that updates one seat with a chance weight.
   function walk(t,w,reach,train){
     if(train)stateVisits++;
     if(t.kind==='terminal')return payoff(t,w);
     if(t.kind==='chance')return walk(nextStreet(t),w,reach,train);
     const k=t.actions.length;
     if(k===1)return walk(advance(t,0),w,reach,train);
-    const p=t.actor, sig=probabilities(t,w,profile,!train,train), old=reach[p];
+    const p=t.actor, sig=probabilities(t,w,profile,!train,Boolean(train)), old=reach[p];
     const u=t.u || (t.u=new Float64Array(n));u.fill(0);
     const actionValues=t.actionValues || (t.actionValues=new Float64Array(k));
     for(let a=0;a<k;a++){
@@ -3257,12 +3284,12 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       for(let j=0;j<n;j++)u[j]+=sig[a]*v[j];
     }
     reach[p]=old;
-    if(train){
-      const row=record(t,w,profile,false);
+    if(train===true || (train && train.seat===p)){
+      const row=record(t,w,profile,false), cw=train===true?1:train.weight;
       let others=1;for(let j=0;j<n;j++)if(j!==p)others*=reach[j];
       for(let a=0;a<k;a++){
-        row.buffer[row.offset+a]+=step*others*(actionValues[a]-u[p]);
-        row.buffer[row.offset+k+a]+=step*old*sig[a];
+        row.buffer[row.offset+a]+=step*cw*others*(actionValues[a]-u[p]);
+        row.buffer[row.offset+k+a]+=step*cw*old*sig[a];
       }
     }
     return u;
@@ -3294,21 +3321,85 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)row.buffer[row.offset+a]+=step*opponentReach/sampleReach*(values[a]-mean);
     return mean;
   }
+  // A trained response plays greedily: the action with the largest cumulative
+  // regret, which with fixed opponents is the action with the largest estimated
+  // value. (The response's average strategy still contains its early uniform
+  // play and understates how much the seat can gain.)
+  function greedy(t,w,store){
+    const k=t.actions.length, sig=t.sig || (t.sig=new Float64Array(k));
+    sig.fill(0);
+    const row=record(t,w,store,false);
+    if(!row){sig.fill(1/k);return sig;}
+    let best=0;for(let a=1;a<k;a++)if(row.buffer[row.offset+a]>row.buffer[row.offset+best])best=a;
+    sig[best]=1;return sig;
+  }
+  // Expected value for response.seat (or the seat the probe measures when
+  // response is null) with every action enumerated.
+  function expectation(t,w,response,seat=response?response.seat:probeSeat){
+    if(t.kind==='terminal')return payoff(t,w)[seat];
+    if(t.kind==='chance')return expectation(nextStreet(t),w,response,seat);
+    const k=t.actions.length;
+    if(k===1)return expectation(advance(t,0),w,response,seat);
+    const sig=Float64Array.from(response && response.seat===t.actor?greedy(t,w,response.store):probabilities(t,w,profile,true));
+    let v=0;for(let a=0;a<k;a++)if(sig[a]>0)v+=sig[a]*expectation(advance(t,a),w,response,seat);
+    return v;
+  }
+  let probeSeat=0;
+  // Best-response training on full-traversal trees: opponents' average actions
+  // are enumerated rather than sampled, and the responding seat accumulates
+  // action values for a greedy (pure) response.
+  function respondFull(t,w,seat,weight,store){
+    if(t.kind==='terminal')return payoff(t,w)[seat];
+    if(t.kind==='chance')return respondFull(nextStreet(t),w,seat,weight,store);
+    const k=t.actions.length;
+    if(k===1)return respondFull(advance(t,0),w,seat,weight,store);
+    if(t.actor!==seat){
+      const sig=Float64Array.from(probabilities(t,w,profile,true));let v=0;
+      for(let a=0;a<k;a++)if(sig[a]>0)v+=sig[a]*respondFull(advance(t,a),w,seat,weight*sig[a],store);
+      return v;
+    }
+    record(t,w,store,true);
+    const values=new Float64Array(k);
+    for(let a=0;a<k;a++)values[a]=respondFull(advance(t,a),w,seat,weight,store);
+    const row=record(t,w,store,false);
+    let best=0;for(let a=0;a<k;a++){row.buffer[row.offset+a]+=weight*values[a];if(row.buffer[row.offset+a]>row.buffer[row.offset+best])best=a;}
+    return values[best];
+  }
   function rollout(t,w,rng,response=null){
     while(t.kind!=='terminal'){
       if(t.kind==='chance'){t=nextStreet(t);continue;}
-      const store=response && response.seat===t.actor?response.store:profile;
-      const sig=probabilities(t,w,store,true);
+      const mine=response && response.seat===t.actor;
+      const sig=mine?(t.actions.length===1?probabilities(t,w,profile,true):greedy(t,w,response.store)):probabilities(t,w,profile,true);
       t=advance(t,choose(sig,rng));
     }
     return payoff(t,w);
   }
   const reach=new Float64Array(n).fill(1);
+  // Own-hand enumeration (self chance enumeration): for each updating seat the
+  // other seats' private cards and the board come from one sampled deal, and
+  // every compatible hand of the updating seat is traversed with its exact
+  // conditional probability. This is unbiased and removes the variance from
+  // sampling the updating seat's own cards.
+  function enumerateOwn(w0){
+    for(let p=0;p<n;p++){
+      const w=p?world(draw()):w0, used=new Uint8Array(52);
+      for(const c of w.cards)used[c]=1;
+      w.seats.forEach((h,j)=>{if(j!==p)used[h.a]=used[h.b]=1;});
+      const options=hands[p].filter(h=>!used[h.a]&&!used[h.b]);
+      let total=0;for(const h of options)total+=h.w;
+      for(const h of options){
+        const seats=w.seats.slice();seats[p]=h;
+        walk(tree,world({seats,cards:w.cards}),reach,{seat:p,weight:h.w/total});
+      }
+    }
+  }
   function iterate(count=1){
     for(let i=0;i<count && !limitReached;i++){
       try{
         const w=world(draw());step=weighting==='linear'?iterations+1:1;
         if(external)for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,actionRandom);
+        else if(updates==='enumerate')enumerateOwn(w);
+        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?world(draw()):w,reach,{seat:p,weight:1});
         else walk(tree,w,reach,true);
         iterations++;
       }catch(e){
@@ -3388,17 +3479,20 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       get iterations(){return done;},get limitReached(){return limited;},
       iterate(count=1){
         for(let i=0;i<count && !limited;i++){
-          try{step=1;learn(tree,world(responseDraw()),seat,1,1,1,store,rng,true);done++;}
+          try{step=1;const w=world(responseDraw());if(external)learn(tree,w,seat,1,1,1,store,rng,true);else respondFull(tree,w,seat,1,store);done++;}
           catch(e){if(e!==memoryError)throw e;limited=true;}
         }
       },
       finish(){
+        probeSeat=seat;
         const sample=dealer(hands,board,randomStream(evaluationSeed^0xe72cd498));
         let mean=0,m2=0;
         for(let i=1;i<=holdout;i++){
           const w=world(sample()),pairedSeed=(evaluationSeed^Math.imul(i,16777619))>>>0;
-          const base=rollout(tree,w,randomStream(pairedSeed))[seat];
-          const response=rollout(tree,w,randomStream(pairedSeed),{seat,store})[seat];
+          // Small (full-traversal) trees: exact expectation over every action;
+          // large trees: paired rollouts.
+          const base=external?rollout(tree,w,randomStream(pairedSeed))[seat]:expectation(tree,w,null);
+          const response=external?rollout(tree,w,randomStream(pairedSeed),{seat,store})[seat]:expectation(tree,w,{seat,store});
           const delta=response-base-mean;mean+=delta/i;m2+=delta*(response-base-mean);
         }
         return {seat,gain:mean,se:Math.sqrt(Math.max(0,m2)/(holdout-1)/holdout),
@@ -3468,7 +3562,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
-  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));
 
@@ -3503,7 +3597,12 @@ function sizeList(text, raising) {
   });
 }
 
-function MultiwayGame(input) {
+// Resource limits for automatic private-range mode selection. Exact enumeration
+// is kept when the joint deal tree fits the desktop budget and a 500-iteration
+// solve is expected to finish within about a minute on a desktop CPU.
+const AUTO_MAX_WORK=2.5e6;            // deal-node visits per iteration (all seats)
+const budgetCode=e=>{e.code='EM_BUDGET';return e;};
+function buildMultiway(input, opts={}) {
   const cfg=EM.copyStudyConfig(input);
   const pre=cfg.preflop || null, shove=pre?.mode==='shove';
   const n = cfg.stacks && cfg.stacks.length;
@@ -3513,8 +3612,18 @@ function MultiwayGame(input) {
   const antes=EM.anteModel(cfg);
   // Each live seat's own ante: preflop seats are in action order with the BB last. A postflop
   // study can name the live seat that posted a big blind ante (anteSeat), for ICM start stacks.
-  const ownAnte=Array.from({length:n},(_,p)=>cfg.dealt===undefined?0:antes.seat(pre?p===n-1:p===cfg.anteSeat));
-  if(pre && (cfg.dealt===undefined || entered.some((s,p)=>s<ownAnte[p]||!(s>0))))throw Error(antes.type==='classic'?'Preflop needs dealt seats and starting stacks of at least '+antes.amount+' bb':'Preflop needs dealt seats and starting stacks that cover each ante');
+  // Preflop: a seat that cannot cover the ante posts what it has and is all-in.
+  // With a big blind ante the big blind is posted first and the ante from what
+  // is left (the usual BBA rule). Live seats' antes count toward their side-pot
+  // contributions; antes of other dealt seats are dead money in the common pot.
+  if(pre && (cfg.dealt===undefined || entered.some(s=>!(s>0))))throw Error('Preflop needs dealt seats and positive starting stacks');
+  const ownAnte=Array.from({length:n},(_,p)=>{
+    if(cfg.dealt===undefined)return 0;
+    const nominal=antes.seat(pre?p===n-1:p===cfg.anteSeat);
+    if(!pre)return nominal;
+    const blind=antes.type==='bba' && p===n-1?Math.min(entered[p],1):0;
+    return Math.min(nominal,Math.max(0,entered[p]-blind));
+  });
   const stacks=pre?entered.map((s,p)=>s-ownAnte[p]):entered;
   const prior = numbers(cfg.prior || Array(n).fill(0), n, 'earlier contributions');
   const folded = numbers(cfg.folded || [], (cfg.folded || []).length, 'folded contributions');
@@ -3522,11 +3631,14 @@ function MultiwayGame(input) {
   // A tournament setup itemizes the starting pot. Older API callers supplied
   // the full common pot, including any antes, without a dealt-seat count.
   if (cfg.dealt !== undefined) EM.tableAntes(cfg.dealt);   // validates the dealt count
-  const antePot = cfg.dealt === undefined ? 0 : antes.total(cfg.dealt);
+  const liveAnte = pre ? ownAnte.reduce((a,b)=>a+b,0) : 0;
+  const antePot = cfg.dealt === undefined ? 0 : pre
+    ? (antes.type==='classic' ? (cfg.dealt-n)*antes.amount : 0)
+    : antes.total(cfg.dealt);
   if (cfg.dealt !== undefined && n + folded.length > cfg.dealt)
     throw new Error('Players dealt in must include every live seat and each listed folded wager.');
   if (!Number.isFinite(cfg.common) || cfg.common < 0) throw new Error('Enter a nonnegative common pot');
-  const common = cfg.common + antePot, pot0 = common + [...prior, ...folded].reduce((sum,v) => sum+v,0);
+  const common = cfg.common + antePot, pot0 = common + liveAnte + [...prior, ...folded].reduce((sum,v) => sum+v,0);
   if (!Number.isFinite(common) || common < 0 || !(pot0 > 0 || pre) || !Number.isFinite(stacks.reduce((a,b)=>a+b,pot0))) throw new Error('Enter a positive starting pot');
   const paid = [...prior,...folded].sort((a,b)=>b-a);
   if (paid[0] > paid[1]+EPS) throw new Error('Return unmatched earlier contributions before the starting street');
@@ -3589,7 +3701,7 @@ function MultiwayGame(input) {
 
   const maxStates=board.length===5?MAX_NODES:60000;
   const maxDealStates=board.length===5?MAX_PAIRS:750000;
-  const budgetError=()=>new Error('This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, or sampled public cards.');
+  const budgetError=()=>budgetCode(new Error('This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode.'));
   const zeros=()=>Array(n).fill(0);
   const sum=a=>a.reduce((s,v)=>s+v,0);
 
@@ -3617,7 +3729,7 @@ function MultiwayGame(input) {
         if(!external)tpl.next=nextStreet(tpl);
       } else {
         tpl.kind='terminal';
-        const committed=prior.map((v,p)=>v+total[p]).concat(folded);
+        const committed=prior.map((v,p)=>v+total[p]+(pre?ownAnte[p]:0)).concat(folded);
         tpl.pots=EM.potLayers(committed,live.concat(folded.map(()=>false)),common);
       }
       return tpl;
@@ -3661,13 +3773,32 @@ function MultiwayGame(input) {
     }
     return tpl;
   }
+  // Sampled betting traversal does not keep the whole tree. Betting states are a
+  // deterministic function of their action path, so recently used states are
+  // kept in a bounded cache instead of being rebuilt on every visit.
+  const stateCache=new Map(), STATE_CACHE_LIMIT=8000, STATE_CACHE_DEPTH=9;   // states near the root are revisited constantly; deep ones rarely
+  function cachedState(key,make){
+    // Preflop studies gain nothing measurable from it (see tools/benchmark.js), so only postflop caches.
+    if(pre || key.length>STATE_CACHE_DEPTH)return make();
+    let v=stateCache.get(key);
+    if(v===undefined){if(stateCache.size>=STATE_CACHE_LIMIT)stateCache.clear();v=make();stateCache.set(key,v);}
+    return v;
+  }
   function nextStreet(t) {
     if(t.next)return t.next;
+    if(external)return cachedState(t.path+'c',()=>nextStreetBuild(t));
+    return nextStreetBuild(t);
+  }
+  function nextStreetBuild(t) {
     const first=pre?(n===2?1:n-2):0;
     return build(t.length===0?3:t.length+1,t.total,zeros(),t.live,Array(n).fill(-1),0,1,0,first-1,t.path+'c');
   }
   function advance(t,a) {
     if(t.children)return t.children[a];
+    if(external)return cachedState(t.path+a,()=>advanceBuild(t,a));
+    return advanceBuild(t,a);
+  }
+  function advanceBuild(t,a) {
     const {previous,put,acted,price,full,count}=t.state, p=t.actor, action=t.actions[a];
     const live=t.live.slice(),nextPut=put.slice(),nextActed=acted.slice();
     if(action.kind==='fold')live[p]=false;
@@ -3696,12 +3827,12 @@ function MultiwayGame(input) {
   let visited=0, mass=0;
   function deal(k,weight) {
     if (k===n) {
-      if (deals.length>=MAX_DEALS) throw new Error('Too many compatible deals. Narrow a range or use exact two-card hands (limit 4,096 deals).');
+      if (deals.length>=MAX_DEALS) throw budgetCode(new Error('Too many compatible deals. Narrow a range or use exact two-card hands (limit 4,096 deals).'));
       deals.push(picked.slice()); weights.push(weight); mass+=weight; return;
     }
     const p=order[k];
     for (let h=0;h<hands[p].length;h++) {
-      if (++visited>2000000) throw new Error('Range combination search is too large. Narrow the ranges.');
+      if (++visited>2000000) throw budgetCode(new Error('Range combination search is too large. Narrow the ranges.'));
       const hand=hands[p][h];
       if (used[hand.a] || used[hand.b]) continue;
       used[hand.a]=used[hand.b]=1; picked[p]=h; deal(k+1,weight*hand.w); used[hand.a]=used[hand.b]=0;
@@ -3724,7 +3855,7 @@ function MultiwayGame(input) {
   });
   const deck=EM.multiwayBoards(board,hands,hole,D,cfg.runouts || {});
   // Reject over-budget configurations before allocating the per-board strategies.
-  let publicStates=0, estimatedBytes=0, contexts=[deck.root];
+  let publicStates=0, estimatedBytes=0, work=0, contexts=[deck.root];
   for(let length=board.length;length<=5;length++) {
     const templates=byStreet[length];
     publicStates+=contexts.length*templates.length;
@@ -3736,12 +3867,14 @@ function MultiwayGame(input) {
       estimatedBytes+=contexts.length*(16*D+320+strategy+payoff);
     }
     if(estimatedBytes>150*1024*1024)throw budgetError();
+    for(const t of templates)if(t.kind!=='chance')work+=contexts.length*D*n;
     if(length===5 || !byStreet[length+1].length)break;
     const next=[];
     for(const ctx of contexts) for(const edge of deck.edges(ctx))next.push(edge.ctx);
     contexts=next;
   }
 
+  if(opts.planOnly)return {deals:D,publicStates,estimatedMiB:estimatedBytes/1048576,work,players:n};
   const decisions=[], seatNodes=hands.map(()=>[]);
   function instantiate(t,ctx) {
     const node={t,ctx,reach:new Float64Array(D)};
@@ -3928,9 +4061,74 @@ function MultiwayGame(input) {
     decisions.forEach((nd,i)=>{nd.regret.set(buffers[i][0]);nd.sum.set(buffers[i][1]);normalize(nd.regret,nd.policy,nd.t.actions.length);normalize(nd.sum,nd.average,nd.t.actions.length);});
     iterations=state.iterations;
   }
-  return {iterate,metrics,view,snapshot,restoreState,get iterations(){return iterations;}};
+  // Replace the average strategy with one supplied by another solver (for
+  // example a sampled study), so metrics() measures that strategy's exact
+  // best-response gains in this enumerated game. lookup(path, publicCards, seat,
+  // hand) returns action probabilities or null (treated as uniform).
+  function importAverage(lookup){
+    let missing=0,total=0;
+    for(const nd of decisions){
+      const k=nd.t.actions.length,p=nd.t.actor;
+      hands[p].forEach((hand,h)=>{
+        total++;const probs=lookup(nd.t.path,nd.ctx.cards.slice(),p,hand);
+        for(let a=0;a<k;a++)nd.sum[h*k+a]=probs?probs[a]:1/k;
+        if(!probs)missing++;
+      });
+    }
+    return {missing,total};
+  }
+  return {iterate,metrics,view,snapshot,restoreState,importAverage,get iterations(){return iterations;}};
+}
+// Choose exact deal enumeration or sampled (Wide ranges) training. The exact
+// plan runs the same betting-tree, deal-enumeration and budget checks as an exact
+// solve, without allocating strategies, so a spot is enumerated only when an
+// exact solve would actually be accepted and finish in practical time.
+function planMultiwayMode(input) {
+  const base={requested:'auto'};
+  if(input && input.preflop)return {...base,chosen:'sampled',reason:'Preflop studies always use sampled deals'};
+  let plan;
+  try{plan=buildMultiway({...input,privateMode:'exact'},{planOnly:true});}
+  catch(e){
+    if(e && e.code==='EM_BUDGET')return {...base,chosen:'sampled',reason:'Exact enumeration exceeds the desktop limit: '+e.message};
+    throw e;
+  }
+  if(plan.work>AUTO_MAX_WORK)return {...base,chosen:'sampled',...plan,
+    reason:'Exact enumeration fits in memory but needs about '+Math.round(plan.work/1e3)+'k deal-node visits per iteration (limit '+AUTO_MAX_WORK/1e3+'k)'};
+  return {...base,chosen:'exact',...plan,reason:'Exact enumeration fits: '+plan.deals+' deals, '+plan.publicStates+' public states, about '+plan.estimatedMiB.toFixed(1)+' MiB'};
+}
+function MultiwayGame(input) {
+  if(!input || input.privateMode!=='auto'){
+    const game=buildMultiway(input);
+    game.resolvedConfig=EM.copyStudyConfig(input);
+    return game;
+  }
+  const selection=planMultiwayMode(input);
+  const resolved={...input,privateMode:selection.chosen};
+  const game=buildMultiway(resolved);
+  const metrics=game.metrics;
+  game.metrics=(...a)=>({...metrics(...a),modeSelection:selection});
+  game.modeSelection=selection;game.resolvedConfig=EM.copyStudyConfig(resolved);
+  return game;
 }
 EM.MultiwayGame=MultiwayGame;
+EM.planMultiwayMode=planMultiwayMode;
+// Independent exact evaluation of a sampled (Wide ranges) study: when the same
+// spot can be enumerated, its average strategy is copied into the exact game and
+// each seat's full best response is computed there. This is an exact
+// unilateral-deviation gain for the configured tree (not an equilibrium
+// certificate for the multiplayer game).
+function exactCheckSampled(cfg,game){
+  if(!game || typeof game.averageAt!=='function')return {available:false,reason:'Only sampled studies need an exact cross-check'};
+  if(cfg.abstraction && cfg.abstraction!=='exact' && cfg.abstraction!=='detailed' && cfg.abstraction!=='compact')return {available:false,reason:'Unknown abstraction'};
+  const plan=planMultiwayMode({...cfg,privateMode:'auto'});
+  if(plan.chosen!=='exact')return {available:false,reason:plan.reason};
+  const exact=buildMultiway({...cfg,privateMode:'exact'});
+  const coverage=exact.importAverage(game.averageAt), m=exact.metrics();
+  return {available:true,kind:'exact best response in the enumerated game',iterations:game.iterations,
+    gain:m.gain,maxGain:m.maxGain,ev:m.ev,best:m.best,unit:m.unit,deals:m.deals,
+    unvisitedInformationSets:coverage.missing,informationSets:coverage.total};
+}
+EM.exactCheckSampled=exactCheckSampled;
 EM.multiwaySizeList=sizeList;
 EM.RiverGame=function(cfg) {
   const board=typeof cfg.board==='string'?EM.parseBoard(cfg.board):cfg.board;
@@ -4053,12 +4251,17 @@ self.onmessage = (ev) => {
 
 function multiwaySolve(m) {
   if (riverBusy) throw new Error('A multiway solve is already running');
-  const max=Number(m.maxIter), target=Number(m.target);
-  const wide=m.cfg?.privateMode==='sampled';
-  if (!Number.isInteger(max) || max<1 || max>(wide?100000:5000) || !Number.isFinite(target) || target<0)
+  let max=Number(m.maxIter);const target=Number(m.target);
+  const auto=m.cfg?.privateMode==='auto';
+  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?100000:5000) || !Number.isFinite(target) || target<0)
     throw new Error('Choose a positive number of iterations (up to 100,000 for wide ranges or 5,000 for enumeration)');
   const g=m.type==='river-solve'?EM.RiverGame(m.cfg):EM.MultiwayGame(m.cfg);
-  river=g;riverConfig=EM.copyStudyConfig(m.cfg);riverResult=null;
+  // Automatic mode resolves to exact or sampled deals; later resumes, checks and
+  // checkpoints use the resolved configuration. Exact runs keep their 5,000 cap
+  // and stop early at the target gain.
+  const resolved=g.resolvedConfig||EM.copyStudyConfig(m.cfg), wide=resolved.privateMode==='sampled';
+  if(!wide)max=Math.min(max,5000);
+  river=g;riverConfig=resolved;riverResult=null;
   trainMultiway(m,g,max,target,wide);
 }
 function trainMultiway(m,g,max,target,wide){
@@ -4175,6 +4378,11 @@ async function multiwayCheck(m) {
         await train(probe,'Testing response for seat '+(seat+1),plan.responseIterations);
         if(!riverStop)report.responses.push(probe.finish());
       }
+    }
+    if(baseGame.averageAt && !riverStop){
+      progress('Exact cross-check',0,1);
+      try{report.exact=EM.exactCheckSampled(riverConfig,baseGame);}
+      catch(e){report.exact={available:false,reason:e.message};}
     }
     report.status=riverStop?'stopped':report.errors.length?'completed with errors':'completed';
     report.summary=EM.multiwayCheckSummary(report.runs);
@@ -4312,40 +4520,63 @@ function postNode(m) {
 }
 };
 })(globalThis.EM || (globalThis.EM = {}));
-</script>
+
+;
+globalThis.EM.BUILD = Object.freeze({version:"2.6",build:"b7151e8ac1fda588"});</script>
 <script>(function (EM) {
 'use strict';
+const streets=['Flop','Turn','River'];
+const sourceRanges=['QhQd,9c9d','AsAd,KsTh','JhJd,8s8d','AcKd,5c5d','AhKh,6s6h','TsTc,7c7d','9h9s,AdQd','KhQh,4c4d'];
+function multiwayExample(n=3,start='Flop',dealt=8) {
+  if(start==='Preflop' || start==='Shove / call') {
+    const spot=multiwayExample(n,'Flop',dealt), shove=start!=='Preflop';
+    spot.study=shove?'shove':'linked';spot.board='';spot.privateMode='sampled';spot.maxIter=10000;
+    spot.seats=Array.from({length:n},(_,i)=>({name:EM.pfPositions(n)[i],stack:String(shove?[8,12,18,25,16,30,22,10][i]:25),prior:'0',range:'random',lead:true}));
+    spot.others=Array(Math.max(0,dealt-n)).fill(24.9).join(',');
+    spot.tree={flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}};
+    spot.notes=shove?'Shove/call study: every seat can respond, overcall or isolate all-in. Any chips left after preflop check down to showdown.':'Linked study: preflop decisions train with the configured flop, turn and river actions. Seats outside this study are assumed already folded.';
+    return spot;
+  }
+  const short=n>=4 && start!=='River';
+  const deep=[16,22,26,30,24], riverStacks=[16,32,26,30,24];
+  const tree={};
+  streets.forEach((street,i)=>{
+    if(n>=6) {
+      tree[street.toLowerCase()]={bets:['25,50','50,100','75,125'][i],raises:'2.5x',maxBets:2};
+      return;
+    }
+    tree[street.toLowerCase()]=start==='River' && i===2
+      ? {bets:'50,100',raises:'2.5x',maxBets:2}
+      : {bets:short?'100':['50','75','100'][i],raises:'',maxBets:1};
+  });
+  return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:'auto',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
+    dealt,common:'0',folded:'',tree,mode:start==='Flop'?'sampled':'exact',count:n>=6?2:4,seed:17,
+    maxIter:10000,target:0.02,notes:n>=6?['Six','Seven','Eight'][n-6]+' players put in 2 bb each from 25 bb starting stacks. Two bet sizes and a 2.5x raise are available on each street. Edit the sizes to study another line.':'',seats:Array.from({length:n},(_,i)=>({
+      name:'Seat '+(i+1),prior:'2',stack:String(n>=6?22.9:short?2*n+EM.tableAntes(dealt):(start==='River'?riverStacks:deep)[i]),
+      range:sourceRanges[i],lead:true}))};
+}
+EM.multiwayExample=multiwayExample;
+function multiwaySpotConfig(spot) {
+  const number=v=>String(v).trim()===''?NaN:Number(v);
+  const a=String(spot.ante??'').trim();
+  const anteCfg=()=>({anteType:spot.anteType||'classic',ante:a===''?undefined:Number(a),anteSeat:Number(spot.anteSeat??-1)});
+  const parseFolded=()=>String(spot.folded||'').trim()?String(spot.folded).trim().split(/[\s,]+/).map(number):[];
+  const settings={};
+  for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
+  const cfg={...anteCfg(),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
+    runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
+    folded:parseFolded(),
+    stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
+    ranges:spot.seats.map(s=>s.range),lead:spot.seats.map(s=>s.lead)};
+  if(spot.study!=='postflop')cfg.preflop={mode:spot.study,opens:spot.preOpen,raises:spot.preRaises,maxBets:number(spot.preCap),limps:spot.preLimps};
+  if(spot.payoff==='icm')cfg.icm={payouts:spot.payouts.trim().split(/[\s,]+/).filter(Boolean).map(Number),others:spot.others.trim().split(/[\s,]+/).filter(Boolean).map(Number)};
+  if(cfg.icm && spot.study==='postflop' && spot.startStacks.trim())cfg.icm.startStacks=spot.startStacks.trim().split(/[\s,]+/).map(Number);
+  return cfg;
+}
+EM.multiwaySpotConfig=multiwaySpotConfig;
 EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   const streets=['Flop','Turn','River'];
-  const sourceRanges=['QhQd,9c9d','AsAd,KsTh','JhJd,8s8d','AcKd,5c5d','AhKh,6s6h','TsTc,7c7d','9h9s,AdQd','KhQh,4c4d'];
-  function example(n=3,start='Flop',dealt=8) {
-    if(start==='Preflop' || start==='Shove / call') {
-      const spot=example(n,'Flop',dealt), shove=start!=='Preflop';
-      spot.study=shove?'shove':'linked';spot.board='';spot.privateMode='sampled';spot.maxIter=10000;
-      spot.seats=Array.from({length:n},(_,i)=>({name:EM.pfPositions(n)[i],stack:String(shove?[8,12,18,25,16,30,22,10][i]:25),prior:'0',range:'random',lead:true}));
-      spot.others=Array(Math.max(0,dealt-n)).fill(24.9).join(',');
-      spot.tree={flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}};
-      spot.notes=shove?'Shove/call study: every seat can respond, overcall or isolate all-in. Any chips left after preflop check down to showdown.':'Linked study: preflop decisions train with the configured flop, turn and river actions. Seats outside this study are assumed already folded.';
-      return spot;
-    }
-    const short=n>=4 && start!=='River';
-    const deep=[16,22,26,30,24], riverStacks=[16,32,26,30,24];
-    const tree={};
-    streets.forEach((street,i)=>{
-      if(n>=6) {
-        tree[street.toLowerCase()]={bets:['25,50','50,100','75,125'][i],raises:'2.5x',maxBets:2};
-        return;
-      }
-      tree[street.toLowerCase()]=start==='River' && i===2
-        ? {bets:'50,100',raises:'2.5x',maxBets:2}
-        : {bets:short?'100':['50','75','100'][i],raises:'',maxBets:1};
-    });
-    return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:n===6?'sampled':'exact',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
-      dealt,common:'0',folded:'',tree,mode:start==='Flop'?'sampled':'exact',count:n>=6?2:4,seed:17,
-      maxIter:n>=6?10000:500,target:0.02,notes:n>=6?['Six','Seven','Eight'][n-6]+' players put in 2 bb each from 25 bb starting stacks. Two bet sizes and a 2.5x raise are available on each street. Edit the sizes to study another line.':'',seats:Array.from({length:n},(_,i)=>({
-        name:'Seat '+(i+1),prior:'2',stack:String(n>=6?22.9:short?2*n+EM.tableAntes(dealt):(start==='River'?riverStacks:deep)[i]),
-        range:sourceRanges[i],lead:true}))};
-  }
+  const example=EM.multiwayExample;
   let spot=example(), pristine=true, busy=false, result=null, pos=[], current=null;
   let error='',progress='',revision=0,transferring=false,restoredConfig=null;
   const resume={iterations:10000,memoryMiB:112};
@@ -4372,7 +4603,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">Wide ranges · seed '+m.seed+' · '+m.iterations.toLocaleString()+' training iterations · '+m.evaluationDeals.toLocaleString()+' evaluation deals · '+val(result.reason)+'</p>';
       h+='<table class="rv-table"><thead><tr><th>Player</th><th>Estimated EV ('+unit()+')</th><th>Standard error ('+unit()+')</th></tr></thead><tbody>';
       seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.se[i])+'</td></tr>';});
-      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds and test opponent responses. Equilibrium distance remains unmeasured.</p></div>';
+      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds, test opponent responses and, for spots small enough to enumerate, measure exact best-response gains. Training completion alone does not make a strategy an equilibrium.</p></div>';
     }else{
     const scope=m.runoutMode==='sampled'?'Sampled cards · seed '+m.seed:m.runoutMode==='fixed'?'Fixed river':'All legal future cards';
     h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">'+val(scope)+' · '+val(result.reason)+' · '+m.iterations+
@@ -4382,6 +4613,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.best[i])+'</td><td>'+num(m.gain[i],4)+'</td></tr>';});
     h+='</tbody></table></div><p class="note">Chip EV is measured from the start of the spot; ICM is expected remaining prize value. Gain is the most one player can improve against the other fixed strategies using the available bets and runouts.</p></div>';
     }
+    if(m.modeSelection)h+='<p class="note">Automatic private-range mode chose '+(m.modeSelection.chosen==='exact'?'exact deal enumeration':'sampled deals (Wide ranges)')+'. '+val(m.modeSelection.reason)+'.</p>';
     if(m.utility==='icm')h+='<p class="note">ICM values are absolute expected remaining prizes in the units of your payouts. Stacks and bet amounts remain in bb. Reporting thresholds use 0.1% of the remaining prize pool.</p>';
     if(spot.study==='shove')h+='<p class="note">Shove/call model: all eligible seats may respond preflop. Any chips left after preflop check down to showdown; later bets are outside this study.</p>';
     h+=trainingControls()+quality();
@@ -4530,6 +4762,11 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
         audit.responses.forEach(r=>{h+='<tr><th>'+val(seats[r.seat].name)+'</th><td>'+num(r.gain)+'</td><td>'+num(r.gain-1.96*r.se)+' to '+num(r.gain+1.96*r.se)+'</td></tr>';});
         h+='</tbody></table><p class="note">Responses train against the original strategy and use separate evaluation deals. Gains cover the tested policies within the original bets and hand groups. Untried deviations and grouping error remain unmeasured.</p>';
       }
+      if(audit.exact?.available){
+        h+='<table class="rv-table"><thead><tr><th>Seat</th><th>Exact best-response gain ('+unit()+')</th></tr></thead><tbody>';
+        audit.exact.gain.forEach((g,i)=>{h+='<tr><th>'+val(seats[i].name)+'</th><td>'+num(g,4)+'</td></tr>';});
+        h+='</tbody></table><p class="note">Exact cross-check: this spot is small enough to enumerate, so the sampled average strategy was copied into the enumerated game ('+audit.exact.deals+' deals) and each seat’s full best response was computed there. This is the exact unilateral gain within the configured bets; it is not a multiplayer equilibrium certificate. '+audit.exact.unvisitedInformationSets+' of '+audit.exact.informationSets+' information sets were never sampled and play uniformly.</p>';
+      }else if(audit.exact)h+='<p class="note">Exact cross-check unavailable: '+val(audit.exact.reason)+'. Tested responses above are lower bounds on the true gain.</p>';
       h+='<details><summary>Individual runs</summary><div class="rv-scroll"><table class="rv-table"><thead><tr><th>Tree</th><th>Seed</th><th>Iterations</th><th>Traversal</th><th>Result</th></tr></thead><tbody>'+
         audit.runs.map(r=>'<tr><td>'+val(r.variant)+'</td><td>'+r.seed+'</td><td>'+r.iterations+'</td><td>'+val(r.algorithm)+'</td><td>'+val(r.reason)+'</td></tr>').join('')+'</tbody></table></div></details>';
       for(const item of audit.errors)h+='<p class="err">'+val([item.variant,item.seed,item.message].filter(x=>x!==undefined).join(' · '))+'</p>';
@@ -4582,7 +4819,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     });
     const run=el('chance-settings'), sample=el('sampling');
     if(run)run.hidden=length===5 || spot.privateMode==='sampled';
-    if(el('wide-controls'))el('wide-controls').hidden=spot.privateMode!=='sampled';
+    if(el('wide-controls'))el('wide-controls').hidden=spot.privateMode==='exact';
     if(el('target'))el('target').disabled=spot.privateMode==='sampled';
     if(sample)sample.hidden=spot.mode!=='sampled';
     if(el('icm-settings'))el('icm-settings').hidden=spot.payoff!=='icm';
@@ -4622,7 +4859,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       '<div class="fields"><label class="field"><span class="label">Payoff</span><select id="rv-payoff"><option value="chip" '+(spot.payoff==='chip'?'selected':'')+'>Chip EV</option><option value="icm" '+(spot.payoff==='icm'?'selected':'')+'>Tournament ICM</option></select></label></div>'+
       '<div id="rv-icm-settings"><div class="fields">'+field('payouts','Remaining payouts, largest first',spot.payouts)+field('others','All other remaining stacks (bb)',spot.others)+field('startStacks','Live seats’ hand-start stacks (optional, bb)',spot.startStacks,'text',pre?'disabled':'')+'</div><p class="note">Include every other player still in the tournament, including folded seats, using chips left after their bets and antes. Up to 16 total players. Omitted payout places pay zero. Values use your payout units. Leave hand-start stacks blank to derive them from chips behind, earlier wagers and antes; enter them in seat order if needed for simultaneous bust ranking. This models regular prizes, without bounties.</p></div>'+
       (pre&&!shove?'<h3>Preflop actions</h3><div class="fields">'+field('preOpen','Opening raise-to sizes (bb)',spot.preOpen)+field('preRaises','Reraise sizes (× or % pot)',spot.preRaises)+field('preCap','Preflop raise cap',spot.preCap,'number','min="1" max="5"')+'<label class="field"><span class="label">Allow limps</span><input id="rv-preLimps" type="checkbox" '+(spot.preLimps?'checked':'')+'></label></div>':'')+
-      '<label class="field"><span class="label">Private ranges</span><select id="rv-privateMode"><option value="exact" '+(spot.privateMode!=='sampled'?'selected':'')+'>Enumerate compatible deals</option><option value="sampled" '+(spot.privateMode==='sampled'?'selected':'')+'>Wide ranges · sample fresh deals</option></select></label>'+
+      '<label class="field"><span class="label">Private ranges</span><select id="rv-privateMode"><option value="auto" '+(spot.privateMode==='auto'?'selected':'')+'>Automatic · exact when it fits</option><option value="exact" '+(spot.privateMode==='exact'?'selected':'')+'>Enumerate compatible deals</option><option value="sampled" '+(spot.privateMode==='sampled'?'selected':'')+'>Wide ranges · sample fresh deals</option></select></label>'+
       '<div id="rv-wide-controls"><div class="fields">'+field('privateSeed','Training seed',spot.privateSeed,'number','min="0" max="4294967295"')+
       '<label class="field"><span class="label">Hand grouping</span><select id="rv-abstraction">'+[['compact','Compact'],['detailed','Detailed'],['exact','Exact cards']].map(([k,label])=>'<option value="'+k+'" '+(spot.abstraction===k?'selected':'')+'>'+label+'</option>').join('')+'</select></label>'+
       field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="256" step="1"')+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
@@ -4662,16 +4899,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   async function solve() {
     read();const loaded=restoredConfig;clearResult();busy=true;progress='Building the betting and runout trees…';render();
     try{
-      const settings={};
-      for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
-      const cfg={...anteCfg(),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
-        runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
-        folded:parseFolded(),
-        stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
-        ranges:spot.seats.map(s=>s.range),lead:spot.seats.map(s=>s.lead)};
-      if(spot.study!=='postflop')cfg.preflop={mode:spot.study,opens:spot.preOpen,raises:spot.preRaises,maxBets:number(spot.preCap),limps:spot.preLimps};
-      if(spot.payoff==='icm')cfg.icm={payouts:spot.payouts.trim().split(/[\s,]+/).filter(Boolean).map(Number),others:spot.others.trim().split(/[\s,]+/).filter(Boolean).map(Number)};
-      if(cfg.icm && spot.study==='postflop' && spot.startStacks.trim())cfg.icm.startStacks=spot.startStacks.trim().split(/[\s,]+/).map(Number);
+      const cfg=EM.multiwaySpotConfig(spot);
       result=await call('multi-solve',{cfg:loaded||cfg,maxIter:number(spot.maxIter),target:number(spot.target)},m=>{
         progress='Iteration '+m.it+(m.gap==null?'':' · largest measured gain '+num(m.gap,4)+' '+unit());status();
       });
@@ -4689,7 +4917,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id.startsWith('rv-resume-')){resume.iterations=number(el('resume-iterations').value);if(el('resume-memory'))resume.memoryMiB=number(el('resume-memory').value);return;}
     if(e.target.id.startsWith('rv-check-')){readChecks();return;}
     read();
-    if(e.target.id==='rv-privateMode'){spot.maxIter=spot.privateMode==='sampled'?10000:500;el('iterations').value=spot.maxIter;}
+    if(e.target.id==='rv-privateMode'){spot.maxIter=spot.privateMode==='exact'?500:10000;el('iterations').value=spot.maxIter;}
     if(spot.notes){spot.notes='';if(el('notes'))el('notes').hidden=true;}
     if(e.target.id!=='rv-dealt')pristine=false;
     clearResult();updateControls();status();
@@ -6780,6 +7008,12 @@ if (NATIVE) {
     NINFO = info;
     DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.max(2000, info.ramMB * 0.78) };
     $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
+    // The interface and the native host are built together; a different version or
+    // build identifier means mixed files from different releases.
+    if (EM.BUILD && (info.version !== EM.BUILD.version || info.build !== EM.BUILD.build)) {
+      $('#engine').textContent += ` · version mismatch: engine ${info.version} (${info.build || 'no build id'}), interface ${EM.BUILD.version} (${EM.BUILD.build})`;
+      $('#engine').classList.add('off');
+    }
     if (info.gpu) $('#engine').title = info.gpu.available ? 'GPU: ' + info.gpu.device : 'No GPU: ' + info.gpu.device;
     render();
   }).catch(() => { $('#engine').textContent = 'Native engine not responding'; });
