@@ -23,7 +23,7 @@ No figure in this document comes from the owner's i7 / RTX 4060 Ti machine; run
 | State format | EMMW1/EMMW3 | + EMMW4 (state table + rows, CRC32, study tag, full rules replay on import) |
 | CUDA module | NVRTC 12.9 PTX only (needs a CUDA 12.9+ driver to JIT) | PTX + SASS for sm_75/80/86/89 (any CUDA 12 driver); device probe; compute capability ≥ 7.5 check; exact all-in equity kernel |
 | Diagnostics | Engine name, device path | Engine, algorithm, players, street, utility, device path and fallback reason, threads, native/browser memory, VRAM buffers, visited states, CUDA status, JS-fallback reason |
-| Tests | 172 | {{TESTS}} |
+| Tests | 172 | 201 + release smoke, host and sanitizer gates (section 7) |
 
 ## 2. Native configuration matrix (tested)
 
@@ -60,7 +60,39 @@ independent seeds. Timings: single process, 4-vCPU Linux VM; equal-time runs sto
 first 64-update boundary after the deadline. Source: validation/3.1/bench31.json
 (`node tools/bench31.js ...`).
 
-{{BENCH}}
+### three-player river — exact largest unilateral gain (BB), mean ± 95% CI over 5 seeds
+
+| Sampled deals | 3.0 JavaScript ES, batch 1 | 3.0 native full traversal | 3.1 native full traversal | 3.1 native ES, shared, batch 1 | 3.1 native ES, per-deal, batch 16, 4 thr |
+|---:|---:|---:|---:|---:|---:|
+| 4,000 | 1.0041 ± 0.6399 (0.06 s) | 0.3921 ± 0.0432 (0.03 s) | 0.3921 ± 0.0432 (0.03 s) | 1.0041 ± 0.6399 (0.02 s) | 0.7712 ± 0.0368 (0.03 s) |
+| 20,000 | 0.2857 ± 0.0690 (0.24 s) | 0.1834 ± 0.0471 (0.12 s) | 0.1834 ± 0.0471 (0.13 s) | 0.2857 ± 0.0690 (0.10 s) | 0.3208 ± 0.0594 (0.10 s) |
+| 50,000 | 0.1931 ± 0.0580 (0.58 s) | 0.1085 ± 0.0182 (0.29 s) | 0.1085 ± 0.0182 (0.33 s) | 0.1931 ± 0.0580 (0.26 s) | 0.2647 ± 0.2747 (0.26 s) |
+| 100,000 | 0.1508 ± 0.0591 (1.20 s) | 0.0809 ± 0.0118 (0.59 s) | 0.0809 ± 0.0118 (0.66 s) | 0.1508 ± 0.0591 (0.55 s) | 0.1914 ± 0.0699 (0.51 s) |
+| 250,000 | — | 0.0491 ± 0.0100 (1.44 s) | 0.0491 ± 0.0100 (1.67 s) | 0.0753 ± 0.0230 (1.28 s) | 0.1150 ± 0.0649 (1.20 s) |
+| 500,000 | — | 0.0382 ± 0.0054 (2.94 s) | 0.0382 ± 0.0054 (3.08 s) | 0.0614 ± 0.0281 (2.50 s) | 0.0793 ± 0.0234 (2.39 s) |
+
+| Training time | 3.0 JavaScript ES, batch 1 | 3.0 native full traversal | 3.1 native full traversal | 3.1 native ES, shared, batch 1 | 3.1 native ES, per-deal, batch 16, 4 thr |
+|---:|---:|---:|---:|---:|---:|
+| 0.25 s | 0.2914 ± 0.0560 (16,819 deals) | 0.1114 ± 0.0155 (41,830 deals) | 0.1385 ± 0.0471 (36,045 deals) | 0.2285 ± 0.0619 (44,979 deals) | 0.2621 ± 0.2853 (49,971 deals) |
+| 1 s | 0.2040 ± 0.0542 (78,067 deals) | 0.0616 ± 0.0128 (154,163 deals) | 0.0627 ± 0.0079 (144,077 deals) | 0.0806 ± 0.0195 (184,755 deals) | 0.1245 ± 0.0871 (217,498 deals) |
+| 4 s | 0.0844 ± 0.0225 (349,504 deals) | 0.0304 ± 0.0052 (671,027 deals) | 0.0347 ± 0.0094 (630,630 deals) | 0.0597 ± 0.0351 (804,237 deals) | 0.0912 ± 0.0594 (884,531 deals) |
+
+### heads-up turn — exact largest unilateral gain (BB), mean ± 95% CI over 5 seeds
+
+| Sampled deals | 3.0 JavaScript ES, batch 1 | 3.0 native full traversal | 3.1 native full traversal | 3.1 native ES, shared, batch 1 | 3.1 native ES, per-deal, batch 16, 4 thr |
+|---:|---:|---:|---:|---:|---:|
+| 4,000 | 5.3618 ± 0.2365 (0.08 s) | 3.2846 ± 0.1210 (0.01 s) | 3.2846 ± 0.1210 (0.01 s) | 5.3618 ± 0.2365 (0.02 s) | 5.5461 ± 0.7745 (0.02 s) |
+| 20,000 | 2.1306 ± 0.1872 (0.38 s) | 1.3007 ± 0.1342 (0.07 s) | 1.3007 ± 0.1342 (0.07 s) | 2.1306 ± 0.1872 (0.07 s) | 2.1635 ± 0.1701 (0.07 s) |
+| 50,000 | 1.2346 ± 0.1141 (0.82 s) | 0.7550 ± 0.0510 (0.16 s) | 0.7550 ± 0.0510 (0.15 s) | 1.2346 ± 0.1141 (0.18 s) | 1.2452 ± 0.0962 (0.16 s) |
+| 100,000 | 0.8324 ± 0.1105 (1.58 s) | 0.5240 ± 0.0494 (0.32 s) | 0.5240 ± 0.0494 (0.30 s) | 0.8324 ± 0.1105 (0.39 s) | 0.7981 ± 0.0832 (0.34 s) |
+| 250,000 | — | 0.3033 ± 0.0118 (0.82 s) | 0.3033 ± 0.0118 (0.73 s) | 0.4772 ± 0.0265 (0.96 s) | 0.4741 ± 0.0350 (0.78 s) |
+| 500,000 | — | 0.1983 ± 0.0191 (1.55 s) | 0.1983 ± 0.0191 (1.52 s) | 0.2977 ± 0.0378 (1.85 s) | 0.2959 ± 0.0459 (1.51 s) |
+
+| Training time | 3.0 JavaScript ES, batch 1 | 3.0 native full traversal | 3.1 native full traversal | 3.1 native ES, shared, batch 1 | 3.1 native ES, per-deal, batch 16, 4 thr |
+|---:|---:|---:|---:|---:|---:|
+| 0.25 s | 2.5490 ± 0.3683 (15,373 deals) | 0.5619 ± 0.1063 (84,890 deals) | 0.6551 ± 0.0632 (70,554 deals) | 1.0742 ± 0.2027 (69,146 deals) | 0.9802 ± 0.2317 (80,691 deals) |
+| 1 s | 1.0173 ± 0.0850 (68,736 deals) | 0.2677 ± 0.0480 (326,451 deals) | 0.2746 ± 0.0346 (301,107 deals) | 0.4385 ± 0.0412 (285,875 deals) | 0.4114 ± 0.0229 (291,430 deals) |
+| 4 s | 0.4581 ± 0.0478 (277,146 deals) | 0.1072 ± 0.0176 (1,414,963 deals) | 0.1128 ± 0.0064 (1,256,653 deals) | 0.2077 ± 0.0323 (1,124,083 deals) | 0.1803 ± 0.0320 (1,354,957 deals) |
 
 Reading the tables:
 
@@ -96,14 +128,27 @@ frequency across seeds (lower = more settled). It is a stability diagnostic, not
 exploitability bound. The trained-response probe was also tried on the 8-player linked
 study and was too noisy to report (gain −0.03 ± 0.11 BB).
 
-{{LARGE}}
+**Not completed for this release.** The run was stopped after 140 of 180 timed runs when
+packaging was requested; the script writes results only at the end, so no figures are
+reported. Re-run with `node source/tools/large31.js <timed-3.1 driver> large31.json`
+(about one hour on 4 vCPUs). For these studies the 3.1 engine runs the identical
+algorithm as the 3.0 JavaScript path with 4-9x more deals per second (sections 3 and 5).
 
 ## 5. Throughput, threads and memory
 
 8-seat linked preflop → river, 25 bb, two opening sizes, external sampling with batches
 of 16 and per-deal streams (validation/3.1/thread-scaling.json):
 
-{{THREADS}}
+| Threads requested | Median training time | Deals/s | Peak RSS | CPU | Strategy digest |
+|---:|---:|---:|---:|---:|---|
+| 1 | 0.862 s | 7,426 | 63.4 MiB | 97% | 096ca0441050d57c |
+| 2 | 0.579 s | 11,061 | 62.8 MiB | 148% | 096ca0441050d57c |
+| 3 | 0.397 s | 16,132 | 62.9 MiB | 170% | 096ca0441050d57c |
+| 4 | 0.394 s | 16,244 | 63.4 MiB | 190% | 096ca0441050d57c |
+
+The strategy digest is identical for every thread count. Speed-up from 1 to 4 threads is
+2.2x on this 4-vCPU VM; the owner's 13th-generation i7 has more cores but this was not
+measured. Peak RSS covers the whole CLI process.
 
 ## 6. CUDA and the hybrid scheduler
 
@@ -131,7 +176,10 @@ of 16 and per-deal streams (validation/3.1/thread-scaling.json):
 
 ## 7. Tests
 
-{{TESTDETAIL}}
+Counted by `node source/tools/run_tests.js` per file with time limits; this build's
+totals (passed, failed, skipped, timed out, hardware-dependent) are in
+validation/3.1/regression-tests.json and VALIDATION-3.1.json. Hardware-dependent tests run
+here used the CUDA driver test double and the Linux host; none used a physical GPU or Windows.
 
 Two 2.9-era assertions were changed because 3.1 changes the behaviour on purpose:
 `studies outside native support` now expects native support (protocol 4) for sampled

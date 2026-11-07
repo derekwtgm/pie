@@ -293,7 +293,7 @@ details[open] summary { margin-bottom: 8px; }
       <circle cx="16" cy="16" r="9.5" fill="#0a0e16" stroke="#1d1505" stroke-width="1.5"/>
       <text x="16" y="20.6" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#f2b84b">8</text>
     </svg>
-    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 3.0</p></div>
+    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 3.1</p></div>
     <span class="engine" id="engine"></span>
   </div>
   <nav class="tabs" role="tablist" aria-label="Sections">
@@ -852,7 +852,7 @@ function unpack(text,length,nonnegative=false){
   for(let i=0;i<length;i++){const x=view.getFloat64(i*8,true);if(!Number.isFinite(x)||(nonnegative&&x<0))fail();out[i]=x;}
   return out;
 }
-function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'3.0',cfg:copy(cfg),state,labels:labels||[]};}
+function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'3.1',cfg:copy(cfg),state,labels:labels||[]};}
 function validate(p){
   if(p&&p.format==='EightMax training'&&(p.version!==1||(typeof p.engine==='string'&&!ENGINES.includes(p.engine))))
     throw Error('This checkpoint was written by an incompatible EightMax engine ('+String(p.engine).slice(0,40)+', format '+String(p.version).slice(0,8)+(p.writer?', writer '+String(p.writer).slice(0,12):'')+'). This version reads formats from '+ENGINES.join(', ')+'.');
@@ -880,8 +880,13 @@ function restore(p){
   validate(p);const cfg=copy(p.cfg);
   // 2.3 trained wide studies with uniform weighting and had no ante choice; keep both on resume.
   if(p.engine==='multiway-2.3' && cfg.privateMode==='sampled' && cfg.weighting===undefined)cfg.weighting='uniform';
-  if(cfg.preflop && p.state.external===true && p.writer!=='3.0')cfg.traversal='external';
-  const g=EM.MultiwayGame(cfg);
+  if(cfg.preflop && p.state.external===true && p.writer!=='3.0' && p.writer!=='3.1')cfg.traversal='external';
+  // 3.1 changed the automatic full-tree limit for native training (20,000 states,
+  // was 250,000). An automatic sampled study resumes with the traversal it was
+  // trained with, so earlier checkpoints keep restoring. The saved configuration
+  // itself is not changed.
+  const opts=p.state.kind==='wide' && typeof p.state.external==='boolean'?{restoredExternal:p.state.external}:{};
+  const g=EM.MultiwayGame(cfg,opts);
   g.restoreState(p.state);return {game:g,cfg,labels:p.labels.slice()};
 }
 // The transaction replaces both generations atomically. Keep the DB closed
@@ -3263,18 +3268,29 @@ function strengthGroup(h,cards,score) {
   }
   return ((category*5+Math.floor(Math.max(0,top)/3))*2+Number(flushDraw))*2+Number(straightDraw);
 }
-EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,nextStreet,icm,utilityMeta,ownAnte}){
+EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,nextStreet,icm,utilityMeta,ownAnte,rules}){
   const anteOf=ownAnte||Array(n).fill(cfg.preflop?0.1:0);
   const seed=cfg.privateSeed??17, evaluationSeed=cfg.evaluationSeed??(seed^0xad90777d)>>>0;
   for(const value of [seed,evaluationSeed])
     if(!Number.isInteger(value)||value<0||value>4294967295)throw Error('Enter a whole sampling seed between 0 and 4294967295');
   const dealRandom=randomStream(seed),draw=dealer(hands,board,dealRandom), actionRandom=randomStream(seed^0x7138ab94);
+  // Sampled-betting action streams. 'shared' (default) draws every opponent
+  // action from one study stream. 'deal' gives each (iteration, deal) its own
+  // stream derived from the seed, so the deals of a frozen batch are
+  // independent and the native engine can traverse them in parallel. Both are
+  // reproduced bit for bit by the native engine.
+  const actionStreams=cfg.actionStreams??'shared', actionSeed=(seed^0x7138ab94)>>>0;
+  if(!['shared','deal'].includes(actionStreams))throw Error('Choose shared or per-deal action streams');
+  const dealStream=(it,d)=>randomStream((actionSeed^Math.imul(it+1,0x9e3779b1)^Math.imul(d+1,0x85ebca6b))>>>0);
   const holdout=cfg.evaluationDeals??4096;
   if(!Number.isInteger(holdout)||holdout<128||holdout>8192)throw Error('Evaluation deals must be between 128 and 8192');
   const abstraction=cfg.abstraction || 'detailed';
   if(!['compact','detailed','exact'].includes(abstraction))throw Error('Choose Compact, Detailed or Exact cards grouping');
   const budget=cfg.strategyBudgetMiB??112;
-  if(!Number.isFinite(budget)||budget<1||budget>256)throw Error('Strategy budget must be between 1 and 256 MiB');
+  // Native training keeps its own tables; the JavaScript mirror that receives
+  // them may follow the larger native budget (3.1).
+  const budgetCap=cfg.engine==='native'?2048:256;
+  if(!Number.isFinite(budget)||budget<1||budget>budgetCap)throw Error('Strategy budget must be between 1 and '+budgetCap+' MiB');
   // Linear MCCFR (Brown & Sandholm 2019): iteration t's regret and average-strategy
   // contributions are weighted by t, so early, poorly informed iterations fade out.
   // Studies saved by 2.3 continue with their original uniform weighting.
@@ -3613,7 +3629,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
         step=weighting==='linear'?iterations+1:1;
         for(let batch=0;batch<batchDeals;batch++){
         const w=stratify?stratumWorld(batch):trainingWorld();
-        if(external)for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,actionRandom);
+        if(external){const rng=actionStreams==='deal'?dealStream(iterations,batch):actionRandom;for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,rng);}
         else if(updates==='enumerate')enumerateOwn(w);
         else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?trainingWorld():w,reach,{seat:p,weight:1});
         else walk(tree,w,reach,true);
@@ -3638,7 +3654,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     return {...utilityMeta,wide:true,ev,se:m2.map(x=>Math.sqrt(Math.max(0,x)/(samples-1)/samples)),iterations,
       abstraction,weighting,batchDeals,regretMatching,trainingDeals,dealSampler:stratify?'stratified joint river':'independent rejection',memoryBudgetMiB:profile.limit/1048576,strategyMiB:profile.bytes/1048576,evaluationDeals:samples,infos:profile.infos,
       nodes:external?profile.nodes.size:nodes,seed,evaluationSeed,startStreet:streetName(board.length),
-      runoutMode:'fresh',deals:iterations,algorithm:external?'external':'full',stateVisits,limitReached};
+      runoutMode:'fresh',deals:iterations,algorithm:external?'external':'full',...(external?{actionStreams}:{}),stateVisits,limitReached};
   }
   function rootFrequencies(){
     if(tree.kind!=='player')return [];
@@ -3790,7 +3806,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     dealRandom.restore(state.dealState);actionRandom.restore(state.actionState);
   }
   function increaseBudget(mib){
-    if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
+    if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>budgetCap)throw Error('Resume memory budget must be at least the current budget and at most '+budgetCap+' MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
   // ---- native engine bridge (protocol 1, see source/native/MW-PROTOCOL.md) ----
@@ -3799,8 +3815,9 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // ordinary rows of this JavaScript profile, so evaluation, the explorer, exact
   // cross-checks and .emstudy checkpoints work unchanged.
   function nativeSupport(){
-    if(external)return 'native training needs a full betting tree (choose Full traversal or a smaller tree)';
-    if(abstraction!=='exact')return 'native training uses Exact cards grouping';
+    if(abstraction!=='exact')return 'native training uses Exact cards grouping (Compact and Detailed hand groups are computed in JavaScript)';
+    if(external && !rules)return 'native external sampling needs the betting rules of a multiway study';
+    if(external && tree.kind!=='player')return 'the starting state has no decision';
     return null;
   }
   let nativeNodes=null;
@@ -3817,12 +3834,18 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   let studyId;
   function nativeSpec(){
     const why=nativeSupport();if(why)throw Error(why);
+    if(external)return withStudyId({protocol:4,algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
+      device:cfg.processingMode||'cpu',gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),rules,batchDeals,weighting,regretMatching,
+      actionStreams,actionSeed,state:{rng:dealRandom.state(),actionRng:actionRandom.state(),iterations,trainingDeals,stateVisits}});
     const {list,ids}=nativeTree();
     const nodes=list.map(t=>t.kind==='player'?[0,t.actor,t.length,t.actions.map((_,a)=>ids.get(advance(t,a)))]:
       t.kind==='chance'?[1,t.length,ids.get(nextStreet(t))]:[2,Array.from(t.total),t.pots.map(pot=>[pot.amount,pot.eligible.slice()]),...(icm?[Array.from(t.behind)]:[])]);
     const spec={protocol:(icm||stratify||!board.length)?3:1,stratified:stratify,...(icm?{icm:icm.native}:{}),engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),
       device:cfg.processingMode||"cpu",gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),nodes,batchDeals,weighting,regretMatching,updates,
       state:{rng:dealRandom.state(),iterations,trainingDeals,stateVisits}};
+    return withStudyId(spec);
+  }
+  function withStudyId(spec){
     if(!studyId){
       // A content tag for accidental cross-study imports; .emstudy files also
       // have a full SHA-256 integrity check. Device settings do not affect identity.
@@ -3840,12 +3863,14 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     return record(t,{keys},profile,true);
   }
   function rowChecksum(bytes){
-    let crc=0xffffffff;
-    for(const byte of bytes){crc^=byte;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+    const table=EM.crcTable||(EM.crcTable=Int32Array.from({length:256},(_,i)=>{let c=i;for(let b=0;b<8;b++)c=(c>>>1)^((c&1)?0xedb88320:0);return c;}));
+    let crc=-1;
+    for(let i=0;i<bytes.length;i++)crc=table[(crc^bytes[i])&255]^(crc>>>8);
     return ((~crc)>>>0).toString(16).padStart(8,'0');
   }
   function importNative(bytes){
     const u8=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes),dv=new DataView(u8.buffer,u8.byteOffset,u8.byteLength);
+    if(external)return importExternal(u8,dv);
     if(u8.length<16||String.fromCharCode(...u8.subarray(0,5))!==(board.length?'EMMW1':'EMMW3'))throw Error('Not a native training state');
     const hl=dv.getUint32(8,true),head=JSON.parse(new TextDecoder().decode(u8.subarray(12,12+hl)));
     if(!studyId)nativeSpec();
@@ -3869,8 +3894,96 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     limitReached=false;
     return head;
   }
+  // ---- EMMW4: external-sampling state (see MW-PROTOCOL.md) ----
+  // States are listed parent-first as (parent, action slot; 7 = next street) and
+  // reproduce the JavaScript action paths. JavaScript checks the description of
+  // every state (up to 20,000, otherwise an evenly spaced sample) against its
+  // own betting tree before accepting any row.
+  function pathState(path,cache){
+    let t=cache.get(path);if(t)return t;
+    const parent=pathState(path.slice(0,-1),cache),c=path[path.length-1];
+    t=c==='c'?(parent.kind==='chance'?nextStreet(parent):null):(parent&&parent.kind==='player'&&+c<parent.actions.length?advance(parent,+c):null);
+    if(!t)throw Error('Native state does not match this game');
+    cache.set(path,t);return t;
+  }
+  function importExternal(u8,dv){
+    if(u8.length<20||String.fromCharCode(...u8.subarray(0,5))!=='EMMW4')throw Error('Not a native external-sampling state');
+    const hl=dv.getUint32(8,true),head=JSON.parse(new TextDecoder().decode(u8.subarray(12,12+hl)));
+    if(!studyId)nativeSpec();
+    if(head.rowCrc32!==rowChecksum(u8.subarray(12+hl)))throw Error('Native state checksum failed');
+    for(const field of ['iterations','trainingDeals','stateVisits','rng','actionRng'])
+      if(!Number.isSafeInteger(head[field])||head[field]<0)throw Error('Invalid native counters');
+    if(head.rng>4294967295||head.actionRng>4294967295||head.iterations>10000000)throw Error('Invalid native counters');
+    if(head.studyId!==studyId)throw Error('Native state belongs to a different study');
+    if(head.protocol!==1)throw Error('Unsupported native protocol');
+    let p=12+hl;const sc=dv.getUint32(p,true);p+=4;
+    if(sc<1||sc*9>u8.length-p)throw Error('Invalid native state table');
+    const stubs=new Array(sc),stride=sc<=20000?1:Math.ceil(sc/20000),cache=new Map([['r',tree]]);
+    for(let i=0;i<sc;i++){
+      const parent=dv.getUint32(p,true),slot=u8[p+4],kind=u8[p+5],actor=u8[p+6],length=u8[p+7],k=u8[p+8];p+=9;
+      if(i===0?parent!==0xffffffff:parent>=i)throw Error('Invalid native state table');
+      const path=i===0?'r':stubs[parent].path+(slot===7?'c':String(slot));
+      stubs[i]={path,kind,actor,length,actions:{length:k}};
+      if(i%stride===0){
+        const t=pathState(path,cache),expect=t.kind==='player'?0:t.kind==='chance'?1:2;
+        if(expect!==kind||t.length!==length||(kind===0&&(t.actor!==actor||t.actions.length!==k)))throw Error('Native state does not match this game');
+        if(cache.size>50000)cache.clear(),cache.set('r',tree);
+      }
+    }
+    const count=dv.getUint32(p,true);p+=4;
+    const limit=profile.limit;profile.limit=Math.max(limit,Number.MAX_SAFE_INTEGER);
+    try{
+      for(let i=0;i<count;i++){
+        const state=dv.getUint32(p,true),hand=dv.getUint16(p+4,true),k=u8[p+11],t=stubs[state];
+        if(!t||t.kind!==0||t.actions.length!==k||!hands[t.actor][hand])throw Error('Native state does not match this game');
+        const cards=[...u8.subarray(p+6,p+11)].filter(c=>c>0).map(c=>c-1);p+=12;
+        if(cards.length!==t.length)throw Error('Native state does not match this game');
+        const row=nativeRow(t,EM.exactHandKey(hands[t.actor][hand],cards));
+        for(let a=0;a<2*k;a++){row.buffer[row.offset+a]=dv.getFloat64(p,true);p+=8;}
+      }
+    }finally{profile.limit=Math.max(limit,profile.bytes);}
+    if(p!==u8.length)throw Error('Native state has trailing data');
+    iterations=head.iterations;trainingDeals=head.trainingDeals;stateVisits=head.stateVisits;
+    dealRandom.restore(head.rng);actionRandom.restore(head.actionRng);limitReached=false;
+    return head;
+  }
+  function exportExternal(){
+    const ids=new Map([['r',0]]),states=[[0xffffffff,0,0,tree.actor,tree.length,tree.actions.length]],cache=new Map([['r',tree]]);
+    const index=hands.map(r=>new Map(r.map((h,i)=>[h.id,i]))),parts=[];let count=0;
+    const paths=[...profile.nodes.keys()].sort((a,b)=>a.length-b.length||(a<b?-1:a>b?1:0));
+    for(const path of paths)for(let i=2;i<=path.length;i++){
+      const prefix=path.slice(0,i);if(ids.has(prefix))continue;
+      const t=pathState(prefix,cache),c=prefix[i-1];
+      ids.set(prefix,states.length);
+      states.push([ids.get(prefix.slice(0,-1)),c==='c'?7:+c,t.kind==='player'?0:1,Math.max(0,t.actor),t.length,t.kind==='player'?t.actions.length:0]);
+    }
+    for(const path of paths){
+      const node=profile.nodes.get(path),id=ids.get(path),t=pathState(path,cache),k=node.k,pool=profile.pools[k];
+      for(const [key,ix] of node.rows){
+        const [hid,cardText]=String(key).split(':'),pub=cardText?cardText.split('.').map(Number):[];
+        const rec=new Uint8Array(12+16*k),dv=new DataView(rec.buffer);
+        dv.setUint32(0,id,true);dv.setUint16(4,index[t.actor].get(+hid),true);
+        for(let j=0;j<5;j++)rec[6+j]=j<pub.length?pub[j]+1:0;rec[11]=k;
+        const buf=pool.blocks[Math.floor(ix/256)],off=ix%256*2*k;
+        for(let a=0;a<2*k;a++)dv.setFloat64(12+8*a,buf[off+a],true);
+        parts.push(rec);count++;
+      }
+    }
+    if(!studyId)nativeSpec();
+    const encoder=new TextEncoder(),header={protocol:1,specProtocol:4,studyId,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),actionRng:actionRandom.state(),rows:count,states:states.length,rowCrc32:'00000000'};
+    const head=encoder.encode(JSON.stringify(header)),stateBytes=4+9*states.length;
+    const out=new Uint8Array(12+head.length+stateBytes+4+parts.reduce((a,b)=>a+b.length,0)),dv=new DataView(out.buffer);
+    out.set([69,77,77,87,52,0,0,0]);dv.setUint32(8,head.length,true);out.set(head,12);
+    let p=12+head.length;dv.setUint32(p,states.length,true);p+=4;
+    for(const [parent,slot,kind,actor,length,k] of states){dv.setUint32(p,parent,true);out.set([slot,kind,actor,length,k],p+4);p+=9;}
+    dv.setUint32(p,count,true);p+=4;
+    for(const r of parts){out.set(r,p);p+=r.length;}
+    out.set(encoder.encode(rowChecksum(out.subarray(12+head.length))),12+head.length-10);
+    return out;
+  }
   function exportNative(){
     const why=nativeSupport();if(why)throw Error(why);
+    if(external)return exportExternal();
     const {byPath}=nativeTree(),index=hands.map(r=>new Map(r.map((h,i)=>[h.id,i]))),parts=[];let count=0;
     for(const [path,node] of profile.nodes){
       const id=byPath.get(path);if(id===undefined)continue;
@@ -3894,7 +4007,13 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     out.set(encoder.encode(rowChecksum(out.subarray(12+head.length))),12+head.length-10);
     return out;
   }
-  return {rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,nativeSupport,nativeSpec,importNative,exportNative,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  // Cheap, reliably measurable facts for the progress display (no evaluation).
+  function diagnostics(){
+    return {players:n,startStreet:streetName(board.length),algorithm:external?'external-sampling MCCFR':'chance-sampled CFR, full betting traversal',
+      abstraction,batchDeals,weighting,regretMatching,...(external?{actionStreams}:{}),utility:icm?'ICM':'chip EV',
+      strategyMiB:profile.bytes/1048576,budgetMiB:profile.limit/1048576,iterations,trainingDeals,limitReached};
+  }
+  return {diagnostics,rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,nativeSupport,nativeSpec,importNative,exportNative,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));
 
@@ -4031,11 +4150,21 @@ function buildMultiway(input, opts={}) {
   // trees of up to 250,000 states with Exact cards; automatic traversal tries a
   // full tree first and falls back to sampled betting if it is larger.
   const nativeFull=wide && cfg.engine==='native' && traversal==='auto' && cfg.abstraction==='exact';
-  let external=wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
+  // opts.restoredExternal (checkpoint restore only): keep the traversal a saved
+  // automatic study was trained with, whatever the current automatic rule says.
+  const restored=traversal==='auto' && typeof opts.restoredExternal==='boolean'?opts.restoredExternal:null;
+  let external=restored!==null?wide&&restored:wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
     (traversal==='auto' && !nativeFull && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
   // Full betting traversal keeps every betting state. JavaScript training defaults to
-  // 2,200 states; native training (or a caller) may allow up to 250,000.
-  const fullStates=cfg.fullTreeStates??(nativeFull?250000:2200);
+  // 2,200 states. 3.1: automatic native training counts the tree first (without
+  // keeping it) and uses full traversal up to 20,000 states. Larger games train
+  // with native external sampling (protocol 4), which never builds the tree.
+  // Measured (validation/3.1): JavaScript keeps about 1.2 KB of heap per full-tree
+  // state, so the 3.0 automatic attempt allocated about 290 MiB and 1.3 s before
+  // abandoning a 250,000-state tree, and full traversal of such a tree visits
+  // every state on every deal. An explicit full traversal still accepts up to 250,000.
+  const AUTO_NATIVE_FULL_STATES=20000;
+  const fullStates=cfg.fullTreeStates??(restored===false?250000:nativeFull?AUTO_NATIVE_FULL_STATES:2200);
   if(!Number.isInteger(fullStates)||fullStates<1||fullStates>250000)throw Error('Full-tree state limit must be 1 to 250,000');
   const fullTreeLimit=new Error('Full traversal exceeds '+fullStates.toLocaleString('en-US')+' betting states. Choose automatic traversal.');
 
@@ -4150,15 +4279,34 @@ function buildMultiway(input, opts={}) {
   let tree;
   const posted=pre?stacks.map((s,p)=>Math.min(s,p===n-1?1:p===n-2?0.5:0)):zeros();
   const makeRoot=()=>build(board.length,zeros(),posted,Array(n).fill(true),Array(n).fill(-1),pre?1:0,1,0,-1);
+  // Count betting states depth-first without keeping them; stops past limit.
+  function countStates(limit){
+    const saved=external,stopCount={};let count=0;external=true;
+    try{(function visit(t){
+      if(++count>limit)throw stopCount;
+      if(t.kind==='player')for(let a=0;a<t.actions.length;a++)visit(advanceBuild(t,a));
+      else if(t.kind==='chance')visit(nextStreetBuild(t));
+    })(makeRoot());}
+    catch(e){if(e!==stopCount)throw e;}
+    finally{external=saved;}
+    return count;
+  }
+  if(nativeFull && !external && restored===null && countStates(fullStates)>fullStates)external=true;
   try {tree=makeRoot();}
   catch(e){
-    if(e!==fullTreeLimit || traversal!=='auto')throw e;
+    if(e!==fullTreeLimit || traversal!=='auto' || restored!==null)throw e;
     external=true;
     Object.values(byStreet).forEach(list=>list.length=0);
     templateCount=0;
     tree=makeRoot();
   }
-  if(wide)return EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0)});
+  // Betting rules for the native external-sampling engine (protocol 4), which
+  // regenerates these states with the same operations as build() above.
+  const sizeKind={jam:0,geo:1,pot:2,multiple:3,absolute:4};
+  const rules={stacks:stacks.slice(),prior:prior.slice(),folded:folded.slice(),common,pot0,ownAnte:ownAnte.slice(),posted:posted.slice(),
+    open:open.map(Boolean),pre:Boolean(pre),shove:Boolean(shove),noLimp:Boolean(pre)&&pre.limps===false,
+    sizes:Object.fromEntries(Object.entries(sizes).map(([k,v])=>[k,{cap:v.cap,bets:v.bets.map(z=>[sizeKind[z.kind],z.value??0]),raises:v.raises.map(z=>[sizeKind[z.kind],z.value??0])}]))};
+  if(wide)return EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0),rules});
   // Enumerate the conditional joint deal once. Private cards in folded river
   // hands still block other hands; seats never see their opponents' hole cards.
   const deals=[], weights=[], picked=Array(n), used=new Uint8Array(52);
@@ -4436,9 +4584,9 @@ function planMultiwayMode(input) {
     reason:'Exact enumeration fits in memory but needs about '+Math.round(plan.work/1e3)+'k deal-node visits per iteration (limit '+AUTO_MAX_WORK/1e3+'k)'};
   return {...base,chosen:'exact',...plan,reason:'Exact enumeration fits: '+plan.deals+' deals, '+plan.publicStates+' public states, about '+plan.estimatedMiB.toFixed(1)+' MiB'};
 }
-function MultiwayGame(input) {
+function MultiwayGame(input,opts={}) {
   if(!input || input.privateMode!=='auto'){
-    const game=buildMultiway(input);
+    const game=buildMultiway(input,opts);
     game.resolvedConfig=EM.copyStudyConfig(input);
     return game;
   }
@@ -4634,8 +4782,17 @@ async function nativeStart(m,g){
   try{
     const init=await nativeCall(m.native.base,'init',g.nativeSpec());
     if(g.iterations>0)await nativeCall(m.native.base,'import',g.exportNative(),true);
-    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB};
+    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB,algorithm:init.engine.algorithm||'full'};
   }catch(e){return {used:false,reason:e.message};}
+}
+// 3.1 progress diagnostics: only values that are measured or configured.
+function trainingDiagnostics(g,nativeEngine,saveStatus,native){
+  const d=typeof g.diagnostics==='function'?g.diagnostics():{};
+  const used=Boolean(nativeEngine?.used);
+  return {...d,engine:used?'native C++':'JavaScript',fallbackReason:nativeEngine&&!used?nativeEngine.reason:native?null:'desktop host not connected',
+    devicePath:used?nativeEngine.devicePath||'CPU':'JavaScript worker (CPU)',threads:used?nativeEngine.workerThreads||nativeEngine.threads||native?.threads:1,
+    nativeTableMiB:used?nativeEngine.tableMiB:null,nativeBudgetMiB:used?nativeEngine.budgetMiB:null,gpuPeakMiB:used?nativeEngine.gpuPeakMiB||0:null,
+    states:used?nativeEngine.states:null,checkpoint:saveStatus||'no checkpoint saved in this run'};
 }
 function trainMultiway(m,g,max,target,wide){
   let interval=Number(m.autosaveSeconds??0);
@@ -4662,9 +4819,11 @@ function trainMultiway(m,g,max,target,wide){
         const st=await nativeChunk(m,g,Math.min(max,next)-g.iterations,s=>{
           const elapsed=(performance.now()-started)/1000;
           post({type:'progress',id:m.id,it:s.iterations,elapsed,trainingDeals:s.trainingDeals,strategyMiB:g.strategyMiB,engine:'native',threads:s.threads,
-            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+            diagnostics:{...trainingDiagnostics(g,nativeEngine,saveStatus,m.native),iterations:s.iterations,trainingDeals:s.trainingDeals}});
         });
         nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;nativeEngine.devicePath=st.engine?.devicePath;
+        if(st.engine){nativeEngine.tableMiB=st.engine.tableMiB;nativeEngine.gpuPeakMiB=(st.engine.gpuBufferPeakBytes||0)/1048576;nativeEngine.states=st.engine.states;nativeEngine.workerThreads=st.engine.threads;}
         if(st.engine&&st.engine.limitReached)nativeEngine.limitReached=true;
         if(g.iterations===begin&&!riverStop&&!nativeEngine.limitReached)throw Error('Native training made no progress');
         void dealsBefore;
@@ -4686,7 +4845,7 @@ function trainMultiway(m,g,max,target,wide){
           await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
           // Recorded only when native training was requested (desktop app).
-          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
+          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',algorithm:nativeEngine.algorithm,devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB,gpuPeakMiB:nativeEngine.gpuPeakMiB,states:nativeEngine.states}:
             {name:'JavaScript',fallbackReason:nativeEngine?.reason};
           riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?'native memory budget reached':reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
@@ -4696,7 +4855,8 @@ function trainMultiway(m,g,max,target,wide){
       await autosave(false);
       const elapsed=(performance.now()-started)/1000;
       post({type:'progress',id:m.id,it:g.iterations,elapsed,trainingDeals:g.trainingDeals,strategyMiB:g.strategyMiB,
-        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+        diagnostics:wide?trainingDiagnostics(g,nativeEngine,saveStatus,m.native):null});
       setTimeout(step,0);
     } catch(e) { riverBusy=false; river=null; post({type:'error',id:m.id,message:e.message}); }
   }
@@ -4931,7 +5091,7 @@ function postNode(m) {
 })(globalThis.EM || (globalThis.EM = {}));
 
 ;
-globalThis.EM.BUILD = Object.freeze({version:"3.0",build:"8ff0e71cd306a4f9"});</script>
+globalThis.EM.BUILD = Object.freeze({version:"3.1",build:"d571a3e06fb183bd"});</script>
 <script>(function (EM) {
 'use strict';
 const streets=['Flop','Turn','River'];
@@ -4972,7 +5132,7 @@ function multiwaySpotConfig(spot) {
   const parseFolded=()=>String(spot.folded||'').trim()?String(spot.folded).trim().split(/[\s,]+/).map(number):[];
   const settings={};
   for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
-  const cfg={...anteCfg(),processingMode:spot.processingMode||'cpu',gpuMiB:Number(spot.gpuMiB??512),nativeThreads:Number(spot.nativeThreads||0),...(spot.updates&&spot.updates!=='simultaneous'?{updates:spot.updates}:{}),riverStrata:spot.riverStrata===true,batchDeals:Number(spot.batchDeals??1),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
+  const cfg={...anteCfg(),processingMode:spot.processingMode||'cpu',gpuMiB:Number(spot.gpuMiB??512),nativeThreads:Number(spot.nativeThreads||0),...(spot.updates&&spot.updates!=='simultaneous'?{updates:spot.updates}:{}),riverStrata:spot.riverStrata===true,batchDeals:Number(spot.batchDeals??1),...(spot.actionStreams==='deal'?{actionStreams:'deal'}:{}),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
     runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
     folded:parseFolded(),
     stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
@@ -5010,7 +5170,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     let h;
     if(m.wide){
       h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">Wide ranges · seed '+m.seed+' · '+m.iterations.toLocaleString()+' training iterations · '+m.evaluationDeals.toLocaleString()+' evaluation deals · '+val(result.reason)+'</p>';
-      if(m.trainingEngine)h+='<p class="note">Training engine: '+val(m.trainingEngine.name)+(m.trainingEngine.devicePath?' · '+val(m.trainingEngine.devicePath):'')+(m.trainingEngine.threads?' · '+m.trainingEngine.threads+' threads · '+num(m.trainingEngine.seconds,1)+' s native training':'')+(m.trainingEngine.fallbackReason?' (native not used: '+val(m.trainingEngine.fallbackReason)+')':'')+'.</p>';
+      if(m.trainingEngine)h+='<p class="note">Training engine: '+val(m.trainingEngine.name)+(m.trainingEngine.algorithm==='external'?' · native external-sampling MCCFR':'')+(m.trainingEngine.states?' · '+m.trainingEngine.states.toLocaleString()+' betting states visited':'')+(m.trainingEngine.devicePath?' · '+val(m.trainingEngine.devicePath):'')+(m.trainingEngine.threads?' · '+m.trainingEngine.threads+' threads · '+num(m.trainingEngine.seconds,1)+' s native training':'')+(m.trainingEngine.fallbackReason?' (native not used: '+val(m.trainingEngine.fallbackReason)+')':'')+'.</p>';
       h+='<table class="rv-table"><thead><tr><th>Player</th><th>Estimated EV ('+unit()+')</th><th>Standard error ('+unit()+')</th></tr></thead><tbody>';
       seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.se[i])+'</td></tr>';});
       h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+val(m.dealSampler||'independent rejection')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds, test opponent responses and, for spots small enough to enumerate, measure exact best-response gains. Training completion alone does not make a strategy an equilibrium.</p></div>';
@@ -5060,7 +5220,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   function trainingControls(){
     return '<div class="card"><h2>Save and continue training</h2><fieldset '+(busy?'disabled':'')+'><button class="btn" data-rv-save="1">Save training</button><div class="fields">'+
       field('resume-iterations','Additional iterations',resume.iterations,'number','min="1" max="'+(result.metrics.wide?100000:5000)+'"')+
-      (result.metrics.wide?field('resume-memory','Strategy budget (MiB)',resume.memoryMiB,'number','min="'+result.metrics.memoryBudgetMiB+'" max="256" step="1"'):'')+
+      (result.metrics.wide?field('resume-memory','Strategy budget (MiB)',resume.memoryMiB,'number','min="'+result.metrics.memoryBudgetMiB+'" max="'+(typeof window!=='undefined'&&window.EM_NATIVE?2048:256)+'" step="1"'):'')+
       '</div><button class="btn" data-rv-resume="1">Continue training</button></fieldset><p class="note">Save downloads an .emstudy file with the setup, regrets, average strategy and random state. Load it above to continue later. Increase the budget after a memory stop. Accuracy reports must be rerun after more training.</p></div>';
   }
   function trainingReady(){
@@ -5084,7 +5244,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     next.board=typeof cfg.board==='string'?cfg.board:cfg.board.map(EM.cardStr).join(' ');
     next.common=String(cfg.common-(cfg.dealt===undefined?0.1*next.dealt:0));
     next.folded=(cfg.folded||[]).join(',');next.privateMode=cfg.privateMode||'exact';next.privateSeed=cfg.privateSeed??17;
-    next.riverStrata=cfg.riverStrata===true;next.updates=cfg.updates||'simultaneous';next.batchDeals=cfg.batchDeals??1;next.precision='custom';next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
+    next.riverStrata=cfg.riverStrata===true;next.updates=cfg.updates||'simultaneous';next.batchDeals=cfg.batchDeals??1;next.actionStreams=cfg.actionStreams||'shared';next.precision='custom';next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
     next.anteType=cfg.anteType||'classic';next.ante=cfg.ante==null?'':String(cfg.ante);next.anteSeat=String(cfg.anteSeat??-1);
     next.mode=cfg.runouts?.mode||'exact';next.count=cfg.runouts?.count??4;next.seed=cfg.runouts?.seed??17;
     next.payoff=cfg.icm?'icm':'chip';next.payouts=(cfg.icm?.payouts||[50,30,20]).join(',');
@@ -5111,7 +5271,18 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(Number.isFinite(m.trainingDeals))message+=' · '+m.trainingDeals.toLocaleString()+' sampled deals · '+Math.round(m.dealsPerSecond)+' deals/s · '+num(m.strategyMiB,1)+' MiB strategy';
     if(Number.isFinite(m.elapsed))message+=' · '+Math.round(m.elapsed)+' s';
     if(m.gap!=null)message+=' · largest measured gain '+num(m.gap,4)+' '+unit();
-    return message+(m.saveStatus?' · '+m.saveStatus:'');
+    message+=m.saveStatus?' · '+m.saveStatus:'';
+    const d=m.diagnostics;
+    if(d){
+      // 3.1 solver diagnostics. No completion percentage is shown: sampled
+      // training has no meaningful end point other than the requested budget.
+      message+='\n'+String(d.engine)+' · '+String(d.algorithm)+' · '+d.players+' players · '+String(d.startStreet)+' start · '+String(d.utility)+' · '+String(d.devicePath)+
+        (d.threads?' · '+d.threads+' threads':'')+' · RAM '+(d.nativeTableMiB!=null?num(d.nativeTableMiB,1)+' MiB native tables + ':'')+num(d.strategyMiB,1)+' MiB browser strategy'+
+        (d.gpuPeakMiB?' · VRAM buffers '+num(d.gpuPeakMiB,1)+' MiB':'')+(d.states?' · '+d.states.toLocaleString()+' betting states visited':'')+
+        (EM.NATIVE_INFO&&EM.NATIVE_INFO.cuda?' · CUDA '+(EM.NATIVE_INFO.cuda.available?String(EM.NATIVE_INFO.cuda.name)+' available':'unavailable ('+String(EM.NATIVE_INFO.cuda.reason)+')'):'')+
+        (d.fallbackReason?' · JavaScript because: '+String(d.fallbackReason):'');
+    }
+    return message;
   }
   async function resumeTraining(){
     resume.iterations=number(el('resume-iterations').value);
@@ -5212,7 +5383,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   }
   function status() {
     const info=el('status'), out=el('output');
-    if(info){info.textContent=error||progress;info.className=error?'err':'small muted num';}
+    if(info){info.textContent=error||progress;info.className=error?'err':'small muted num';info.style.whiteSpace='pre-line';}
     if(out)out.innerHTML=results();
   }
   function updateControls() {
@@ -5283,7 +5454,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       (typeof window!=='undefined'&&window.EM_NATIVE?'<label class="field"><span class="label">Hand scoring device</span><select id="rv-device">'+[['cpu','CPU Only'],['auto','Automatic (calibrated)'],['gpu','GPU Preferred'],['hybrid','Hybrid CPU/GPU']].map(([v,t])=>'<option value="'+v+'" '+((spot.processingMode||'cpu')===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label><label class="field"><span class="label">CUDA buffer limit (MiB)</span><input id="rv-vram" type="number" min="1" max="8192" value="'+val(spot.gpuMiB??512)+'"></label><label class="field"><span class="label">CPU workers (0 = automatic)</span><input id="rv-threads" type="number" min="0" max="256" value="'+val(spot.nativeThreads||0)+'"></label>':'')+
       (typeof window!=='undefined'&&window.EM_NATIVE?'<label class="field"><span class="label">Training engine</span><select id="rv-engine"><option value="native" '+(spot.engine!=='javascript'?'selected':'')+'>Native C++ when eligible</option><option value="javascript" '+(spot.engine==='javascript'?'selected':'')+'>JavaScript</option></select></label>':'')+
       '<label class="field"><span class="label">Update scheme</span><select id="rv-updates">'+[['simultaneous','Simultaneous (default)'],['enumerate','Own-hand enumeration · most accurate per sampled deal'],['alternating','Alternating seats']].map(([k,l])=>'<option value="'+k+'" '+((spot.updates||'simultaneous')===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+
-      '<label class="field"><span class="label">Precision preset</span><select id="rv-precision">'+[['fast','Fast'],['balanced','Balanced'],['high','High accuracy'],['custom','Custom']].map(([k,l])=>'<option value="'+k+'" '+(spot.precision===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+field('batchDeals','Deals per update',spot.batchDeals??1,'number','min="1" max="64"')+field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="256" step="1"')+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
+      '<label class="field"><span class="label">Precision preset</span><select id="rv-precision">'+[['fast','Fast'],['balanced','Balanced'],['high','High accuracy'],['custom','Custom']].map(([k,l])=>'<option value="'+k+'" '+(spot.precision===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+field('batchDeals','Deals per update',spot.batchDeals??1,'number','min="1" max="64"')+field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="'+(typeof window!=='undefined'&&window.EM_NATIVE?2048:256)+'" step="1"')+
+      '<label class="field"><span class="label">Sampled-betting action streams</span><select id="rv-streams"><option value="shared" '+(spot.actionStreams!=='deal'?'selected':'')+'>Shared (one stream)</option><option value="deal" '+(spot.actionStreams==='deal'?'selected':'')+'>Per deal (parallel batches)</option></select></label>'+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
       '<div '+(shove?'hidden':'')+'><h3>Bet sizes by street</h3><div class="rv-scroll"><table class="rv-table rv-sizes"><thead><tr><th>Street</th><th>Opening bets (% pot)</th><th>Raises (× or % pot)</th><th>Bet / raise cap</th></tr></thead><tbody>'+sizeRows+'</tbody></table></div>'+
       '<p class="note">Separate sizes with commas. Use a for all-in, 2.5x for a raise multiple, or an empty box to omit those actions.</p></div>'+
       '<div id="rv-chance-settings"><h3>Future board cards</h3><label class="field"><span class="label">Runouts</span><select id="rv-mode">'+
@@ -5302,6 +5474,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(!el('board'))return;
     for(const k of ['board','dealt','common','folded','mode','seed','privateMode','privateSeed','payoff','payouts','others','startStacks','abstraction','memoryMiB','batchDeals','precision'])spot[k]=el(k).value;
     if(el('device'))spot.processingMode=el('device').value;
+    if(el('streams'))spot.actionStreams=el('streams').value;
     if(el('threads'))spot.nativeThreads=el('threads').value;
     if(el('vram'))spot.gpuMiB=el('vram').value;
     if(el('engine'))spot.engine=el('engine').value;
@@ -5328,8 +5501,10 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     read();const loaded=restoredConfig;clearResult();busy=true;progress='Building the betting and runout trees…';render();
     try{
       const cfg=EM.multiwaySpotConfig(spot);
-      // Desktop app: train eligible sampled studies in the native engine (Exact cards,
-      // chip EV, full betting tree); everything else and every failure uses JavaScript.
+      // Desktop app: train eligible sampled studies in the native engine (Exact cards;
+      // chip EV or ICM; full betting trees up to 20,000 states, larger games with native
+      // external sampling). Grouped abstractions and every failure use JavaScript, and
+      // the result names the reason.
       const nativeHost=typeof window!=='undefined'&&window.EM_NATIVE&&spot.engine!=='javascript'?
         {base:location.origin,threads:Math.max(1,Number((loaded||cfg).nativeThreads||EM.NATIVE_INFO?.logicalCPUs||1))}:null;
       if(nativeHost&&!loaded)cfg.engine='native';
