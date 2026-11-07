@@ -1,0 +1,27 @@
+PASS  Host starts (0.0 s) and reports version 2.9, build 7df38dabdc005e83, engine gen
+PASS  Embedded interface is byte-identical to the built native.html and carries the same version and build id
+PASS  Refuses a prefix-matching Host header
+PASS  Refuses a foreign Host header
+PASS  Refuses POST without the app header
+PASS  Empty build request is refused (400)
+PASS  Empty estimate request is refused (400)
+PASS  Empty report request is refused (400)
+PASS  Empty save request is refused (400)
+PASS  Empty load request is refused (400)
+PASS  Malformed JSON is refused
+PASS  Reserved or empty save name "con" is refused
+PASS  Reserved or empty save name "NUL.txt" is refused
+PASS  Reserved or empty save name "Com3" is refused
+PASS  Reserved or empty save name "lpt9" is refused
+PASS  Reserved or empty save name "aux.em8" is refused
+PASS  Reserved or empty save name ".." is refused
+PASS  Reserved or empty save name "   " is refused
+PASS  Duplicate board cards are rejected
+PASS  Saving before solving reports a clear message
+PASS  Known river equilibrium reproduced natively (10000 iterations, 0.09 s): value bets, half bluffs, half calls
+PASS  Saved solution lists, reloads and reproduces the identical strategy
+PASS  Loading a missing file is refused
+PASS  A corrupted solution file is refused without crashing
+PASS  Host answers during a long solve (1 ms) and stops it on request after 6 iterations
+PASS  Host is still running after every refused or cancelled request
+PASS  Host shuts down when its process is terminated

@@ -1,0 +1,18 @@
+{
+ "passed": true,
+ "runtime": "linux",
+ "executable": "eightmax",
+ "checks": [
+  "Host 2.9 build 7df38dabdc005e83 advertises multiway protocol 1 (4 logical CPUs)",
+  "3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.18 s) are bit-identical to JavaScript",
+  "3-player river, own-hand enumeration: 40 updates on the host (4 threads, 0.17 s) are bit-identical to JavaScript",
+  "6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.42 s) are bit-identical to JavaScript",
+  "Cancellation stops training in 4 ms after 13573 updates; the stopped state is complete and resumable (matches 13573 JavaScript updates); concurrent jobs are refused",
+  "A malformed native state is refused",
+  "Memory: application limit 8043 MiB, native process limit 6144 MiB, resident 6.4 MiB, tables 0.1 MiB, available 5881.6 MiB",
+  "An oversized 8-player full-range river is refused before allocation: Native strategy tables need about 7132 MiB, more than the 5875 MiB native budget. Use fewer bet sizes, narrowe",
+  "Tables released"
+ ],
+ "error": null,
+ "generated": "2026-11-07T04:48:09.867Z"
+}

@@ -1,0 +1,11 @@
+{
+ "passed": true,
+ "runtime": "linux",
+ "checks": [
+  "Worker trained 20,000 updates (80000 deals) in the native engine (4 threads, 0.49 s native); EVs equal page-side JavaScript training exactly; 39 progress messages, 20 diagnostics checkpoints",
+  "Stop from the interface ends native training after 64141 updates and returns the trained strategy (80 ms)",
+  "An ineligible study (Detailed groups) trains in JavaScript and records why: native training uses Exact cards grouping"
+ ],
+ "error": null,
+ "generated": "2026-11-07T04:48:17.906Z"
+}

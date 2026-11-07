@@ -238,9 +238,10 @@ New tests cover:
 - ICM sums and agreement with the reference DP for 8 and 16 players.
 
 These check rules and accounting. They do not establish equilibrium accuracy
-for full-range eight-player play. That remains unmeasured beyond
-tested-response lower bounds (accuracy report §6), because no exact
-evaluation exists at that size.
+for full-range eight-player play. That remains unmeasured. On the 8-player river preset the tested-response
+lower bounds (accuracy report §6) have 95% intervals of about ±1 bb for the
+first seat and are uninformative at that size. No exact evaluation exists for
+eight players.
 
 ## 8. Preflop charts
 
