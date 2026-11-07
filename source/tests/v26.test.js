@@ -158,3 +158,33 @@ test('legal betting actions: no raise is offered once the cap is reached, all-in
   const after=g.view([1,raise]);
   assert.ok(after.actions.every(a=>!/^Raise|^All-in/.test(a.label)),'second raise exceeds the two-bet cap');
 });
+
+// ---- Checkpoints ----
+const fixtures=require('./fixtures/checkpoints-2.5.json');
+const close=(a,b,t)=>{assert.equal(a.length,b.length);a.forEach((x,i)=>near(x,b[i],t));};
+for(const name of ['wide','exact','linked']){
+  test(`training saved by 2.5 (${name}) loads in 2.6 and continues with the same results`,async()=>{
+    const {game}=E.restoreCheckpoint(await E.decodeCheckpoint(fixtures[name].text));
+    const m=game.metrics(),want=fixtures[name].metrics;
+    // Linked preflop payoffs now itemize live antes as side-pot contributions: equal up to rounding.
+    const tol=name==='linked'?1e-9:0;
+    assert.equal(m.iterations,want.iterations);close(m.ev,want.ev,tol||1e-15);
+    if(name!=='linked'){game.iterate(50);close(game.metrics().ev,fixtures[name].after.ev,1e-15);}
+  });
+}
+test('automatic-mode studies save the resolved mode and resume bit-for-bit',async()=>{
+  for(const [n,start] of [[3,'River'],[7,'River']]){
+    const cfg={...E.multiwaySpotConfig(E.multiwayExample(n,start,8)),evaluationDeals:128},g=E.MultiwayGame(cfg);
+    g.iterate(g.modeSelection.chosen==='exact'?20:150);
+    const payload=await E.decodeCheckpoint(await E.encodeCheckpoint(g.snapshot()));
+    assert.equal(payload.cfg.privateMode,g.modeSelection.chosen);
+    const restored=E.restoreCheckpoint(payload).game;
+    g.iterate(40);restored.iterate(40);
+    const a=g.metrics(),b=restored.metrics();delete a.modeSelection;
+    assert.deepEqual(b,a);
+  }
+});
+test('a damaged checkpoint is rejected',async()=>{
+  const text=fixtures.wide.text,bad=text.slice(0,200)+(text[200]==='A'?'B':'A')+text.slice(201);
+  await assert.rejects(async()=>E.restoreCheckpoint(await E.decodeCheckpoint(bad)));
+});

@@ -88,7 +88,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     // A betting history occurs once in a traversal. Its scratch row pointer
     // stays valid while descendants use their own history entries.
     node.buffer=pool.blocks[Math.floor(index/256)];node.offset=index%256*2*k;
-    if(store===profile && !external){t.profileNode=node;t.profileGen=profile.gen;}
+    if(store===profile){t.profileNode=node;t.profileGen=profile.gen;}
     return node;
   }
   function probabilities(t,w,store,average,create=false){

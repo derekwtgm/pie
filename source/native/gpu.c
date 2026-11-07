@@ -259,7 +259,9 @@ void *gpu_host_alloc(size_t bytes, GBuf **pin) {
     cl_mem m = CL.CreateBuffer(CTX, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, bytes, NULL, &e);
     if (e == CL_SUCCESS && m) {
       void *p = CL.EnqueueMapBuffer(Q, m, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, bytes, 0, NULL, NULL, &e);
-      if (e == CL_SUCCESS && p) { GBuf *b = (GBuf *)calloc(1, sizeof(GBuf)); b->m = m; b->p = p; b->n = bytes; b->pinned = 1; *pin = b; return p; }
+      GBuf *b = e == CL_SUCCESS && p ? (GBuf *)calloc(1, sizeof(GBuf)) : NULL;
+      if (b) { b->m = m; b->p = p; b->n = bytes; b->pinned = 1; *pin = b; return p; }
+      if (e == CL_SUCCESS && p) CL.EnqueueUnmapMemObject(Q, m, p, 0, NULL, NULL);
       CL.ReleaseMemObject(m);
     }
   }

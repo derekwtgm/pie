@@ -2,9 +2,9 @@
 param(
   [string]$Exe = (Join-Path $PSScriptRoot '..\..\EightMax.exe'),
   [string]$Report = (Join-Path $PSScriptRoot '..\..\Windows-self-test.json'),
-  [string]$ExpectedVersion = '2.5',
-  # checks for host fixes that only a freshly compiled 2.5 host has (not the repacked 2.3 binary)
-  [switch]$Fresh
+  [string]$ExpectedVersion = ((Get-Content -LiteralPath (Join-Path $PSScriptRoot '..\VERSION') -TotalCount 1).Trim()),
+  # checks for host fixes added in 2.5 and later (every 2.6 host is compiled from source)
+  [switch]$Fresh = $true
 )
 $ErrorActionPreference = 'Stop'
 $checks = [System.Collections.Generic.List[string]]::new()

@@ -57,6 +57,7 @@ static char *pstr(P *p) {
   if (p->s >= p->e || *p->s != '"') { perr(p, "expected string"); return NULL; }
   p->s++;
   size_t cap = 16, n = 0; char *o = (char *)malloc(cap);
+  if (!o) { perr(p, "out of memory"); return NULL; }
   while (p->s < p->e && *p->s != '"') {
     char c = *p->s++;
     if (c == '\\' && p->s < p->e) {
@@ -65,7 +66,7 @@ static char *pstr(P *p) {
       else if (d == 'u') { unsigned u = 0; for (int i = 0; i < 4 && p->s < p->e; i++) { char h = *p->s++; u = u * 16 + (unsigned)(h >= 'a' ? h - 'a' + 10 : h >= 'A' ? h - 'A' + 10 : h - '0'); } c = u < 128 ? (char)u : '?'; }
       else c = d;
     }
-    if (n + 2 > cap) { cap *= 2; o = (char *)realloc(o, cap); }
+    if (n + 2 > cap) { cap *= 2; char *grown = (char *)realloc(o, cap); if (!grown) { free(o); perr(p, "out of memory"); return NULL; } o = grown; }
     o[n++] = c;
   }
   if (p->s >= p->e) { perr(p, "unterminated string"); free(o); return NULL; }

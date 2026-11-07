@@ -24,10 +24,6 @@ jobs:
         run: |
           node source/tools/build.js build
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          Copy-Item build/EightMax-Offline.html EightMax-Offline.html
-      - name: Test the previously shipped host
-        shell: powershell
-        run: ./source/tools/test_windows.ps1 -Report shipped-windows.json
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
@@ -36,19 +32,25 @@ jobs:
       - name: Compile a fresh native host from the current source
         shell: msys2 {0}
         run: CC=gcc sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
-      - name: Test the fresh host, including the 2.5 host fixes
+      - name: Test the fresh host on Windows
         shell: powershell
-        run: ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Fresh -Report fresh-windows.json
+        run: |
+          ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Report fresh-windows.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_host.js build/fresh/EightMax.exe build fresh-windows-host.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Assemble the release around the fresh host
         shell: powershell
         run: |
           $r = 'release/EightMax'
           New-Item -ItemType Directory -Force $r | Out-Null
           Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
-          Copy-Item EightMax-Offline.html, README.txt, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', VALIDATION-2.3.json, VALIDATION-2.5.json $r
+          Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
+          Copy-Item build/build-info.json "$r/BUILD-INFO.json"
+          Copy-Item README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
-          Copy-Item shipped-windows.json, fresh-windows.json "$r/validation/"
+          Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
       - name: Verify the assembled release
         shell: powershell
         run: |
@@ -59,19 +61,27 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/checkpoint_ui_smoke.js $r
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          ./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Fresh -Report "$r/validation/Windows-release-test.json"
+          ./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Report "$r/validation/Windows-release-test.json"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/accuracy_report.js "$r/validation"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node --test source/tests/*.test.js 2>&1 | Out-File -Encoding utf8 "$r/validation/regression-tests.txt"
-          Compress-Archive -Path $r -DestinationPath release/EightMax-Windows-2.5.zip
+          $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
+          "EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"
+          Push-Location $r
+          Get-ChildItem -Recurse -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object {
+            $rel = (Resolve-Path -Relative $_.FullName).Substring(2).Replace('\','/')
+            '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower(), $rel } | Sort-Object { $_.Substring(66) } | Set-Content -Encoding ascii SHA256SUMS.txt
+          Pop-Location
+          $v = (Get-Content source/VERSION -TotalCount 1).Trim()
+          Compress-Archive -Path $r -DestinationPath "release/EightMax-Windows-$v.zip"
       - name: Upload the release and reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: EightMax-Windows-release
           path: |
-            release/EightMax-Windows-2.5.zip
-            shipped-windows.json
+            release/EightMax-Windows-*.zip
             fresh-windows.json
+            fresh-windows-host.json
             release/EightMax/validation/

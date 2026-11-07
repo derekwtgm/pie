@@ -204,13 +204,32 @@ function buildMultiway(input, opts={}) {
     }
     return tpl;
   }
+  // Sampled betting traversal does not keep the whole tree. Betting states are a
+  // deterministic function of their action path, so recently used states are
+  // kept in a bounded cache instead of being rebuilt on every visit.
+  const stateCache=new Map(), STATE_CACHE_LIMIT=8000, STATE_CACHE_DEPTH=9;   // states near the root are revisited constantly; deep ones rarely
+  function cachedState(key,make){
+    // Preflop studies gain nothing measurable from it (see tools/benchmark.js), so only postflop caches.
+    if(pre || key.length>STATE_CACHE_DEPTH)return make();
+    let v=stateCache.get(key);
+    if(v===undefined){if(stateCache.size>=STATE_CACHE_LIMIT)stateCache.clear();v=make();stateCache.set(key,v);}
+    return v;
+  }
   function nextStreet(t) {
     if(t.next)return t.next;
+    if(external)return cachedState(t.path+'c',()=>nextStreetBuild(t));
+    return nextStreetBuild(t);
+  }
+  function nextStreetBuild(t) {
     const first=pre?(n===2?1:n-2):0;
     return build(t.length===0?3:t.length+1,t.total,zeros(),t.live,Array(n).fill(-1),0,1,0,first-1,t.path+'c');
   }
   function advance(t,a) {
     if(t.children)return t.children[a];
+    if(external)return cachedState(t.path+a,()=>advanceBuild(t,a));
+    return advanceBuild(t,a);
+  }
+  function advanceBuild(t,a) {
     const {previous,put,acted,price,full,count}=t.state, p=t.actor, action=t.actions[a];
     const live=t.live.slice(),nextPut=put.slice(),nextActed=acted.slice();
     if(action.kind==='fold')live[p]=false;
@@ -509,7 +528,11 @@ function planMultiwayMode(input) {
   return {...base,chosen:'exact',...plan,reason:'Exact enumeration fits: '+plan.deals+' deals, '+plan.publicStates+' public states, about '+plan.estimatedMiB.toFixed(1)+' MiB'};
 }
 function MultiwayGame(input) {
-  if(!input || input.privateMode!=='auto')return buildMultiway(input);
+  if(!input || input.privateMode!=='auto'){
+    const game=buildMultiway(input);
+    game.resolvedConfig=EM.copyStudyConfig(input);
+    return game;
+  }
   const selection=planMultiwayMode(input);
   const resolved={...input,privateMode:selection.chosen};
   const game=buildMultiway(resolved);
