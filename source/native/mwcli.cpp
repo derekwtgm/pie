@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
   FILE *fp = std::fopen(argv[4], "wb"); if (!fp || std::fwrite(buf, 1, n, fp) != n) { std::fprintf(stderr, "cannot write %s\n", argv[4]); return 1; }
   std::fclose(fp); std::free(buf);
   JB j; jb_init(&j); mw_info(m, &j);
-  std::printf("%.*s", (int)j.n - 1, j.s); std::printf(",\"seconds\":%.6f}\n", secs);
+  std::printf("%.*s", (int)j.n - 1, j.s); std::printf(",\"wallSeconds\":%.6f}\n", secs);
   jb_free(&j); mw_free(m);
   return 0;
 }

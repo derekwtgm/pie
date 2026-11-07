@@ -587,7 +587,6 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(external)return 'native training needs a full betting tree (choose Full traversal or a smaller tree)';
     if(abstraction!=='exact')return 'native training uses Exact cards grouping';
     if(icm)return 'native training supports chip EV; ICM studies train in JavaScript';
-    if(updates!=='simultaneous')return 'native training uses simultaneous updates';
     if(stratify)return 'stratified river batches train in JavaScript';
     if(board.length<3)return 'preflop studies train in JavaScript';
     return null;
@@ -609,7 +608,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const nodes=list.map(t=>t.kind==='player'?[0,t.actor,t.length,t.actions.map((_,a)=>ids.get(advance(t,a)))]:
       t.kind==='chance'?[1,t.length,ids.get(nextStreet(t))]:[2,Array.from(t.total),t.pots.map(pot=>[pot.amount,pot.eligible.slice()])]);
     return {protocol:1,engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),
-      hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),nodes,batchDeals,weighting,regretMatching,
+      hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),nodes,batchDeals,weighting,regretMatching,updates,
       state:{rng:dealRandom.state(),iterations,trainingDeals,stateVisits}};
   }
   const keyCards=(t,extra)=>board.concat(extra).slice(0,t.length);

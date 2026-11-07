@@ -26,6 +26,7 @@
 #include <vector>
 #include <atomic>
 #include <pthread.h>
+#include <chrono>
 
 namespace {
 
@@ -94,6 +95,9 @@ struct World { int seat[8]; int cards[5]; int score[8]; };
 struct IncRow { uint64_t key; int node, k; size_t off; };
 struct DealWork {
   World w;
+  int seat = -1;          // -1: update every seat (train === true); else only this seat
+  double weight = 1;      // chance weight of this traversal (own-hand enumeration)
+  int phase = 0;
   std::vector<IncRow> rows;
   std::vector<double> vals;   // per row: k regret increments then k average increments
   long long visits = 0;
@@ -116,7 +120,7 @@ struct MW {
   std::vector<Node> nodes;
   std::vector<int> children;
   std::vector<Terminal> terms;
-  int batchDeals = 1; bool linear = true, plus = false;
+  int batchDeals = 1; int updates = 0; /* 0 simultaneous, 1 alternating, 2 enumerate */ bool linear = true, plus = false, dcfr = false; double dA = 1.5, dB = 0, dG = 2;
   // state
   Rng rng{17};
   long long iterations = 0, trainingDeals = 0, stateVisits = 0;
@@ -130,6 +134,7 @@ struct MW {
   std::vector<int32_t> touched;
   double budgetBytes = 0, bytes = 0;
   int lastThreads = 1;
+  double secTraverse = 0, secMerge = 0, secDeal = 0;   // diagnostics
 
   // ---- tables ----
   static uint64_t mix(uint64_t x) { x ^= x >> 33; x *= 0xff51afd7ed558ccdULL; x ^= x >> 33; x *= 0xc4ceb9fe1a85ec53ULL; x ^= x >> 33; return x; }
@@ -195,13 +200,14 @@ struct MW {
       for (int i = 0; i < startLen; i++) w.cards[i] = board[i];
       int len = startLen;
       while (len < 5) { int c = (int)std::floor(rng.next() * 52); if (!used[c]) { used[c] = 1; w.cards[len++] = c; } }
-      for (int p = 0; p < n; p++) { const Hand &h = hands[p][w.seat[p]]; w.score[p] = evalSeven(w.cards, h.a, h.b); }
+      score(w);
       return true;
     }
     return false;
   }
 
-  // ---- traversal (mirrors lib_wide.js walk with train === true) ----
+  void score(World &w) const { for (int p = 0; p < n; p++) { const Hand &h = hands[(size_t)p][(size_t)w.seat[p]]; w.score[p] = evalSeven(w.cards, h.a, h.b); } }
+  // ---- traversal (mirrors lib_wide.js walk with train === true or {seat, weight}) ----
   void policy(const World &w, int node, int seat, double *sig) const {
     const Node &nd = nodes[node]; int k = nd.k;
     long long r = findRow(keyOf(w, node, seat));
@@ -241,11 +247,13 @@ struct MW {
       for (int j = 0; j < n; j++) u[j] += sig[a] * v[j];
     }
     s.reach[p] = old;
+    if (out.seat >= 0 && out.seat != p) return u;
     double others = 1; for (int j = 0; j < n; j++) if (j != p) others *= s.reach[j];
+    const double cw = out.weight;
     IncRow ir{keyOf(w, node, p), node, k, out.vals.size()};
     out.rows.push_back(ir);
-    for (int a = 0; a < k; a++) out.vals.push_back(step * 1.0 * others * (av[a] - u[p]));
-    for (int a = 0; a < k; a++) out.vals.push_back(step * 1.0 * old * sig[a]);
+    for (int a = 0; a < k; a++) out.vals.push_back(step * cw * others * (av[a] - u[p]));
+    for (int a = 0; a < k; a++) out.vals.push_back(step * cw * old * sig[a]);
     return u;
   }
   void runDeal(DealWork &dw, Scratch &s, double step) const {
@@ -262,15 +270,17 @@ struct MW {
 namespace {
 // ---------------- thread pool for one batch ----------------
 struct Pool {
-  MW *m = nullptr; int threads = 1;
+  MW *m = nullptr; int threads = 1, active = 1;
   std::vector<pthread_t> ids; std::vector<Scratch> scratch;
   pthread_mutex_t mu = PTHREAD_MUTEX_INITIALIZER; pthread_cond_t go = PTHREAD_COND_INITIALIZER, done = PTHREAD_COND_INITIALIZER;
   long long gen = 0; int finished = 0; bool quit = false;
   std::vector<DealWork> *work = nullptr; std::atomic<int> next{0}; double step = 1;
+  void (*task)(Pool *, int) = nullptr; void *taskCtx = nullptr;   // optional per-thread task (parallel merge)
   struct Arg { Pool *pool; int index; };
   std::vector<Arg> args;
   void process(int index) {
-    for (;;) { int d = next.fetch_add(1); if (d >= (int)work->size()) break; m->runDeal((*work)[(size_t)d], scratch[(size_t)index], step); }
+    if (task) { task(this, index); return; }
+    for (;;) { size_t d = lo + (size_t)next.fetch_add(1); if (d >= hi) break; m->runDeal((*work)[d], scratch[(size_t)index], step); }
   }
   static void *main(void *v) {
     Arg *a = (Arg *)v; Pool *p = a->pool; long long seen = 0;
@@ -293,12 +303,18 @@ struct Pool {
     }
     return true;
   }
+  size_t lo = 0, hi = 0;
+  void runRange(std::vector<DealWork> &w, size_t a, size_t b, double s) { lo = a; hi = b; task = nullptr; run(w, s); }
+  void runTask(void (*t)(Pool *, int), void *ctx, std::vector<DealWork> &w) { task = t; taskCtx = ctx; active = threads; run(w, step); task = nullptr; }
   void run(std::vector<DealWork> &w, double s) {
     work = &w; step = s; next.store(0);
-    if (threads > 1) { pthread_mutex_lock(&mu); finished = 0; gen++; pthread_cond_broadcast(&go); pthread_mutex_unlock(&mu); }
+    const bool fan = active > 1 && threads > 1;
+    if (fan) { pthread_mutex_lock(&mu); finished = 0; gen++; pthread_cond_broadcast(&go); pthread_mutex_unlock(&mu); }
     process(0);
-    if (threads > 1) { pthread_mutex_lock(&mu); while (finished < threads - 1) pthread_cond_wait(&done, &mu); pthread_mutex_unlock(&mu); }
+    if (fan) { pthread_mutex_lock(&mu); while (finished < threads - 1) pthread_cond_wait(&done, &mu); pthread_mutex_unlock(&mu); }
+    if (fan) fanned++;
   }
+  long long fanned = 0;
   void stop() {
     pthread_mutex_lock(&mu); quit = true; pthread_cond_broadcast(&go); pthread_mutex_unlock(&mu);
     for (int i = 1; i < threads; i++) pthread_join(ids[(size_t)i], nullptr);
@@ -381,8 +397,13 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     m->maxDepth = height[0] + 1;
     m->batchDeals = (int)jnum(jget(root, "batchDeals"), 1);
     if (m->batchDeals < 1 || m->batchDeals > 64) return bad("Batch deals must be 1 to 64");
+    const char *up = jstr(jget(root, "updates"));
+    if (up && !strcmp(up, "alternating")) m->updates = 1; else if (up && !strcmp(up, "enumerate")) m->updates = 2;
+    else if (up && strcmp(up, "simultaneous")) return bad("Unknown update scheme");
     const char *wt = jstr(jget(root, "weighting")); m->linear = !wt || !strcmp(wt, "linear");
-    if (wt && strcmp(wt, "linear") && strcmp(wt, "uniform")) return bad("Unknown weighting");
+    m->dcfr = wt && !strcmp(wt, "dcfr");
+    if (wt && strcmp(wt, "linear") && strcmp(wt, "uniform") && strcmp(wt, "dcfr")) return bad("Unknown weighting");
+    if (m->dcfr) { m->dA = jnum(jget(root, "dcfrAlpha"), 1.5); m->dB = jnum(jget(root, "dcfrBeta"), 0); m->dG = jnum(jget(root, "dcfrGamma"), 2); }
     const char *rm = jstr(jget(root, "regretMatching")); m->plus = rm && !strcmp(rm, "plus");
     if (rm && strcmp(rm, "plus") && strcmp(rm, "standard")) return bad("Unknown regret matching");
     JV *st = jget(root, "state");
@@ -426,37 +447,108 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
   if (iterations < 0 || m->iterations + iterations > 10000000LL) { fail(err, errlen, "Iteration count must fit the 10 million iteration limit"); return 0; }
   if (threads < 1) threads = 1;
   if (threads > 256) threads = 256;
-  if (threads > m->batchDeals) threads = m->batchDeals;   // more threads than deals per update cannot help
+  if (m->updates == 0 && threads > m->batchDeals) threads = m->batchDeals;   // more threads than deals per update cannot help
   m->lastThreads = threads;
   Pool pool;
   try {
-    std::vector<DealWork> work((size_t)m->batchDeals);
+    std::vector<DealWork> work; work.reserve((size_t)m->batchDeals * 64);
+    std::vector<DealWork> phaseWork;
     pool.start(m, threads);
+    const int B = m->batchDeals;
+    double avgVisits = 1e9;   // unknown before the first update: allow threads
     for (long long it = 0; it < iterations && !m->limitReached; it++) {
       if (stop && *stop) break;
       double step = m->linear ? (double)(m->iterations + 1) : 1.0;
-      bool ok = true;
-      for (int d = 0; d < m->batchDeals; d++) { if (!m->deal(work[(size_t)d].w)) { ok = false; break; } m->trainingDeals++; }
-      if (!ok) { pool.stop(); fail(err, errlen, "Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals."); return 0; }
-      pool.run(work, step);
-      // merge in deal order
-      const int B = m->batchDeals; long long visits = 0; bool budget = true;
-      m->touched.clear();
-      for (int d = 0; d < B && budget; d++) {
-        DealWork &dw = work[(size_t)d]; visits += dw.visits;
-        for (const IncRow &ir : dw.rows) {
-          long long r = m->getOrCreate(ir.key, ir.node, ir.k);
-          if (r < 0) { budget = false; break; }
-          MW::RowMeta &rm = m->rows[(size_t)r]; rm.visited = 1;
-          size_t o = m->off(r); const double *x = &dw.vals[ir.off]; int k = ir.k;
-          for (int a = 0; a < 2 * k; a++) if (!std::isfinite(x[a])) { pool.stop(); fail(err, errlen, "Non-finite sampled CFR increment"); return 0; }
-          if (B == 1) {
-            for (int a = 0; a < k; a++) { double v = m->vals[o + (size_t)a] + x[a]; m->vals[o + (size_t)a] = m->plus ? std::fmax(0.0, v) : v; m->vals[o + (size_t)(k + a)] += x[k + a]; }
-          } else {
-            if (!rm.marked) { rm.marked = 1; m->touched.push_back((int32_t)r); }
-            for (int a = 0; a < k; a++) { m->delta[o + (size_t)a] += x[a] / B; m->delta[o + (size_t)(k + a)] += x[k + a] / B; }
+      // Draw every deal of this update first, in the JavaScript order (deals do not
+      // depend on the policy). Units of one phase share one frozen policy.
+      auto clk = [] { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); };
+      double tA = clk();
+      size_t units = 0; bool ok = true;
+      auto unit = [&](const World &w, int seat, double weight, int phase) {
+        if (units >= work.size()) work.emplace_back();
+        DealWork &u = work[units++]; u.w = w; u.seat = seat; u.weight = weight; u.phase = phase;
+      };
+      for (int d = 0; d < B && ok; d++) {
+        World w0; if (!m->deal(w0)) { ok = false; break; } m->trainingDeals++;
+        if (m->updates == 0) { unit(w0, -1, 1, 0); continue; }
+        for (int p = 0; p < m->n && ok; p++) {
+          World w = w0; if (p) { if (!m->deal(w)) { ok = false; break; } m->trainingDeals++; }
+          int phase = B == 1 ? p : 0;   // one deal per update applies each seat's increments at once in JavaScript
+          if (m->updates == 1) { unit(w, p, 1, phase); continue; }
+          uint8_t used[52] = {0};
+          for (int i = 0; i < 5; i++) used[w.cards[i]] = 1;
+          for (int j = 0; j < m->n; j++) if (j != p) { const Hand &h = m->hands[(size_t)j][(size_t)w.seat[j]]; used[h.a] = used[h.b] = 1; }
+          double tot = 0; for (const Hand &h : m->hands[(size_t)p]) if (!used[h.a] && !used[h.b]) tot += h.w;
+          for (size_t hi = 0; hi < m->hands[(size_t)p].size(); hi++) {
+            const Hand &h = m->hands[(size_t)p][hi]; if (used[h.a] || used[h.b]) continue;
+            World x = w; x.seat[p] = (int)hi; m->score(x); unit(x, p, h.w / tot, phase);
           }
         }
+      }
+      if (!ok) { pool.stop(); fail(err, errlen, "Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals."); return 0; }
+      if (m->dcfr && m->iterations > 0) {   // DCFR: discount values accumulated through t-1; a uniform per-row factor on positive regrets leaves this update's policy unchanged (experimental)
+        double t = (double)m->iterations, pa = std::pow(t, m->dA), pos = pa / (pa + 1), pb = std::pow(t, m->dB), neg = pb / (pb + 1), avg = std::pow(t / (t + 1), m->dG);
+        for (size_t ri = 0; ri < m->rows.size(); ri++) { MW::RowMeta &rw = m->rows[ri]; if (!rw.visited) continue; size_t o = m->off((long long)ri);
+          for (int a = 0; a < rw.k; a++) { double &v = m->vals[o + (size_t)a]; v *= v > 0 ? pos : neg; m->vals[o + (size_t)(rw.k + a)] *= avg; } }
+      }
+      m->secDeal += clk() - tA;
+      long long visits = 0; bool budget = true;
+      m->touched.clear();
+      int phases = B == 1 && m->updates ? m->n : 1;
+      size_t first = 0;
+      for (int ph = 0; ph < phases && budget; ph++) {
+        size_t last = first; while (last < units && work[last].phase == ph) last++;
+        phaseWork.clear();
+        // Adaptive threading: waking helper threads costs tens of microseconds, so a
+        // phase is split only when its estimated work (state visits, measured on the
+        // previous update) is large enough. Results are identical either way.
+        double estimate = avgVisits * (double)(last - first);
+        pool.active = estimate >= 60000.0 ? pool.threads : 1;
+        double tB = clk();
+        pool.runRange(work, first, last, step);
+        double tC = clk(); m->secTraverse += tC - tB;
+        // Parallel merge (dense tables, several deals per update): thread i applies the
+        // rows in its contiguous block of the table, scanning deals in order, so every value receives its
+        // increments in exactly the sequential order.
+        if (B > 1 && m->dense && pool.threads > 1 && estimate >= 60000.0) {
+          struct Ctx { MW *m; std::vector<DealWork> *w; size_t first, last; int T, B; std::atomic<int> bad{0}; } ctx{m, &work, first, last, pool.threads, B};
+          pool.runTask([](Pool *pl, int index) {
+            Ctx &c = *(Ctx *)pl->taskCtx;
+            for (size_t d = c.first; d < c.last; d++) {
+              DealWork &dw = (*c.w)[d];
+              for (const IncRow &ir : dw.rows) {
+                long long r = (long long)ir.key; if ((int)((size_t)r * (size_t)c.T / c.m->rows.size()) != index) continue;   // contiguous blocks avoid false sharing
+                MW::RowMeta &rm = c.m->rows[(size_t)r]; rm.visited = 1;
+                size_t o = c.m->off(r); const double *x = &dw.vals[ir.off]; int k = ir.k;
+                for (int a = 0; a < 2 * k; a++) if (!std::isfinite(x[a])) c.bad = 1;
+                rm.marked = 1;
+                for (int a = 0; a < k; a++) { c.m->delta[o + (size_t)a] += x[a] / c.B; c.m->delta[o + (size_t)(k + a)] += x[k + a] / c.B; }
+              }
+            }
+          }, &ctx, work);
+          if (ctx.bad) { pool.stop(); fail(err, errlen, "Non-finite sampled CFR increment"); return 0; }
+          for (size_t d = first; d < last; d++) visits += work[d].visits;
+          for (size_t d = first; d < last; d++) for (const IncRow &ir : work[d].rows) { MW::RowMeta &rm = m->rows[(size_t)ir.key]; if (rm.marked == 1) { rm.marked = 2; m->touched.push_back((int32_t)ir.key); } }
+          for (int32_t r : m->touched) m->rows[(size_t)r].marked = 1;
+          first = last; m->secMerge += clk() - tC; continue;
+        }
+        for (size_t d = first; d < last && budget; d++) {
+          DealWork &dw = work[d]; visits += dw.visits;
+          for (const IncRow &ir : dw.rows) {
+            long long r = m->getOrCreate(ir.key, ir.node, ir.k);
+            if (r < 0) { budget = false; break; }
+            MW::RowMeta &rm = m->rows[(size_t)r]; rm.visited = 1;
+            size_t o = m->off(r); const double *x = &dw.vals[ir.off]; int k = ir.k;
+            for (int a = 0; a < 2 * k; a++) if (!std::isfinite(x[a])) { pool.stop(); fail(err, errlen, "Non-finite sampled CFR increment"); return 0; }
+            if (B == 1) {
+              for (int a = 0; a < k; a++) { double v = m->vals[o + (size_t)a] + x[a]; m->vals[o + (size_t)a] = m->plus ? std::fmax(0.0, v) : v; m->vals[o + (size_t)(k + a)] += x[k + a]; }
+            } else {
+              if (!rm.marked) { rm.marked = 1; m->touched.push_back((int32_t)r); }
+              for (int a = 0; a < k; a++) { m->delta[o + (size_t)a] += x[a] / B; m->delta[o + (size_t)(k + a)] += x[k + a] / B; }
+            }
+          }
+        }
+        first = last; m->secMerge += clk() - tC;
       }
       if (!budget) {   // like JavaScript: discard the incomplete batch and stop at the budget
         for (int32_t r : m->touched) { MW::RowMeta &rm = m->rows[(size_t)r]; size_t o = m->off(r); for (int a = 0; a < 2 * rm.k; a++) m->delta[o + (size_t)a] = 0; rm.marked = 0; }
@@ -471,6 +563,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
         }
         rm.marked = 0;
       }
+      if (units) avgVisits = (double)visits / (double)units;
       m->stateVisits += visits; m->iterations++;
       if (progress && (it & 63) == 63) progress(ctx, m->iterations, m->trainingDeals);
     }
@@ -487,7 +580,7 @@ extern "C" void mw_info(MW *m, JB *out) {
   size_t visited = 0; for (auto &r : m->rows) visited += r.visited;
   jb_printf(out, "{\"protocol\":%d,\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"rows\":%zu,\"tableMiB\":", MW_PROTOCOL, m->iterations, m->trainingDeals, m->stateVisits, m->rng.state, visited);
   jb_num(out, m->bytes / 1048576.0, 3);
-  jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d}", m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals);
+  jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}", m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, m->secDeal, m->secTraverse, m->secMerge);
 }
 extern "C" size_t mw_export(MW *m, unsigned char **out) {
   std::vector<unsigned char> b; put(b, "EMMW1\0\0\0", 8);
