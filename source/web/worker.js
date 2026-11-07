@@ -39,12 +39,17 @@ self.onmessage = (ev) => {
 
 function multiwaySolve(m) {
   if (riverBusy) throw new Error('A multiway solve is already running');
-  const max=Number(m.maxIter), target=Number(m.target);
-  const wide=m.cfg?.privateMode==='sampled';
-  if (!Number.isInteger(max) || max<1 || max>(wide?100000:5000) || !Number.isFinite(target) || target<0)
+  let max=Number(m.maxIter);const target=Number(m.target);
+  const auto=m.cfg?.privateMode==='auto';
+  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?100000:5000) || !Number.isFinite(target) || target<0)
     throw new Error('Choose a positive number of iterations (up to 100,000 for wide ranges or 5,000 for enumeration)');
   const g=m.type==='river-solve'?EM.RiverGame(m.cfg):EM.MultiwayGame(m.cfg);
-  river=g;riverConfig=EM.copyStudyConfig(m.cfg);riverResult=null;
+  // Automatic mode resolves to exact or sampled deals; later resumes, checks and
+  // checkpoints use the resolved configuration. Exact runs keep their 5,000 cap
+  // and stop early at the target gain.
+  const resolved=g.resolvedConfig||EM.copyStudyConfig(m.cfg), wide=resolved.privateMode==='sampled';
+  if(!wide)max=Math.min(max,5000);
+  river=g;riverConfig=resolved;riverResult=null;
   trainMultiway(m,g,max,target,wide);
 }
 function trainMultiway(m,g,max,target,wide){
@@ -161,6 +166,11 @@ async function multiwayCheck(m) {
         await train(probe,'Testing response for seat '+(seat+1),plan.responseIterations);
         if(!riverStop)report.responses.push(probe.finish());
       }
+    }
+    if(baseGame.averageAt && !riverStop){
+      progress('Exact cross-check',0,1);
+      try{report.exact=EM.exactCheckSampled(riverConfig,baseGame);}
+      catch(e){report.exact={available:false,reason:e.message};}
     }
     report.status=riverStop?'stopped':report.errors.length?'completed with errors':'completed';
     report.summary=EM.multiwayCheckSummary(report.runs);

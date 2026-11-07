@@ -1,36 +1,57 @@
 (function (EM) {
 'use strict';
+const streets=['Flop','Turn','River'];
+const sourceRanges=['QhQd,9c9d','AsAd,KsTh','JhJd,8s8d','AcKd,5c5d','AhKh,6s6h','TsTc,7c7d','9h9s,AdQd','KhQh,4c4d'];
+function multiwayExample(n=3,start='Flop',dealt=8) {
+  if(start==='Preflop' || start==='Shove / call') {
+    const spot=multiwayExample(n,'Flop',dealt), shove=start!=='Preflop';
+    spot.study=shove?'shove':'linked';spot.board='';spot.privateMode='sampled';spot.maxIter=10000;
+    spot.seats=Array.from({length:n},(_,i)=>({name:EM.pfPositions(n)[i],stack:String(shove?[8,12,18,25,16,30,22,10][i]:25),prior:'0',range:'random',lead:true}));
+    spot.others=Array(Math.max(0,dealt-n)).fill(24.9).join(',');
+    spot.tree={flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}};
+    spot.notes=shove?'Shove/call study: every seat can respond, overcall or isolate all-in. Any chips left after preflop check down to showdown.':'Linked study: preflop decisions train with the configured flop, turn and river actions. Seats outside this study are assumed already folded.';
+    return spot;
+  }
+  const short=n>=4 && start!=='River';
+  const deep=[16,22,26,30,24], riverStacks=[16,32,26,30,24];
+  const tree={};
+  streets.forEach((street,i)=>{
+    if(n>=6) {
+      tree[street.toLowerCase()]={bets:['25,50','50,100','75,125'][i],raises:'2.5x',maxBets:2};
+      return;
+    }
+    tree[street.toLowerCase()]=start==='River' && i===2
+      ? {bets:'50,100',raises:'2.5x',maxBets:2}
+      : {bets:short?'100':['50','75','100'][i],raises:'',maxBets:1};
+  });
+  return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:'auto',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
+    dealt,common:'0',folded:'',tree,mode:start==='Flop'?'sampled':'exact',count:n>=6?2:4,seed:17,
+    maxIter:10000,target:0.02,notes:n>=6?['Six','Seven','Eight'][n-6]+' players put in 2 bb each from 25 bb starting stacks. Two bet sizes and a 2.5x raise are available on each street. Edit the sizes to study another line.':'',seats:Array.from({length:n},(_,i)=>({
+      name:'Seat '+(i+1),prior:'2',stack:String(n>=6?22.9:short?2*n+EM.tableAntes(dealt):(start==='River'?riverStacks:deep)[i]),
+      range:sourceRanges[i],lead:true}))};
+}
+EM.multiwayExample=multiwayExample;
+function multiwaySpotConfig(spot) {
+  const number=v=>String(v).trim()===''?NaN:Number(v);
+  const a=String(spot.ante??'').trim();
+  const anteCfg=()=>({anteType:spot.anteType||'classic',ante:a===''?undefined:Number(a),anteSeat:Number(spot.anteSeat??-1)});
+  const parseFolded=()=>String(spot.folded||'').trim()?String(spot.folded).trim().split(/[\s,]+/).map(number):[];
+  const settings={};
+  for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
+  const cfg={...anteCfg(),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
+    runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
+    folded:parseFolded(),
+    stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
+    ranges:spot.seats.map(s=>s.range),lead:spot.seats.map(s=>s.lead)};
+  if(spot.study!=='postflop')cfg.preflop={mode:spot.study,opens:spot.preOpen,raises:spot.preRaises,maxBets:number(spot.preCap),limps:spot.preLimps};
+  if(spot.payoff==='icm')cfg.icm={payouts:spot.payouts.trim().split(/[\s,]+/).filter(Boolean).map(Number),others:spot.others.trim().split(/[\s,]+/).filter(Boolean).map(Number)};
+  if(cfg.icm && spot.study==='postflop' && spot.startStacks.trim())cfg.icm.startStacks=spot.startStacks.trim().split(/[\s,]+/).map(Number);
+  return cfg;
+}
+EM.multiwaySpotConfig=multiwaySpotConfig;
 EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   const streets=['Flop','Turn','River'];
-  const sourceRanges=['QhQd,9c9d','AsAd,KsTh','JhJd,8s8d','AcKd,5c5d','AhKh,6s6h','TsTc,7c7d','9h9s,AdQd','KhQh,4c4d'];
-  function example(n=3,start='Flop',dealt=8) {
-    if(start==='Preflop' || start==='Shove / call') {
-      const spot=example(n,'Flop',dealt), shove=start!=='Preflop';
-      spot.study=shove?'shove':'linked';spot.board='';spot.privateMode='sampled';spot.maxIter=10000;
-      spot.seats=Array.from({length:n},(_,i)=>({name:EM.pfPositions(n)[i],stack:String(shove?[8,12,18,25,16,30,22,10][i]:25),prior:'0',range:'random',lead:true}));
-      spot.others=Array(Math.max(0,dealt-n)).fill(24.9).join(',');
-      spot.tree={flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'100',raises:'',maxBets:1}};
-      spot.notes=shove?'Shove/call study: every seat can respond, overcall or isolate all-in. Any chips left after preflop check down to showdown.':'Linked study: preflop decisions train with the configured flop, turn and river actions. Seats outside this study are assumed already folded.';
-      return spot;
-    }
-    const short=n>=4 && start!=='River';
-    const deep=[16,22,26,30,24], riverStacks=[16,32,26,30,24];
-    const tree={};
-    streets.forEach((street,i)=>{
-      if(n>=6) {
-        tree[street.toLowerCase()]={bets:['25,50','50,100','75,125'][i],raises:'2.5x',maxBets:2};
-        return;
-      }
-      tree[street.toLowerCase()]=start==='River' && i===2
-        ? {bets:'50,100',raises:'2.5x',maxBets:2}
-        : {bets:short?'100':['50','75','100'][i],raises:'',maxBets:1};
-    });
-    return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:n===6?'sampled':'exact',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
-      dealt,common:'0',folded:'',tree,mode:start==='Flop'?'sampled':'exact',count:n>=6?2:4,seed:17,
-      maxIter:n>=6?10000:500,target:0.02,notes:n>=6?['Six','Seven','Eight'][n-6]+' players put in 2 bb each from 25 bb starting stacks. Two bet sizes and a 2.5x raise are available on each street. Edit the sizes to study another line.':'',seats:Array.from({length:n},(_,i)=>({
-        name:'Seat '+(i+1),prior:'2',stack:String(n>=6?22.9:short?2*n+EM.tableAntes(dealt):(start==='River'?riverStacks:deep)[i]),
-        range:sourceRanges[i],lead:true}))};
-  }
+  const example=EM.multiwayExample;
   let spot=example(), pristine=true, busy=false, result=null, pos=[], current=null;
   let error='',progress='',revision=0,transferring=false,restoredConfig=null;
   const resume={iterations:10000,memoryMiB:112};
@@ -57,7 +78,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">Wide ranges · seed '+m.seed+' · '+m.iterations.toLocaleString()+' training iterations · '+m.evaluationDeals.toLocaleString()+' evaluation deals · '+val(result.reason)+'</p>';
       h+='<table class="rv-table"><thead><tr><th>Player</th><th>Estimated EV ('+unit()+')</th><th>Standard error ('+unit()+')</th></tr></thead><tbody>';
       seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.se[i])+'</td></tr>';});
-      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds and test opponent responses. Equilibrium distance remains unmeasured.</p></div>';
+      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds, test opponent responses and, for spots small enough to enumerate, measure exact best-response gains. Training completion alone does not make a strategy an equilibrium.</p></div>';
     }else{
     const scope=m.runoutMode==='sampled'?'Sampled cards · seed '+m.seed:m.runoutMode==='fixed'?'Fixed river':'All legal future cards';
     h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">'+val(scope)+' · '+val(result.reason)+' · '+m.iterations+
@@ -67,6 +88,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.best[i])+'</td><td>'+num(m.gain[i],4)+'</td></tr>';});
     h+='</tbody></table></div><p class="note">Chip EV is measured from the start of the spot; ICM is expected remaining prize value. Gain is the most one player can improve against the other fixed strategies using the available bets and runouts.</p></div>';
     }
+    if(m.modeSelection)h+='<p class="note">Automatic private-range mode chose '+(m.modeSelection.chosen==='exact'?'exact deal enumeration':'sampled deals (Wide ranges)')+'. '+val(m.modeSelection.reason)+'.</p>';
     if(m.utility==='icm')h+='<p class="note">ICM values are absolute expected remaining prizes in the units of your payouts. Stacks and bet amounts remain in bb. Reporting thresholds use 0.1% of the remaining prize pool.</p>';
     if(spot.study==='shove')h+='<p class="note">Shove/call model: all eligible seats may respond preflop. Any chips left after preflop check down to showdown; later bets are outside this study.</p>';
     h+=trainingControls()+quality();
@@ -215,6 +237,11 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
         audit.responses.forEach(r=>{h+='<tr><th>'+val(seats[r.seat].name)+'</th><td>'+num(r.gain)+'</td><td>'+num(r.gain-1.96*r.se)+' to '+num(r.gain+1.96*r.se)+'</td></tr>';});
         h+='</tbody></table><p class="note">Responses train against the original strategy and use separate evaluation deals. Gains cover the tested policies within the original bets and hand groups. Untried deviations and grouping error remain unmeasured.</p>';
       }
+      if(audit.exact?.available){
+        h+='<table class="rv-table"><thead><tr><th>Seat</th><th>Exact best-response gain ('+unit()+')</th></tr></thead><tbody>';
+        audit.exact.gain.forEach((g,i)=>{h+='<tr><th>'+val(seats[i].name)+'</th><td>'+num(g,4)+'</td></tr>';});
+        h+='</tbody></table><p class="note">Exact cross-check: this spot is small enough to enumerate, so the sampled average strategy was copied into the enumerated game ('+audit.exact.deals+' deals) and each seat’s full best response was computed there. This is the exact unilateral gain within the configured bets; it is not a multiplayer equilibrium certificate. '+audit.exact.unvisitedInformationSets+' of '+audit.exact.informationSets+' information sets were never sampled and play uniformly.</p>';
+      }else if(audit.exact)h+='<p class="note">Exact cross-check unavailable: '+val(audit.exact.reason)+'. Tested responses above are lower bounds on the true gain.</p>';
       h+='<details><summary>Individual runs</summary><div class="rv-scroll"><table class="rv-table"><thead><tr><th>Tree</th><th>Seed</th><th>Iterations</th><th>Traversal</th><th>Result</th></tr></thead><tbody>'+
         audit.runs.map(r=>'<tr><td>'+val(r.variant)+'</td><td>'+r.seed+'</td><td>'+r.iterations+'</td><td>'+val(r.algorithm)+'</td><td>'+val(r.reason)+'</td></tr>').join('')+'</tbody></table></div></details>';
       for(const item of audit.errors)h+='<p class="err">'+val([item.variant,item.seed,item.message].filter(x=>x!==undefined).join(' · '))+'</p>';
@@ -267,7 +294,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     });
     const run=el('chance-settings'), sample=el('sampling');
     if(run)run.hidden=length===5 || spot.privateMode==='sampled';
-    if(el('wide-controls'))el('wide-controls').hidden=spot.privateMode!=='sampled';
+    if(el('wide-controls'))el('wide-controls').hidden=spot.privateMode==='exact';
     if(el('target'))el('target').disabled=spot.privateMode==='sampled';
     if(sample)sample.hidden=spot.mode!=='sampled';
     if(el('icm-settings'))el('icm-settings').hidden=spot.payoff!=='icm';
@@ -307,7 +334,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       '<div class="fields"><label class="field"><span class="label">Payoff</span><select id="rv-payoff"><option value="chip" '+(spot.payoff==='chip'?'selected':'')+'>Chip EV</option><option value="icm" '+(spot.payoff==='icm'?'selected':'')+'>Tournament ICM</option></select></label></div>'+
       '<div id="rv-icm-settings"><div class="fields">'+field('payouts','Remaining payouts, largest first',spot.payouts)+field('others','All other remaining stacks (bb)',spot.others)+field('startStacks','Live seats’ hand-start stacks (optional, bb)',spot.startStacks,'text',pre?'disabled':'')+'</div><p class="note">Include every other player still in the tournament, including folded seats, using chips left after their bets and antes. Up to 16 total players. Omitted payout places pay zero. Values use your payout units. Leave hand-start stacks blank to derive them from chips behind, earlier wagers and antes; enter them in seat order if needed for simultaneous bust ranking. This models regular prizes, without bounties.</p></div>'+
       (pre&&!shove?'<h3>Preflop actions</h3><div class="fields">'+field('preOpen','Opening raise-to sizes (bb)',spot.preOpen)+field('preRaises','Reraise sizes (× or % pot)',spot.preRaises)+field('preCap','Preflop raise cap',spot.preCap,'number','min="1" max="5"')+'<label class="field"><span class="label">Allow limps</span><input id="rv-preLimps" type="checkbox" '+(spot.preLimps?'checked':'')+'></label></div>':'')+
-      '<label class="field"><span class="label">Private ranges</span><select id="rv-privateMode"><option value="exact" '+(spot.privateMode!=='sampled'?'selected':'')+'>Enumerate compatible deals</option><option value="sampled" '+(spot.privateMode==='sampled'?'selected':'')+'>Wide ranges · sample fresh deals</option></select></label>'+
+      '<label class="field"><span class="label">Private ranges</span><select id="rv-privateMode"><option value="auto" '+(spot.privateMode==='auto'?'selected':'')+'>Automatic · exact when it fits</option><option value="exact" '+(spot.privateMode==='exact'?'selected':'')+'>Enumerate compatible deals</option><option value="sampled" '+(spot.privateMode==='sampled'?'selected':'')+'>Wide ranges · sample fresh deals</option></select></label>'+
       '<div id="rv-wide-controls"><div class="fields">'+field('privateSeed','Training seed',spot.privateSeed,'number','min="0" max="4294967295"')+
       '<label class="field"><span class="label">Hand grouping</span><select id="rv-abstraction">'+[['compact','Compact'],['detailed','Detailed'],['exact','Exact cards']].map(([k,label])=>'<option value="'+k+'" '+(spot.abstraction===k?'selected':'')+'>'+label+'</option>').join('')+'</select></label>'+
       field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="256" step="1"')+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
@@ -347,16 +374,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   async function solve() {
     read();const loaded=restoredConfig;clearResult();busy=true;progress='Building the betting and runout trees…';render();
     try{
-      const settings={};
-      for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
-      const cfg={...anteCfg(),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
-        runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
-        folded:parseFolded(),
-        stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
-        ranges:spot.seats.map(s=>s.range),lead:spot.seats.map(s=>s.lead)};
-      if(spot.study!=='postflop')cfg.preflop={mode:spot.study,opens:spot.preOpen,raises:spot.preRaises,maxBets:number(spot.preCap),limps:spot.preLimps};
-      if(spot.payoff==='icm')cfg.icm={payouts:spot.payouts.trim().split(/[\s,]+/).filter(Boolean).map(Number),others:spot.others.trim().split(/[\s,]+/).filter(Boolean).map(Number)};
-      if(cfg.icm && spot.study==='postflop' && spot.startStacks.trim())cfg.icm.startStacks=spot.startStacks.trim().split(/[\s,]+/).map(Number);
+      const cfg=EM.multiwaySpotConfig(spot);
       result=await call('multi-solve',{cfg:loaded||cfg,maxIter:number(spot.maxIter),target:number(spot.target)},m=>{
         progress='Iteration '+m.it+(m.gap==null?'':' · largest measured gain '+num(m.gap,4)+' '+unit());status();
       });
@@ -374,7 +392,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id.startsWith('rv-resume-')){resume.iterations=number(el('resume-iterations').value);if(el('resume-memory'))resume.memoryMiB=number(el('resume-memory').value);return;}
     if(e.target.id.startsWith('rv-check-')){readChecks();return;}
     read();
-    if(e.target.id==='rv-privateMode'){spot.maxIter=spot.privateMode==='sampled'?10000:500;el('iterations').value=spot.maxIter;}
+    if(e.target.id==='rv-privateMode'){spot.maxIter=spot.privateMode==='exact'?500:10000;el('iterations').value=spot.maxIter;}
     if(spot.notes){spot.notes='';if(el('notes'))el('notes').hidden=true;}
     if(e.target.id!=='rv-dealt')pristine=false;
     clearResult();updateControls();status();

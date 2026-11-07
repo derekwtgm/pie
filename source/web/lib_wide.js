@@ -64,6 +64,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   const weighting=cfg.weighting??'linear';
   if(!['linear','uniform'].includes(weighting))throw Error('Choose linear or uniform iteration weighting');
   let step=1;
+  const updates=cfg.updates??'simultaneous';
+  if(!['simultaneous','alternating','enumerate'].includes(updates))throw Error('Unknown update scheme');
   const profile=newStore(budget);
   let iterations=0, limitReached=false, stateVisits=0;
   const memoryError=new Error('Strategy memory budget reached');
@@ -98,22 +100,45 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)sig[a]=total?sig[a]/total:1/k;
     return sig;
   }
+  const streetLengths=board.length===0?(cfg.preflop.mode==='shove'?[0,5]:[0,3,4,5]):[3,4,5].filter(k=>k>=board.length);
+  function seatKey(p,h,publicCards,previous,score){
+    if(abstraction==='exact')return EM.exactHandKey(h,publicCards);
+    const length=publicCards.length;
+    const signal=length===board.length && hands[p].length<=12?256+h.id:length===0?EM.CLS[h.id]:
+      abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
+    return abstraction==='compact'?previous*2048+signal:previous+'/'+signal;
+  }
   function world(raw){
     const {seats,cards}=raw, keys={}, finalScores=[];
     let prev=seats.map(()=>0);
-    for(const length of (board.length===0?(cfg.preflop.mode==='shove'?[0,5]:[0,3,4,5]):[3,4,5].filter(k=>k>=board.length))){
+    for(const length of streetLengths){
       const publicCards=cards.slice(0,length);
       prev=seats.map((h,p)=>{
         const score=length===0?0:EM.evalCards([...publicCards,h.a,h.b]);
         if(length===5)finalScores[p]=score;
-        if(abstraction==='exact')return EM.exactHandKey(h,publicCards);
-        const signal=length===board.length && hands[p].length<=12?256+h.id:length===0?EM.CLS[h.id]:
-          abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
-        return abstraction==='compact'?prev[p]*2048+signal:prev[p]+'/'+signal;
+        return seatKey(p,h,publicCards,prev[p],score);
       });
       keys[length]=prev;
     }
     return {seats,cards,keys,finalScores};
+  }
+  // The trained average strategy of one seat's information set, as the solver
+  // itself would look it up. Used to evaluate sampled training independently in
+  // the exact enumerated game. Returns null for information sets never visited.
+  function averageAt(path,publicCards,p,h){
+    let key=0;
+    for(const length of streetLengths){
+      if(length>publicCards.length)break;
+      const cards=publicCards.slice(0,length);
+      key=seatKey(p,h,cards,key,length===0?0:EM.evalCards([...cards,h.a,h.b]));
+    }
+    const node=profile.nodes.get(path),index=node?.rows.get(key);
+    if(index===undefined)return null;
+    const k=node.k,pool=profile.pools[k],buffer=pool.blocks[Math.floor(index/256)],offset=index%256*2*k+k;
+    const out=new Float64Array(k);let total=0;
+    for(let a=0;a<k;a++){out[a]=Math.max(0,buffer[offset+a]);total+=out[a];}
+    for(let a=0;a<k;a++)out[a]=total?out[a]/total:1/k;
+    return out;
   }
   function payoff(t,w){
     if(icm)return icm.evaluate(EM.awardPots(t.pots,w.finalScores,t.behind));
@@ -135,13 +160,15 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     return sig.length-1;
   }
   // A full chance-sampled update remains the reference on compact trees.
+  // train: false (evaluate the average), true (update every seat), or an
+  // object {seat, weight} that updates one seat with a chance weight.
   function walk(t,w,reach,train){
     if(train)stateVisits++;
     if(t.kind==='terminal')return payoff(t,w);
     if(t.kind==='chance')return walk(nextStreet(t),w,reach,train);
     const k=t.actions.length;
     if(k===1)return walk(advance(t,0),w,reach,train);
-    const p=t.actor, sig=probabilities(t,w,profile,!train,train), old=reach[p];
+    const p=t.actor, sig=probabilities(t,w,profile,!train,Boolean(train)), old=reach[p];
     const u=t.u || (t.u=new Float64Array(n));u.fill(0);
     const actionValues=t.actionValues || (t.actionValues=new Float64Array(k));
     for(let a=0;a<k;a++){
@@ -151,12 +178,12 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       for(let j=0;j<n;j++)u[j]+=sig[a]*v[j];
     }
     reach[p]=old;
-    if(train){
-      const row=record(t,w,profile,false);
+    if(train===true || (train && train.seat===p)){
+      const row=record(t,w,profile,false), cw=train===true?1:train.weight;
       let others=1;for(let j=0;j<n;j++)if(j!==p)others*=reach[j];
       for(let a=0;a<k;a++){
-        row.buffer[row.offset+a]+=step*others*(actionValues[a]-u[p]);
-        row.buffer[row.offset+k+a]+=step*old*sig[a];
+        row.buffer[row.offset+a]+=step*cw*others*(actionValues[a]-u[p]);
+        row.buffer[row.offset+k+a]+=step*cw*old*sig[a];
       }
     }
     return u;
@@ -188,21 +215,85 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)row.buffer[row.offset+a]+=step*opponentReach/sampleReach*(values[a]-mean);
     return mean;
   }
+  // A trained response plays greedily: the action with the largest cumulative
+  // regret, which with fixed opponents is the action with the largest estimated
+  // value. (The response's average strategy still contains its early uniform
+  // play and understates how much the seat can gain.)
+  function greedy(t,w,store){
+    const k=t.actions.length, sig=t.sig || (t.sig=new Float64Array(k));
+    sig.fill(0);
+    const row=record(t,w,store,false);
+    if(!row){sig.fill(1/k);return sig;}
+    let best=0;for(let a=1;a<k;a++)if(row.buffer[row.offset+a]>row.buffer[row.offset+best])best=a;
+    sig[best]=1;return sig;
+  }
+  // Expected value for response.seat (or the seat the probe measures when
+  // response is null) with every action enumerated.
+  function expectation(t,w,response,seat=response?response.seat:probeSeat){
+    if(t.kind==='terminal')return payoff(t,w)[seat];
+    if(t.kind==='chance')return expectation(nextStreet(t),w,response,seat);
+    const k=t.actions.length;
+    if(k===1)return expectation(advance(t,0),w,response,seat);
+    const sig=Float64Array.from(response && response.seat===t.actor?greedy(t,w,response.store):probabilities(t,w,profile,true));
+    let v=0;for(let a=0;a<k;a++)if(sig[a]>0)v+=sig[a]*expectation(advance(t,a),w,response,seat);
+    return v;
+  }
+  let probeSeat=0;
+  // Best-response training on full-traversal trees: opponents' average actions
+  // are enumerated rather than sampled, and the responding seat accumulates
+  // action values for a greedy (pure) response.
+  function respondFull(t,w,seat,weight,store){
+    if(t.kind==='terminal')return payoff(t,w)[seat];
+    if(t.kind==='chance')return respondFull(nextStreet(t),w,seat,weight,store);
+    const k=t.actions.length;
+    if(k===1)return respondFull(advance(t,0),w,seat,weight,store);
+    if(t.actor!==seat){
+      const sig=Float64Array.from(probabilities(t,w,profile,true));let v=0;
+      for(let a=0;a<k;a++)if(sig[a]>0)v+=sig[a]*respondFull(advance(t,a),w,seat,weight*sig[a],store);
+      return v;
+    }
+    record(t,w,store,true);
+    const values=new Float64Array(k);
+    for(let a=0;a<k;a++)values[a]=respondFull(advance(t,a),w,seat,weight,store);
+    const row=record(t,w,store,false);
+    let best=0;for(let a=0;a<k;a++){row.buffer[row.offset+a]+=weight*values[a];if(row.buffer[row.offset+a]>row.buffer[row.offset+best])best=a;}
+    return values[best];
+  }
   function rollout(t,w,rng,response=null){
     while(t.kind!=='terminal'){
       if(t.kind==='chance'){t=nextStreet(t);continue;}
-      const store=response && response.seat===t.actor?response.store:profile;
-      const sig=probabilities(t,w,store,true);
+      const mine=response && response.seat===t.actor;
+      const sig=mine?(t.actions.length===1?probabilities(t,w,profile,true):greedy(t,w,response.store)):probabilities(t,w,profile,true);
       t=advance(t,choose(sig,rng));
     }
     return payoff(t,w);
   }
   const reach=new Float64Array(n).fill(1);
+  // Own-hand enumeration (self chance enumeration): for each updating seat the
+  // other seats' private cards and the board come from one sampled deal, and
+  // every compatible hand of the updating seat is traversed with its exact
+  // conditional probability. This is unbiased and removes the variance from
+  // sampling the updating seat's own cards.
+  function enumerateOwn(w0){
+    for(let p=0;p<n;p++){
+      const w=p?world(draw()):w0, used=new Uint8Array(52);
+      for(const c of w.cards)used[c]=1;
+      w.seats.forEach((h,j)=>{if(j!==p)used[h.a]=used[h.b]=1;});
+      const options=hands[p].filter(h=>!used[h.a]&&!used[h.b]);
+      let total=0;for(const h of options)total+=h.w;
+      for(const h of options){
+        const seats=w.seats.slice();seats[p]=h;
+        walk(tree,world({seats,cards:w.cards}),reach,{seat:p,weight:h.w/total});
+      }
+    }
+  }
   function iterate(count=1){
     for(let i=0;i<count && !limitReached;i++){
       try{
         const w=world(draw());step=weighting==='linear'?iterations+1:1;
         if(external)for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,actionRandom);
+        else if(updates==='enumerate')enumerateOwn(w);
+        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?world(draw()):w,reach,{seat:p,weight:1});
         else walk(tree,w,reach,true);
         iterations++;
       }catch(e){
@@ -282,17 +373,20 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       get iterations(){return done;},get limitReached(){return limited;},
       iterate(count=1){
         for(let i=0;i<count && !limited;i++){
-          try{step=1;learn(tree,world(responseDraw()),seat,1,1,1,store,rng,true);done++;}
+          try{step=1;const w=world(responseDraw());if(external)learn(tree,w,seat,1,1,1,store,rng,true);else respondFull(tree,w,seat,1,store);done++;}
           catch(e){if(e!==memoryError)throw e;limited=true;}
         }
       },
       finish(){
+        probeSeat=seat;
         const sample=dealer(hands,board,randomStream(evaluationSeed^0xe72cd498));
         let mean=0,m2=0;
         for(let i=1;i<=holdout;i++){
           const w=world(sample()),pairedSeed=(evaluationSeed^Math.imul(i,16777619))>>>0;
-          const base=rollout(tree,w,randomStream(pairedSeed))[seat];
-          const response=rollout(tree,w,randomStream(pairedSeed),{seat,store})[seat];
+          // Small (full-traversal) trees: exact expectation over every action;
+          // large trees: paired rollouts.
+          const base=external?rollout(tree,w,randomStream(pairedSeed))[seat]:expectation(tree,w,null);
+          const response=external?rollout(tree,w,randomStream(pairedSeed),{seat,store})[seat]:expectation(tree,w,{seat,store});
           const delta=response-base-mean;mean+=delta/i;m2+=delta*(response-base-mean);
         }
         return {seat,gain:mean,se:Math.sqrt(Math.max(0,m2)/(holdout-1)/holdout),
@@ -362,6 +456,6 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
-  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));

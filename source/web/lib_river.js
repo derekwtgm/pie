@@ -28,7 +28,12 @@ function sizeList(text, raising) {
   });
 }
 
-function MultiwayGame(input) {
+// Resource limits for automatic private-range mode selection. Exact enumeration
+// is kept when the joint deal tree fits the desktop budget and a 500-iteration
+// solve is expected to finish within about a minute on a desktop CPU.
+const AUTO_MAX_WORK=2.5e6;            // deal-node visits per iteration (all seats)
+const budgetCode=e=>{e.code='EM_BUDGET';return e;};
+function buildMultiway(input, opts={}) {
   const cfg=EM.copyStudyConfig(input);
   const pre=cfg.preflop || null, shove=pre?.mode==='shove';
   const n = cfg.stacks && cfg.stacks.length;
@@ -114,7 +119,7 @@ function MultiwayGame(input) {
 
   const maxStates=board.length===5?MAX_NODES:60000;
   const maxDealStates=board.length===5?MAX_PAIRS:750000;
-  const budgetError=()=>new Error('This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, or sampled public cards.');
+  const budgetError=()=>budgetCode(new Error('This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode.'));
   const zeros=()=>Array(n).fill(0);
   const sum=a=>a.reduce((s,v)=>s+v,0);
 
@@ -221,12 +226,12 @@ function MultiwayGame(input) {
   let visited=0, mass=0;
   function deal(k,weight) {
     if (k===n) {
-      if (deals.length>=MAX_DEALS) throw new Error('Too many compatible deals. Narrow a range or use exact two-card hands (limit 4,096 deals).');
+      if (deals.length>=MAX_DEALS) throw budgetCode(new Error('Too many compatible deals. Narrow a range or use exact two-card hands (limit 4,096 deals).'));
       deals.push(picked.slice()); weights.push(weight); mass+=weight; return;
     }
     const p=order[k];
     for (let h=0;h<hands[p].length;h++) {
-      if (++visited>2000000) throw new Error('Range combination search is too large. Narrow the ranges.');
+      if (++visited>2000000) throw budgetCode(new Error('Range combination search is too large. Narrow the ranges.'));
       const hand=hands[p][h];
       if (used[hand.a] || used[hand.b]) continue;
       used[hand.a]=used[hand.b]=1; picked[p]=h; deal(k+1,weight*hand.w); used[hand.a]=used[hand.b]=0;
@@ -249,7 +254,7 @@ function MultiwayGame(input) {
   });
   const deck=EM.multiwayBoards(board,hands,hole,D,cfg.runouts || {});
   // Reject over-budget configurations before allocating the per-board strategies.
-  let publicStates=0, estimatedBytes=0, contexts=[deck.root];
+  let publicStates=0, estimatedBytes=0, work=0, contexts=[deck.root];
   for(let length=board.length;length<=5;length++) {
     const templates=byStreet[length];
     publicStates+=contexts.length*templates.length;
@@ -261,12 +266,14 @@ function MultiwayGame(input) {
       estimatedBytes+=contexts.length*(16*D+320+strategy+payoff);
     }
     if(estimatedBytes>150*1024*1024)throw budgetError();
+    for(const t of templates)if(t.kind!=='chance')work+=contexts.length*D*n;
     if(length===5 || !byStreet[length+1].length)break;
     const next=[];
     for(const ctx of contexts) for(const edge of deck.edges(ctx))next.push(edge.ctx);
     contexts=next;
   }
 
+  if(opts.planOnly)return {deals:D,publicStates,estimatedMiB:estimatedBytes/1048576,work,players:n};
   const decisions=[], seatNodes=hands.map(()=>[]);
   function instantiate(t,ctx) {
     const node={t,ctx,reach:new Float64Array(D)};
@@ -453,9 +460,70 @@ function MultiwayGame(input) {
     decisions.forEach((nd,i)=>{nd.regret.set(buffers[i][0]);nd.sum.set(buffers[i][1]);normalize(nd.regret,nd.policy,nd.t.actions.length);normalize(nd.sum,nd.average,nd.t.actions.length);});
     iterations=state.iterations;
   }
-  return {iterate,metrics,view,snapshot,restoreState,get iterations(){return iterations;}};
+  // Replace the average strategy with one supplied by another solver (for
+  // example a sampled study), so metrics() measures that strategy's exact
+  // best-response gains in this enumerated game. lookup(path, publicCards, seat,
+  // hand) returns action probabilities or null (treated as uniform).
+  function importAverage(lookup){
+    let missing=0,total=0;
+    for(const nd of decisions){
+      const k=nd.t.actions.length,p=nd.t.actor;
+      hands[p].forEach((hand,h)=>{
+        total++;const probs=lookup(nd.t.path,nd.ctx.cards.slice(),p,hand);
+        for(let a=0;a<k;a++)nd.sum[h*k+a]=probs?probs[a]:1/k;
+        if(!probs)missing++;
+      });
+    }
+    return {missing,total};
+  }
+  return {iterate,metrics,view,snapshot,restoreState,importAverage,get iterations(){return iterations;}};
+}
+// Choose exact deal enumeration or sampled (Wide ranges) training. The exact
+// plan runs the same betting-tree, deal-enumeration and budget checks as an exact
+// solve, without allocating strategies, so a spot is enumerated only when an
+// exact solve would actually be accepted and finish in practical time.
+function planMultiwayMode(input) {
+  const base={requested:'auto'};
+  if(input && input.preflop)return {...base,chosen:'sampled',reason:'Preflop studies always use sampled deals'};
+  let plan;
+  try{plan=buildMultiway({...input,privateMode:'exact'},{planOnly:true});}
+  catch(e){
+    if(e && e.code==='EM_BUDGET')return {...base,chosen:'sampled',reason:'Exact enumeration exceeds the desktop limit: '+e.message};
+    throw e;
+  }
+  if(plan.work>AUTO_MAX_WORK)return {...base,chosen:'sampled',...plan,
+    reason:'Exact enumeration fits in memory but needs about '+Math.round(plan.work/1e3)+'k deal-node visits per iteration (limit '+AUTO_MAX_WORK/1e3+'k)'};
+  return {...base,chosen:'exact',...plan,reason:'Exact enumeration fits: '+plan.deals+' deals, '+plan.publicStates+' public states, about '+plan.estimatedMiB.toFixed(1)+' MiB'};
+}
+function MultiwayGame(input) {
+  if(!input || input.privateMode!=='auto')return buildMultiway(input);
+  const selection=planMultiwayMode(input);
+  const resolved={...input,privateMode:selection.chosen};
+  const game=buildMultiway(resolved);
+  const metrics=game.metrics;
+  game.metrics=(...a)=>({...metrics(...a),modeSelection:selection});
+  game.modeSelection=selection;game.resolvedConfig=EM.copyStudyConfig(resolved);
+  return game;
 }
 EM.MultiwayGame=MultiwayGame;
+EM.planMultiwayMode=planMultiwayMode;
+// Independent exact evaluation of a sampled (Wide ranges) study: when the same
+// spot can be enumerated, its average strategy is copied into the exact game and
+// each seat's full best response is computed there. This is an exact
+// unilateral-deviation gain for the configured tree (not an equilibrium
+// certificate for the multiplayer game).
+function exactCheckSampled(cfg,game){
+  if(!game || typeof game.averageAt!=='function')return {available:false,reason:'Only sampled studies need an exact cross-check'};
+  if(cfg.abstraction && cfg.abstraction!=='exact' && cfg.abstraction!=='detailed' && cfg.abstraction!=='compact')return {available:false,reason:'Unknown abstraction'};
+  const plan=planMultiwayMode({...cfg,privateMode:'auto'});
+  if(plan.chosen!=='exact')return {available:false,reason:plan.reason};
+  const exact=buildMultiway({...cfg,privateMode:'exact'});
+  const coverage=exact.importAverage(game.averageAt), m=exact.metrics();
+  return {available:true,kind:'exact best response in the enumerated game',iterations:game.iterations,
+    gain:m.gain,maxGain:m.maxGain,ev:m.ev,best:m.best,unit:m.unit,deals:m.deals,
+    unvisitedInformationSets:coverage.missing,informationSets:coverage.total};
+}
+EM.exactCheckSampled=exactCheckSampled;
 EM.multiwaySizeList=sizeList;
 EM.RiverGame=function(cfg) {
   const board=typeof cfg.board==='string'?EM.parseBoard(cfg.board):cfg.board;
