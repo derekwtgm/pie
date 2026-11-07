@@ -43,8 +43,18 @@ function buildMultiway(input, opts={}) {
   const antes=EM.anteModel(cfg);
   // Each live seat's own ante: preflop seats are in action order with the BB last. A postflop
   // study can name the live seat that posted a big blind ante (anteSeat), for ICM start stacks.
-  const ownAnte=Array.from({length:n},(_,p)=>cfg.dealt===undefined?0:antes.seat(pre?p===n-1:p===cfg.anteSeat));
-  if(pre && (cfg.dealt===undefined || entered.some((s,p)=>s<ownAnte[p]||!(s>0))))throw Error(antes.type==='classic'?'Preflop needs dealt seats and starting stacks of at least '+antes.amount+' bb':'Preflop needs dealt seats and starting stacks that cover each ante');
+  // Preflop: a seat that cannot cover the ante posts what it has and is all-in.
+  // With a big blind ante the big blind is posted first and the ante from what
+  // is left (the usual BBA rule). Live seats' antes count toward their side-pot
+  // contributions; antes of other dealt seats are dead money in the common pot.
+  if(pre && (cfg.dealt===undefined || entered.some(s=>!(s>0))))throw Error('Preflop needs dealt seats and positive starting stacks');
+  const ownAnte=Array.from({length:n},(_,p)=>{
+    if(cfg.dealt===undefined)return 0;
+    const nominal=antes.seat(pre?p===n-1:p===cfg.anteSeat);
+    if(!pre)return nominal;
+    const blind=antes.type==='bba' && p===n-1?Math.min(entered[p],1):0;
+    return Math.min(nominal,Math.max(0,entered[p]-blind));
+  });
   const stacks=pre?entered.map((s,p)=>s-ownAnte[p]):entered;
   const prior = numbers(cfg.prior || Array(n).fill(0), n, 'earlier contributions');
   const folded = numbers(cfg.folded || [], (cfg.folded || []).length, 'folded contributions');
@@ -52,11 +62,14 @@ function buildMultiway(input, opts={}) {
   // A tournament setup itemizes the starting pot. Older API callers supplied
   // the full common pot, including any antes, without a dealt-seat count.
   if (cfg.dealt !== undefined) EM.tableAntes(cfg.dealt);   // validates the dealt count
-  const antePot = cfg.dealt === undefined ? 0 : antes.total(cfg.dealt);
+  const liveAnte = pre ? ownAnte.reduce((a,b)=>a+b,0) : 0;
+  const antePot = cfg.dealt === undefined ? 0 : pre
+    ? (antes.type==='classic' ? (cfg.dealt-n)*antes.amount : 0)
+    : antes.total(cfg.dealt);
   if (cfg.dealt !== undefined && n + folded.length > cfg.dealt)
     throw new Error('Players dealt in must include every live seat and each listed folded wager.');
   if (!Number.isFinite(cfg.common) || cfg.common < 0) throw new Error('Enter a nonnegative common pot');
-  const common = cfg.common + antePot, pot0 = common + [...prior, ...folded].reduce((sum,v) => sum+v,0);
+  const common = cfg.common + antePot, pot0 = common + liveAnte + [...prior, ...folded].reduce((sum,v) => sum+v,0);
   if (!Number.isFinite(common) || common < 0 || !(pot0 > 0 || pre) || !Number.isFinite(stacks.reduce((a,b)=>a+b,pot0))) throw new Error('Enter a positive starting pot');
   const paid = [...prior,...folded].sort((a,b)=>b-a);
   if (paid[0] > paid[1]+EPS) throw new Error('Return unmatched earlier contributions before the starting street');
@@ -147,7 +160,7 @@ function buildMultiway(input, opts={}) {
         if(!external)tpl.next=nextStreet(tpl);
       } else {
         tpl.kind='terminal';
-        const committed=prior.map((v,p)=>v+total[p]).concat(folded);
+        const committed=prior.map((v,p)=>v+total[p]+(pre?ownAnte[p]:0)).concat(folded);
         tpl.pots=EM.potLayers(committed,live.concat(folded.map(()=>false)),common);
       }
       return tpl;
