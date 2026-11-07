@@ -293,7 +293,7 @@ details[open] summary { margin-bottom: 8px; }
       <circle cx="16" cy="16" r="9.5" fill="#0a0e16" stroke="#1d1505" stroke-width="1.5"/>
       <text x="16" y="20.6" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#f2b84b">8</text>
     </svg>
-    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 2.6</p></div>
+    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 2.8</p></div>
     <span class="engine" id="engine"></span>
   </div>
   <nav class="tabs" role="tablist" aria-label="Sections">
@@ -773,7 +773,7 @@ EM.exactHandKey=function(h,board){
 ;
 (function(EM){
 'use strict';
-const MAX_BYTES=512*1024*1024, ENGINE='multiway-2.4', ENGINES=['multiway-2.3',ENGINE];
+const MAX_BYTES=512*1024*1024, ENGINE='multiway-2.8', ENGINES=['multiway-2.3','multiway-2.4',ENGINE];
 const fail=()=>{throw Error('Invalid or incompatible training checkpoint');};
 function copy(value,depth=0){
   if(depth>20)fail();
@@ -801,7 +801,7 @@ function unpack(text,length,nonnegative=false){
   for(let i=0;i<length;i++){const x=view.getFloat64(i*8,true);if(!Number.isFinite(x)||(nonnegative&&x<0))fail();out[i]=x;}
   return out;
 }
-function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:ENGINE,cfg:copy(cfg),state,labels:labels||[]};}
+function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'2.8',cfg:copy(cfg),state,labels:labels||[]};}
 function validate(p){
   if(!p||p.format!=='EightMax training'||p.version!==1||!ENGINES.includes(p.engine)||!p.cfg||!p.state)fail();
   if(!Array.isArray(p.labels)||p.labels.length>8||p.labels.some(v=>typeof v!=='string'||v.length>80))fail();
@@ -830,7 +830,51 @@ function restore(p){
   const g=EM.MultiwayGame(cfg);
   g.restoreState(p.state);return {game:g,cfg,labels:p.labels.slice()};
 }
-Object.assign(EM,{copyStudyConfig:copy,checkpointInteger:integer,checkpointFail:fail,packTrainingValues:pack,unpackTrainingValues:unpack,
+// The transaction replaces both generations atomically. Keep the DB closed
+// between operations so browser shutdown cannot leave a file handle held.
+async function checkpointTransaction(write,operation){
+  if(!globalThis.indexedDB)throw Error('Browser checkpoint storage unavailable');
+  const db=await new Promise((resolve,reject)=>{
+    const open=indexedDB.open('EightMax-training',1);
+    open.onupgradeneeded=()=>open.result.createObjectStore('checkpoints');
+    open.onsuccess=()=>resolve(open.result);open.onerror=()=>reject(open.error);
+  });
+  try{
+    return await new Promise((resolve,reject)=>{
+      const tx=write?db.transaction('checkpoints','readwrite',{durability:'strict'}):
+        db.transaction('checkpoints','readonly');
+      const result=operation(tx.objectStore('checkpoints'));
+      tx.oncomplete=()=>resolve(result());tx.onabort=()=>reject(tx.error||Error('Checkpoint transaction aborted'));
+      tx.onerror=()=>reject(tx.error);
+    });
+  }finally{db.close();}
+}
+async function autosaveTraining(text,host){
+  if(host){
+    if(text.length>64*1024*1024)throw Error('Desktop automatic saves support 64 MiB. Use manual Export for this study.');
+    const r=await fetch(host+'/api/checkpoint/write',{method:'POST',headers:{'X-EightMax':'1','Content-Type':'application/json'},body:text});
+    if(!r.ok)throw Error('Desktop checkpoint write failed (HTTP '+r.status+')');
+    return;
+  }
+  await checkpointTransaction(true,store=>{
+    const old=store.get('latest');
+    old.onsuccess=()=>{if(old.result)store.put(old.result,'previous');store.put(text,'latest');};
+    return ()=>true;
+  });
+}
+async function recoverTraining(host){
+  let lastError;
+  for(const key of ['latest','previous']){
+    try{
+      let text;
+      if(host){const r=await fetch(host+'/api/checkpoint/'+key);if(!r.ok){if(r.status===404)continue;throw Error('Checkpoint read failed');}text=await r.text();}
+      else text=await checkpointTransaction(false,store=>{const r=store.get(key);return ()=>r.result;});
+      if(text)return restore(await decode(text));
+    }catch(e){lastError=e;}
+  }
+  throw lastError||Error('No automatic checkpoint is available for this browser and address');
+}
+Object.assign(EM,{autosaveTraining,recoverTraining,copyStudyConfig:copy,checkpointInteger:integer,checkpointFail:fail,packTrainingValues:pack,unpackTrainingValues:unpack,
   checkpointPayload:payload,encodeCheckpoint:encode,decodeCheckpoint:decode,restoreCheckpoint:restore,checkpointMaxBytes:MAX_BYTES});
 })(globalThis.EM || (globalThis.EM = {}));
 
@@ -3122,18 +3166,20 @@ function dealer(hands, visible, rng) {
     if(!rows.length)throw Error('A range is blocked on this board');
     return {rows,total};
   });
+  const used=new Uint32Array(52);let stamp=0;
   return ()=>{
     for(let tries=0;tries<4096;tries++){
-      const used=new Uint8Array(52);visible.forEach(c=>used[c]=1);
+      if(++stamp>=4294967295){used.fill(0);stamp=1;}
+      visible.forEach(c=>used[c]=stamp);
       const seats=[];
       for(const {rows,total} of distributions){
         const x=rng()*total;let lo=0,hi=rows.length-1;
         while(lo<hi){const mid=(lo+hi)>>1;if(x<rows[mid].cum)hi=mid;else lo=mid+1;}
-        const h=rows[lo].h;if(used[h.a]||used[h.b])break;
-        seats.push(h);used[h.a]=used[h.b]=1;
+        const h=rows[lo].h;if(used[h.a]===stamp||used[h.b]===stamp)break;
+        seats.push(h);used[h.a]=used[h.b]=stamp;
       }
       if(seats.length!==hands.length)continue;
-      const cards=visible.slice();while(cards.length<5){const c=Math.floor(rng()*52);if(!used[c]){used[c]=1;cards.push(c);}}
+      const cards=visible.slice();while(cards.length<5){const c=Math.floor(rng()*52);if(used[c]!==stamp){used[c]=stamp;cards.push(c);}}
       return {seats,cards};
     }
     throw Error('Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals.');
@@ -3169,6 +3215,52 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // Studies saved by 2.3 continue with their original uniform weighting.
   const weighting=cfg.weighting??'linear';
   if(!['linear','uniform'].includes(weighting))throw Error('Choose linear or uniform iteration weighting');
+  const batchDeals=cfg.batchDeals??1;
+  if(!Number.isInteger(batchDeals)||batchDeals<1||batchDeals>64)throw Error('Batch deals must be an integer from 1 to 64');
+  const regretMatching=cfg.regretMatching??'standard';
+  if(!['standard','plus'].includes(regretMatching))throw Error('Unknown regret matching rule');
+  // Freeze the strategy within each batch. Average unbiased chance-sampled
+  // increments before applying regret matching (and optional CFR+ clipping).
+  // Scratch arrays are budgeted alongside the persistent strategy arrays.
+  const pending=new Set(), scratch=new WeakMap();
+  function add(row,k,a,regret,average){
+    if(!Number.isFinite(regret)||!Number.isFinite(average))throw Error('Non-finite sampled CFR increment');
+    const i=row.offset+a;
+    if(batchDeals===1){
+      row.buffer[i]=regretMatching==='plus'?Math.max(0,row.buffer[i]+regret):row.buffer[i]+regret;
+      row.buffer[i+k]+=average;return;
+    }
+    let block=scratch.get(row.buffer);
+    if(!block){
+      block={buffer:row.buffer,k,delta:new Float64Array(row.buffer.length),
+        marked:new Uint8Array(256),indices:new Uint8Array(256),count:0};
+      scratch.set(row.buffer,block);
+    }
+    const index=row.offset/(2*k);
+    if(!block.marked[index]){
+      block.marked[index]=1;block.indices[block.count++]=index;pending.add(block);
+    }
+    block.delta[i]+=regret/batchDeals;block.delta[i+k]+=average/batchDeals;
+  }
+  function finishBatch(commit){
+    for(const b of pending){
+      for(let j=0;j<b.count;j++){
+        const row=b.indices[j],start=row*2*b.k;
+        for(let a=0;a<2*b.k;a++){
+          const i=start+a;
+          if(commit){
+            const value=b.buffer[i]+b.delta[i];
+            if(!Number.isFinite(value))throw Error('Non-finite batch strategy value');
+            b.buffer[i]=a<b.k && regretMatching==='plus'?Math.max(0,value):value;
+          }
+          b.delta[i]=0;
+        }
+        b.marked[row]=0;
+      }
+      b.count=0;
+    }
+    pending.clear();
+  }
   let step=1;
   const updates=cfg.updates??'simultaneous';
   if(!['simultaneous','alternating','enumerate'].includes(updates))throw Error('Unknown update scheme');
@@ -3183,7 +3275,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(index===undefined && create){
       if(!pool)pool={blocks:[],count:0};
       const allocate=pool.count%256===0;
-      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?256*16*k:0);
+      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?(256*16*k*(batchDeals>1?2:1)+(batchDeals>1?512:0)):0);
       if(store.bytes+extra>store.limit)throw memoryError;
       if(!node){node={rows:new Map(),k};store.nodes.set(t.path,node);}
       store.pools[k]=pool;
@@ -3203,6 +3295,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const row=record(t,w,store,create), offset=average?k:0;
     let total=0;
     for(let a=0;a<k;a++){sig[a]=row?Math.max(0,row.buffer[row.offset+offset+a]):0;total+=sig[a];}
+    if(!Number.isFinite(total))throw Error('Invalid strategy normalization');
     for(let a=0;a<k;a++)sig[a]=total?sig[a]/total:1/k;
     return sig;
   }
@@ -3214,19 +3307,34 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
     return abstraction==='compact'?previous*2048+signal:previous+'/'+signal;
   }
+  // The starting public board and a seat's range are immutable within a game.
+  // Cache only that street. Later-street keys retain the entire public history.
+  const startingHands=hands.map(()=>new Map());
   function world(raw){
     const {seats,cards}=raw, keys={}, finalScores=[];
     let prev=seats.map(()=>0);
     for(const length of streetLengths){
       const publicCards=cards.slice(0,length);
       prev=seats.map((h,p)=>{
+        if(length===board.length){
+          let cached=startingHands[p].get(h.id);
+          if(!cached){
+            const score=length?EM.evalCards([...publicCards,h.a,h.b]):0;
+            cached={score,key:seatKey(p,h,publicCards,0,score)};startingHands[p].set(h.id,cached);
+          }
+          if(length===5)finalScores[p]=cached.score;
+          return cached.key;
+        }
         const score=length===0?0:EM.evalCards([...publicCards,h.a,h.b]);
         if(length===5)finalScores[p]=score;
         return seatKey(p,h,publicCards,prev[p],score);
       });
       keys[length]=prev;
     }
-    return {seats,cards,keys,finalScores};
+    let order=0;
+    if(cacheRiverPayoffs)for(let p=0;p<n;p++)for(let q=0;q<p;q++)
+      order=order*3+1+Math.sign(finalScores[p]-finalScores[q]);
+    return {seats,cards,keys,finalScores,order};
   }
   // The trained average strategy of one seat's information set, as the solver
   // itself would look it up. Used to evaluate sampled training independently in
@@ -3246,7 +3354,10 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)out[a]=total?out[a]/total:1/k;
     return out;
   }
+  const cacheRiverPayoffs=!external && !icm && board.length===5 && n<=4;
+  let cachedPayoffs=0;
   function payoff(t,w){
+    if(cacheRiverPayoffs){const hit=t.payByOrder?.get(w.order);if(hit)return hit;}
     if(icm)return icm.evaluate(EM.awardPots(t.pots,w.finalScores,t.behind));
     const u=t.u || (t.u=new Float64Array(n));
     for(let p=0;p<n;p++)u[p]=-t.total[p]-anteOf[p];
@@ -3257,6 +3368,10 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
         if(value>top){top=value;count=1;}else if(value===top)count++;
       }
       for(const p of pot.eligible)if(w.finalScores[p]===top)u[p]+=pot.amount/count;
+    }
+    if(cacheRiverPayoffs && cachedPayoffs<8192){
+      if(!t.payByOrder)t.payByOrder=new Map();
+      t.payByOrder.set(w.order,u.slice());cachedPayoffs++;
     }
     return u;
   }
@@ -3288,8 +3403,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       const row=record(t,w,profile,false), cw=train===true?1:train.weight;
       let others=1;for(let j=0;j<n;j++)if(j!==p)others*=reach[j];
       for(let a=0;a<k;a++){
-        row.buffer[row.offset+a]+=step*cw*others*(actionValues[a]-u[p]);
-        row.buffer[row.offset+k+a]+=step*cw*old*sig[a];
+        add(row,k,a,step*cw*others*(actionValues[a]-u[p]),step*cw*old*sig[a]);
       }
     }
     return u;
@@ -3314,11 +3428,15 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const sig=probabilities(t,w,store,false,true), row=record(t,w,store,false);
     const values=t.values||(t.values=new Float64Array(k));let mean=0;
     for(let a=0;a<k;a++){
-      row.buffer[row.offset+k+a]+=step*own*sig[a]/sampleReach;
+      if(fixed)row.buffer[row.offset+k+a]+=step*own*sig[a]/sampleReach;
+      else add(row,k,a,0,step*own*sig[a]/sampleReach);
       values[a]=learn(advance(t,a),w,player,own*sig[a],opponentReach,sampleReach,store,rng,fixed);
       mean+=sig[a]*values[a];
     }
-    for(let a=0;a<k;a++)row.buffer[row.offset+a]+=step*opponentReach/sampleReach*(values[a]-mean);
+    for(let a=0;a<k;a++){
+      const delta=step*opponentReach/sampleReach*(values[a]-mean);
+      if(fixed)row.buffer[row.offset+a]+=delta;else add(row,k,a,delta,0);
+    }
     return mean;
   }
   // A trained response plays greedily: the action with the largest cumulative
@@ -3380,9 +3498,39 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // every compatible hand of the updating seat is traversed with its exact
   // conditional probability. This is unbiased and removes the variance from
   // sampling the updating seat's own cards.
+  let trainingDeals=0;
+  function trainingWorld(){const raw=draw();trainingDeals++;return world(raw);}
+  // One independent sample per equal-probability stratum of the joint range.
+  // With a frozen full-traversal policy their mean has the correct expectation.
+  // Enumeration is bounded before any joint table is allocated.
+  const stratify=cfg.riverStrata===true && board.length===5 && batchDeals>1 &&
+    !external && updates==='simultaneous' && hands.reduce((a,r)=>a*r.length,1)<=1024;
+  const joint=[],cumulative=[];let jointMass=0;
+  if(stratify){
+    const used=new Set(board),seats=[];
+    function enumerate(seat,mass){
+      if(seat===n){
+        jointMass+=mass;joint.push(seats.slice());cumulative.push(jointMass);return;
+      }
+      for(const h of hands[seat]){
+        if(used.has(h.a)||used.has(h.b))continue;
+        used.add(h.a);used.add(h.b);seats.push(h);
+        enumerate(seat+1,mass*h.w);
+        seats.pop();used.delete(h.a);used.delete(h.b);
+      }
+    }
+    enumerate(0,1);
+    if(!(jointMass>0)||!Number.isFinite(jointMass))throw Error('Invalid joint range mass');
+  }
+  function stratumWorld(index){
+    const x=(index+dealRandom())*jointMass/batchDeals;
+    let lo=0,hi=joint.length-1;
+    while(lo<hi){const mid=(lo+hi)>>>1;if(x<cumulative[mid])hi=mid;else lo=mid+1;}
+    trainingDeals++;return world({seats:joint[lo],cards:board});
+  }
   function enumerateOwn(w0){
     for(let p=0;p<n;p++){
-      const w=p?world(draw()):w0, used=new Uint8Array(52);
+      const w=p?trainingWorld():w0, used=new Uint8Array(52);
       for(const c of w.cards)used[c]=1;
       w.seats.forEach((h,j)=>{if(j!==p)used[h.a]=used[h.b]=1;});
       const options=hands[p].filter(h=>!used[h.a]&&!used[h.b]);
@@ -3394,31 +3542,47 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     }
   }
   function iterate(count=1){
+    if(!Number.isSafeInteger(count)||count<0||count>10000000||iterations+count>10000000)throw Error('Iteration count must fit the 10 million iteration limit');
     for(let i=0;i<count && !limitReached;i++){
       try{
-        const w=world(draw());step=weighting==='linear'?iterations+1:1;
+        step=weighting==='linear'?iterations+1:1;
+        for(let batch=0;batch<batchDeals;batch++){
+        const w=stratify?stratumWorld(batch):trainingWorld();
         if(external)for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,actionRandom);
         else if(updates==='enumerate')enumerateOwn(w);
-        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?world(draw()):w,reach,{seat:p,weight:1});
+        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?trainingWorld():w,reach,{seat:p,weight:1});
         else walk(tree,w,reach,true);
+        }
+        if(batchDeals>1)finishBatch(true);
         iterations++;
       }catch(e){
+        finishBatch(false);
         if(e!==memoryError)throw e;
         reach.fill(1);limitReached=true;
       }
     }
   }
-  function metrics(){
+  function metrics(samples=holdout){
+    if(!Number.isInteger(samples)||samples<128||samples>8192)throw Error('Invalid evaluation sample count');
     const evalDraw=dealer(hands,board,randomStream(evaluationSeed)), rng=randomStream(evaluationSeed^0x543e981a);
     const ev=Array(n).fill(0),m2=Array(n).fill(0);
-    for(let i=1;i<=holdout;i++){
+    for(let i=1;i<=samples;i++){
       const w=world(evalDraw()),v=external?rollout(tree,w,rng):walk(tree,w,reach,false);
       for(let p=0;p<n;p++){const d=v[p]-ev[p];ev[p]+=d/i;m2[p]+=d*(v[p]-ev[p]);}
     }
-    return {...utilityMeta,wide:true,ev,se:m2.map(x=>Math.sqrt(Math.max(0,x)/(holdout-1)/holdout)),iterations,
-      abstraction,weighting,memoryBudgetMiB:profile.limit/1048576,strategyMiB:profile.bytes/1048576,evaluationDeals:holdout,infos:profile.infos,
+    return {...utilityMeta,wide:true,ev,se:m2.map(x=>Math.sqrt(Math.max(0,x)/(samples-1)/samples)),iterations,
+      abstraction,weighting,batchDeals,regretMatching,trainingDeals,dealSampler:stratify?'stratified joint river':'independent rejection',memoryBudgetMiB:profile.limit/1048576,strategyMiB:profile.bytes/1048576,evaluationDeals:samples,infos:profile.infos,
       nodes:external?profile.nodes.size:nodes,seed,evaluationSeed,startStreet:streetName(board.length),
       runoutMode:'fresh',deals:iterations,algorithm:external?'external':'full',stateVisits,limitReached};
+  }
+  function rootFrequencies(){
+    if(tree.kind!=='player')return [];
+    const sample=dealer(hands,board,randomStream(evaluationSeed)),counts=new Float64Array(tree.actions.length);
+    for(let i=0;i<256;i++){
+      const sig=probabilities(tree,world(sample()),profile,true);
+      for(let a=0;a<counts.length;a++)counts[a]+=sig[a];
+    }
+    return tree.actions.map((action,a)=>({label:action.label,frequency:counts[a]/256}));
   }
   function view(path=[]){
     const visible=board.slice(),line=[],history=[];let t=tree;
@@ -3507,7 +3671,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       pools.push({k,count:pool.count,blocks:pool.blocks.map((block,i)=>EM.packTrainingValues(block.subarray(0,Math.min(256,pool.count-i*256)*2*k)))});
     }
     const records=[...profile.nodes].sort(([a],[b])=>a<b?-1:a>b?1:0).map(([path,node])=>({path,k:node.k,rows:[...node.rows]}));
-    return EM.checkpointPayload({...cfg,abstraction,weighting,strategyBudgetMiB:profile.limit/1048576},{kind:'wide',external,iterations,stateVisits,limitReached,
+    return EM.checkpointPayload({...cfg,abstraction,weighting,batchDeals,regretMatching,strategyBudgetMiB:profile.limit/1048576},{kind:'wide',external,iterations,stateVisits,trainingDeals,limitReached,
       dealState:dealRandom.state(),actionState:actionRandom.state(),pools,records},labels);
   }
   function restoreState(state){
@@ -3520,7 +3684,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(const row of state.pools){
       if(!Number.isInteger(row.k)||row.k<2||row.k>7||pools[row.k])bad();
       EM.checkpointInteger(row.count,3000000);if(!row.count||!Array.isArray(row.blocks)||row.blocks.length!==Math.ceil(row.count/256))bad();
-      bytes+=row.blocks.length*256*16*row.k;if(bytes>profile.limit)bad();
+      bytes+=row.blocks.length*(256*16*row.k*(batchDeals>1?2:1)+(batchDeals>1?512:0));if(bytes>profile.limit)bad();
       pools[row.k]={count:row.count,encoded:row.blocks};seen[row.k]=new Uint8Array(row.count);
     }
     if(state.records.length>bytes/16+1)bad();
@@ -3555,6 +3719,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       });delete pool.encoded;
     }
     profile.nodes=nodes;profile.pools=pools;profile.bytes=bytes;profile.infos=infos;profile.gen++;
+    trainingDeals=state.trainingDeals??state.iterations*batchDeals*(!external&&updates!=='simultaneous'?n:1);
+    EM.checkpointInteger(trainingDeals,Number.MAX_SAFE_INTEGER);
     iterations=state.iterations;stateVisits=state.stateVisits;limitReached=state.limitReached;
     dealRandom.restore(state.dealState);actionRandom.restore(state.actionState);
   }
@@ -3562,7 +3728,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
-  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  return {rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));
 
@@ -4237,7 +4403,7 @@ self.onmessage = (ev) => {
     else if (m.type === 'deep-solve') deepSolve(m);
     else if (m.type === 'river-solve' || m.type === 'multi-solve') multiwaySolve(m);
     else if (m.type === 'multi-check') multiwayCheck(m);
-    else if (m.type === 'multi-export' || m.type === 'multi-load') checkpointFile(m);
+    else if (m.type === 'multi-export' || m.type === 'multi-load' || m.type === 'multi-recover') checkpointFile(m);
     else if (m.type === 'multi-resume') multiwayResume(m);
     else if (m.type === 'river-stop' || m.type === 'multi-stop') { riverStop=true; post({type:'result',id:m.id,result:true}); }
     else if (m.type === 'river-node' || m.type === 'multi-node') {
@@ -4253,41 +4419,59 @@ function multiwaySolve(m) {
   if (riverBusy) throw new Error('A multiway solve is already running');
   let max=Number(m.maxIter);const target=Number(m.target);
   const auto=m.cfg?.privateMode==='auto';
-  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?100000:5000) || !Number.isFinite(target) || target<0)
-    throw new Error('Choose a positive number of iterations (up to 100,000 for wide ranges or 5,000 for enumeration)');
+  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?1000000:250000) || !Number.isFinite(target) || target<0)
+    throw new Error('Choose a positive number of iterations (up to 1,000,000 for wide ranges or 250,000 for enumeration)');
   const g=m.type==='river-solve'?EM.RiverGame(m.cfg):EM.MultiwayGame(m.cfg);
   // Automatic mode resolves to exact or sampled deals; later resumes, checks and
-  // checkpoints use the resolved configuration. Exact runs keep their 5,000 cap
+  // checkpoints use the resolved configuration. Exact runs keep their 250,000 cap
   // and stop early at the target gain.
   const resolved=g.resolvedConfig||EM.copyStudyConfig(m.cfg), wide=resolved.privateMode==='sampled';
-  if(!wide)max=Math.min(max,5000);
+  if(!wide)max=Math.min(max,250000);
   river=g;riverConfig=resolved;riverResult=null;
   trainMultiway(m,g,max,target,wide);
 }
 function trainMultiway(m,g,max,target,wide){
+  let interval=Number(m.autosaveSeconds??0);
+  if(!Number.isInteger(interval)||interval<0||interval>3600)throw Error('Checkpoint interval must be 0–3600 seconds');
   riverBusy=true;riverStop=false;
-  let next=wide?g.iterations+Math.max(1,Math.ceil((max-g.iterations)/2)):g.iterations+25,lastMetrics=null;
+  const started=performance.now(),initialDeals=g.trainingDeals||0;
+  let lastSave=started,saveStatus='';
+  async function autosave(final){
+    if(!interval||(!final&&performance.now()-lastSave<interval*1000))return;
+    try{
+      await EM.autosaveTraining(await EM.encodeCheckpoint(g.snapshot(m.labels)),m.checkpointHost);
+      saveStatus='Checkpoint saved at update '+g.iterations.toLocaleString();lastSave=performance.now();
+    }catch(e){saveStatus='Automatic checkpoint failed: '+e.message;interval=0;}
+  }
+  const diagnosticInterval=Math.max(1000,Math.ceil((max-g.iterations)/20));
+  let next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+25,lastMetrics=null;
   const checkpoints=[];
-  function step() {
+  async function step() {
     try {
       const until=performance.now()+55;
       while (!riverStop && !g.limitReached && g.iterations<Math.min(max,next) && performance.now()<until) g.iterate();
       if (riverStop || g.limitReached || g.iterations>=next || g.iterations>=max) {
-        lastMetrics=g.metrics();
+        const finalWide=wide&&(riverStop||g.limitReached||g.iterations>=max);
+        lastMetrics=wide&&!finalWide?g.metrics(256):g.metrics();
         if(wide){
-          const root=g.view([]);
+          const actions=g.rootFrequencies(),previous=checkpoints.at(-1);
+          const rootStrategyDelta=previous&&previous.actions.length===actions.length?
+            Math.max(0,...actions.map((a,i)=>Math.abs((a.frequency||0)-(previous.actions[i].frequency||0)))):null;
           checkpoints.push({iterations:g.iterations,ev:lastMetrics.ev,se:lastMetrics.se,
-            actions:root.actions||[]});
+            actions,rootStrategyDelta,note:'Root strategy drift is a stability diagnostic, not an equilibrium bound.'});
         }
         if(riverStop || g.limitReached || g.iterations>=max || lastMetrics.maxGain<=target) {
-          riverBusy=false;
+          await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
-          riverResult={metrics:lastMetrics,node:g.view([]),reason,checkpoints};
+          riverResult={metrics:lastMetrics,node:g.view([]),reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
         }
-        next=wide?max:g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));
+        next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));
       }
-      post({type:'progress',id:m.id,it:g.iterations,gap:lastMetrics?lastMetrics.maxGain:null});
+      await autosave(false);
+      const elapsed=(performance.now()-started)/1000;
+      post({type:'progress',id:m.id,it:g.iterations,elapsed,trainingDeals:g.trainingDeals,strategyMiB:g.strategyMiB,
+        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
       setTimeout(step,0);
     } catch(e) { riverBusy=false; river=null; post({type:'error',id:m.id,message:e.message}); }
   }
@@ -4297,8 +4481,8 @@ function trainMultiway(m,g,max,target,wide){
 function multiwayResume(m){
   if(riverBusy || !river || !riverResult)throw Error('Load or finish a multiway solve before resuming');
   const wide=riverConfig.privateMode==='sampled',more=Number(m.iterations),target=Number(m.target??0);
-  if(!Number.isInteger(more)||more<1||more>(wide?100000:5000)||river.iterations+more>1e9||!Number.isFinite(target)||target<0)
-    throw Error('Choose up to 100,000 extra wide-range iterations or 5,000 exact iterations');
+  if(!Number.isInteger(more)||more<1||more>(wide?1000000:250000)||river.iterations+more>1e9||!Number.isFinite(target)||target<0)
+    throw Error('Choose up to 1,000,000 extra wide-range iterations or 250,000 exact iterations');
   if(wide && m.memoryMiB!==undefined){
     river.increaseBudget(Number(m.memoryMiB));riverConfig={...riverConfig,strategyBudgetMiB:Number(m.memoryMiB)};
   }
@@ -4314,7 +4498,7 @@ async function checkpointFile(m){
       const text=await EM.encodeCheckpoint(river.snapshot(m.labels));
       post({type:'result',id:m.id,result:{text,iterations:river.iterations}});
     }else{
-      const payload=await EM.decodeCheckpoint(m.text),loaded=EM.restoreCheckpoint(payload);
+      const loaded=m.type==='multi-recover'?await EM.recoverTraining(m.checkpointHost):EM.restoreCheckpoint(await EM.decodeCheckpoint(m.text));
       // Only commit after both validation and evaluation succeed.
       const result={metrics:loaded.game.metrics(),node:loaded.game.view([]),reason:'loaded training checkpoint',checkpoints:[]};
       river=loaded.game;riverConfig=loaded.cfg;riverResult=result;
@@ -4522,7 +4706,7 @@ function postNode(m) {
 })(globalThis.EM || (globalThis.EM = {}));
 
 ;
-globalThis.EM.BUILD = Object.freeze({version:"2.6",build:"b7151e8ac1fda588"});</script>
+globalThis.EM.BUILD = Object.freeze({version:"2.8",build:"8e13def82b9d8e18"});</script>
 <script>(function (EM) {
 'use strict';
 const streets=['Flop','Turn','River'];
@@ -4549,7 +4733,7 @@ function multiwayExample(n=3,start='Flop',dealt=8) {
       ? {bets:'50,100',raises:'2.5x',maxBets:2}
       : {bets:short?'100':['50','75','100'][i],raises:'',maxBets:1};
   });
-  return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:'auto',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
+  return {study:'postflop',anteType:'classic',ante:'',anteSeat:'-1',payoff:'chip',startStacks:'',abstraction:'detailed',memoryMiB:112,precision:'balanced',batchDeals:4,payouts:'50,30,20',others:Array(Math.max(0,dealt-n)).fill(24.9).join(','),preOpen:'2',preRaises:'3x,a',preCap:3,preLimps:true,privateMode:'auto',privateSeed:17,board:['2c 4d 7h','2c 4d 7h 9s','2c 4d 7h 9s Jc'][streets.indexOf(start)],
     dealt,common:'0',folded:'',tree,mode:start==='Flop'?'sampled':'exact',count:n>=6?2:4,seed:17,
     maxIter:10000,target:0.02,notes:n>=6?['Six','Seven','Eight'][n-6]+' players put in 2 bb each from 25 bb starting stacks. Two bet sizes and a 2.5x raise are available on each street. Edit the sizes to study another line.':'',seats:Array.from({length:n},(_,i)=>({
       name:'Seat '+(i+1),prior:'2',stack:String(n>=6?22.9:short?2*n+EM.tableAntes(dealt):(start==='River'?riverStacks:deep)[i]),
@@ -4563,7 +4747,7 @@ function multiwaySpotConfig(spot) {
   const parseFolded=()=>String(spot.folded||'').trim()?String(spot.folded).trim().split(/[\s,]+/).map(number):[];
   const settings={};
   for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
-  const cfg={...anteCfg(),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
+  const cfg={...anteCfg(),riverStrata:spot.riverStrata===true,batchDeals:Number(spot.batchDeals??1),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
     runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
     folded:parseFolded(),
     stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
@@ -4603,7 +4787,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">Wide ranges · seed '+m.seed+' · '+m.iterations.toLocaleString()+' training iterations · '+m.evaluationDeals.toLocaleString()+' evaluation deals · '+val(result.reason)+'</p>';
       h+='<table class="rv-table"><thead><tr><th>Player</th><th>Estimated EV ('+unit()+')</th><th>Standard error ('+unit()+')</th></tr></thead><tbody>';
       seats.forEach((s,i)=>{h+='<tr><th>'+val(s.name)+'</th><td>'+num(m.ev[i])+'</td><td>'+num(m.se[i])+'</td></tr>';});
-      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds, test opponent responses and, for spots small enough to enumerate, measure exact best-response gains. Training completion alone does not make a strategy an equilibrium.</p></div>';
+      h+='</tbody></table><p class="note">'+(m.algorithm==='external'?'Sampled betting traversal':'Full betting traversal')+' · '+val(m.dealSampler||'independent rejection')+' · '+num(m.strategyMiB,2)+' / '+num(m.memoryBudgetMiB,0)+' MiB estimated strategy storage · '+val(m.abstraction==='exact'?'Exact cards':m.abstraction==='compact'?'Compact groups':'Detailed groups')+'.</p><p class="note">Standard error measures evaluation sampling noise for this strategy. Detailed groups distinguish blockers, draws and board texture. Exact cards keeps distinct private cards and board histories; deals and betting branches are still sampled. Run the accuracy checks below to compare seeds, test opponent responses and, for spots small enough to enumerate, measure exact best-response gains. Training completion alone does not make a strategy an equilibrium.</p></div>';
     }else{
     const scope=m.runoutMode==='sampled'?'Sampled cards · seed '+m.seed:m.runoutMode==='fixed'?'Fixed river':'All legal future cards';
     h='<div class="card"><h2>'+val(street)+' solution</h2><p class="note">'+val(scope)+' · '+val(result.reason)+' · '+m.iterations+
@@ -4673,7 +4857,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     next.board=typeof cfg.board==='string'?cfg.board:cfg.board.map(EM.cardStr).join(' ');
     next.common=String(cfg.common-(cfg.dealt===undefined?0.1*next.dealt:0));
     next.folded=(cfg.folded||[]).join(',');next.privateMode=cfg.privateMode||'exact';next.privateSeed=cfg.privateSeed??17;
-    next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
+    next.riverStrata=cfg.riverStrata===true;next.batchDeals=cfg.batchDeals??1;next.precision='custom';next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
     next.anteType=cfg.anteType||'classic';next.ante=cfg.ante==null?'':String(cfg.ante);next.anteSeat=String(cfg.anteSeat??-1);
     next.mode=cfg.runouts?.mode||'exact';next.count=cfg.runouts?.count??4;next.seed=cfg.runouts?.seed??17;
     next.payoff=cfg.icm?'icm':'chip';next.payouts=(cfg.icm?.payouts||[50,30,20]).join(',');
@@ -4685,27 +4869,34 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     next.notes='Loaded training setup. Continue training keeps the saved configuration and strategy. Editing the setup starts a new study.';
     return next;
   }
-  async function loadTraining(file){
-    if(!file)return;
-    if(file.size>EM.checkpointMaxBytes){error='Training files must be at most 512 MiB';status();return;}
+  async function loadTraining(file,recover=false){
+    if(!file&&!recover)return;
+    if(file?.size>EM.checkpointMaxBytes){error='Training files must be at most 512 MiB';status();return;}
     busy=transferring=true;error='';progress='Validating saved training…';render();
     try{
-      const loaded=await call('multi-load',{text:await file.text()});
+      const loaded=recover?await call('multi-recover',{}):await call('multi-load',{text:await file.text()});
       spot=checkpointSpot(loaded.cfg,loaded.labels);restoredConfig=loaded.cfg;
       result=loaded;current=loaded.node;pos=[];revision++;pristine=false;trainingReady();progress='Training loaded.';
     }catch(e){error=e.message;progress='';}finally{busy=transferring=false;render();}
+  }
+  function trainingProgress(m){
+    let message='Update '+m.it.toLocaleString();
+    if(Number.isFinite(m.trainingDeals))message+=' · '+m.trainingDeals.toLocaleString()+' sampled deals · '+Math.round(m.dealsPerSecond)+' deals/s · '+num(m.strategyMiB,1)+' MiB strategy';
+    if(Number.isFinite(m.elapsed))message+=' · '+Math.round(m.elapsed)+' s';
+    if(m.gap!=null)message+=' · largest measured gain '+num(m.gap,4)+' '+unit();
+    return message+(m.saveStatus?' · '+m.saveStatus:'');
   }
   async function resumeTraining(){
     resume.iterations=number(el('resume-iterations').value);
     if(el('resume-memory'))resume.memoryMiB=number(el('resume-memory').value);
     busy=true;error='';progress='Continuing saved training…';render();
     try{
-      result=await call('multi-resume',{iterations:resume.iterations,memoryMiB:resume.memoryMiB,target:number(spot.target)},m=>{
-        progress='Iteration '+m.it.toLocaleString();status();
+      result=await call('multi-resume',{iterations:resume.iterations,autosaveSeconds:Number(spot.autosaveSeconds||0),labels:spot.seats.map(s=>s.name),memoryMiB:resume.memoryMiB,target:number(spot.target)},m=>{
+        progress=trainingProgress(m);status();
       });
       current=result.node;pos=[];revision++;spot.memoryMiB=resume.memoryMiB;
       if(restoredConfig)restoredConfig.strategyBudgetMiB=resume.memoryMiB;
-      progress='';
+      progress=result.saveStatus||'';
     }catch(e){error=e.message;progress='';}finally{busy=false;render();}
   }
   function quality(){
@@ -4840,7 +5031,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
         '<td><input id="rv-cap-'+key+'" aria-label="'+street+' bet cap" type="number" min="1" max="5" value="'+val(t.maxBets)+'"></td></tr>';
     }).join('');
     root.innerHTML='<div class="card"><div class="row sb"><h2>Multiway studies</h2><span class="small muted">'+(pre?(shove?'Shove / call · 2–8 players':'Preflop → river · 2–8 players'):'Postflop · 2–8 players')+'</span></div>'+
-      '<fieldset class="rv-inputs" '+(busy?'disabled':'')+'><label class="field"><span class="label">Load saved training (.emstudy)</span><input id="rv-load" type="file" accept=".emstudy,application/json"></label><div class="rv-examples"><span class="label">Load example</span>'+
+      '<fieldset class="rv-inputs" '+(busy?'disabled':'')+'><label class="field"><span class="label">Load saved training (.emstudy)</span><input id="rv-load" type="file" accept=".emstudy,application/json"></label><button type="button" class="btn sm" data-rv-recover="1">Recover automatic checkpoint</button>'+field('autosaveSeconds','Automatic checkpoint interval (seconds, 0 disables)',spot.autosaveSeconds||0,'number','min="0" max="3600"')+'<div class="rv-examples"><span class="label">Load example</span>'+
       ['Preflop','Shove / call',...streets].map(s=>'<button type="button" class="btn sm" data-rv-example="'+s+'">'+s+'</button>').join('')+'<button type="button" class="btn sm" data-dp-wide25="1">25 bb button vs blinds</button></div>'+
       '<div class="fields">'+field('board',pre?'Board (dealt during the solve)':'Board (3, 4 or 5 cards)',spot.board,'text',pre?'disabled':'')+
       '<label class="field"><span class="label">Players in the pot</span><select id="rv-count">'+[2,3,4,5,6,7,8].map(k=>'<option '+(n===k?'selected':'')+'>'+k+'</option>').join('')+'</select></label>'+
@@ -4861,15 +5052,15 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       (pre&&!shove?'<h3>Preflop actions</h3><div class="fields">'+field('preOpen','Opening raise-to sizes (bb)',spot.preOpen)+field('preRaises','Reraise sizes (× or % pot)',spot.preRaises)+field('preCap','Preflop raise cap',spot.preCap,'number','min="1" max="5"')+'<label class="field"><span class="label">Allow limps</span><input id="rv-preLimps" type="checkbox" '+(spot.preLimps?'checked':'')+'></label></div>':'')+
       '<label class="field"><span class="label">Private ranges</span><select id="rv-privateMode"><option value="auto" '+(spot.privateMode==='auto'?'selected':'')+'>Automatic · exact when it fits</option><option value="exact" '+(spot.privateMode==='exact'?'selected':'')+'>Enumerate compatible deals</option><option value="sampled" '+(spot.privateMode==='sampled'?'selected':'')+'>Wide ranges · sample fresh deals</option></select></label>'+
       '<div id="rv-wide-controls"><div class="fields">'+field('privateSeed','Training seed',spot.privateSeed,'number','min="0" max="4294967295"')+
-      '<label class="field"><span class="label">Hand grouping</span><select id="rv-abstraction">'+[['compact','Compact'],['detailed','Detailed'],['exact','Exact cards']].map(([k,label])=>'<option value="'+k+'" '+(spot.abstraction===k?'selected':'')+'>'+label+'</option>').join('')+'</select></label>'+
-      field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="256" step="1"')+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
+      '<label class="field"><span class="label">Stratify compact river batches</span><input type="checkbox" id="rv-strata" '+(spot.riverStrata?'checked':'')+'></label><label class="field"><span class="label">Hand grouping</span><select id="rv-abstraction">'+[['compact','Compact'],['detailed','Detailed'],['exact','Exact cards']].map(([k,label])=>'<option value="'+k+'" '+(spot.abstraction===k?'selected':'')+'>'+label+'</option>').join('')+'</select></label>'+
+      '<label class="field"><span class="label">Precision preset</span><select id="rv-precision">'+[['fast','Fast'],['balanced','Balanced'],['high','High accuracy'],['custom','Custom']].map(([k,l])=>'<option value="'+k+'" '+(spot.precision===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+field('batchDeals','Deals per update',spot.batchDeals??1,'number','min="1" max="64"')+field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="256" step="1"')+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
       '<div '+(shove?'hidden':'')+'><h3>Bet sizes by street</h3><div class="rv-scroll"><table class="rv-table rv-sizes"><thead><tr><th>Street</th><th>Opening bets (% pot)</th><th>Raises (× or % pot)</th><th>Bet / raise cap</th></tr></thead><tbody>'+sizeRows+'</tbody></table></div>'+
       '<p class="note">Separate sizes with commas. Use a for all-in, 2.5x for a raise multiple, or an empty box to omit those actions.</p></div>'+
       '<div id="rv-chance-settings"><h3>Future board cards</h3><label class="field"><span class="label">Runouts</span><select id="rv-mode">'+
       '<option value="exact" '+(spot.mode==='exact'?'selected':'')+'>All legal cards</option><option value="sampled" '+(spot.mode==='sampled'?'selected':'')+'>Seeded sample</option></select></label>'+
       '<div id="rv-sampling"><div class="fields">'+field('samplecount','Cards per next street',spot.count,'number','min="1" max="20" step="1"')+
       field('seed','Sample seed',spot.seed,'number','min="0" max="4294967295" step="1"')+'</div><p class="note">The same seed repeats the public cards. Extra cards are included if a private deal blocks the entire sample.</p></div></div>'+
-      '<div class="fields">'+field('folded','Earlier folded wagers (optional)',spot.folded,'text',pre?'disabled':'')+field('iterations','Maximum iterations',spot.maxIter,'number','min="1" max="100000"')+
+      '<div class="fields">'+field('folded','Earlier folded wagers (optional)',spot.folded,'text',pre?'disabled':'')+field('iterations','Maximum iterations',spot.maxIter,'number','min="1" max="1000000"')+
       field('target','<span id="rv-target-label">Largest seat gain target ('+unit()+')</span>',spot.target,'number','min="0" step="any"')+'</div>'+
       '<p class="note">Enumeration includes every compatible private deal. Wide-range mode samples betting branches automatically for larger trees and stops at its strategy memory budget.</p>'+
       '<button id="rv-solve" class="btn primary big" data-rv-solve="1">Solve spot</button></fieldset>'+
@@ -4879,9 +5070,11 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   }
   function read() {
     if(!el('board'))return;
-    for(const k of ['board','dealt','common','folded','mode','seed','privateMode','privateSeed','payoff','payouts','others','startStacks','abstraction','memoryMiB'])spot[k]=el(k).value;
+    for(const k of ['board','dealt','common','folded','mode','seed','privateMode','privateSeed','payoff','payouts','others','startStacks','abstraction','memoryMiB','batchDeals','precision'])spot[k]=el(k).value;
     for(const k of ['anteType','ante','anteSeat'])if(el(k))spot[k]=el(k).value;
     for(const k of ['preOpen','preRaises','preCap'])if(el(k))spot[k]=el(k).value;
+    if(el('strata'))spot.riverStrata=el('strata').checked;
+    if(el('autosaveSeconds'))spot.autosaveSeconds=el('autosaveSeconds').value;
     if(el('preLimps'))spot.preLimps=el('preLimps').checked;
     spot.count=el('samplecount').value;spot.maxIter=el('iterations').value;spot.target=el('target').value;
     for(const street of streets){
@@ -4900,10 +5093,10 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     read();const loaded=restoredConfig;clearResult();busy=true;progress='Building the betting and runout trees…';render();
     try{
       const cfg=EM.multiwaySpotConfig(spot);
-      result=await call('multi-solve',{cfg:loaded||cfg,maxIter:number(spot.maxIter),target:number(spot.target)},m=>{
-        progress='Iteration '+m.it+(m.gap==null?'':' · largest measured gain '+num(m.gap,4)+' '+unit());status();
+      result=await call('multi-solve',{cfg:loaded||cfg,autosaveSeconds:Number(spot.autosaveSeconds||0),labels:spot.seats.map(s=>s.name),maxIter:number(spot.maxIter),target:number(spot.target)},m=>{
+        progress=trainingProgress(m);status();
       });
-      current=result.node;trainingReady();progress='';
+      current=result.node;trainingReady();progress=result.saveStatus||'';
     }catch(e){error=e.message;progress='';}finally{busy=false;render();}
   }
   async function view(path){
@@ -4917,6 +5110,11 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id.startsWith('rv-resume-')){resume.iterations=number(el('resume-iterations').value);if(el('resume-memory'))resume.memoryMiB=number(el('resume-memory').value);return;}
     if(e.target.id.startsWith('rv-check-')){readChecks();return;}
     read();
+    if(e.target.id==='rv-precision'){
+      const preset={fast:[1,48,'compact',1000],balanced:[4,112,'detailed',10000],high:[16,224,'exact',50000]}[spot.precision];
+      if(preset){[spot.batchDeals,spot.memoryMiB,spot.abstraction,spot.maxIter]=preset;clearResult();render();return;}
+    }
+    if(['rv-batchDeals','rv-memoryMiB','rv-abstraction'].includes(e.target.id)){spot.precision='custom';el('precision').value='custom';}
     if(e.target.id==='rv-privateMode'){spot.maxIter=spot.privateMode==='exact'?500:10000;el('iterations').value=spot.maxIter;}
     if(spot.notes){spot.notes='';if(el('notes'))el('notes').hidden=true;}
     if(e.target.id!=='rv-dealt')pristine=false;
@@ -4940,6 +5138,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   });
   root.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+    if(d.rvRecover&&!busy)loadTraining(null,true);
     if(d.rvSave && !busy && result)saveTraining();
     if(d.rvResume && !busy && result)resumeTraining();
     if(d.rvSolve && !busy)solve();
@@ -5009,7 +5208,7 @@ function call(type, payload = {}, onProgress) {
   return new Promise((resolve, reject) => {
     const id = ++W.id;
     W.pending.set(id, { resolve, reject, onProgress });
-    W.worker.postMessage(Object.assign({ type, id }, payload));
+    W.worker.postMessage(Object.assign({ type, id, checkpointHost:window.EM_NATIVE?window.location.origin:null }, payload));
   });
 }
 
@@ -6527,7 +6726,7 @@ function transferMultiway(m,labels,example) {
     const range=EM.CLASS_NAMES.flatMap((name,k)=>{const w=r.reach[p]?r.reach[p][k]:1;return w>0?[w===1?name:name+':'+w]:[];}).join(',');
     return {name:m.positions[p],stack:String(+w.behind[p].toFixed(4)),prior:String(+w.cb[p].toFixed(4)),range,lead:true};
   });
-  const preset=example?{tree:Object.fromEntries(['flop','turn','river'].map(s=>[s,{bets:'50',raises:'',maxBets:1}]))}:{};
+  const preset=example?{memoryMiB:224,precision:'custom',tree:Object.fromEntries(['flop','turn','river'].map(s=>[s,{bets:'50',raises:'',maxBets:1}]))}:{};
   const ok=riverPanel.importSpot({...preset,board:example?'2c 4d 7h':'',privateMode:'sampled',maxIter:10000,dealt:m.n,common:'0',seats,
     folded:w.cb.filter((v,p)=>!live.includes(p) && v>0).join(', '),
     notes:example?'25 bb chart · Button opens to 2 bb, small blind calls, big blind calls. Eight antes bring the pot to 6.8 bb. Full chart ranges on 2c 4d 7h.':'Imported preflop stacks, wagers and ranges. Enter a three-card flop to solve the remaining streets in chip EV. Wide ranges uses fresh weighted private deals and all legal runouts.'});
@@ -7006,8 +7205,8 @@ $('#engine').textContent = W.inline ? 'main-thread mode' : (typeof WebAssembly !
 if (NATIVE) {
   napi('/api/info').then((info) => {
     NINFO = info;
-    DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.max(2000, info.ramMB * 0.78) };
-    $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
+    DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.min(info.processLimitMiB||6144, Math.max(512, info.ramMB * 0.5)) };
+    $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.residentMiB)} MiB native RSS · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
     // The interface and the native host are built together; a different version or
     // build identifier means mixed files from different releases.
     if (EM.BUILD && (info.version !== EM.BUILD.version || info.build !== EM.BUILD.build)) {
@@ -7017,7 +7216,7 @@ if (NATIVE) {
     if (info.gpu) $('#engine').title = info.gpu.available ? 'GPU: ' + info.gpu.device : 'No GPU: ' + info.gpu.device;
     render();
   }).catch(() => { $('#engine').textContent = 'Native engine not responding'; });
-  setInterval(() => { fetch('/api/status').then(r => { if (!r.ok) throw new Error(); $('#engine').classList.remove('off'); }).catch(() => { $('#engine').textContent = 'EightMax.exe closed'; $('#engine').classList.add('off'); }); }, 5000);
+  setInterval(() => { fetch('/api/status').then(r=>{if(!r.ok)throw Error();return r.json();}).then(st=>{const el=$('#engine');el.classList.remove('off');if(NINFO && st.residentMiB>=0)el.textContent='Native · '+NINFO.threads+' threads · '+Math.round(st.residentMiB)+' MiB native RSS'+(NINFO.gpu?.available?' · GPU':'');}).catch(() => { $('#engine').textContent = 'EightMax.exe closed'; $('#engine').classList.add('off'); }); }, 5000);
 }
 setTab(location.hash.slice(1) || 'preflop', false);
 })();

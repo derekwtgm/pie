@@ -1,0 +1,86 @@
+{
+  "rows": [
+    {
+      "S": 15,
+      "iterations": 475,
+      "packedStrategyValues": 40954,
+      "changed": 0,
+      "originalReportedGap": 0.00088,
+      "regeneratedReportedGap": 0.00088,
+      "sha256": "ee86e631c89a8ce1cb1a767acc9901ade54f65e6ae3db03303fa3dfd32ca3646"
+    },
+    {
+      "S": 20,
+      "iterations": 500,
+      "packedStrategyValues": 50447,
+      "changed": 0,
+      "originalReportedGap": 0.00105,
+      "regeneratedReportedGap": 0.00105,
+      "sha256": "a4b73feb270fb1d17c5aaf50cb837203ab44c8d9a957414c5a186bce50f3eae7"
+    },
+    {
+      "S": 25,
+      "iterations": 675,
+      "packedStrategyValues": 63258,
+      "changed": 0,
+      "originalReportedGap": 0.00132,
+      "regeneratedReportedGap": 0.00132,
+      "sha256": "9b60da1c6bf2284f34e390515d78dda678a3c79121076e176e9662a97b075707"
+    },
+    {
+      "S": 30,
+      "iterations": 975,
+      "packedStrategyValues": 66575,
+      "changed": 0,
+      "originalReportedGap": 0.00166,
+      "regeneratedReportedGap": 0.00166,
+      "sha256": "32cbbc981087acca6bb5576a42c9a8bea7ffbad8217aa36907d808154d901c64"
+    },
+    {
+      "S": 40,
+      "iterations": 1325,
+      "packedStrategyValues": 59555,
+      "changed": 0,
+      "originalReportedGap": 0.00167,
+      "regeneratedReportedGap": 0.00167,
+      "sha256": "8f1ba3f559e1dbeba13b6b800c192b4f37d58c6dfa20a5ddd62515533e785ed9"
+    },
+    {
+      "S": 50,
+      "iterations": 1200,
+      "packedStrategyValues": 63116,
+      "changed": 0,
+      "originalReportedGap": 0.0013,
+      "regeneratedReportedGap": 0.0013,
+      "sha256": "e5cd7a43f1f6b2d74620ee6a9ccd35996f4ae8eb09062708bfc8c7bc5cce05d7"
+    },
+    {
+      "S": 60,
+      "iterations": 1075,
+      "packedStrategyValues": 49285,
+      "changed": 0,
+      "originalReportedGap": 0.00107,
+      "regeneratedReportedGap": 0.00107,
+      "sha256": "65711d9add6b053a5545359b4621da1530715e1e917b8452cc480c16d0013ceb"
+    },
+    {
+      "S": 80,
+      "iterations": 950,
+      "packedStrategyValues": 49182,
+      "changed": 0,
+      "originalReportedGap": 0.00116,
+      "regeneratedReportedGap": 0.00116,
+      "sha256": "d768fa1a7ae674d7762cd69660ca438cd43f8d9a14a6216d9d5f3c8bfbbbb56b"
+    },
+    {
+      "S": 100,
+      "iterations": 1125,
+      "packedStrategyValues": 47072,
+      "changed": 0,
+      "originalReportedGap": 0.00128,
+      "regeneratedReportedGap": 0.00128,
+      "sha256": "00fb63c7734d53fb6e399846900e6061429001aac262edf31c750164e35d5a79"
+    }
+  ],
+  "note": "Independent rerun of the shipped chart generator with its existing fitted continuation-value model. This tests chart reproducibility. It does not refit the coefficients or establish full-game equilibrium."
+}

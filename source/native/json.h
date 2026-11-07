@@ -2,7 +2,7 @@
 #define EM_JSON_H
 #include <stddef.h>
 // growable output buffer
-typedef struct JB { char *s; size_t n, cap; } JB;
+typedef struct JB { char *s; size_t n, cap; int failed; } JB;
 void jb_init(JB *b);
 void jb_free(JB *b);
 void jb_putc(JB *b, char c);

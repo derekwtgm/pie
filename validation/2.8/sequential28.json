@@ -1,0 +1,474 @@
+{
+  "version": "2.8",
+  "variant": "sequential",
+  "batchDeals": 1,
+  "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "full",
+    "evaluationDeals": 128
+  },
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "rows": [
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 4000,
+      "updates": 4000,
+      "deals": 4000,
+      "seconds": 0.176120856,
+      "cpuMs": 255.521,
+      "peakProcessMiB": 54.89453125,
+      "updatesPerSecond": 22711.677031594714,
+      "dealsPerSecond": 22711.677031594714,
+      "gains": [
+        0.4070176484521566,
+        0.3842052533153941,
+        0.48991502146882926
+      ],
+      "maxGain": 0.48991502146882926
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 20000,
+      "updates": 20000,
+      "deals": 20000,
+      "seconds": 0.712110823,
+      "cpuMs": 805.356,
+      "peakProcessMiB": 58.3203125,
+      "updatesPerSecond": 28085.516121975867,
+      "dealsPerSecond": 28085.516121975867,
+      "gains": [
+        0.19369764030331194,
+        0.18020980264328035,
+        0.09445866468162611
+      ],
+      "maxGain": 0.19369764030331194
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 50000,
+      "updates": 50000,
+      "deals": 50000,
+      "seconds": 1.8766835419999999,
+      "cpuMs": 1946.201,
+      "peakProcessMiB": 61.671875,
+      "updatesPerSecond": 26642.744437730038,
+      "dealsPerSecond": 26642.744437730038,
+      "gains": [
+        0.09217683789656128,
+        0.0880655088131359,
+        0.061960913021637865
+      ],
+      "maxGain": 0.09217683789656128
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 100000,
+      "updates": 100000,
+      "deals": 100000,
+      "seconds": 3.6115871829999997,
+      "cpuMs": 3675.7070000000003,
+      "peakProcessMiB": 70.609375,
+      "updatesPerSecond": 27688.65735007234,
+      "dealsPerSecond": 27688.65735007234,
+      "gains": [
+        0.06956674618201042,
+        0.05105474460813042,
+        0.029921072306104746
+      ],
+      "maxGain": 0.06956674618201042
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 250000,
+      "updates": 250000,
+      "deals": 250000,
+      "seconds": 10.664247333999999,
+      "cpuMs": 10721.548999999999,
+      "peakProcessMiB": 70.609375,
+      "updatesPerSecond": 23442.817122493423,
+      "dealsPerSecond": 23442.817122493423,
+      "gains": [
+        0.037382597281765406,
+        0.041608747962543546,
+        0.0144410111807447
+      ],
+      "maxGain": 0.041608747962543546
+    },
+    {
+      "seed": 1,
+      "timed": true,
+      "target": 1,
+      "updates": 21832,
+      "deals": 21832,
+      "seconds": 1.000144108999999,
+      "cpuMs": 1082.917,
+      "peakProcessMiB": 72.55859375,
+      "updatesPerSecond": 21828.854265640657,
+      "dealsPerSecond": 21828.854265640657,
+      "gains": [
+        0.19774357883512117,
+        0.16397577289852183,
+        0.08217115620310089
+      ],
+      "maxGain": 0.19774357883512117
+    },
+    {
+      "seed": 1,
+      "timed": true,
+      "target": 3,
+      "updates": 69600,
+      "deals": 69600,
+      "seconds": 3.0000027570000003,
+      "cpuMs": 3062.471,
+      "peakProcessMiB": 72.55859375,
+      "updatesPerSecond": 23199.978679219592,
+      "dealsPerSecond": 23199.978679219592,
+      "gains": [
+        0.09890632638849883,
+        0.09112358618258565,
+        0.0463069577046713
+      ],
+      "maxGain": 0.09890632638849883
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 4000,
+      "updates": 4000,
+      "deals": 4000,
+      "seconds": 0.16036293699999987,
+      "cpuMs": 165.461,
+      "peakProcessMiB": 75.01953125,
+      "updatesPerSecond": 24943.419438620054,
+      "dealsPerSecond": 24943.419438620054,
+      "gains": [
+        0.44520687142086324,
+        0.21099856967401198,
+        0.2346961702673691
+      ],
+      "maxGain": 0.44520687142086324
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 20000,
+      "updates": 20000,
+      "deals": 20000,
+      "seconds": 0.7405582230000001,
+      "cpuMs": 745.017,
+      "peakProcessMiB": 77.14453125,
+      "updatesPerSecond": 27006.654411289954,
+      "dealsPerSecond": 27006.654411289954,
+      "gains": [
+        0.10624043846391285,
+        0.12265924851801646,
+        0.09984795353606857
+      ],
+      "maxGain": 0.12265924851801646
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 50000,
+      "updates": 50000,
+      "deals": 50000,
+      "seconds": 1.7929587749999991,
+      "cpuMs": 1798.434,
+      "peakProcessMiB": 79.51953125,
+      "updatesPerSecond": 27886.865385401863,
+      "dealsPerSecond": 27886.865385401863,
+      "gains": [
+        0.0969018122219536,
+        0.10059478998463067,
+        0.04506736704868497
+      ],
+      "maxGain": 0.10059478998463067
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 100000,
+      "updates": 100000,
+      "deals": 100000,
+      "seconds": 3.7015750160000005,
+      "cpuMs": 3709.871,
+      "peakProcessMiB": 99.046875,
+      "updatesPerSecond": 27015.5270574692,
+      "dealsPerSecond": 27015.5270574692,
+      "gains": [
+        0.1144888084653859,
+        0.04525025941369076,
+        0.03517078742176816
+      ],
+      "maxGain": 0.1144888084653859
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 250000,
+      "updates": 250000,
+      "deals": 250000,
+      "seconds": 9.243683294,
+      "cpuMs": 9231.414,
+      "peakProcessMiB": 101.421875,
+      "updatesPerSecond": 27045.496048341785,
+      "dealsPerSecond": 27045.496048341785,
+      "gains": [
+        0.04871625285483194,
+        0.03411063945837434,
+        0.020861367709336776
+      ],
+      "maxGain": 0.04871625285483194
+    },
+    {
+      "seed": 2,
+      "timed": true,
+      "target": 1,
+      "updates": 28304,
+      "deals": 28304,
+      "seconds": 1.000285382000002,
+      "cpuMs": 1005.282,
+      "peakProcessMiB": 104.171875,
+      "updatesPerSecond": 28295.924852373726,
+      "dealsPerSecond": 28295.924852373726,
+      "gains": [
+        0.09083442761665417,
+        0.07235604044426314,
+        0.06666632531895145
+      ],
+      "maxGain": 0.09083442761665417
+    },
+    {
+      "seed": 2,
+      "timed": true,
+      "target": 3,
+      "updates": 75392,
+      "deals": 75392,
+      "seconds": 3.0001048389999996,
+      "cpuMs": 2996.13,
+      "peakProcessMiB": 106.546875,
+      "updatesPerSecond": 25129.78847270211,
+      "dealsPerSecond": 25129.78847270211,
+      "gains": [
+        0.06614502038063375,
+        0.060908207021685534,
+        0.02765841780808498
+      ],
+      "maxGain": 0.06614502038063375
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 4000,
+      "updates": 4000,
+      "deals": 4000,
+      "seconds": 0.17522286200000234,
+      "cpuMs": 176.964,
+      "peakProcessMiB": 109.296875,
+      "updatesPerSecond": 22828.071373471495,
+      "dealsPerSecond": 22828.071373471495,
+      "gains": [
+        0.41024485015021384,
+        0.29752785775190116,
+        0.23802397964879507
+      ],
+      "maxGain": 0.41024485015021384
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 20000,
+      "updates": 20000,
+      "deals": 20000,
+      "seconds": 0.7762743700000029,
+      "cpuMs": 777.4380000000001,
+      "peakProcessMiB": 111.796875,
+      "updatesPerSecond": 25764.0864788566,
+      "dealsPerSecond": 25764.0864788566,
+      "gains": [
+        0.16787135610949555,
+        0.10462427871770075,
+        0.07782419329015355
+      ],
+      "maxGain": 0.16787135610949555
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 50000,
+      "updates": 50000,
+      "deals": 50000,
+      "seconds": 1.9260253630000044,
+      "cpuMs": 1920.767,
+      "peakProcessMiB": 113.921875,
+      "updatesPerSecond": 25960.198116041054,
+      "dealsPerSecond": 25960.198116041054,
+      "gains": [
+        0.10877881008346435,
+        0.05997775827098906,
+        0.038911782288189256
+      ],
+      "maxGain": 0.10877881008346435
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 100000,
+      "updates": 100000,
+      "deals": 100000,
+      "seconds": 3.8868340920000044,
+      "cpuMs": 3879.257,
+      "peakProcessMiB": 116.421875,
+      "updatesPerSecond": 25727.87971728017,
+      "dealsPerSecond": 25727.87971728017,
+      "gains": [
+        0.06047549281356179,
+        0.04627650745365308,
+        0.03807281863760825
+      ],
+      "maxGain": 0.06047549281356179
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 250000,
+      "updates": 250000,
+      "deals": 250000,
+      "seconds": 8.748692040000005,
+      "cpuMs": 8720.222,
+      "peakProcessMiB": 118.921875,
+      "updatesPerSecond": 28575.700099737405,
+      "dealsPerSecond": 28575.700099737405,
+      "gains": [
+        0.031955071317252504,
+        0.04098569535498786,
+        0.028507411816912853
+      ],
+      "maxGain": 0.04098569535498786
+    },
+    {
+      "seed": 3,
+      "timed": true,
+      "target": 1,
+      "updates": 28360,
+      "deals": 28360,
+      "seconds": 1.0000280090000015,
+      "cpuMs": 1018.395,
+      "peakProcessMiB": 119.171875,
+      "updatesPerSecond": 28359.20568700787,
+      "dealsPerSecond": 28359.20568700787,
+      "gains": [
+        0.1394334147900187,
+        0.09271163264353621,
+        0.08183513318054425
+      ],
+      "maxGain": 0.1394334147900187
+    },
+    {
+      "seed": 3,
+      "timed": true,
+      "target": 3,
+      "updates": 85896,
+      "deals": 85896,
+      "seconds": 3.0001855300000027,
+      "cpuMs": 3011.8,
+      "peakProcessMiB": 119.171875,
+      "updatesPerSecond": 28630.22941117909,
+      "dealsPerSecond": 28630.22941117909,
+      "gains": [
+        0.06936551525612789,
+        0.04882038778221176,
+        0.04527351266122337
+      ],
+      "maxGain": 0.06936551525612789
+    }
+  ],
+  "summary": [
+    {
+      "timed": false,
+      "target": 4000,
+      "meanGain": 0.44845558101330213,
+      "ci95Half": 0.09921034832518363,
+      "meanSeconds": 0.17056888500000075,
+      "meanDealsPerSecond": 23494.389281228756
+    },
+    {
+      "timed": false,
+      "target": 20000,
+      "meanGain": 0.1614094149769413,
+      "ci95Half": 0.08933021053777747,
+      "meanSeconds": 0.7429811386666677,
+      "meanDealsPerSecond": 26952.08567070747
+    },
+    {
+      "timed": false,
+      "target": 50000,
+      "meanGain": 0.10051681265488543,
+      "ci95Half": 0.02062313932314212,
+      "meanSeconds": 1.8652225600000012,
+      "meanDealsPerSecond": 26829.93597972432
+    },
+    {
+      "timed": false,
+      "target": 100000,
+      "meanGain": 0.0815103491536527,
+      "ci95Half": 0.07184621937515663,
+      "meanSeconds": 3.7333320970000017,
+      "meanDealsPerSecond": 26810.688041607238
+    },
+    {
+      "timed": false,
+      "target": 250000,
+      "meanGain": 0.04377023205745445,
+      "ci95Half": 0.010669470482639032,
+      "meanSeconds": 9.552207556,
+      "meanDealsPerSecond": 26354.67109019087
+    },
+    {
+      "timed": true,
+      "target": 1,
+      "meanGain": 0.1426704737472647,
+      "ci95Half": 0.13298174339358074,
+      "meanSeconds": 1.0001525000000009,
+      "meanDealsPerSecond": 26161.32826834075
+    },
+    {
+      "timed": true,
+      "target": 3,
+      "meanGain": 0.07813895400842015,
+      "ci95Half": 0.04485972698069392,
+      "meanSeconds": 3.0000977086666674,
+      "meanDealsPerSecond": 25653.33218770026
+    }
+  ]
+}

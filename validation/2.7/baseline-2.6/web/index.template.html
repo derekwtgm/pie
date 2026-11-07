@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EightMax MTT Solver</title>
+<style>/*CSS*/</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon points="29.9,21.9 21.9,29.9 10.3,29.9 2.1,21.9 2.1,10.3 10.3,2.1 21.9,2.1 29.9,10.3" fill="#f2b84b"/>
+      <circle cx="16" cy="16" r="9.5" fill="#0a0e16" stroke="#1d1505" stroke-width="1.5"/>
+      <text x="16" y="20.6" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#f2b84b">8</text>
+    </svg>
+    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · /*VERSION*/</p></div>
+    <span class="engine" id="engine"></span>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="preflop" aria-selected="true">Preflop</button>
+    <button role="tab" data-tab="postflop" aria-selected="false">Postflop</button>
+    <button role="tab" data-tab="river" aria-selected="false">Multiway</button>
+    <button role="tab" data-tab="reports" aria-selected="false">Reports</button>
+    <button role="tab" data-tab="trainer" aria-selected="false">Trainer</button>
+    <button role="tab" data-tab="icm" aria-selected="false">ICM</button>
+  </nav>
+</header>
+<main>
+  <section class="view" id="v-preflop" aria-label="Preflop push/fold"></section>
+  <section class="view" id="v-postflop" aria-label="Postflop solver" hidden></section>
+  <section class="view" id="v-river" aria-label="Multiway solver" hidden></section>
+  <section class="view" id="v-reports" aria-label="Flop reports" hidden></section>
+  <section class="view" id="v-trainer" aria-label="Push/fold trainer" hidden></section>
+  <section class="view" id="v-icm" aria-label="ICM calculator" hidden></section>
+</main>
+<div class="sheet" id="sheet" hidden><div class="panel" id="sheet-panel" role="dialog" aria-modal="true" aria-label="Editor"></div></div>
+<script>/*NATIVE*/</script>
+<script id="em-lib">/*LIB*/</script>
+<script>/*APP*/</script>
+</body>
+</html>

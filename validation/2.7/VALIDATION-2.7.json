@@ -1,0 +1,34 @@
+{
+  "version": "2.7",
+  "build": "a8d475402206b3a6",
+  "regression": {
+    "passed": 136,
+    "failed": 0
+  },
+  "nativeHostLinux": true,
+  "packagedInterfaceTests": true,
+  "nativeSanitizers": true,
+  "nativeSanitizerScope": "same native source; build precedes final UI-only correction",
+  "windowsCrossCompiled": true,
+  "windowsBinaryReproducible": true,
+  "windowsExecuted": false,
+  "wineExecuted": false,
+  "cudaImplemented": false,
+  "gpuEmulatorPassed": true,
+  "gpuHardwareTested": false,
+  "benchmarkSeeds": [
+    1,
+    2,
+    3
+  ],
+  "accuracyUpdates": [
+    1000,
+    5000,
+    10000,
+    25000,
+    50000,
+    100000,
+    250000
+  ],
+  "limitations": "See RELEASE-2.7.md and ACCURACY-SUMMARY.md; this is an incremental release, not every requested research feature."
+}

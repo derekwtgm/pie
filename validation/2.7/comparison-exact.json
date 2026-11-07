@@ -1,0 +1,175 @@
+{
+  "version": "2.7",
+  "variant": "exact",
+  "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "full",
+    "evaluationDeals": 128
+  },
+  "host": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.22.1",
+    "platform": "linux"
+  },
+  "seeds": [
+    1
+  ],
+  "rows": [
+    {
+      "seed": 1,
+      "iterations": 1000,
+      "trainingDeals": 1000,
+      "seconds": 2.666506809,
+      "maxGain": 0.0015849895452184626,
+      "gain": [
+        0.0015849895452184626,
+        0.0005672819627902115,
+        0.0005548616039270371
+      ],
+      "rssMiB": 53.4296875
+    },
+    {
+      "seed": 1,
+      "iterations": 5000,
+      "trainingDeals": 5000,
+      "seconds": 10.792213097,
+      "maxGain": 0.00029153327255038164,
+      "gain": [
+        0.00029153327255038164,
+        0.00023759794257216527,
+        0.00011068717653106575
+      ],
+      "rssMiB": 53.95703125
+    },
+    {
+      "seed": 1,
+      "iterations": 10000,
+      "trainingDeals": 10000,
+      "seconds": 21.707459959999998,
+      "maxGain": 0.0002788194526903709,
+      "gain": [
+        0.00026067187365530486,
+        0.0002788194526903709,
+        0.00011126186794685466
+      ],
+      "rssMiB": 53.95703125
+    },
+    {
+      "seed": 1,
+      "iterations": 25000,
+      "trainingDeals": 25000,
+      "seconds": 42.54260744,
+      "maxGain": 0.0004213207740635383,
+      "gain": [
+        0.00013367442474976343,
+        0.0004213207740635383,
+        0.00009478226581594029
+      ],
+      "rssMiB": 53.95703125
+    },
+    {
+      "seed": 1,
+      "iterations": 50000,
+      "trainingDeals": 50000,
+      "seconds": 73.59522662399999,
+      "maxGain": 0.00021110245836197805,
+      "gain": [
+        0.00007081990498569724,
+        0.00021110245836197805,
+        0.00004517757078925655
+      ],
+      "rssMiB": 53.95703125
+    },
+    {
+      "seed": 1,
+      "iterations": 100000,
+      "trainingDeals": 100000,
+      "seconds": 143.451231081,
+      "maxGain": 0.00015999839022029505,
+      "gain": [
+        0.00007898570825393136,
+        0.00015999839022029505,
+        0.00002129204845302546
+      ],
+      "rssMiB": 53.95703125
+    },
+    {
+      "seed": 1,
+      "iterations": 250000,
+      "trainingDeals": 250000,
+      "seconds": 337.95764074299996,
+      "maxGain": 0.00016440014429353056,
+      "gain": [
+        0.00016440014429353056,
+        0.0001079455492618564,
+        0.0000448462923656745
+      ],
+      "rssMiB": 54.08203125
+    }
+  ],
+  "note": "Exact unilateral response gain in this restricted three-player river game, not full-poker exploitability. Batch modes perform more deals per iteration. Timings include competing benchmark processes.",
+  "summary": [
+    {
+      "iterations": 1000,
+      "mean": 0.0015849895452184626,
+      "ci95HalfWidth": null,
+      "meanSeconds": 2.666506809
+    },
+    {
+      "iterations": 5000,
+      "mean": 0.00029153327255038164,
+      "ci95HalfWidth": null,
+      "meanSeconds": 10.792213097
+    },
+    {
+      "iterations": 10000,
+      "mean": 0.0002788194526903709,
+      "ci95HalfWidth": null,
+      "meanSeconds": 21.707459959999998
+    },
+    {
+      "iterations": 25000,
+      "mean": 0.0004213207740635383,
+      "ci95HalfWidth": null,
+      "meanSeconds": 42.54260744
+    },
+    {
+      "iterations": 50000,
+      "mean": 0.00021110245836197805,
+      "ci95HalfWidth": null,
+      "meanSeconds": 73.59522662399999
+    },
+    {
+      "iterations": 100000,
+      "mean": 0.00015999839022029505,
+      "ci95HalfWidth": null,
+      "meanSeconds": 143.451231081
+    },
+    {
+      "iterations": 250000,
+      "mean": 0.00016440014429353056,
+      "ci95HalfWidth": null,
+      "meanSeconds": 337.95764074299996
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+source/native/json.c: In function ‘newv’:
+source/native/json.c:51:71: warning: dereference of possibly-NULL ‘v’ [CWE-690] [-Wanalyzer-possible-null-dereference]
+   51 | static JV *newv(int t) { JV *v = (JV *)calloc(1, sizeof(JV)); v->type = t; return v; }
+      |                                                               ~~~~~~~~^~~
+  ‘json_parse’: events 1-2
+    |
+    |  111 | JV *json_parse(const char *s, size_t len, char *err, int errlen) {
+    |      |     ^~~~~~~~~~
+    |      |     |
+    |      |     (1) entry to ‘json_parse’
+    |......
+    |  114 |   return pval(&p, 0);
+    |      |          ~~~~~~~~~~~
+    |      |          |
+    |      |          (2) calling ‘pval’ from ‘json_parse’
+    |
+    +--> ‘pval’: events 3-8
+           |
+           |   75 | static JV *pval(P *p, int depth) {
+           |      |            ^~~~
+           |      |            |
+           |      |            (3) entry to ‘pval’
+           |   76 |   ws(p);
+           |   77 |   if (p->s >= p->e || depth > 64) { perr(p, "unexpected end"); return NULL; }
+           |      |      ~      
+           |      |      |
+           |      |      (4) following ‘false’ branch...
+           |   78 |   char c = *p->s;
+           |      |             ~~~~
+           |      |              |
+           |      |              (5) ...to here
+           |   79 |   if (c == '{') {
+           |      |      ~      
+           |      |      |
+           |      |      (6) following ‘true’ branch (when ‘c == 123’)...
+           |   80 |     p->s++; JV *o = newv(J_OBJ); ws(p);
+           |      |     ~~~~            ~~~~~~~~~~~
+           |      |      |              |
+           |      |      (7) ...to here (8) calling ‘newv’ from ‘pval’
+           |
+           +--> ‘newv’: events 9-11
+                  |
+                  |   51 | static JV *newv(int t) { JV *v = (JV *)calloc(1, sizeof(JV)); v->type = t; return v; }
+                  |      |            ^~~~                        ~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~
+                  |      |            |                           |                              |
+                  |      |            |                           |                              (11) ‘v’ could be NULL: unchecked value from (10)
+                  |      |            (9) entry to ‘newv’         (10) this call could return NULL
+                  |

@@ -135,7 +135,13 @@ static void s_init(int threads) {
   POOL.th = (pthread_t *)calloc((size_t)threads, sizeof(pthread_t));
   pthread_mutex_init(&POOL.mu, NULL); pthread_cond_init(&POOL.cv, NULL); pthread_cond_init(&POOL.done, NULL);
   for (int i = 0; i < threads; i++) { POOL.ctx[i] = (Ctx *)calloc(1, sizeof(Ctx)); POOL.ctx[i]->tid = i; ctx_reserve(POOL.ctx[i], 8, 64, 4); }
-  for (int i = 1; i < threads; i++) pthread_create(&POOL.th[i], NULL, worker_main, POOL.ctx[i]);
+  for (int i = 1; i < threads; i++) {
+    if (pthread_create(&POOL.th[i], NULL, worker_main, POOL.ctx[i]) != 0) {
+      // Only count workers that exist; otherwise pool_run waits forever.
+      fprintf(stderr, "EightMax: worker creation failed; using %d threads\n", i);
+      POOL.n = POOL.active = i; break;
+    }
+  }
 }
 static int s_threads(void) { return POOL.n; }
 static void s_set_threads(int n) { if (n < 1) n = 1; if (n > POOL.n) n = POOL.n; __atomic_store_n(&POOL.active, n, __ATOMIC_RELAXED); }
@@ -167,14 +173,16 @@ struct Game {
   int walkShared;                // the last walk() passed a turn/river card whose subtree is shared with suit twins
 };
 
+static double memory_limit_mb(void);
+// Keep the existing allocation available for cleanup if any growth fails.
+#define GROW_FIELD(f) do { void *tmp=realloc(g->f,(size_t)c*sizeof(*g->f)); if(!tmp){g->failed=1;return 0;} g->f=tmp; } while(0)
 static int newNode(Game *g, int type, int player, f32 c0, f32 c1, int street, f32 base) {
   if (g->nNodes >= 40000000) { g->failed = 1; return 0; }
   if (g->nNodes == g->capN) {
     int c = g->capN ? g->capN * 2 : 4096;
-    g->TY = (u8 *)realloc(g->TY, (size_t)c); g->ST = (u8 *)realloc(g->ST, (size_t)c); g->PL = (signed char *)realloc(g->PL, (size_t)c);
-    g->NC0 = (f32 *)realloc(g->NC0, sizeof(f32) * (size_t)c); g->NC1 = (f32 *)realloc(g->NC1, sizeof(f32) * (size_t)c); g->BASE = (f32 *)realloc(g->BASE, sizeof(f32) * (size_t)c);
-    g->CS = (i32 *)realloc(g->CS, sizeof(i32) * (size_t)c); g->NN = (i32 *)realloc(g->NN, sizeof(i32) * (size_t)c); g->NX = (i32 *)realloc(g->NX, sizeof(i32) * (size_t)c);
-    g->DO = (i64 *)realloc(g->DO, sizeof(i64) * (size_t)c);
+    if ((double)c*35.0+g->capC*11.0>memory_limit_mb()*1048576.0){g->failed=1;return 0;}
+    GROW_FIELD(TY); GROW_FIELD(ST); GROW_FIELD(PL); GROW_FIELD(NC0); GROW_FIELD(NC1);
+    GROW_FIELD(BASE); GROW_FIELD(CS); GROW_FIELD(NN); GROW_FIELD(NX); GROW_FIELD(DO);
     g->capN = c;
   }
   int id = g->nNodes++;
@@ -185,8 +193,8 @@ static int newNode(Game *g, int type, int player, f32 c0, f32 c1, int street, f3
 static int reserveCh(Game *g, int k) {
   while (g->nCh + k > g->capC) {
     int c = g->capC ? g->capC * 2 : 8192;
-    g->CHN = (i32 *)realloc(g->CHN, sizeof(i32) * (size_t)c); g->CHC = (signed char *)realloc(g->CHC, (size_t)c);
-    g->CHK = (u8 *)realloc(g->CHK, (size_t)c); g->CHA = (f32 *)realloc(g->CHA, sizeof(f32) * (size_t)c); g->CHP = (u8 *)realloc(g->CHP, (size_t)c);
+    if ((double)c*11.0+g->capN*35.0>memory_limit_mb()*1048576.0){g->failed=1;return 0;}
+    GROW_FIELD(CHN); GROW_FIELD(CHC); GROW_FIELD(CHK); GROW_FIELD(CHA); GROW_FIELD(CHP);
     g->capC = c;
   }
   int s = g->nCh; g->nCh += k; return s;
@@ -250,15 +258,16 @@ typedef struct { int street; f32 base, c0, c1; int actor, nBets, facing; f32 las
 static int bAction(Game *g, BSt st, int depth);
 static int bStreetEnd(Game *g, int street, f32 c, const int *dealt, int nd, int depth, int agg) {
   if (g->failed) return 0;
-  if (c >= g->S - 1e-6f && street < 2) { int id = newNode(g, T_ALLIN, -1, c, c, street, c); g->nTerm++; g->NX[id] = runoutFor(g, street, dealt); return id; }
-  if (street == 2) { int id = newNode(g, T_SHOW, -1, c, c, street, c); g->nTerm++; g->NX[id] = boardIdOf(g, dealt, nd); return id; }
-  int id = newNode(g, T_CHANCE, -1, c, c, street, c); g->nChance++;
+  if (c >= g->S - 1e-6f && street < 2) { int id = newNode(g, T_ALLIN, -1, c, c, street, c); if(g->failed)return 0; g->nTerm++; g->NX[id] = runoutFor(g, street, dealt); return id; }
+  if (street == 2) { int id = newNode(g, T_SHOW, -1, c, c, street, c); if(g->failed)return 0; g->nTerm++; g->NX[id] = boardIdOf(g, dealt, nd); return id; }
+  int id = newNode(g, T_CHANCE, -1, c, c, street, c); if(g->failed)return 0; g->nChance++;
   u8 used[52] = { 0 };
   for (int i = 0; i < g->nb; i++) used[g->cfg.board[i]] = 1;
   for (int i = 0; i < nd; i++) used[dealt[i]] = 1;
   int cards[52], nc = 0;
   for (int k = 0; k < 52; k++) if (!used[k]) cards[nc++] = k;
   int s = reserveCh(g, nc);
+  if(g->failed)return 0;
   g->CS[id] = s; g->NN[id] = nc;
   // suit permutations that keep this board and both ranges unchanged: equivalent cards share one subtree
   int grp[24], ng = 0;
@@ -344,11 +353,12 @@ static int bAction(Game *g, BSt st, int depth) {
   Act list[27]; int nA = 0;
   for (int i = 0; i < nf; i++) list[nA++] = fixed[i];
   for (int i = 0; i < ng; i++) if (nA == nf || agg[i].to - list[nA - 1].to > 0.005f) list[nA++] = agg[i];
-  int id = newNode(g, T_PLAYER, p, c[0], c[1], street, st.base); g->nPlayer++;
+  int id = newNode(g, T_PLAYER, p, c[0], c[1], street, st.base); if(g->failed)return 0; g->nPlayer++;
   if (nA > g->maxA) g->maxA = nA;
   g->DO[id] = g->dataSize; g->dataSize += (i64)nA * g->N[p];
   if (street == 2) g->riverData += (i64)nA * g->N[p];
   int s = reserveCh(g, nA);
+  if(g->failed)return 0;
   g->CS[id] = s; g->NN[id] = nA;
   for (int k = 0; k < nA; k++) {
     const Act a = list[k];
@@ -468,7 +478,7 @@ static Game *s_build(const GameCfg *cfg, char *err, int errlen) {
   BSt st; memset(&st, 0, sizeof st);
   st.street = g->startStreet; st.prevAgg = -1; st.agg = -1;
   bAction(g, st, 0);
-  if (g->failed) { snprintf(err, (size_t)errlen, "Tree too large (over 40 million nodes). Use fewer bet sizes or start from a later street."); game_free_impl(g); return NULL; }
+  if (g->failed) { snprintf(err, (size_t)errlen, "Tree allocation exceeds available memory or the configured node/storage limit. Use fewer bet sizes or start from a later street."); game_free_impl(g); return NULL; }
   g->LOCK = (f32 **)calloc((size_t)g->nNodes, sizeof(f32 *));
   // river subgames (one per canonical river card): how many and the largest, for the GPU memory estimate
   {
@@ -539,7 +549,18 @@ static void cum_grow(Game *g, int need) {
   for (int k = g->cumCap; k < cap; k++) { f64 ta = (f64)k * __builtin_sqrt((f64)k); c[k] = c[k - 1] * ta / (ta + 1); }
   g->CUM = c; g->cumCap = cap;
 }
+// Allocation guard, not a process RSS limit. Tree construction and browser
+// memory are additional. Keep substantial headroom on a 16 GiB computer.
+static double memory_limit_mb(void) {
+  const char *v=getenv("EIGHTMAX_MEMORY_MIB");char *end=NULL;
+  if(!v)return 4096;
+  double m=strtod(v,&end);
+  return end!=v && !*end && isfinite(m) && m>=32 && m<=8192?m:4096;
+}
 static int s_alloc(Game *g, char *err, int errlen) {
+  if(s_mem_mb(g)>memory_limit_mb()){
+    snprintf(err,(size_t)errlen,"Estimated solver storage %.0f MiB exceeds EIGHTMAX_MEMORY_MIB limit %.0f MiB. Reduce the tree or raise the limit (32-8192).",s_mem_mb(g),memory_limit_mb());return 0;
+  }
   if (g->allocated && (g->R32 || g->R16)) return 1;
   int comp = g->allocated ? g->comp : decide_comp(g);
   size_t n = (size_t)g->dataSize;
@@ -1638,6 +1659,7 @@ static Game *s_load(const char *file, char **cfgJson, double *ex, char *err, int
   if (fread(magic, 1, 8, f) != 8 || (memcmp(magic, "EM8SOL1", 8) && memcmp(magic, "EM8SOL2", 8)) || fread(&L, 4, 1, f) != 1 || L > 50000000) { fclose(f); snprintf(err, (size_t)errlen, "Not an EightMax solution file"); return NULL; }
   const int v2 = !memcmp(magic, "EM8SOL2", 8);
   char *js = (char *)malloc(L + 1);
+  if(!js){fclose(f);snprintf(err,(size_t)errlen,"Not enough memory for solution header");return NULL;}
   if (fread(js, 1, L, f) != L) { fclose(f); free(js); snprintf(err, (size_t)errlen, "File is truncated"); return NULL; }
   js[L] = 0;
   GameCfg cfg;
@@ -1647,9 +1669,10 @@ static Game *s_load(const char *file, char **cfgJson, double *ex, char *err, int
   Game *g = s_build(&cfg, err, errlen);
   if (!g) { fclose(f); free(js); return NULL; }
   i64 ds; i32 nn, t; double e;
-  if (fread(&ds, 8, 1, f) != 1 || fread(&nn, 4, 1, f) != 1 || fread(&t, 4, 1, f) != 1 || fread(&e, 8, 1, f) != 1 || ds != g->dataSize || nn != g->nNodes) {
+  if (fread(&ds, 8, 1, f) != 1 || fread(&nn, 4, 1, f) != 1 || fread(&t, 4, 1, f) != 1 || fread(&e, 8, 1, f) != 1 || ds != g->dataSize || nn != g->nNodes || t<0 || t>10000000 || !isfinite(e)) {
     fclose(f); free(js); game_free_impl(g); snprintf(err, (size_t)errlen, "Solution file does not match its tree"); return NULL;
   }
+  if(s_mem_mb(g)>memory_limit_mb()){fclose(f);free(js);game_free_impl(g);snprintf(err,(size_t)errlen,"Saved solution exceeds EIGHTMAX_MEMORY_MIB allocation limit");return NULL;}
   g->comp = 1; g->allocated = 1; g->viewOnly = 1; g->t = t;
   g->S16 = (u16 *)calloc((size_t)(ds ? ds : 1), 2); g->SSC = (f32 *)malloc(sizeof(f32) * (size_t)nn); g->RSC = (f32 *)malloc(sizeof(f32) * (size_t)nn);
   g->LR = (i32 *)calloc((size_t)nn, sizeof(i32)); g->LS = (i32 *)calloc((size_t)nn, sizeof(i32));

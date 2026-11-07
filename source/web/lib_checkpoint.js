@@ -1,6 +1,6 @@
 (function(EM){
 'use strict';
-const MAX_BYTES=512*1024*1024, ENGINE='multiway-2.4', ENGINES=['multiway-2.3',ENGINE];
+const MAX_BYTES=512*1024*1024, ENGINE='multiway-2.8', ENGINES=['multiway-2.3','multiway-2.4',ENGINE];
 const fail=()=>{throw Error('Invalid or incompatible training checkpoint');};
 function copy(value,depth=0){
   if(depth>20)fail();
@@ -28,7 +28,7 @@ function unpack(text,length,nonnegative=false){
   for(let i=0;i<length;i++){const x=view.getFloat64(i*8,true);if(!Number.isFinite(x)||(nonnegative&&x<0))fail();out[i]=x;}
   return out;
 }
-function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:ENGINE,cfg:copy(cfg),state,labels:labels||[]};}
+function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'2.8',cfg:copy(cfg),state,labels:labels||[]};}
 function validate(p){
   if(!p||p.format!=='EightMax training'||p.version!==1||!ENGINES.includes(p.engine)||!p.cfg||!p.state)fail();
   if(!Array.isArray(p.labels)||p.labels.length>8||p.labels.some(v=>typeof v!=='string'||v.length>80))fail();
@@ -57,6 +57,50 @@ function restore(p){
   const g=EM.MultiwayGame(cfg);
   g.restoreState(p.state);return {game:g,cfg,labels:p.labels.slice()};
 }
-Object.assign(EM,{copyStudyConfig:copy,checkpointInteger:integer,checkpointFail:fail,packTrainingValues:pack,unpackTrainingValues:unpack,
+// The transaction replaces both generations atomically. Keep the DB closed
+// between operations so browser shutdown cannot leave a file handle held.
+async function checkpointTransaction(write,operation){
+  if(!globalThis.indexedDB)throw Error('Browser checkpoint storage unavailable');
+  const db=await new Promise((resolve,reject)=>{
+    const open=indexedDB.open('EightMax-training',1);
+    open.onupgradeneeded=()=>open.result.createObjectStore('checkpoints');
+    open.onsuccess=()=>resolve(open.result);open.onerror=()=>reject(open.error);
+  });
+  try{
+    return await new Promise((resolve,reject)=>{
+      const tx=write?db.transaction('checkpoints','readwrite',{durability:'strict'}):
+        db.transaction('checkpoints','readonly');
+      const result=operation(tx.objectStore('checkpoints'));
+      tx.oncomplete=()=>resolve(result());tx.onabort=()=>reject(tx.error||Error('Checkpoint transaction aborted'));
+      tx.onerror=()=>reject(tx.error);
+    });
+  }finally{db.close();}
+}
+async function autosaveTraining(text,host){
+  if(host){
+    if(text.length>64*1024*1024)throw Error('Desktop automatic saves support 64 MiB. Use manual Export for this study.');
+    const r=await fetch(host+'/api/checkpoint/write',{method:'POST',headers:{'X-EightMax':'1','Content-Type':'application/json'},body:text});
+    if(!r.ok)throw Error('Desktop checkpoint write failed (HTTP '+r.status+')');
+    return;
+  }
+  await checkpointTransaction(true,store=>{
+    const old=store.get('latest');
+    old.onsuccess=()=>{if(old.result)store.put(old.result,'previous');store.put(text,'latest');};
+    return ()=>true;
+  });
+}
+async function recoverTraining(host){
+  let lastError;
+  for(const key of ['latest','previous']){
+    try{
+      let text;
+      if(host){const r=await fetch(host+'/api/checkpoint/'+key);if(!r.ok){if(r.status===404)continue;throw Error('Checkpoint read failed');}text=await r.text();}
+      else text=await checkpointTransaction(false,store=>{const r=store.get(key);return ()=>r.result;});
+      if(text)return restore(await decode(text));
+    }catch(e){lastError=e;}
+  }
+  throw lastError||Error('No automatic checkpoint is available for this browser and address');
+}
+Object.assign(EM,{autosaveTraining,recoverTraining,copyStudyConfig:copy,checkpointInteger:integer,checkpointFail:fail,packTrainingValues:pack,unpackTrainingValues:unpack,
   checkpointPayload:payload,encodeCheckpoint:encode,decodeCheckpoint:decode,restoreCheckpoint:restore,checkpointMaxBytes:MAX_BYTES});
 })(globalThis.EM || (globalThis.EM = {}));

@@ -1,5 +1,22 @@
 # EightMax changelog
 
+## 2.8
+
+Sparse batched regret updates, optional stratified river sampling, accepted-deal counters, cheaper progress checks, durable automatic checkpoint recovery, native process monitoring, checked tree allocation growth and JSON parser/formatter repairs. All nine preflop charts regenerated identically. See RELEASE-2.8.md for measurements and limitations.
+
+
+## 2.7 (2026-11-06)
+
+Frozen-policy batched MCCFR with reusable, budgeted scratch storage; optional
+experimental CFR+; explicit precision presets; periodic stability diagnostics;
+expanded iteration limits; native allocation guard and thread-input validation;
+safe baseline x64 and runtime AVX2/FMA builds without fast-math; native checkpoint
+header validation. See RELEASE-2.7.md for scope and ACCURACY-SUMMARY.md for results.
+
+This release does not claim CUDA, unrestricted eight-player equilibrium, new
+chart calibration, or physical Windows hardware validation.
+
+
 ## 2.6 (2026-11-07)
 
 Measured numbers below come from `validation/2.6/` in this package (Linux

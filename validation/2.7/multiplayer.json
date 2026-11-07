@@ -1,0 +1,902 @@
+{
+  "note": "Single seed diagnostic. Trained responses are lower bounds, with evaluation sampling standard errors. Exact checks, when available, use the same configured tree. No full-poker equilibrium claim.",
+  "rows": [
+    {
+      "players": 3,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          2.5927734374999987,
+          0.8251953125000003,
+          6.5820312499999964
+        ],
+        "se": [
+          0.22786439582125545,
+          0.10979296258043007,
+          0.24452769749589223
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.019948959350585938,
+        "evaluationDeals": 1024,
+        "infos": 24,
+        "nodes": 12,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 100640,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.16307693964011705,
+          0.02648266235393737,
+          0.22765625110073895
+        ],
+        "maxGain": 0.22765625110073895,
+        "ev": [
+          2.4592165191997326,
+          0.8467136105078775,
+          6.69406987029239
+        ],
+        "best": [
+          2.6222934588398497,
+          0.8731962728618149,
+          6.921726121393129
+        ],
+        "unit": "bb",
+        "deals": 8,
+        "unvisitedInformationSets": 0,
+        "informationSets": 24
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": -0.2343749999999999,
+          "se": 0.17974277566861654,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": -0.004882812499999953,
+          "se": 0.051002740526315,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": 0.26855468749999983,
+          "se": 0.08175170468729305,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    },
+    {
+      "players": 4,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d",
+          "AcKd,5c5d"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          2.7099609375000053,
+          0.7617187500000003,
+          6.5283203125,
+          0
+        ],
+        "se": [
+          0.22810237789058524,
+          0.10434609748575543,
+          0.24236331281917273,
+          0
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.02722930908203125,
+        "evaluationDeals": 1024,
+        "infos": 64,
+        "nodes": 32,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 163504,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.07166770413424794,
+          0.026810546300329863,
+          0.18958748240377865,
+          0.000051420234386133785
+        ],
+        "maxGain": 0.18958748240377865,
+        "ev": [
+          2.5254178519071506,
+          0.8073979922242139,
+          6.667235576103023,
+          -0.000051420234386133785
+        ],
+        "best": [
+          2.5970855560413986,
+          0.8342085385245438,
+          6.8568230585068015,
+          0
+        ],
+        "unit": "bb",
+        "deals": 16,
+        "unvisitedInformationSets": 0,
+        "informationSets": 64
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": 0.068359375,
+          "se": 0.17653140200898726,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": -0.014648437500000003,
+          "se": 0.05882379611204205,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": -0.07324218749999983,
+          "se": 0.0960758791513866,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 3,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    },
+    {
+      "players": 5,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d",
+          "AcKd,5c5d",
+          "AhKh,6s6h"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          2.4511718749999982,
+          0.7324218750000007,
+          6.821289062499989,
+          0,
+          -0.0048828124999999965
+        ],
+        "se": [
+          0.23213187874403743,
+          0.08901621718988707,
+          0.2421566715598724,
+          0,
+          0.004882812499999998
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.0435943603515625,
+        "evaluationDeals": 1024,
+        "infos": 150,
+        "nodes": 78,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 238032,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.18532846078010712,
+          0.010773221461898519,
+          0.03852384052560254,
+          0.0008574682479641935,
+          0.0011475387846147597
+        ],
+        "maxGain": 0.18532846078010712,
+        "ev": [
+          2.454006801300987,
+          0.8045162000617082,
+          6.743482005669884,
+          -0.0008574682479641935,
+          -0.0011475387846147597
+        ],
+        "best": [
+          2.639335262081094,
+          0.8152894215236067,
+          6.782005846195487,
+          0,
+          0
+        ],
+        "unit": "bb",
+        "deals": 32,
+        "unvisitedInformationSets": 10,
+        "informationSets": 160
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": -0.014648437499999927,
+          "se": 0.18454099516412867,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": 0.009765625000000012,
+          "se": 0.02584823710157801,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": 0.06347656249999996,
+          "se": 0.12821528430166354,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 3,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 4,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    },
+    {
+      "players": 6,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d",
+          "AcKd,5c5d",
+          "AhKh,6s6h",
+          "TsTc,7c7d"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          1.8115234374999984,
+          0.3564453125000002,
+          7.02636718749999,
+          0,
+          0,
+          0.8056640624999989
+        ],
+        "se": [
+          0.22154172705360167,
+          0.09669681104651677,
+          0.24576051633047533,
+          0,
+          0,
+          0.09274328713074717
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.09588623046875,
+        "evaluationDeals": 1024,
+        "infos": 337,
+        "nodes": 182,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 326343,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.06595491125538322,
+          0.02172050888187682,
+          0.256088094651993,
+          0.00041769216540629283,
+          0.0003823217282110982,
+          0.03608276751781159
+        ],
+        "maxGain": 0.256088094651993,
+        "ev": [
+          2.043772011004167,
+          0.36994977745523483,
+          6.781197593347255,
+          -0.00041609060090095197,
+          -0.0003823217282110982,
+          0.8058790305224566
+        ],
+        "best": [
+          2.1097269222595503,
+          0.39167028633711165,
+          7.037285687999248,
+          0.0000016015645053408786,
+          0,
+          0.8419617980402682
+        ],
+        "unit": "bb",
+        "deals": 64,
+        "unvisitedInformationSets": 47,
+        "informationSets": 384
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": 0.04394531249999999,
+          "se": 0.14047990118295467,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": -0.019531250000000003,
+          "se": 0.0358935363047288,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": 0.3173828124999997,
+          "se": 0.0719425748706029,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 3,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 4,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 5,
+          "gain": 0.009765624999999991,
+          "se": 0.024907850846493416,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    },
+    {
+      "players": 7,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d",
+          "AcKd,5c5d",
+          "AhKh,6s6h",
+          "TsTc,7c7d",
+          "9h9s,AdQd"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          3.076171875000004,
+          0,
+          6.933593749999999,
+          0,
+          0,
+          -0.009765625000000002,
+          0
+        ],
+        "se": [
+          0.22967719488853502,
+          0,
+          0.23011614955789578,
+          0,
+          0,
+          0.006901963791008637,
+          0
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.14324378967285156,
+        "evaluationDeals": 1024,
+        "infos": 489,
+        "nodes": 352,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 439416,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.09984099007514402,
+          0.00025595512556016566,
+          0.21188515547553788,
+          0.000507634054462081,
+          0.0005006264009412674,
+          0.006040358042657185,
+          0.0004790132355215923
+        ],
+        "maxGain": 0.21188515547553788,
+        "ev": [
+          3.3428234700769326,
+          -0.00025595512556016566,
+          6.663359255184233,
+          -0.0005033769271251713,
+          -0.0004922571203635313,
+          -0.004452122852595008,
+          -0.0004790132355215923
+        ],
+        "best": [
+          3.4426644601520766,
+          0,
+          6.8752444106597705,
+          0.0000042571273369096985,
+          0.000008369280577736159,
+          0.0015882351900621775,
+          0
+        ],
+        "unit": "bb",
+        "deals": 16,
+        "unvisitedInformationSets": 215,
+        "informationSets": 704
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": -0.06347656249999993,
+          "se": 0.13006330152367615,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": 0.20996093749999997,
+          "se": 0.1335361942259552,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 3,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 4,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 5,
+          "gain": 0.004882812499999997,
+          "se": 0.004882812499999999,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 6,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    },
+    {
+      "players": 8,
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 10,
+        "stacks": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "ranges": [
+          "QhQd,9c9d",
+          "AsAd,KsTh",
+          "JhJd,8s8d",
+          "AcKd,5c5d",
+          "AhKh,6s6h",
+          "TsTc,7c7d",
+          "9h9s,AdQd",
+          "KhQh,4c4d"
+        ],
+        "bets": "50",
+        "raises": "",
+        "maxBets": 1,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "privateSeed": 17,
+        "evaluationDeals": 1024,
+        "batchDeals": 4
+      },
+      "metrics": {
+        "utility": "chips",
+        "unit": "bb",
+        "reportThreshold": 0.1,
+        "wide": true,
+        "ev": [
+          3.159179687499999,
+          -0.014648437500000014,
+          6.85546875,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "se": [
+          0.23933494786060053,
+          0.00844900815402105,
+          0.2396728524777729,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "iterations": 1000,
+        "abstraction": "exact",
+        "weighting": "linear",
+        "batchDeals": 4,
+        "regretMatching": "standard",
+        "trainingDeals": 4000,
+        "memoryBudgetMiB": 112,
+        "strategyMiB": 0.2626075744628906,
+        "evaluationDeals": 1024,
+        "infos": 797,
+        "nodes": 654,
+        "seed": 17,
+        "evaluationSeed": 2911926124,
+        "startStreet": "River",
+        "runoutMode": "fresh",
+        "deals": 1000,
+        "algorithm": "external",
+        "stateVisits": 558992,
+        "limitReached": false
+      },
+      "exact": {
+        "available": true,
+        "kind": "exact best response in the enumerated game",
+        "iterations": 1000,
+        "gain": [
+          0.13839101138658227,
+          0.0036662382142314412,
+          0.10612705588259619,
+          0.0003213130490412685,
+          0.00011829439929767143,
+          0.0007945245576888156,
+          0.00018823093043899297,
+          0.00020520595945487584
+        ],
+        "maxGain": 0.13839101138658227,
+        "ev": [
+          3.3252188337343696,
+          -0.0036662382142314412,
+          6.679759097904882,
+          -0.0003202207657798312,
+          -0.00007042120087919222,
+          -0.0005297976080731012,
+          -0.00018667158452674319,
+          -0.00020458226575996086
+        ],
+        "best": [
+          3.463609845120952,
+          0,
+          6.785886153787478,
+          0.0000010922832614372548,
+          0.000047873198418479205,
+          0.00026472694961571436,
+          0.0000015593459122497847,
+          6.236936949149871e-7
+        ],
+        "unit": "bb",
+        "deals": 8,
+        "unvisitedInformationSets": 611,
+        "informationSets": 1408
+      },
+      "responses": [
+        {
+          "seat": 0,
+          "gain": 0.1318359375,
+          "se": 0.18629767386489732,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 1,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 2,
+          "gain": 0.16113281250000003,
+          "se": 0.08318282637862284,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 3,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 4,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 5,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 6,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        },
+        {
+          "seat": 7,
+          "gain": 0,
+          "se": 0,
+          "trainingDeals": 500,
+          "evaluationDeals": 1024,
+          "limitReached": false
+        }
+      ]
+    }
+  ]
+}

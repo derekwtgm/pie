@@ -1,0 +1,9 @@
+15bb: 475 it, 15s, expl 0.00093 -> quantised 0.00088, 40954 -> 19853 chars
+20bb: 500 it, 98s, expl 0.00099 -> quantised 0.00105, 50447 -> 25756 chars
+25bb: 675 it, 53s, expl 0.00094 -> quantised 0.00132, 63258 -> 31348 chars
+30bb: 975 it, 86s, expl 0.00098 -> quantised 0.00166, 66575 -> 32196 chars
+40bb: 1325 it, 111s, expl 0.00097 -> quantised 0.00167, 59555 -> 29046 chars
+50bb: 1200 it, 69s, expl 0.00099 -> quantised 0.00130, 63116 -> 31944 chars
+60bb: 1075 it, 84s, expl 0.00098 -> quantised 0.00107, 49285 -> 29253 chars
+80bb: 950 it, 58s, expl 0.00098 -> quantised 0.00116, 49182 -> 32006 chars
+100bb: 1125 it, 65s, expl 0.00096 -> quantised 0.00128, 47072 -> 31249 chars

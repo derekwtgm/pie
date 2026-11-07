@@ -47,7 +47,7 @@ function call(type, payload = {}, onProgress) {
   return new Promise((resolve, reject) => {
     const id = ++W.id;
     W.pending.set(id, { resolve, reject, onProgress });
-    W.worker.postMessage(Object.assign({ type, id }, payload));
+    W.worker.postMessage(Object.assign({ type, id, checkpointHost:window.EM_NATIVE?window.location.origin:null }, payload));
   });
 }
 
@@ -1565,7 +1565,7 @@ function transferMultiway(m,labels,example) {
     const range=EM.CLASS_NAMES.flatMap((name,k)=>{const w=r.reach[p]?r.reach[p][k]:1;return w>0?[w===1?name:name+':'+w]:[];}).join(',');
     return {name:m.positions[p],stack:String(+w.behind[p].toFixed(4)),prior:String(+w.cb[p].toFixed(4)),range,lead:true};
   });
-  const preset=example?{tree:Object.fromEntries(['flop','turn','river'].map(s=>[s,{bets:'50',raises:'',maxBets:1}]))}:{};
+  const preset=example?{memoryMiB:224,precision:'custom',tree:Object.fromEntries(['flop','turn','river'].map(s=>[s,{bets:'50',raises:'',maxBets:1}]))}:{};
   const ok=riverPanel.importSpot({...preset,board:example?'2c 4d 7h':'',privateMode:'sampled',maxIter:10000,dealt:m.n,common:'0',seats,
     folded:w.cb.filter((v,p)=>!live.includes(p) && v>0).join(', '),
     notes:example?'25 bb chart · Button opens to 2 bb, small blind calls, big blind calls. Eight antes bring the pot to 6.8 bb. Full chart ranges on 2c 4d 7h.':'Imported preflop stacks, wagers and ranges. Enter a three-card flop to solve the remaining streets in chip EV. Wide ranges uses fresh weighted private deals and all legal runouts.'});
@@ -2044,8 +2044,8 @@ $('#engine').textContent = W.inline ? 'main-thread mode' : (typeof WebAssembly !
 if (NATIVE) {
   napi('/api/info').then((info) => {
     NINFO = info;
-    DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.max(2000, info.ramMB * 0.78) };
-    $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
+    DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.min(info.processLimitMiB||6144, Math.max(512, info.ramMB * 0.5)) };
+    $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.residentMiB)} MiB native RSS · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
     // The interface and the native host are built together; a different version or
     // build identifier means mixed files from different releases.
     if (EM.BUILD && (info.version !== EM.BUILD.version || info.build !== EM.BUILD.build)) {
@@ -2055,7 +2055,7 @@ if (NATIVE) {
     if (info.gpu) $('#engine').title = info.gpu.available ? 'GPU: ' + info.gpu.device : 'No GPU: ' + info.gpu.device;
     render();
   }).catch(() => { $('#engine').textContent = 'Native engine not responding'; });
-  setInterval(() => { fetch('/api/status').then(r => { if (!r.ok) throw new Error(); $('#engine').classList.remove('off'); }).catch(() => { $('#engine').textContent = 'EightMax.exe closed'; $('#engine').classList.add('off'); }); }, 5000);
+  setInterval(() => { fetch('/api/status').then(r=>{if(!r.ok)throw Error();return r.json();}).then(st=>{const el=$('#engine');el.classList.remove('off');if(NINFO && st.residentMiB>=0)el.textContent='Native · '+NINFO.threads+' threads · '+Math.round(st.residentMiB)+' MiB native RSS'+(NINFO.gpu?.available?' · GPU':'');}).catch(() => { $('#engine').textContent = 'EightMax.exe closed'; $('#engine').classList.add('off'); }); }, 5000);
 }
 setTab(location.hash.slice(1) || 'preflop', false);
 })();

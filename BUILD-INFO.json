@@ -1,6 +1,6 @@
 {
- "version": "2.6",
- "build": "b7151e8ac1fda588",
+ "version": "2.8",
+ "build": "8e13def82b9d8e18",
  "files": [
   "VERSION",
   "native/build.sh",
@@ -18,6 +18,7 @@
   "native/solver.c",
   "native/solver.h",
   "native/test_gpu.c",
+  "native/test_json28.c",
   "wasm/pf_core.c",
   "web/app.css",
   "web/app.js",

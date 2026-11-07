@@ -25,7 +25,7 @@ self.onmessage = (ev) => {
     else if (m.type === 'deep-solve') deepSolve(m);
     else if (m.type === 'river-solve' || m.type === 'multi-solve') multiwaySolve(m);
     else if (m.type === 'multi-check') multiwayCheck(m);
-    else if (m.type === 'multi-export' || m.type === 'multi-load') checkpointFile(m);
+    else if (m.type === 'multi-export' || m.type === 'multi-load' || m.type === 'multi-recover') checkpointFile(m);
     else if (m.type === 'multi-resume') multiwayResume(m);
     else if (m.type === 'river-stop' || m.type === 'multi-stop') { riverStop=true; post({type:'result',id:m.id,result:true}); }
     else if (m.type === 'river-node' || m.type === 'multi-node') {
@@ -41,41 +41,59 @@ function multiwaySolve(m) {
   if (riverBusy) throw new Error('A multiway solve is already running');
   let max=Number(m.maxIter);const target=Number(m.target);
   const auto=m.cfg?.privateMode==='auto';
-  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?100000:5000) || !Number.isFinite(target) || target<0)
-    throw new Error('Choose a positive number of iterations (up to 100,000 for wide ranges or 5,000 for enumeration)');
+  if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?1000000:250000) || !Number.isFinite(target) || target<0)
+    throw new Error('Choose a positive number of iterations (up to 1,000,000 for wide ranges or 250,000 for enumeration)');
   const g=m.type==='river-solve'?EM.RiverGame(m.cfg):EM.MultiwayGame(m.cfg);
   // Automatic mode resolves to exact or sampled deals; later resumes, checks and
-  // checkpoints use the resolved configuration. Exact runs keep their 5,000 cap
+  // checkpoints use the resolved configuration. Exact runs keep their 250,000 cap
   // and stop early at the target gain.
   const resolved=g.resolvedConfig||EM.copyStudyConfig(m.cfg), wide=resolved.privateMode==='sampled';
-  if(!wide)max=Math.min(max,5000);
+  if(!wide)max=Math.min(max,250000);
   river=g;riverConfig=resolved;riverResult=null;
   trainMultiway(m,g,max,target,wide);
 }
 function trainMultiway(m,g,max,target,wide){
+  let interval=Number(m.autosaveSeconds??0);
+  if(!Number.isInteger(interval)||interval<0||interval>3600)throw Error('Checkpoint interval must be 0–3600 seconds');
   riverBusy=true;riverStop=false;
-  let next=wide?g.iterations+Math.max(1,Math.ceil((max-g.iterations)/2)):g.iterations+25,lastMetrics=null;
+  const started=performance.now(),initialDeals=g.trainingDeals||0;
+  let lastSave=started,saveStatus='';
+  async function autosave(final){
+    if(!interval||(!final&&performance.now()-lastSave<interval*1000))return;
+    try{
+      await EM.autosaveTraining(await EM.encodeCheckpoint(g.snapshot(m.labels)),m.checkpointHost);
+      saveStatus='Checkpoint saved at update '+g.iterations.toLocaleString();lastSave=performance.now();
+    }catch(e){saveStatus='Automatic checkpoint failed: '+e.message;interval=0;}
+  }
+  const diagnosticInterval=Math.max(1000,Math.ceil((max-g.iterations)/20));
+  let next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+25,lastMetrics=null;
   const checkpoints=[];
-  function step() {
+  async function step() {
     try {
       const until=performance.now()+55;
       while (!riverStop && !g.limitReached && g.iterations<Math.min(max,next) && performance.now()<until) g.iterate();
       if (riverStop || g.limitReached || g.iterations>=next || g.iterations>=max) {
-        lastMetrics=g.metrics();
+        const finalWide=wide&&(riverStop||g.limitReached||g.iterations>=max);
+        lastMetrics=wide&&!finalWide?g.metrics(256):g.metrics();
         if(wide){
-          const root=g.view([]);
+          const actions=g.rootFrequencies(),previous=checkpoints.at(-1);
+          const rootStrategyDelta=previous&&previous.actions.length===actions.length?
+            Math.max(0,...actions.map((a,i)=>Math.abs((a.frequency||0)-(previous.actions[i].frequency||0)))):null;
           checkpoints.push({iterations:g.iterations,ev:lastMetrics.ev,se:lastMetrics.se,
-            actions:root.actions||[]});
+            actions,rootStrategyDelta,note:'Root strategy drift is a stability diagnostic, not an equilibrium bound.'});
         }
         if(riverStop || g.limitReached || g.iterations>=max || lastMetrics.maxGain<=target) {
-          riverBusy=false;
+          await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
-          riverResult={metrics:lastMetrics,node:g.view([]),reason,checkpoints};
+          riverResult={metrics:lastMetrics,node:g.view([]),reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
         }
-        next=wide?max:g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));
+        next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));
       }
-      post({type:'progress',id:m.id,it:g.iterations,gap:lastMetrics?lastMetrics.maxGain:null});
+      await autosave(false);
+      const elapsed=(performance.now()-started)/1000;
+      post({type:'progress',id:m.id,it:g.iterations,elapsed,trainingDeals:g.trainingDeals,strategyMiB:g.strategyMiB,
+        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
       setTimeout(step,0);
     } catch(e) { riverBusy=false; river=null; post({type:'error',id:m.id,message:e.message}); }
   }
@@ -85,8 +103,8 @@ function trainMultiway(m,g,max,target,wide){
 function multiwayResume(m){
   if(riverBusy || !river || !riverResult)throw Error('Load or finish a multiway solve before resuming');
   const wide=riverConfig.privateMode==='sampled',more=Number(m.iterations),target=Number(m.target??0);
-  if(!Number.isInteger(more)||more<1||more>(wide?100000:5000)||river.iterations+more>1e9||!Number.isFinite(target)||target<0)
-    throw Error('Choose up to 100,000 extra wide-range iterations or 5,000 exact iterations');
+  if(!Number.isInteger(more)||more<1||more>(wide?1000000:250000)||river.iterations+more>1e9||!Number.isFinite(target)||target<0)
+    throw Error('Choose up to 1,000,000 extra wide-range iterations or 250,000 exact iterations');
   if(wide && m.memoryMiB!==undefined){
     river.increaseBudget(Number(m.memoryMiB));riverConfig={...riverConfig,strategyBudgetMiB:Number(m.memoryMiB)};
   }
@@ -102,7 +120,7 @@ async function checkpointFile(m){
       const text=await EM.encodeCheckpoint(river.snapshot(m.labels));
       post({type:'result',id:m.id,result:{text,iterations:river.iterations}});
     }else{
-      const payload=await EM.decodeCheckpoint(m.text),loaded=EM.restoreCheckpoint(payload);
+      const loaded=m.type==='multi-recover'?await EM.recoverTraining(m.checkpointHost):EM.restoreCheckpoint(await EM.decodeCheckpoint(m.text));
       // Only commit after both validation and evaluation succeed.
       const result={metrics:loaded.game.metrics(),node:loaded.game.view([]),reason:'loaded training checkpoint',checkpoints:[]};
       river=loaded.game;riverConfig=loaded.cfg;riverResult=result;

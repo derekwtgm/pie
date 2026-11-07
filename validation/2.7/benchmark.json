@@ -1,0 +1,161 @@
+{
+ "generated": "2026-11-07T01:03:19.393Z",
+ "source": "/workspace/scratch/efd5fa52d971/EightMax/source",
+ "node": "v24.22.1",
+ "platform": "linux 6.18.57",
+ "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+ "cores": 9,
+ "memoryGiB": 9.733646392822266,
+ "repeat": 2,
+ "results": [
+  {
+   "name": "6-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 194.72220304530353,
+   "minItPerSec": 191.57218382515453,
+   "maxItPerSec": 194.72220304530353,
+   "maxRSSMiB": 138.83984375,
+   "strategyMiB": 17.466266632080078,
+   "infos": 60649,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    2.1361328124999983,
+    5.266276041666667,
+    -0.6654296875000006,
+    -2.5987630208333368,
+    -2.1292317708333326,
+    10.791015624999993
+   ]
+  },
+  {
+   "name": "7-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 366.17622578623525,
+   "minItPerSec": 171.6507601057068,
+   "maxItPerSec": 366.17622578623525,
+   "maxRSSMiB": 146.70703125,
+   "strategyMiB": 18.256132125854492,
+   "infos": 59798,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.3189453124999995,
+    2.540234375000001,
+    1.3476562499999996,
+    -1.8139648437500013,
+    -2.581835937499997,
+    12.417187500000004,
+    -0.42822265624999983
+   ]
+  },
+  {
+   "name": "8-player flop, 2 sizes + raise per street",
+   "iterations": 2000,
+   "medianItPerSec": 259.7322516552378,
+   "minItPerSec": 231.39011294428965,
+   "maxItPerSec": 259.7322516552378,
+   "maxRSSMiB": 151.6328125,
+   "strategyMiB": 22.91720962524414,
+   "infos": 71360,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    -0.5052734375,
+    4.841406249999995,
+    2.140625,
+    -0.10371093749999977,
+    -1.4492187499999993,
+    13.925781249999996,
+    -1.3406249999999986,
+    -0.7089843749999996
+   ]
+  },
+  {
+   "name": "8-player river, 2 sizes + raise",
+   "iterations": 4000,
+   "medianItPerSec": 974.3830496652073,
+   "minItPerSec": 919.5900137402012,
+   "maxItPerSec": 974.3830496652073,
+   "maxRSSMiB": 95.37109375,
+   "strategyMiB": 2.9604148864746094,
+   "infos": 10558,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    3.5214843750000004,
+    0,
+    13.278515624999999,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "6-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 382.85668408909396,
+   "minItPerSec": 284.02056685212324,
+   "maxItPerSec": 382.85668408909396,
+   "maxRSSMiB": 153.3046875,
+   "strategyMiB": 27.401599884033203,
+   "infos": 92739,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    1.5037434895833324,
+    -0.534472656250001,
+    0.23578287760416594,
+    -0.7244791666666679,
+    0.3959472656249991,
+    -0.6765218098958347
+   ]
+  },
+  {
+   "name": "8-player linked preflop-river, random ranges, 25 bb",
+   "iterations": 3000,
+   "medianItPerSec": 515.6706497120364,
+   "minItPerSec": 368.5186395482291,
+   "maxItPerSec": 515.6706497120364,
+   "maxRSSMiB": 226.42578125,
+   "strategyMiB": 28.504261016845703,
+   "infos": 92962,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    1.3474609375000004,
+    0.8326171875000004,
+    -0.7842285156250006,
+    -0.513305664062501,
+    -1.0074462890624991,
+    -0.5826660156250012,
+    1.2137695312499996,
+    -0.5062011718750001
+   ]
+  },
+  {
+   "name": "8-player linked ICM 50/30/20, random ranges, 25 bb",
+   "iterations": 1500,
+   "medianItPerSec": 324.82888436649125,
+   "minItPerSec": 209.41366460289578,
+   "maxItPerSec": 324.82888436649125,
+   "maxRSSMiB": 235.77734375,
+   "strategyMiB": 16.17549705505371,
+   "infos": 50925,
+   "algorithm": "external",
+   "deterministic": true,
+   "ev": [
+    13.706045431427832,
+    13.00760944957284,
+    11.992212756100349,
+    12.144102643176206,
+    12.151552498601895,
+    12.516967429366172,
+    12.305974436014909,
+    12.17553535573981
+   ]
+  }
+ ]
+}

@@ -47,7 +47,7 @@ jobs:
           Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
+          Copy-Item RELEASE-2.8.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
@@ -66,6 +66,7 @@ jobs:
           node source/tools/accuracy_report.js "$r/validation"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node --test source/tests/*.test.js 2>&1 | Out-File -Encoding utf8 "$r/validation/regression-tests.txt"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
           "EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"
           Push-Location $r

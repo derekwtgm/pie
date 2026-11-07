@@ -1,4 +1,4 @@
-EightMax 2.6 - 8-max MTT solver for Windows
+EightMax 2.8 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -16,7 +16,16 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.6
+NEW IN 2.8
+See RELEASE-2.8.md for setup, checkpoint recovery, resource limits, measured
+accuracy, performance comparisons and release limitations.
+
+PREVIOUS RELEASE: NEW IN 2.7
+Read RELEASE-2.7.md and ACCURACY-SUMMARY.md for changes, measured results,
+precision presets, and features that remain unimplemented or unverified.
+The new Windows executable was cross-compiled, not run on Windows here.
+
+PREVIOUS RELEASE: NEW IN 2.6
 Full details: CHANGELOG.md. Test and benchmark results: validation/2.6/.
 
 Seven- and eight-player presets solve again. Multiway postflop now has

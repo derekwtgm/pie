@@ -5,6 +5,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
+#include <psapi.h>
+#include <io.h>
 #include <shellapi.h>
 #include <direct.h>
 typedef SOCKET sock_t;
@@ -17,6 +19,7 @@ typedef SOCKET sock_t;
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <signal.h>
 typedef int sock_t;
@@ -47,6 +50,40 @@ typedef int sock_t;
 static const SolverVT *VT;
 static int PORT = 0, THREADS = 1;
 static double RAM_MB = 0;
+static long PROCESS_LIMIT_MIB=6144;
+static int LOGICAL_CPUS=1,PHYSICAL_CORES=0,PERFORMANCE_CORES=0,EFFICIENCY_CORES=0;
+#ifdef _WIN32
+static void detect_core_classes(void){
+  DWORD size=0;
+  GetLogicalProcessorInformationEx(RelationProcessorCore,NULL,&size);
+  if(!size)return;
+  unsigned char *data=malloc(size);if(!data)return;
+  if(GetLogicalProcessorInformationEx(RelationProcessorCore,(PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)data,&size)){
+    int classes[256]={0},highest=0;
+    for(DWORD off=0;off<size;){
+      PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX row=(void *)(data+off);
+      if(!row->Size||row->Size>size-off)break;
+      if(row->Relationship==RelationProcessorCore){
+        unsigned c=row->Processor.EfficiencyClass;
+        classes[c]++;PHYSICAL_CORES++;if((int)c>highest)highest=(int)c;
+      }
+      off+=row->Size;
+    }
+    if(classes[highest]<PHYSICAL_CORES){PERFORMANCE_CORES=classes[highest];EFFICIENCY_CORES=PHYSICAL_CORES-classes[highest];}
+  }
+  free(data);
+}
+#endif
+static double resident_mib(void){
+#ifdef _WIN32
+  PROCESS_MEMORY_COUNTERS pm;
+  if(GetProcessMemoryInfo(GetCurrentProcess(),&pm,sizeof(pm)))return pm.WorkingSetSize/1048576.0;
+#else
+  FILE *f=fopen("/proc/self/statm","r");long pages=0,total=0;
+  if(f){int fields=fscanf(f,"%ld %ld",&total,&pages);fclose(f);if(fields==2)return pages*(double)sysconf(_SC_PAGESIZE)/1048576.0;}
+#endif
+  return -1;
+}
 static char SAVE_DIR[1024];
 
 static pthread_mutex_t GAME_MU = PTHREAD_MUTEX_INITIALIZER;   // serialises every solver call
@@ -104,7 +141,7 @@ static void respond(sock_t s, int code, const char *type, const char *body, size
   send_all(s, h, (size_t)k);
   if (n) send_all(s, body, n);
 }
-static void respond_json(sock_t s, int code, JB *b) { respond(s, code, "application/json; charset=utf-8", b->s, b->n); }
+static void respond_json(sock_t s, int code, JB *b) { if(b->failed){respond(s,503,"application/json","{}",2);return;} respond(s, code, "application/json; charset=utf-8", b->s, b->n); }
 static void respond_err(sock_t s, int code, const char *msg) {
   JB b; jb_init(&b); jb_puts(&b, "{\"error\":"); jb_str(&b, msg); jb_putc(&b, '}'); respond_json(s, code, &b); jb_free(&b);
 }
@@ -210,6 +247,7 @@ static int run_iterations(Game *g, double target, int maxIter, int report, doubl
   double t0 = now_s(), checkCost = 0, iterCost = 0, ex = -1, chips = 0, lastEx = -1; int lastIt = 0, nextCheck = 3;
   for (;;) {
     if (JOB_STOP) break;
+    if(resident_mib()>=PROCESS_LIMIT_MIB){set_err("Native process memory limit reached");JOB_STOP=1;return 0;}
     pthread_mutex_lock(&GAME_MU);
     double cs = now_s(); const int itStart = VT->iterations(g);
     do { VT->iterate(g); } while (now_s() - cs < 0.25 && VT->iterations(g) < maxIter && VT->iterations(g) < nextCheck);
@@ -233,18 +271,24 @@ static int run_iterations(Game *g, double target, int maxIter, int report, doubl
   }
   return 0;
 }
+static int allocate_for_job(Game *g,char *err,int len){
+  if(resident_mib()+VT->mem_mb(g)>PROCESS_LIMIT_MIB){
+    snprintf(err,(size_t)len,"Native process estimate exceeds %ld MiB budget. Reduce tree size or EIGHTMAX_THREADS.",PROCESS_LIMIT_MIB);return 0;
+  }
+  return VT->alloc(g,err,len);
+}
 static void *solve_job(void *a) {
   SolveArgs A = *(SolveArgs *)a; free(a);
   char err[512] = "";
   double t0 = now_s();
   pthread_mutex_lock(&GAME_MU);
   Game *g = G;   // G cannot be replaced while this job runs (build/load refuse, see claim_game)
-  int ok = g && VT->alloc(g, err, sizeof err);
+  int ok = g && allocate_for_job(g,err,sizeof err);
   if (ok && A.reset) VT->reset(g);
   pthread_mutex_unlock(&GAME_MU);
   double ex = -1, chips = 0;
   if (!ok) set_err(err[0] ? err : "Set up the spot first");
-  else if (!run_iterations(g, A.target, A.maxIter, 0, &ex, &chips)) { pthread_mutex_lock(&GAME_MU); VT->exploit(g, &ex, &chips); pthread_mutex_unlock(&GAME_MU); }
+  else if (!run_iterations(g, A.target, A.maxIter, 0, &ex, &chips) && resident_mib()<PROCESS_LIMIT_MIB) { pthread_mutex_lock(&GAME_MU); VT->exploit(g, &ex, &chips); pthread_mutex_unlock(&GAME_MU); }
   if (ok) LAST_EX = ex;
   pthread_mutex_lock(&STATE_MU);
   if (ok) { P_EX = ex; P_CHIPS = chips; P_IT = VT->iterations(g); }
@@ -263,7 +307,7 @@ static void *report_job(void *a) {
     double t0 = now_s();
     pthread_mutex_lock(&GAME_MU);
     Game *g = VT->build(&cfg, err, sizeof err);
-    int ok = g && VT->alloc(g, err, sizeof err);
+    int ok = g && allocate_for_job(g,err,sizeof err);
     pthread_mutex_unlock(&GAME_MU);
     if (!ok) { if (g) { pthread_mutex_lock(&GAME_MU); VT->free_game(g); pthread_mutex_unlock(&GAME_MU); } set_err(err); break; }
     double ex = 0, chips = 0;
@@ -315,12 +359,72 @@ static int claim_game(void) {
 static void release_game(void) { pthread_mutex_lock(&STATE_MU); G_BUSY = 0; pthread_mutex_unlock(&STATE_MU); }
 
 /* ---------------- routes ---------------- */
+static pthread_mutex_t checkpoint_mu=PTHREAD_MUTEX_INITIALIZER;
+static int move_checkpoint(const char *src,const char *dest){
+#ifdef _WIN32
+  return MoveFileExA(src,dest,MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)!=0;
+#else
+  return rename(src,dest)==0;
+#endif
+}
+static void checkpoint_api(sock_t s,const char *method,const char *part,const char *body,size_t n){
+  char latest[1200],previous[1200],tmp[1200];
+  snprintf(latest,sizeof latest,"%s%sautosave.emstudy",SAVE_DIR,PATHSEP);
+  snprintf(previous,sizeof previous,"%s%sautosave.previous.emstudy",SAVE_DIR,PATHSEP);
+#ifdef _WIN32
+  long pid=(long)GetCurrentProcessId();
+#else
+  long pid=(long)getpid();
+#endif
+  snprintf(tmp,sizeof tmp,"%s%sautosave.%ld.tmp",SAVE_DIR,PATHSEP,pid);
+  if(!strcmp(method,"POST")&&!strcmp(part,"write")){
+    if(!body||n<90||strncmp(body,"{\"sha256\":\"",11)||body[n-1]!='}'){
+      respond_err(s,400,"Invalid checkpoint envelope");return;
+    }
+    pthread_mutex_lock(&checkpoint_mu);
+    FILE *f=fopen(tmp,"wb");int ok=0;
+    if(f){
+      ok=fwrite(body,1,n,f)==n && fflush(f)==0;
+#ifdef _WIN32
+      if(ok)ok=_commit(_fileno(f))==0;
+#else
+      if(ok)ok=fsync(fileno(f))==0;
+#endif
+      if(fclose(f))ok=0;
+    }
+    if(ok){
+      FILE *old=fopen(latest,"rb");
+      if(old){fclose(old);ok=move_checkpoint(latest,previous);}
+      if(ok)ok=move_checkpoint(tmp,latest);
+#ifndef _WIN32
+      if(ok){int fd=open(SAVE_DIR,O_RDONLY);if(fd>=0){ok=fsync(fd)==0;close(fd);}else ok=0;}
+#endif
+    }
+    if(!ok)remove(tmp);
+    pthread_mutex_unlock(&checkpoint_mu);
+    if(ok)respond_ok(s);else respond_err(s,500,"Checkpoint write failed; recover previous save");return;
+  }
+  if(strcmp(method,"GET")||(strcmp(part,"latest")&&strcmp(part,"previous"))){respond_err(s,404,"Unknown checkpoint");return;}
+  pthread_mutex_lock(&checkpoint_mu);
+  FILE *f=fopen(!strcmp(part,"latest")?latest:previous,"rb");
+  if(!f){pthread_mutex_unlock(&checkpoint_mu);respond_err(s,404,"No saved checkpoint");return;}
+  long bytes=-1;if(fseek(f,0,SEEK_END)==0)bytes=ftell(f);
+  char *data=NULL;
+  if(bytes>0 && bytes<=(64L<<20) && fseek(f,0,SEEK_SET)==0)data=malloc((size_t)bytes);
+  int ok=data && fread(data,1,(size_t)bytes,f)==(size_t)bytes;
+  fclose(f);pthread_mutex_unlock(&checkpoint_mu);
+  if(ok)respond(s,200,"application/json",data,(size_t)bytes);else respond_err(s,500,"Cannot read checkpoint");
+  free(data);
+}
 static void api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   char err[512] = "";
+  if(!strncmp(path,"/api/checkpoint/",16)){checkpoint_api(s,method,path+16,body,blen);return;}
   if (!strcmp(path, "/api/info")) {
     JB b; jb_init(&b);
     jb_printf(&b, "{\"native\":true,\"build\":\"%s\",\"version\":\"%s\",\"threads\":%d,\"power\":%d,\"ramMB\":%.0f,\"engine\":\"%s\",\"saveDir\":", EM_BUILD_ID, VERSION, THREADS, POWER, RAM_MB, VT->name);
-    jb_str(&b, SAVE_DIR); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
+    jb_str(&b, SAVE_DIR);
+    jb_printf(&b,",\"physicalCores\":%d,\"performanceCores\":%d,\"efficiencyCores\":%d",PHYSICAL_CORES,PERFORMANCE_CORES,EFFICIENCY_CORES);
+    jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
     jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
     respond_json(s, 200, &b); jb_free(&b); return;
   }
@@ -329,6 +433,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     pthread_mutex_lock(&STATE_MU);
     jb_printf(&b, "{\"running\":%s,\"kind\":%d,\"it\":%d,\"done\":%s,\"stopped\":%s,\"ex\":", JOB_RUNNING ? "true" : "false", JOB_KIND, P_IT, P_DONE ? "true" : "false", P_STOPPED ? "true" : "false");
     if (P_EX >= 0) jb_num(&b, P_EX, 4); else jb_puts(&b, "null");
+    jb_printf(&b,",\"residentMiB\":%.2f",resident_mib());
     jb_puts(&b, ",\"chips\":"); jb_num(&b, P_CHIPS, 4); jb_puts(&b, ",\"elapsed\":"); jb_num(&b, P_ELAPSED, 2);
     jb_puts(&b, ",\"error\":"); if (P_ERR[0]) jb_str(&b, P_ERR); else jb_puts(&b, "null");
     jb_printf(&b, ",\"engine\":\"native-%s\",\"gpu\":", VT->name); jb_puts(&b, P_GPU[0] ? P_GPU : "null"); jb_putc(&b, '}');
@@ -526,6 +631,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
 
 static void handle(sock_t s) {
   size_t cap = 65536, n = 0; char *buf = (char *)malloc(cap + 1);
+  if(!buf){respond_err(s,503,"Out of memory");return;}
   char *hend = NULL;
   while (!hend) {
     if (n >= cap) { free(buf); return; }
@@ -593,13 +699,26 @@ int main(int argc, char **argv) {
 #ifdef _WIN32
   WSADATA wsa; WSAStartup(MAKEWORD(2, 2), &wsa);
   SYSTEM_INFO si; GetSystemInfo(&si); THREADS = (int)si.dwNumberOfProcessors;
+  DWORD_PTR affinity=0,systemMask=0;
+  if(GetProcessAffinityMask(GetCurrentProcess(),&affinity,&systemMask)&&affinity)THREADS=__builtin_popcountll((unsigned long long)affinity);
+  detect_core_classes();
   MEMORYSTATUSEX ms; ms.dwLength = sizeof ms; GlobalMemoryStatusEx(&ms); RAM_MB = (double)ms.ullTotalPhys / 1048576.0;
   SetConsoleTitleA("EightMax solver");
 #else
   signal(SIGPIPE, SIG_IGN);
   THREADS = (int)sysconf(_SC_NPROCESSORS_ONLN); RAM_MB = (double)sysconf(_SC_PHYS_PAGES) * (double)sysconf(_SC_PAGESIZE) / 1048576.0;
 #endif
-  const char *te = getenv("EIGHTMAX_THREADS"); if (te && atoi(te) > 0) THREADS = atoi(te);
+  LOGICAL_CPUS=THREADS>0?THREADS:1;
+  const char *limit=getenv("EIGHTMAX_PROCESS_MIB");
+  if(limit){char *end=NULL;long value=strtol(limit,&end,10);
+    if(end==limit||*end||value<64||value>32768){fprintf(stderr,"EIGHTMAX_PROCESS_MIB must be 64 to 32768\n");return 2;}
+    PROCESS_LIMIT_MIB=value;
+  }
+  const char *te = getenv("EIGHTMAX_THREADS");
+  if(te){char *end=NULL;long requested=strtol(te,&end,10);
+    if(end==te || *end || requested<1 || requested>256){fprintf(stderr,"EIGHTMAX_THREADS must be an integer from 1 to 256\n");return 2;}
+    THREADS=requested>LOGICAL_CPUS?LOGICAL_CPUS:(int)requested;
+  }
   if (THREADS < 1) THREADS = 1;
 #ifdef EM_DUAL
   VT = cpu_has_avx2() ? solver_vt_avx2() : solver_vt_sse();
@@ -607,6 +726,7 @@ int main(int argc, char **argv) {
   (void)cpu_has_avx2; VT = solver_vt_gen();
 #endif
   VT->init(THREADS);
+  THREADS=VT->threads();
   gpu_init();
   apply_power(gpuTest ? 0 : 1);
   if (gpuTest) {

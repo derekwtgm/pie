@@ -16,18 +16,20 @@ function dealer(hands, visible, rng) {
     if(!rows.length)throw Error('A range is blocked on this board');
     return {rows,total};
   });
+  const used=new Uint32Array(52);let stamp=0;
   return ()=>{
     for(let tries=0;tries<4096;tries++){
-      const used=new Uint8Array(52);visible.forEach(c=>used[c]=1);
+      if(++stamp>=4294967295){used.fill(0);stamp=1;}
+      visible.forEach(c=>used[c]=stamp);
       const seats=[];
       for(const {rows,total} of distributions){
         const x=rng()*total;let lo=0,hi=rows.length-1;
         while(lo<hi){const mid=(lo+hi)>>1;if(x<rows[mid].cum)hi=mid;else lo=mid+1;}
-        const h=rows[lo].h;if(used[h.a]||used[h.b])break;
-        seats.push(h);used[h.a]=used[h.b]=1;
+        const h=rows[lo].h;if(used[h.a]===stamp||used[h.b]===stamp)break;
+        seats.push(h);used[h.a]=used[h.b]=stamp;
       }
       if(seats.length!==hands.length)continue;
-      const cards=visible.slice();while(cards.length<5){const c=Math.floor(rng()*52);if(!used[c]){used[c]=1;cards.push(c);}}
+      const cards=visible.slice();while(cards.length<5){const c=Math.floor(rng()*52);if(used[c]!==stamp){used[c]=stamp;cards.push(c);}}
       return {seats,cards};
     }
     throw Error('Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals.');
@@ -63,6 +65,52 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // Studies saved by 2.3 continue with their original uniform weighting.
   const weighting=cfg.weighting??'linear';
   if(!['linear','uniform'].includes(weighting))throw Error('Choose linear or uniform iteration weighting');
+  const batchDeals=cfg.batchDeals??1;
+  if(!Number.isInteger(batchDeals)||batchDeals<1||batchDeals>64)throw Error('Batch deals must be an integer from 1 to 64');
+  const regretMatching=cfg.regretMatching??'standard';
+  if(!['standard','plus'].includes(regretMatching))throw Error('Unknown regret matching rule');
+  // Freeze the strategy within each batch. Average unbiased chance-sampled
+  // increments before applying regret matching (and optional CFR+ clipping).
+  // Scratch arrays are budgeted alongside the persistent strategy arrays.
+  const pending=new Set(), scratch=new WeakMap();
+  function add(row,k,a,regret,average){
+    if(!Number.isFinite(regret)||!Number.isFinite(average))throw Error('Non-finite sampled CFR increment');
+    const i=row.offset+a;
+    if(batchDeals===1){
+      row.buffer[i]=regretMatching==='plus'?Math.max(0,row.buffer[i]+regret):row.buffer[i]+regret;
+      row.buffer[i+k]+=average;return;
+    }
+    let block=scratch.get(row.buffer);
+    if(!block){
+      block={buffer:row.buffer,k,delta:new Float64Array(row.buffer.length),
+        marked:new Uint8Array(256),indices:new Uint8Array(256),count:0};
+      scratch.set(row.buffer,block);
+    }
+    const index=row.offset/(2*k);
+    if(!block.marked[index]){
+      block.marked[index]=1;block.indices[block.count++]=index;pending.add(block);
+    }
+    block.delta[i]+=regret/batchDeals;block.delta[i+k]+=average/batchDeals;
+  }
+  function finishBatch(commit){
+    for(const b of pending){
+      for(let j=0;j<b.count;j++){
+        const row=b.indices[j],start=row*2*b.k;
+        for(let a=0;a<2*b.k;a++){
+          const i=start+a;
+          if(commit){
+            const value=b.buffer[i]+b.delta[i];
+            if(!Number.isFinite(value))throw Error('Non-finite batch strategy value');
+            b.buffer[i]=a<b.k && regretMatching==='plus'?Math.max(0,value):value;
+          }
+          b.delta[i]=0;
+        }
+        b.marked[row]=0;
+      }
+      b.count=0;
+    }
+    pending.clear();
+  }
   let step=1;
   const updates=cfg.updates??'simultaneous';
   if(!['simultaneous','alternating','enumerate'].includes(updates))throw Error('Unknown update scheme');
@@ -77,7 +125,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(index===undefined && create){
       if(!pool)pool={blocks:[],count:0};
       const allocate=pool.count%256===0;
-      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?256*16*k:0);
+      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?(256*16*k*(batchDeals>1?2:1)+(batchDeals>1?512:0)):0);
       if(store.bytes+extra>store.limit)throw memoryError;
       if(!node){node={rows:new Map(),k};store.nodes.set(t.path,node);}
       store.pools[k]=pool;
@@ -97,6 +145,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const row=record(t,w,store,create), offset=average?k:0;
     let total=0;
     for(let a=0;a<k;a++){sig[a]=row?Math.max(0,row.buffer[row.offset+offset+a]):0;total+=sig[a];}
+    if(!Number.isFinite(total))throw Error('Invalid strategy normalization');
     for(let a=0;a<k;a++)sig[a]=total?sig[a]/total:1/k;
     return sig;
   }
@@ -108,19 +157,34 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       abstraction==='compact'?strengthGroup(h,publicCards,score):EM.handFeatures(h,publicCards,score).key;
     return abstraction==='compact'?previous*2048+signal:previous+'/'+signal;
   }
+  // The starting public board and a seat's range are immutable within a game.
+  // Cache only that street. Later-street keys retain the entire public history.
+  const startingHands=hands.map(()=>new Map());
   function world(raw){
     const {seats,cards}=raw, keys={}, finalScores=[];
     let prev=seats.map(()=>0);
     for(const length of streetLengths){
       const publicCards=cards.slice(0,length);
       prev=seats.map((h,p)=>{
+        if(length===board.length){
+          let cached=startingHands[p].get(h.id);
+          if(!cached){
+            const score=length?EM.evalCards([...publicCards,h.a,h.b]):0;
+            cached={score,key:seatKey(p,h,publicCards,0,score)};startingHands[p].set(h.id,cached);
+          }
+          if(length===5)finalScores[p]=cached.score;
+          return cached.key;
+        }
         const score=length===0?0:EM.evalCards([...publicCards,h.a,h.b]);
         if(length===5)finalScores[p]=score;
         return seatKey(p,h,publicCards,prev[p],score);
       });
       keys[length]=prev;
     }
-    return {seats,cards,keys,finalScores};
+    let order=0;
+    if(cacheRiverPayoffs)for(let p=0;p<n;p++)for(let q=0;q<p;q++)
+      order=order*3+1+Math.sign(finalScores[p]-finalScores[q]);
+    return {seats,cards,keys,finalScores,order};
   }
   // The trained average strategy of one seat's information set, as the solver
   // itself would look it up. Used to evaluate sampled training independently in
@@ -140,7 +204,10 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(let a=0;a<k;a++)out[a]=total?out[a]/total:1/k;
     return out;
   }
+  const cacheRiverPayoffs=!external && !icm && board.length===5 && n<=4;
+  let cachedPayoffs=0;
   function payoff(t,w){
+    if(cacheRiverPayoffs){const hit=t.payByOrder?.get(w.order);if(hit)return hit;}
     if(icm)return icm.evaluate(EM.awardPots(t.pots,w.finalScores,t.behind));
     const u=t.u || (t.u=new Float64Array(n));
     for(let p=0;p<n;p++)u[p]=-t.total[p]-anteOf[p];
@@ -151,6 +218,10 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
         if(value>top){top=value;count=1;}else if(value===top)count++;
       }
       for(const p of pot.eligible)if(w.finalScores[p]===top)u[p]+=pot.amount/count;
+    }
+    if(cacheRiverPayoffs && cachedPayoffs<8192){
+      if(!t.payByOrder)t.payByOrder=new Map();
+      t.payByOrder.set(w.order,u.slice());cachedPayoffs++;
     }
     return u;
   }
@@ -182,8 +253,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       const row=record(t,w,profile,false), cw=train===true?1:train.weight;
       let others=1;for(let j=0;j<n;j++)if(j!==p)others*=reach[j];
       for(let a=0;a<k;a++){
-        row.buffer[row.offset+a]+=step*cw*others*(actionValues[a]-u[p]);
-        row.buffer[row.offset+k+a]+=step*cw*old*sig[a];
+        add(row,k,a,step*cw*others*(actionValues[a]-u[p]),step*cw*old*sig[a]);
       }
     }
     return u;
@@ -208,11 +278,15 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const sig=probabilities(t,w,store,false,true), row=record(t,w,store,false);
     const values=t.values||(t.values=new Float64Array(k));let mean=0;
     for(let a=0;a<k;a++){
-      row.buffer[row.offset+k+a]+=step*own*sig[a]/sampleReach;
+      if(fixed)row.buffer[row.offset+k+a]+=step*own*sig[a]/sampleReach;
+      else add(row,k,a,0,step*own*sig[a]/sampleReach);
       values[a]=learn(advance(t,a),w,player,own*sig[a],opponentReach,sampleReach,store,rng,fixed);
       mean+=sig[a]*values[a];
     }
-    for(let a=0;a<k;a++)row.buffer[row.offset+a]+=step*opponentReach/sampleReach*(values[a]-mean);
+    for(let a=0;a<k;a++){
+      const delta=step*opponentReach/sampleReach*(values[a]-mean);
+      if(fixed)row.buffer[row.offset+a]+=delta;else add(row,k,a,delta,0);
+    }
     return mean;
   }
   // A trained response plays greedily: the action with the largest cumulative
@@ -274,9 +348,39 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // every compatible hand of the updating seat is traversed with its exact
   // conditional probability. This is unbiased and removes the variance from
   // sampling the updating seat's own cards.
+  let trainingDeals=0;
+  function trainingWorld(){const raw=draw();trainingDeals++;return world(raw);}
+  // One independent sample per equal-probability stratum of the joint range.
+  // With a frozen full-traversal policy their mean has the correct expectation.
+  // Enumeration is bounded before any joint table is allocated.
+  const stratify=cfg.riverStrata===true && board.length===5 && batchDeals>1 &&
+    !external && updates==='simultaneous' && hands.reduce((a,r)=>a*r.length,1)<=1024;
+  const joint=[],cumulative=[];let jointMass=0;
+  if(stratify){
+    const used=new Set(board),seats=[];
+    function enumerate(seat,mass){
+      if(seat===n){
+        jointMass+=mass;joint.push(seats.slice());cumulative.push(jointMass);return;
+      }
+      for(const h of hands[seat]){
+        if(used.has(h.a)||used.has(h.b))continue;
+        used.add(h.a);used.add(h.b);seats.push(h);
+        enumerate(seat+1,mass*h.w);
+        seats.pop();used.delete(h.a);used.delete(h.b);
+      }
+    }
+    enumerate(0,1);
+    if(!(jointMass>0)||!Number.isFinite(jointMass))throw Error('Invalid joint range mass');
+  }
+  function stratumWorld(index){
+    const x=(index+dealRandom())*jointMass/batchDeals;
+    let lo=0,hi=joint.length-1;
+    while(lo<hi){const mid=(lo+hi)>>>1;if(x<cumulative[mid])hi=mid;else lo=mid+1;}
+    trainingDeals++;return world({seats:joint[lo],cards:board});
+  }
   function enumerateOwn(w0){
     for(let p=0;p<n;p++){
-      const w=p?world(draw()):w0, used=new Uint8Array(52);
+      const w=p?trainingWorld():w0, used=new Uint8Array(52);
       for(const c of w.cards)used[c]=1;
       w.seats.forEach((h,j)=>{if(j!==p)used[h.a]=used[h.b]=1;});
       const options=hands[p].filter(h=>!used[h.a]&&!used[h.b]);
@@ -288,31 +392,47 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     }
   }
   function iterate(count=1){
+    if(!Number.isSafeInteger(count)||count<0||count>10000000||iterations+count>10000000)throw Error('Iteration count must fit the 10 million iteration limit');
     for(let i=0;i<count && !limitReached;i++){
       try{
-        const w=world(draw());step=weighting==='linear'?iterations+1:1;
+        step=weighting==='linear'?iterations+1:1;
+        for(let batch=0;batch<batchDeals;batch++){
+        const w=stratify?stratumWorld(batch):trainingWorld();
         if(external)for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,actionRandom);
         else if(updates==='enumerate')enumerateOwn(w);
-        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?world(draw()):w,reach,{seat:p,weight:1});
+        else if(updates==='alternating')for(let p=0;p<n;p++)walk(tree,p?trainingWorld():w,reach,{seat:p,weight:1});
         else walk(tree,w,reach,true);
+        }
+        if(batchDeals>1)finishBatch(true);
         iterations++;
       }catch(e){
+        finishBatch(false);
         if(e!==memoryError)throw e;
         reach.fill(1);limitReached=true;
       }
     }
   }
-  function metrics(){
+  function metrics(samples=holdout){
+    if(!Number.isInteger(samples)||samples<128||samples>8192)throw Error('Invalid evaluation sample count');
     const evalDraw=dealer(hands,board,randomStream(evaluationSeed)), rng=randomStream(evaluationSeed^0x543e981a);
     const ev=Array(n).fill(0),m2=Array(n).fill(0);
-    for(let i=1;i<=holdout;i++){
+    for(let i=1;i<=samples;i++){
       const w=world(evalDraw()),v=external?rollout(tree,w,rng):walk(tree,w,reach,false);
       for(let p=0;p<n;p++){const d=v[p]-ev[p];ev[p]+=d/i;m2[p]+=d*(v[p]-ev[p]);}
     }
-    return {...utilityMeta,wide:true,ev,se:m2.map(x=>Math.sqrt(Math.max(0,x)/(holdout-1)/holdout)),iterations,
-      abstraction,weighting,memoryBudgetMiB:profile.limit/1048576,strategyMiB:profile.bytes/1048576,evaluationDeals:holdout,infos:profile.infos,
+    return {...utilityMeta,wide:true,ev,se:m2.map(x=>Math.sqrt(Math.max(0,x)/(samples-1)/samples)),iterations,
+      abstraction,weighting,batchDeals,regretMatching,trainingDeals,dealSampler:stratify?'stratified joint river':'independent rejection',memoryBudgetMiB:profile.limit/1048576,strategyMiB:profile.bytes/1048576,evaluationDeals:samples,infos:profile.infos,
       nodes:external?profile.nodes.size:nodes,seed,evaluationSeed,startStreet:streetName(board.length),
       runoutMode:'fresh',deals:iterations,algorithm:external?'external':'full',stateVisits,limitReached};
+  }
+  function rootFrequencies(){
+    if(tree.kind!=='player')return [];
+    const sample=dealer(hands,board,randomStream(evaluationSeed)),counts=new Float64Array(tree.actions.length);
+    for(let i=0;i<256;i++){
+      const sig=probabilities(tree,world(sample()),profile,true);
+      for(let a=0;a<counts.length;a++)counts[a]+=sig[a];
+    }
+    return tree.actions.map((action,a)=>({label:action.label,frequency:counts[a]/256}));
   }
   function view(path=[]){
     const visible=board.slice(),line=[],history=[];let t=tree;
@@ -401,7 +521,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       pools.push({k,count:pool.count,blocks:pool.blocks.map((block,i)=>EM.packTrainingValues(block.subarray(0,Math.min(256,pool.count-i*256)*2*k)))});
     }
     const records=[...profile.nodes].sort(([a],[b])=>a<b?-1:a>b?1:0).map(([path,node])=>({path,k:node.k,rows:[...node.rows]}));
-    return EM.checkpointPayload({...cfg,abstraction,weighting,strategyBudgetMiB:profile.limit/1048576},{kind:'wide',external,iterations,stateVisits,limitReached,
+    return EM.checkpointPayload({...cfg,abstraction,weighting,batchDeals,regretMatching,strategyBudgetMiB:profile.limit/1048576},{kind:'wide',external,iterations,stateVisits,trainingDeals,limitReached,
       dealState:dealRandom.state(),actionState:actionRandom.state(),pools,records},labels);
   }
   function restoreState(state){
@@ -414,7 +534,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     for(const row of state.pools){
       if(!Number.isInteger(row.k)||row.k<2||row.k>7||pools[row.k])bad();
       EM.checkpointInteger(row.count,3000000);if(!row.count||!Array.isArray(row.blocks)||row.blocks.length!==Math.ceil(row.count/256))bad();
-      bytes+=row.blocks.length*256*16*row.k;if(bytes>profile.limit)bad();
+      bytes+=row.blocks.length*(256*16*row.k*(batchDeals>1?2:1)+(batchDeals>1?512:0));if(bytes>profile.limit)bad();
       pools[row.k]={count:row.count,encoded:row.blocks};seen[row.k]=new Uint8Array(row.count);
     }
     if(state.records.length>bytes/16+1)bad();
@@ -449,6 +569,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       });delete pool.encoded;
     }
     profile.nodes=nodes;profile.pools=pools;profile.bytes=bytes;profile.infos=infos;profile.gen++;
+    trainingDeals=state.trainingDeals??state.iterations*batchDeals*(!external&&updates!=='simultaneous'?n:1);
+    EM.checkpointInteger(trainingDeals,Number.MAX_SAFE_INTEGER);
     iterations=state.iterations;stateVisits=state.stateVisits;limitReached=state.limitReached;
     dealRandom.restore(state.dealState);actionRandom.restore(state.actionState);
   }
@@ -456,6 +578,6 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
-  return {iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  return {rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));

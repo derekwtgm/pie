@@ -1,0 +1,474 @@
+{
+  "version": "2.8",
+  "variant": "stratified",
+  "batchDeals": 4,
+  "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "full",
+    "evaluationDeals": 128
+  },
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "rows": [
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 4000,
+      "updates": 1000,
+      "deals": 4000,
+      "seconds": 0.25008926000000004,
+      "cpuMs": 311.396,
+      "peakProcessMiB": 57.83203125,
+      "updatesPerSecond": 3998.5723497282524,
+      "dealsPerSecond": 15994.28939891301,
+      "gains": [
+        0.39008538832517736,
+        0.3646673880385398,
+        0.28663548485276835
+      ],
+      "maxGain": 0.39008538832517736
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 20000,
+      "updates": 5000,
+      "deals": 20000,
+      "seconds": 0.801720625,
+      "cpuMs": 884.4970000000001,
+      "peakProcessMiB": 61.08984375,
+      "updatesPerSecond": 6236.586466763282,
+      "dealsPerSecond": 24946.34586705313,
+      "gains": [
+        0.20132741333289506,
+        0.15192317836106017,
+        0.11258253028443765
+      ],
+      "maxGain": 0.20132741333289506
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 50000,
+      "updates": 12500,
+      "deals": 50000,
+      "seconds": 1.8354731149999999,
+      "cpuMs": 1928.4260000000002,
+      "peakProcessMiB": 65.71484375,
+      "updatesPerSecond": 6810.233229703286,
+      "dealsPerSecond": 27240.932918813145,
+      "gains": [
+        0.1049029243588242,
+        0.05397651806142356,
+        0.04311756546299539
+      ],
+      "maxGain": 0.1049029243588242
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 100000,
+      "updates": 25000,
+      "deals": 100000,
+      "seconds": 3.5746265389999996,
+      "cpuMs": 3683.147,
+      "peakProcessMiB": 73.390625,
+      "updatesPerSecond": 6993.737591114551,
+      "dealsPerSecond": 27974.950364458204,
+      "gains": [
+        0.08371036087842576,
+        0.06471347367650981,
+        0.0281930932087342
+      ],
+      "maxGain": 0.08371036087842576
+    },
+    {
+      "seed": 1,
+      "timed": false,
+      "target": 250000,
+      "updates": 62500,
+      "deals": 250000,
+      "seconds": 10.029600635999998,
+      "cpuMs": 10105.957,
+      "peakProcessMiB": 76.640625,
+      "updatesPerSecond": 6231.554203231589,
+      "dealsPerSecond": 24926.216812926355,
+      "gains": [
+        0.04456406303946103,
+        0.04312446033002981,
+        0.029737300102703035
+      ],
+      "maxGain": 0.04456406303946103
+    },
+    {
+      "seed": 1,
+      "timed": true,
+      "target": 1,
+      "updates": 4592,
+      "deals": 18368,
+      "seconds": 1.0006723349999993,
+      "cpuMs": 1119.71,
+      "peakProcessMiB": 79.9609375,
+      "updatesPerSecond": 4588.914712027093,
+      "dealsPerSecond": 18355.65884810837,
+      "gains": [
+        0.22432330177139992,
+        0.19584552291315482,
+        0.10660728357701998
+      ],
+      "maxGain": 0.22432330177139992
+    },
+    {
+      "seed": 1,
+      "timed": true,
+      "target": 3,
+      "updates": 14392,
+      "deals": 57568,
+      "seconds": 3.001861666999999,
+      "cpuMs": 3126.536,
+      "peakProcessMiB": 82.2109375,
+      "updatesPerSecond": 4794.358167204647,
+      "dealsPerSecond": 19177.432668818587,
+      "gains": [
+        0.10129647509238193,
+        0.08472028525230435,
+        0.0319760878546298
+      ],
+      "maxGain": 0.10129647509238193
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 4000,
+      "updates": 1000,
+      "deals": 4000,
+      "seconds": 0.22879140399999962,
+      "cpuMs": 226.841,
+      "peakProcessMiB": 85.3359375,
+      "updatesPerSecond": 4370.793581038568,
+      "dealsPerSecond": 17483.17432415427,
+      "gains": [
+        0.329003040204074,
+        0.3684854549847074,
+        0.31643643126074794
+      ],
+      "maxGain": 0.3684854549847074
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 20000,
+      "updates": 5000,
+      "deals": 20000,
+      "seconds": 0.8487397220000003,
+      "cpuMs": 848.863,
+      "peakProcessMiB": 85.5859375,
+      "updatesPerSecond": 5891.087538848569,
+      "dealsPerSecond": 23564.350155394277,
+      "gains": [
+        0.1349162548686671,
+        0.13249470824505494,
+        0.10501316587543919
+      ],
+      "maxGain": 0.1349162548686671
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 50000,
+      "updates": 12500,
+      "deals": 50000,
+      "seconds": 1.9910752630000008,
+      "cpuMs": 1989.113,
+      "peakProcessMiB": 85.5859375,
+      "updatesPerSecond": 6278.014815555465,
+      "dealsPerSecond": 25112.05926222186,
+      "gains": [
+        0.09008663951676077,
+        0.11280673368452376,
+        0.06646005655883558
+      ],
+      "maxGain": 0.11280673368452376
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 100000,
+      "updates": 25000,
+      "deals": 100000,
+      "seconds": 3.933998606000001,
+      "cpuMs": 3921.045,
+      "peakProcessMiB": 85.7109375,
+      "updatesPerSecond": 6354.857361126374,
+      "dealsPerSecond": 25419.429444505495,
+      "gains": [
+        0.096575706662132,
+        0.07910969689885139,
+        0.04149757657987041
+      ],
+      "maxGain": 0.096575706662132
+    },
+    {
+      "seed": 2,
+      "timed": false,
+      "target": 250000,
+      "updates": 62500,
+      "deals": 250000,
+      "seconds": 11.539340471,
+      "cpuMs": 11514.518,
+      "peakProcessMiB": 100.8359375,
+      "updatesPerSecond": 5416.254088097268,
+      "dealsPerSecond": 21665.016352389073,
+      "gains": [
+        0.028247595574553586,
+        0.03633856891597986,
+        0.023063140830716256
+      ],
+      "maxGain": 0.03633856891597986
+    },
+    {
+      "seed": 2,
+      "timed": true,
+      "target": 1,
+      "updates": 5976,
+      "deals": 23904,
+      "seconds": 1.000981520999998,
+      "cpuMs": 1029.624,
+      "peakProcessMiB": 101.7109375,
+      "updatesPerSecond": 5970.140182038398,
+      "dealsPerSecond": 23880.560728153592,
+      "gains": [
+        0.15967277229467491,
+        0.14109498860921033,
+        0.10876763564452085
+      ],
+      "maxGain": 0.15967277229467491
+    },
+    {
+      "seed": 2,
+      "timed": true,
+      "target": 3,
+      "updates": 18728,
+      "deals": 74912,
+      "seconds": 3.0003052489999975,
+      "cpuMs": 3017.83,
+      "peakProcessMiB": 101.8359375,
+      "updatesPerSecond": 6242.031542037947,
+      "dealsPerSecond": 24968.126168151786,
+      "gains": [
+        0.12157318218604107,
+        0.06983461314067263,
+        0.055608740367802945
+      ],
+      "maxGain": 0.12157318218604107
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 4000,
+      "updates": 1000,
+      "deals": 4000,
+      "seconds": 0.16755341899999984,
+      "cpuMs": 179.167,
+      "peakProcessMiB": 101.9609375,
+      "updatesPerSecond": 5968.24586432343,
+      "dealsPerSecond": 23872.98345729372,
+      "gains": [
+        0.3368843001689932,
+        0.30255289271084695,
+        0.4031440042345631
+      ],
+      "maxGain": 0.4031440042345631
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 20000,
+      "updates": 5000,
+      "deals": 20000,
+      "seconds": 0.8395801449999999,
+      "cpuMs": 852.379,
+      "peakProcessMiB": 101.9609375,
+      "updatesPerSecond": 5955.357603174382,
+      "dealsPerSecond": 23821.43041269753,
+      "gains": [
+        0.1660189881676004,
+        0.1675027106128546,
+        0.0556493623880685
+      ],
+      "maxGain": 0.1675027106128546
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 50000,
+      "updates": 12500,
+      "deals": 50000,
+      "seconds": 2.0105070159999996,
+      "cpuMs": 2044.449,
+      "peakProcessMiB": 101.9609375,
+      "updatesPerSecond": 6217.337169441642,
+      "dealsPerSecond": 24869.348677766568,
+      "gains": [
+        0.10351919932089615,
+        0.07158344919492521,
+        0.06635556479836668
+      ],
+      "maxGain": 0.10351919932089615
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 100000,
+      "updates": 25000,
+      "deals": 100000,
+      "seconds": 4.0421236700000005,
+      "cpuMs": 4078.464,
+      "peakProcessMiB": 102.0859375,
+      "updatesPerSecond": 6184.867668831122,
+      "dealsPerSecond": 24739.470675324486,
+      "gains": [
+        0.08473450413499961,
+        0.03887284461820428,
+        0.03829738033126118
+      ],
+      "maxGain": 0.08473450413499961
+    },
+    {
+      "seed": 3,
+      "timed": false,
+      "target": 250000,
+      "updates": 62500,
+      "deals": 250000,
+      "seconds": 10.805269186000004,
+      "cpuMs": 10807.382,
+      "peakProcessMiB": 104.0859375,
+      "updatesPerSecond": 5784.214990310375,
+      "dealsPerSecond": 23136.8599612415,
+      "gains": [
+        0.04329494119671207,
+        0.028098824827782032,
+        0.016987746018469085
+      ],
+      "maxGain": 0.04329494119671207
+    },
+    {
+      "seed": 3,
+      "timed": true,
+      "target": 1,
+      "updates": 5648,
+      "deals": 22592,
+      "seconds": 1.0003788200000054,
+      "cpuMs": 1008.729,
+      "peakProcessMiB": 106.2109375,
+      "updatesPerSecond": 5645.861234846984,
+      "dealsPerSecond": 22583.444939387937,
+      "gains": [
+        0.176344811264185,
+        0.1446728133748696,
+        0.0930022432894142
+      ],
+      "maxGain": 0.176344811264185
+    },
+    {
+      "seed": 3,
+      "timed": true,
+      "target": 3,
+      "updates": 17920,
+      "deals": 71680,
+      "seconds": 3.0002530630000113,
+      "cpuMs": 3004.784,
+      "peakProcessMiB": 108.0859375,
+      "updatesPerSecond": 5972.829499282785,
+      "dealsPerSecond": 23891.31799713114,
+      "gains": [
+        0.06035119840580094,
+        0.08193060279262987,
+        0.031528936377870576
+      ],
+      "maxGain": 0.08193060279262987
+    }
+  ],
+  "summary": [
+    {
+      "timed": false,
+      "target": 4000,
+      "meanGain": 0.38723828251481596,
+      "ci95Half": 0.043485377099897755,
+      "meanSeconds": 0.2154780276666665,
+      "meanDealsPerSecond": 19116.815726787
+    },
+    {
+      "timed": false,
+      "target": 20000,
+      "meanGain": 0.16791545960480558,
+      "ci95Half": 0.08249866880301579,
+      "meanSeconds": 0.8300134973333333,
+      "meanDealsPerSecond": 24110.70881171498
+    },
+    {
+      "timed": false,
+      "target": 50000,
+      "meanGain": 0.10707628578808137,
+      "ci95Half": 0.012448294303027902,
+      "meanSeconds": 1.9456851313333334,
+      "meanDealsPerSecond": 25740.780286267192
+    },
+    {
+      "timed": false,
+      "target": 100000,
+      "meanGain": 0.08834019055851912,
+      "ci95Half": 0.017764323109217873,
+      "meanSeconds": 3.8502496050000006,
+      "meanDealsPerSecond": 26044.61682809606
+    },
+    {
+      "timed": false,
+      "target": 250000,
+      "meanGain": 0.041399191050717654,
+      "ci95Half": 0.011001464724365709,
+      "meanSeconds": 10.791403431,
+      "meanDealsPerSecond": 23242.69770885231
+    },
+    {
+      "timed": true,
+      "target": 1,
+      "meanGain": 0.18678029511008662,
+      "ci95Half": 0.08338636815278341,
+      "meanSeconds": 1.0006775586666674,
+      "meanDealsPerSecond": 21606.554838549968
+    },
+    {
+      "timed": true,
+      "target": 3,
+      "meanGain": 0.10160008669035096,
+      "ci95Half": 0.04924711972319745,
+      "meanSeconds": 3.000806659666669,
+      "meanDealsPerSecond": 22678.958944700502
+    }
+  ]
+}

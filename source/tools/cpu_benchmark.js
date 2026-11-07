@@ -1,0 +1,12 @@
+'use strict';
+// Native chance-node parallelism, CPU only; compares identical fixed-iteration
+// turn games. Timings are host-specific, not estimates for an Intel i7.
+const {spawn}=require('child_process'),fs=require('fs'),path=require('path'),os=require('os'),http=require('http'),net=require('net');
+const exe=path.resolve(process.argv[2]),output=process.argv[3];
+const cfg={board:[0,5,10,15],pot:10,stack:20,ranges:[Array(1326).fill(1),Array(1326).fill(1)],sizes:{bet:[['',''],['50','50'],['75','75']],raise:[['',''],['a','a'],['a','a']]},compress:0,iso:1,gpu:0,forceAllin:0,maxBets:2};
+if(process.env.EM_LIMIT_STRESS){cfg.iso=0;cfg.maxBets=4;cfg.sizes.bet=[['',''],['25,50,100','25,50,100'],['25,50,100','25,50,100']];}
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+async function port(){return await new Promise(r=>{const s=net.createServer();s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>r(p));});});}
+function request(p,route,data){return new Promise((resolve,reject)=>{const b=data===undefined?null:JSON.stringify(data),q=http.request({hostname:'127.0.0.1',port:p,path:'/api/'+route,method:b?'POST':'GET',headers:{'X-EightMax':'1',...(b?{'Content-Length':Buffer.byteLength(b),'Content-Type':'application/json'}:{})}},r=>{let s='';r.on('data',b=>s+=b);r.on('end',()=>{try{const j=JSON.parse(s);if(r.statusCode!==200)throw Error(s);resolve(j);}catch(e){reject(e);}});});q.on('error',reject);q.end(b);});}
+(async()=>{const results=[];for(const threads of [1,4]){const p=await port(),proc=spawn(exe,['--no-browser','--port='+p],{env:{...process.env,EIGHTMAX_GPU:'off',EIGHTMAX_THREADS:String(threads)},stdio:'ignore'});try{let ready=false;for(let i=0;i<100;i++){try{await request(p,'info');ready=true;break;}catch{}await delay(50);}if(!ready)throw Error('host failed to start');await request(p,'build',cfg);const t=performance.now();await request(p,'solve',{maxIter:200,target:0});let st;do{await delay(20);st=await request(p,'status');}while(st.running);if(st.error)throw Error(st.error);results.push({threads,seconds:(performance.now()-t)/1000,status:st});}finally{proc.kill();}}
+const report={cpu:os.cpus()[0].model,platform:process.platform,cfg,results,note:'200 iterations, includes polling latency; one run per setting, no statistical speedup claim.'};fs.writeFileSync(output,JSON.stringify(report,null,2));console.log(JSON.stringify(results));})().catch(e=>{console.error(e);process.exitCode=1;});

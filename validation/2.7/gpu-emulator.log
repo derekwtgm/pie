@@ -1,0 +1,7 @@
+GPU: GPU emulator (2 x 8 threads) (ready 1)
+CPU: it 3  exploitability 85.938018%  (8.593802)  0.37s  gpu {"available":true,"device":"GPU emulator (2 x 8 threads)","memMB":4096,"budgetMB":3482,"on":false,"why":"GPU turned off for this solve"}
+  river node strategy head: 0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.33
+GPU: it 3  exploitability 85.936478%  (8.593648)  13.02s  gpu {"available":true,"device":"GPU emulator (2 x 8 threads)","memMB":4096,"budgetMB":3482,"on":true,"why":"river on the GPU: 9 requests, 432 subgames, 37 MB","gpuShare":1,"mb":37}
+  river node strategy head: 0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,0.33
+root strategy max diff 0.00010 over 1146 values; exploitability rel diff 0.0000
+PASS

@@ -1,4 +1,4 @@
-EightMax 2.3 source
+EightMax 2.8 source
 
 web/       Browser UI, preflop models and shared pot rules. lib_river.js
            implements the multi-street postflop betting tree and alternating
