@@ -1,3 +1,12 @@
+# Accuracy and performance — EightMax 2.9
+
+Current results are in RELEASE-2.9.md §2–3 and validation/2.9/
+(accuracy-per-deal.json: six seeds, exact best responses, 4k–500k sampled deals,
+2.8 JS vs 2.9 native; performance-2.8-vs-2.9.json: nine configurations, three
+fresh-process repeats, identical EVs). Measured on an Intel Xeon @ 2.1 GHz,
+4 cores, Linux; not on the intended Windows i7/RTX desktop. The sections
+below are the earlier 2.7 report, kept for reference.
+
 # Accuracy and performance — EightMax 2.7
 
 All values below were calculated in this session on INTEL(R) XEON(R) PLATINUM 8573C / linux. These are not measurements of the requested Intel i7 or RTX GPU.

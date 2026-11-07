@@ -39,15 +39,18 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/test_native_host.js build/fresh/EightMax.exe build fresh-windows-host.json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_mw.js build/fresh/EightMax.exe fresh-windows-multiway.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Assemble the release around the fresh host
         shell: powershell
         run: |
           $r = 'release/EightMax'
           New-Item -ItemType Directory -Force $r | Out-Null
           Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
+          Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-2.8.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
+          Copy-Item RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"

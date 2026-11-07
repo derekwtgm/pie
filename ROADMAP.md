@@ -1,3 +1,15 @@
+# EightMax roadmap after 2.9
+
+- Measure on the intended Windows desktop (13th-gen Core i7, RTX 3060 Ti, 16 GB):
+  run Run self-tests.bat, tools/perf29.js and tools/bench29.js there.
+- CUDA: prototype batched showdowns for own-hand enumeration on real NVIDIA
+  hardware, keep it only if end-to-end time improves, and validate against the CPU engine.
+- Native betting-tree generation and external (sampled-betting) traversal, so
+  the 6-8 player flop presets (above 250,000 states) can train natively.
+- Native Detailed/Compact hand groups and ICM utilities (currently JavaScript only).
+- Variance reduction with baselines for sampled multiway CFR.
+- Code signing and an executable icon.
+
 # EightMax upgrade status
 
 Version 2.6 compiles the Windows host from source with matching version and

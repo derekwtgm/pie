@@ -1,5 +1,40 @@
 # EightMax changelog
 
+## 2.9 (2026-11-07)
+
+Full details, measurements and limitations: RELEASE-2.9.md; raw results: validation/2.9/.
+
+- **Native C++20 multiway engine** (`source/native/mw.cpp`, protocol in `MW-PROTOCOL.md`)
+  for sampled studies with Exact cards, chip EV and full betting trees, used
+  automatically by the desktop app. JavaScript stays the reference, evaluator
+  and fallback. Training state is bit-identical to JavaScript (tested across
+  streets, update schemes, batch sizes, CFR+/uniform options and thread counts;
+  the Windows build matches the Linux build byte for byte under Wine).
+  7.5× (2-player river), 7.2× (3-player river) and 10.6× (8-player river) faster
+  on one thread.
+- **Multithreading** within frozen-policy updates (adaptive fan-out, parallel
+  merge in deal order; results independent of thread count; ThreadSanitizer
+  clean). 8-player river: 2.15× from 1 to 4 threads on this 4-core machine.
+- **Accuracy per second:** 2.8's default sampler runs bit-identically and 6.1×
+  faster (500k deals: 17.1 s → 2.8 s at 0.038 ± 0.004 bb). **Per sampled deal:**
+  own-hand enumeration is the most accurate scheme measured (100k deals:
+  0.055 ± 0.011 vs 0.081 ± 0.009 bb, 6 seeds) and is now selectable as
+  *Update scheme*. DCFR was evaluated and rejected (worse at every budget).
+- Bit-identical sparse ICM sweep (1.9× at 8 players, 18× at 16 players, 3 paid).
+- Application-wide memory budget (native host + browser-reported memory,
+  default half of RAM, max 8 GiB), pre-allocation refusal for native tables,
+  `/api/memory`.
+- Browser IndexedDB recovery tested in real Chromium (restart, worker kill,
+  aborted and truncated writes, version mismatch, storage quota). Clearer
+  recovery and incompatible-version messages.
+- Eight-handed validation tests. The third position is now labelled MP.
+  Chart validation report (charts unchanged).
+- 2.8 → 2.9 JS throughput reproduced under controlled conditions: no
+  regressions (all within ±5%, identical EVs).
+- Not done: CUDA (no NVIDIA GPU or toolkit available), Windows hardware tests,
+  code signing.
+
+
 ## 2.8
 
 Sparse batched regret updates, optional stratified river sampling, accepted-deal counters, cheaper progress checks, durable automatic checkpoint recovery, native process monitoring, checked tree allocation growth and JSON parser/formatter repairs. All nine preflop charts regenerated identically. See RELEASE-2.8.md for measurements and limitations.

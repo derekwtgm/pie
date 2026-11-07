@@ -1,0 +1,381 @@
+{
+ "generated": "2026-11-07T04:37:12.695Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "audit": {
+  "charts": [
+   15,
+   20,
+   25,
+   30,
+   40,
+   50,
+   60,
+   80,
+   100
+  ],
+  "base": {
+   "n": 8,
+   "anteType": "classic",
+   "ante": 0.1
+  },
+  "meta": {
+   "15": {
+    "it": 475,
+    "ex": 0.00088
+   },
+   "20": {
+    "it": 500,
+    "ex": 0.00105
+   },
+   "25": {
+    "it": 675,
+    "ex": 0.00132
+   },
+   "30": {
+    "it": 975,
+    "ex": 0.00166
+   },
+   "40": {
+    "it": 1325,
+    "ex": 0.00167
+   },
+   "50": {
+    "it": 1200,
+    "ex": 0.0013
+   },
+   "60": {
+    "it": 1075,
+    "ex": 0.00107
+   },
+   "80": {
+    "it": 950,
+    "ex": 0.00116
+   },
+   "100": {
+    "it": 1125,
+    "ex": 0.00128
+   }
+  },
+  "kind": "Each chart is an equilibrium of a preflop-only model game (169 hand classes, pairwise card removal, at most three voluntary entrants, fixed sizes per depth) whose postflop values come from a fitted equity-realization model (lib_deep.js BONUS_FIT / playFeatures). Values marked \"ex\" are the model game exploitability after quantization, not distance to full-game equilibrium.",
+  "estimated": "postflop continuation values (fitted realization coefficients); the three-entrant cap; fixed raise sizes",
+  "calculated": "preflop equilibrium of the model game; ante 0.1 bb per dealt seat (2.3 bb starting pot at 8 dealt); blinds 0.5/1"
+ },
+ "depths": [
+  {
+   "stack": 15,
+   "sizes": {
+    "open": 2,
+    "sbOpen": 3,
+    "iso": 3,
+    "threeBetIP": 2.75,
+    "threeBetOOP": 3.5,
+    "fourBet": 2.3
+   },
+   "requestedUpdates": 150000,
+   "rows": [
+    {
+     "position": "UTG",
+     "chartRaisePct": 13.107807225454307,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      29.418292284161385,
+      29.855078635411385
+     ],
+     "linkedRaisePctAtOneThird": [
+      29.418292284161385,
+      29.855078635411385
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "UTG+1",
+     "chartRaisePct": 14.836361895185451,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      33.87627418877438,
+      34.61974007371148
+     ],
+     "linkedRaisePctAtOneThird": [
+      33.87627418877438,
+      34.61974007371148
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "MP",
+     "chartRaisePct": 17.76437070554721,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      37.11753999218398,
+      36.90952741162796
+     ],
+     "linkedRaisePctAtOneThird": [
+      37.11753999218398,
+      36.90952741162796
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "HJ",
+     "chartRaisePct": 21.32921544686255,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      42.268434527799506,
+      44.907296280641184
+     ],
+     "linkedRaisePctAtOneThird": [
+      42.268434527799506,
+      44.907296280641184
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "CO",
+     "chartRaisePct": 27.371974430798012,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      51.30940279747058,
+      52.13605585514558
+     ],
+     "linkedRaisePctAtOneThird": [
+      51.30940279747058,
+      52.13605585514558
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "BTN",
+     "chartRaisePct": 37.915679092149745,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      52.83209659311152,
+      54.952043060444076
+     ],
+     "linkedRaisePctAtOneThird": [
+      52.83209659311152,
+      54.952043060444076
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "SB",
+     "chartRaisePct": 39.12949795302744,
+     "chartLimpPct": 41.34884723120027,
+     "linkedRaisePct": [
+      69.46411297112407,
+      74.35704640255747
+     ],
+     "linkedRaisePctAtOneThird": [
+      69.46411297112407,
+      74.35704640255747
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    }
+   ],
+   "seeds": [
+    {
+     "seed": 17,
+     "seconds": 114.749,
+     "completedUpdates": 27587,
+     "earlyUpdates": 27587,
+     "memoryBudgetReached": true,
+     "strategyMiB": 255.99132919311523
+    },
+    {
+     "seed": 29,
+     "seconds": 120.452,
+     "completedUpdates": 27724,
+     "earlyUpdates": 27724,
+     "memoryBudgetReached": true,
+     "strategyMiB": 255.99540901184082
+    }
+   ]
+  },
+  {
+   "stack": 25,
+   "sizes": {
+    "open": 2,
+    "sbOpen": 3,
+    "iso": 3,
+    "threeBetIP": 2.75,
+    "threeBetOOP": 3.5,
+    "fourBet": 2.3
+   },
+   "requestedUpdates": 150000,
+   "rows": [
+    {
+     "position": "UTG",
+     "chartRaisePct": 15.420527185233102,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      36.57495117488917,
+      37.91391625471591
+     ],
+     "linkedRaisePctAtOneThird": [
+      36.57495117488917,
+      37.91391625471591
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "UTG+1",
+     "chartRaisePct": 17.79549426608254,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      42.05660160017437,
+      40.78849562830628
+     ],
+     "linkedRaisePctAtOneThird": [
+      42.05660160017437,
+      40.78849562830628
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "MP",
+     "chartRaisePct": 20.66125595537364,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      44.98630370887211,
+      46.83238798975338
+     ],
+     "linkedRaisePctAtOneThird": [
+      44.98630370887211,
+      46.83238798975338
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "HJ",
+     "chartRaisePct": 24.721683545213004,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      49.93962099974366,
+      51.278764005907384
+     ],
+     "linkedRaisePctAtOneThird": [
+      49.93962099974366,
+      51.278764005907384
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "CO",
+     "chartRaisePct": 30.110847757906633,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      55.91166800783418,
+      56.698210586778444
+     ],
+     "linkedRaisePctAtOneThird": [
+      55.91166800783418,
+      56.698210586778444
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "BTN",
+     "chartRaisePct": 40.07517536929309,
+     "chartLimpPct": 0,
+     "linkedRaisePct": [
+      60.123551416420796,
+      58.923290089714456
+     ],
+     "linkedRaisePctAtOneThird": [
+      60.123551416420796,
+      58.923290089714456
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    },
+    {
+     "position": "SB",
+     "chartRaisePct": 22.794416912064012,
+     "chartLimpPct": 62.141779788838726,
+     "linkedRaisePct": [
+      78.88382729237313,
+      75.72564155665755
+     ],
+     "linkedRaisePctAtOneThird": [
+      78.88382729237313,
+      75.72564155665755
+     ],
+     "linkedLimpPct": [
+      0,
+      0
+     ]
+    }
+   ],
+   "seeds": [
+    {
+     "seed": 17,
+     "seconds": 89.525,
+     "completedUpdates": 17407,
+     "earlyUpdates": 17407,
+     "memoryBudgetReached": true,
+     "strategyMiB": 255.99958992004395
+    },
+    {
+     "seed": 29,
+     "seconds": 87.423,
+     "completedUpdates": 17579,
+     "earlyUpdates": 17579,
+     "memoryBudgetReached": true,
+     "strategyMiB": 255.99990272521973
+    }
+   ]
+  }
+ ],
+ "note": "The linked solver is an independent but also approximate reference: sampled training, Detailed hand groups, one postflop size per street, opens of the chart sizes with 3x/all-in raises. Differences show where the chart model and a played-out postflop disagree; they are not corrections, and no chart was changed.",
+ "reproducibility": {
+  "stack": 25,
+  "regeneratedIterations": 675,
+  "shippedIterations": 675,
+  "regeneratedQuantizedExploitability": 0.00132,
+  "shippedExploitability": 0.00132,
+  "packedValues": 63258,
+  "changedValues": 0,
+  "sha256Regenerated": "9b60da1c6bf2284f34e390515d78dda678a3c79121076e176e9662a97b075707",
+  "sha256Shipped": "9b60da1c6bf2284f34e390515d78dda678a3c79121076e176e9662a97b075707",
+  "note": "The shipped generator re-solved the 25 bb chart from scratch; every packed strategy value matched (2.8 regenerated all nine depths with the same result)."
+ },
+ "conclusion": "Inconclusive as an accuracy check: with full 1,326-combination ranges for all eight seats, the linked preflop-to-river solver reached its 256 MiB strategy budget after 17-28 thousand updates, while its opening frequencies were still far from converged (about twice the chart frequencies). The charts were not changed. Validating them independently needs a converged full-range reference that does not fit the current memory limits."
+}

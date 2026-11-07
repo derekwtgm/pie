@@ -1,4 +1,4 @@
-EightMax 2.8 - 8-max MTT solver for Windows
+EightMax 2.9 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -16,7 +16,24 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.8
+NEW IN 2.9
+Read RELEASE-2.9.md for everything measured in this release and what remains
+untested.
+- Native C++ multiway training: in EightMax.exe, sampled Multiway studies that
+  use Exact cards and chip EV train in native code with all CPU cores. That is
+  about 7-11x faster than the browser engine, with exactly the same results.
+  Choose Training engine = JavaScript to compare. Other studies train in
+  JavaScript, and the result says why.
+- Update scheme: Own-hand enumeration gives the most accurate strategies per
+  sampled deal. Simultaneous (the default) is faster per second.
+- Memory: EightMax.exe keeps the native host plus the reported browser memory
+  within half of your RAM (at most 8 GB). EIGHTMAX_APP_MIB changes this. Studies
+  too large for the budget are refused with an estimate.
+- Browser checkpoints were tested across browser restarts and crashes.
+- No CUDA support. The executables are unsigned and were tested under Wine on
+  Linux, not on Windows.
+
+PREVIOUS RELEASE: NEW IN 2.8
 See RELEASE-2.8.md for setup, checkpoint recovery, resource limits, measured
 accuracy, performance comparisons and release limitations.
 

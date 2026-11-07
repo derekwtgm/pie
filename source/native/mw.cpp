@@ -511,7 +511,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
         // rows in its contiguous block of the table, scanning deals in order, so every value receives its
         // increments in exactly the sequential order.
         if (B > 1 && m->dense && pool.threads > 1 && estimate >= 60000.0) {
-          struct Ctx { MW *m; std::vector<DealWork> *w; size_t first, last; int T, B; std::atomic<int> bad{0}; } ctx{m, &work, first, last, pool.threads, B};
+          struct Ctx { MW *m; std::vector<DealWork> *w; size_t first, last; int T, B; std::atomic<int> bad{0}; } mctx{m, &work, first, last, pool.threads, B};
           pool.runTask([](Pool *pl, int index) {
             Ctx &c = *(Ctx *)pl->taskCtx;
             for (size_t d = c.first; d < c.last; d++) {
@@ -525,8 +525,8 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
                 for (int a = 0; a < k; a++) { c.m->delta[o + (size_t)a] += x[a] / c.B; c.m->delta[o + (size_t)(k + a)] += x[k + a] / c.B; }
               }
             }
-          }, &ctx, work);
-          if (ctx.bad) { pool.stop(); fail(err, errlen, "Non-finite sampled CFR increment"); return 0; }
+          }, &mctx, work);
+          if (mctx.bad) { pool.stop(); fail(err, errlen, "Non-finite sampled CFR increment"); return 0; }
           for (size_t d = first; d < last; d++) visits += work[d].visits;
           for (size_t d = first; d < last; d++) for (const IncRow &ir : work[d].rows) { MW::RowMeta &rm = m->rows[(size_t)ir.key]; if (rm.marked == 1) { rm.marked = 2; m->touched.push_back((int32_t)ir.key); } }
           for (int32_t r : m->touched) m->rows[(size_t)r].marked = 1;
