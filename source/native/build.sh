@@ -23,7 +23,12 @@ cd "$native_dir"
 if [ "$target" = linux ]; then
   cc=${CC:-gcc}
   "$cc" -O3 -march=x86-64 -DSFX=gen -I"$obj" -c solver.c -o "$obj/solver.o"
-  "$cc" -O2 -include "$obj/build_info.h" -I"$obj" server.c gpu.c selftest.c cfg.c json.c "$obj/solver.o" -lpthread -lm -ldl -o "$dest/eightmax"
+  cxx=${CXX:-g++}
+  # Multiway engine: C++20, strict IEEE arithmetic (no fast-math, no FMA contraction) for JS parity.
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -c mw.cpp -o "$obj/mw.o"
+  for f in server gpu selftest cfg json; do "$cc" -O2 -include "$obj/build_info.h" -I"$obj" -c $f.c -o "$obj/$f.o"; done
+  "$cxx" "$obj/server.o" "$obj/gpu.o" "$obj/selftest.o" "$obj/cfg.o" "$obj/json.o" "$obj/solver.o" "$obj/mw.o" -lpthread -lm -ldl -o "$dest/eightmax"
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. mwcli.cpp "$obj/mw.o" "$obj/json.o" -lpthread -o "$dest/mwcli"
 else
   if [ -n "${CC:-}" ]; then cc=$CC
   elif command -v x86_64-w64-mingw32-clang >/dev/null; then cc=x86_64-w64-mingw32-clang
@@ -32,5 +37,8 @@ else
   "$cc" -O3 -march=x86-64 -mavx2 -mfma -DSFX=avx2 -I"$obj" -c solver.c -o "$obj/avx2.o"
   "$cc" -O3 -march=x86-64 -DSFX=sse -I"$obj" -c solver.c -o "$obj/sse.o"
   # -Wl,--no-insert-timestamp keeps the PE header deterministic for checksums.
-  "$cc" -O2 -DEM_DUAL -include "$obj/build_info.h" -I"$obj" -static -pthread server.c gpu.c selftest.c cfg.c json.c "$obj/avx2.o" "$obj/sse.o" -lpsapi -lws2_32 -lshell32 -lwinmm -Wl,--no-insert-timestamp -s -o "$dest/EightMax.exe"
+  cxx=${CXX:-$(printf '%s' "$cc" | sed 's/gcc$/g++/; s/clang$/clang++/')}
+  "$cxx" -std=c++20 -O2 -march=x86-64 -ffp-contract=off -I. -c mw.cpp -o "$obj/mw.o"
+  for f in server gpu selftest cfg json; do "$cc" -O2 -DEM_DUAL -include "$obj/build_info.h" -I"$obj" -c $f.c -o "$obj/$f.o"; done
+  "$cxx" -static -pthread "$obj/server.o" "$obj/gpu.o" "$obj/selftest.o" "$obj/cfg.o" "$obj/json.o" "$obj/avx2.o" "$obj/sse.o" "$obj/mw.o" -lpsapi -lws2_32 -lshell32 -lwinmm -Wl,--no-insert-timestamp -s -o "$dest/EightMax.exe"
 fi

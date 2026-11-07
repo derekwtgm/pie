@@ -1,6 +1,9 @@
 #ifndef EM_JSON_H
 #define EM_JSON_H
 #include <stddef.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 // growable output buffer
 typedef struct JB { char *s; size_t n, cap; int failed; } JB;
 void jb_init(JB *b);
@@ -20,4 +23,7 @@ void json_free(JV *v);
 JV *jget(const JV *obj, const char *key);
 double jnum(const JV *v, double def);
 const char *jstr(const JV *v);
+#ifdef __cplusplus
+}
+#endif
 #endif

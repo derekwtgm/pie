@@ -52,6 +52,39 @@ function multiwaySolve(m) {
   river=g;riverConfig=resolved;riverResult=null;
   trainMultiway(m,g,max,target,wide);
 }
+// ---- native multiway training (desktop host, protocol 1) ----
+// The worker keeps the JavaScript game as the reference: the host trains the same
+// game and its state is copied back after every chunk, so diagnostics, the explorer,
+// checks and checkpoints all use the JavaScript code. Any host failure before
+// training starts falls back to JavaScript training and is reported.
+async function nativeCall(base,route,body,binary){
+  const init={method:body===undefined?'GET':'POST',headers:{'X-EightMax':'1'}};
+  if(body!==undefined){init.body=binary?body:JSON.stringify(body);init.headers['Content-Type']=binary?'application/octet-stream':'application/json';}
+  const r=await fetch(base+'/api/mw/'+route,init);
+  if(!r.ok){let msg='native host error '+r.status;try{msg=(await r.json()).error||msg;}catch(e){}throw Error(msg);}
+  return route==='state'&&!body?new Uint8Array(await r.arrayBuffer()):r.json();
+}
+async function nativeChunk(m,g,count,onProgress){
+  const base=m.native.base;
+  await nativeCall(base,'train',{iterations:count,threads:m.native.threads});
+  for(;;){
+    await new Promise(r=>setTimeout(r,riverStop?20:150));
+    if(riverStop)await nativeCall(base,'stop',{});
+    const st=await nativeCall(base,'status');
+    if(st.error)throw Error('Native training failed: '+st.error);
+    onProgress(st);
+    if(!st.running){g.importNative(await nativeCall(base,'state'));return st;}
+  }
+}
+async function nativeStart(m,g){
+  if(!m.native||!m.native.base||typeof g.nativeSupport!=='function')return {used:false,reason:'native host not available'};
+  const why=g.nativeSupport();if(why)return {used:false,reason:why};
+  try{
+    const init=await nativeCall(m.native.base,'init',g.nativeSpec());
+    if(g.iterations>0)await nativeCall(m.native.base,'import',g.exportNative(),true);
+    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB};
+  }catch(e){return {used:false,reason:e.message};}
+}
 function trainMultiway(m,g,max,target,wide){
   let interval=Number(m.autosaveSeconds??0);
   if(!Number.isInteger(interval)||interval<0||interval>3600)throw Error('Checkpoint interval must be 0–3600 seconds');
@@ -68,10 +101,25 @@ function trainMultiway(m,g,max,target,wide){
   const diagnosticInterval=Math.max(1000,Math.ceil((max-g.iterations)/20));
   let next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+25,lastMetrics=null;
   const checkpoints=[];
+  let nativeEngine=null;
   async function step() {
     try {
+      if(wide && m.native && nativeEngine===null)nativeEngine=await nativeStart(m,g);
+      if(nativeEngine?.used && !riverStop && !g.limitReached && g.iterations<Math.min(max,next)){
+        const begin=g.iterations,dealsBefore=g.trainingDeals;
+        const st=await nativeChunk(m,g,Math.min(max,next)-g.iterations,s=>{
+          const elapsed=(performance.now()-started)/1000;
+          post({type:'progress',id:m.id,it:s.iterations,elapsed,trainingDeals:s.trainingDeals,strategyMiB:g.strategyMiB,engine:'native',threads:s.threads,
+            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+        });
+        nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;
+        if(st.engine&&st.engine.limitReached)nativeEngine.limitReached=true;
+        if(g.iterations===begin&&!riverStop&&!nativeEngine.limitReached)throw Error('Native training made no progress');
+        void dealsBefore;
+      }
       const until=performance.now()+55;
-      while (!riverStop && !g.limitReached && g.iterations<Math.min(max,next) && performance.now()<until) g.iterate();
+      while (!nativeEngine?.used && !riverStop && !g.limitReached && g.iterations<Math.min(max,next) && performance.now()<until) g.iterate();
+      if(nativeEngine?.limitReached)riverStop=true;
       if (riverStop || g.limitReached || g.iterations>=next || g.iterations>=max) {
         const finalWide=wide&&(riverStop||g.limitReached||g.iterations>=max);
         lastMetrics=wide&&!finalWide?g.metrics(256):g.metrics();
@@ -85,7 +133,10 @@ function trainMultiway(m,g,max,target,wide){
         if(riverStop || g.limitReached || g.iterations>=max || lastMetrics.maxGain<=target) {
           await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
-          riverResult={metrics:lastMetrics,node:g.view([]),reason,checkpoints,saveStatus};
+          // Recorded only when native training was requested (desktop app).
+          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
+            {name:'JavaScript',fallbackReason:nativeEngine?.reason};
+          riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?'native memory budget reached':reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
         }
         next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));

@@ -39,6 +39,7 @@ typedef int sock_t;
 #include "solver.h"
 #include "gpu.h"
 #include "ui_html.h"
+#include "mw.h"
 
 #ifndef EM_VERSION
 #error "Build with -DEM_VERSION (see native/build.sh, which reads source/VERSION)"
@@ -64,7 +65,7 @@ static void detect_core_classes(void){
       PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX row=(void *)(data+off);
       if(!row->Size||row->Size>size-off)break;
       if(row->Relationship==RelationProcessorCore){
-        unsigned c=row->Processor.EfficiencyClass;
+        unsigned c=((const BYTE *)&row->Processor)[1];   // EfficiencyClass (second byte; older SDK headers call it Reserved[0])
         classes[c]++;PHYSICAL_CORES++;if((int)c>highest)highest=(int)c;
       }
       off+=row->Size;
@@ -416,7 +417,127 @@ static void checkpoint_api(sock_t s,const char *method,const char *part,const ch
   if(ok)respond(s,200,"application/json",data,(size_t)bytes);else respond_err(s,500,"Cannot read checkpoint");
   free(data);
 }
+/* ---------------- native multiway engine (protocol MW_PROTOCOL, see MW-PROTOCOL.md) ---------------- */
+static pthread_mutex_t MW_MU = PTHREAD_MUTEX_INITIALIZER;   // guards MWG and the fields below
+static MW *MWG = NULL;
+static volatile int MW_RUNNING = 0, MW_STOP = 0;
+static long long MW_IT = 0, MW_DEALS = 0, MW_TARGET = 0;
+static double MW_T0 = 0, MW_ELAPSED = 0, MW_TABLE_MIB = 0;
+static int MW_THREADS = 1;
+static char MW_ERR[512];
+static double BROWSER_MIB = 0;          // last memory figure reported by the interface (if any)
+// One application budget for the native host: process threshold minus what is already
+// resident; the multiway tables get what is left after a safety margin.
+static double mw_budget_mib(void) {
+  double resident = resident_mib(); if (resident < 0) resident = 0;
+  double room = (double)PROCESS_LIMIT_MIB - resident - 256.0;
+  return room < 32 ? 32 : room;
+}
+static void mw_progress(void *ctx, long long it, long long deals) {
+  (void)ctx; pthread_mutex_lock(&MW_MU); MW_IT = it; MW_DEALS = deals; MW_ELAPSED = now_s() - MW_T0; pthread_mutex_unlock(&MW_MU);
+}
+typedef struct { long long iterations; int threads; } MwArgs;
+static void *mw_job(void *a) {
+  MwArgs A = *(MwArgs *)a; free(a);
+  char err[512] = "";
+  int ok = mw_train(MWG, A.iterations, A.threads, &MW_STOP, mw_progress, NULL, err, sizeof err);
+  pthread_mutex_lock(&MW_MU);
+  if (!ok) snprintf(MW_ERR, sizeof MW_ERR, "%s", err);
+  MW_ELAPSED = now_s() - MW_T0; MW_RUNNING = 0;
+  pthread_mutex_unlock(&MW_MU);
+  return NULL;
+}
+static void mw_status_json(JB *b) {
+  pthread_mutex_lock(&MW_MU);
+  jb_printf(b, "{\"protocol\":%d,\"loaded\":%s,\"running\":%s,\"iterations\":%lld,\"trainingDeals\":%lld,\"target\":%lld,\"elapsed\":", MW_PROTOCOL, MWG ? "true" : "false", MW_RUNNING ? "true" : "false", MW_IT, MW_DEALS, MW_TARGET);
+  jb_num(b, MW_ELAPSED, 3); jb_printf(b, ",\"threads\":%d,\"error\":", MW_THREADS);
+  if (MW_ERR[0]) jb_str(b, MW_ERR); else jb_puts(b, "null");
+  jb_puts(b, ",\"engine\":");
+  if (MWG && !MW_RUNNING) mw_info(MWG, b); else jb_puts(b, "null");
+  pthread_mutex_unlock(&MW_MU);
+  jb_putc(b, '}');
+}
+static void memory_json(JB *b) {
+  pthread_mutex_lock(&MW_MU); double table = MW_TABLE_MIB, browser = BROWSER_MIB; pthread_mutex_unlock(&MW_MU);
+  double resident = resident_mib();
+  jb_printf(b, "{\"processLimitMiB\":%ld,\"residentMiB\":", PROCESS_LIMIT_MIB); jb_num(b, resident, 1);
+  jb_puts(b, ",\"multiwayTablesMiB\":"); jb_num(b, table, 1);
+  jb_puts(b, ",\"browserReportedMiB\":"); jb_num(b, browser, 1);
+  jb_puts(b, ",\"availableForTablesMiB\":"); jb_num(b, mw_budget_mib(), 1);
+  jb_printf(b, ",\"systemRamMiB\":%.0f}", RAM_MB);
+}
+// Returns 1 when the route was handled.
+static int mw_api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
+  char err[512] = "";
+  if (!strcmp(path, "/api/memory")) {
+    if (!strcmp(method, "POST")) {   // the interface reports its own (browser) memory use
+      JV *v = json_parse(body ? body : "{}", body ? blen : 2, err, sizeof err);
+      if (!v) { respond_err(s, 400, err); return 1; }
+      double mib = jnum(jget(v, "browserMiB"), -1); json_free(v);
+      if (!(mib >= 0 && mib < 1e6)) { respond_err(s, 400, "browserMiB must be a nonnegative number"); return 1; }
+      pthread_mutex_lock(&MW_MU); BROWSER_MIB = mib; pthread_mutex_unlock(&MW_MU);
+    }
+    JB b; jb_init(&b); memory_json(&b); respond_json(s, 200, &b); jb_free(&b); return 1;
+  }
+  if (strncmp(path, "/api/mw/", 8)) return 0;
+  const char *r = path + 8;
+  if (!strcmp(r, "status")) { JB b; jb_init(&b); mw_status_json(&b); respond_json(s, 200, &b); jb_free(&b); return 1; }
+  if (!strcmp(r, "state") && !strcmp(method, "GET")) {
+    pthread_mutex_lock(&MW_MU);
+    if (!MWG || MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, MWG ? "Training is running" : "No native multiway study"); return 1; }
+    unsigned char *buf = NULL; size_t n = mw_export(MWG, &buf);
+    pthread_mutex_unlock(&MW_MU);
+    if (!n) { respond_err(s, 503, "Out of memory"); return 1; }
+    respond(s, 200, "application/octet-stream", (const char *)buf, n); free(buf); return 1;
+  }
+  if (strcmp(method, "POST")) { respond_err(s, 404, "Not found"); return 1; }
+  if (!strcmp(r, "stop")) { MW_STOP = 1; respond_ok(s); return 1; }
+  pthread_mutex_lock(&MW_MU);
+  if (MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
+  if (!strcmp(r, "free")) { mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
+  if (!strcmp(r, "init")) {
+    if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
+    mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0;
+    double budget = mw_budget_mib();
+    MW *m = mw_create(body, blen, budget, err, sizeof err);
+    if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
+    MWG = m; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
+    JB b; jb_init(&b); mw_info(m, &b);
+    { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); MW_IT = (long long)jnum(jget(iv, "iterations"), 0); MW_DEALS = (long long)jnum(jget(iv, "trainingDeals"), 0); json_free(iv); } }
+    pthread_mutex_unlock(&MW_MU);
+    jb_free(&b); jb_init(&b); jb_puts(&b, "{\"ok\":true,\"budgetMiB\":"); jb_num(&b, budget, 1); jb_puts(&b, ",\"engine\":"); mw_info(m, &b); jb_putc(&b, '}');
+    respond_json(s, 200, &b); jb_free(&b); return 1;
+  }
+  if (!strcmp(r, "import")) {
+    if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
+    int ok = body && mw_import(MWG, (const unsigned char *)body, blen, err, sizeof err);
+    pthread_mutex_unlock(&MW_MU);
+    if (!ok) { respond_err(s, 400, err[0] ? err : "Empty state"); return 1; }
+    respond_ok(s); return 1;
+  }
+  if (!strcmp(r, "train")) {
+    JV *v = json_parse(body ? body : "{}", body ? blen : 2, err, sizeof err);
+    if (!v) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
+    double it = jnum(jget(v, "iterations"), -1), th = jnum(jget(v, "threads"), THREADS); json_free(v);
+    if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
+    if (!(it >= 1 && it <= 10000000) || floor(it) != it) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "iterations must be an integer from 1 to 10,000,000"); return 1; }
+    if (!(th >= 1 && th <= 256) || floor(th) != th) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "threads must be an integer from 1 to 256"); return 1; }
+    MwArgs *A = (MwArgs *)malloc(sizeof *A);
+    if (!A) { pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Out of memory"); return 1; }
+    A->iterations = (long long)it; A->threads = (int)th > LOGICAL_CPUS ? LOGICAL_CPUS : (int)th;
+    MW_THREADS = A->threads; MW_STOP = 0; MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
+    pthread_t t;
+    if (pthread_create(&t, NULL, mw_job, A)) { MW_RUNNING = 0; free(A); pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Could not start a training thread"); return 1; }
+    pthread_detach(t);
+    pthread_mutex_unlock(&MW_MU);
+    respond_ok(s); return 1;
+  }
+  pthread_mutex_unlock(&MW_MU);
+  respond_err(s, 404, "Not found"); return 1;
+}
+
 static void api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
+  if (mw_api(s, method, path, body, blen)) return;
   char err[512] = "";
   if(!strncmp(path,"/api/checkpoint/",16)){checkpoint_api(s,method,path+16,body,blen);return;}
   if (!strcmp(path, "/api/info")) {
@@ -424,7 +545,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     jb_printf(&b, "{\"native\":true,\"build\":\"%s\",\"version\":\"%s\",\"threads\":%d,\"power\":%d,\"ramMB\":%.0f,\"engine\":\"%s\",\"saveDir\":", EM_BUILD_ID, VERSION, THREADS, POWER, RAM_MB, VT->name);
     jb_str(&b, SAVE_DIR);
     jb_printf(&b,",\"physicalCores\":%d,\"performanceCores\":%d,\"efficiencyCores\":%d",PHYSICAL_CORES,PERFORMANCE_CORES,EFFICIENCY_CORES);
-    jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
+    jb_printf(&b,",\"multiwayProtocol\":%d",MW_PROTOCOL); jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
     jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
     respond_json(s, 200, &b); jb_free(&b); return;
   }

@@ -578,6 +578,86 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(!Number.isFinite(mib)||mib<profile.limit/1048576||mib>256)throw Error('Resume memory budget must be at least the current budget and at most 256 MiB');
     if(mib>profile.limit/1048576){profile.limit=mib*1048576;limitReached=false;}
   }
-  return {rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,get iterations(){return iterations;},get limitReached(){return limitReached;}};
+  // ---- native engine bridge (protocol 1, see source/native/MW-PROTOCOL.md) ----
+  // The native engine trains exactly this game: the betting tree below, the same
+  // ranges, random stream and batch rules. Its regrets and averages come back as
+  // ordinary rows of this JavaScript profile, so evaluation, the explorer, exact
+  // cross-checks and .emstudy checkpoints work unchanged.
+  function nativeSupport(){
+    if(external)return 'native training needs a full betting tree (choose Full traversal or a smaller tree)';
+    if(abstraction!=='exact')return 'native training uses Exact cards grouping';
+    if(icm)return 'native training supports chip EV; ICM studies train in JavaScript';
+    if(updates!=='simultaneous')return 'native training uses simultaneous updates';
+    if(stratify)return 'stratified river batches train in JavaScript';
+    if(board.length<3)return 'preflop studies train in JavaScript';
+    return null;
+  }
+  let nativeNodes=null;
+  function nativeTree(){
+    if(nativeNodes)return nativeNodes;
+    const list=[],ids=new Map();
+    (function visit(t){
+      ids.set(t,list.length);list.push(t);
+      if(t.kind==='player')for(let a=0;a<t.actions.length;a++)visit(advance(t,a));
+      else if(t.kind==='chance')visit(nextStreet(t));
+    })(tree);
+    return nativeNodes={list,ids,byPath:new Map(list.map((t,i)=>[t.path,i]))};
+  }
+  function nativeSpec(){
+    const why=nativeSupport();if(why)throw Error(why);
+    const {list,ids}=nativeTree();
+    const nodes=list.map(t=>t.kind==='player'?[0,t.actor,t.length,t.actions.map((_,a)=>ids.get(advance(t,a)))]:
+      t.kind==='chance'?[1,t.length,ids.get(nextStreet(t))]:[2,Array.from(t.total),t.pots.map(pot=>[pot.amount,pot.eligible.slice()])]);
+    return {protocol:1,engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),
+      hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),nodes,batchDeals,weighting,regretMatching,
+      state:{rng:dealRandom.state(),iterations,trainingDeals,stateVisits}};
+  }
+  const keyCards=(t,extra)=>board.concat(extra).slice(0,t.length);
+  function nativeRow(t,key){
+    // record() reads the key from a world; a one-entry world addresses this row.
+    const keys={};keys[t.length]=[];keys[t.length][t.actor]=key;
+    return record(t,{keys},profile,true);
+  }
+  function importNative(bytes){
+    const u8=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes),dv=new DataView(u8.buffer,u8.byteOffset,u8.byteLength);
+    if(u8.length<16||String.fromCharCode(...u8.subarray(0,5))!=='EMMW1')throw Error('Not a native training state');
+    const hl=dv.getUint32(8,true),head=JSON.parse(new TextDecoder().decode(u8.subarray(12,12+hl)));
+    if(head.protocol!==1)throw Error('Unsupported native protocol');
+    const {list}=nativeTree();let p=12+hl;const count=dv.getUint32(p,true);p+=4;
+    for(let i=0;i<count;i++){
+      const node=dv.getUint32(p,true),hand=dv.getUint16(p+4,true),e1=u8[p+6],e2=u8[p+7],k=u8[p+8];p+=9;
+      const t=list[node];
+      if(!t||t.kind!=='player'||t.actions.length!==k||!hands[t.actor][hand])throw Error('Native state does not match this game');
+      const extra=[e1,e2].filter(e=>e>0).map(e=>e-1);
+      const row=nativeRow(t,EM.exactHandKey(hands[t.actor][hand],keyCards(t,extra)));
+      for(let a=0;a<2*k;a++){row.buffer[row.offset+a]=dv.getFloat64(p,true);p+=8;}
+    }
+    if(p!==u8.length)throw Error('Native state has trailing data');
+    iterations=head.iterations;trainingDeals=head.trainingDeals;stateVisits=head.stateVisits;dealRandom.restore(head.rng);
+    limitReached=false;
+    return head;
+  }
+  function exportNative(){
+    const why=nativeSupport();if(why)throw Error(why);
+    const {byPath}=nativeTree(),index=hands.map(r=>new Map(r.map((h,i)=>[h.id,i]))),parts=[];let count=0;
+    for(const [path,node] of profile.nodes){
+      const id=byPath.get(path);if(id===undefined)continue;
+      const t=nativeTree().list[id],k=node.k,pool=profile.pools[k];
+      for(const [key,ix] of node.rows){
+        const [hid,cards]=String(key).split(':'),pub=cards.split('.').map(Number),extra=pub.slice(board.length);
+        const rec=new Uint8Array(9+16*k),dv=new DataView(rec.buffer);
+        dv.setUint32(0,id,true);dv.setUint16(4,index[t.actor].get(+hid),true);rec[6]=extra.length>0?extra[0]+1:0;rec[7]=extra.length>1?extra[1]+1:0;rec[8]=k;
+        const buf=pool.blocks[Math.floor(ix/256)],off=ix%256*2*k;
+        for(let a=0;a<2*k;a++)dv.setFloat64(9+8*a,buf[off+a],true);
+        parts.push(rec);count++;
+      }
+    }
+    const head=new TextEncoder().encode(JSON.stringify({protocol:1,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),rows:count}));
+    const out=new Uint8Array(16+head.length+parts.reduce((a,b)=>a+b.length,0)),dv=new DataView(out.buffer);
+    out.set([69,77,77,87,49,0,0,0]);dv.setUint32(8,head.length,true);out.set(head,12);dv.setUint32(12+head.length,count,true);
+    let p=16+head.length;for(const r of parts){out.set(r,p);p+=r.length;}
+    return out;
+  }
+  return {rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,nativeSupport,nativeSpec,importNative,exportNative,get iterations(){return iterations;},get limitReached(){return limitReached;}};
 };
 })(globalThis.EM || (globalThis.EM = {}));

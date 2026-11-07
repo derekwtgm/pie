@@ -2043,7 +2043,7 @@ startWorker();
 $('#engine').textContent = W.inline ? 'main-thread mode' : (typeof WebAssembly !== 'undefined' ? 'WASM SIMD engine' : 'JS engine');
 if (NATIVE) {
   napi('/api/info').then((info) => {
-    NINFO = info;
+    NINFO = info; EM.NATIVE_INFO = info;
     DEVICE = { mobile: false, compressAboveMB: Math.max(1500, info.ramMB * 0.45), limitMB: Math.min(info.processLimitMiB||6144, Math.max(512, info.ramMB * 0.5)) };
     $('#engine').textContent = `Native · ${info.threads} threads · ${Math.round(info.residentMiB)} MiB native RSS · ${Math.round(info.ramMB / 1024)} GB${info.gpu && info.gpu.available ? ' · GPU' : ''}`;
     // The interface and the native host are built together; a different version or

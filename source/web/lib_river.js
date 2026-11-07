@@ -126,9 +126,17 @@ function buildMultiway(input, opts={}) {
   if(!['auto','full','external'].includes(traversal))throw new Error('Unknown traversal mode');
   // Fine card histories create many rows across future streets. Automatic
   // traversal samples betting branches before those rows exhaust the budget.
+  // Native training (cfg.engine === 'native') traverses every betting branch on
+  // trees of up to 250,000 states with Exact cards; automatic traversal tries a
+  // full tree first and falls back to sampled betting if it is larger.
+  const nativeFull=wide && cfg.engine==='native' && traversal==='auto' && !pre && cfg.abstraction==='exact';
   let external=wide && (traversal==='external' || Boolean(pre) ||
-    (traversal==='auto' && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
-  const fullTreeLimit=new Error('Full traversal exceeds 2,200 betting states. Choose automatic traversal.');
+    (traversal==='auto' && !nativeFull && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
+  // Full betting traversal keeps every betting state. JavaScript training defaults to
+  // 2,200 states; native training (or a caller) may allow up to 250,000.
+  const fullStates=cfg.fullTreeStates??(nativeFull?250000:2200);
+  if(!Number.isInteger(fullStates)||fullStates<1||fullStates>250000)throw Error('Full-tree state limit must be 1 to 250,000');
+  const fullTreeLimit=new Error('Full traversal exceeds '+fullStates.toLocaleString('en-US')+' betting states. Choose automatic traversal.');
 
   const maxStates=board.length===5?MAX_NODES:60000;
   const maxDealStates=board.length===5?MAX_PAIRS:750000;
@@ -141,7 +149,7 @@ function buildMultiway(input, opts={}) {
   const byStreet={0:[],3:[],4:[],5:[]};
   let templateCount=0;
   function build(length,previous,put,live,acted,price,full,count,last,path='r') {
-    if(!external && ++templateCount>(wide?2200:maxStates))throw wide?fullTreeLimit:budgetError();
+    if(!external && ++templateCount>(wide?fullStates:maxStates))throw wide?fullTreeLimit:budgetError();
     const total=put.map((v,p)=>previous[p]+v);
     const behind=stacks.map((v,p)=>Math.max(0,v-total[p]));
     const acting=live.map((v,p)=>v && behind[p]>EPS);
