@@ -8,7 +8,7 @@ struct Update {
   const size_t states, rows, values, deltas, hashSlots, stateSlots;
   const double bytes;
   const uint32_t dealRng, actionRng;
-  struct Undo { size_t row; double value[16]; };
+  struct Undo { size_t row; double value[16]; uint32_t sync; };
   std::pmr::vector<Undo> undo;
   bool committed = false;
   Update(MW &engine, ScratchBudget &budget) : m(engine), s(m.es->states), states(s.parent.size()),
@@ -22,6 +22,7 @@ struct Update {
       undo.emplace_back();
       undo.back().row = row;
       std::copy_n(m.vals.data() + meta.off, 2 * meta.k, undo.back().value);
+      undo.back().sync = meta.sync;
     }
     m.touched.push_back((int32_t)row);
     meta.marked = 1;
@@ -35,6 +36,7 @@ struct Update {
     for (const auto &u : undo) {
       auto &r = m.rows[u.row];
       std::copy_n(u.value, 2*r.k, m.vals.data()+r.off);
+      r.sync = u.sync;
     }
     for (auto row : m.touched) {
       auto &r = m.rows[row];

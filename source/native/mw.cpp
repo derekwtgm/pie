@@ -152,7 +152,7 @@ struct MW {
   // tables
   bool dense = true;
   std::pmr::vector<double> vals, delta;
-  struct RowMeta { uint64_t key; int node; int k; size_t off; uint8_t visited, marked; };
+  struct RowMeta { uint64_t key; int node; int k; size_t off; uint8_t visited, marked; uint32_t sync = 0; };   // sync: DCFR discount iteration (3.3)
   std::pmr::vector<RowMeta> rows;
   std::pmr::vector<int64_t> hkeys; std::pmr::vector<int32_t> hrow; size_t hcount = 0; // hash: key -> row
   std::pmr::vector<int32_t> touched;
@@ -191,7 +191,7 @@ struct MW {
     size_t off = vals.size();
     vals.resize(off + 2 * (size_t)k, 0.0);
     if (batchDeals > 1) delta.resize(off + 2 * (size_t)k, 0.0);
-    rows.push_back({key, node, k, off, 0, 0});
+    rows.push_back({key, node, k, off, 0, 0, (uint32_t)iterations});
     size_t mask = hkeys.size() - 1, i = mix(key) & mask;
     while (hkeys[i] != -1) i = (i + 1) & mask;
     hkeys[i] = (int64_t)key; hrow[i] = (int32_t)(rows.size() - 1); hcount++; bytes += extra;
@@ -670,8 +670,15 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     if (protocol == 4) {
       m->arena.setLimit((size_t)m->budgetBytes);
       if (m->trainingDeals!=m->iterations*m->batchDeals) return bad("Inconsistent external checkpoint committed deal count");
-      if (m->dcfr) return bad("DCFR is not available with external sampling");
       if (const char *why = parseRules(m, root)) return bad(why);
+      // 3.3: external-sampling DCFR with per-row discount schedules (mw_es.hpp Dcfr).
+      if (m->dcfr) { m->es->dcfr = true; m->es->schedule.init(m->dA, m->dB, m->dG); }
+      // Validation reference only: textbook eager DCFR (every row discounted after every
+      // iteration, average strategy discounted by (t/(t+1))^gamma). O(rows) per update.
+      if (JV *eager = jget(root, "dcfrEager")) {
+        if (eager->type != J_BOOL || !m->dcfr) return bad("dcfrEager needs DCFR weighting");
+        m->es->dcfrEager = eager->num != 0;
+      }
       m->es->actionRng.state = actionRng;
       const auto &r = m->es->rootState;
       if (m->es->states.add(0xffffffffu, 0, r.kind, r.actor, r.length, r.k, m->bytes, m->budgetBytes) != 0) return bad("Native budget is too small for the betting state table");
@@ -870,6 +877,9 @@ extern "C" void mw_info(MW *m, JB *out) {
       m->hkeys.capacity()*8+m->hrow.capacity()*4+m->touched.capacity()*4+st.parent.capacity()*4+
       st.slot.capacity()+st.kind.capacity()+st.actor.capacity()+st.length.capacity()+st.k.capacity()+
       st.keys.capacity()*8+st.ids.capacity()*4;
+    jb_printf(out,",\"weighting\":\"%s\"",g.dcfr?"dcfr":m->linear?"linear":"uniform");
+    if(g.dcfr){jb_puts(out,",\"dcfr\":{\"alpha\":");jb_num(out,g.schedule.alpha,6);jb_puts(out,",\"beta\":");jb_num(out,g.schedule.beta,6);
+      jb_puts(out,",\"gamma\":");jb_num(out,g.schedule.gamma,6);jb_printf(out,",\"scheduleBytes\":%zu,\"lazyRowDiscount\":true}",g.schedule.bytes());}
     jb_printf(out,",\"tablePeakBytes\":%zu",m->tablePeak.load());
     jb_printf(out,",\"tableCapacityBytes\":%zu,\"scratchPeakBytes\":%zu,\"scratchBudgetBytes\":%zu",persistent,g.scratchPeak.load(),(size_t)m->budgetBytes);
     jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
@@ -987,10 +997,13 @@ static size_t esExport(MW *m, unsigned char **out) {
   const es::StateTable &S = m->es->states;
   JB h; jb_init(&h);
   jb_printf(&h,"{\"protocol\":1,\"specProtocol\":4,\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"actionRng\":%u,\"studyId\":",m->iterations,m->trainingDeals,m->stateVisits,m->rng.state,m->es->actionRng.state);
-  jb_str(&h,m->studyId.c_str());jb_puts(&h,",\"rowCrc32\":\"00000000\"}");
+  jb_str(&h,m->studyId.c_str());
+  const bool rowSync=m->es->dcfr;   // 3.3: DCFR rows end with their u32 discount iteration
+  if(rowSync)jb_puts(&h,",\"rowSync\":1");
+  jb_puts(&h,",\"rowCrc32\":\"00000000\"}");
   const uint32_t hl=(uint32_t)h.n, sc=(uint32_t)S.parent.size(); uint32_t cnt=0;
   size_t total=20+hl+9ULL*sc;
-  for(const auto &row:m->rows)if(row.visited){total+=12+16*(size_t)row.k;cnt++;}
+  for(const auto &row:m->rows)if(row.visited){total+=12+16*(size_t)row.k+(rowSync?4:0);cnt++;}
   *out=(unsigned char*)malloc(total);if(!*out){jb_free(&h);return 0;}
   unsigned char *cursor=*out;
   auto write=[&](const void *p,size_t n){memcpy(cursor,p,n);cursor+=n;};
@@ -1006,6 +1019,7 @@ static size_t esExport(MW *m, unsigned char **out) {
     uint32_t state = (uint32_t)(rm.key >> 37); uint16_t hand = (uint16_t)((rm.key >> 26) & 2047); uint8_t cards[5], k = (uint8_t)rm.k;
     es::decodeCards((uint32_t)(rm.key & ((1u << 26) - 1)), S.length[state], cards);
     write(&state,4);write(&hand,2);write(cards,5);write(&k,1);write(&m->vals[rm.off],16*(size_t)rm.k);
+    if(rowSync)write(&rm.sync,4);
   }
   char crc[9];snprintf(crc,sizeof(crc),"%08x",rowChecksum(body,cursor-body));
   memcpy(*out+12+hl-10,crc,8);return total;
@@ -1030,7 +1044,11 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
   const long long it = (long long)jnum(jget(h, "iterations"), -1), deals = (long long)jnum(jget(h, "trainingDeals"), -1), visits = (long long)jnum(jget(h, "stateVisits"), -1);
   if (it >= 0 && it <= 10000000 && deals != it*m->batchDeals) { json_free(h); fail(err, errlen, "Inconsistent external checkpoint committed deal count"); return 0; }
   const double rs = jnum(jget(h, "rng"), -1), ar = jnum(jget(h, "actionRng"), -1);
+  const JV *syncField = jget(h, "rowSync");
+  const bool rowSync = syncField && syncField->type == J_NUM && syncField->num == 1;
+  const bool syncValid = !syncField || rowSync;
   json_free(h);
+  if (!syncValid || rowSync != m->es->dcfr) { fail(err, errlen, "State does not match this study's weighting (DCFR discount rows)"); return 0; }
   if (it < 0 || it > 10000000LL || deals < 0 || visits < 0 || !(rs >= 0 && rs <= 4294967295.0) || !(ar >= 0 && ar <= 4294967295.0)) { fail(err, errlen, "Bad state header"); return 0; }
   size_t p = 12 + hl; uint32_t sc; std::memcpy(&sc, buf + p, 4); p += 4;
   if (sc < 1 || sc > (len - p) / 9 || sc >= (1u << 27)) { fail(err, errlen, "Invalid state count"); return 0; }
@@ -1064,7 +1082,7 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
   }
   if (p + 4 > len) { fail(err, errlen, "Truncated state"); return 0; }
   uint32_t cnt; std::memcpy(&cnt, buf + p, 4); p += 4;
-  struct R { uint64_t key; uint32_t state; int k; size_t at; };
+  struct R { uint64_t key; uint32_t state; int k; size_t at; uint32_t sync; };
   std::vector<R> list; if (cnt > (len - p) / 44) { fail(err, errlen, "Invalid row count"); return 0; }
   list.reserve(cnt);
   int board[5]; std::copy_n(m->board, 5, board); std::sort(board, board + std::min(3, m->startLen));
@@ -1090,7 +1108,13 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
     }
     const auto &hole=m->hands[actor[state]][hand];
     if ((seen & ((1ULL<<hole.a)|(1ULL<<hole.b))) || hole.strategyHand!=hand) { fail(err,errlen,"Blocked or noncanonical strategy hand");return 0; }
-    list.push_back({rowKey(state, hand, cardsCode(c, L)), state, k, p}); p += 16 * (size_t)k;
+    uint32_t sync = 0;
+    if (rowSync) {
+      if (p + 16 * (size_t)k + 4 > len) { fail(err, errlen, "Truncated state"); return 0; }
+      std::memcpy(&sync, buf + p + 16 * (size_t)k, 4);
+      if ((long long)sync > it) { fail(err, errlen, "Invalid DCFR discount iteration"); return 0; }
+    }
+    list.push_back({rowKey(state, hand, cardsCode(c, L)), state, k, p, sync}); p += 16 * (size_t)k + (rowSync ? 4 : 0);
   }
   if (p != len) { fail(err, errlen, "Trailing data in state"); return 0; }
   // Estimate before replacing anything.
@@ -1106,13 +1130,13 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
     if(row<0){fail(err,errlen,"State exceeds the native memory budget");return 0;}
     auto &meta=staged.rows[(size_t)row];
     if(meta.visited){fail(err,errlen,"Duplicate strategy row");return 0;}
-    meta.visited=1;
+    meta.visited=1; meta.sync=r.sync;
     std::memcpy(staged.vals.data()+meta.off,buf+r.at,16*(size_t)r.k);
   }
   g.states=std::move(fresh);
   m->rows.swap(staged.rows); m->hkeys.swap(staged.hkeys); m->hrow.swap(staged.hrow);
   m->vals.swap(staged.vals); m->delta.swap(staged.delta); m->touched.clear();
-  m->hcount=staged.hcount;m->bytes=staged.bytes;
+  m->hcount=staged.hcount;m->bytes=staged.bytes+(double)g.schedule.bytes();
   m->iterations = it; m->trainingDeals = deals; m->stateVisits = visits; m->rng.state = (uint32_t)rs; g.actionRng.state = (uint32_t)ar; m->limitReached = false;
   return 1;
 }

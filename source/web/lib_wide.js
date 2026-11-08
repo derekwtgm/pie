@@ -6,6 +6,53 @@ function randomStream(seed) {
     x^=x+Math.imul(x^(x>>>7),x|61);return ((x^(x>>>14))>>>0)/4294967296;};
   next.state=()=>state;next.restore=value=>{state=EM.checkpointInteger(value,4294967295);};return next;
 }
+// 3.3: discounted CFR (Brown & Sandholm 2019) for external sampling.
+// After iteration u, DCFR multiplies positive cumulative regrets by
+// u^alpha/(u^alpha+1), negative ones by u^beta/(u^beta+1), and the average
+// strategy by (u/(u+1))^gamma. Sampled training touches a small part of the
+// table per iteration, so each row stores the iteration count through which its
+// regrets are discounted ("sync") and catches up when it is next updated:
+//   R <- R * prod_{u=sync+1..t} f_u      (positive and negative separately).
+// Regret matching only uses the positive part, which a common factor does not
+// change, so reading a row that has not caught up yields the same policy as
+// eager discounting. The products are prefix tables P_t = prod f_u held as a
+// mantissa in [0.5,1) and a binary exponent; the ratio P_t/P_s is one division
+// and an exact power of two, so beta = 0 (factor 1/2 per iteration) cannot
+// underflow the table. The average discount telescopes: prod (u/(u+1))^gamma
+// over u = s..T-1 equals (s/T)^gamma, so weighting iteration t's average
+// contribution by t^gamma is the same normalized average strategy. The native
+// engine (mw_es_impl.hpp) uses the identical operations; with the default
+// alpha 1.5, beta 0 and gamma 2 only correctly rounded IEEE operations are used
+// (no pow), so both produce bit-identical tables.
+const TWO_NEG=(()=>{const t=new Float64Array(1001);t[0]=1;for(let i=1;i<=1000;i++)t[i]=t[i-1]*0.5;return t;})();
+function powExact(u,x){
+  if(x===0)return 1;if(x===1)return u;if(x===2)return u*u;if(x===3)return u*u*u;
+  if(x===0.5)return Math.sqrt(u);if(x===1.5)return u*Math.sqrt(u);return Math.pow(u,x);
+}
+function dcfrSchedule(alpha,beta,gamma){
+  for(const [name,v] of [['alpha',alpha],['beta',beta],['gamma',gamma]])
+    if(typeof v!=='number'||!Number.isFinite(v)||Math.abs(v)>16)throw Error('DCFR '+name+' must be a finite number from -16 to 16');
+  if(alpha<0||gamma<0)throw Error('DCFR alpha and gamma must be nonnegative');
+  const tables=[alpha,beta].map(x=>({x,m:[1],e:[0]}));
+  function extend(t){
+    for(const tb of tables)while(tb.m.length<=t){
+      const u=tb.m.length,pu=powExact(u,tb.x);let m=tb.m[u-1]*(pu/(pu+1)),e=tb.e[u-1];
+      if(m>0){while(m<0.5){m*=2;e--;}while(m>=1){m*=0.5;e++;}}
+      tb.m.push(m);tb.e.push(e);
+    }
+  }
+  function ratio(tb,s,t){
+    const d=tb.e[s]-tb.e[t];
+    if(!(tb.m[t]>0)||d>1000)return 0;
+    return tb.m[t]/tb.m[s]*TWO_NEG[d];
+  }
+  return {alpha,beta,gamma,
+    // Factors that bring regrets discounted through iteration s to iteration t.
+    factors(s,t){extend(t);return [ratio(tables[0],s,t),ratio(tables[1],s,t)];},
+    averageWeight:t=>powExact(t,gamma),
+    bytes:()=>tables[0].m.length*24};
+}
+EM.dcfrSchedule=dcfrSchedule;
 // Reject the entire independent tuple on a collision. Retrying just the
 // colliding seat would bias earlier seats' hand probabilities.
 function dealer(hands, visible, rng) {
@@ -79,7 +126,19 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // contributions are weighted by t, so early, poorly informed iterations fade out.
   // Studies saved by 2.3 continue with their original uniform weighting.
   const weighting=cfg.weighting??'linear';
-  if(!['linear','uniform'].includes(weighting))throw Error('Choose linear or uniform iteration weighting');
+  if(!['linear','uniform','dcfr'].includes(weighting))throw Error('Choose linear, uniform or DCFR iteration weighting');
+  // 3.3: DCFR is implemented for external sampling, where every row keeps its own discount schedule.
+  if(weighting==='dcfr' && !external)throw Error('DCFR weighting requires external-sampling traversal');
+  const dcfr=weighting==='dcfr'?dcfrSchedule(cfg.dcfrAlpha??1.5,cfg.dcfrBeta??0,cfg.dcfrGamma??2):null;
+  // Per-row discount iteration (block buffer -> Uint32Array of 256 rows).
+  const syncOf=new WeakMap();
+  function catchUp(buffer,offset,k){
+    const sync=syncOf.get(buffer),index=offset/(2*k);
+    if(sync[index]===iterations)return;
+    const [pos,neg]=dcfr.factors(sync[index],iterations);
+    for(let a=0;a<k;a++){const v=buffer[offset+a];buffer[offset+a]=v>0?v*pos:v<0?v*neg:v;}
+    sync[index]=iterations;
+  }
   const batchDeals=cfg.batchDeals??1;
   if(!Number.isInteger(batchDeals)||batchDeals<1||batchDeals>64)throw Error('Batch deals must be an integer from 1 to 64');
   const regretMatching=cfg.regretMatching??'standard';
@@ -95,8 +154,12 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       if(journal){
         let offsets=journal.saved.get(row.buffer);
         if(!offsets){offsets=new Map();journal.saved.set(row.buffer,offsets);}
-        if(!offsets.has(row.offset))offsets.set(row.offset,row.buffer.slice(row.offset,row.offset+2*k));
+        if(!offsets.has(row.offset)){
+          offsets.set(row.offset,row.buffer.slice(row.offset,row.offset+2*k));
+          if(dcfr)(journal.syncs||(journal.syncs=[])).push([row.buffer,row.offset/(2*k),syncOf.get(row.buffer)[row.offset/(2*k)]]);
+        }
       }
+      if(dcfr)catchUp(row.buffer,row.offset,k);
       row.buffer[i]=regretMatching==='plus'?Math.max(0,row.buffer[i]+regret):row.buffer[i]+regret;
       row.buffer[i+k]+=average;return;
     }
@@ -113,9 +176,21 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     block.delta[i]+=regret/batchDeals;block.delta[i+k]+=average/batchDeals;
   }
   function finishBatch(commit){
+    // 3.3: check every committed value first. 3.2 could apply part of a batch
+    // before a non-finite value threw, and that partial batch then survived the rollback.
+    if(commit)for(const b of pending)for(let j=0;j<b.count;j++){
+      const row=b.indices[j],start=row*2*b.k;
+      let pos=1,neg=1;
+      if(dcfr){const sync=syncOf.get(b.buffer);[pos,neg]=dcfr.factors(sync[row],iterations);}
+      for(let a=0;a<2*b.k;a++){
+        let v=b.buffer[start+a];if(dcfr&&a<b.k)v=v>0?v*pos:v<0?v*neg:v;
+        if(!Number.isFinite(v+b.delta[start+a])){finishBatch(false);throw Error('Non-finite batch strategy value');}
+      }
+    }
     for(const b of pending){
       for(let j=0;j<b.count;j++){
         const row=b.indices[j],start=row*2*b.k;
+        if(commit&&dcfr)catchUp(b.buffer,start,b.k);
         for(let a=0;a<2*b.k;a++){
           const i=start+a;
           if(commit){
@@ -131,7 +206,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     }
     pending.clear();
   }
-  let step=1;
+  let step=1,averageStep=1;
   const updates=cfg.updates??'simultaneous';
   if(!['simultaneous','alternating','enumerate'].includes(updates))throw Error('Unknown update scheme');
   let profile=newStore(budget),journal=null;
@@ -145,13 +220,15 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(index===undefined && create){
       if(!pool)pool={blocks:[],count:0};
       const allocate=pool.count%256===0;
-      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?(256*16*k*(batchDeals>1?2:1)+(batchDeals>1?512:0)):0);
+      const extra=56+(typeof key==='string'?key.length*2:0)+(node?0:192+2*t.path.length)+(allocate?(256*16*k*(batchDeals>1?2:1)+(batchDeals>1?512:0)+(dcfr?1024:0)):0);
       if(store.bytes+extra>store.limit)throw memoryError;
       if(journal && store===profile)journal.insertions.push({path:t.path,key,k,newNode:!node,allocate,extra});
       if(!node){node={rows:new Map(),k};store.nodes.set(t.path,node);}
       store.pools[k]=pool;
-      if(allocate)pool.blocks.push(new Float64Array(256*2*k));
-      index=pool.count++;node.rows.set(key,index);store.infos++;store.bytes+=extra;
+      if(allocate){pool.blocks.push(new Float64Array(256*2*k));if(dcfr)syncOf.set(pool.blocks[pool.blocks.length-1],new Uint32Array(256));}
+      index=pool.count++;
+      // A new DCFR row has nothing to discount yet.
+      if(dcfr && store===profile)syncOf.get(pool.blocks[Math.floor(index/256)])[index%256]=iterations;node.rows.set(key,index);store.infos++;store.bytes+=extra;
     }
     if(index===undefined)return null;
     // A betting history occurs once in a traversal. Its scratch row pointer
@@ -300,7 +377,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const values=t.values||(t.values=new Float64Array(k));let mean=0;
     for(let a=0;a<k;a++){
       if(fixed)row.buffer[row.offset+k+a]+=step*own*sig[a]/sampleReach;
-      else add(row,k,a,0,step*own*sig[a]/sampleReach);
+      else add(row,k,a,0,averageStep*own*sig[a]/sampleReach);
       values[a]=learn(advance(t,a),w,player,own*sig[a],opponentReach,sampleReach,store,rng,fixed);
       mean+=sig[a]*values[a];
     }
@@ -422,6 +499,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       if(external)journal={insertions:[],saved:new Map()};
       try{
         step=weighting==='linear'?iterations+1:1;
+        averageStep=weighting==='linear'?step:dcfr?dcfr.averageWeight(iterations+1):1;
         for(let batch=0;batch<batchDeals;batch++){
         const w=stratify?stratumWorld(batch):trainingWorld();
         if(external){const rng=actionStreams==='deal'?dealStream(iterations,batch):actionRandom;for(let p=0;p<n;p++)learn(tree,w,p,1,1,1,profile,rng);}
@@ -435,6 +513,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
         finishBatch(false);
         if(journal){
           for(const [buffer,offsets] of journal.saved)for(const [at,old] of offsets)buffer.set(old,at);
+          if(journal.syncs)for(const [buffer,index,value] of journal.syncs)syncOf.get(buffer)[index]=value;
           for(const item of journal.insertions.reverse()){
             const pool=profile.pools[item.k],node=profile.nodes.get(item.path);
             node.rows.delete(item.key);pool.count--;
@@ -563,7 +642,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const pools=[];
     for(let k=2;k<profile.pools.length;k++){
       const pool=profile.pools[k];if(!pool)continue;
-      pools.push({k,count:pool.count,blocks:pool.blocks.map((block,i)=>EM.packTrainingValues(block.subarray(0,Math.min(256,pool.count-i*256)*2*k)))});
+      pools.push({k,count:pool.count,blocks:pool.blocks.map((block,i)=>EM.packTrainingValues(block.subarray(0,Math.min(256,pool.count-i*256)*2*k))),
+        ...(dcfr?{syncs:pool.blocks.map((block,i)=>Array.from(syncOf.get(block).subarray(0,Math.min(256,pool.count-i*256))))}:{})});
     }
     const records=[...profile.nodes].sort(([a],[b])=>a<b?-1:a>b?1:0).map(([path,node])=>({path,k:node.k,rows:[...node.rows]}));
     return EM.checkpointPayload({...cfg,abstraction,weighting,batchDeals,regretMatching,strategyBudgetMiB:profile.limit/1048576},{kind:'wide',external,iterations,stateVisits,trainingDeals,limitReached,
@@ -586,7 +666,13 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       if(!Number.isInteger(row.k)||row.k<2||row.k>7||pools[row.k])bad();
       EM.checkpointInteger(row.count,3000000);if(!row.count||!Array.isArray(row.blocks)||row.blocks.length!==Math.ceil(row.count/256))bad();
       bytes+=row.blocks.length*(256*16*row.k*(batchDeals>1?2:1)+(batchDeals>1?512:0));if(bytes>profile.limit)bad();
-      pools[row.k]={count:row.count,encoded:row.blocks};seen[row.k]=new Uint8Array(row.count);
+      // 3.3: DCFR rows carry the iteration through which their regrets are discounted.
+      if(dcfr){
+        if(!Array.isArray(row.syncs)||row.syncs.length!==row.blocks.length)bad();
+        row.syncs.forEach((list,i)=>{if(!Array.isArray(list)||list.length!==Math.min(256,row.count-i*256)||list.some(v=>!Number.isInteger(v)||v<0||v>state.iterations))bad();});
+        bytes+=row.blocks.length*1024;
+      }else if(row.syncs!==undefined)bad();
+      pools[row.k]={count:row.count,encoded:row.blocks,syncs:row.syncs};seen[row.k]=new Uint8Array(row.count);
     }
     if(state.records.length>bytes/16+1)bad();
     const records=state.records.slice().sort((a,b)=>String(a.path)<String(b.path)?-1:1),nodes=new Map();
@@ -616,8 +702,10 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       const pool=pools[k];if(seen[k].some(x=>!x))bad();
       pool.blocks=pool.encoded.map((text,i)=>{
         const count=Math.min(256,pool.count-i*256),values=EM.unpackTrainingValues(text,count*2*k),block=new Float64Array(256*2*k);
-        for(let j=0;j<values.length;j++)if(j%(2*k)>=k && values[j]<0)bad();block.set(values);return block;
-      });delete pool.encoded;
+        for(let j=0;j<values.length;j++)if(j%(2*k)>=k && values[j]<0)bad();block.set(values);
+        if(dcfr){const sync=new Uint32Array(256);sync.set(pool.syncs[i]);syncOf.set(block,sync);}
+        return block;
+      });delete pool.encoded;delete pool.syncs;
     }
     profile.nodes=nodes;profile.pools=pools;profile.bytes=bytes;profile.infos=infos;profile.gen++;
     trainingDeals=state.trainingDeals??state.iterations*batchDeals*(!external&&updates!=='simultaneous'?n:1);
@@ -697,7 +785,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   function nativeSpec(){
     const why=nativeSupport();if(why)throw Error(why);
     if(external)return withStudyId({protocol:4,...(stratify?{stratified:true}:{}),...(groupedTurn?{abstraction,turnGroups:turnGroups().map(g=>g.reps)}:{}),...(groupedRiver?{abstraction,riverGroups:riverGroups().map(g=>g.representatives)}:{}),algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
-      device:cfg.processingMode||'cpu',gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),rules,batchDeals,weighting,regretMatching,
+      device:cfg.processingMode||'cpu',gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),rules,batchDeals,weighting,...(dcfr?{dcfrAlpha:dcfr.alpha,dcfrBeta:dcfr.beta,dcfrGamma:dcfr.gamma}:{}),regretMatching,
       actionStreams,actionSeed,state:{rng:dealRandom.state(),actionRng:actionRandom.state(),iterations,trainingDeals,stateVisits}});
     const {list,ids}=nativeTree();
     const nodes=list.map(t=>t.kind==='player'?[0,t.actor,t.length,t.actions.map((_,a)=>ids.get(advance(t,a)))]:
@@ -784,6 +872,8 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(head.rng>4294967295||head.actionRng>4294967295||head.iterations>10000000)throw Error('Invalid native counters');
     if(head.studyId!==studyId)throw Error('Native state belongs to a different study');
     if(head.protocol!==1)throw Error('Unsupported native protocol');
+    // 3.3: DCFR states append each row's discount iteration (u32) after its values.
+    if((head.rowSync===1)!==!!dcfr||(head.rowSync!==undefined&&head.rowSync!==1))throw Error('Native state does not match this study\'s weighting');
     let p=12+hl;const sc=dv.getUint32(p,true);p+=4;
     if(sc<1||sc*9>u8.length-p)throw Error('Invalid native state table');
     const stubs=new Array(sc),stride=sc<=20000?1:Math.ceil(sc/20000),cache=new Map([['r',tree]]);
@@ -816,6 +906,11 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
           if(!Number.isFinite(v)||(a>=k && v<0))throw Error('Invalid native strategy value');
           row.buffer[row.offset+a]=v;
         }
+        if(dcfr){
+          const sync=dv.getUint32(p,true);p+=4;
+          if(sync>head.iterations)throw Error('Invalid native discount iteration');
+          syncOf.get(row.buffer)[row.offset/(2*k)]=sync;
+        }
       }
     }finally{profile.limit=Math.max(limit,profile.bytes);}
     if(p!==u8.length)throw Error('Native state has trailing data');
@@ -842,16 +937,17 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
         const slot=Math.floor(turnRef/2048);
         const groupedBoard=slot?board.concat(slot-1):board;
         const pub=groupedTurn||groupedRiver?groupedBoard.slice(0,3).sort((a,b)=>a-b).concat(groupedBoard.slice(3)):cardText?cardText.split('.').map(Number):[];
-        const rec=new Uint8Array(12+16*k),dv=new DataView(rec.buffer);
+        const rec=new Uint8Array(12+16*k+(dcfr?4:0)),dv=new DataView(rec.buffer);
         dv.setUint32(0,id,true);dv.setUint16(4,groupedTurn?turnRef%2048:groupedRiver?riverGroups()[t.actor].first.get(key):index[t.actor].get(+hid),true);
         for(let j=0;j<5;j++)rec[6+j]=j<pub.length?pub[j]+1:0;rec[11]=k;
         const buf=pool.blocks[Math.floor(ix/256)],off=ix%256*2*k;
         for(let a=0;a<2*k;a++)dv.setFloat64(12+8*a,buf[off+a],true);
+        if(dcfr)dv.setUint32(12+16*k,syncOf.get(buf)[ix%256],true);
         parts.push(rec);count++;
       }
     }
     if(!studyId)nativeSpec();
-    const encoder=new TextEncoder(),header={protocol:1,specProtocol:4,studyId,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),actionRng:actionRandom.state(),rows:count,states:states.length,rowCrc32:'00000000'};
+    const encoder=new TextEncoder(),header={protocol:1,specProtocol:4,studyId,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),actionRng:actionRandom.state(),rows:count,states:states.length,...(dcfr?{rowSync:1}:{}),rowCrc32:'00000000'};
     const head=encoder.encode(JSON.stringify(header)),stateBytes=4+9*states.length;
     const out=new Uint8Array(12+head.length+stateBytes+4+parts.reduce((a,b)=>a+b.length,0)),dv=new DataView(out.buffer);
     out.set([69,77,77,87,52,0,0,0]);dv.setUint32(8,head.length,true);out.set(head,12);

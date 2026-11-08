@@ -205,3 +205,140 @@ test('Heads-up JavaScript configuration applies the same checks as the native ho
                     {ranges:[w.map((x,i)=>i===3?-1:x),w]},{ranges:[w.map((x,i)=>i===3?NaN:x),w]},{ranges:[w.slice(1),w]},{ranges:[w]}])
     assert.throws(()=>E.PostflopGame({...base,...bad}),/Pot|Stack|board|Range|ranges/,JSON.stringify(Object.keys(bad)));
 });
+
+// ---------------- Part 2: external-sampling DCFR ----------------
+// EMMW4 rows keyed by action path, hand index and public cards. DCFR states
+// (header rowSync) end every row with its u32 discount iteration.
+function rowsOf(u8){
+  u8=Buffer.from(u8);const hl=u8.readUInt32LE(8),head=JSON.parse(u8.subarray(12,12+hl).toString());let p=12+hl;const sc=u8.readUInt32LE(p);p+=4;
+  const paths=[];for(let i=0;i<sc;i++){const par=u8.readUInt32LE(p),slot=u8[p+4];paths.push(i?paths[par]+(slot===7?'c':slot):'r');p+=9;}
+  const c=u8.readUInt32LE(p);p+=4;const m=new Map(),extra=head.rowSync?4:0;
+  for(let i=0;i<c;i++){const st=u8.readUInt32LE(p),k=u8[p+11],vals=[];for(let a=0;a<2*k;a++)vals.push(u8.readDoubleLE(p+12+8*a));
+    const sync=extra?u8.readUInt32LE(p+12+16*k):null;
+    m.set(paths[st]+'|'+u8.readUInt16LE(p+4)+'|'+u8.subarray(p+6,p+11).toString('hex'),{vals,sync});p+=12+16*k+extra;}
+  return {head,rows:m};
+}
+function compareRows(a,b,tol=0){
+  const x=rowsOf(a),y=rowsOf(b);assert.ok(x.rows.size>0,'no rows');assert.equal(x.rows.size,y.rows.size,'row count');
+  let worst=0;
+  for(const [key,r] of x.rows){const s=y.rows.get(key);assert.ok(s,'missing row '+key);assert.equal(r.sync,s.sync,'sync '+key);
+    r.vals.forEach((v,i)=>{const d=Math.abs(v-s.vals[i])/Math.max(1,Math.abs(v));worst=Math.max(worst,d);if(!tol)assert.equal(Object.is(v,s.vals[i])||v===s.vals[i],true,'value '+key+' '+i+': '+v+' vs '+s.vals[i]);});}
+  assert.ok(worst<=tol,'relative difference '+worst);
+  return {x,y};
+}
+function nativeTrain(spec,iterations,threads,{memoryMiB=1024,from=null}={}){
+  const f=path.join(tmp,'d'+(++seq)),specFile=f+'.json',out=f+'.state';
+  fs.writeFileSync(specFile,JSON.stringify(spec));const args=[specFile,String(iterations),String(threads),out,String(memoryMiB)];
+  if(from){fs.writeFileSync(f+'.in',from);args.push(f+'.in');}
+  const info=JSON.parse(execFileSync(cli,args,{stdio:['ignore','pipe','pipe']}).toString());
+  return {info,state:fs.readFileSync(out)};
+}
+const river3={board:'Ks8d5h2c2s',common:12,stacks:[30,30,30],ranges:['AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d','AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c','Kc9c,QsQc:0.5,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd'],
+  streets:{river:{bets:'50,125',raises:'2.5x',maxBets:2}},privateMode:'sampled',abstraction:'exact',traversal:'external',evaluationDeals:128,privateSeed:9};
+const flop3={...river3,board:'Ks8d5h',stacks:[12,20,30],streets:{flop:{bets:'33,a',raises:'3x',maxBets:2},turn:{bets:'75,g',raises:'',maxBets:1},river:{bets:'a',raises:'',maxBets:1}}};
+const dcfrCases=[
+  ['3-seat river, one deal per update',river3,{},300,1],
+  ['3-seat river, CFR+ clipping',river3,{regretMatching:'plus'},200,1],
+  ['3-seat flop, frozen batches of 8, shared stream',flop3,{batchDeals:8},60,1],
+  ['6-seat flop, per-deal streams, 4 deals, 2 threads',six,{},40,2],
+  ['8-seat linked preflop, per-deal streams',pf8,{},12,2],
+  ['3-seat river, alpha 2, beta 0.5, gamma 3',river3,{dcfrAlpha:2,dcfrBeta:0.5,dcfrGamma:3},200,1]];
+for(const [name,base,over,its,threads] of dcfrCases){
+  test('native external-sampling DCFR matches the JavaScript reference bit for bit: '+name,{skip,timeout:180000},()=>{
+    const cfg={...base,weighting:'dcfr',...over},js=E.MultiwayGame(cfg),nat=E.MultiwayGame(cfg);
+    const spec=nat.nativeSpec();assert.equal(spec.weighting,'dcfr');assert.equal(spec.dcfrAlpha,cfg.dcfrAlpha??1.5);
+    const {info,state}=nativeTrain(spec,its,threads);
+    assert.equal(info.weighting,'dcfr');assert.equal(info.dcfr.lazyRowDiscount,true);
+    js.iterate(its);
+    const {x}=compareRows(js.exportNative(),state);
+    assert.equal(x.head.rowSync,1);
+    // Sparse rows: some rows were last discounted long before the final iteration.
+    const syncs=[...x.rows.values()].map(r=>r.sync);assert.ok(syncs.some(s=>s<its-1),'no sparse rows');assert.ok(syncs.every(s=>s<=its));
+    nat.importNative(state);compareRows(js.exportNative(),nat.exportNative());
+    assert.deepEqual(nat.view([]),js.view([]));
+  });
+}
+test('DCFR with non-integer exponents (std::pow) agrees with JavaScript to 1e-12',{skip,timeout:120000},()=>{
+  const cfg={...river3,weighting:'dcfr',dcfrAlpha:1.25,dcfrBeta:-0.75,dcfrGamma:1.7},js=E.MultiwayGame(cfg);
+  const {state}=nativeTrain(E.MultiwayGame(cfg).nativeSpec(),150,1);js.iterate(150);compareRows(js.exportNative(),state,1e-12);
+});
+test('Lazy per-row DCFR equals textbook eager DCFR (independent reference) on sparse rows',{skip,timeout:180000},()=>{
+  // Eager: every row is discounted after every iteration with directly computed factors and the
+  // averages by (t/(t+1))^gamma. Lazy rows are brought to the final iteration here with a direct
+  // product loop, independent of the prefix tables.
+  for(const [cfg,its,threads] of [[{...river3,weighting:'dcfr'},250,1],[{...six,weighting:'dcfr'},40,2],[{...flop3,weighting:'dcfr',batchDeals:8,dcfrAlpha:2,dcfrBeta:0.5,dcfrGamma:3},60,1]]){
+    const spec=E.MultiwayGame(cfg).nativeSpec(),lazy=nativeTrain(spec,its,threads),eager=nativeTrain({...spec,dcfrEager:true},its,threads);
+    const L=rowsOf(lazy.state),R=rowsOf(eager.state),a=spec.dcfrAlpha,b=spec.dcfrBeta;
+    assert.equal(L.rows.size,R.rows.size);
+    let worstRegret=0,worstPolicy=0,stale=0;
+    for(const [key,row] of L.rows){
+      const ref=R.rows.get(key);assert.ok(ref,key);assert.equal(ref.sync,its);
+      const k=row.vals.length/2;let pos=1,neg=1;
+      for(let u=row.sync+1;u<=its;u++){pos*=u**a/(u**a+1);neg*=u**b/(u**b+1);}
+      if(row.sync<its)stale++;
+      for(let i=0;i<k;i++){const v=row.vals[i],x=v>0?v*pos:v<0?v*neg:v;
+        worstRegret=Math.max(worstRegret,Math.abs(x-ref.vals[i])/Math.max(1e-6,Math.abs(ref.vals[i])+Math.abs(x)));}
+      const s1=row.vals.slice(k).reduce((p,q)=>p+q,0),s2=ref.vals.slice(k).reduce((p,q)=>p+q,0);
+      if(s1>0&&s2>0)for(let i=0;i<k;i++)worstPolicy=Math.max(worstPolicy,Math.abs(row.vals[k+i]/s1-ref.vals[k+i]/s2));
+    }
+    assert.ok(stale>0,'expected sparsely visited rows');
+    assert.ok(worstRegret<1e-9,'regret mismatch '+worstRegret);
+    assert.ok(worstPolicy<1e-9,'average strategy mismatch '+worstPolicy);
+  }
+});
+test('DCFR checkpoints continue bit for bit across native, JavaScript and native again',{skip,timeout:180000},()=>{
+  for(const cfg of [{...river3,weighting:'dcfr'},{...six,weighting:'dcfr'}]){
+    const spec=E.MultiwayGame(cfg).nativeSpec(),full=nativeTrain(spec,30,2);
+    const part=nativeTrain(spec,12,2),resumed=nativeTrain(spec,18,2,{from:part.state});
+    assert.ok(Buffer.compare(full.state,resumed.state)===0,'native resume differs');
+    // JavaScript trains the first 12 iterations, the native engine the rest.
+    const js=E.MultiwayGame(cfg);js.iterate(12);
+    const handoff=nativeTrain(spec,18,1,{from:js.exportNative()});compareRows(handoff.state,full.state);
+    // Native state back into JavaScript, which continues identically.
+    const back=E.MultiwayGame(cfg);back.importNative(part.state);back.iterate(18);compareRows(back.exportNative(),full.state);
+    // The JavaScript .emstudy snapshot keeps every row's discount iteration.
+    const js2=E.MultiwayGame(cfg);js2.iterate(12);const snap=JSON.parse(JSON.stringify(js2.snapshot([])));
+    assert.ok(snap.state.pools.every(p=>Array.isArray(p.syncs)));
+    const restored=E.restoreCheckpoint(snap).game;restored.iterate(18);compareRows(restored.exportNative(),full.state);
+    // A tampered discount iteration is refused.
+    const tampered=JSON.parse(JSON.stringify(snap));tampered.state.pools[0].syncs[0][0]=999;
+    assert.throws(()=>E.restoreCheckpoint(tampered));
+  }
+});
+test('DCFR state files are refused by studies with other weightings and vice versa',{skip,timeout:60000},()=>{
+  const d=nativeTrain(E.MultiwayGame({...river3,weighting:'dcfr'}).nativeSpec(),5,1).state;
+  const linearSpec=E.MultiwayGame(river3).nativeSpec();
+  const f=path.join(tmp,'x.state');fs.writeFileSync(f,d);
+  const r=mw(linearSpec,1,1,['1024',f]);assert.equal(r.status,1);assert.match(r.err,/different study|weighting/);
+  assert.throws(()=>E.MultiwayGame(river3).importNative(d));
+  assert.throws(()=>E.MultiwayGame({...river3,weighting:'dcfr',traversal:'full'}),/external-sampling/);
+  assert.throws(()=>E.MultiwayGame({...river3,weighting:'dcfr',dcfrAlpha:-1}),/nonnegative/);
+  assert.throws(()=>E.MultiwayGame({...river3,weighting:'dcfr',dcfrGamma:NaN}),/finite/);
+  const spec=E.MultiwayGame({...river3,weighting:'dcfr'}).nativeSpec();
+  assert.equal(mw({...spec,dcfrAlpha:-1}).status,1);assert.equal(mw({...spec,dcfrEager:1}).status,1);
+});
+test('DCFR memory stops leave the committed state unchanged and resume to the uninterrupted result',{skip,timeout:240000},()=>{
+  const spec=E.MultiwayGame({...six,weighting:'dcfr'}).nativeSpec();
+  for(const mib of [0.75,1.5]){
+    const stopped=nativeTrain(spec,400,2,{memoryMiB:mib});
+    assert.equal(stopped.info.limitReached,true,'expected a memory stop at '+mib+' MiB');
+    const U=stopped.info.iterations;assert.ok(U>0&&U<400);
+    const reference=nativeTrain(spec,U,2,{memoryMiB:1024});
+    assert.ok(Buffer.compare(reference.state,stopped.state)===0,'stopped state differs from the uninterrupted state at '+U);
+    const resumed=nativeTrain(spec,400-U,2,{memoryMiB:1024,from:stopped.state}),full=nativeTrain(spec,400,2,{memoryMiB:1024});
+    assert.ok(Buffer.compare(resumed.state,full.state)===0,'resume differs');
+  }
+});
+test('Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes',{skip:skip||process.platform!=='linux',timeout:600000},()=>{
+  const native=path.join(__dirname,'../native'),exe=path.join(tmp,'es_faults');
+  execFileSync('gcc',['-O1','-c',path.join(native,'json.c'),'-o',exe+'.json.o']);
+  execFileSync('g++',['-std=c++20','-O1','-ffp-contract=off','-I'+native,path.join(__dirname,'es_faults.cpp'),path.join(native,'mw.cpp'),exe+'.json.o','-lpthread','-ldl','-o',exe]);
+  const specs=[JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/es-six-weighted.json'))),
+    E.MultiwayGame({...six,weighting:'dcfr'}).nativeSpec(),E.MultiwayGame({...river3,weighting:'dcfr'}).nativeSpec(),
+    E.MultiwayGame({...pf8,weighting:'dcfr',batchDeals:1,actionStreams:'shared'}).nativeSpec()];
+  for(const spec of specs){
+    const f=path.join(tmp,'fault'+(++seq)+'.json');fs.writeFileSync(f,JSON.stringify(spec));
+    const out=execFileSync(exe,[f],{encoding:'utf8'});
+    const count=+/(\d+) allocation failures rolled back exactly/.exec(out)[1];assert.ok(count>0,out);
+  }
+});

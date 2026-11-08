@@ -8,7 +8,7 @@ constexpr int TERMINAL_REF = INT_MAX;
 #include "es_transaction.hpp"
 struct Walker {
   const MW &m; const Game &g;
-  Unit *u = nullptr; Rng *rng = nullptr; int player = 0; double step = 1;
+  Unit *u = nullptr; Rng *rng = nullptr; int player = 0; double step = 1, avgStep = 1;
   std::pmr::vector<BS> st; std::pmr::vector<double> sig, samp, val;
   Tournament::Workspace icm; double util[8] = {}; LPot pots[24];
   Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget) {
@@ -89,7 +89,7 @@ struct Walker {
     u->incs.push_back({ref, hand, code, k, off}); u->vals.resize(off + 2 * (size_t)k);
     double mean = 0;
     for (int a = 0; a < k; a++) {
-      u->vals[off + (size_t)(k + a)] = step * own * s[a] / sp;
+      u->vals[off + (size_t)(k + a)] = avgStep * own * s[a] / sp;
       g.rules.advance(t, a, c);
       v[a] = learn(d + 1, child(ref, a, c), own * s[a], opp, sp);
       mean += s[a] * v[a];
@@ -97,14 +97,26 @@ struct Walker {
     for (int a = 0; a < k; a++) u->vals[off + (size_t)a] = step * opp / sp * (v[a] - mean);
     return mean;
   }
-  void run(Unit &unit, int seat, Rng &r, double stp) {
-    u = &unit; rng = &r; player = seat; step = stp;
+  void run(Unit &unit, int seat, Rng &r, double stp, double avgStp) {
+    u = &unit; rng = &r; player = seat; step = stp; avgStep = avgStp;
     st[0] = g.rootState;
     learn(0, 0, 1, 1, 1);
   }
 };
 inline void codes(Unit &u, int n) {
   (void)n; for (int L : {0, 3, 4, 5}) u.code[L] = cardsCode(u.w.cards, L);
+}
+// 3.3 DCFR: bring a row's regrets from its discount iteration to the current one
+// (identical to catchUp() in lib_wide.js). Averages need no discount: iteration
+// t's average contribution is weighted by t^gamma instead.
+inline void dcfrFactors(const MW &m, const Game &g, const MW::RowMeta &rm, double &pos, double &neg) {
+  pos = g.schedule.ratio(0, rm.sync, m.iterations); neg = g.schedule.ratio(1, rm.sync, m.iterations);
+}
+inline void catchUp(MW &m, const Game &g, MW::RowMeta &rm) {
+  if (rm.sync == (uint32_t)m.iterations) return;
+  double pos, neg; dcfrFactors(m, g, rm, pos, neg);
+  for (int a = 0; a < rm.k; a++) { double &v = m.vals[rm.off + (size_t)a]; v = v > 0 ? v * pos : v < 0 ? v * neg : v; }
+  rm.sync = (uint32_t)m.iterations;
 }
 // 1: ok, 0: budget, -1: non-finite
 inline int merge(MW &m, Game &g, Unit &u, bool immediate, Update &update) {
@@ -126,6 +138,7 @@ inline int merge(MW &m, Game &g, Unit &u, bool immediate, Update &update) {
     MW::RowMeta &rm = m.rows[(size_t)r]; update.touch((size_t)r, immediate); rm.visited = 1;
     const size_t o = rm.off; const double *x = &u.vals[inc.off]; const int k = inc.k;
     for (int a = 0; a < 2 * k; a++) if (!std::isfinite(x[a])) return -1;
+    if (immediate && g.dcfr) catchUp(m, g, rm);
     if (immediate) {
       for (int a = 0; a < k; a++) {
         double v = m.vals[o + (size_t)a] + 0.0; if (m.plus) v = jsMax0(v);
@@ -172,8 +185,15 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
     g.unitLimitBytes = (size_t)(m->budgetBytes / 4 / B);
     for (long long it = 0; it < iterations && !m->limitReached; it++) {
       if (stop && __atomic_load_n(stop, __ATOMIC_RELAXED)) break;
+      if (g.dcfr) {   // before the journal: the schedule is deterministic and kept on rollback
+        // The discount tables grow by 48 bytes per iteration and are charged to the table budget.
+        const size_t before = g.schedule.bytes();
+        if (!g.schedule.extend(m->iterations, m->budgetBytes - m->bytes + (double)before)) { m->limitReached = true; break; }
+        m->bytes += (double)g.schedule.bytes() - (double)before;
+      }
       Update update(*m,budget);
       const double step = m->linear ? (double)(m->iterations + 1) : 1.0;
+      const double avgStep = m->linear ? step : g.dcfrEager ? 1.0 : g.dcfr ? g.schedule.averageWeight((double)(m->iterations + 1)) : 1.0;
       double t0 = now();
       for (int d = 0; d < B; d++) {
         Unit &u = units[(size_t)d]; u.clear();
@@ -189,7 +209,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         for (int p = 0; p < n && status == 1; p++) {
           double a = now();
           u.pending.clear(); u.incs.clear(); u.vals.clear();
-          walkers[0]->run(u, p, r, step);
+          walkers[0]->run(u, p, r, step, avgStep);
           double b = now(); g.secTraverse += b - a;
           if (u.overflow) { status = 0; break; }
           status = merge(*m, g, u, true, update); visits += u.visits; u.visits = 0;
@@ -205,7 +225,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
               Unit &u = units[(size_t)d];
               Rng own{deriveSeed(g.actionSeed, m->iterations, d)};
               Rng &r = g.perDealStreams ? own : g.actionRng;
-              for (int p = 0; p < n && !u.overflow; p++) walkers[(size_t)index]->run(u, p, r, step);
+              for (int p = 0; p < n && !u.overflow; p++) walkers[(size_t)index]->run(u, p, r, step, avgStep);
             }
           } catch (const std::bad_alloc &) { oom = true; }
         };
@@ -220,11 +240,15 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         if (status == 1) {
           for (int32_t r : m->touched) {
             const auto &rm = m->rows[r];
-            for (size_t j = rm.off; j < rm.off + 2*rm.k; ++j)
-              if (!std::isfinite(m->vals[j]+m->delta[j])) return failMsg("Non-finite batch strategy value");
+            double pos = 1, neg = 1; if (g.dcfr) dcfrFactors(*m, g, rm, pos, neg);
+            for (size_t j = rm.off; j < rm.off + 2*rm.k; ++j) {
+              double v = m->vals[j]; if (g.dcfr && j < rm.off + (size_t)rm.k) v = v > 0 ? v * pos : v < 0 ? v * neg : v;
+              if (!std::isfinite(v+m->delta[j])) return failMsg("Non-finite batch strategy value");
+            }
           }
           for (int32_t r : m->touched) {
             MW::RowMeta &rm = m->rows[(size_t)r]; const size_t o = rm.off;
+            if (g.dcfr) catchUp(*m, g, rm);
             for (int x = 0; x < 2 * rm.k; x++) {
               const double v = m->vals[o + (size_t)x] + m->delta[o + (size_t)x];
               m->vals[o + (size_t)x] = x < rm.k && m->plus ? jsMax0(v) : v; m->delta[o + (size_t)x] = 0;
@@ -239,6 +263,14 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
       update.commit();
       m->stateVisits += visits; visitsPerDeal = (double)visits / B;
       m->trainingDeals += B; m->iterations++;
+      if (g.dcfrEager) {
+        const double t = (double)m->iterations, pa = Dcfr::powExact(t, g.schedule.alpha), pb = Dcfr::powExact(t, g.schedule.beta);
+        const double pos = pa / (pa + 1), neg = pb / (pb + 1), avg = std::pow(t / (t + 1), g.schedule.gamma);
+        for (auto &rm : m->rows) {
+          for (int a = 0; a < rm.k; a++) { double &v = m->vals[rm.off + (size_t)a]; v = v > 0 ? v * pos : v < 0 ? v * neg : v; m->vals[rm.off + (size_t)(rm.k + a)] *= avg; }
+          rm.sync = (uint32_t)m->iterations;
+        }
+      }
       if (progress && (it & 63) == 63) progress(ctx, m->iterations, m->trainingDeals);
     }
   } catch (const std::bad_alloc &) { m->limitReached = true;  }

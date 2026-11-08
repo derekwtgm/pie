@@ -50,6 +50,51 @@ struct BS {
   double previous[8], put[8], acted[8], total[8], behind[8], to[8];
 };
 struct LPot { double amount; int count; int seat[16]; };
+// 3.3: discounted CFR schedule for external sampling (see EM.dcfrSchedule in
+// lib_wide.js, which performs the same operations). Prefix products
+// P_t = prod_{u<=t} u^x/(u^x+1) are kept as a mantissa in [0.5,1) and a binary
+// exponent; P_t/P_s is one division times an exact power of two, so beta = 0
+// (factor 1/2 per iteration) never underflows. Rows store the iteration through
+// which their regrets are discounted and catch up when next updated.
+struct Dcfr {
+  double alpha = 1.5, beta = 0, gamma = 2;
+  std::vector<double> mant[2]; std::vector<int32_t> expo[2]; double two[1001];
+  static double powExact(double u, double x) {
+    if (x == 0) return 1;
+    if (x == 1) return u;
+    if (x == 2) return u * u;
+    if (x == 3) return u * u * u;
+    if (x == 0.5) return std::sqrt(u);
+    if (x == 1.5) return u * std::sqrt(u);
+    return std::pow(u, x);
+  }
+  void init(double a, double b, double g) {
+    alpha = a; beta = b; gamma = g; two[0] = 1; for (int i = 1; i <= 1000; i++) two[i] = two[i - 1] * 0.5;
+    for (int t = 0; t < 2; t++) { mant[t].assign(1, 1.0); expo[t].assign(1, 0); }
+  }
+  size_t bytes() const { return mant[0].capacity() * 24; }
+  // Extends both tables through iteration t. Returns false when the growth would exceed `room` bytes.
+  bool extend(long long t, double room) {
+    if ((long long)mant[0].size() > t) return true;
+    if ((double)(t + 1) * 24 * 2 > room) return false;   // capacity doubling worst case
+    for (int b = 0; b < 2; b++) {
+      const double x = b ? beta : alpha;
+      while ((long long)mant[b].size() <= t) {
+        const double u = (double)mant[b].size(), pu = powExact(u, x);
+        double m = mant[b].back() * (pu / (pu + 1)); int32_t e = expo[b].back();
+        if (m > 0) { while (m < 0.5) { m *= 2; e--; } while (m >= 1) { m *= 0.5; e++; } }
+        mant[b].push_back(m); expo[b].push_back(e);
+      }
+    }
+    return true;
+  }
+  double ratio(int b, long long s, long long t) const {
+    const long long d = (long long)expo[b][(size_t)s] - expo[b][(size_t)t];
+    if (!(mant[b][(size_t)t] > 0) || d > 1000) return 0;
+    return mant[b][(size_t)t] / mant[b][(size_t)s] * two[d];
+  }
+  double averageWeight(double t) const { return powExact(t, gamma); }
+};
 inline double jsMax0(double v) { return v > 0 ? v : 0.0; }   // Math.max(0, v) for finite v (returns +0 for -0)
 
 struct Rules {
@@ -289,6 +334,7 @@ struct Game {
   double secTraverse = 0, secMerge = 0, secDeal = 0;
   std::atomic<size_t> scratchPeak{0};
   long long attempts = 0;
+  bool dcfr = false, dcfrEager = false; Dcfr schedule;   // 3.3 external-sampling DCFR (eager: validation reference)
   size_t unitLimitBytes = 64u << 20;   // transient increments of one deal
 };
 } // namespace es
