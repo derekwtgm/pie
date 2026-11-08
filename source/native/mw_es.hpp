@@ -61,7 +61,7 @@ struct LPot { double amount; int count; int seat[16]; };
 // which their regrets are discounted and catch up when next updated.
 struct Dcfr {
   double alpha = 1.5, beta = 0, gamma = 2;
-  std::vector<double> mant[2]; std::vector<int32_t> expo[2]; double two[1001];
+  std::vector<double> mant[2]; std::vector<int32_t> expo[2]; double two[1001] = {};
   static double powExact(double u, double x) {
     if (x == 0) return 1;
     if (x == 1) return u;
@@ -310,7 +310,7 @@ struct Pending { int parentRef; int slot; uint8_t kind, actor, length, k; };
 struct Inc { int ref; int hand; uint32_t code; int k; size_t off; };
 // Output of one deal (or one seat of one deal): new states, increments.
 struct Unit {
-  World w; uint32_t code[6] = {};
+  World w{}; uint32_t code[6] = {};
   uint32_t gk[6][8] = {};   // 3.3 grouped key ids per street length and seat
   std::pmr::vector<Pending> pending; std::pmr::vector<Inc> incs; std::pmr::vector<double> vals;
   explicit Unit(ScratchBudget &budget):pending(&budget),incs(&budget),vals(&budget){}
@@ -331,7 +331,7 @@ struct Game {
   Rules rules;
   StateTable states;
   explicit Game(std::pmr::memory_resource *resource):states(resource){}
-  BS rootState;
+  BS rootState{};
   Rng actionRng{0};
   uint32_t actionSeed = 0;
   bool perDealStreams = false;

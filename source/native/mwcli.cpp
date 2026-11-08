@@ -38,12 +38,18 @@ static double peakRssMiB() {
 #endif
 }
 static bool wholeArg(const char *s, long long lo, long long hi, long long &out) {
-  if (!s || !*s) return false; char *end = nullptr; errno = 0; long long v = std::strtoll(s, &end, 10);
-  if (errno || *end || v < lo || v > hi) return false; out = v; return true;
+  if (!s || !*s) return false;
+  char *end = nullptr; errno = 0;
+  const long long v = std::strtoll(s, &end, 10);
+  if (errno || *end || v < lo || v > hi) return false;
+  out = v; return true;
 }
 static bool numberArg(const char *s, double &out) {
-  if (!s || !*s) return false; char *end = nullptr; errno = 0; double v = std::strtod(s, &end);
-  if (errno || *end || !std::isfinite(v) || !(v > 0) || v > 65536) return false; out = v; return true;
+  if (!s || !*s) return false;
+  char *end = nullptr; errno = 0;
+  const double v = std::strtod(s, &end);
+  if (errno || *end || !std::isfinite(v) || !(v > 0) || v > 65536) return false;
+  out = v; return true;
 }
 int main(int argc, char **argv) {
   if (argc == 2 && !std::strcmp(argv[1], "--build-id")) { std::puts("EightMaxBuild=" EM_BUILD_ID); return 0; }

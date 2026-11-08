@@ -175,3 +175,69 @@ device) free and stays under `gpuMiB`.
 Equity accumulates 840 share units per board (divisible by 1..8 winners), so CPU
 and GPU totals are exact integers and must be equal. A GPU failure returns the
 CPU answer with `gpuFallbackReason`.
+
+## Version 3.3 extensions
+
+The transport protocol stays 1 and spec protocol 4 is unchanged for existing
+studies: 3.3 writes byte-identical EMMW4 files for every 3.2 configuration.
+
+### Stricter validation
+
+`mw_create` now refuses: an `anteOf` that is not an array of one finite number
+from 0 to 10 BB per seat (3.2 ignored malformed arrays and accepted negative
+entries); for protocol 4, an `anteOf` that differs from `rules.ownAnte` preflop
+or from zero postflop; a `rules.pot0` that differs from `common + sum(prior) +
+sum(folded) (+ sum(ownAnte) preflop)` (chips not conserved); a `posted` blind
+larger than the seat's stack, or any blind postflop; non-boolean `open` entries;
+folded wagers larger than the largest live contribution; non-integer
+`protocol`, `n`, `batchDeals`, state counters, pot seats or chance lengths;
+negative or non-finite terminal contributions and pots; duplicate pot seats,
+duplicate hands, hand identifiers that do not match their cards, and range
+weights whose sum overflows. EMMW1 imports refuse fractional counters. `mwcli`
+refuses non-numeric, fractional or out-of-range iterations, threads and memory.
+
+### External-sampling DCFR (`"weighting": "dcfr"`)
+
+Optional `dcfrAlpha` (default 1.5, >= 0), `dcfrBeta` (default 0) and `dcfrGamma`
+(default 2, >= 0), finite and within ±16. After iteration u, positive cumulative
+regrets are multiplied by u^a/(u^a+1) and negative ones by u^b/(u^b+1). Each row
+stores the iteration through which its regrets are discounted and catches up
+when it is next updated (identical to eager discounting in exact arithmetic;
+regret matching is unaffected by the common factor on positive regrets).
+Average-strategy contributions of iteration t are weighted by t^g, which equals
+the (t/(t+1))^g discount after normalization. `dcfrEager: true` selects the
+textbook eager schedule for validation only (O(rows) per update).
+
+EMMW4 headers of DCFR states contain `"rowSync": 1` and every row record ends
+with `u32` discount iteration (at most the header's iteration count). States
+with and without `rowSync` are not interchangeable.
+
+### Native Compact and Detailed hand groups (`"groupKeys"`)
+
+```
+"abstraction": "compact"|"detailed",
+"groupKeys": { "abstraction": "compact"|"detailed", "small": [bool per seat] }
+```
+
+`small[p]` is true when the seat's JavaScript range has at most 12 hands (those
+keep a hand-specific key on the starting street). The engine computes the keys
+of lib_wide.js `seatKey()` itself (`es_groups.hpp`): `256 + combo id`, the
+169-class index preflop, `strengthGroup()` (Compact) or `handFeatures().key`
+(Detailed), chained as `previous * 2048 + signal` or `previous + '/' + signal`.
+Deals, blockers, showdowns, side pots, chip EV and ICM use the physical cards.
+Used for external-sampling studies that 3.2 trained in JavaScript: flop and
+preflop starts and turn starts above the 32,768-entry representative table.
+`turnGroups`/`riverGroups` studies keep their 3.2 representation.
+
+EMMW4 headers of grouped-key states contain `"rowKeys": 1`; each row record is
+`u32 state | u16 key length | key bytes | u8 k | k f64 regrets | k f64 averages
+(| u32 discount iteration)`. Compact keys are canonical decimal integers below
+2^53; Detailed keys start with `0/` and carry one `/` per street so far.
+
+### Diagnostics added to `info`
+
+`weighting`, `dcfr {alpha, beta, gamma, scheduleBytes, lazyRowDiscount}`,
+`handGroups {abstraction, keys, dictionaryBytes, native}`, `requestedDevice`,
+`gpuStageBound {scoringShare, maxSavingFraction}` (the measured share of training
+time spent scoring hands, which bounds any GPU offload of that stage),
+`seconds.score`, `seconds.groupKeys`; `mwcli` adds `processPeakRssMiB`.
