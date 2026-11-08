@@ -1,4 +1,4 @@
-EightMax 3.2 - 8-max MTT solver for Windows
+EightMax 3.3 - 8-max MTT solver for Windows
 ============================================
 
 QUICK START
@@ -16,7 +16,24 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 3.2
+NEW IN 3.3
+Read RELEASE-3.3.md. Results are in validation/3.3.
+- Invalid tournament input is refused everywhere: negative, non-finite or
+  malformed antes, blinds, stacks, pots, weights, cards and counters, and
+  starting pots whose chips do not add up. 3.2 accepted a negative ante in the
+  native engine.
+- Iteration weighting adds Discounted CFR for external sampling. Linear stays the
+  default: it measured as accurate or more accurate than DCFR in every test.
+- Compact and Detailed hand groups now train natively on flops, preflop and large
+  turns (3.2 used JavaScript for these). Results are identical, only faster.
+- Automatic traversal was recalibrated against exact measurements and explains
+  its choice in the progress line. Speed figures are shown separately from
+  accuracy, and multiway gains are labelled as approximate.
+- Validate CUDA hardware.bat adds 3.3 checks. CUDA was not run on a physical GPU
+  while preparing this release; external sampling stays on the CPU because hand
+  scoring is under 1% of its training time (measured and shown).
+
+PREVIOUS RELEASE: NEW IN 3.2
 Read RELEASE-3.2.md for checkpoint recovery, memory caps, supported grouped games,
 accuracy measurements and Windows hardware validation. Results are in validation/3.2.
 

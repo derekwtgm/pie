@@ -1,3 +1,34 @@
+# EightMax Windows 3.3
+
+- **Fixed: negative individual antes were accepted.** The native spec field `anteOf` was not
+  validated; a seat with a −0.1 BB ante trained successfully. All native, CLI, heads-up and
+  JavaScript entry paths now refuse negative, non-finite, out-of-range and malformed values,
+  and the native engine checks chip conservation (`pot0` = common pot + every contribution),
+  blinds against stacks, integer counters, pot seats, duplicate hands and combo identifiers.
+  `mwcli` refuses non-numeric arguments (3.2 read `abc` iterations as 0). Heads-up configs
+  refuse negative weights (3.2 silently dropped them) and fractional card ids.
+- **Fixed (JavaScript): a frozen batch could be partly applied** before a non-finite value
+  threw, and that partial batch survived the rollback. The batch is now validated first.
+- **Native external-sampling DCFR** (`weighting: 'dcfr'`, α/β/γ configurable) with per-row
+  lazy discounting, bit-identical to the JavaScript reference for the standard exponents,
+  equal to textbook eager DCFR within 1e-9, journaled, checkpointed and fault-injection tested.
+  Measured: DCFR(1.5, 0, 2) converges *worse* than linear MCCFR under sampling; linear stays
+  the default.
+- **Native Compact and Detailed hand groups** for flop and preflop starts and large turns
+  (previously JavaScript only): the engine computes the same keys as `seatKey()`; tables are
+  bit-identical to JavaScript in 7 configurations, 8–10× faster in measured deals per second (validation/3.3/grouped-native.json).
+- **Calibrated automatic traversal:** the cost-model ratio for ≤3-seat turn and river starts is
+  refitted from exact equal-time measurements; on two turn trees 3.2 chose external sampling
+  where full traversal gave significantly lower exact gain. Decisions are shown in diagnostics.
+- **Diagnostics:** algorithm and weighting, traversal decision and reason, native hand groups,
+  process peak RSS, a measured bound on GPU benefit for external sampling, and a separation
+  of throughput from solution quality. UI: iteration-weighting selector.
+- **Validation:** 34 new regression tests (248 total; 2 existing tests updated for lifted 3.2 limitations), sanitizers on all 3.3 paths, cppcheck
+  enabled, 10 recovery scenarios byte-identical to 3.2, host stress, 3.2-vs-3.3 benchmarks.
+  CUDA kernels unchanged; no physical GPU or physical Windows desktop was available.
+
+See RELEASE-3.3.md and validation/3.3.
+
 # EightMax Windows 3.2
 
 - Made native external-sampling updates transactional and protected checkpoint import and continuation.

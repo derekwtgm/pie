@@ -1,0 +1,36 @@
+== warnings (g++ -Wall -Wextra -Wshadow -Werror)
+no warnings
+== ThreadSanitizer
+{"protocol":1,"iterations":4,"trainingDeals":64,"stateVisits":253632,"rng":563648987,"rows":119752,"tableMiB":13.964,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0013,"traverse":0.1113,"merge":0.1974},"wallSeconds":0.336020,"processPeakRssMiB":113.7}
+{"protocol":1,"iterations":4,"trainingDeals":384,"stateVisits":8078592,"rng":2269748497,"rows":10140,"tableMiB":1.029,"studyId":"19c823650117b31b","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0012,"traverse":1.8587,"merge":0.2236},"wallSeconds":2.107317,"processPeakRssMiB":100.0}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"deal","iterations":20,"trainingDeals":320,"stateVisits":98173,"rng":2866636062,"actionRng":1899539333,"rows":7889,"states":41244,"tableMiB":2.867,"weighting":"linear","tablePeakBytes":4233984,"tableCapacityBytes":3446528,"scratchPeakBytes":1367744,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":320,"transientLimitPerDealBytes":67108864,"budgetMiB":4096,"studyId":"a20e2b7dd1f76bff","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0052,"maxSavingFraction":0.0052},"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0096,"score":0.0011,"groupKeys":0.0000,"traverse":0.1250,"merge":0.0828},"wallSeconds":0.223642,"processPeakRssMiB":61.3}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"shared","iterations":20,"trainingDeals":80,"stateVisits":13540,"rng":1243358548,"actionRng":579761748,"rows":1403,"states":4650,"tableMiB":0.422,"weighting":"linear","tablePeakBytes":627776,"tableCapacityBytes":528448,"scratchPeakBytes":327216,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":80,"transientLimitPerDealBytes":268435456,"budgetMiB":4096,"studyId":"1b3539c533b50339","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0041,"maxSavingFraction":0.0041},"limitReached":false,"threads":1,"batchDeals":4,"seconds":{"deal":0.0013,"score":0.0003,"groupKeys":0.0000,"traverse":0.0522,"merge":0.0102},"wallSeconds":0.064822,"processPeakRssMiB":36.5}
+== AddressSanitizer + UndefinedBehaviorSanitizer
+{"protocol":1,"iterations":4,"trainingDeals":64,"stateVisits":253632,"rng":563648987,"rows":119752,"tableMiB":13.964,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0005,"traverse":0.0399,"merge":0.0878},"wallSeconds":0.136128,"processPeakRssMiB":81.5}
+{"protocol":1,"iterations":4,"trainingDeals":384,"stateVisits":8078592,"rng":2269748497,"rows":10140,"tableMiB":1.029,"studyId":"19c823650117b31b","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0016,"traverse":0.6318,"merge":0.0198},"wallSeconds":0.657578,"processPeakRssMiB":76.0}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"deal","iterations":20,"trainingDeals":320,"stateVisits":98173,"rng":2866636062,"actionRng":1899539333,"rows":7889,"states":41244,"tableMiB":2.867,"weighting":"linear","tablePeakBytes":4233984,"tableCapacityBytes":3446528,"scratchPeakBytes":1367744,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":320,"transientLimitPerDealBytes":67108864,"budgetMiB":4096,"studyId":"a20e2b7dd1f76bff","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0040,"maxSavingFraction":0.0040},"limitReached":false,"threads":4,"batchDeals":16,"seconds":{"deal":0.0042,"score":0.0004,"groupKeys":0.0000,"traverse":0.0522,"merge":0.0324},"wallSeconds":0.092046,"processPeakRssMiB":55.2}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"deal","iterations":25,"trainingDeals":400,"stateVisits":121938,"rng":1636272692,"actionRng":1899539333,"rows":9798,"states":49130,"tableMiB":3.321,"weighting":"linear","tablePeakBytes":4168384,"tableCapacityBytes":3905280,"scratchPeakBytes":707680,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":80,"transientLimitPerDealBytes":67108864,"budgetMiB":4096,"studyId":"a20e2b7dd1f76bff","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0033,"maxSavingFraction":0.0033},"limitReached":false,"threads":2,"batchDeals":16,"seconds":{"deal":0.0011,"score":0.0001,"groupKeys":0.0000,"traverse":0.0190,"merge":0.0061},"wallSeconds":0.027463,"processPeakRssMiB":47.9}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"shared","iterations":20,"trainingDeals":80,"stateVisits":13540,"rng":1243358548,"actionRng":579761748,"rows":1403,"states":4650,"tableMiB":0.422,"weighting":"linear","tablePeakBytes":627776,"tableCapacityBytes":528448,"scratchPeakBytes":327216,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":80,"transientLimitPerDealBytes":268435456,"budgetMiB":4096,"studyId":"1b3539c533b50339","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0028,"maxSavingFraction":0.0028},"limitReached":false,"threads":1,"batchDeals":4,"seconds":{"deal":0.0006,"score":0.0001,"groupKeys":0.0000,"traverse":0.0236,"merge":0.0048},"wallSeconds":0.029426,"processPeakRssMiB":25.8}
+{"protocol":1,"specProtocol":4,"algorithm":"external","actionStreams":"shared","iterations":25,"trainingDeals":100,"stateVisits":16656,"rng":2837642970,"actionRng":3887721980,"rows":1735,"states":5324,"tableMiB":0.463,"weighting":"linear","tablePeakBytes":611273,"tableCapacityBytes":528448,"scratchPeakBytes":318480,"scratchBudgetBytes":4294967296,"attemptedDealsThisSession":20,"transientLimitPerDealBytes":268435456,"budgetMiB":4096,"studyId":"1b3539c533b50339","devicePath":"CPU (external sampling traversal)","requestedDevice":"cpu","gpuBufferPeakBytes":0,"gpuStageBound":{"scoringShare":0.0043,"maxSavingFraction":0.0043},"limitReached":false,"threads":1,"batchDeals":4,"seconds":{"deal":0.0002,"score":0.0000,"groupKeys":0.0000,"traverse":0.0050,"merge":0.0006},"wallSeconds":0.006096,"processPeakRssMiB":26.6}
+{"protocol":1,"iterations":6,"trainingDeals":96,"stateVisits":380448,"rng":2300968403,"rows":179592,"tableMiB":22.442,"studyId":"3c706f840f260f16","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":2,"batchDeals":16,"seconds":{"deal":0.0002,"traverse":0.0371,"merge":0.0554},"wallSeconds":0.096803,"processPeakRssMiB":137.6}
+== cppcheck
+cppcheck: no findings
+sanitizers passed
+== 3.3 ThreadSanitizer (DCFR, grouped keys)
+tsan dcfr6 ok
+tsan group6 ok
+tsan group8 ok
+== 3.3 AddressSanitizer + UndefinedBehaviorSanitizer (train, export, resume)
+asan dcfr6 ok
+asan group6 ok
+asan group8 ok
+== tests/v33.test.js against the ASan+UBSan mwcli
+# pass 34
+# fail 0
+# skipped 0
+== cppcheck (3.3 headers via mw.cpp; cfg.c)
+cppcheck mw: no findings
+cppcheck cfg.c: no findings
+cfg.c: no warnings
+sanitizers 3.3 passed
+rc=0

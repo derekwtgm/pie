@@ -1,3 +1,26 @@
+# EightMax 3.3 accuracy measurements
+
+Linux test host (4 logical processors), 5 seeds, two-sided 95% Student intervals; raw records
+in validation/3.3/accuracy-3.2-vs-3.3.json and traversal-calibration.json. Metric: largest exact
+unilateral gain in BB in the configured finite game. Heads-up sums are exact exploitability of
+that game; three-player values are unilateral-deviation measurements, not Nash certificates.
+
+- **3.3 equals 3.2 at equal deals.** Linear external sampling produced the same exact gain at all
+  six deal counts (4k-500k) on all three games (paired difference 0.000). Equal-time differences
+  were not significant. 3.3 claims no general convergence speedup for existing configurations.
+- **DCFR under sampling.** DCFR(1.5, 0, 2) had significantly higher gain than linear MCCFR, for
+  example +0.140 ± 0.024 BB on the heads-up turn at 500k deals and +0.053 ± 0.013 BB on the
+  heads-up river. DCFR(2, 1, 1) was indistinguishable from linear. CFR+ was worst. Linear stays
+  the default. DCFR(1, 1, 1) reproduces linear MCCFR exactly, which validates the implementation.
+- **Automatic traversal.** On a heads-up turn with 516 states and a three-way turn with 299 states,
+  3.2 chose external sampling. Full traversal (3.3's choice) reached lower exact gain at equal
+  time: by 0.45 ± 0.20 / 0.12 ± 0.10 BB (1 s / 4 s) and 0.30 ± 0.08 / 0.27 ± 0.04 BB.
+- **Native hand groups** give identical tables to JavaScript, so accuracy at equal updates is
+  identical. Time to any accuracy target scales with time per update (validation/3.3/grouped-native.json).
+- **Large multiway games** (validation/3.3/scenarios-3.2-vs-3.3.json): identical 3.2/3.3 tables at
+  equal updates. The trained-response probe is approximate and noisy.
+- No full eight-handed No-Limit Hold'em game has been solved to an exact Nash equilibrium.
+
 # EightMax 3.2 accuracy measurements
 
 See RELEASE-3.2.md for the exact response-gain comparisons, uncertainty, memory measurements and limitations. The raw records are in validation/3.2. The benchmarks do not establish a general convergence speedup.
