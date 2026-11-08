@@ -18,6 +18,16 @@ static std::vector<unsigned char> slurp(const char *f) {
   unsigned char tmp[65536]; size_t n; while ((n = std::fread(tmp, 1, sizeof tmp, fp)) > 0) b.insert(b.end(), tmp, tmp + n);
   std::fclose(fp); return b;
 }
+#include <cerrno>
+#include <cmath>
+static bool wholeArg(const char *s, long long lo, long long hi, long long &out) {
+  if (!s || !*s) return false; char *end = nullptr; errno = 0; long long v = std::strtoll(s, &end, 10);
+  if (errno || *end || v < lo || v > hi) return false; out = v; return true;
+}
+static bool numberArg(const char *s, double &out) {
+  if (!s || !*s) return false; char *end = nullptr; errno = 0; double v = std::strtod(s, &end);
+  if (errno || *end || !std::isfinite(v) || !(v > 0) || v > 65536) return false; out = v; return true;
+}
 int main(int argc, char **argv) {
   if (argc == 2 && !std::strcmp(argv[1], "--build-id")) { std::puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
   if (argc == 2 && !std::strcmp(argv[1], "--cuda-info")) { JB j; jb_init(&j); mw_cuda_info(&j); std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0; }
@@ -27,18 +37,23 @@ int main(int argc, char **argv) {
     if (!mw_equity((const char *)spec.data(), spec.size(), &j, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); jb_free(&j); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0;
   }
-  if (argc < 5) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
+  if (argc < 5 || argc > 7) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
+  // 3.3: strict numeric arguments (atoll/atoi/atof accepted "abc" as 0 and negative thread counts).
+  long long iterations = 0, threads = 0; double memoryMiB = 4096;
+  if (!wholeArg(argv[2], 0, 10000000, iterations)) { std::fprintf(stderr, "error: iterations must be a whole number from 0 to 10,000,000\n"); return 2; }
+  if (!wholeArg(argv[3], 1, 256, threads)) { std::fprintf(stderr, "error: threads must be a whole number from 1 to 256\n"); return 2; }
+  if (argc > 5 && !numberArg(argv[5], memoryMiB)) { std::fprintf(stderr, "error: memoryMiB must be a finite number above 0 and at most 65536\n"); return 2; }
   std::vector<unsigned char> spec = slurp(argv[1]);
   if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[1]); return 2; }
   char err[512] = "";
-  MW *m = mw_create((const char *)spec.data(), spec.size(), argc > 5 ? std::atof(argv[5]) : 4096, err, sizeof err);
+  MW *m = mw_create((const char *)spec.data(), spec.size(), memoryMiB, err, sizeof err);
   if (!m) { std::fprintf(stderr, "error: %s\n", err); return 1; }
   if (argc > 6) {
     std::vector<unsigned char> st = slurp(argv[6]);
     if (!mw_import(m, st.data(), st.size(), err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); mw_free(m); return 1; }
   }
   auto t0 = std::chrono::steady_clock::now();
-  if (!mw_train(m, std::atoll(argv[2]), std::atoi(argv[3]), nullptr, nullptr, nullptr, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); mw_free(m); return 1; }
+  if (!mw_train(m, iterations, (int)threads, nullptr, nullptr, nullptr, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); mw_free(m); return 1; }
   double secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
   unsigned char *buf = nullptr; size_t n = mw_export(m, &buf);
   bool saved=saveState(argv[4],buf,n); std::free(buf);

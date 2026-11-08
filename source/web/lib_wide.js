@@ -50,6 +50,10 @@ function strengthGroup(h,cards,score) {
 }
 EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,nextStreet,icm,utilityMeta,ownAnte,rules}){
   const anteOf=ownAnte||Array(n).fill(cfg.preflop?0.1:0);
+  // 3.3: the per-seat antes reach terminal utilities and the native spec; refuse
+  // malformed lists, negative, non-finite or implausible amounts (EM.anteModel caps antes at 10 bb).
+  if(!Array.isArray(anteOf)||anteOf.length!==n||anteOf.some(v=>typeof v!=='number'||!Number.isFinite(v)||v<0||v>10))
+    throw Error('Each seat needs a finite ante from 0 to 10 bb');
   const seed=cfg.privateSeed??17, evaluationSeed=cfg.evaluationSeed??(seed^0xad90777d)>>>0;
   for(const value of [seed,evaluationSeed])
     if(!Number.isInteger(value)||value<0||value>4294967295)throw Error('Enter a whole sampling seed between 0 and 4294967295');

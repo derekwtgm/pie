@@ -378,7 +378,7 @@ static const char *parseRules(MW *m, JV *spec) {
   };
   if (!arr("stacks", R.stacks, false) || !arr("prior", R.prior, false) || !arr("ownAnte", R.ownAnte, false) || !arr("posted", R.posted, false)) return "Invalid stacks or wagers in betting rules";
   JV *open = jget(r, "open"); if (!open || open->type != J_ARR || open->n != m->n) return "Invalid opening permissions";
-  for (int i = 0; i < m->n; i++) R.open[i] = open->items[i]->type == J_BOOL && open->items[i]->num != 0;
+  for (int i = 0; i < m->n; i++) { if (open->items[i]->type != J_BOOL) return "Invalid opening permissions"; R.open[i] = open->items[i]->num != 0; }
   JV *folded = jget(r, "folded"); if (!folded || folded->type != J_ARR || folded->n + m->n > 8) return "Invalid folded wagers";
   for (int i = 0; i < folded->n; i++) { JV *x = folded->items[i]; if (x->type != J_NUM || !(x->num >= 0) || !std::isfinite(x->num)) return "Invalid folded wagers"; R.folded.push_back(x->num); }
   R.common = jnum(jget(r, "common"), -1); R.pot0 = jnum(jget(r, "pot0"), -1);
@@ -386,6 +386,26 @@ static const char *parseRules(MW *m, JV *spec) {
   auto flag = [&](const char *name) { JV *v = jget(r, name); return v && v->type == J_BOOL && v->num != 0; };
   R.pre = flag("pre"); R.shove = flag("shove"); R.noLimp = flag("noLimp");
   if (R.pre != (m->startLen == 0)) return "Preflop rules need an empty board";
+  // 3.3 tournament accounting checks (mirrors lib_river.js buildMultiway()).
+  {
+    double sum = R.common, stackSum = 0;
+    for (int p = 0; p < m->n; p++) {
+      if (R.ownAnte[p] > 10) return "Invalid ante: each seat's ante must be from 0 to 10 bb";
+      // A short stack never posts more than it has; postflop roots have no new blinds.
+      if (R.posted[p] > R.stacks[p] + EPS) return "A seat cannot post more chips than its stack";
+      if (!R.pre && R.posted[p] != 0) return "Blinds are only posted at a preflop root";
+      if (R.pre && R.prior[p] != 0) return "Preflop roots cannot have earlier contributions";
+      sum += R.prior[p] + (R.pre ? R.ownAnte[p] : 0); stackSum += R.stacks[p];
+      // The dealt-in antes subtracted at terminals are this seat's own ante preflop and none postflop.
+      if (m->anteOf[(size_t)p] != (R.pre ? R.ownAnte[p] : 0.0)) return "Ante list does not match the betting rules";
+    }
+    double topPrior = 0; for (int p = 0; p < m->n; p++) topPrior = std::max(topPrior, R.prior[p]);
+    for (double f : R.folded) { sum += f; if (f > topPrior + EPS) return "Earlier folded wagers need a matching live contribution"; }
+    if (R.pre && !R.folded.empty()) return "Preflop roots cannot have folded wagers";
+    if (!std::isfinite(sum) || !std::isfinite(stackSum + sum)) return "Chip totals overflow";
+    if (std::fabs(R.pot0 - sum) > 1e-9 * std::max(1.0, std::fabs(sum))) return "Starting pot does not equal the common pot plus every contribution (chips are not conserved)";
+    if (!(R.pot0 > 0) && !R.pre) return "Enter a positive starting pot";
+  }
   JV *sizes = jget(r, "sizes"); if (!sizes || sizes->type != J_OBJ) return "Missing bet sizes";
   for (int L : {0, 3, 4, 5}) {
     if (L && L < m->startLen) continue;
@@ -424,7 +444,9 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
   if (!m) { json_free(root); fail(err, errlen, "Out of memory"); return nullptr; }
   auto bad = [&](const char *msg) -> MW * { json_free(root); delete m; fail(err, errlen, msg); return nullptr; };
   try {
-    double protocol=jnum(jget(root,"protocol"),0);
+    JV *pv=jget(root,"protocol");
+    if(!isInt(pv)) return bad("Unsupported native protocol version");
+    double protocol=pv->num;
     if (protocol!=1 && protocol!=3 && protocol!=4) return bad("Unsupported native protocol version");
     JV *nv = jget(root, "n"); if (!isInt(nv) || nv->num < 2 || nv->num > 8) return bad("Native engine needs 2 to 8 seats");
     m->n = (int)nv->num;
@@ -450,18 +472,22 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     m->hands.resize((size_t)m->n); m->total.assign((size_t)m->n, 0);
     for (int p = 0; p < m->n; p++) {
       JV *r = hs->items[p]; if (r->type != J_ARR || r->n < 1 || r->n > 1326) return bad("Bad range");
-      double tot = 0;
+      double tot = 0; std::vector<unsigned char> seenPair(52 * 52, 0);
       for (int i = 0; i < r->n; i++) {
         JV *h = r->items[i]; if (h->type != J_ARR || h->n != 4) return bad("Bad hand");
         for (int q = 0; q < 3; q++) if (!isInt(h->items[q])) return bad("Bad hand");
         Hand x{(int)h->items[0]->num, (int)h->items[1]->num, (int)h->items[2]->num, h->items[3]->num, 0};
-        if (x.id < 0 || x.id > 1325 || x.a < 0 || x.a > 51 || x.b < 0 || x.b > 51 || x.a == x.b || !(x.w > 0) || !std::isfinite(x.w)) return bad("Bad hand");
+        if (x.id < 0 || x.id > 1325 || x.a < 0 || x.a > 51 || x.b < 0 || x.b > 51 || x.a == x.b || !(x.w > 0) || !std::isfinite(x.w) || h->items[3]->type != J_NUM) return bad("Bad hand");
+        { const int lo = std::min(x.a, x.b), hi = std::max(x.a, x.b), pair = lo * 52 + hi;   // 3.3: one entry per card pair
+          if (seenPair[pair]) return bad("Duplicate hand in a range");
+          seenPair[pair] = 1; }
         if (onBoard[x.a] || onBoard[x.b]) continue;   // dealer() drops board-blocked hands
         if(m->startLen==5) x.riverScore=evalSeven(m->board,x.a,x.b);
         x.strategyHand=(int)m->hands[p].size();
         tot += x.w; x.cum = tot; m->hands[(size_t)p].push_back(x);
       }
       if (m->hands[(size_t)p].empty()) return bad("A range is blocked on this board");
+      if (!std::isfinite(tot)) return bad("Range weights overflow");
       m->total[(size_t)p] = tot;
     }
     if(JV *groups=jget(root,"turnGroups")){
@@ -501,8 +527,19 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         }
       }
     }
+    // 3.3: per-seat antes subtracted at terminals. Before 3.3 a malformed array was
+    // ignored and a negative or non-numeric entry was accepted, which shifted the
+    // reported chip EV of that seat. Each entry must now be a finite, nonnegative
+    // number no larger than the 10 bb ante limit of the interface (EM.anteModel).
     JV *an = jget(root, "anteOf"); m->anteOf.assign((size_t)m->n, 0);
-    if (an && an->type == J_ARR && an->n == m->n) for (int p = 0; p < m->n; p++) m->anteOf[(size_t)p] = jnum(an->items[p], 0);
+    if (an) {
+      if (an->type != J_ARR || an->n != m->n) return bad("Ante list must have one entry per seat");
+      for (int p = 0; p < m->n; p++) {
+        JV *x = an->items[p];
+        if (x->type != J_NUM || !std::isfinite(x->num) || x->num < 0 || x->num > 10) return bad("Invalid ante: each seat's ante must be a finite amount from 0 to 10 bb");
+        m->anteOf[(size_t)p] = x->num;
+      }
+    }
     if (JV *icm=jget(root,"icm")) {
       auto numbers=[](JV *v,std::vector<double> &out,bool positive) {
         if(!v || v->type!=J_ARR || v->n>16) return false;
@@ -540,15 +577,27 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         if (o.k > m->kmax) m->kmax = o.k;
       } else if (o.kind == 1) {
         if (x->n != 3 || !isInt(x->items[2]) || x->items[2]->num <= i || x->items[2]->num >= nd->n) return bad("Bad chance node");
-        o.len = (int)jnum(x->items[1], 0); o.child0 = (int)m->children.size(); m->children.push_back((int)x->items[2]->num);
+        if (!isInt(x->items[1]) || x->items[1]->num < m->startLen || x->items[1]->num > 4 || (x->items[1]->num > 0 && x->items[1]->num < 3)) return bad("Bad chance node");
+        o.len = (int)x->items[1]->num; o.child0 = (int)m->children.size(); m->children.push_back((int)x->items[2]->num);
       } else if (o.kind == 2) {
         if (x->n != (m->tournament.start.empty()?3:4) || x->items[1]->type != J_ARR || x->items[1]->n != m->n || x->items[2]->type != J_ARR) return bad("Bad terminal");
-        Terminal t; for (int p = 0; p < m->n; p++) t.total.push_back(jnum(x->items[1]->items[p], 0));
+        Terminal t;
+        for (int p = 0; p < m->n; p++) {
+          JV *c = x->items[1]->items[p];
+          if (c->type != J_NUM || !std::isfinite(c->num) || c->num < 0) return bad("Terminal contributions must be finite and nonnegative");
+          t.total.push_back(c->num);
+        }
         for (int q = 0; q < x->items[2]->n; q++) {
           JV *pt = x->items[2]->items[q]; if (pt->type != J_ARR || pt->n != 2 || pt->items[1]->type != J_ARR) return bad("Bad pot");
-          Pot pot; pot.amount = jnum(pt->items[0], 0);
-          for (int e = 0; e < pt->items[1]->n; e++) { int s = (int)jnum(pt->items[1]->items[e], -1); if (s < 0 || s >= m->n) return bad("Bad pot seat"); pot.eligible.push_back(s); }
-          if (!std::isfinite(pot.amount) || pot.eligible.empty()) return bad("Bad pot");
+          if (pt->items[0]->type != J_NUM) return bad("Bad pot");
+          Pot pot; pot.amount = pt->items[0]->num;
+          unsigned seen = 0;
+          for (int e = 0; e < pt->items[1]->n; e++) {
+            JV *sv = pt->items[1]->items[e];
+            if (!isInt(sv) || sv->num < 0 || sv->num >= m->n || (seen >> (int)sv->num & 1)) return bad("Bad pot seat");
+            seen |= 1u << (int)sv->num; pot.eligible.push_back((int)sv->num);
+          }
+          if (!std::isfinite(pot.amount) || pot.amount < 0 || pot.eligible.empty()) return bad("Bad pot");
           t.pots.push_back(pot);
         }
         if(x->n==4) {
@@ -576,6 +625,7 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     m->maxDepth = height[0] + 1;
     if(m->maxDepth>512) return bad("Betting tree exceeds the native recursion limit");
     } // protocol != 4
+    if (JV *bdv = jget(root, "batchDeals")) { if (!isInt(bdv) || bdv->num < 1 || bdv->num > 64) return bad("Batch deals must be 1 to 64"); }
     m->batchDeals = (int)jnum(jget(root, "batchDeals"), 1);
     if (m->batchDeals < 1 || m->batchDeals > 64) return bad("Batch deals must be 1 to 64");
     const char *up = jstr(jget(root, "updates"));
@@ -591,11 +641,22 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     const char *wt = jstr(jget(root, "weighting")); m->linear = !wt || !strcmp(wt, "linear");
     m->dcfr = wt && !strcmp(wt, "dcfr");
     if (wt && strcmp(wt, "linear") && strcmp(wt, "uniform") && strcmp(wt, "dcfr")) return bad("Unknown weighting");
-    if (m->dcfr) { m->dA = jnum(jget(root, "dcfrAlpha"), 1.5); m->dB = jnum(jget(root, "dcfrBeta"), 0); m->dG = jnum(jget(root, "dcfrGamma"), 2); }
+    if (m->dcfr) {
+      for (const char *name : {"dcfrAlpha", "dcfrBeta", "dcfrGamma"}) if (JV *x = jget(root, name)) {
+        if (x->type != J_NUM || !std::isfinite(x->num) || std::fabs(x->num) > 16) return bad("DCFR parameters must be finite numbers from -16 to 16");
+      }
+      m->dA = jnum(jget(root, "dcfrAlpha"), 1.5); m->dB = jnum(jget(root, "dcfrBeta"), 0); m->dG = jnum(jget(root, "dcfrGamma"), 2);
+      if (m->dA < 0 || m->dG < 0) return bad("DCFR alpha and gamma must be nonnegative");
+    }
     const char *rm = jstr(jget(root, "regretMatching")); m->plus = rm && !strcmp(rm, "plus");
     if (rm && strcmp(rm, "plus") && strcmp(rm, "standard")) return bad("Unknown regret matching");
     JV *st = jget(root, "state"); uint32_t actionRng = 0;
     if (st) {
+      if (st->type != J_OBJ) return bad("Invalid training state");
+      for (const char *name : {"rng", "actionRng", "iterations", "trainingDeals", "stateVisits"}) if (JV *x = jget(st, name)) {
+        const double hi = (!strcmp(name, "rng") || !strcmp(name, "actionRng")) ? 4294967295.0 : 9007199254740991.0;
+        if (!isInt(x) || x->num < 0 || x->num > hi) return bad("Invalid training state counter");
+      }
       m->rng.state = (uint32_t)jnum(jget(st, "rng"), 17);
       m->iterations = (long long)jnum(jget(st, "iterations"), 0);
       m->trainingDeals = (long long)jnum(jget(st, "trainingDeals"), 0);
@@ -865,6 +926,11 @@ extern "C" int mw_import(MW *m, const unsigned char *buf, size_t len, char *err,
   if (len < 16 || std::memcmp(buf, m->startLen?"EMMW1\0\0\0":"EMMW3\0\0\0", 8)) { fail(err, errlen, "Not an EMMW1 state"); return 0; }
   uint32_t hl; std::memcpy(&hl, buf + 8, 4); if ((size_t)hl + 16 > len) { fail(err, errlen, "Truncated state"); return 0; }
   JV *h = json_parse((const char *)buf + 12, hl, err, errlen); if (!h) return 0;
+  // 3.3: counters must be whole, nonnegative numbers (fractions were truncated before).
+  for(const char *name:{"iterations","trainingDeals","stateVisits","rng"}){
+    const JV *v=jget(h,name);
+    if(!isInt(v) || v->num<0 || v->num>9007199254740991.0){json_free(h);fail(err,errlen,"Invalid checkpoint counter");return 0;}
+  }
   long long it = (long long)jnum(jget(h, "iterations"), -1), deals = (long long)jnum(jget(h, "trainingDeals"), -1), visits = (long long)jnum(jget(h, "stateVisits"), -1);
   if(JV *field=jget(h,"rowCrc32")){
     char crc[9];snprintf(crc,sizeof(crc),"%08x",rowChecksum(buf+12+hl,len-12-hl));
