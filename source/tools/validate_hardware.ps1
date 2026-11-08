@@ -88,7 +88,11 @@ try {
   # 3.3 checks: input validation, external-sampling DCFR, native hand groups, GPU stage bound.
   $v33 = [ordered]@{}
   $negative = Join-Path $root 'source/tests/fixtures/invalid-negative-ante.json'
-  $null = (& $Exe $negative 3 1 (Join-Path $tmp 'neg.state') 2>&1); $v33.negativeAnteRejected = ($LASTEXITCODE -ne 0)
+  # The expected refusal writes to stderr; PowerShell 5.1 would turn that into a terminating error under 'Stop'.
+  $ErrorActionPreference = 'Continue'
+  $refusal = (& $Exe $negative 3 1 (Join-Path $tmp 'neg.state') 2>&1 | Out-String); $code = $LASTEXITCODE
+  $ErrorActionPreference = 'Stop'
+  $v33.negativeAnteRejected = ($code -ne 0); $v33.negativeAnteMessage = $refusal.Trim()
   if (-not $v33.negativeAnteRejected) { $failures += 'A negative ante was accepted' }
   foreach ($name in @('es-dcfr-six', 'es-grouped-six')) {
     $fx = Join-Path $root "source/tests/fixtures/$name.json"; $hashes = @(); $runs = @()

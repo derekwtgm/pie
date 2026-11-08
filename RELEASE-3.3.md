@@ -187,7 +187,7 @@ Multiway gains are labelled approximate unilateral estimates. The Wide-ranges se
 
 | Suite | Result |
 |---|---|
-| Regression (tools/run_tests.js) | REGRESSION_RESULT |
+| Regression (tools/run_tests.js, Linux) | 248 passed, 0 failed, 0 skipped, 0 timed out; 8 hardware-dependent tests ran (CUDA driver test double, compiler-built fixtures). 214 tests from 3.2 plus 34 new |
 | v33.test.js under ASan+UBSan mwcli | 34 passed, 0 failed |
 | ThreadSanitizer | 3.2 fixtures plus DCFR 6-seat, Detailed+DCFR 6-seat, Compact 8-seat preflop, 4 threads: no reports |
 | ASan+UBSan | training, export, resume and memory-stop paths: no reports |
