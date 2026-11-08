@@ -57,7 +57,7 @@ try {
   $spec = Join-Path $tmp 'cap.json'
   Write-Json $spec @{ hands = $cases[2].hands; board = @(); device = 'gpu'; threads = $logical; gpuMiB = 1 }
   $cap = (& $Exe --equity $spec) | ConvertFrom-Json
-  $capOk = (-not $cap.gpuUsed) -and ((($cap.equity | ForEach-Object { '{0:R}' -f $_ }) -join ',') -eq (($equity[2].equity | ForEach-Object { '{0:R}' -f $_ }) -join ','))
+  $capOk = (-not $cap.gpuUsed) -and ((($cap.equity | ForEach-Object { '{0:R}' -f [double]$_ }) -join ',') -eq (($equity[2].equity | ForEach-Object { '{0:R}' -f [double]$_ }) -join ','))
   if (-not $capOk -and $cuda.available) { $failures += 'A 1 MiB GPU budget did not fall back to an identical CPU result' }
 
   $fixture = Join-Path $root 'source/tests/fixtures/es-preflop8.json'
