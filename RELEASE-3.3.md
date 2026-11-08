@@ -202,7 +202,20 @@ Two 3.2 assertions described limitations that 3.3 removes: "external-sampling DC
 
 ## 11. Windows validation
 
-WINDOWS_RESULT
+Three kinds of evidence, kept separate:
+
+1. **Cross-compiled, Linux.** `EightMax.exe` and `mwcli.exe` were built with MinGW-w64 GCC 13 (posix threads, static). Two builds are byte-identical, and the build id matches the interface and source. Imports are KERNEL32 and msvcrt only. The executables are unsigned. Wine was not used.
+2. **Executed on Windows, GitHub-hosted runner.** The repository workflow ran on `windows-latest` (Windows Server, no GPU): run 42439928099, conclusion *success*, recorded in validation/3.3/windows-ci.json. It compiled the 3.3 source natively with MSYS2 UCRT64 GCC and passed every step:
+   - the Node regression suite;
+   - test_windows.ps1 on the fresh host, including the known river equilibrium;
+   - the native host and native multiway protocol suites;
+   - release assembly with build-id verification and the package, MTT and checkpoint interface smoke tests;
+   - test_windows.ps1 on the assembled release;
+   - parsing of every PowerShell script;
+   - **Validate CUDA hardware's script** on CPU paths. CUDA was correctly reported unavailable. The negative-ante spec was refused. DCFR and Detailed-grouped fixtures were identical across thread counts and after resume. All four scoring modes matched, and the GPU modes fell back with a reason. External sampling ran at 25,920 deals/s on 4 threads.
+
+   Getting there required fixing four latent script defects that 3.2's workflow never reached: the MSYS2 PATH, PowerShell 5.1 array serialization, Decimal formatting, and stderr under `Stop`.
+3. **Not tested:** your Core i7-13xxx / RTX 4060 Ti / 16 GB PC, any physical NVIDIA GPU, VRAM pressure on 8 GB, and an interactive desktop browser session on Windows. Run `Run self-tests.bat` and `Validate CUDA hardware.bat` there; the second records `gpuExecutionVerified`.
 
 ## Reproduction
 

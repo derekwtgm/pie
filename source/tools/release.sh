@@ -90,7 +90,7 @@ const lin=j("native-host-linux.json"),wine=j("native-host-wine.json"),acc=j("ACC
 const mwl=j("native-mw-linux.json"),mww=j("native-mw-wine.json"),uil=j("native-ui-linux.json"),uiw=j("native-ui-wine.json"),br=j("browser-recovery.json");
 const out={version:ver,nativeMultiwayLinux:mwl&&mwl.passed,nativeMultiwayWine:mww?mww.passed:"not run",nativeUiLinux:uil&&uil.passed,nativeUiWine:uiw?uiw.passed:"not run",browserRecovery:br&&br.passed,
  sanitizers:"passed (see sanitizers.log)",cuda:"CUDA kernels unchanged from 3.2 (embedded NVRTC 12.9 PTX + sm_75/80/86/89 SASS, not recompiled in 3.3); run only through the CPU driver test double here; physical GPU execution not verified. Run Validate CUDA hardware.bat.",generated:new Date().toISOString(),windowsVerified:false,
- windowsNote:wine?"Cross-compiled; exercised under Wine, not Windows.":"Cross-compiled; not executed on Windows or Wine. Run Run self-tests.bat on Windows.",
+ windowsNote:"Release executables cross-compiled on Linux. The same source was built natively and its host, release and hardware-validation scripts passed on a GitHub-hosted Windows Server runner without a GPU (validation/3.3/windows-ci.json). Not run on the target PC or a physical NVIDIA GPU: run Run self-tests.bat and Validate CUDA hardware.bat there.",
  signed:false,regressionTests:reg,
  packageSmoke:"passed",interfaceSmoke:"passed",checkpointSmoke:"passed",
  nativeHostLinux:lin&&lin.passed,nativeHostWine:wine?wine.passed:"not run",
