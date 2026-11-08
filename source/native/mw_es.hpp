@@ -335,7 +335,7 @@ struct Game {
   Rng actionRng{0};
   uint32_t actionSeed = 0;
   bool perDealStreams = false;
-  double secTraverse = 0, secMerge = 0, secDeal = 0;
+  double secTraverse = 0, secMerge = 0, secDeal = 0, secScore = 0, secKeys = 0;   // secScore/secKeys: 3.3 profile (subsets of secDeal)
   std::atomic<size_t> scratchPeak{0};
   long long attempts = 0;
   bool dcfr = false, dcfrEager = false; Dcfr schedule;

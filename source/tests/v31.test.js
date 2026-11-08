@@ -129,7 +129,7 @@ test('native support: Exact cards external sampling is native; grouped abstracti
   // 3.3: grouped external-sampling flops train natively; grouped full traversal still names the JavaScript fallback.
   for(const abstraction of ['compact','detailed']){
     assert.equal(E.MultiwayGame({...flop3,abstraction}).nativeSupport(),null);
-    assert.match(E.MultiwayGame({...flop3,abstraction,traversal:'full'}).nativeSupport(),/Compact and Detailed.*JavaScript/);
+    assert.match(E.MultiwayGame({...river3,abstraction,traversal:'full'}).nativeSupport(),/Exact cards.*Compact and Detailed.*JavaScript/);
   }
 });
 test('automatic native traversal counts the tree instead of building 250,000 states, and chooses by size',{timeout:60000},()=>{

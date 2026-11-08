@@ -903,8 +903,16 @@ extern "C" void mw_info(MW *m, JB *out) {
     jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
     jb_puts(out, ",\"budgetMiB\":"); jb_num(out, m->budgetBytes / 1048576.0, 1);
     if (!m->studyId.empty()) jb_printf(out, ",\"studyId\":\"%s\"", m->studyId.c_str());
-    jb_printf(out, ",\"devicePath\":\"CPU (external sampling traversal)\",\"gpuBufferPeakBytes\":0,\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}",
-      m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, g.secDeal, g.secTraverse, g.secMerge);
+    // 3.3: external sampling scores hands on the CPU. The profile below bounds what any GPU
+    // offload of hand scoring could save (Amdahl): at most scoringShare of the training time,
+    // before PCIe transfer and synchronization costs.
+    const double trainSeconds = g.secDeal + g.secTraverse + g.secMerge, share = trainSeconds > 0 ? g.secScore / trainSeconds : 0;
+    char path[256];
+    if (m->mode == "cpu") snprintf(path, sizeof path, "CPU (external sampling traversal)");
+    else snprintf(path, sizeof path, "CPU (external sampling traversal; %s mode requested, but hand scoring was %.1f%% of training time, so GPU scoring could save at most that before transfers)", m->mode.c_str(), 100 * share);
+    jb_printf(out, ",\"devicePath\":\"%s\",\"requestedDevice\":\"%s\",\"gpuBufferPeakBytes\":0,\"gpuStageBound\":{\"scoringShare\":%.4f,\"maxSavingFraction\":%.4f}", path, m->mode.c_str(), share, share);
+    jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"score\":%.4f,\"groupKeys\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}",
+      m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, g.secDeal, g.secScore, g.secKeys, g.secTraverse, g.secMerge);
     return;
   }
   jb_printf(out, "{\"protocol\":%d,\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"rows\":%zu,\"tableMiB\":", MW_PROTOCOL, m->iterations, m->trainingDeals, m->stateVisits, m->rng.state, visited);

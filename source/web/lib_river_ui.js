@@ -38,7 +38,7 @@ function multiwaySpotConfig(spot) {
   const parseFolded=()=>String(spot.folded||'').trim()?String(spot.folded).trim().split(/[\s,]+/).map(number):[];
   const settings={};
   for(const s of streets){const k=s.toLowerCase(),row=spot.tree[k];settings[k]={bets:row.bets,raises:row.raises,maxBets:number(row.maxBets)};}
-  const cfg={...anteCfg(),...(spot.traversal && spot.traversal!=='auto'?{traversal:spot.traversal}:{}),processingMode:spot.processingMode||'cpu',gpuMiB:Number(spot.gpuMiB??512),nativeThreads:Number(spot.nativeThreads||0),...(spot.updates&&spot.updates!=='simultaneous'?{updates:spot.updates}:{}),riverStrata:spot.riverStrata===true,...(spot.riverStrata && spot.traversal==='external'?{externalRiverStrata:true}:{}),batchDeals:Number(spot.batchDeals??1),...(spot.actionStreams==='deal'?{actionStreams:'deal'}:{}),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
+  const cfg={...anteCfg(),...(spot.traversal && spot.traversal!=='auto'?{traversal:spot.traversal}:{}),processingMode:spot.processingMode||'cpu',gpuMiB:Number(spot.gpuMiB??512),nativeThreads:Number(spot.nativeThreads||0),...(spot.updates&&spot.updates!=='simultaneous'?{updates:spot.updates}:{}),riverStrata:spot.riverStrata===true,...(spot.riverStrata && spot.traversal==='external'?{externalRiverStrata:true}:{}),batchDeals:Number(spot.batchDeals??1),...(spot.actionStreams==='deal'?{actionStreams:'deal'}:{}),...(spot.weighting&&spot.weighting!=='linear'?{weighting:spot.weighting}:{}),abstraction:spot.abstraction,strategyBudgetMiB:number(spot.memoryMiB),privateMode:spot.privateMode,privateSeed:number(spot.privateSeed),board:spot.board,dealt:number(spot.dealt),common:number(spot.common),streets:settings,
     runouts:{mode:spot.mode,count:spot.mode==='sampled'?number(spot.count):4,seed:spot.mode==='sampled'?number(spot.seed):17},
     folded:parseFolded(),
     stacks:spot.seats.map(s=>number(s.stack)),prior:spot.seats.map(s=>number(s.prior)),
@@ -150,7 +150,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     next.board=typeof cfg.board==='string'?cfg.board:cfg.board.map(EM.cardStr).join(' ');
     next.common=String(cfg.common-(cfg.dealt===undefined?0.1*next.dealt:0));
     next.folded=(cfg.folded||[]).join(',');next.privateMode=cfg.privateMode||'exact';next.privateSeed=cfg.privateSeed??17;
-    next.traversal=cfg.traversal||'auto';next.riverStrata=cfg.riverStrata===true;next.updates=cfg.updates||'simultaneous';next.batchDeals=cfg.batchDeals??1;next.actionStreams=cfg.actionStreams||'shared';next.precision='custom';next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
+    next.traversal=cfg.traversal||'auto';next.riverStrata=cfg.riverStrata===true;next.updates=cfg.updates||'simultaneous';next.batchDeals=cfg.batchDeals??1;next.actionStreams=cfg.actionStreams||'shared';next.weighting=cfg.weighting||'linear';next.precision='custom';next.abstraction=cfg.abstraction||'detailed';next.memoryMiB=cfg.strategyBudgetMiB??112;
     next.anteType=cfg.anteType||'classic';next.ante=cfg.ante==null?'':String(cfg.ante);next.anteSeat=String(cfg.anteSeat??-1);
     next.mode=cfg.runouts?.mode||'exact';next.count=cfg.runouts?.count??4;next.seed=cfg.runouts?.seed??17;
     next.payoff=cfg.icm?'icm':'chip';next.payouts=(cfg.icm?.payouts||[50,30,20]).join(',');
@@ -182,11 +182,13 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(d){
       // 3.1 solver diagnostics. No completion percentage is shown: sampled
       // training has no meaningful end point other than the requested budget.
-      message+='\n'+String(d.engine)+' · '+String(d.algorithm)+' · '+d.players+' players · '+String(d.startStreet)+' start · '+String(d.utility)+' · '+String(d.devicePath)+
+      message+='\n'+String(d.engine)+' · '+String(d.algorithm)+(d.weighting?' ('+String(d.weighting)+(d.dcfr?' '+d.dcfr.alpha+'/'+d.dcfr.beta+'/'+d.dcfr.gamma:'')+')':'')+' · '+d.players+' players · '+String(d.startStreet)+' start · '+String(d.utility)+' · '+String(d.devicePath)+
         (d.threads?' · '+d.threads+' threads':'')+' · RAM '+(d.nativeTableMiB!=null?num(d.nativeTableMiB,1)+' MiB native tables + ':'')+num(d.strategyMiB,1)+' MiB browser strategy'+
         (d.gpuPeakMiB?' · VRAM buffers '+num(d.gpuPeakMiB,1)+' MiB':'')+(d.states?' · '+d.states.toLocaleString()+' betting states visited':'')+
         (EM.NATIVE_INFO&&EM.NATIVE_INFO.cuda?' · CUDA '+(EM.NATIVE_INFO.cuda.available?String(EM.NATIVE_INFO.cuda.name)+' available':'unavailable ('+String(EM.NATIVE_INFO.cuda.reason)+')'):'')+
-        (d.fallbackReason?' · JavaScript because: '+String(d.fallbackReason):'');
+        (d.fallbackReason?' · JavaScript because: '+String(d.fallbackReason):'')+
+        (d.traversalSelection?'\nTraversal: '+String(d.traversalSelection.chosen)+' — '+String(d.traversalSelection.reason):'')+
+        '\nSpeed figures (deals/s, visits) are throughput, not solution quality'+(d.players>2?'; multiway gains are approximate unilateral estimates.':'.');
     }
     return message;
   }
@@ -362,6 +364,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       '<label class="field"><span class="label">Betting traversal</span><select id="rv-traversal">'+[['auto','Automatic'],['full','Full traversal'],['external','External sampling']].map(([v,label])=>'<option value="'+v+'" '+((spot.traversal||'auto')===v?'selected':'')+'>'+label+'</option>').join('')+'</select></label>'+
       '<label class="field"><span class="label">Update scheme</span><select id="rv-updates">'+[['simultaneous','Simultaneous (default)'],['enumerate','Own-hand enumeration · most accurate per sampled deal'],['alternating','Alternating seats']].map(([k,l])=>'<option value="'+k+'" '+((spot.updates||'simultaneous')===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+
       '<label class="field"><span class="label">Precision preset</span><select id="rv-precision">'+[['fast','Fast'],['balanced','Balanced'],['high','High accuracy'],['custom','Custom']].map(([k,l])=>'<option value="'+k+'" '+(spot.precision===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+field('batchDeals','Deals per update',spot.batchDeals??1,'number','min="1" max="64"')+field('memoryMiB','Strategy budget (MiB)',spot.memoryMiB,'number','min="1" max="'+(typeof window!=='undefined'&&window.EM_NATIVE?2048:256)+'" step="1"')+
+      '<label class="field"><span class="label">Iteration weighting</span><select id="rv-weighting">'+[['linear','Linear (default · best measured accuracy)'],['uniform','Uniform'],['dcfr','Discounted CFR (1.5, 0, 2) · external sampling']].map(([k,l])=>'<option value="'+k+'" '+((spot.weighting||'linear')===k?'selected':'')+'>'+l+'</option>').join('')+'</select></label>'+
       '<label class="field"><span class="label">Sampled-betting action streams</span><select id="rv-streams"><option value="shared" '+(spot.actionStreams!=='deal'?'selected':'')+'>Shared (one stream)</option><option value="deal" '+(spot.actionStreams==='deal'?'selected':'')+'>Per deal (parallel batches)</option></select></label>'+'</div><p class="note">Detailed groups separate more blockers and draws while remembering earlier streets. Exact cards keeps every private hand and board history distinct. Finer groups use more memory and need more training. This budget estimates strategy storage, not total app memory.</p><p class="note">Each iteration draws fresh compatible hands and community cards. Start with 10,000 iterations and one opening size per street.</p></div>'+
       '<div '+(shove?'hidden':'')+'><h3>Bet sizes by street</h3><div class="rv-scroll"><table class="rv-table rv-sizes"><thead><tr><th>Street</th><th>Opening bets (% pot)</th><th>Raises (× or % pot)</th><th>Bet / raise cap</th></tr></thead><tbody>'+sizeRows+'</tbody></table></div>'+
       '<p class="note">Separate sizes with commas. Use a for all-in, 2.5x for a raise multiple, or an empty box to omit those actions.</p></div>'+
@@ -383,6 +386,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(el('device'))spot.processingMode=el('device').value;
     if(el('traversal'))spot.traversal=el('traversal').value;
     if(el('streams'))spot.actionStreams=el('streams').value;
+    if(el('weighting'))spot.weighting=el('weighting').value;
     if(el('threads'))spot.nativeThreads=el('threads').value;
     if(el('vram'))spot.gpuMiB=el('vram').value;
     if(el('engine'))spot.engine=el('engine').value;

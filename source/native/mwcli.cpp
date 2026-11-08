@@ -20,6 +20,23 @@ static std::vector<unsigned char> slurp(const char *f) {
 }
 #include <cerrno>
 #include <cmath>
+#ifdef _WIN32
+#define PSAPI_VERSION 2
+#include <windows.h>
+#include <psapi.h>
+#else
+#include <sys/resource.h>
+#endif
+// 3.3: peak resident memory of the whole process (tables, scratch, allocator and runtime).
+static double peakRssMiB() {
+#ifdef _WIN32
+  PROCESS_MEMORY_COUNTERS pmc; if (K32GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof pmc)) return pmc.PeakWorkingSetSize / 1048576.0;
+  return -1;
+#else
+  struct rusage ru; if (!getrusage(RUSAGE_SELF, &ru)) return ru.ru_maxrss / 1024.0;
+  return -1;
+#endif
+}
 static bool wholeArg(const char *s, long long lo, long long hi, long long &out) {
   if (!s || !*s) return false; char *end = nullptr; errno = 0; long long v = std::strtoll(s, &end, 10);
   if (errno || *end || v < lo || v > hi) return false; out = v; return true;
@@ -59,7 +76,7 @@ int main(int argc, char **argv) {
   bool saved=saveState(argv[4],buf,n); std::free(buf);
   if(!saved){std::fprintf(stderr,"cannot write %s\n",argv[4]);mw_free(m);return 1;}
   JB j; jb_init(&j); mw_info(m, &j);
-  std::printf("%.*s", (int)j.n - 1, j.s); std::printf(",\"wallSeconds\":%.6f}\n", secs);
+  std::printf("%.*s", (int)j.n - 1, j.s); std::printf(",\"wallSeconds\":%.6f,\"processPeakRssMiB\":%.1f}\n", secs, peakRssMiB());
   jb_free(&j); mw_free(m);
   return 0;
 }

@@ -14,7 +14,7 @@ val="$rel/validation/$version"
 log() { printf '%s\n' "$*"; }
 if [ "${2:-}" = --package-only ]; then
   # Refresh documents in an already verified release and package it again.
-  for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md; do cp "$top/$f" "$rel/"; done
+  for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.3.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md; do cp "$top/$f" "$rel/"; done
 else
 rm -rf "$rel" "$out/EightMax-Windows-$version.zip"
 mkdir -p "$val"
@@ -34,7 +34,7 @@ cp "$src/build/windows/EightMax.exe" "$rel/EightMax.exe"
 cp "$src/build/windows/mwcli.exe" "$rel/mwcli.exe"
 cp "$src/build/EightMax-Offline.html" "$rel/EightMax-Offline.html"
 cp "$src/build/build-info.json" "$rel/BUILD-INFO.json"
-for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md 'Run self-tests.bat' 'GPU self-test.bat' 'Compare processing modes.bat' 'Validate CUDA hardware.bat'; do cp "$top/$f" "$rel/"; done
+for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.3.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md 'Run self-tests.bat' 'GPU self-test.bat' 'Compare processing modes.bat' 'Validate CUDA hardware.bat'; do cp "$top/$f" "$rel/"; done
 mkdir -p "$rel/source" "$rel/.github"
 ( cd "$src" && tar --exclude=./build -cf - . ) | ( cd "$rel/source" && tar -xf - )
 cp -R "$top/.github/." "$rel/.github/"
@@ -89,14 +89,14 @@ const reg=j("regression-tests.json").totals;
 const lin=j("native-host-linux.json"),wine=j("native-host-wine.json"),acc=j("ACCURACY.json"),bench=j("benchmark.json");
 const mwl=j("native-mw-linux.json"),mww=j("native-mw-wine.json"),uil=j("native-ui-linux.json"),uiw=j("native-ui-wine.json"),br=j("browser-recovery.json");
 const out={version:ver,nativeMultiwayLinux:mwl&&mwl.passed,nativeMultiwayWine:mww?mww.passed:"not run",nativeUiLinux:uil&&uil.passed,nativeUiWine:uiw?uiw.passed:"not run",browserRecovery:br&&br.passed,
- sanitizers:"passed (see sanitizers.log)",cuda:"CUDA kernels compiled (NVRTC 12.9 PTX + sm_75/80/86/89 SASS) and run only through the CPU driver test double here; physical GPU execution not verified. Run Validate CUDA hardware.bat.",generated:new Date().toISOString(),windowsVerified:false,
+ sanitizers:"passed (see sanitizers.log)",cuda:"CUDA kernels unchanged from 3.2 (embedded NVRTC 12.9 PTX + sm_75/80/86/89 SASS, not recompiled in 3.3); run only through the CPU driver test double here; physical GPU execution not verified. Run Validate CUDA hardware.bat.",generated:new Date().toISOString(),windowsVerified:false,
  windowsNote:wine?"Cross-compiled; exercised under Wine, not Windows.":"Cross-compiled; not executed on Windows or Wine. Run Run self-tests.bat on Windows.",
  signed:false,regressionTests:reg,
  packageSmoke:"passed",interfaceSmoke:"passed",checkpointSmoke:"passed",
  nativeHostLinux:lin&&lin.passed,nativeHostWine:wine?wine.passed:"not run",
  accuracy:acc&&{exact3pRiver:acc.sections.multiwayExact.rows.map(r=>({iterations:r.iterations,maxGainBb:r.maxGainBb})),
   sampled3pRiver:acc.sections.sampled.rows.map(r=>({traversal:r.traversal,updates:r.updates,iterations:r.iterations,meanGainBb:r.mean,ci95:r.ci95}))},
- benchmark:"see validation/3.2/accuracy-comparison.json and large-games.json"};
+ benchmark:"see validation/3.3/accuracy-3.2-vs-3.3.json, grouped-native.json, large-games.json and the 3.2 records"};
 fs.writeFileSync(p.join(v,"VALIDATION-"+ver+".json"),JSON.stringify(out,null,1)+"\n");' "$val" "$version"
 
 fi
@@ -104,6 +104,6 @@ node "$rel/source/tools/verify_build.js" "$rel"
 log "== Checksums"
 ( cd "$rel" && find . -type f ! -name SHA256SUMS.txt | LC_ALL=C sort | sed 's|^\./||' | while IFS= read -r f; do sha256sum "$f"; done > SHA256SUMS.txt )
 ( cd "$rel" && sha256sum -c --quiet SHA256SUMS.txt )
-( cd "$out" && rm -f "EightMax-Windows-$version.zip" && find EightMax -exec touch -h -d '2026-11-07 00:00:00' {} + && LC_ALL=C find EightMax -type f | LC_ALL=C sort | zip -X -q "EightMax-Windows-$version.zip" -@ )
+( cd "$out" && rm -f "EightMax-Windows-$version.zip" && find EightMax -exec touch -h -d '2026-11-08 00:00:00' {} + && LC_ALL=C find EightMax -type f | LC_ALL=C sort | zip -X -q "EightMax-Windows-$version.zip" -@ )
 sha256sum "$out/EightMax-Windows-$version.zip" | tee "$out/EightMax-Windows-$version.zip.sha256"
 log "Release: $out/EightMax-Windows-$version.zip"

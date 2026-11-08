@@ -769,7 +769,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   // grouped state files carry the key text of each row.
   const groupedKeys=external && abstraction!=='exact' && !groupedRiver && !groupedTurn && !stratify;
   function nativeSupport(){
-    if(abstraction!=='exact' && !groupedRiver && !groupedTurn && !groupedKeys)return 'native training of Compact and Detailed hand groups needs external-sampling traversal (full traversal of grouped studies is computed in JavaScript)';
+    if(abstraction!=='exact' && !groupedRiver && !groupedTurn && !groupedKeys)return 'native training uses Exact cards grouping or external sampling (Compact and Detailed hand groups with full traversal are computed in JavaScript)';
     if(external && !rules)return 'native external sampling needs the betting rules of a multiway study';
     if(external && tree.kind!=='player')return 'the starting state has no decision';
     return null;
@@ -1022,8 +1022,12 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   }
   // Cheap, reliably measurable facts for the progress display (no evaluation).
   function diagnostics(){
-    return {players:n,startStreet:streetName(board.length),algorithm:external?'external-sampling MCCFR':'chance-sampled CFR, full betting traversal',
-      abstraction,batchDeals,weighting,regretMatching,...(external?{actionStreams}:{}),utility:icm?'ICM':'chip EV',
+    return {players:n,startStreet:streetName(board.length),algorithm:external?(dcfr?'external-sampling DCFR':'external-sampling MCCFR'):'chance-sampled CFR, full betting traversal',
+      abstraction,batchDeals,weighting,...(dcfr?{dcfr:{alpha:dcfr.alpha,beta:dcfr.beta,gamma:dcfr.gamma}}:{}),regretMatching,
+      handGroups:abstraction==='exact'?'exact cards':(groupedKeys||groupedRiver||groupedTurn)?'grouped policy lookup (native-capable); deals and showdowns use physical cards':'grouped policy lookup (JavaScript only)',
+      // 3.3: speed and quality are reported separately.
+      measures:{throughput:'deals per second and state visits per second measure calculation speed only',
+        quality:n===2?'exact exploitability is available only through the exact cross-check on enumerable games':'multiway gains are approximate unilateral response estimates, not exact exploitability or a Nash certificate'},...(external?{actionStreams}:{}),utility:icm?'ICM':'chip EV',
       strategyMiB:profile.bytes/1048576,budgetMiB:profile.limit/1048576,iterations,trainingDeals,stateVisits,limitReached};
   }
   return {diagnostics,rootFrequencies,get trainingDeals(){return trainingDeals;},get strategyMiB(){return profile.bytes/1048576;},iterate,metrics,view,responseProbe,snapshot,restoreState,increaseBudget,averageAt,nativeSupport,nativeSpec,importNative,exportNative,get iterations(){return iterations;},get limitReached(){return limitReached;}};

@@ -1,4 +1,4 @@
-# EightMax 3.2 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
+# EightMax 3.3 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
 # Produces hardware-validation.json next to the executables. Every number in it is
 # measured on the machine that runs this script.
 #   1. CUDA probe: driver, GPU name, compute capability, VRAM, loaded image (SASS or PTX).
@@ -23,7 +23,7 @@ function Body-Hash($path) {
   try { return [BitConverter]::ToString($sha.ComputeHash($state, $at, $state.Length - $at)).Replace('-', '') } finally { $sha.Dispose() }
 }
 try {
-  Write-Host 'EightMax 3.2 hardware validation'
+  Write-Host 'EightMax 3.3 hardware validation'
   $build = (& $Exe --build-id)
   $cuda = (& $Exe --cuda-info) | ConvertFrom-Json
   if ($cuda.available) { Write-Host ("CUDA: {0}, compute capability {1}, {2} MiB total, {3} MiB free, image {4}" -f $cuda.name, $cuda.computeCapability, $cuda.totalMiB, $cuda.freeMiB, $cuda.image) }
@@ -82,18 +82,40 @@ try {
   if ($LASTEXITCODE) { throw 'Reference run failed' }
   $same = (Body-Hash $resumed) -eq (Body-Hash $direct)
   if (!$same -or $stopped.trainingDeals -ne 4*$stopped.iterations) { $failures += 'Checkpoint continuation mismatch' }
+  # 3.3 checks: input validation, external-sampling DCFR, native hand groups, GPU stage bound.
+  $v33 = [ordered]@{}
+  $negative = Join-Path $root 'source/tests/fixtures/invalid-negative-ante.json'
+  $null = (& $Exe $negative 3 1 (Join-Path $tmp 'neg.state') 2>&1); $v33.negativeAnteRejected = ($LASTEXITCODE -ne 0)
+  if (-not $v33.negativeAnteRejected) { $failures += 'A negative ante was accepted' }
+  foreach ($name in @('es-dcfr-six', 'es-grouped-six')) {
+    $fx = Join-Path $root "source/tests/fixtures/$name.json"; $hashes = @(); $runs = @()
+    foreach ($t in @(1, $logical) | Select-Object -Unique) {
+      $st = Join-Path $tmp "$name-$t.state"; $info = (& $Exe $fx 300 $t $st 1024) | ConvertFrom-Json
+      if ($LASTEXITCODE -ne 0 -or $info.iterations -ne 300) { throw "$name training failed with $t threads" }
+      $hashes += (Body-Hash $st); $runs += [pscustomobject]@{ threads = $t; workerThreads = $info.threads; seconds = $info.wallSeconds; dealsPerSecond = [math]::Round($info.trainingDeals / $info.wallSeconds, 0); processPeakRssMiB = $info.processPeakRssMiB; weighting = $info.weighting; handGroups = $info.handGroups }
+    }
+    if (($hashes | Select-Object -Unique).Count -ne 1) { $failures += "$name strategy differs between thread counts" }
+    $part = Join-Path $tmp "$name-part.state"; $res = Join-Path $tmp "$name-res.state"
+    $null = (& $Exe $fx 120 2 $part 1024); $null = (& $Exe $fx 180 2 $res 1024 $part)
+    $resumeOk = (Body-Hash $res) -eq $hashes[0]; if (-not $resumeOk) { $failures += "$name checkpoint resume differs" }
+    $v33[$name] = [ordered]@{ runs = $runs; identicalAcrossThreads = (($hashes | Select-Object -Unique).Count -eq 1); resumeIdentical = $resumeOk }
+  }
+  $gpuSpec = Join-Path $tmp 'es-gpu.json'
+  $g = Get-Content $six -Raw | ConvertFrom-Json; $g.device = 'gpu'; Write-Json $gpuSpec $g
+  $gi = (& $Exe $gpuSpec 300 $logical (Join-Path $tmp 'gpu.state') 1024) | ConvertFrom-Json
+  $v33.externalSamplingGpuRequest = [ordered]@{ devicePath = $gi.devicePath; gpuStageBound = $gi.gpuStageBound; seconds = $gi.seconds }
   $devices = $null
   try { & (Join-Path $PSScriptRoot 'test_devices.ps1'); $devices = Get-Content (Join-Path $root 'device-results.json') -Raw | ConvertFrom-Json }
   catch { $failures += "Scoring-mode comparison failed: $($_.Exception.Message)" }
 
-  $out = [ordered]@{ tool = 'EightMax 3.2 hardware validation'; build = $build; date = (Get-Date).ToString('s');
+  $out = [ordered]@{ tool = 'EightMax 3.3 hardware validation'; build = $build; date = (Get-Date).ToString('s');
     os = [Environment]::OSVersion.VersionString; cpu = $env:PROCESSOR_IDENTIFIER; logicalProcessors = $logical;
     memoryGiB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1);
     graphics = @(Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, AdapterRAM);
     cuda = $cuda; equity = $equity; vramCapFallback = [ordered]@{ ok = $capOk; gpuUsed = $cap.gpuUsed; reason = $cap.gpuFallbackReason };
     gpuExecutionVerified = [bool]($cuda.available -and ($equity | Where-Object { $_.gpuUsed -and $_.gpuMatchesCpu }))
     checkpointRecovery = @{ identical = $same; stopped = $stopped; resumed = $continued; uninterrupted = $referenceRun }
-    externalSampling = $training; scoringModes = $devices; failures = $failures; passed = ($failures.Count -eq 0) }
+    externalSampling = $training; version33 = $v33; scoringModes = $devices; failures = $failures; passed = ($failures.Count -eq 0) }
   $out | ConvertTo-Json -Depth 8 | Set-Content -Encoding UTF8 $Report
   Write-Host "Saved $Report"
   if ($failures.Count) { $failures | ForEach-Object { Write-Host "FAILED: $_" }; exit 1 }

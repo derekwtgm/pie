@@ -233,8 +233,10 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
       for (int d = 0; d < B; d++) {
         Unit &u = units[(size_t)d]; u.clear();
         if (!m->deal(u.w,d)) return failMsg("Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals.");
-        g.attempts++; m->score(u.w); codes(u, n);
-        if (g.groups.on && !groupCodes(*m, g, u)) { groupFull = true; break; }
+        g.attempts++;
+        const double s0 = now(); m->score(u.w); const double s1 = now(); g.secScore += s1 - s0;
+        codes(u, n);
+        if (g.groups.on) { const bool ok = groupCodes(*m, g, u); g.secKeys += now() - s1; if (!ok) { groupFull = true; break; } }
       }
       double t1 = now(); g.secDeal += t1 - t0;
       long long visits = 0; int status = groupFull ? 0 : 1;

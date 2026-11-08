@@ -420,3 +420,27 @@ test('grouped specs are validated (abstraction, range-size flags, combo identifi
     const s=clone(spec);mutate(s);assert.equal(mw(s).status,1);
   }
 });
+
+// ---------------- Part 4: calibrated automatic traversal selection ----------------
+test('automatic traversal uses the calibrated cost model and records its reasoning; manual choices are kept',{timeout:60000},()=>{
+  const base={board:'Qs9h4d2c',common:10,stacks:[40,40],ranges:['AsQd,KhQh,9s9c,JhTh,8d7d,AhKd','QcJc,TdTc,As4s,KdJd,6s5s,9d8d'],privateMode:'sampled',abstraction:'exact',evaluationDeals:128,engine:'native'};
+  const turn3={...base,streets:{turn:{bets:'33,75,a',raises:'2.5x,a',maxBets:3},river:{bets:'33,75,a',raises:'2.5x,a',maxBets:3}}};
+  const way3={board:'Ks8d5h2c',common:12,stacks:[30,30,30],ranges:['AhKh,KdQd,8s8h,JsTs','AsKd,KcJc,5d5c,8h7h','Kc9c,QsQc,7d7c,Ah5s'],streets:{turn:{bets:'50',raises:'',maxBets:1},river:{bets:'50,a',raises:'',maxBets:1}},privateMode:'sampled',abstraction:'exact',evaluationDeals:128,engine:'native'};
+  // validation/3.3/traversal-calibration.json: full traversal reached lower exact gain at equal time
+  // on both trees (paired, 5 seeds); 3.2 chose external sampling for them.
+  for(const cfg of [turn3,way3]){
+    const s=E.MultiwayGame(cfg).traversalSelection;
+    assert.equal(s.requested,'auto');assert.equal(s.chosen,'full traversal');assert.equal(s.gainRatio,3);
+    assert.ok(s.states<=s.sampledWork);assert.match(s.reason,/full traversal/);
+  }
+  for(const traversal of ['full','external']){const s=E.MultiwayGame({...turn3,traversal}).traversalSelection;assert.equal(s.reason,'selected manually');assert.equal(s.chosen,traversal==='full'?'full traversal':'external sampling');}
+  const d=E.MultiwayGame({...turn3,weighting:'dcfr'});assert.equal(d.traversalSelection.chosen,'external sampling');assert.match(d.traversalSelection.reason,/DCFR/);
+  // Flops, preflop and 4+ seats keep the 3.2 prior (no exact reference is tractable there).
+  const big=E.MultiwayGame({...six,traversal:'auto',engine:'native'}).traversalSelection;assert.equal(big.chosen,'external sampling');
+  // A checkpoint keeps the traversal it was trained with whatever the rule says now.
+  const restored=E.MultiwayGame(turn3,{restoredExternal:true}).traversalSelection;assert.equal(restored.chosen,'external sampling');assert.match(restored.reason,/checkpoint/);
+  assert.ok(E.MultiwayGame(turn3).diagnostics().traversalSelection);
+  const diag=E.MultiwayGame({...turn3,traversal:'external',weighting:'dcfr'}).diagnostics();
+  assert.equal(diag.algorithm,'external-sampling DCFR');assert.match(diag.measures.throughput,/speed only/);assert.match(diag.measures.quality,/exact/);
+  assert.match(E.MultiwayGame(six).diagnostics().measures.quality,/approximate unilateral/);
+});

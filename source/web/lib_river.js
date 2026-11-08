@@ -28,6 +28,15 @@ function sizeList(text, raising) {
   });
 }
 
+// 3.3: ratio of the external-sampling to full-traversal error constants
+// (gain x sqrt(time) at equal wall time), so full traversal is preferred when
+// states x 1 < sampled visits x ratio^2. 3.2 used priors from one 4,096-deal run
+// (2.82 rivers, 1.63 otherwise); 3.3 values are fitted in validation/3.3 (bench33).
+// Measured effective ratios (5 seeds, exact best responses, 1 and 4 s): rivers 2.4-3.5,
+// heads-up and 3-way turns 2.8-4.1. 3.3 uses 3.0 for turn and river starts with up to
+// three seats, where it was measured; elsewhere (flops, preflop, 4+ seats: no exact
+// reference is tractable) the 3.2 prior 1.63 is kept unchanged.
+const TRAVERSAL_GAIN_RATIO=(boardLength,n)=>boardLength>=4 && n<=3?3.0:5.318/3.265;
 // Resource limits for automatic private-range mode selection. Exact enumeration
 // is kept when the joint deal tree fits the desktop budget and a 500-iteration
 // solve is expected to finish within about a minute on a desktop CPU.
@@ -133,7 +142,8 @@ function buildMultiway(input, opts={}) {
   // opts.restoredExternal (checkpoint restore only): keep the traversal a saved
   // automatic study was trained with, whatever the current automatic rule says.
   const restored=traversal==='auto' && typeof opts.restoredExternal==='boolean'?opts.restoredExternal:null;
-  let external=restored!==null?wide&&restored:wide && (traversal==='external' || (pre && !nativeFull && traversal!=='full') ||
+  // 3.3: DCFR is implemented for external sampling only; Automatic traversal selects it for DCFR studies.
+  let external=restored!==null?wide&&restored:wide && (traversal==='external' || (cfg.weighting==='dcfr' && traversal==='auto') || (pre && !nativeFull && traversal!=='full') ||
     (traversal==='auto' && !nativeFull && board.length<5 && (cfg.abstraction||'detailed')!=='compact'));
   // 3.1 measured approximately 1.2 KiB of JS heap per materialised state.
   // Include potential native row storage, using actual unblocked range counts.
@@ -257,6 +267,7 @@ function buildMultiway(input, opts={}) {
   const posted=pre?stacks.map((s,p)=>Math.min(s,p===n-1?1:p===n-2?0.5:0)):zeros();
   const makeRoot=()=>build(board.length,zeros(),posted,Array(n).fill(true),Array(n).fill(-1),pre?1:0,1,0,-1);
   // Count betting states depth-first without keeping them; stops past limit.
+  let traversalSelection=null;
   function preferExternal(limit){
     const saved=external,stopCount={};let count=0;
     // Under uniform opponent actions, reach[p] is the probability that seat
@@ -274,16 +285,20 @@ function buildMultiway(input, opts={}) {
       for(let p=0;p<n;p++)reach[p]=previous[p];
     }
     try{visit(makeRoot());}
-    catch(e){if(e===stopCount)return true;throw e;}
+    catch(e){if(e===stopCount){traversalSelection={states:'more than '+limit,reason:'the betting tree exceeds the '+limit.toLocaleString('en-US')+'-state full-traversal limit for this memory budget'};return true;}throw e;}
     finally{external=saved;}
     // Equal-deal three-seed 4096-deal benchmarks (validation/3.2).
     // The ratio is a cost-model prior, not a convergence certificate.
-    const gainRatio=board.length===5 && n<=3?1.067/0.378:5.318/3.265;
+    const gainRatio=TRAVERSAL_GAIN_RATIO(board.length,n);
     // Small fixed-river joint distributions can be checked with a finite
     // response oracle. Preserve full branch coverage there if the tree fits.
     const jointBound=hands.reduce((v,r)=>Math.min(1025,v*r.length),1);
-    if(jointBound<=1024 && (count<=256 || (board.length===5 && count<=20000)))return false;
     const sampledWork=externalVisits*gainRatio*gainRatio;
+    traversalSelection={states:count,sampledVisitsPerDeal:+externalVisits.toFixed(3),gainRatio:+gainRatio.toFixed(3),sampledWork:+sampledWork.toFixed(1),
+      model:'choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)'};
+    if(jointBound<=1024 && (count<=256 || (board.length===5 && count<=20000))){traversalSelection.reason='small fixed-river or tiny tree: full traversal keeps every branch for the exact check';return false;}
+    traversalSelection.reason=count>sampledWork?'predicted faster to a given accuracy with external sampling ('+count+' states > '+Math.round(sampledWork)+' weighted sampled visits)':
+      'predicted faster to a given accuracy with full traversal ('+count+' states <= '+Math.round(sampledWork)+' weighted sampled visits)';
     return count>sampledWork;
   }
   if(nativeFull && !external && restored===null && preferExternal(fullStates))external=true;
@@ -301,7 +316,18 @@ function buildMultiway(input, opts={}) {
   const rules={stacks:stacks.slice(),prior:prior.slice(),folded:folded.slice(),common,pot0,ownAnte:ownAnte.slice(),posted:posted.slice(),
     open:open.map(Boolean),pre:Boolean(pre),shove:Boolean(shove),noLimp:Boolean(pre)&&pre.limps===false,
     sizes:Object.fromEntries(Object.entries(sizes).map(([k,v])=>[k,{cap:v.cap,bets:v.bets.map(z=>[sizeKind[z.kind],z.value??0]),raises:v.raises.map(z=>[sizeKind[z.kind],z.value??0])}]))};
-  if(wide)return EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0),rules});
+  if(wide){
+    const g=EM.wideGame({cfg,board,hands,tree,n,streetName,nodes:templateCount,external,advance,nextStreet,icm,utilityMeta,ownAnte:pre?ownAnte:Array(n).fill(0),rules});
+    // 3.3: the automatic traversal decision and its inputs, for diagnostics.
+    const requested=traversal,chosen=external?'external sampling':'full traversal';
+    const selection={requested,chosen,...(traversalSelection||{}),
+      reason:requested!=='auto'?'selected manually':restored!==null?'kept from the checkpoint this study was trained with':
+        cfg.weighting==='dcfr'?'DCFR is implemented for external sampling':traversalSelection?traversalSelection.reason:
+        nativeFull?'tree exceeded the full-traversal limit':'JavaScript automatic rule (preflop and grouped multi-street studies use external sampling)'};
+    g.traversalSelection=selection;
+    const d=g.diagnostics;g.diagnostics=()=>({...d(),traversalSelection:selection});
+    return g;
+  }
   // Enumerate the conditional joint deal once. Private cards in folded river
   // hands still block other hands; seats never see their opponents' hole cards.
   const deals=[], weights=[], picked=Array(n), used=new Uint8Array(52);

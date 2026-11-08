@@ -50,7 +50,7 @@ jobs:
           Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
@@ -83,6 +83,19 @@ jobs:
           Pop-Location
           $v = (Get-Content source/VERSION -TotalCount 1).Trim()
           Compress-Archive -Path $r -DestinationPath "release/EightMax-Windows-$v.zip"
+      - name: Parse every PowerShell script (3.3)
+        shell: powershell
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Filter *.ps1 source/tools | ForEach-Object {
+            $e = $null; [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$e) | Out-Null
+            if ($e) { $e | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" }; $bad++ } }
+          if ($bad) { exit 1 }
+      - name: Hardware validation script on the runner (CPU paths; runners have no NVIDIA GPU)
+        shell: powershell
+        run: |
+          ./release/EightMax/source/tools/validate_hardware.ps1 -Exe release/EightMax/mwcli.exe -Report windows-runner-hardware-validation.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Upload the release and reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -92,4 +105,5 @@ jobs:
             release/EightMax-Windows-*.zip
             fresh-windows.json
             fresh-windows-host.json
+            windows-runner-hardware-validation.json
             release/EightMax/validation/
