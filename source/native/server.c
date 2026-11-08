@@ -431,12 +431,25 @@ static char MW_ERR[512];
 static double BROWSER_MIB = 0;          // last memory figure reported by the interface (if any)
 // One application budget for the native host: process threshold minus what is already
 // resident; the multiway tables get what is left after a safety margin.
+static double available_memory_mib(void) {
+#ifdef _WIN32
+  MEMORYSTATUSEX ms={0};ms.dwLength=sizeof ms;
+  return GlobalMemoryStatusEx(&ms)?ms.ullAvailPhys/1048576.0:-1;
+#else
+  long pages=sysconf(_SC_AVPHYS_PAGES);
+  return pages>0?pages*(double)sysconf(_SC_PAGESIZE)/1048576.0:-1;
+#endif
+}
 static double mw_budget_mib(void) {
   double resident = resident_mib(); if (resident < 0) resident = 0;
   double room = (double)PROCESS_LIMIT_MIB - resident - 256.0;
   double app = (double)APP_LIMIT_MIB - resident - BROWSER_MIB - 256.0;   // leave a margin for transient allocations
   if (app < room) room = app;
-  return room < 32 ? 32 : room;
+  double available=available_memory_mib();
+  if(available>=0 && available/2<room)room=available/2;
+  // Tables, sampled workspace, vector capacity, and a checkpoint export can
+  // coexist. Leave three shares of the detected room for these other costs.
+  return room < 0 ? 0 : room/4;
 }
 static void mw_progress(void *ctx, long long it, long long deals) {
   (void)ctx; pthread_mutex_lock(&MW_MU); MW_IT = it; MW_DEALS = deals; MW_ELAPSED = now_s() - MW_T0; pthread_mutex_unlock(&MW_MU);
@@ -469,6 +482,7 @@ static void memory_json(JB *b) {
   jb_puts(b, ",\"multiwayTablesMiB\":"); jb_num(b, table, 1);
   jb_puts(b, ",\"browserReportedMiB\":"); jb_num(b, browser, 1);
   jb_puts(b, ",\"availableForTablesMiB\":"); jb_num(b, mw_budget_mib(), 1);
+  jb_puts(b,",\"availableSystemMiB\":");jb_num(b,available_memory_mib(),1);
   jb_printf(b, ",\"systemRamMiB\":%.0f}", RAM_MB);
 }
 // Returns 1 when the route was handled.
@@ -496,7 +510,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     respond(s, 200, "application/octet-stream", (const char *)buf, n); free(buf); return 1;
   }
   if (strcmp(method, "POST")) { respond_err(s, 404, "Not found"); return 1; }
-  if (!strcmp(r, "stop")) { MW_STOP = 1; respond_ok(s); return 1; }
+  if (!strcmp(r, "stop")) { __atomic_store_n(&MW_STOP,1,__ATOMIC_RELAXED); respond_ok(s); return 1; }
   pthread_mutex_lock(&MW_MU);
   if (MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
   if (!strcmp(r, "free")) { mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
@@ -504,13 +518,16 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
     mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0;
     double budget = mw_budget_mib();
+    JV *request=json_parse(body,blen,err,sizeof err);
+    if(request){double requested=jnum(jget(request,"tableLimitMiB"),budget);json_free(request);if(requested>0 && requested<budget)budget=requested;}
+    if(budget<1){pthread_mutex_unlock(&MW_MU);respond_err(s,503,"Insufficient process or application RAM budget");return 1;}
     MW *m = mw_create(body, blen, budget, err, sizeof err);
     if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
     MWG = m; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
     JB b; jb_init(&b); mw_info(m, &b);
     { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); MW_IT = (long long)jnum(jget(iv, "iterations"), 0); MW_DEALS = (long long)jnum(jget(iv, "trainingDeals"), 0); json_free(iv); } }
-    pthread_mutex_unlock(&MW_MU);
     jb_free(&b); jb_init(&b); jb_puts(&b, "{\"ok\":true,\"budgetMiB\":"); jb_num(&b, budget, 1); jb_puts(&b, ",\"engine\":"); mw_info(m, &b); jb_putc(&b, '}');
+    pthread_mutex_unlock(&MW_MU);
     respond_json(s, 200, &b); jb_free(&b); return 1;
   }
   if (!strcmp(r, "import")) {
@@ -530,7 +547,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     MwArgs *A = (MwArgs *)malloc(sizeof *A);
     if (!A) { pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Out of memory"); return 1; }
     A->iterations = (long long)it; A->threads = (int)th > LOGICAL_CPUS ? LOGICAL_CPUS : (int)th;
-    MW_THREADS = A->threads; MW_STOP = 0; MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
+    MW_THREADS = A->threads; __atomic_store_n(&MW_STOP,0,__ATOMIC_RELAXED); MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
     pthread_t t;
     if (pthread_create(&t, NULL, mw_job, A)) { MW_RUNNING = 0; free(A); pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Could not start a training thread"); return 1; }
     pthread_detach(t);
@@ -541,6 +558,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   respond_err(s, 404, "Not found"); return 1;
 }
 
+static pthread_mutex_t CUDA_MU = PTHREAD_MUTEX_INITIALIZER; static JB CUDA_INFO;
 static void api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   if (mw_api(s, method, path, body, blen)) return;
   char err[512] = "";
@@ -551,7 +569,20 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     jb_str(&b, SAVE_DIR);
     jb_printf(&b,",\"physicalCores\":%d,\"performanceCores\":%d,\"efficiencyCores\":%d",PHYSICAL_CORES,PERFORMANCE_CORES,EFFICIENCY_CORES);
     jb_printf(&b,",\"multiwayProtocol\":%d",MW_PROTOCOL); jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
-    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
+    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b);
+    jb_printf(&b, ",\"multiwaySpecProtocols\":[1,3,4]");
+    /* 3.1: CUDA probe for the multiway engine, cached after the first request. */
+    pthread_mutex_lock(&CUDA_MU);
+    if (!CUDA_INFO.s) { jb_init(&CUDA_INFO); mw_cuda_info(&CUDA_INFO); }
+    jb_puts(&b, ",\"cuda\":"); jb_puts(&b, CUDA_INFO.s ? CUDA_INFO.s : "null");
+    pthread_mutex_unlock(&CUDA_MU);
+    jb_putc(&b, '}');
+    respond_json(s, 200, &b); jb_free(&b); return;
+  }
+  if (!strcmp(path, "/api/equity") && !strcmp(method, "POST")) {
+    /* Exact multiway all-in equity (CPU, GPU or both with an exact comparison). */
+    char err[256] = ""; JB b; jb_init(&b);
+    if (!body || !mw_equity(body, blen, &b, err, sizeof err)) { jb_free(&b); respond_err(s, 400, err[0] ? err : "Invalid equity request"); return; }
     respond_json(s, 200, &b); jb_free(&b); return;
   }
   if (!strcmp(path, "/api/status")) {
@@ -771,7 +802,10 @@ static void handle(sock_t s) {
   if (sscanf(buf, "%7s %255s", method, path) != 2) { free(buf); return; }
   const char *cl = find_header(buf, "Content-Length");
   size_t blen = cl ? (size_t)strtoul(cl, NULL, 10) : 0;
-  if (blen > (64u << 20)) { respond_err(s, 400, "Request too large"); free(buf); return; }
+  /* 3.1: a native training state being resumed may be larger than ordinary requests. */
+  size_t limit = 64u << 20;
+  if (!strcmp(path, "/api/mw/import")) { double mib = APP_LIMIT_MIB / 2.0; if (mib > 2048) mib = 2048; if (mib > 64) limit = (size_t)(mib * 1048576.0); }
+  if (blen > limit) { respond_err(s, 400, "Request too large"); free(buf); return; }
   if (hlen + blen > cap) { cap = hlen + blen; char *grown = (char *)realloc(buf, cap + 1); if (!grown) { respond_err(s, 503, "Out of memory"); free(buf); return; } buf = grown; }
   while (n < hlen + blen) { int k = recv(s, buf + n, (int)(hlen + blen - n), 0); if (k <= 0) { free(buf); return; } n += (size_t)k; }
   buf[hlen + blen] = 0;
@@ -820,6 +854,7 @@ static int cpu_has_avx2(void) {
 
 int gpu_selftest(const SolverVT *VT);
 int main(int argc, char **argv) {
+    if(argc==2 && !strcmp(argv[1],"--build-id")) { puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
   int noBrowser = 0, wantPort = 8708, gpuTest = 0;
   for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) wantPort = atoi(argv[i] + 7); else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
 #ifdef _WIN32

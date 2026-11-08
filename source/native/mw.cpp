@@ -27,6 +27,8 @@
 #include <atomic>
 #include <pthread.h>
 #include <chrono>
+#include "icm.hpp"
+#include "cuda_score.hpp"
 
 namespace {
 
@@ -80,7 +82,7 @@ struct Rng {
   }
 };
 
-struct Hand { int id, a, b; double w, cum; };
+struct Hand { int id, a, b; double w, cum; int riverScore=0, strategyHand=0; };
 struct Pot { double amount; std::vector<int> eligible; };
 struct Node {
   int kind = 0;         // 0 player, 1 chance, 2 terminal
@@ -89,7 +91,7 @@ struct Node {
   int term = -1;        // terminal index
   long long rowBase = -1; // dense tables
 };
-struct Terminal { std::vector<double> total; std::vector<Pot> pots; };
+struct Terminal { std::vector<double> total, behind; std::vector<Pot> pots; };
 
 struct World { int seat[8]; int cards[5]; int score[8]; };
 struct IncRow { uint64_t key; int node, k; size_t off; };
@@ -105,18 +107,40 @@ struct DealWork {
 
 struct Engine;
 struct Scratch {
+  Tournament::Workspace icm;
   std::vector<double> u, av, sig;   // per depth: n, kmax, kmax
   std::vector<double> reach;
 };
 
 } // namespace
+#include "mw_es.hpp"
 
 struct MW {
+  std::atomic<size_t> tablePeak{0};
+  ScratchBudget arena{SIZE_MAX,tablePeak};
+  explicit MW(std::pmr::memory_resource *tableMemory=nullptr):
+    vals(tableMemory?tableMemory:&arena),delta(vals.get_allocator()),rows(vals.get_allocator()),
+    hkeys(vals.get_allocator()),hrow(vals.get_allocator()),touched(vals.get_allocator()) {}
+  std::shared_ptr<es::Game> es;   // protocol 4: native betting rules + external sampling
+  Tournament tournament;
+  std::string mode="cpu",studyId;
+  std::string route="CPU scoring"; CudaInfo cuda;
+  size_t gpuBudget=512ULL<<20,peakGpuBytes=0;
   int n = 0, startLen = 5, kmax = 1, maxDepth = 1;
   int board[5] = {0, 0, 0, 0, 0};
+  std::vector<std::vector<int>> turnGroups;
   std::vector<std::vector<Hand>> hands;
   std::vector<double> total;         // per seat cumulative weight
   std::vector<double> anteOf;
+  std::vector<std::array<int,8>> joint;
+  std::vector<double> cumulative;
+  void enumerateJoint(int seat,uint64_t used,double mass,std::array<int,8> &tuple){
+    if(seat==n){joint.push_back(tuple);cumulative.push_back((cumulative.empty()?0:cumulative.back())+mass);return;}
+    for(size_t i=0;i<hands[seat].size();++i){
+      const auto &h=hands[seat][i];uint64_t mask=(1ULL<<h.a)|(1ULL<<h.b);
+      if(!(used&mask)){tuple[seat]=(int)i;enumerateJoint(seat+1,used|mask,mass*h.w,tuple);}
+    }
+  }
   std::vector<Node> nodes;
   std::vector<int> children;
   std::vector<Terminal> terms;
@@ -127,12 +151,12 @@ struct MW {
   bool limitReached = false;
   // tables
   bool dense = true;
-  std::vector<double> vals, delta;
+  std::pmr::vector<double> vals, delta;
   struct RowMeta { uint64_t key; int node; int k; size_t off; uint8_t visited, marked; };
-  std::vector<RowMeta> rows;
-  std::vector<int64_t> hkeys; std::vector<int32_t> hrow; size_t hcount = 0; // hash: key -> row
-  std::vector<int32_t> touched;
-  double budgetBytes = 0, bytes = 0;
+  std::pmr::vector<RowMeta> rows;
+  std::pmr::vector<int64_t> hkeys; std::pmr::vector<int32_t> hrow; size_t hcount = 0; // hash: key -> row
+  std::pmr::vector<int32_t> touched;
+  double budgetBytes = 0, bytes = 0, workBytesPerDeal=sizeof(DealWork);
   int lastThreads = 1;
   double secTraverse = 0, secMerge = 0, secDeal = 0;   // diagnostics
 
@@ -148,8 +172,8 @@ struct MW {
   bool grow() {
     size_t cap = hkeys.empty() ? 1024 : hkeys.size() * 2;
     double extra = (double)(cap - hkeys.size()) * 12;
-    if (bytes + extra > budgetBytes) return false;
-    std::vector<int64_t> k2(cap, -1); std::vector<int32_t> r2(cap, -1);
+    if (bytes + cap*12.0 > budgetBytes) return false;
+    std::pmr::vector<int64_t> k2(cap, -1, hkeys.get_allocator()); std::pmr::vector<int32_t> r2(cap, -1, hrow.get_allocator());
     for (size_t i = 0; i < hkeys.size(); i++) if (hkeys[i] != -1) {
       size_t j = mix((uint64_t)hkeys[i]) & (cap - 1);
       while (k2[j] != -1) j = (j + 1) & (cap - 1);
@@ -176,12 +200,22 @@ struct MW {
   uint64_t keyOf(const World &w, int node, int seat) const {
     const Node &nd = nodes[node];
     if (dense) return (uint64_t)(nd.rowBase + w.seat[seat]);
+    if (!startLen) {
+      uint64_t key=((uint64_t)node<<11)|w.seat[seat];
+      for(int i=0;i<5;i++) key=(key<<6)|(i<nd.len?w.cards[i]+1:0);
+      return key;
+    }
     int e1 = nd.len > startLen ? w.cards[startLen] + 1 : 0, e2 = nd.len > startLen + 1 ? w.cards[startLen + 1] + 1 : 0;
     return ((uint64_t)node << 32) | ((uint64_t)w.seat[seat] << 16) | ((uint64_t)e1 << 8) | (uint64_t)e2;
   }
 
   // ---- deals ----
-  bool deal(World &w) {
+  bool deal(World &w,int stratum=0) {
+    if(!joint.empty()){
+      double x=(stratum+rng.next())*cumulative.back()/batchDeals;
+      auto idx=std::min(joint.size()-1,(size_t)(std::upper_bound(cumulative.begin(),cumulative.end(),x)-cumulative.begin()));
+      std::copy_n(joint[idx].begin(),n,w.seat);std::copy_n(board,5,w.cards);return true;
+    }
     uint8_t used[52];
     for (int tries = 0; tries < 4096; tries++) {
       std::memset(used, 0, sizeof used);
@@ -200,13 +234,14 @@ struct MW {
       for (int i = 0; i < startLen; i++) w.cards[i] = board[i];
       int len = startLen;
       while (len < 5) { int c = (int)std::floor(rng.next() * 52); if (!used[c]) { used[c] = 1; w.cards[len++] = c; } }
-      score(w);
+      if (!startLen) std::sort(w.cards,w.cards+3);
+
       return true;
     }
     return false;
   }
 
-  void score(World &w) const { for (int p = 0; p < n; p++) { const Hand &h = hands[(size_t)p][(size_t)w.seat[p]]; w.score[p] = evalSeven(w.cards, h.a, h.b); } }
+  void score(World &w) const { for (int p = 0; p < n; p++) { const Hand &h = hands[(size_t)p][(size_t)w.seat[p]]; w.score[p] = startLen==5 ? h.riverScore : evalSeven(w.cards, h.a, h.b); } }
   // ---- traversal (mirrors lib_wide.js walk with train === true or {seat, weight}) ----
   void policy(const World &w, int node, int seat, double *sig) const {
     const Node &nd = nodes[node]; int k = nd.k;
@@ -224,12 +259,13 @@ struct MW {
     double *u = &s.u[(size_t)depth * n];
     if (nd.kind == 2) {
       const Terminal &t = terms[nd.term];
-      for (int p = 0; p < n; p++) u[p] = -t.total[p] - anteOf[p];
+      for (int p = 0; p < n; p++) u[p] = t.behind.empty() ? -t.total[p] - anteOf[p] : t.behind[p];
       for (const Pot &pot : t.pots) {
         double top = -INFINITY; int count = 0;
         for (int p : pot.eligible) { double v = w.score[p]; if (v > top) { top = v; count = 1; } else if (v == top) count++; }
         for (int p : pot.eligible) if (w.score[p] == top) u[p] += pot.amount / count;
       }
+      if (!t.behind.empty()) tournament.evaluate(u,n,s.icm);
       return u;
     }
     if (nd.kind == 1) return walk(children[nd.child0], depth + 1, w, s, out, step);
@@ -262,7 +298,9 @@ struct MW {
     walk(0, 0, dw.w, s, dw, step);
   }
   Scratch makeScratch() const {
-    Scratch s; s.u.assign((size_t)(maxDepth + 2) * n, 0); s.av.assign((size_t)(maxDepth + 2) * kmax, 0);
+    Scratch s;
+    if (!tournament.start.empty()) { s.icm.cache.resize(127); s.icm.probability.resize(1u<<tournament.start.size()); }
+    s.u.assign((size_t)(maxDepth + 2) * n, 0); s.av.assign((size_t)(maxDepth + 2) * kmax, 0);
     s.sig.assign((size_t)(maxDepth + 2) * kmax, 0); s.reach.assign(n, 1); return s;
   }
 };
@@ -280,7 +318,8 @@ struct Pool {
   std::vector<Arg> args;
   void process(int index) {
     if (task) { task(this, index); return; }
-    for (;;) { size_t d = lo + (size_t)next.fetch_add(1); if (d >= hi) break; m->runDeal((*work)[d], scratch[(size_t)index], step); }
+    for (;;) { size_t d = lo + (size_t)next.fetch_add(1); if (d >= hi) break; try { m->runDeal((*work)[d], scratch[(size_t)index], step); }
+      catch(const std::bad_alloc &){exhausted.store(true);return;} }
   }
   static void *main(void *v) {
     Arg *a = (Arg *)v; Pool *p = a->pool; long long seen = 0;
@@ -293,6 +332,7 @@ struct Pool {
       pthread_mutex_lock(&p->mu); if (++p->finished == p->threads - 1) pthread_cond_signal(&p->done); pthread_mutex_unlock(&p->mu);
     }
   }
+  std::atomic<bool> exhausted{false};
   bool start(MW *mm, int t) {
     m = mm; threads = t; scratch.clear();
     for (int i = 0; i < t; i++) scratch.push_back(m->makeScratch());
@@ -324,21 +364,88 @@ struct Pool {
 void fail(char *err, int errlen, const char *msg) { if (err && errlen > 0) snprintf(err, (size_t)errlen, "%s", msg); }
 bool isInt(const JV *v) { return v && v->type == J_NUM && std::floor(v->num) == v->num; }
 } // namespace
+#include "mw_es_impl.hpp"
+// Protocol 4 betting rules (lib_wide.js nativeSpec() for sampled betting).
+static const char *parseRules(MW *m, JV *spec) {
+  using namespace es;
+  JV *r = jget(spec, "rules");
+  if (!r || r->type != J_OBJ) return "Missing betting rules";
+  auto g = std::make_shared<Game>(&m->arena); Rules &R = g->rules; R.n = m->n; R.rootLength = m->startLen;
+  auto arr = [&](const char *name, double *out, bool allowNeg) -> bool {
+    JV *v = jget(r, name); if (!v || v->type != J_ARR || v->n != m->n) return false;
+    for (int i = 0; i < m->n; i++) { JV *x = v->items[i]; if (x->type != J_NUM || !std::isfinite(x->num) || (!allowNeg && x->num < 0)) return false; out[i] = x->num; }
+    return true;
+  };
+  if (!arr("stacks", R.stacks, false) || !arr("prior", R.prior, false) || !arr("ownAnte", R.ownAnte, false) || !arr("posted", R.posted, false)) return "Invalid stacks or wagers in betting rules";
+  JV *open = jget(r, "open"); if (!open || open->type != J_ARR || open->n != m->n) return "Invalid opening permissions";
+  for (int i = 0; i < m->n; i++) R.open[i] = open->items[i]->type == J_BOOL && open->items[i]->num != 0;
+  JV *folded = jget(r, "folded"); if (!folded || folded->type != J_ARR || folded->n + m->n > 8) return "Invalid folded wagers";
+  for (int i = 0; i < folded->n; i++) { JV *x = folded->items[i]; if (x->type != J_NUM || !(x->num >= 0) || !std::isfinite(x->num)) return "Invalid folded wagers"; R.folded.push_back(x->num); }
+  R.common = jnum(jget(r, "common"), -1); R.pot0 = jnum(jget(r, "pot0"), -1);
+  if (!(R.common >= 0) || !std::isfinite(R.common) || !(R.pot0 >= 0) || !std::isfinite(R.pot0)) return "Invalid starting pot";
+  auto flag = [&](const char *name) { JV *v = jget(r, name); return v && v->type == J_BOOL && v->num != 0; };
+  R.pre = flag("pre"); R.shove = flag("shove"); R.noLimp = flag("noLimp");
+  if (R.pre != (m->startLen == 0)) return "Preflop rules need an empty board";
+  JV *sizes = jget(r, "sizes"); if (!sizes || sizes->type != J_OBJ) return "Missing bet sizes";
+  for (int L : {0, 3, 4, 5}) {
+    if (L && L < m->startLen) continue;
+    if (!L && !R.pre) continue;
+    char key[2] = {(char)('0' + L), 0};
+    JV *row = jget(sizes, key); if (!row || row->type != J_OBJ) return "Missing bet sizes for a street";
+    Street &st = R.sizes[L]; st.present = true;
+    JV *cap = jget(row, "cap"); if (!isInt(cap) || cap->num < 1 || cap->num > 8) return "Invalid raise cap";
+    st.cap = (int)cap->num;
+    for (int which = 0; which < 2; which++) {
+      JV *list = jget(row, which ? "raises" : "bets"); if (!list || list->type != J_ARR || list->n > 5) return "Invalid size list";
+      for (int i = 0; i < list->n; i++) {
+        JV *e = list->items[i]; if (e->type != J_ARR || e->n != 2 || !isInt(e->items[0])) return "Invalid size";
+        Size z{(int)e->items[0]->num, jnum(e->items[1], NAN)};
+        if (z.kind < 0 || z.kind > 4 || !std::isfinite(z.value) || z.value < 0) return "Invalid size";
+        (which ? st.raises : st.bets).push_back(z);
+      }
+    }
+  }
+  const char *streams = jstr(jget(spec, "actionStreams"));
+  if (streams && strcmp(streams, "shared") && strcmp(streams, "deal")) return "Unknown action stream mode";
+  g->perDealStreams = streams && !strcmp(streams, "deal");
+  JV *seed = jget(spec, "actionSeed"); if (!isInt(seed) || seed->num < 0 || seed->num > 4294967295.0) return "Invalid action seed";
+  g->actionSeed = (uint32_t)seed->num;
+  R.root(g->rootState);
+  if (g->rootState.kind != 0) return "The betting rules have no decision";
+  m->es = g;
+  return nullptr;
+}
 
 extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *err, int errlen) {
+  if(!std::isfinite(memoryMiB) || memoryMiB<=0 || memoryMiB>65536){fail(err,errlen,"Invalid RAM budget");return nullptr;}
   JV *root = json_parse(json, len, err, errlen);
   if (!root) return nullptr;
   MW *m = new (std::nothrow) MW();
   if (!m) { json_free(root); fail(err, errlen, "Out of memory"); return nullptr; }
   auto bad = [&](const char *msg) -> MW * { json_free(root); delete m; fail(err, errlen, msg); return nullptr; };
   try {
-    if (jnum(jget(root, "protocol"), 0) != MW_PROTOCOL) return bad("Unsupported native protocol version");
+    double protocol=jnum(jget(root,"protocol"),0);
+    if (protocol!=1 && protocol!=3 && protocol!=4) return bad("Unsupported native protocol version");
     JV *nv = jget(root, "n"); if (!isInt(nv) || nv->num < 2 || nv->num > 8) return bad("Native engine needs 2 to 8 seats");
     m->n = (int)nv->num;
-    JV *bd = jget(root, "board"); if (!bd || bd->type != J_ARR || bd->n < 3 || bd->n > 5) return bad("Native engine needs a 3-5 card board");
+    JV *bd = jget(root, "board"); if (!bd || bd->type != J_ARR || (bd->n < 3 && !(protocol>=3 && bd->n==0)) || bd->n > 5) return bad("Native engine needs a 3-5 card board");
     m->startLen = bd->n;
     uint8_t onBoard[52] = {0};
     for (int i = 0; i < bd->n; i++) { if (!isInt(bd->items[i]) || bd->items[i]->num < 0 || bd->items[i]->num > 51) return bad("Bad board card"); m->board[i] = (int)bd->items[i]->num; if (onBoard[m->board[i]]++) return bad("Duplicate board card"); }
+    if (JV *mode=jget(root,"device")) {
+      if(!jstr(mode)) return bad("Invalid processing mode");
+      m->mode=jstr(mode);
+      if(m->mode!="cpu" && m->mode!="gpu" && m->mode!="hybrid" && m->mode!="auto") return bad("Unknown processing mode");
+    }
+    if(JV *limit=jget(root,"gpuMiB")) {
+      if(!isInt(limit) || limit->num<1 || limit->num>8192) return bad("GPU budget must be 1 to 8192 MiB");
+      m->gpuBudget=(size_t)limit->num<<20;
+    }
+    if(auto *id=jget(root,"studyId")){
+      const char *hex=jstr(id);
+      if(!hex || strlen(hex)!=16 || strspn(hex,"0123456789abcdef")!=16)return bad("Invalid study identifier");
+      m->studyId=hex;
+    }
     JV *hs = jget(root, "hands"); if (!hs || hs->type != J_ARR || hs->n != m->n) return bad("Hands do not match the seats");
     m->hands.resize((size_t)m->n); m->total.assign((size_t)m->n, 0);
     for (int p = 0; p < m->n; p++) {
@@ -350,14 +457,75 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         Hand x{(int)h->items[0]->num, (int)h->items[1]->num, (int)h->items[2]->num, h->items[3]->num, 0};
         if (x.id < 0 || x.id > 1325 || x.a < 0 || x.a > 51 || x.b < 0 || x.b > 51 || x.a == x.b || !(x.w > 0) || !std::isfinite(x.w)) return bad("Bad hand");
         if (onBoard[x.a] || onBoard[x.b]) continue;   // dealer() drops board-blocked hands
+        if(m->startLen==5) x.riverScore=evalSeven(m->board,x.a,x.b);
+        x.strategyHand=(int)m->hands[p].size();
         tot += x.w; x.cum = tot; m->hands[(size_t)p].push_back(x);
       }
       if (m->hands[(size_t)p].empty()) return bad("A range is blocked on this board");
       m->total[(size_t)p] = tot;
     }
+    if(JV *groups=jget(root,"turnGroups")){
+      if(protocol!=4 || m->startLen!=4 || groups->type!=J_ARR || groups->n!=m->n || jget(root,"riverGroups"))
+        return bad("Invalid turn grouping");
+      m->turnGroups.resize(m->n);size_t entries=0;
+      for(int p=0;p<m->n;p++){
+        auto &map=m->turnGroups[p];const auto &range=m->hands[p];JV *row=groups->items[p];
+        entries+=53*range.size();
+        if(entries>32768 || row->type!=J_ARR || (size_t)row->n!=53*range.size())return bad("Invalid turn mapping dimensions");
+        for(int slot=0;slot<=52;slot++)for(size_t h=0;h<range.size();h++){
+          JV *v=row->items[slot*range.size()+h];
+          if(!isInt(v)||v->num < -1 || v->num>52*2048+1325)return bad("Invalid turn representative");
+          int id=(int)v->num;
+          bool blocked=slot && (onBoard[slot-1] || range[h].a==slot-1 || range[h].b==slot-1);
+          if(blocked!=(id==-1))return bad("Inconsistent turn group blockers");
+          if(id>=0){
+            int s=id/2048;size_t index=id%2048,offset=s*range.size()+index;
+            if((s==0)!=(slot==0)||index>=range.size()||offset>map.size()||
+               (offset<map.size()&&map[offset]!=id))return bad("Invalid turn group representative");
+          }
+          map.push_back(id);
+        }
+      }
+    }
+    if (JV *groups=jget(root,"riverGroups")) {
+      if (protocol!=4 || m->startLen!=5 || groups->type!=J_ARR || groups->n!=m->n)
+        return bad("Invalid grouped river study");
+      for (int p=0;p<m->n;p++) {
+        JV *range=groups->items[p];
+        if (range->type!=J_ARR || (size_t)range->n!=m->hands[p].size()) return bad("Invalid river group range");
+        for(int i=0;i<range->n;i++){
+          JV *id=range->items[i];
+          if(!isInt(id) || id->num<0 || id->num>i || range->items[(int)id->num]->num!=id->num)
+            return bad("Invalid river group representative");
+          m->hands[p][i].strategyHand=(int)id->num;
+        }
+      }
+    }
     JV *an = jget(root, "anteOf"); m->anteOf.assign((size_t)m->n, 0);
     if (an && an->type == J_ARR && an->n == m->n) for (int p = 0; p < m->n; p++) m->anteOf[(size_t)p] = jnum(an->items[p], 0);
-    JV *nd = jget(root, "nodes"); if (!nd || nd->type != J_ARR || nd->n < 1 || nd->n > 2000000) return bad("Bad tree");
+    if (JV *icm=jget(root,"icm")) {
+      auto numbers=[](JV *v,std::vector<double> &out,bool positive) {
+        if(!v || v->type!=J_ARR || v->n>16) return false;
+        for(int i=0;i<v->n;i++) {
+          JV *x=v->items[i];
+          if(x->type!=J_NUM || !std::isfinite(x->num) || x->num<0 || (positive && x->num==0)) return false;
+          out.push_back(x->num);
+        }
+        return true;
+      };
+      auto &t=m->tournament;
+      if(protocol<3 || !numbers(jget(icm,"start"),t.start,true) || !numbers(jget(icm,"others"),t.others,true) ||
+         !numbers(jget(icm,"payouts"),t.payout,false) || t.start.size()!=m->n+t.others.size() ||
+         t.payout.empty() || t.payout.front()<=0 || t.payout.size()>t.start.size() ||
+         !std::is_sorted(t.payout.rbegin(),t.payout.rend())) return bad("Invalid ICM configuration");
+    }
+    if (protocol == 4) {
+      const char *alg = jstr(jget(root, "algorithm"));
+      if (!alg || strcmp(alg, "external")) return bad("Protocol 4 supports external sampling only");
+    }
+    JV *nd = protocol == 4 ? nullptr : jget(root, "nodes");
+    if (protocol != 4) {
+    if (!nd || nd->type != J_ARR || nd->n < 1 || nd->n > 2000000) return bad("Bad tree");
     m->nodes.resize((size_t)nd->n);
     for (int i = 0; i < nd->n; i++) {
       JV *x = nd->items[i]; Node &o = m->nodes[(size_t)i];
@@ -374,7 +542,7 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         if (x->n != 3 || !isInt(x->items[2]) || x->items[2]->num <= i || x->items[2]->num >= nd->n) return bad("Bad chance node");
         o.len = (int)jnum(x->items[1], 0); o.child0 = (int)m->children.size(); m->children.push_back((int)x->items[2]->num);
       } else if (o.kind == 2) {
-        if (x->n != 3 || x->items[1]->type != J_ARR || x->items[1]->n != m->n || x->items[2]->type != J_ARR) return bad("Bad terminal");
+        if (x->n != (m->tournament.start.empty()?3:4) || x->items[1]->type != J_ARR || x->items[1]->n != m->n || x->items[2]->type != J_ARR) return bad("Bad terminal");
         Terminal t; for (int p = 0; p < m->n; p++) t.total.push_back(jnum(x->items[1]->items[p], 0));
         for (int q = 0; q < x->items[2]->n; q++) {
           JV *pt = x->items[2]->items[q]; if (pt->type != J_ARR || pt->n != 2 || pt->items[1]->type != J_ARR) return bad("Bad pot");
@@ -383,9 +551,20 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
           if (!std::isfinite(pot.amount) || pot.eligible.empty()) return bad("Bad pot");
           t.pots.push_back(pot);
         }
+        if(x->n==4) {
+          JV *v=x->items[3]; if(v->type!=J_ARR || v->n!=m->n) return bad("Invalid ICM stacks behind");
+          for(int p=0;p<m->n;p++){JV *s=v->items[p]; if(s->type!=J_NUM || s->num<0 || !std::isfinite(s->num)) return bad("Invalid ICM stack"); t.behind.push_back(s->num);}
+        }
         o.term = (int)m->terms.size(); m->terms.push_back(t);
       } else return bad("Unknown node kind");
     }
+    // Generated games are trees. Refuse shared children: a compact DAG can
+    // otherwise expand exponentially when traversed as if it were a tree.
+    std::vector<unsigned char> parentCount(m->nodes.size(),0);
+    for(int child:m->children) if(++parentCount[child]!=1)return bad("Shared betting-tree child");
+    if(m->children.size()+1!=m->nodes.size())return bad("Unreachable betting-tree node");
+    for(const auto &node:m->nodes)if(node.kind==0 && node.k>1)
+      m->workBytesPerDeal+=2*(sizeof(IncRow)+16.0*node.k);
     // depth (children follow parents, so a reverse pass computes heights)
     std::vector<int> height((size_t)nd->n, 0);
     for (int i = nd->n - 1; i >= 0; i--) {
@@ -395,28 +574,47 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
       height[(size_t)i] = h;
     }
     m->maxDepth = height[0] + 1;
+    if(m->maxDepth>512) return bad("Betting tree exceeds the native recursion limit");
+    } // protocol != 4
     m->batchDeals = (int)jnum(jget(root, "batchDeals"), 1);
     if (m->batchDeals < 1 || m->batchDeals > 64) return bad("Batch deals must be 1 to 64");
     const char *up = jstr(jget(root, "updates"));
     if (up && !strcmp(up, "alternating")) m->updates = 1; else if (up && !strcmp(up, "enumerate")) m->updates = 2;
     else if (up && strcmp(up, "simultaneous")) return bad("Unknown update scheme");
+    if(jnum(jget(root,"stratified"),0)){
+      size_t combinations=1;
+      for(const auto &range:m->hands){combinations*=range.size();if(combinations>1024)return bad("Stratified joint range exceeds 1024 tuples");}
+      if((protocol!=3 && protocol!=4) || m->startLen!=5 || m->updates!=0 || m->batchDeals<2)return bad("Incompatible stratified game");
+      std::array<int,8> tuple{};m->enumerateJoint(0,0,1,tuple);
+      if(m->joint.empty() || !(m->cumulative.back()>0) || !std::isfinite(m->cumulative.back()))return bad("Invalid joint mass");
+    }
     const char *wt = jstr(jget(root, "weighting")); m->linear = !wt || !strcmp(wt, "linear");
     m->dcfr = wt && !strcmp(wt, "dcfr");
     if (wt && strcmp(wt, "linear") && strcmp(wt, "uniform") && strcmp(wt, "dcfr")) return bad("Unknown weighting");
     if (m->dcfr) { m->dA = jnum(jget(root, "dcfrAlpha"), 1.5); m->dB = jnum(jget(root, "dcfrBeta"), 0); m->dG = jnum(jget(root, "dcfrGamma"), 2); }
     const char *rm = jstr(jget(root, "regretMatching")); m->plus = rm && !strcmp(rm, "plus");
     if (rm && strcmp(rm, "plus") && strcmp(rm, "standard")) return bad("Unknown regret matching");
-    JV *st = jget(root, "state");
+    JV *st = jget(root, "state"); uint32_t actionRng = 0;
     if (st) {
       m->rng.state = (uint32_t)jnum(jget(st, "rng"), 17);
       m->iterations = (long long)jnum(jget(st, "iterations"), 0);
       m->trainingDeals = (long long)jnum(jget(st, "trainingDeals"), 0);
       m->stateVisits = (long long)jnum(jget(st, "stateVisits"), 0);
+      if (protocol == 4) actionRng = (uint32_t)jnum(jget(st, "actionRng"), 0);
     }
     if (m->iterations < 0 || m->iterations > 10000000LL) return bad("Bad iteration count");
     // tables
     m->budgetBytes = memoryMiB * 1048576.0;
-    m->dense = m->startLen == 5;
+    m->dense = m->startLen == 5 && protocol != 4;
+    if (protocol == 4) {
+      m->arena.setLimit((size_t)m->budgetBytes);
+      if (m->trainingDeals!=m->iterations*m->batchDeals) return bad("Inconsistent external checkpoint committed deal count");
+      if (m->dcfr) return bad("DCFR is not available with external sampling");
+      if (const char *why = parseRules(m, root)) return bad(why);
+      m->es->actionRng.state = actionRng;
+      const auto &r = m->es->rootState;
+      if (m->es->states.add(0xffffffffu, 0, r.kind, r.actor, r.length, r.k, m->bytes, m->budgetBytes) != 0) return bad("Native budget is too small for the betting state table");
+    }
     if (m->dense) {
       long long base = 0; double need = 0;
       for (Node &o : m->nodes) if (o.kind == 0 && o.k > 1) { o.rowBase = base; base += (long long)m->hands[(size_t)o.actor].size(); need += (double)m->hands[(size_t)o.actor].size() * (2.0 * o.k * 8 * (m->batchDeals > 1 ? 2 : 1) + sizeof(MW::RowMeta) + 8); }
@@ -443,33 +641,42 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
 
 extern "C" void mw_free(MW *m) { delete m; }
 
+#include "score_schedule.hpp"
 extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *stop, mw_progress_fn progress, void *ctx, char *err, int errlen) {
   if (iterations < 0 || m->iterations + iterations > 10000000LL) { fail(err, errlen, "Iteration count must fit the 10 million iteration limit"); return 0; }
   if (threads < 1) threads = 1;
   if (threads > 256) threads = 256;
+  if (m->es) return es::train(m, iterations, threads, stop, progress, ctx, err, errlen);
   if (m->updates == 0 && threads > m->batchDeals) threads = m->batchDeals;   // more threads than deals per update cannot help
   m->lastThreads = threads;
   Pool pool;
+  ScoreSchedule scorer;
   try {
-    std::vector<DealWork> work; work.reserve((size_t)m->batchDeals * 64);
+    std::vector<DealWork> work;
+    const double totalBudget=m->budgetBytes;
+    struct BudgetReset { MW *m; double bytes; ~BudgetReset(){m->budgetBytes=bytes;} } reset{m,totalBudget};
+    const double icmScratch=m->tournament.start.empty()?0:(1ULL<<m->tournament.start.size())*8+127*sizeof(Tournament::Entry);
+    const double workerScratch=(icmScratch+(m->maxDepth+2)*(m->n+2*m->kmax)*8.0+1024)*threads;
     std::vector<DealWork> phaseWork;
     pool.start(m, threads);
     const int B = m->batchDeals;
     double avgVisits = 1e9;   // unknown before the first update: allow threads
     for (long long it = 0; it < iterations && !m->limitReached; it++) {
-      if (stop && *stop) break;
+      if (stop && __atomic_load_n(stop,__ATOMIC_RELAXED)) break;
       double step = m->linear ? (double)(m->iterations + 1) : 1.0;
       // Draw every deal of this update first, in the JavaScript order (deals do not
       // depend on the policy). Units of one phase share one frozen policy.
       auto clk = [] { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); };
       double tA = clk();
-      size_t units = 0; bool ok = true;
+      const uint32_t rngBefore=m->rng.state; const long long dealsBefore=m->trainingDeals;
+      size_t units = 0; bool ok = true; bool pressure=false;
       auto unit = [&](const World &w, int seat, double weight, int phase) {
+        if(workerScratch+(units+1)*m->workBytesPerDeal+m->bytes>totalBudget){pressure=true;return;}
         if (units >= work.size()) work.emplace_back();
         DealWork &u = work[units++]; u.w = w; u.seat = seat; u.weight = weight; u.phase = phase;
       };
-      for (int d = 0; d < B && ok; d++) {
-        World w0; if (!m->deal(w0)) { ok = false; break; } m->trainingDeals++;
+      for (int d = 0; d < B && ok && !pressure; d++) {
+        World w0{}; if (!m->deal(w0,d)) { ok = false; break; } m->trainingDeals++;
         if (m->updates == 0) { unit(w0, -1, 1, 0); continue; }
         for (int p = 0; p < m->n && ok; p++) {
           World w = w0; if (p) { if (!m->deal(w)) { ok = false; break; } m->trainingDeals++; }
@@ -481,11 +688,23 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
           double tot = 0; for (const Hand &h : m->hands[(size_t)p]) if (!used[h.a] && !used[h.b]) tot += h.w;
           for (size_t hi = 0; hi < m->hands[(size_t)p].size(); hi++) {
             const Hand &h = m->hands[(size_t)p][hi]; if (used[h.a] || used[h.b]) continue;
-            World x = w; x.seat[p] = (int)hi; m->score(x); unit(x, p, h.w / tot, phase);
+            World x = w; x.seat[p] = (int)hi; unit(x, p, h.w / tot, phase);
           }
         }
       }
-      if (!ok) { pool.stop(); fail(err, errlen, "Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals."); return 0; }
+      if(pressure){m->rng.state=rngBefore;m->trainingDeals=dealsBefore;m->limitReached=true;break;}
+      m->budgetBytes=totalBudget-workerScratch-work.size()*m->workBytesPerDeal;
+      if (!ok) { m->rng.state=rngBefore;m->trainingDeals=dealsBefore;pool.stop(); fail(err, errlen, "Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals."); return 0; }
+      // Provision all sparse rows before an immediate update or a DCFR
+      // discount can mutate policy. Frozen batches already have a delta table.
+      if(!m->dense && (B==1 || m->dcfr)){
+        for(size_t d=0;d<units && !pressure;d++)for(size_t i=0;i<m->nodes.size();i++){
+          auto &nd=m->nodes[i];if(nd.kind || nd.k<2 || (work[d].seat>=0 && work[d].seat!=nd.actor))continue;
+          if(m->getOrCreate(m->keyOf(work[d].w,(int)i,nd.actor),(int)i,nd.k)<0){pressure=true;break;}
+        }
+        if(pressure){m->rng.state=rngBefore;m->trainingDeals=dealsBefore;m->limitReached=true;break;}
+      }
+      scorer.run(*m,work,units);
       if (m->dcfr && m->iterations > 0) {   // DCFR: discount values accumulated through t-1; a uniform per-row factor on positive regrets leaves this update's policy unchanged (experimental)
         double t = (double)m->iterations, pa = std::pow(t, m->dA), pos = pa / (pa + 1), pb = std::pow(t, m->dB), neg = pb / (pb + 1), avg = std::pow(t / (t + 1), m->dG);
         for (size_t ri = 0; ri < m->rows.size(); ri++) { MW::RowMeta &rw = m->rows[ri]; if (!rw.visited) continue; size_t o = m->off((long long)ri);
@@ -506,6 +725,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
         pool.active = estimate >= 60000.0 ? pool.threads : 1;
         double tB = clk();
         pool.runRange(work, first, last, step);
+        if(pool.exhausted.load())throw std::bad_alloc();
         double tC = clk(); m->secTraverse += tC - tB;
         // Parallel merge (dense tables, several deals per update): thread i applies the
         // rows in its contiguous block of the table, scanning deals in order, so every value receives its
@@ -552,7 +772,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
       }
       if (!budget) {   // like JavaScript: discard the incomplete batch and stop at the budget
         for (int32_t r : m->touched) { MW::RowMeta &rm = m->rows[(size_t)r]; size_t o = m->off(r); for (int a = 0; a < 2 * rm.k; a++) m->delta[o + (size_t)a] = 0; rm.marked = 0; }
-        m->limitReached = true; break;
+        m->rng.state=rngBefore;m->trainingDeals=dealsBefore;m->limitReached = true; break;
       }
       for (int32_t r : m->touched) {
         MW::RowMeta &rm = m->rows[(size_t)r]; size_t o = m->off(r);
@@ -568,6 +788,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
       if (progress && (it & 63) == 63) progress(ctx, m->iterations, m->trainingDeals);
     }
   } catch (const std::bad_alloc &) { pool.stop(); m->limitReached = true; fail(err, errlen, "Out of memory during native training"); return 0; }
+  m->lastThreads=pool.threads;
   pool.stop();
   if (progress) progress(ctx, m->iterations, m->trainingDeals);
   return 1;
@@ -578,52 +799,332 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
 static void put(std::vector<unsigned char> &b, const void *p, size_t n) { const unsigned char *c = (const unsigned char *)p; b.insert(b.end(), c, c + n); }
 extern "C" void mw_info(MW *m, JB *out) {
   size_t visited = 0; for (auto &r : m->rows) visited += r.visited;
+  if (m->es) {
+    const es::Game &g = *m->es;
+    jb_printf(out, "{\"protocol\":%d,\"specProtocol\":4,\"algorithm\":\"external\",\"actionStreams\":\"%s\",\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"actionRng\":%u,\"rows\":%zu,\"states\":%zu,\"tableMiB\":",
+      MW_PROTOCOL, g.perDealStreams ? "deal" : "shared", m->iterations, m->trainingDeals, m->stateVisits, m->rng.state, g.actionRng.state, visited, g.states.parent.size());
+    jb_num(out, m->bytes / 1048576.0, 3);
+    const auto &st=g.states;
+    const size_t persistent=m->vals.capacity()*8+m->delta.capacity()*8+m->rows.capacity()*sizeof(MW::RowMeta)+
+      m->hkeys.capacity()*8+m->hrow.capacity()*4+m->touched.capacity()*4+st.parent.capacity()*4+
+      st.slot.capacity()+st.kind.capacity()+st.actor.capacity()+st.length.capacity()+st.k.capacity()+
+      st.keys.capacity()*8+st.ids.capacity()*4;
+    jb_printf(out,",\"tablePeakBytes\":%zu",m->tablePeak.load());
+    jb_printf(out,",\"tableCapacityBytes\":%zu,\"scratchPeakBytes\":%zu,\"scratchBudgetBytes\":%zu",persistent,g.scratchPeak.load(),(size_t)m->budgetBytes);
+    jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
+    jb_puts(out, ",\"budgetMiB\":"); jb_num(out, m->budgetBytes / 1048576.0, 1);
+    if (!m->studyId.empty()) jb_printf(out, ",\"studyId\":\"%s\"", m->studyId.c_str());
+    jb_printf(out, ",\"devicePath\":\"CPU (external sampling traversal)\",\"gpuBufferPeakBytes\":0,\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}",
+      m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, g.secDeal, g.secTraverse, g.secMerge);
+    return;
+  }
   jb_printf(out, "{\"protocol\":%d,\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"rows\":%zu,\"tableMiB\":", MW_PROTOCOL, m->iterations, m->trainingDeals, m->stateVisits, m->rng.state, visited);
   jb_num(out, m->bytes / 1048576.0, 3);
+  if(!m->studyId.empty())jb_printf(out,",\"studyId\":\"%s\"",m->studyId.c_str());
+  jb_printf(out,",\"devicePath\":\"%s\",\"gpuBufferPeakBytes\":%zu",m->route.c_str(),m->peakGpuBytes);
   jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}", m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, m->secDeal, m->secTraverse, m->secMerge);
 }
+static uint32_t rowChecksum(const unsigned char *data,size_t n) {
+  static const auto table=[]{
+    std::array<uint32_t,256> t{};
+    for(uint32_t i=0;i<256;i++){uint32_t c=i;for(int bit=0;bit<8;bit++)c=(c>>1)^((c&1)?0xedb88320U:0);t[i]=c;}
+    return t;
+  }();
+  uint32_t crc=~0U;for(size_t i=0;i<n;i++)crc=table[(crc^data[i])&255]^(crc>>8);
+  return ~crc;
+}
+static size_t esExport(MW *m, unsigned char **out);
+static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int errlen);
 extern "C" size_t mw_export(MW *m, unsigned char **out) {
-  std::vector<unsigned char> b; put(b, "EMMW1\0\0\0", 8);
-  JB h; jb_init(&h); mw_info(m, &h); uint32_t hl = (uint32_t)h.n; put(b, &hl, 4); put(b, h.s, h.n); jb_free(&h);
+  if (m->es) return esExport(m, out);
+  std::vector<unsigned char> b; put(b, m->startLen?"EMMW1\0\0\0":"EMMW3\0\0\0", 8);
+  JB h; jb_init(&h); mw_info(m, &h); h.n--;jb_puts(&h,",\"rowCrc32\":\"00000000\"}");
+  uint32_t hl = (uint32_t)h.n; put(b, &hl, 4); put(b, h.s, h.n); jb_free(&h);
   uint32_t cnt = 0; size_t at = b.size(); put(b, &cnt, 4);
   for (size_t r = 0; r < m->rows.size(); r++) {
     const MW::RowMeta &rm = m->rows[r]; if (!rm.visited) continue;
     uint32_t node = (uint32_t)rm.node; uint16_t hand; uint8_t e1 = 0, e2 = 0, k = (uint8_t)rm.k;
     if (m->dense) hand = (uint16_t)(rm.key - (uint64_t)m->nodes[(size_t)rm.node].rowBase);
+    else if(!m->startLen) { hand=(rm.key>>30)&2047; e1=(rm.key>>24)&63; e2=(rm.key>>18)&63; }
     else { hand = (uint16_t)((rm.key >> 16) & 0xffff); e1 = (uint8_t)((rm.key >> 8) & 0xff); e2 = (uint8_t)(rm.key & 0xff); }
     put(b, &node, 4); put(b, &hand, 2); put(b, &e1, 1); put(b, &e2, 1); put(b, &k, 1);
+    if(!m->startLen) for(int j=2;j>=0;--j){uint8_t card=(rm.key>>(6*j))&63; put(b,&card,1);}
     put(b, &m->vals[m->off((long long)r)], 16 * (size_t)rm.k); cnt++;
   }
   std::memcpy(&b[at], &cnt, 4);
+  char crc[9];snprintf(crc,sizeof(crc),"%08x",rowChecksum(b.data()+at,b.size()-at));
+  memcpy(b.data()+12+hl-10,crc,8);
   *out = (unsigned char *)malloc(b.size()); if (!*out) return 0;
   std::memcpy(*out, b.data(), b.size()); return b.size();
 }
 extern "C" int mw_import(MW *m, const unsigned char *buf, size_t len, char *err, int errlen) {
-  if (len < 16 || std::memcmp(buf, "EMMW1\0\0\0", 8)) { fail(err, errlen, "Not an EMMW1 state"); return 0; }
+  if (m->es) {
+    try { return esImport(m,buf,len,err,errlen); }
+    catch(const std::bad_alloc &){fail(err,errlen,"Insufficient memory to stage checkpoint import");return 0;}
+  }
+  if (len < 16 || std::memcmp(buf, m->startLen?"EMMW1\0\0\0":"EMMW3\0\0\0", 8)) { fail(err, errlen, "Not an EMMW1 state"); return 0; }
   uint32_t hl; std::memcpy(&hl, buf + 8, 4); if ((size_t)hl + 16 > len) { fail(err, errlen, "Truncated state"); return 0; }
   JV *h = json_parse((const char *)buf + 12, hl, err, errlen); if (!h) return 0;
   long long it = (long long)jnum(jget(h, "iterations"), -1), deals = (long long)jnum(jget(h, "trainingDeals"), -1), visits = (long long)jnum(jget(h, "stateVisits"), -1);
+  if(JV *field=jget(h,"rowCrc32")){
+    char crc[9];snprintf(crc,sizeof(crc),"%08x",rowChecksum(buf+12+hl,len-12-hl));
+    if(!jstr(field) || strcmp(crc,jstr(field))){json_free(h);fail(err,errlen,"State has invalid values (row checksum failed)");return 0;}
+  }
+  const char *study=jstr(jget(h,"studyId"));
+  if(study && !m->studyId.empty() && m->studyId!=study){json_free(h);fail(err,errlen,"State belongs to a different study");return 0;}
   double rs = jnum(jget(h, "rng"), -1); json_free(h);
   if (it < 0 || it > 10000000LL || deals < 0 || visits < 0 || rs < 0 || rs > 4294967295.0) { fail(err, errlen, "Bad state header"); return 0; }
   size_t p = 12 + hl; uint32_t cnt; std::memcpy(&cnt, buf + p, 4); p += 4;
   // validate fully before changing anything
   struct R { long long row; size_t at; int k; uint64_t key; int node; };
+  if(cnt>(len-p)/41){fail(err,errlen,"Invalid state row count");return 0;}
   std::vector<R> list; list.reserve(cnt);
   for (uint32_t i = 0; i < cnt; i++) {
     if (p + 9 > len) { fail(err, errlen, "Truncated state"); return 0; }
     uint32_t node; uint16_t hand; uint8_t e1, e2, k;
     std::memcpy(&node, buf + p, 4); std::memcpy(&hand, buf + p + 4, 2); e1 = buf[p + 6]; e2 = buf[p + 7]; k = buf[p + 8]; p += 9;
     if (node >= m->nodes.size() || m->nodes[node].kind != 0 || m->nodes[node].k != k || k < 2 || hand >= m->hands[(size_t)m->nodes[node].actor].size() || e1 > 52 || e2 > 52 || p + 16 * (size_t)k > len) { fail(err, errlen, "State does not match this game"); return 0; }
+    uint64_t linked=((uint64_t)node<<11)|hand;
+    if(!m->startLen) {
+      if(p+3+16*(size_t)k>len){fail(err,errlen,"Truncated linked state");return 0;}
+      uint8_t cards[5]={e1,e2,buf[p],buf[p+1],buf[p+2]}; p+=3;
+      uint64_t seen=0;
+      for(int j=0;j<5;j++){
+        unsigned c=cards[j]; if(c>52 || (c!=0)!=(j<m->nodes[node].len) || (c && (seen&(1ULL<<c)))){fail(err,errlen,"Bad linked board");return 0;}
+        seen|=1ULL<<c; linked=(linked<<6)|c;
+      }
+    }
     for (int a = 0; a < 2 * k; a++) { double v; std::memcpy(&v, buf + p + 8 * (size_t)a, 8); if (!std::isfinite(v) || (a >= k && v < 0)) { fail(err, errlen, "State has invalid values"); return 0; } }
     uint64_t key = m->dense ? (uint64_t)(m->nodes[node].rowBase + hand) : (((uint64_t)node << 32) | ((uint64_t)hand << 16) | ((uint64_t)e1 << 8) | e2);
-    list.push_back({-1, p, k, key, (int)node}); p += 16 * (size_t)k;
+    list.push_back({-1, p, k, m->startLen?key:linked, (int)node}); p += 16 * (size_t)k;
   }
   if (p != len) { fail(err, errlen, "Trailing data in state"); return 0; }
   for (R &r : list) {
     long long row = m->getOrCreate(r.key, r.node, r.k);
     if (row < 0) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
-    std::memcpy(&m->vals[m->off(row)], buf + r.at, 16 * (size_t)r.k); m->rows[(size_t)row].visited = 1;
+    r.row=row;
+  }
+  std::fill(m->vals.begin(),m->vals.end(),0.0);
+  for(auto &row:m->rows)row.visited=0;
+  for(const R &r:list){
+    std::memcpy(&m->vals[m->off(r.row)],buf+r.at,16*(size_t)r.k);m->rows[(size_t)r.row].visited=1;
   }
   m->iterations = it; m->trainingDeals = deals; m->stateVisits = visits; m->rng.state = (uint32_t)rs; m->limitReached = false;
+  return 1;
+}
+
+// EMMW4: "EMMW4\0\0\0" | u32 header length | header JSON | u32 state count |
+// states x (u32 parent (0xffffffff root) | u8 slot (7 = next street) | u8 kind | u8 actor | u8 street length | u8 actions) |
+// u32 row count | rows x (u32 state | u16 hand index | u8 x5 public cards +1 (0 unrevealed, flop sorted) | u8 k | 2k f64)
+// rowCrc32 covers everything after the header.
+static size_t esExport(MW *m, unsigned char **out) {
+  const es::StateTable &S = m->es->states;
+  JB h; jb_init(&h);
+  jb_printf(&h,"{\"protocol\":1,\"specProtocol\":4,\"iterations\":%lld,\"trainingDeals\":%lld,\"stateVisits\":%lld,\"rng\":%u,\"actionRng\":%u,\"studyId\":",m->iterations,m->trainingDeals,m->stateVisits,m->rng.state,m->es->actionRng.state);
+  jb_str(&h,m->studyId.c_str());jb_puts(&h,",\"rowCrc32\":\"00000000\"}");
+  const uint32_t hl=(uint32_t)h.n, sc=(uint32_t)S.parent.size(); uint32_t cnt=0;
+  size_t total=20+hl+9ULL*sc;
+  for(const auto &row:m->rows)if(row.visited){total+=12+16*(size_t)row.k;cnt++;}
+  *out=(unsigned char*)malloc(total);if(!*out){jb_free(&h);return 0;}
+  unsigned char *cursor=*out;
+  auto write=[&](const void *p,size_t n){memcpy(cursor,p,n);cursor+=n;};
+  write("EMMW4\0\0\0",8);write(&hl,4);write(h.s,hl);jb_free(&h);
+  const unsigned char *body=cursor;write(&sc,4);
+  for(size_t i=0;i<sc;i++){
+    write(&S.parent[i],4);
+    const uint8_t x[]={S.slot[i],S.kind[i],S.actor[i],S.length[i],S.k[i]};write(x,5);
+  }
+  write(&cnt,4);
+  for (size_t r = 0; r < m->rows.size(); r++) {
+    const MW::RowMeta &rm = m->rows[r]; if (!rm.visited) continue;
+    uint32_t state = (uint32_t)(rm.key >> 37); uint16_t hand = (uint16_t)((rm.key >> 26) & 2047); uint8_t cards[5], k = (uint8_t)rm.k;
+    es::decodeCards((uint32_t)(rm.key & ((1u << 26) - 1)), S.length[state], cards);
+    write(&state,4);write(&hand,2);write(cards,5);write(&k,1);write(&m->vals[rm.off],16*(size_t)rm.k);
+  }
+  char crc[9];snprintf(crc,sizeof(crc),"%08x",rowChecksum(body,cursor-body));
+  memcpy(*out+12+hl-10,crc,8);return total;
+}
+static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int errlen) {
+  using namespace es;
+  Game &g = *m->es;
+  if (len < 20 || std::memcmp(buf, "EMMW4\0\0\0", 8)) { fail(err, errlen, "Not an EMMW4 external-sampling state"); return 0; }
+  uint32_t hl; std::memcpy(&hl, buf + 8, 4); if ((size_t)hl + 20 > len) { fail(err, errlen, "Truncated state"); return 0; }
+  JV *h = json_parse((const char *)buf + 12, hl, err, errlen); if (!h) return 0;
+  {
+    char crc[9]; snprintf(crc, sizeof(crc), "%08x", rowChecksum(buf + 12 + hl, len - 12 - hl));
+    const char *field = jstr(jget(h, "rowCrc32"));
+    if (!field || strcmp(crc, field)) { json_free(h); fail(err, errlen, "State has invalid values (row checksum failed)"); return 0; }
+  }
+  const char *study = jstr(jget(h, "studyId"));
+  if (!m->studyId.empty() && (!study || m->studyId != study)) { json_free(h); fail(err, errlen, "State belongs to a different study"); return 0; }
+  for(const char *name:{"iterations","trainingDeals","stateVisits","rng","actionRng"}){
+    const JV *v=jget(h,name);
+    if(!isInt(v) || v->num<0 || v->num>9007199254740991.0){json_free(h);fail(err,errlen,"Invalid checkpoint counter");return 0;}
+  }
+  const long long it = (long long)jnum(jget(h, "iterations"), -1), deals = (long long)jnum(jget(h, "trainingDeals"), -1), visits = (long long)jnum(jget(h, "stateVisits"), -1);
+  if (it >= 0 && it <= 10000000 && deals != it*m->batchDeals) { json_free(h); fail(err, errlen, "Inconsistent external checkpoint committed deal count"); return 0; }
+  const double rs = jnum(jget(h, "rng"), -1), ar = jnum(jget(h, "actionRng"), -1);
+  json_free(h);
+  if (it < 0 || it > 10000000LL || deals < 0 || visits < 0 || !(rs >= 0 && rs <= 4294967295.0) || !(ar >= 0 && ar <= 4294967295.0)) { fail(err, errlen, "Bad state header"); return 0; }
+  size_t p = 12 + hl; uint32_t sc; std::memcpy(&sc, buf + p, 4); p += 4;
+  if (sc < 1 || sc > (len - p) / 9 || sc >= (1u << 27)) { fail(err, errlen, "Invalid state count"); return 0; }
+  std::vector<uint32_t> parent(sc); std::vector<uint8_t> slot(sc), kind(sc), actor(sc), length(sc), kk(sc);
+  for (uint32_t i = 0; i < sc; i++) {
+    std::memcpy(&parent[i], buf + p, 4); slot[i] = buf[p + 4]; kind[i] = buf[p + 5]; actor[i] = buf[p + 6]; length[i] = buf[p + 7]; kk[i] = buf[p + 8]; p += 9;
+    if (i == 0 ? parent[i] != 0xffffffffu : parent[i] >= i) { fail(err, errlen, "States must follow their parent"); return 0; }
+  }
+  // Replay every state from the rules and require the stored description to match.
+  std::vector<std::vector<uint32_t>> kids(sc);
+  for (uint32_t i = 1; i < sc; i++) kids[parent[i]].push_back(i);
+  {
+    std::vector<BS> stack(MAX_DEPTH + 2); std::vector<std::pair<uint32_t, int>> todo{{0u, 0}};
+    while (!todo.empty()) {
+      auto [id, depth] = todo.back(); todo.pop_back();
+      if (depth > MAX_DEPTH) { fail(err, errlen, "State tree too deep"); return 0; }
+      BS &s = stack[(size_t)depth];
+      if (id == 0) s = g.rootState;
+      else {
+        const BS &par = stack[(size_t)depth - 1];
+        if (slot[id] == CHANCE_SLOT) { if (par.kind != 1) { fail(err, errlen, "State does not match the betting rules"); return 0; } g.rules.nextStreet(par, s); }
+        else { if (par.kind != 0 || slot[id] >= par.k) { fail(err, errlen, "State does not match the betting rules"); return 0; } g.rules.advance(par, slot[id], s); }
+      }
+      if (s.kind == 2 || s.kind != kind[id] || (s.kind == 0 && (s.actor != actor[id] || s.k != kk[id])) || s.length != length[id]) { fail(err, errlen, "State does not match the betting rules"); return 0; }
+      // Children must be distinct actions. LIFO order finishes a node's subtree
+      // before any sibling reuses its stack slot.
+      uint8_t used[8]={};
+      for (uint32_t c : kids[id]) { if (slot[c] >= 8 || used[slot[c]]++) { fail(err, errlen, "Duplicate state"); return 0; } }
+      for (size_t j = kids[id].size(); j-- > 0;) todo.push_back({kids[id][j], depth + 1});
+    }
+  }
+  if (p + 4 > len) { fail(err, errlen, "Truncated state"); return 0; }
+  uint32_t cnt; std::memcpy(&cnt, buf + p, 4); p += 4;
+  struct R { uint64_t key; uint32_t state; int k; size_t at; };
+  std::vector<R> list; if (cnt > (len - p) / 44) { fail(err, errlen, "Invalid row count"); return 0; }
+  list.reserve(cnt);
+  int board[5]; std::copy_n(m->board, 5, board); std::sort(board, board + std::min(3, m->startLen));
+  for (uint32_t i = 0; i < cnt; i++) {
+    if (p + 12 > len) { fail(err, errlen, "Truncated state"); return 0; }
+    uint32_t state; uint16_t hand; std::memcpy(&state, buf + p, 4); std::memcpy(&hand, buf + p + 4, 2);
+    const uint8_t *cards = buf + p + 6; const int k = buf[p + 11]; p += 12;
+    if (state >= sc || kind[state] != 0 || kk[state] != k || k < 2 || hand >= m->hands[actor[state]].size() || p + 16 * (size_t)k > len) { fail(err, errlen, "State does not match this game"); return 0; }
+    int c[5]; uint64_t seen = 0; const int L = length[state];
+    for (int j = 0; j < 5; j++) {
+      if ((cards[j] != 0) != (j < L) || cards[j] > 52) { fail(err, errlen, "Bad public cards"); return 0; }
+      c[j] = cards[j] - 1;
+      if (cards[j]) { if (seen >> c[j] & 1) { fail(err, errlen, "Bad public cards"); return 0; } seen |= 1ULL << c[j]; }
+      if (j < m->startLen && c[j] != board[j]) { fail(err, errlen, "Public cards do not match the board"); return 0; }
+    }
+    if (L >= 3 && !(c[0] < c[1] && c[1] < c[2])) { fail(err, errlen, "Bad public cards"); return 0; }
+    for (int a = 0; a < 2 * k; a++) { double v; std::memcpy(&v, buf + p + 8 * (size_t)a, 8); if (!std::isfinite(v) || (a >= k && v < 0)) { fail(err, errlen, "State has invalid values"); return 0; } }
+    if(!m->turnGroups.empty()){
+      const int runout=L==5?c[4]+1:0;
+      if(m->turnGroups[actor[state]][runout*m->hands[actor[state]].size()+hand]!=runout*2048+hand){
+        fail(err,errlen,"Noncanonical turn strategy hand");return 0;
+      }
+    }
+    const auto &hole=m->hands[actor[state]][hand];
+    if ((seen & ((1ULL<<hole.a)|(1ULL<<hole.b))) || hole.strategyHand!=hand) { fail(err,errlen,"Blocked or noncanonical strategy hand");return 0; }
+    list.push_back({rowKey(state, hand, cardsCode(c, L)), state, k, p}); p += 16 * (size_t)k;
+  }
+  if (p != len) { fail(err, errlen, "Trailing data in state"); return 0; }
+  // Estimate before replacing anything.
+  double need = sc * (StateTable::bytesPerState + 12) + 4096 * 12.0;
+  for (const R &r : list) need += 2.0 * r.k * 8 * (m->batchDeals > 1 ? 2 : 1) + sizeof(MW::RowMeta) + 24;
+  if (need > m->budgetBytes) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
+  StateTable fresh(&m->arena); double bytes = 0;
+  for (uint32_t i = 0; i < sc; i++) if (fresh.add(parent[i], slot[i], kind[i], actor[i], length[i], kk[i], bytes, m->budgetBytes) != (int)i) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
+  MW staged(&m->arena);
+  staged.dense=false; staged.batchDeals=m->batchDeals; staged.budgetBytes=m->budgetBytes; staged.bytes=bytes;
+  for (const R &r : list) {
+    const auto row=staged.getOrCreate(r.key,(int)r.state,r.k);
+    if(row<0){fail(err,errlen,"State exceeds the native memory budget");return 0;}
+    auto &meta=staged.rows[(size_t)row];
+    if(meta.visited){fail(err,errlen,"Duplicate strategy row");return 0;}
+    meta.visited=1;
+    std::memcpy(staged.vals.data()+meta.off,buf+r.at,16*(size_t)r.k);
+  }
+  g.states=std::move(fresh);
+  m->rows.swap(staged.rows); m->hkeys.swap(staged.hkeys); m->hrow.swap(staged.hrow);
+  m->vals.swap(staged.vals); m->delta.swap(staged.delta); m->touched.clear();
+  m->hcount=staged.hcount;m->bytes=staged.bytes;
+  m->iterations = it; m->trainingDeals = deals; m->stateVisits = visits; m->rng.state = (uint32_t)rs; g.actionRng.state = (uint32_t)ar; m->limitReached = false;
+  return 1;
+}
+
+// ---------------- 3.1: CUDA probe and exact multiway all-in equity ----------------
+static void cudaJson(JB *out, const CudaInfo &i) {
+  std::string name, why; for (char c : i.name) if (c != '"' && c != '\\' && (unsigned char)c >= 32) name += c;
+  for (char c : i.reason) if (c != '"' && c != '\\' && (unsigned char)c >= 32) why += c;
+  jb_printf(out, "{\"available\":%s,\"reason\":\"%s\",\"name\":\"%s\",\"computeCapability\":\"%d.%d\",\"driverVersion\":%d,\"image\":\"%s\",\"totalMiB\":%.0f,\"freeMiB\":%.0f,\"reserveMiB\":%.0f,\"defaultBufferCapMiB\":512}",
+    i.available ? "true" : "false", why.c_str(), name.c_str(), i.major, i.minor, i.driver, i.image.c_str(), i.totalBytes / 1048576.0, i.freeBytes / 1048576.0,
+    std::max(1024.0, i.totalBytes / 4.0 / 1048576.0));
+}
+extern "C" void mw_cuda_info(JB *out) { CudaScore d; d.open(); cudaJson(out, d.info); }
+static unsigned long long binomial(int x, int r) { if (r < 0 || x < r) return 0; unsigned long long v = 1; for (int i = 0; i < r; i++) v = v * (unsigned long long)(x - i) / (unsigned long long)(i + 1); return v; }
+extern "C" int mw_equity(const char *json, size_t len, JB *out, char *err, int errlen) {
+  JV *root = json_parse(json, len, err, errlen); if (!root) return 0;
+  auto bad = [&](const char *m) { json_free(root); fail(err, errlen, m); return 0; };
+  JV *hs = jget(root, "hands"), *bd = jget(root, "board");
+  if (!hs || hs->type != J_ARR || hs->n < 2 || hs->n > 8) return bad("Give 2 to 8 hands");
+  uint64_t used = 0; std::vector<int> cards;
+  for (int p = 0; p < hs->n; p++) { JV *h = hs->items[p]; if (h->type != J_ARR || h->n != 2) return bad("Each hand needs two cards");
+    for (int j = 0; j < 2; j++) { int c = (int)jnum(h->items[j], -1); if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; cards.push_back(c); } }
+  std::vector<int> board;
+  if (bd) { if (bd->type != J_ARR || bd->n > 5 || bd->n == 1 || bd->n == 2) return bad("Board must have 0, 3, 4 or 5 cards");
+    for (int j = 0; j < bd->n; j++) { int c = (int)jnum(bd->items[j], -1); if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; board.push_back(c); } }
+  const char *dv = jstr(jget(root, "device")); std::string device = dv ? dv : "cpu";
+  if (device != "cpu" && device != "gpu" && device != "both") return bad("device must be cpu, gpu or both");
+  int threads = (int)jnum(jget(root, "threads"), 1); threads = std::clamp(threads, 1, 256);
+  double gpuMiB = jnum(jget(root, "gpuMiB"), 512); if (!(gpuMiB >= 1 && gpuMiB <= 8192)) return bad("gpuMiB must be 1 to 8192");
+  json_free(root);
+  const int n = (int)cards.size() / 2, need = 5 - (int)board.size();
+  std::vector<int> deck; for (int c = 0; c < 52; c++) if (!(used >> c & 1)) deck.push_back(c);
+  const unsigned long long combos = binomial((int)deck.size(), need);
+  std::vector<unsigned long long> binom(53 * 6); for (int x = 0; x <= 52; x++) for (int r = 0; r <= 5; r++) binom[(size_t)x * 6 + r] = binomial(x, r);
+  auto clk = [] { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); };
+  unsigned long long cpu[9] = {0}, gpu[9] = {0}; double cpuSec = -1, gpuSec = -1; bool gpuOk = false; size_t peak = 0; CudaInfo info;
+  auto runCpu = [&] {
+    double t = clk(); std::vector<std::array<unsigned long long, 9>> part((size_t)threads); std::vector<std::thread> pool;
+    for (int w = 0; w < threads; w++) pool.emplace_back([&, w] {
+      auto &acc = part[(size_t)w]; acc.fill(0);
+      for (unsigned long long index = (unsigned long long)w; index < combos; index += (unsigned long long)threads) {
+        int b[5]; for (size_t j = 0; j < board.size(); j++) b[j] = board[j];
+        unsigned long long rest = index;
+        for (int r = need; r >= 1; --r) { int x = r - 1; while (x + 1 < (int)deck.size() && binomial(x + 1, r) <= rest) ++x; rest -= binomial(x, r); b[board.size() + (size_t)r - 1] = deck[(size_t)x]; }
+        int best = -1, winners = 0, sc[8];
+        for (int p = 0; p < n; p++) { sc[p] = evalSeven(b, cards[(size_t)2 * p], cards[(size_t)2 * p + 1]); if (sc[p] > best) { best = sc[p]; winners = 1; } else if (sc[p] == best) winners++; }
+        for (int p = 0; p < n; p++) if (sc[p] == best) acc[(size_t)p] += 840u / (unsigned)winners;
+        acc[8]++;
+      }
+    });
+    for (auto &th : pool) th.join();
+    for (auto &a : part) for (int i = 0; i < 9; i++) cpu[i] += a[(size_t)i];
+    cpuSec = clk() - t;
+  };
+  if (device != "cpu") {
+    CudaScore d;
+    if (d.open()) {
+      std::vector<unsigned char> spec{(unsigned char)n, (unsigned char)board.size(), (unsigned char)deck.size()};
+      for (int c : cards) spec.push_back((unsigned char)c);
+      for (int c : board) spec.push_back((unsigned char)c);
+      for (int c : deck) spec.push_back((unsigned char)c);
+      double t = clk(); gpuOk = d.equity(spec, binom, combos, gpu, (size_t)(gpuMiB * 1048576), peak); gpuSec = clk() - t;
+    }
+    info = d.info;
+  }
+  std::string gpuError;
+  if (device != "cpu" && !gpuOk) gpuError = info.available ? "GPU task failed (allocation, VRAM reserve, launch or copy); CPU result reported" : "CUDA unavailable: " + info.reason;
+  if (device != "gpu" || !gpuOk) runCpu();
+  const unsigned long long *ref = device == "gpu" && gpuOk ? gpu : cpu;
+  jb_printf(out, "{\"players\":%d,\"boards\":%llu,\"equity\":[", n, combos);
+  for (int p = 0; p < n; p++) { if (p) jb_putc(out, ','); jb_num(out, (double)ref[p] / (840.0 * (double)combos), 9); }
+  jb_puts(out, "],\"shareUnits\":[");
+  for (int p = 0; p < n; p++) { if (p) jb_putc(out, ','); jb_printf(out, "%llu", ref[p]); }
+  jb_printf(out, "],\"cpuSeconds\":%.6f,\"cpuThreads\":%d,\"gpuSeconds\":%.6f,\"gpuUsed\":%s", cpuSec, threads, gpuSec, gpuOk ? "true" : "false");
+  if (device == "both" && gpuOk) { bool same = true; for (int i = 0; i < n; i++) same &= cpu[i] == gpu[i]; same &= cpu[8] == gpu[8]; jb_printf(out, ",\"gpuMatchesCpu\":%s", same ? "true" : "false"); }
+  jb_printf(out, ",\"gpuBufferPeakBytes\":%zu", peak);
+  if (!gpuError.empty()) jb_printf(out, ",\"gpuFallbackReason\":\"%s\"", gpuError.c_str());
+  if (device != "cpu") { jb_puts(out, ",\"cuda\":"); cudaJson(out, info); }
+  jb_putc(out, '}');
   return 1;
 }

@@ -50,7 +50,7 @@ jobs:
           Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
+          Copy-Item RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
@@ -58,6 +58,10 @@ jobs:
         shell: powershell
         run: |
           $r = 'release/EightMax'
+          & "$r/source/tools/test_devices.ps1"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/verify_build.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/package_smoke.js $r
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/mtt_ui_smoke.js $r

@@ -28,7 +28,7 @@ function unpack(text,length,nonnegative=false){
   for(let i=0;i<length;i++){const x=view.getFloat64(i*8,true);if(!Number.isFinite(x)||(nonnegative&&x<0))fail();out[i]=x;}
   return out;
 }
-function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'2.9',cfg:copy(cfg),state,labels:labels||[]};}
+function payload(cfg,state,labels){return {format:'EightMax training',version:1,engine:cfg.riverStrata?ENGINE:'multiway-2.4',writer:'3.2',cfg:copy(cfg),state,labels:labels||[]};}
 function validate(p){
   if(p&&p.format==='EightMax training'&&(p.version!==1||(typeof p.engine==='string'&&!ENGINES.includes(p.engine))))
     throw Error('This checkpoint was written by an incompatible EightMax engine ('+String(p.engine).slice(0,40)+', format '+String(p.version).slice(0,8)+(p.writer?', writer '+String(p.writer).slice(0,12):'')+'). This version reads formats from '+ENGINES.join(', ')+'.');
@@ -56,7 +56,13 @@ function restore(p){
   validate(p);const cfg=copy(p.cfg);
   // 2.3 trained wide studies with uniform weighting and had no ante choice; keep both on resume.
   if(p.engine==='multiway-2.3' && cfg.privateMode==='sampled' && cfg.weighting===undefined)cfg.weighting='uniform';
-  const g=EM.MultiwayGame(cfg);
+  if(cfg.preflop && p.state.external===true && p.writer!=='3.0' && p.writer!=='3.1' && p.writer!=='3.2')cfg.traversal='external';
+  // 3.1 changed the automatic full-tree limit for native training (20,000 states,
+  // was 250,000). An automatic sampled study resumes with the traversal it was
+  // trained with, so earlier checkpoints keep restoring. The saved configuration
+  // itself is not changed.
+  const opts=p.state.kind==='wide' && typeof p.state.external==='boolean'?{restoredExternal:p.state.external}:{};
+  const g=EM.MultiwayGame(cfg,opts);
   g.restoreState(p.state);return {game:g,cfg,labels:p.labels.slice()};
 }
 // The transaction replaces both generations atomically. Keep the DB closed

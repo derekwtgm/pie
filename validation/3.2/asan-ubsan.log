@@ -1,0 +1,20 @@
+✔ EMMW4 integrity: checksum, tampered states, foreign studies and truncation are rejected by both readers (85.653756ms)
+✔ transactional six-seat recovery 1 deals shared (509.586719ms)
+✔ transactional six-seat recovery 1 deals deal (456.705131ms)
+✔ transactional six-seat recovery 4 deals shared (544.446641ms)
+✔ transactional six-seat recovery 4 deals deal (1036.984394ms)
+✔ transactional six-seat recovery 16 deals shared (579.28227ms)
+✔ transactional six-seat recovery 16 deals deal (436.814192ms)
+✔ native grouped river parity with blockers and weighted overlapping ranges compact (113.222982ms)
+✔ native grouped river parity with blockers and weighted overlapping ranges detailed (117.268925ms)
+✔ stratified external frozen river batch matches JS and restores exactly (93.367443ms)
+✔ grouped native turn-to-river parity compact (178.802397ms)
+✔ grouped native turn-to-river parity detailed (264.970612ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14118.523454

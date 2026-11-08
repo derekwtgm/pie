@@ -11,12 +11,10 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{exe
 const E=require('../tools/loadlib');
 for(const l of ['lib_runouts','lib_wide','lib_river','lib_river_ui'])require('../web/'+l+'.js');
 const native=path.join(__dirname,'../native'),tmp=fs.mkdtempSync(path.join(os.tmpdir(),'em29-'));
-let cli=null,why='';
-try{
-  execFileSync('gcc',['-O2','-c',path.join(native,'json.c'),'-o',path.join(tmp,'json.o')]);
-  execFileSync('g++',['-std=c++20','-O2','-ffp-contract=off','-I'+native,path.join(native,'mw.cpp'),path.join(native,'mwcli.cpp'),path.join(tmp,'json.o'),'-lpthread','-o',path.join(tmp,'mwcli')]);
-  cli=path.join(tmp,'mwcli');
-}catch(e){why='C/C++ compiler unavailable: '+e.message.split('\n')[0];}
+// 3.1: the native CLI and the CUDA test double come from the shared build cache
+// (tests/native_build.js), so parallel suites compile them once per source version.
+const shared=require('./native_build').cli();
+let cli=shared.cli,why=shared.why;
 const skip=cli?false:why;
 let seq=0;
 function runNative(spec,iterations,threads,{memoryMiB=1024,from=null}={}){
@@ -41,6 +39,8 @@ const turn3={...river3,board:'Ks8d5h2c',streets:{turn:{bets:'50',raises:'',maxBe
 const flop3={...river3,board:'Ks8d5h',stacks:[12,12,12],streets:{flop:{bets:'50',raises:'',maxBets:1},turn:{bets:'75',raises:'',maxBets:1},river:{bets:'a',raises:'',maxBets:1}}};
 
 const cases=[
+  ['stratified weighted river',river3,{batchDeals:4,riverStrata:true},120,4],
+  ['ICM multiway all-in with off-table stacks',{...river3,stacks:[5,9,18],icm:{payouts:[60,30,10,4],others:[7]}},{batchDeals:4},35,4],
   ['3-player river, one deal per update',river3,{},400,1],
   ['3-player river, frozen batches of 4, 4 threads',river3,{batchDeals:4},150,4],
   ['3-player river, batches of 16, CFR+ clipping',river3,{batchDeals:16,regretMatching:'plus'},40,3],
@@ -88,7 +88,9 @@ test('JavaScript continues a native-trained study exactly, and native continues 
   assert.deepEqual(restored.metrics(),a.metrics());
 });
 test('native engine refuses tables over its memory budget and stops cleanly when hashed rows reach it',{skip},()=>{
-  const big=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(8,'River',8)),privateMode:'sampled',abstraction:'exact',engine:'native',batchDeals:4,evaluationDeals:128});
+  // 3.1: automatic native traversal now samples betting on this tree (protocol 4);
+  // an explicit full tree keeps the up-front table refusal under test.
+  const big=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(8,'River',8)),privateMode:'sampled',abstraction:'exact',engine:'native',batchDeals:4,evaluationDeals:128,traversal:'full',fullTreeStates:250000});
   assert.throws(()=>runNative(big.nativeSpec(),1,1,{memoryMiB:1}),/native budget/);
   const flop=E.MultiwayGame({...flop3,ranges:Array(3).fill('random'),batchDeals:4});
   const r=runNative(flop.nativeSpec(),200,2,{memoryMiB:4});
@@ -108,8 +110,10 @@ test('malformed specs and native states are rejected',{skip},()=>{
 });
 test('studies outside native support say why and keep JavaScript training',()=>{
   assert.match(E.MultiwayGame({...river3,abstraction:'detailed'}).nativeSupport(),/Exact cards/);
-  assert.match(E.MultiwayGame({...river3,icm:{payouts:[50,30,20]}}).nativeSupport(),/ICM/);
-  assert.match(E.MultiwayGame({...river3,traversal:'external'}).nativeSupport(),/full betting tree/);
+  assert.equal(E.MultiwayGame({...river3,icm:{payouts:[50,30,20]}}).nativeSupport(),null);
+  // 3.1: sampled betting traversal is native (spec protocol 4); grouped abstractions still are not.
+  assert.equal(E.MultiwayGame({...river3,traversal:'external'}).nativeSupport(),null);
+  assert.equal(E.MultiwayGame({...river3,traversal:'external'}).nativeSpec().protocol,4);
   assert.equal(E.MultiwayGame(river3).nativeSupport(),null);
   // engine:'native' asks automatic traversal for a full tree with exact cards only
   const g=E.MultiwayGame({...E.multiwaySpotConfig(E.multiwayExample(4,'Flop',8)),privateMode:'sampled',abstraction:'exact',engine:'native'});
@@ -118,9 +122,7 @@ test('studies outside native support say why and keep JavaScript training',()=>{
 
 // ---- native host protocol ----
 test('native host: /api/mw init, train, status, stop, state, import, memory and errors',{skip,timeout:240000},async()=>{
-  const build=path.join(tmp,'build');
-  execFileSync(process.execPath,[path.join(__dirname,'../tools/build.js'),build]);
-  execFileSync('sh',[path.join(native,'build.sh'),'linux',path.join(build,'native.html'),path.join(build,'linux')]);
+  const build=require('./native_build').host().dir;
   const port=18000+Math.floor(Math.random()*20000),home=fs.mkdtempSync(path.join(tmp,'home'));
   const host=spawn(path.join(build,'linux','eightmax'),['--no-browser','--port='+port],{env:{...process.env,HOME:home,EIGHTMAX_GPU:'off',EIGHTMAX_THREADS:'4'},stdio:'ignore'});
   const base='http://127.0.0.1:'+port;
@@ -220,4 +222,96 @@ test('chip EV and ICM: ICM equities sum to the prize pool and match the referenc
     const a=E.icmRaw(st,pay),b=E.icmRawReference(st,pay);
     assert.ok(Math.abs(a.reduce((x,y)=>x+y,0)-100)<1e-9);for(let i=0;i<st.length;i++)assert.ok(Object.is(a[i],b[i]));
   }
+});
+
+test('3.0 linked full-tree chip EV and ICM preserve every street and resume across engines',{skip},()=>{
+ for(const icm of [undefined,{payouts:[45,30,15],others:[3]}]){
+  const cfg={preflop:{mode:'linked',opens:'2',raises:'',maxBets:1},dealt:2,board:'',common:0,
+   stacks:[4,7],ranges:['AsAd,5d6d','KsKd,AcQc:0.25'],privateMode:'sampled',abstraction:'exact',traversal:'full',icm,
+   evaluationDeals:128,bets:'',raises:'',maxBets:1,streets:{river:{bets:'a',raises:'',maxBets:1}},batchDeals:4};
+  const js=E.MultiwayGame(cfg),dest=E.MultiwayGame(cfg);
+  assert.equal(dest.nativeSupport(),null);js.iterate(20);
+  const native=runNative(js.nativeSpec(),30,2,{from:js.exportNative()});
+  dest.importNative(native.state);js.iterate(30);
+  const decode=g=>{const b=Buffer.from(g.exportNative());let i=16+b.readUInt32LE(8);const rows=new Map();
+   while(i<b.length){let k=b[i+8],end=i+12+16*k;const v=b.subarray(i+12,end);if(v.some(x=>x))rows.set(b.subarray(i,i+12).toString('hex'),v.toString('hex'));i=end;}return rows;};
+  assert.deepEqual(decode(dest),decode(js));assert.deepEqual(dest.metrics().ev,js.metrics().ev);
+ }
+});
+test('3.0 exact-card sampled flops agree for every table size from two to eight',{skip},()=>{
+ const ranges=['AsAd','KsKd','QhQd','JsJd','TsTd','9s9d','8s8d','7s7d'];
+ for(let n=2;n<=8;n++){
+  const cfg={board:'2c3c4h',stacks:ranges.slice(0,n).map((_,i)=>3+i),common:8,ranges:ranges.slice(0,n),
+   streets:{flop:{bets:'',raises:'',maxBets:1},turn:{bets:'',raises:'',maxBets:1},river:{bets:'a',raises:'',maxBets:1}},
+   traversal:'full',fullTreeStates:250000,privateMode:'sampled',abstraction:'exact',batchDeals:4,evaluationDeals:128};
+  const js=E.MultiwayGame(cfg);const native=runNative(js.nativeSpec(),2,2);
+  js.iterate(2);sameRows(js.exportNative(),native.state);
+ }
+});
+test('3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures',{skip:skip||process.platform!=='linux'},()=>{
+ fs.copyFileSync(path.join(shared.fixtureDir,'libcuda.so.1'),path.join(tmp,'libcuda.so.1'));
+ const cfg={...turn3,batchDeals:7},spec=E.MultiwayGame(cfg).nativeSpec();
+ const reference=runNative(spec,24,3);
+ const original=process.env.LD_LIBRARY_PATH, fault=process.env.EM_FIXTURE_FAULT;
+ try{
+  process.env.LD_LIBRARY_PATH=tmp+(original?':'+original:'');
+  for(const [mode,fail] of [['auto',''],['gpu',''],['hybrid',''],...['missing','pressure','alloc','download','mismatch'].map(f=>['hybrid',f])]){
+   process.env.EM_FIXTURE_FAULT=fail;
+   const run=runNative({...spec,device:mode},24,3);
+   sameRows(reference.state,run.state);assert.equal(run.info.rng,reference.info.rng);
+   if(fail)assert.match(run.info.devicePath,/CPU/);
+   else if(mode==='hybrid')assert.equal(run.info.devicePath,'Hybrid scoring');
+  }
+ }finally{
+  if(original===undefined)delete process.env.LD_LIBRARY_PATH;else process.env.LD_LIBRARY_PATH=original;
+  if(fault===undefined)delete process.env.EM_FIXTURE_FAULT;else process.env.EM_FIXTURE_FAULT=fault;
+ }
+});
+test('3.0 prevents same-shape state imports across chip EV and ICM',{skip},()=>{
+ const a=E.MultiwayGame(river3),b=E.MultiwayGame({...river3,icm:{payouts:[50,30,20]}});
+ const trained=runNative(a.nativeSpec(),4,1).state;
+ assert.throws(()=>b.importNative(trained),/different study/);
+ assert.throws(()=>runNative(b.nativeSpec(),1,1,{from:trained}),/different study/);
+});
+
+test('3.0 native ICM terminal regrets agree with independent finishing-order enumeration',{skip},()=>{
+ const starts=[12,12,16,10],payout=[60,25,10,5];
+ // At the first update the acting seat plays both branches with probability 1/2.
+ // One branch has simultaneous busts with equal starting stacks.
+ const outcomes=[[0,0,40,10],[6,16,18,10]];
+ function prize(stacks){
+  const alive=stacks.map((x,i)=>i).filter(i=>stacks[i]>0);
+  if(!stacks[0])return (payout[2]+payout[3])/2;
+  let expected=0;
+  function rank(left,place,p){
+   const sum=left.reduce((s,i)=>s+stacks[i],0);
+   for(const i of left){
+    const q=p*stacks[i]/sum;
+    if(i===0)expected+=q*payout[place];
+    else rank(left.filter(j=>j!==i),place+1,q);
+   }
+  }
+  rank(alive,0,1);return expected;
+ }
+ const spec={...E.MultiwayGame(river3).nativeSpec(),protocol:3,icm:{start:starts,others:[10],payouts:payout},
+   nodes:[[0,0,5,[1,2]],...outcomes.map(x=>[2,[0,0,0],[],x.slice(0,3)])]};
+ const {state}=runNative(spec,1,1);const off=16+state.readUInt32LE(8)+9;
+ const gain=(prize(outcomes[0])-prize(outcomes[1]))/2;
+ assert.ok(Math.abs(state.readDoubleLE(off)-gain)<1e-12);assert.ok(Math.abs(state.readDoubleLE(off+8)+gain)<1e-12);
+});
+
+test('3.0 native memory stop resumes from the last complete immediate update',{skip},()=>{
+ const cfg={...flop3,batchDeals:1,ranges:Array(3).fill('random')},game=E.MultiwayGame(cfg),spec=game.nativeSpec();
+ const stopped=runNative(spec,900,1,{memoryMiB:3});
+ assert.equal(stopped.info.limitReached,true);assert.ok(stopped.info.iterations>0);
+ const expected=runNative(spec,stopped.info.iterations+3,1);
+ const resumed=runNative(spec,3,1,{from:stopped.state});
+ sameRows(expected.state,resumed.state);assert.equal(resumed.info.rng,expected.info.rng);
+});
+
+test('3.0 finite single-bit state damage fails integrity validation in both readers',{skip},()=>{
+ const g=E.MultiwayGame(river3);const spec=g.nativeSpec(),{state}=runNative(spec,8,1);
+ const corrupt=Buffer.from(state);corrupt[corrupt.length-4]^=1;
+ assert.throws(()=>runNative(spec,1,1,{from:corrupt}),/checksum/);
+ assert.throws(()=>g.importNative(corrupt),/checksum/);
 });

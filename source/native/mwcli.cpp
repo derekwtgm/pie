@@ -1,17 +1,32 @@
 // Command-line driver for the native multiway engine (tests and benchmarks).
 // usage: mwcli <spec.json> <iterations> <threads> <out.state> [memoryMiB] [in.state]
+//        mwcli --cuda-info            CUDA device probe (JSON)
+//        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
 // Prints mw_info JSON plus "seconds" (training wall time) on stdout.
 #include "mw.h"
+#include <cstring>
+#ifndef EM_BUILD_ID
+#define EM_BUILD_ID "development"
+#endif
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include "state_file.hpp"
 static std::vector<unsigned char> slurp(const char *f) {
   std::vector<unsigned char> b; FILE *fp = std::fopen(f, "rb"); if (!fp) return b;
   unsigned char tmp[65536]; size_t n; while ((n = std::fread(tmp, 1, sizeof tmp, fp)) > 0) b.insert(b.end(), tmp, tmp + n);
   std::fclose(fp); return b;
 }
 int main(int argc, char **argv) {
+  if (argc == 2 && !std::strcmp(argv[1], "--build-id")) { std::puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
+  if (argc == 2 && !std::strcmp(argv[1], "--cuda-info")) { JB j; jb_init(&j); mw_cuda_info(&j); std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0; }
+  if (argc == 3 && !std::strcmp(argv[1], "--equity")) {
+    std::vector<unsigned char> spec = slurp(argv[2]); char err[512] = "";
+    JB j; jb_init(&j);
+    if (!mw_equity((const char *)spec.data(), spec.size(), &j, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); jb_free(&j); return 1; }
+    std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0;
+  }
   if (argc < 5) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
   std::vector<unsigned char> spec = slurp(argv[1]);
   if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[1]); return 2; }
@@ -26,8 +41,8 @@ int main(int argc, char **argv) {
   if (!mw_train(m, std::atoll(argv[2]), std::atoi(argv[3]), nullptr, nullptr, nullptr, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); mw_free(m); return 1; }
   double secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
   unsigned char *buf = nullptr; size_t n = mw_export(m, &buf);
-  FILE *fp = std::fopen(argv[4], "wb"); if (!fp || std::fwrite(buf, 1, n, fp) != n) { std::fprintf(stderr, "cannot write %s\n", argv[4]); return 1; }
-  std::fclose(fp); std::free(buf);
+  bool saved=saveState(argv[4],buf,n); std::free(buf);
+  if(!saved){std::fprintf(stderr,"cannot write %s\n",argv[4]);mw_free(m);return 1;}
   JB j; jb_init(&j); mw_info(m, &j);
   std::printf("%.*s", (int)j.n - 1, j.s); std::printf(",\"wallSeconds\":%.6f}\n", secs);
   jb_free(&j); mw_free(m);

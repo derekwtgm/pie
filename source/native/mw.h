@@ -30,6 +30,11 @@ int mw_train(MW *m, long long iterations, int threads, volatile int *stop, mw_pr
 size_t mw_export(MW *m, unsigned char **out);
 // {"protocol","iterations","trainingDeals","stateVisits","rng","rows","tableMiB","limitReached","threads"}
 void mw_info(MW *m, JB *out);
+// 3.1: CUDA device probe (availability, reason, name, compute capability, VRAM).
+void mw_cuda_info(JB *out);
+// 3.1: exact multiway all-in equity by complete board enumeration on the CPU,
+// the GPU, or both (with an exact integer comparison). See MW-PROTOCOL.md.
+int mw_equity(const char *json, size_t len, JB *out, char *err, int errlen);
 #ifdef __cplusplus
 }
 #endif

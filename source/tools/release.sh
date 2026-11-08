@@ -14,7 +14,7 @@ val="$rel/validation/$version"
 log() { printf '%s\n' "$*"; }
 if [ "${2:-}" = --package-only ]; then
   # Refresh documents in an already verified release and package it again.
-  for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md; do cp "$top/$f" "$rel/"; done
+  for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md; do cp "$top/$f" "$rel/"; done
 else
 rm -rf "$rel" "$out/EightMax-Windows-$version.zip"
 mkdir -p "$val"
@@ -34,7 +34,7 @@ cp "$src/build/windows/EightMax.exe" "$rel/EightMax.exe"
 cp "$src/build/windows/mwcli.exe" "$rel/mwcli.exe"
 cp "$src/build/EightMax-Offline.html" "$rel/EightMax-Offline.html"
 cp "$src/build/build-info.json" "$rel/BUILD-INFO.json"
-for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md 'Run self-tests.bat' 'GPU self-test.bat'; do cp "$top/$f" "$rel/"; done
+for f in README.txt CHANGELOG.md ROADMAP.md RELEASE-3.2.md RELEASE-3.1.md RELEASE-3.0.md RELEASE-2.9.md RELEASE-2.8.md RELEASE-2.7.md ACCURACY-SUMMARY.md 'Run self-tests.bat' 'GPU self-test.bat' 'Compare processing modes.bat' 'Validate CUDA hardware.bat'; do cp "$top/$f" "$rel/"; done
 mkdir -p "$rel/source" "$rel/.github"
 ( cd "$src" && tar --exclude=./build -cf - . ) | ( cd "$rel/source" && tar -xf - )
 cp -R "$top/.github/." "$rel/.github/"
@@ -43,9 +43,9 @@ mkdir -p "$val"
 # Keep the repository's copies of the entry points in step with the release.
 cp "$rel/EightMax.exe" "$top/EightMax.exe"; cp "$rel/EightMax-Offline.html" "$top/EightMax-Offline.html"
 
-log "== Regression tests"
-node --test "$src"/tests/*.test.js > "$val/regression-tests.txt" 2>&1 || { tail -40 "$val/regression-tests.txt"; exit 1; }
-grep -E '^# (tests|pass|fail)' "$val/regression-tests.txt"
+log "== Regression tests (per-file limits; timeouts and skips counted separately)"
+node "$src/tools/run_tests.js" "$val/regression-tests.json" > "$val/regression-tests.txt" 2>&1 || { tail -40 "$val/regression-tests.txt"; exit 1; }
+tail -1 "$val/regression-tests.txt"
 
 log "== Package and interface smoke tests"
 node "$src/tools/package_smoke.js" "$rel" > "$val/package_smoke.log" 2>&1 || { tail -20 "$val/package_smoke.log"; exit 1; }
@@ -85,21 +85,22 @@ log "== Summary"
 node -e '
 const fs=require("fs"),p=require("path"),v=process.argv[1],ver=process.argv[2];
 const j=f=>{try{return JSON.parse(fs.readFileSync(p.join(v,f),"utf8"));}catch(e){return null;}};
-const reg=fs.readFileSync(p.join(v,"regression-tests.txt"),"utf8"),num=k=>+(reg.match(new RegExp("^# "+k+" (\\d+)","m"))||[0,NaN])[1];
+const reg=j("regression-tests.json").totals;
 const lin=j("native-host-linux.json"),wine=j("native-host-wine.json"),acc=j("ACCURACY.json"),bench=j("benchmark.json");
 const mwl=j("native-mw-linux.json"),mww=j("native-mw-wine.json"),uil=j("native-ui-linux.json"),uiw=j("native-ui-wine.json"),br=j("browser-recovery.json");
 const out={version:ver,nativeMultiwayLinux:mwl&&mwl.passed,nativeMultiwayWine:mww?mww.passed:"not run",nativeUiLinux:uil&&uil.passed,nativeUiWine:uiw?uiw.passed:"not run",browserRecovery:br&&br.passed,
- sanitizers:"passed (see sanitizers.log)",cuda:"not implemented: no NVIDIA GPU or CUDA toolkit in the build environment (see RELEASE-2.9.md)",generated:new Date().toISOString(),windowsVerified:false,
+ sanitizers:"passed (see sanitizers.log)",cuda:"CUDA kernels compiled (NVRTC 12.9 PTX + sm_75/80/86/89 SASS) and run only through the CPU driver test double here; physical GPU execution not verified. Run Validate CUDA hardware.bat.",generated:new Date().toISOString(),windowsVerified:false,
  windowsNote:wine?"Cross-compiled; exercised under Wine, not Windows.":"Cross-compiled; not executed on Windows or Wine. Run Run self-tests.bat on Windows.",
- signed:false,regressionTests:{pass:num("pass"),fail:num("fail")},
+ signed:false,regressionTests:reg,
  packageSmoke:"passed",interfaceSmoke:"passed",checkpointSmoke:"passed",
  nativeHostLinux:lin&&lin.passed,nativeHostWine:wine?wine.passed:"not run",
  accuracy:acc&&{exact3pRiver:acc.sections.multiwayExact.rows.map(r=>({iterations:r.iterations,maxGainBb:r.maxGainBb})),
   sampled3pRiver:acc.sections.sampled.rows.map(r=>({traversal:r.traversal,updates:r.updates,iterations:r.iterations,meanGainBb:r.mean,ci95:r.ci95}))},
- benchmark:"see performance-2.8-vs-2.9.json and accuracy-per-deal.json"};
+ benchmark:"see validation/3.2/accuracy-comparison.json and large-games.json"};
 fs.writeFileSync(p.join(v,"VALIDATION-"+ver+".json"),JSON.stringify(out,null,1)+"\n");' "$val" "$version"
 
 fi
+node "$rel/source/tools/verify_build.js" "$rel"
 log "== Checksums"
 ( cd "$rel" && find . -type f ! -name SHA256SUMS.txt | LC_ALL=C sort | sed 's|^\./||' | while IFS= read -r f; do sha256sum "$f"; done > SHA256SUMS.txt )
 ( cd "$rel" && sha256sum -c --quiet SHA256SUMS.txt )

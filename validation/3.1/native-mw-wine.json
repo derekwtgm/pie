@@ -1,0 +1,18 @@
+{
+ "passed": true,
+ "runtime": "wine (not Windows)",
+ "executable": "EightMax.exe",
+ "checks": [
+  "Host 3.1 build d571a3e06fb183bd advertises multiway protocol 1 (4 logical CPUs)",
+  "3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.14 s) are bit-identical to JavaScript",
+  "3-player river, own-hand enumeration: 40 updates on the host (4 threads, 0.16 s) are bit-identical to JavaScript",
+  "6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.45 s) are bit-identical to JavaScript",
+  "Cancellation stops training in 7 ms after 9678 updates; the stopped state is complete and resumable (matches 9678 JavaScript updates); concurrent jobs are refused",
+  "A malformed native state is refused",
+  "Memory: application limit 8043 MiB, native process limit 6144 MiB, resident 31 MiB, tables 0.1 MiB, available 5857 MiB",
+  "8-player full-range river fits the available budget (0.047 MiB)",
+  "Tables released"
+ ],
+ "error": null,
+ "generated": "2026-11-07T16:59:30.748Z"
+}
