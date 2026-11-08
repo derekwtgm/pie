@@ -27,6 +27,8 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
+          # 3.3: build.sh runs node (fingerprint check); the MSYS2 shell must see the runner's PATH.
+          path-type: inherit
           update: true
           install: mingw-w64-ucrt-x86_64-gcc python
       - name: Compile a fresh native host from the current source
