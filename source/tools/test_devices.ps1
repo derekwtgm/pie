@@ -1,5 +1,8 @@
 # Run without installing Node or the CUDA Toolkit. Compare the exact frozen-batch state.
 $ErrorActionPreference = 'Stop'
+# 3.3: Windows PowerShell 5.1 serializes arrays returned from functions as {"value":[...],"Count":n}
+# through extended type data; removing it keeps JSON arrays plain (no effect on PowerShell 7).
+Remove-TypeData System.Array -ErrorAction SilentlyContinue
 $root = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $exe = Join-Path $root 'mwcli.exe'
 $tmp = Join-Path ([IO.Path]::GetTempPath()) ([guid]::NewGuid())

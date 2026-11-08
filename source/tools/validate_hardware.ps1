@@ -9,6 +9,9 @@
 #   5. The four scoring modes on the turn fixture (test_devices.ps1).
 param([string]$Exe = '', [string]$Report = '')
 $ErrorActionPreference = 'Stop'
+# 3.3: Windows PowerShell 5.1 serializes arrays returned from functions as {"value":[...],"Count":n}
+# through extended type data; removing it keeps JSON arrays plain (no effect on PowerShell 7).
+Remove-TypeData System.Array -ErrorAction SilentlyContinue
 $root = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 if (-not $Exe) { $Exe = Join-Path $root 'mwcli.exe' }
 if (-not $Report) { $Report = Join-Path $root 'hardware-validation.json' }
