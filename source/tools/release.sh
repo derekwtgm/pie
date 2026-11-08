@@ -68,7 +68,7 @@ if command -v wine >/dev/null 2>&1; then
   node "$src/tools/test_native_mw.js" "$rel/EightMax.exe" "$val/native-mw-wine.json" > "$val/native-mw-wine.log" 2>&1 || { tail -20 "$val/native-mw-wine.log"; exit 1; }
   node "$src/tools/native_ui_test.js" "$rel/EightMax.exe" "$val/native-ui-wine.json" > "$val/native-ui-wine.log" 2>&1 || { tail -20 "$val/native-ui-wine.log"; exit 1; }
 fi
-sh "$src/tools/sanitize29.sh" "$src" > "$val/sanitizers.log" 2>&1 || { tail -20 "$val/sanitizers.log"; exit 1; }
+sh "$src/tools/sanitize33.sh" "$src" > "$val/sanitizers.log" 2>&1 || { tail -20 "$val/sanitizers.log"; exit 1; }
 ( x86_64-w64-mingw32-objdump -p "$rel/EightMax.exe" | grep 'DLL Name'; echo; x86_64-w64-mingw32-objdump -p "$rel/mwcli.exe" | grep 'DLL Name' ) > "$val/windows-dependencies.txt"
 python3 -c '
 import struct,sys
