@@ -8,13 +8,14 @@ struct Update {
   const size_t states, rows, values, deltas, hashSlots, stateSlots;
   const double bytes;
   const uint32_t dealRng, actionRng;
+  const size_t groupKeys;
   struct Undo { size_t row; double value[16]; uint32_t sync; };
   std::pmr::vector<Undo> undo;
   bool committed = false;
   Update(MW &engine, ScratchBudget &budget) : m(engine), s(m.es->states), states(s.parent.size()),
     rows(m.rows.size()), values(m.vals.size()), deltas(m.delta.size()),
     hashSlots(m.hkeys.size()), stateSlots(s.keys.size()), bytes(m.bytes),
-    dealRng(m.rng.state), actionRng(m.es->actionRng.state), undo(&budget) { m.touched.clear(); }
+    dealRng(m.rng.state), actionRng(m.es->actionRng.state), groupKeys(m.es->groups.text.size()), undo(&budget) { m.touched.clear(); }
   void touch(size_t row, bool immediate) {
     auto &meta = m.rows[row];
     if (meta.marked) return;
@@ -65,5 +66,6 @@ struct Update {
     s.count=states-1;
     m.bytes=bytes+12.0*((m.hkeys.size()-hashSlots)+(s.keys.size()-stateSlots));
     m.rng.state=dealRng; m.es->actionRng.state=actionRng;
+    m.es->groups.truncate(groupKeys);   // keys interned by the failed update (their bytes are restored with m.bytes)
   }
 };

@@ -120,12 +120,17 @@ test('native memory budget: a small budget stops cleanly, keeps a valid state an
 test('malformed protocol 4 specs are refused with a reason',{skip,timeout:60000},()=>{
   const spec=E.MultiwayGame(flop3).nativeSpec();
   const bad=[[{algorithm:'full'},/external sampling only/],[{rules:{...spec.rules,stacks:[1,2]}},/stacks/],[{rules:{...spec.rules,sizes:{}}},/sizes/],
-    [{actionStreams:'random'},/action stream/],[{weighting:'dcfr'},/DCFR/],[{rules:{...spec.rules,pre:true}},/Preflop/],[{stratified:true},/stratified/i]];
+    [{actionStreams:'random'},/action stream/],[{weighting:'dcfr',dcfrAlpha:-1},/DCFR/],   // 3.3: valid ES-DCFR is supported; invalid parameters are refused
+    [{rules:{...spec.rules,pre:true}},/Preflop/],[{stratified:true},/stratified/i]];
   for(const [over,re] of bad)assert.throws(()=>runNative({...spec,...over},1,1),re);
 });
 test('native support: Exact cards external sampling is native; grouped abstractions name the unsupported feature',()=>{
   assert.equal(E.MultiwayGame(flop3).nativeSupport(),null);
-  for(const abstraction of ['compact','detailed'])assert.match(E.MultiwayGame({...flop3,abstraction}).nativeSupport(),/Exact cards grouping.*JavaScript/);
+  // 3.3: grouped external-sampling flops train natively; grouped full traversal still names the JavaScript fallback.
+  for(const abstraction of ['compact','detailed']){
+    assert.equal(E.MultiwayGame({...flop3,abstraction}).nativeSupport(),null);
+    assert.match(E.MultiwayGame({...flop3,abstraction,traversal:'full'}).nativeSupport(),/Compact and Detailed.*JavaScript/);
+  }
 });
 test('automatic native traversal counts the tree instead of building 250,000 states, and chooses by size',{timeout:60000},()=>{
   const base={board:'Td7c2h',dealt:8,common:1.5,stacks:Array(6).fill(60),prior:Array(6).fill(2.5),ranges:Array(6).fill('random'),privateMode:'sampled',abstraction:'exact',engine:'native',evaluationDeals:128,

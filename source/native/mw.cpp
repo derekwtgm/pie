@@ -478,6 +478,7 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         for (int q = 0; q < 3; q++) if (!isInt(h->items[q])) return bad("Bad hand");
         Hand x{(int)h->items[0]->num, (int)h->items[1]->num, (int)h->items[2]->num, h->items[3]->num, 0};
         if (x.id < 0 || x.id > 1325 || x.a < 0 || x.a > 51 || x.b < 0 || x.b > 51 || x.a == x.b || !(x.w > 0) || !std::isfinite(x.w) || h->items[3]->type != J_NUM) return bad("Bad hand");
+        if (x.id != es::comboId(x.a, x.b)) return bad("Hand identifier does not match its cards");   // 3.3
         { const int lo = std::min(x.a, x.b), hi = std::max(x.a, x.b), pair = lo * 52 + hi;   // 3.3: one entry per card pair
           if (seenPair[pair]) return bad("Duplicate hand in a range");
           seenPair[pair] = 1; }
@@ -673,6 +674,21 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
       if (const char *why = parseRules(m, root)) return bad(why);
       // 3.3: external-sampling DCFR with per-row discount schedules (mw_es.hpp Dcfr).
       if (m->dcfr) { m->es->dcfr = true; m->es->schedule.init(m->dA, m->dB, m->dG); }
+      // 3.3: native Compact/Detailed hand groups on any street (es_groups.hpp).
+      if (JV *gk = jget(root, "groupKeys")) {
+        es::GroupKeys &G = m->es->groups;
+        if (gk->type != J_OBJ || !m->turnGroups.empty() || jget(root, "riverGroups") || !m->joint.empty()) return bad("Invalid grouped-key study");
+        const char *ab = jstr(jget(gk, "abstraction"));
+        if (!ab || (strcmp(ab, "compact") && strcmp(ab, "detailed"))) return bad("Grouped keys need Compact or Detailed grouping");
+        G.detailed = !strcmp(ab, "detailed");
+        JV *sm = jget(gk, "small"); if (!sm || sm->type != J_ARR || sm->n != m->n) return bad("Invalid grouped-key range sizes");
+        for (int p = 0; p < m->n; p++) { if (sm->items[p]->type != J_BOOL) return bad("Invalid grouped-key range sizes"); G.small[p] = sm->items[p]->num != 0; }
+        G.start = m->startLen; G.nl = 0;
+        if (m->startLen == 0) { G.lengths[G.nl++] = 0; if (!m->es->rules.shove) { G.lengths[G.nl++] = 3; G.lengths[G.nl++] = 4; } G.lengths[G.nl++] = 5; }
+        else for (int L = m->startLen; L <= 5; L++) G.lengths[G.nl++] = L;
+        G.on = true;
+        if (!es::groupStart(*m, *m->es)) return bad("Native budget is too small for the hand-group dictionary");
+      }
       // Validation reference only: textbook eager DCFR (every row discounted after every
       // iteration, average strategy discounted by (t/(t+1))^gamma). O(rows) per update.
       if (JV *eager = jget(root, "dcfrEager")) {
@@ -878,6 +894,8 @@ extern "C" void mw_info(MW *m, JB *out) {
       st.slot.capacity()+st.kind.capacity()+st.actor.capacity()+st.length.capacity()+st.k.capacity()+
       st.keys.capacity()*8+st.ids.capacity()*4;
     jb_printf(out,",\"weighting\":\"%s\"",g.dcfr?"dcfr":m->linear?"linear":"uniform");
+    if(g.groups.on)jb_printf(out,",\"handGroups\":{\"abstraction\":\"%s\",\"keys\":%zu,\"dictionaryBytes\":%.0f,\"native\":true}",g.groups.detailed?"detailed":"compact",g.groups.text.size(),g.groups.bytes);
+    else if(!m->turnGroups.empty())jb_puts(out,",\"handGroups\":{\"representatives\":\"turn\",\"native\":true}");
     if(g.dcfr){jb_puts(out,",\"dcfr\":{\"alpha\":");jb_num(out,g.schedule.alpha,6);jb_puts(out,",\"beta\":");jb_num(out,g.schedule.beta,6);
       jb_puts(out,",\"gamma\":");jb_num(out,g.schedule.gamma,6);jb_printf(out,",\"scheduleBytes\":%zu,\"lazyRowDiscount\":true}",g.schedule.bytes());}
     jb_printf(out,",\"tablePeakBytes\":%zu",m->tablePeak.load());
@@ -1000,10 +1018,13 @@ static size_t esExport(MW *m, unsigned char **out) {
   jb_str(&h,m->studyId.c_str());
   const bool rowSync=m->es->dcfr;   // 3.3: DCFR rows end with their u32 discount iteration
   if(rowSync)jb_puts(&h,",\"rowSync\":1");
+  const bool rowKeys=m->es->groups.on;   // 3.3: grouped rows carry their key text
+  if(rowKeys)jb_puts(&h,",\"rowKeys\":1");
   jb_puts(&h,",\"rowCrc32\":\"00000000\"}");
   const uint32_t hl=(uint32_t)h.n, sc=(uint32_t)S.parent.size(); uint32_t cnt=0;
   size_t total=20+hl+9ULL*sc;
-  for(const auto &row:m->rows)if(row.visited){total+=12+16*(size_t)row.k+(rowSync?4:0);cnt++;}
+  for(const auto &row:m->rows)if(row.visited){
+    total+=16*(size_t)row.k+(rowSync?4:0)+(rowKeys?7+m->es->groups.text[(size_t)(row.key&((1u<<26)-1))].size():12);cnt++;}
   *out=(unsigned char*)malloc(total);if(!*out){jb_free(&h);return 0;}
   unsigned char *cursor=*out;
   auto write=[&](const void *p,size_t n){memcpy(cursor,p,n);cursor+=n;};
@@ -1017,6 +1038,13 @@ static size_t esExport(MW *m, unsigned char **out) {
   for (size_t r = 0; r < m->rows.size(); r++) {
     const MW::RowMeta &rm = m->rows[r]; if (!rm.visited) continue;
     uint32_t state = (uint32_t)(rm.key >> 37); uint16_t hand = (uint16_t)((rm.key >> 26) & 2047); uint8_t cards[5], k = (uint8_t)rm.k;
+    if(rowKeys){
+      // u32 state | u16 key length | key text | u8 k | values
+      const std::string &key=m->es->groups.text[(size_t)(rm.key&((1u<<26)-1))];const uint16_t kl=(uint16_t)key.size();
+      write(&state,4);write(&kl,2);write(key.data(),kl);write(&k,1);write(&m->vals[rm.off],16*(size_t)rm.k);
+      if(rowSync)write(&rm.sync,4);
+      continue;
+    }
     es::decodeCards((uint32_t)(rm.key & ((1u << 26) - 1)), S.length[state], cards);
     write(&state,4);write(&hand,2);write(cards,5);write(&k,1);write(&m->vals[rm.off],16*(size_t)rm.k);
     if(rowSync)write(&rm.sync,4);
@@ -1045,10 +1073,13 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
   if (it >= 0 && it <= 10000000 && deals != it*m->batchDeals) { json_free(h); fail(err, errlen, "Inconsistent external checkpoint committed deal count"); return 0; }
   const double rs = jnum(jget(h, "rng"), -1), ar = jnum(jget(h, "actionRng"), -1);
   const JV *syncField = jget(h, "rowSync");
+  const JV *keysValue = jget(h, "rowKeys"); const bool keysField = keysValue != nullptr;
+  const bool rowKeys = keysValue && keysValue->type == J_NUM && keysValue->num == 1;   // read before json_free
   const bool rowSync = syncField && syncField->type == J_NUM && syncField->num == 1;
   const bool syncValid = !syncField || rowSync;
   json_free(h);
   if (!syncValid || rowSync != m->es->dcfr) { fail(err, errlen, "State does not match this study's weighting (DCFR discount rows)"); return 0; }
+  if ((keysField && !rowKeys) || rowKeys != m->es->groups.on) { fail(err, errlen, "State does not match this study's hand grouping"); return 0; }
   if (it < 0 || it > 10000000LL || deals < 0 || visits < 0 || !(rs >= 0 && rs <= 4294967295.0) || !(ar >= 0 && ar <= 4294967295.0)) { fail(err, errlen, "Bad state header"); return 0; }
   size_t p = 12 + hl; uint32_t sc; std::memcpy(&sc, buf + p, 4); p += 4;
   if (sc < 1 || sc > (len - p) / 9 || sc >= (1u << 27)) { fail(err, errlen, "Invalid state count"); return 0; }
@@ -1086,7 +1117,42 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
   std::vector<R> list; if (cnt > (len - p) / 44) { fail(err, errlen, "Invalid row count"); return 0; }
   list.reserve(cnt);
   int board[5]; std::copy_n(m->board, 5, board); std::sort(board, board + std::min(3, m->startLen));
-  for (uint32_t i = 0; i < cnt; i++) {
+  // 3.3 grouped rows: stage a fresh dictionary (starting-street keys first, as at creation).
+  es::GroupKeys stagedGroups; std::vector<std::vector<uint32_t>> stagedStart; double groupBytes = 0;
+  if (rowKeys) {
+    const es::GroupKeys &G = m->es->groups;
+    stagedGroups.on = true; stagedGroups.detailed = G.detailed; stagedGroups.nl = G.nl; stagedGroups.start = G.start;
+    std::copy_n(G.lengths, 4, stagedGroups.lengths); std::copy_n(G.small, 8, stagedGroups.small);
+    if (!es::groupStartInto(*m, stagedGroups, stagedStart, groupBytes, m->budgetBytes)) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
+  }
+  for (uint32_t i = 0; rowKeys && i < cnt; i++) {
+    if (p + 7 > len) { fail(err, errlen, "Truncated state"); return 0; }
+    uint32_t state; uint16_t kl; std::memcpy(&state, buf + p, 4); std::memcpy(&kl, buf + p + 4, 2); p += 6;
+    if (kl < 1 || kl > 1024 || p + kl + 1 > len) { fail(err, errlen, "Invalid grouped row key"); return 0; }
+    std::string key((const char *)buf + p, kl); p += kl; const int k = buf[p++];
+    if (state >= sc || kind[state] != 0 || kk[state] != k || k < 2 || p + 16 * (size_t)k + (rowSync ? 4 : 0) > len) { fail(err, errlen, "State does not match this game"); return 0; }
+    // Key syntax and depth: Detailed keys have one '/'-separated signal per street so far.
+    const es::GroupKeys &G = stagedGroups; int depth = -1;
+    for (int j = 0; j < G.nl; j++) if (G.lengths[j] == length[state]) depth = j;
+    if (depth < 0) { fail(err, errlen, "Invalid grouped row street"); return 0; }
+    unsigned long long num = 0;
+    if (G.detailed) {
+      int slashes = 0; bool ok = key.rfind("0/", 0) == 0;
+      for (char ch : key) { if (ch == '/') slashes++; else if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || ch == ':' || ch == '.' || ch == ',')) ok = false; }
+      if (!ok || slashes != depth + 1) { fail(err, errlen, "Invalid grouped row key"); return 0; }
+    } else {
+      if (kl > 16 || (kl > 1 && key[0] == '0')) { fail(err, errlen, "Invalid grouped row key"); return 0; }
+      for (char ch : key) { if (ch < '0' || ch > '9') { fail(err, errlen, "Invalid grouped row key"); return 0; } num = num * 10 + (unsigned)(ch - '0'); }
+      if (num > 9007199254740991ULL) { fail(err, errlen, "Invalid grouped row key"); return 0; }
+    }
+    for (int a = 0; a < 2 * k; a++) { double v; std::memcpy(&v, buf + p + 8 * (size_t)a, 8); if (!std::isfinite(v) || (a >= k && v < 0)) { fail(err, errlen, "State has invalid values"); return 0; } }
+    const uint32_t id = stagedGroups.intern(key, num, groupBytes, m->budgetBytes);
+    if (id == UINT32_MAX) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
+    uint32_t sync = 0;
+    if (rowSync) { std::memcpy(&sync, buf + p + 16 * (size_t)k, 4); if ((long long)sync > it) { fail(err, errlen, "Invalid DCFR discount iteration"); return 0; } }
+    list.push_back({rowKey(state, 0, id), state, k, p, sync}); p += 16 * (size_t)k + (rowSync ? 4 : 0);
+  }
+  for (uint32_t i = 0; !rowKeys && i < cnt; i++) {
     if (p + 12 > len) { fail(err, errlen, "Truncated state"); return 0; }
     uint32_t state; uint16_t hand; std::memcpy(&state, buf + p, 4); std::memcpy(&hand, buf + p + 4, 2);
     const uint8_t *cards = buf + p + 6; const int k = buf[p + 11]; p += 12;
@@ -1118,13 +1184,13 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
   }
   if (p != len) { fail(err, errlen, "Trailing data in state"); return 0; }
   // Estimate before replacing anything.
-  double need = sc * (StateTable::bytesPerState + 12) + 4096 * 12.0;
+  double need = sc * (StateTable::bytesPerState + 12) + 4096 * 12.0 + groupBytes;
   for (const R &r : list) need += 2.0 * r.k * 8 * (m->batchDeals > 1 ? 2 : 1) + sizeof(MW::RowMeta) + 24;
   if (need > m->budgetBytes) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
   StateTable fresh(&m->arena); double bytes = 0;
   for (uint32_t i = 0; i < sc; i++) if (fresh.add(parent[i], slot[i], kind[i], actor[i], length[i], kk[i], bytes, m->budgetBytes) != (int)i) { fail(err, errlen, "State exceeds the native memory budget"); return 0; }
   MW staged(&m->arena);
-  staged.dense=false; staged.batchDeals=m->batchDeals; staged.budgetBytes=m->budgetBytes; staged.bytes=bytes;
+  staged.dense=false; staged.batchDeals=m->batchDeals; staged.budgetBytes=m->budgetBytes; staged.bytes=bytes+groupBytes;
   for (const R &r : list) {
     const auto row=staged.getOrCreate(r.key,(int)r.state,r.k);
     if(row<0){fail(err,errlen,"State exceeds the native memory budget");return 0;}
@@ -1134,6 +1200,7 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
     std::memcpy(staged.vals.data()+meta.off,buf+r.at,16*(size_t)r.k);
   }
   g.states=std::move(fresh);
+  if (rowKeys) { g.groups = std::move(stagedGroups); g.startKey = std::move(stagedStart); }
   m->rows.swap(staged.rows); m->hkeys.swap(staged.hkeys); m->hrow.swap(staged.hrow);
   m->vals.swap(staged.vals); m->delta.swap(staged.delta); m->touched.clear();
   m->hcount=staged.hcount;m->bytes=staged.bytes+(double)g.schedule.bytes();

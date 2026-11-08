@@ -71,7 +71,8 @@ struct Walker {
     double *s = &sig[(size_t)d * 8], *q = &samp[(size_t)d * 8], *v = &val[(size_t)d * 8];
     const int physical=u->w.seat[t.actor];
     int hand=m.hands[t.actor][physical].strategyHand;uint32_t code=u->code[t.length];
-    if(!m.turnGroups.empty()){
+    if(g.groups.on){ hand=0; code=u->gk[t.length][t.actor]; }
+    else if(!m.turnGroups.empty()){
       const int slot=t.length==5?u->w.cards[4]+1:0;
       int id=m.turnGroups[t.actor][slot*m.hands[t.actor].size()+physical];
       hand=id%2048;code=u->code[4]+(uint32_t)(id/2048);
@@ -106,6 +107,40 @@ struct Walker {
 inline void codes(Unit &u, int n) {
   (void)n; for (int L : {0, 3, 4, 5}) u.code[L] = cardsCode(u.w.cards, L);
 }
+// 3.3: grouped key ids of every seat at every street of this deal (main thread, in deal order).
+inline bool groupCodes(MW &m, Game &g, Unit &u) {
+  GroupKeys &G = g.groups; std::string key; unsigned long long num;
+  for (int p = 0; p < m.n; p++) {
+    const Hand &h = m.hands[(size_t)p][(size_t)u.w.seat[p]];
+    int previous = -1;
+    for (int i = 0; i < G.nl; i++) {
+      const int L = G.lengths[i]; uint32_t id;
+      if (L == G.start) id = g.startKey[(size_t)p][(size_t)u.w.seat[p]];
+      else {
+        int cards[7]; std::copy_n(u.w.cards, L, cards); cards[L] = h.a; cards[L + 1] = h.b;
+        G.signal(key, num, p, h.a, h.b, h.id, u.w.cards, L, evalAny(cards, L + 2), previous);
+        id = G.intern(key, num, m.bytes, m.budgetBytes);
+        if (id == UINT32_MAX) return false;
+      }
+      u.gk[L][p] = id; previous = (int)id;
+    }
+  }
+  return true;
+}
+// Starting-street keys depend on the seat's hand only; computed once per study.
+inline bool groupStartInto(const MW &m, GroupKeys &G, std::vector<std::vector<uint32_t>> &startKey, double &bytes, double budget) {
+  std::string key; unsigned long long num;
+  startKey.assign((size_t)m.n, {});
+  for (int p = 0; p < m.n; p++) for (const Hand &h : m.hands[(size_t)p]) {
+    int cards[7]; std::copy_n(m.board, G.start, cards); cards[G.start] = h.a; cards[G.start + 1] = h.b;
+    G.signal(key, num, p, h.a, h.b, h.id, m.board, G.start, G.start ? evalAny(cards, G.start + 2) : 0, -1);
+    const uint32_t id = G.intern(key, num, bytes, budget);
+    if (id == UINT32_MAX) return false;
+    startKey[(size_t)p].push_back(id);
+  }
+  return true;
+}
+inline bool groupStart(MW &m, Game &g) { return groupStartInto(m, g.groups, g.startKey, m.bytes, m.budgetBytes); }
 // 3.3 DCFR: bring a row's regrets from its discount iteration to the current one
 // (identical to catchUp() in lib_wide.js). Averages need no discount: iteration
 // t's average contribution is weighted by t^gamma instead.
@@ -191,7 +226,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         if (!g.schedule.extend(m->iterations, m->budgetBytes - m->bytes + (double)before)) { m->limitReached = true; break; }
         m->bytes += (double)g.schedule.bytes() - (double)before;
       }
-      Update update(*m,budget);
+      Update update(*m,budget); bool groupFull = false;
       const double step = m->linear ? (double)(m->iterations + 1) : 1.0;
       const double avgStep = m->linear ? step : g.dcfrEager ? 1.0 : g.dcfr ? g.schedule.averageWeight((double)(m->iterations + 1)) : 1.0;
       double t0 = now();
@@ -199,10 +234,12 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         Unit &u = units[(size_t)d]; u.clear();
         if (!m->deal(u.w,d)) return failMsg("Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals.");
         g.attempts++; m->score(u.w); codes(u, n);
+        if (g.groups.on && !groupCodes(*m, g, u)) { groupFull = true; break; }
       }
       double t1 = now(); g.secDeal += t1 - t0;
-      long long visits = 0; int status = 1;
-      if (B == 1) {
+      long long visits = 0; int status = groupFull ? 0 : 1;
+      if (status == 0) {}
+      else if (B == 1) {
         Unit &u = units[0];
         Rng own{deriveSeed(g.actionSeed, m->iterations, 0)};
         Rng &r = g.perDealStreams ? own : g.actionRng;

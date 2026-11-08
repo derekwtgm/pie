@@ -35,6 +35,8 @@
 #include <functional>
 #include <memory>
 #include <algorithm>
+#include <string>
+#include <unordered_map>
 namespace {
 namespace es {
 constexpr double EPS = 1e-8;
@@ -42,6 +44,7 @@ constexpr int CHANCE_SLOT = 7, MAX_DEPTH = 480;
 struct Size { int kind = 0; double value = 0; };   // 0 jam, 1 geometric, 2 pot fraction, 3 raise multiple, 4 absolute
 struct Street { std::vector<Size> bets, raises; int cap = 2; bool present = false; };
 // One betting state. Mirrors the template object of lib_river.js build().
+#include "es_groups.hpp"
 struct BS {
   int length = 0, kind = 0, actor = -1, k = 0, count = 0;   // kind 0 player, 1 chance, 2 terminal
   bool facing = false;
@@ -308,6 +311,7 @@ struct Inc { int ref; int hand; uint32_t code; int k; size_t off; };
 // Output of one deal (or one seat of one deal): new states, increments.
 struct Unit {
   World w; uint32_t code[6] = {};
+  uint32_t gk[6][8] = {};   // 3.3 grouped key ids per street length and seat
   std::pmr::vector<Pending> pending; std::pmr::vector<Inc> incs; std::pmr::vector<double> vals;
   explicit Unit(ScratchBudget &budget):pending(&budget),incs(&budget),vals(&budget){}
   long long visits = 0; bool overflow = false;
@@ -334,7 +338,8 @@ struct Game {
   double secTraverse = 0, secMerge = 0, secDeal = 0;
   std::atomic<size_t> scratchPeak{0};
   long long attempts = 0;
-  bool dcfr = false, dcfrEager = false; Dcfr schedule;   // 3.3 external-sampling DCFR (eager: validation reference)
+  bool dcfr = false, dcfrEager = false; Dcfr schedule;
+  GroupKeys groups; std::vector<std::vector<uint32_t>> startKey;   // 3.3 native Compact/Detailed groups   // 3.3 external-sampling DCFR (eager: validation reference)
   size_t unitLimitBytes = 64u << 20;   // transient increments of one deal
 };
 } // namespace es

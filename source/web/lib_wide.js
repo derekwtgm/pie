@@ -764,8 +764,12 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     });
     return turnMapping;
   }
+  // 3.3: every other grouped external-sampling study (flop and preflop starts, large
+  // turns) trains natively with keys computed by the engine itself (es_groups.hpp);
+  // grouped state files carry the key text of each row.
+  const groupedKeys=external && abstraction!=='exact' && !groupedRiver && !groupedTurn && !stratify;
   function nativeSupport(){
-    if(abstraction!=='exact' && !groupedRiver && !groupedTurn)return 'native training uses Exact cards grouping (Compact and Detailed hand groups are computed in JavaScript)';
+    if(abstraction!=='exact' && !groupedRiver && !groupedTurn && !groupedKeys)return 'native training of Compact and Detailed hand groups needs external-sampling traversal (full traversal of grouped studies is computed in JavaScript)';
     if(external && !rules)return 'native external sampling needs the betting rules of a multiway study';
     if(external && tree.kind!=='player')return 'the starting state has no decision';
     return null;
@@ -784,7 +788,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   let studyId;
   function nativeSpec(){
     const why=nativeSupport();if(why)throw Error(why);
-    if(external)return withStudyId({protocol:4,...(stratify?{stratified:true}:{}),...(groupedTurn?{abstraction,turnGroups:turnGroups().map(g=>g.reps)}:{}),...(groupedRiver?{abstraction,riverGroups:riverGroups().map(g=>g.representatives)}:{}),algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
+    if(external)return withStudyId({protocol:4,...(stratify?{stratified:true}:{}),...(groupedKeys?{abstraction,groupKeys:{abstraction,small:hands.map(r=>r.length<=12)}}:{}),...(groupedTurn?{abstraction,turnGroups:turnGroups().map(g=>g.reps)}:{}),...(groupedRiver?{abstraction,riverGroups:riverGroups().map(g=>g.representatives)}:{}),algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
       device:cfg.processingMode||'cpu',gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),rules,batchDeals,weighting,...(dcfr?{dcfrAlpha:dcfr.alpha,dcfrBeta:dcfr.beta,dcfrGamma:dcfr.gamma}:{}),regretMatching,
       actionStreams,actionSeed,state:{rng:dealRandom.state(),actionRng:actionRandom.state(),iterations,trainingDeals,stateVisits}});
     const {list,ids}=nativeTree();
@@ -874,6 +878,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     if(head.protocol!==1)throw Error('Unsupported native protocol');
     // 3.3: DCFR states append each row's discount iteration (u32) after its values.
     if((head.rowSync===1)!==!!dcfr||(head.rowSync!==undefined&&head.rowSync!==1))throw Error('Native state does not match this study\'s weighting');
+    if((head.rowKeys===1)!==groupedKeys||(head.rowKeys!==undefined&&head.rowKeys!==1))throw Error('Native state does not match this study\'s hand grouping');
     let p=12+hl;const sc=dv.getUint32(p,true);p+=4;
     if(sc<1||sc*9>u8.length-p)throw Error('Invalid native state table');
     const stubs=new Array(sc),stride=sc<=20000?1:Math.ceil(sc/20000),cache=new Map([['r',tree]]);
@@ -891,7 +896,24 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
     const count=dv.getUint32(p,true);p+=4;
     const limit=profile.limit;profile.limit=budgetCap*1048576;
     try{
-      for(let i=0;i<count;i++){
+      const decoder0=new TextDecoder();
+      for(let i=0;groupedKeys&&i<count;i++){
+        const state=dv.getUint32(p,true),len=dv.getUint16(p+4,true),t=stubs[state];
+        const text=decoder0.decode(u8.subarray(p+6,p+6+len)),k=u8[p+6+len];p+=7+len;
+        if(!t||t.kind!==0||t.actions.length!==k||!len||len>1024)throw Error('Native state does not match this game');
+        if(abstraction==='compact'?!/^(0|[1-9][0-9]{0,15})$/.test(text):!/^0\/[a-z0-9:.,/]+$/.test(text))throw Error('Invalid grouped native row key');
+        const key=abstraction==='compact'?Number(text):text;
+        if(abstraction==='compact'&&!Number.isSafeInteger(key))throw Error('Invalid grouped native row key');
+        const before=profile.infos,row=nativeRow(t,key);
+        if(profile.infos===before)throw Error('Duplicate native strategy row');
+        for(let a=0;a<2*k;a++){
+          const v=dv.getFloat64(p,true);p+=8;
+          if(!Number.isFinite(v)||(a>=k && v<0))throw Error('Invalid native strategy value');
+          row.buffer[row.offset+a]=v;
+        }
+        if(dcfr){const sync=dv.getUint32(p,true);p+=4;if(sync>head.iterations)throw Error('Invalid native discount iteration');syncOf.get(row.buffer)[row.offset/(2*k)]=sync;}
+      }
+      for(let i=0;!groupedKeys&&i<count;i++){
         const state=dv.getUint32(p,true),hand=dv.getUint16(p+4,true),k=u8[p+11],t=stubs[state];
         if(!t||t.kind!==0||t.actions.length!==k||!hands[t.actor][hand])throw Error('Native state does not match this game');
         const cards=[...u8.subarray(p+6,p+11)].filter(c=>c>0).map(c=>c-1);p+=12;
@@ -929,8 +951,21 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       ids.set(prefix,states.length);
       states.push([ids.get(prefix.slice(0,-1)),c==='c'?7:+c,t.kind==='player'?0:1,Math.max(0,t.actor),t.length,t.kind==='player'?t.actions.length:0]);
     }
+    const encoder0=new TextEncoder();
     for(const path of paths){
       const node=profile.nodes.get(path),id=ids.get(path),t=pathState(path,cache),k=node.k,pool=profile.pools[k];
+      if(groupedKeys){
+        // u32 state | u16 key length | key text | u8 k | values (| u32 DCFR discount iteration)
+        for(const [key,ix] of node.rows){
+          const text=encoder0.encode(String(key)),rec=new Uint8Array(7+text.length+16*k+(dcfr?4:0)),dv=new DataView(rec.buffer);
+          dv.setUint32(0,id,true);dv.setUint16(4,text.length,true);rec.set(text,6);rec[6+text.length]=k;
+          const buf=pool.blocks[Math.floor(ix/256)],off=ix%256*2*k;
+          for(let a=0;a<2*k;a++)dv.setFloat64(7+text.length+8*a,buf[off+a],true);
+          if(dcfr)dv.setUint32(7+text.length+16*k,syncOf.get(buf)[ix%256],true);
+          parts.push(rec);count++;
+        }
+        continue;
+      }
       for(const [key,ix] of node.rows){
         const [hid,cardText]=String(key).split(':');
         const turnRef=groupedTurn?turnGroups()[t.actor].first.get(key):0;
@@ -947,7 +982,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
       }
     }
     if(!studyId)nativeSpec();
-    const encoder=new TextEncoder(),header={protocol:1,specProtocol:4,studyId,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),actionRng:actionRandom.state(),rows:count,states:states.length,...(dcfr?{rowSync:1}:{}),rowCrc32:'00000000'};
+    const encoder=new TextEncoder(),header={protocol:1,specProtocol:4,studyId,iterations,trainingDeals,stateVisits,rng:dealRandom.state(),actionRng:actionRandom.state(),rows:count,states:states.length,...(dcfr?{rowSync:1}:{}),...(groupedKeys?{rowKeys:1}:{}),rowCrc32:'00000000'};
     const head=encoder.encode(JSON.stringify(header)),stateBytes=4+9*states.length;
     const out=new Uint8Array(12+head.length+stateBytes+4+parts.reduce((a,b)=>a+b.length,0)),dv=new DataView(out.buffer);
     out.set([69,77,77,87,52,0,0,0]);dv.setUint32(8,head.length,true);out.set(head,12);

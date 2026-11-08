@@ -342,3 +342,81 @@ test('Allocation fault injection: every failed DCFR and linear update rolls back
     const count=+/(\d+) allocation failures rolled back exactly/.exec(out)[1];assert.ok(count>0,out);
   }
 });
+test('DCFR with alpha = beta = gamma = 1 reproduces linear MCCFR (independent identity)',{skip,timeout:120000},()=>{
+  // prod_{u=t..T-1} u/(u+1) = t/T, so DCFR(1,1,1) regrets and averages are linear CFR's
+  // divided by T: identical regret-matching policies and normalized average strategies.
+  for(const cfg of [river3,{...six,batchDeals:4}]){
+    const lin=nativeTrain(E.MultiwayGame(cfg).nativeSpec(),200,1),d=nativeTrain(E.MultiwayGame({...cfg,weighting:'dcfr',dcfrAlpha:1,dcfrBeta:1,dcfrGamma:1}).nativeSpec(),200,1);
+    const L=rowsOf(lin.state),D=rowsOf(d.state);assert.equal(L.rows.size,D.rows.size);let worst=0;
+    const norm=v=>{const s=v.reduce((a,b)=>a+Math.max(0,b),0);return v.map(x=>s?Math.max(0,x)/s:1/v.length);};
+    for(const [key,row] of L.rows){const o=D.rows.get(key),k=row.vals.length/2;assert.ok(o,key);
+      const a=norm(row.vals.slice(k)),b=norm(o.vals.slice(k));a.forEach((x,i)=>worst=Math.max(worst,Math.abs(x-b[i])));
+      // Regrets: DCFR rows still to be brought to iteration 200 by prod_{u=sync+1..200} u/(u+1) = (sync+1)/201.
+      const f=(o.sync+1)/201;for(let i=0;i<k;i++)worst=Math.max(worst,Math.abs(row.vals[i]/201-o.vals[i]*f)/Math.max(1,Math.abs(row.vals[i]/201)));}
+    assert.ok(worst<1e-9,'difference '+worst);
+  }
+});
+
+// ---------------- Part 3: native Compact and Detailed hand groups ----------------
+function keyRows(u8){
+  u8=Buffer.from(u8);const hl=u8.readUInt32LE(8),head=JSON.parse(u8.subarray(12,12+hl).toString());let p=12+hl;const sc=u8.readUInt32LE(p);p+=4;
+  const paths=[];for(let i=0;i<sc;i++){const par=u8.readUInt32LE(p),slot=u8[p+4];paths.push(i?paths[par]+(slot===7?'c':slot):'r');p+=9;}
+  const c=u8.readUInt32LE(p);p+=4;const m=new Map(),extra=head.rowSync?4:0;
+  for(let i=0;i<c;i++){const st=u8.readUInt32LE(p);let id,k,at;
+    if(head.rowKeys){const l=u8.readUInt16LE(p+4);id=u8.subarray(p+6,p+6+l).toString();k=u8[p+6+l];at=p+7+l;}
+    else{id=u8.readUInt16LE(p+4)+'|'+u8.subarray(p+6,p+11).toString('hex');k=u8[p+11];at=p+12;}
+    assert.ok(!m.has(paths[st]+'|'+id),'duplicate row');m.set(paths[st]+'|'+id,u8.subarray(at,at+16*k+extra).toString('hex'));p=at+16*k+extra;}
+  assert.equal(p,u8.length);return {head,rows:m};
+}
+function sameKeyRows(a,b){const x=keyRows(a),y=keyRows(b);assert.ok(x.rows.size>0);assert.equal(x.rows.size,y.rows.size,'rows');for(const [k,v] of x.rows)assert.equal(y.rows.get(k),v,'row '+k);return x;}
+const flop3g={...flop3,ranges:['AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d,22+,A2s+','AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c','Kc9c,QsQc:0.5,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd']};
+const turnBig={...flop3g,board:'Ks8d5h2c',ranges:Array(3).fill('22+,A2s+,K9s+,Q9s+,J9s+,T9s,ATo+,KJo+'),streets:{turn:{bets:'60',raises:'',maxBets:1},river:{bets:'75,a',raises:'',maxBets:1}}};
+const groupCases=[
+  ['Compact 3-seat flop',flop3g,{abstraction:'compact'},150,1],
+  ['Detailed 3-seat flop',flop3g,{abstraction:'detailed'},150,1],
+  ['Detailed 6-seat flop, weighted ranges, all-ins, per-deal streams, 2 threads',six,{abstraction:'detailed'},30,2],
+  ['Compact 8-seat linked preflop (169 classes) to river',pf8,{abstraction:'compact'},8,2],
+  ['Detailed 8-seat shove/call with ICM',{preflop:{mode:'shove'},dealt:8,common:0,board:'',privateMode:'sampled',stacks:[10,6,14,3,9,12,7.5,11],ranges:Array(8).fill('random'),evaluationDeals:128,icm:{payouts:[50,30,20]},traversal:'external'},{abstraction:'detailed'},40,1],
+  ['Compact 3-seat turn above the 3.2 representative limit',turnBig,{abstraction:'compact'},120,1],
+  ['Detailed 3-seat flop with DCFR',flop3g,{abstraction:'detailed',weighting:'dcfr'},150,1]];
+for(const [name,base,over,its,threads] of groupCases){
+  test('native grouped hands match JavaScript bit for bit: '+name,{skip,timeout:300000},()=>{
+    const cfg={...base,...over},js=E.MultiwayGame(cfg),nat=E.MultiwayGame(cfg);
+    assert.equal(js.nativeSupport(),null);
+    const spec=nat.nativeSpec();assert.ok(spec.groupKeys,'grouped-key spec');assert.equal(spec.abstraction,cfg.abstraction);
+    if(name.includes('turn above'))assert.ok(53*spec.hands.reduce((a,r)=>a+r.length,0)>32768,'turn exceeds the 3.2 table');
+    const {info,state}=nativeTrain(spec,its,threads);
+    assert.equal(info.handGroups.native,true);assert.equal(info.handGroups.abstraction,cfg.abstraction);
+    js.iterate(its);
+    const x=sameKeyRows(js.exportNative(),state);assert.equal(x.head.rowKeys,1);
+    assert.equal(info.trainingDeals,js.trainingDeals);assert.equal(info.stateVisits,js.metrics().stateVisits);
+    // Grouped rows really share information sets across physical hands.
+    assert.ok(info.handGroups.keys<spec.hands.reduce((a,r)=>a+r.length,0)*(spec.board.length===5?1:8),'keys '+info.handGroups.keys);
+    nat.importNative(state);sameKeyRows(js.exportNative(),nat.exportNative());
+    // Same strategy, same terminal utilities and evaluation in the imported study.
+    const strip=m=>{const {infos,strategyMiB,memoryBudgetMiB,trainingEngine,...rest}=m;return rest;};
+    assert.deepEqual(strip(nat.metrics()),strip(js.metrics()));
+    assert.deepEqual(nat.view([]),js.view([]));
+  });
+}
+test('grouped native checkpoints resume bit for bit, and memory stops on the key dictionary roll back',{skip,timeout:300000},()=>{
+  const cfg={...six,abstraction:'detailed'},spec=E.MultiwayGame(cfg).nativeSpec();
+  const full=nativeTrain(spec,40,2),part=nativeTrain(spec,15,2),resumed=nativeTrain(spec,25,2,{from:part.state});
+  sameKeyRows(full.state,resumed.state);
+  const js=E.MultiwayGame(cfg);js.iterate(15);sameKeyRows(nativeTrain(spec,25,1,{from:js.exportNative()}).state,full.state);
+  const stopped=nativeTrain(spec,400,2,{memoryMiB:0.75});assert.equal(stopped.info.limitReached,true);
+  const U=stopped.info.iterations;assert.ok(U>0&&U<400,'stopped at '+U);
+  sameKeyRows(nativeTrain(spec,U,2).state,stopped.state);
+  sameKeyRows(nativeTrain(spec,400-U,2,{from:stopped.state}).state,nativeTrain(spec,400,2).state);
+  // Grouped files are refused by exact-card studies and corrupt keys are refused.
+  const exact=E.MultiwayGame(six).nativeSpec(),f=path.join(tmp,'g.state');fs.writeFileSync(f,part.state);
+  assert.equal(mw(exact,1,1,['1024',f]).status,1);
+  assert.throws(()=>E.MultiwayGame(six).importNative(part.state));
+});
+test('grouped specs are validated (abstraction, range-size flags, combo identifiers)',{skip,timeout:60000},()=>{
+  const spec=E.MultiwayGame({...flop3g,abstraction:'compact'}).nativeSpec();
+  for(const mutate of [s=>{s.groupKeys.abstraction='exact';},s=>{s.groupKeys.small=[true];},s=>{s.groupKeys.small[0]=1;},s=>{s.groupKeys=[];},
+                       s=>{s.hands[0][0][0]=(s.hands[0][0][0]+1)%1326;}]){
+    const s=clone(spec);mutate(s);assert.equal(mw(s).status,1);
+  }
+});
