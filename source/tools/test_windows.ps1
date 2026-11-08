@@ -23,7 +23,14 @@ function Assert-Check([bool]$ok, [string]$message) {
 function Api([string]$route, $payload = $null) {
   $requestArgs = @{ Uri = "$script:base/api/$route"; UseBasicParsing = $true; TimeoutSec = 30; Headers = @{ 'X-EightMax' = '1' } }
   if ($null -ne $payload) { $requestArgs.Method = 'POST'; $requestArgs.ContentType = 'application/json'; $requestArgs.Body = ($payload | ConvertTo-Json -Depth 20 -Compress) }
-  return ((Invoke-WebRequest @requestArgs).Content | ConvertFrom-Json)
+  try { return ((Invoke-WebRequest @requestArgs).Content | ConvertFrom-Json) }
+  catch {
+    # 3.3: show the server's reason (expected rejections are still detected by the caller).
+    $response = $_.Exception.Response
+    if ($response) { try { $reader = New-Object IO.StreamReader($response.GetResponseStream()); Write-Host ("  /api/{0} -> HTTP {1}: {2}" -f $route, [int]$response.StatusCode, $reader.ReadToEnd()) } catch {} }
+    if ($requestArgs.Body) { Write-Host ("  request body starts: " + $requestArgs.Body.Substring(0, [math]::Min(300, $requestArgs.Body.Length))) }
+    throw
+  }
 }
 function Card([string]$text) { return 4 * '23456789TJQKA'.IndexOf($text[0]) + 'cdhs'.IndexOf($text[1]) }
 function HandId([string]$text) {

@@ -144,11 +144,30 @@ Finite games with exact best responses (validation/3.3/accuracy-3.2-vs-3.3.json)
 - The measured improvement in accuracy per second for automatic studies is the traversal recalibration (section 5).
 - Benchmarks ran on a 4-core Linux virtual machine, not the target PC.
 
-**Large multiway scenarios** (validation/3.3/scenarios-3.2-vs-3.3.json): see section 8.
+
 
 ## 8. Ten-scenario comparison
 
-SCENARIO_TABLE
+Identical specs for both engines: default linear external-sampling MCCFR, 3 seeds, 4 threads, 2 s timed runs, on a 4-core Intel Xeon (2.1 GHz) Linux VM (validation/3.3/scenarios-3.2-vs-3.3.json). Quality is either the exact largest unilateral gain or the **approximate** seat-0 trained-response probe. The probe is a paired holdout estimate of one sampled deviation and goes negative when the response is under-trained. It is not exploitability and not a Nash certificate. Paired reduction is 3.2 − 3.3; positive means 3.3 is lower.
+
+| Scenario | Updates | Identical tables | Time 3.2 / 3.3 (s) | Peak RSS 3.2 / 3.3 (MiB) | Deals in 2 s 3.2 / 3.3 | Quality at 2 s, 3.2 / 3.3 | Paired reduction |
+|---|---:|---|---|---|---|---|---|
+| Heads-up turn | 20000 | yes | 0.059 / 0.072 | 4.9 / 4.9 | 702912 / 659221 | exact 0.257 / 0.268 | -0.011 ± 0.032 |
+| Heads-up river | 20000 | yes | 0.039 / 0.046 | 4.3 / 4.3 | 1085077 / 1020949 | exact 0.025 / 0.029 | -0.003 ± 0.013 |
+| Three-player river | 20000 | yes | 0.104 / 0.100 | 4.4 / 4.4 | 441173 / 422613 | exact 0.048 / 0.060 | -0.012 ± 0.057 |
+| Six-player flop | 300 | yes | 0.206 / 0.223 | 37.1 / 37.2 | 40619 / 39936 | approx. -2.206 / -2.697 | 0.492 ± 2.115 |
+| Eight-player preflop shove/call | 2000 | yes | 1.295 / 1.276 | 37.8 / 37.7 | 48469 / 48469 | approx. -0.176 / -0.224 | 0.048 ± 0.204 |
+| Eight-player linked preflop to river | 300 | yes | 0.264 / 0.264 | 48.3 / 48.2 | 38571 / 37205 | approx. -0.329 / -0.700 | 0.371 ± 2.039 |
+| Short-stack multiway all-ins (6-seat flop) | 500 | yes | 0.082 / 0.085 | 11.0 / 11.0 | 39851 / 40363 | approx. -1.532 / -1.543 | 0.011 ± 1.143 |
+| Tournament bubble ICM (4 left, 3 paid, shove/call) | 3000 | yes | 0.260 / 0.240 | 9.4 / 9.4 | 433835 / 402773 | approx. -0.830 / -0.932 | 0.102 ± 0.070 |
+| Eight-player final-table ICM (linked preflop) | 200 | yes | 0.262 / 0.261 | 31.1 / 30.8 | 22869 / 23211 | approx. -0.109 / -0.159 | 0.050 ± 0.397 |
+| Large external-sampling tree (8-seat flop, 3 sizes) | 150 | yes | 0.100 / 0.096 | 19.4 / 19.5 | 46421 / 45397 | approx. -2.750 / -1.616 | -1.134 ± 3.997 |
+
+
+- At equal updates, 3.3 and 3.2 produce byte-identical tables in every scenario and on every seed. Accuracy at equal samples is therefore identical.
+- All equal-time quality differences are within their intervals, except the bubble ICM probe: +0.102 ± 0.070 in favour of 3.3, on a biased approximate measure. No accuracy change is claimed for these scenarios.
+- Both versions use the CPU path, with 0 bytes of GPU buffers. RAM use is unchanged.
+- This run showed 4–6% fewer deals for 3.3 in 2 s on the small heads-up games. The cause was the new per-deal clock reads of the scoring profile. 3.3 now times one update in 16. After the fix, interleaved 2 s runs measured 3.3/3.2 deal ratios of 1.023 ± 0.054 (HU turn), 0.995 ± 0.036 (HU river), 0.971 ± 0.094 (3-way river) and 1.022 ± 0.065 (8-seat linked), all consistent with no change (validation/3.3/throughput-3.2-vs-3.3.json). The table above predates the fix.
 
 ## 9. Interface diagnostics
 

@@ -240,4 +240,4 @@ EMMW4 headers of grouped-key states contain `"rowKeys": 1`; each row record is
 `handGroups {abstraction, keys, dictionaryBytes, native}`, `requestedDevice`,
 `gpuStageBound {scoringShare, maxSavingFraction}` (the measured share of training
 time spent scoring hands, which bounds any GPU offload of that stage),
-`seconds.score`, `seconds.groupKeys`; `mwcli` adds `processPeakRssMiB`.
+`seconds.profiledUpdates` and `seconds.scoreInProfiledUpdates` (one update in 16 is timed, to keep clock reads off the hot path); `mwcli` adds `processPeakRssMiB`.

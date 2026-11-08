@@ -226,7 +226,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         if (!g.schedule.extend(m->iterations, m->budgetBytes - m->bytes + (double)before)) { m->limitReached = true; break; }
         m->bytes += (double)g.schedule.bytes() - (double)before;
       }
-      Update update(*m,budget); bool groupFull = false;
+      Update update(*m,budget); bool groupFull = false; const bool profiled = (m->iterations & 15) == 0;
       const double step = m->linear ? (double)(m->iterations + 1) : 1.0;
       const double avgStep = m->linear ? step : g.dcfrEager ? 1.0 : g.dcfr ? g.schedule.averageWeight((double)(m->iterations + 1)) : 1.0;
       double t0 = now();
@@ -234,9 +234,11 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         Unit &u = units[(size_t)d]; u.clear();
         if (!m->deal(u.w,d)) return failMsg("Compatible hands are too rare to sample reliably. Review overlapping ranges or use exact deals.");
         g.attempts++;
-        const double s0 = now(); m->score(u.w); const double s1 = now(); g.secScore += s1 - s0;
+        // 3.3 profile: the scoring stage is timed on one update in 16 only, so the
+        // clock reads do not slow down cheap deals (they cost about 1 us on small games).
+        if (profiled) { const double s0 = now(); m->score(u.w); g.secScore += now() - s0; } else m->score(u.w);
         codes(u, n);
-        if (g.groups.on) { const bool ok = groupCodes(*m, g, u); g.secKeys += now() - s1; if (!ok) { groupFull = true; break; } }
+        if (g.groups.on && !groupCodes(*m, g, u)) { groupFull = true; break; }
       }
       double t1 = now(); g.secDeal += t1 - t0;
       long long visits = 0; int status = groupFull ? 0 : 1;
@@ -301,6 +303,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
       if (status == 0) { m->limitReached = true; break; }
       update.commit();
       m->stateVisits += visits; visitsPerDeal = (double)visits / B;
+      if (profiled) g.secProfiled += now() - t0;
       m->trainingDeals += B; m->iterations++;
       if (g.dcfrEager) {
         const double t = (double)m->iterations, pa = Dcfr::powExact(t, g.schedule.alpha), pb = Dcfr::powExact(t, g.schedule.beta);
