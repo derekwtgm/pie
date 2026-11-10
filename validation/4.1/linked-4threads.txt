@@ -1,0 +1,16 @@
+Eight-player linked preflop-to-river (fixed hands), study40.js linked8, 40 updates, 2 training threads, seed 1.
+Request: {"path":[1,1,1,1,1],"hands":[0],"method":"exact","maxVisits":2000000000,"timeLimitMs":600000,"threads":4}
+Linux, 4 logical CPUs (Intel Xeon 2.1 GHz). Process wall time. Both versions return 422 (exact evaluation exceeds
+maxVisits) after the same work: no exact result is published by either.
+
+run  version  seconds   note
+1    4.0      112.584   DISCARDED: overlapped another test run on the same machine
+1    4.1       98.108
+2    4.0       96.544
+2    4.1       97.857
+3    4.1       97.473
+3    4.0       95.256
+
+Clean runs: 4.0 mean 95.9 s (2 runs), 4.1 mean 97.8 s (3 runs): 4.1 about 2% slower
+(per-poll work counters, ev_control.hpp Poller::local). bench41.json measured 115-126 s for the
+same 4.1 request while other light work ran on the machine; those timings are not used for the comparison.

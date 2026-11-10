@@ -8,7 +8,7 @@
 - Explorer: board-evaluation and memory limits, work summary, adjusted labels with simultaneous intervals, and a Strategy quality panel (background per-seat response gains with evaluator, interval, samples, seed, history).
 - CPU/GPU: per-table scheduling decisions and peak VRAM reported; GPU verification no longer counted as a GPU table. CUDA kernels unchanged.
 - Convergence study of DCFR(1,1,1)/(1,1,2)/(1,1,3)/(3,1,2) with exact NashConv, five seeds, Holm over 64 comparisons: none better than the default, some worse; training unchanged and byte-identical to 4.0.
-- Measured regressions: single-threaded sampled EVs 2-22% slower; peak RSS +0.2-0.4 MiB.
+- Measured regressions: single-threaded sampled EVs 2-22% slower; heavy exact traversal (linked preflop-to-river, 4 threads) about 2% slower; peak RSS +0.2-0.4 MiB.
 - Hardware utilities: `Validate CUDA hardware.bat` adds complete-workload CPU/GPU/hybrid/auto timing, peak VRAM, GPU-time cancellation, parallel gains and `physicalNvidiaExecution` with Wine/VM indicators; `Run self-tests.bat` adds 4.1 checks. No physical Windows desktop or NVIDIA GPU was available. See RELEASE-4.1.md and validation/4.1.
 
 # EightMax Windows 4.0

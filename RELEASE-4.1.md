@@ -229,10 +229,17 @@ limit per run.
 | Four-player flop | 1.78 → 1.85 / 0.73 | 0.309 → 0.327 / 0.100 | 0.251 → 0.225 / **0.083** |
 | Six-player flop | 1.92 → 1.97 / 1.10 | 2.41 → 2.44 / 0.69 | 2.59 → 2.53 / **0.87** |
 | Eight-player push/fold | 0.92 → 0.84 / 0.52 | 2.34 → 2.25 / 0.80 | 1.86 → 1.88 / **0.95** |
-| Eight-player linked preflop–river | > 150 → > 150 / 121.5 | 0.044 → 0.051 / 0.032 | 0.475 → 0.501 / 0.435 |
+| Eight-player linked preflop–river | 408 (150 s limit) → 408 / 422 at maxVisits after 115–126 s (no exact result) | 0.044 → 0.051 / 0.032 | 0.475 → 0.501 / 0.435 |
 | Short-stack all-ins (chip) | 0.54 → 0.51 / 0.31 | 0.425 → 0.433 / 0.129 | 1.37 → 1.32 / **0.75** |
 | Bubble ICM | – | 0.112 → **0.137** / 0.053 | 0.244 → 0.249 / 0.138 |
 | Final-table ICM | – | 0.197 → **0.217** / 0.102 | 12.3 → 12.2 / **9.2** |
+
+Linked preflop–river exact node with 4 threads, identical state and request,
+isolated runs (`validation/4.1/linked-4threads.txt`): both versions stop at
+`maxVisits` (422, no exact result) after identical work; **4.0 95.3–96.5 s,
+4.1 97.5–98.1 s, i.e. 4.1 about 2% slower** on this heavy exact traversal (the
+per-poll work counters). The 115–126 s in the table were measured while other
+work ran on the machine and are not used for the comparison.
 
 Regressions (bold in the sampled column): single-threaded sampled evaluations
 are 2–22% slower (largest: bubble ICM +22%, final table +10%, heads-up
@@ -281,9 +288,12 @@ single-threaded gains are unchanged within noise. Deadline: 101.1–102.1 ms
   data-dependent re-running is not covered (the spending rule is documented).
 - Sampled one-decision gains scale to about 2 threads on push/fold studies
   (a few seats dominate).
-- Exact evaluation of large linked games is still expensive (121.5 s with 4
-  threads for the linked preflop–river node; not finished in 150 s with 1).
-- Single-threaded sampled EVs are up to 22% slower (§10).
+- Exact evaluation of large linked games is still expensive: the linked
+  preflop–river node exceeds the 2·10⁹ maxVisits budget after ~98 s with 4
+  threads (no exact result; use sampled evaluation) and is not finished in 150 s
+  with 1 thread.
+- Single-threaded sampled EVs are up to 22% slower and heavy exact traversals
+  about 2% slower than 4.0 (§10).
 - `maxBoardEvaluations` may overshoot by at most 256 boards per worker.
 - Training algorithms unchanged; no convergence improvement.
 - Browser full-traversal checkpoint memory limits unchanged.
