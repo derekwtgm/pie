@@ -1,0 +1,37 @@
+{
+  "version": "3.6",
+  "build": "900e85e1f0ddf2b1",
+  "tests": {
+    "passed": 308,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "todo": 0,
+    "hardwareDependentRun": 11,
+    "hardwareDependentSkipped": 0
+  },
+  "largeCheckpointsMiB": [
+    16,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "trainingContinuationSHA256": "706d96d53f507f2062c4ec22e5866809398b557d258c303f6f61452f1719e121",
+  "allNativeMatchedScenarios": 30,
+  "jsReferenceComparisons": 30,
+  "physicalWindows": false,
+  "physicalCUDA": false,
+  "hardwareSpeedupVerified": false,
+  "generalConvergenceImprovementVerified": false,
+  "windowsCrossBuildsMatched": true,
+  "browserDesktopArchivePassed": true,
+  "simultaneousLargeWritesVerified": true,
+  "physicalWindowsLaunch": "unverified",
+  "asanUbsan": {
+    "nativeCases": 34,
+    "checkpointCases": 14
+  },
+  "threadSanitizerWorkers": 4
+}

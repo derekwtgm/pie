@@ -1,0 +1,630 @@
+{
+ "generated": "2026-11-08T02:13:22.529Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "threads": 4,
+ "node": "v22.23.4",
+ "configs": [
+  {
+   "name": "Compact 3-seat flop",
+   "config": {
+    "board": "Ks8d5h",
+    "common": 12,
+    "stacks": [
+     12,
+     20,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d,22+,A2s+",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc:0.5,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,a",
+      "raises": "3x",
+      "maxBets": 2
+     },
+     "turn": {
+      "bets": "75,g",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "privateMode": "sampled",
+    "traversal": "external",
+    "evaluationDeals": 128,
+    "abstraction": "compact"
+   },
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 16557,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.480124213,
+      "dealsPerSecond": 6248.383061655755,
+      "visitsPerSecond": 617863.0278744138,
+      "peakRssMiB": 92.1875
+     },
+     "native": {
+      "seconds": 0.045383,
+      "threads": 1,
+      "dealsPerSecond": 66104.04777119185,
+      "visitsPerSecond": 6536610.625123945,
+      "peakRssMiB": 7.3125,
+      "tableMiB": 1.924,
+      "groupKeys": 844
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 16857,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.486030007,
+      "dealsPerSecond": 6172.458401318419,
+      "visitsPerSecond": 623891.5203439281,
+      "peakRssMiB": 93.5546875
+     },
+     "native": {
+      "seconds": 0.046499,
+      "threads": 1,
+      "dealsPerSecond": 64517.516505731306,
+      "visitsPerSecond": 6521215.510010968,
+      "peakRssMiB": 7.29296875,
+      "tableMiB": 1.945,
+      "groupKeys": 872
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 16032,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.445865316,
+      "dealsPerSecond": 6728.489282175965,
+      "visitsPerSecond": 668497.8384817895,
+      "peakRssMiB": 90.578125
+     },
+     "native": {
+      "seconds": 0.0532,
+      "threads": 1,
+      "dealsPerSecond": 56390.97744360902,
+      "visitsPerSecond": 5602631.578947369,
+      "peakRssMiB": 6.7734375,
+      "tableMiB": 1.516,
+      "groupKeys": 845
+     }
+    }
+   ],
+   "summary": {
+    "identicalTables": true,
+    "speedup": 9.732561833997325,
+    "jsDealsPerSecond": 6383.110248383379,
+    "nativeDealsPerSecond": 62337.513906844055,
+    "jsPeakRssMiB": 93.5546875,
+    "nativePeakRssMiB": 7.3125,
+    "timeToTargetRatio": 0.10274787019660611
+   }
+  },
+  {
+   "name": "Detailed 3-seat flop",
+   "config": {
+    "board": "Ks8d5h",
+    "common": 12,
+    "stacks": [
+     12,
+     20,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d,22+,A2s+",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc:0.5,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,a",
+      "raises": "3x",
+      "maxBets": 2
+     },
+     "turn": {
+      "bets": "75,g",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "privateMode": "sampled",
+    "traversal": "external",
+    "evaluationDeals": 128,
+    "abstraction": "detailed"
+   },
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 28055,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.500970552,
+      "dealsPerSecond": 5988.375939510313,
+      "visitsPerSecond": 534993.5219345987,
+      "peakRssMiB": 112.65234375
+     },
+     "native": {
+      "seconds": 0.058608,
+      "threads": 1,
+      "dealsPerSecond": 51187.55118755119,
+      "visitsPerSecond": 4573027.573027573,
+      "peakRssMiB": 12.83203125,
+      "tableMiB": 4.256,
+      "groupKeys": 9392
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 27319,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.503473403,
+      "dealsPerSecond": 5958.606715119766,
+      "visitsPerSecond": 514787.868546057,
+      "peakRssMiB": 116.26171875
+     },
+     "native": {
+      "seconds": 0.057607,
+      "threads": 1,
+      "dealsPerSecond": 52077.00453069939,
+      "visitsPerSecond": 4499140.729425244,
+      "peakRssMiB": 12.8125,
+      "tableMiB": 4.21,
+      "groupKeys": 9392
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 3000,
+     "deals": 3000,
+     "rows": 29010,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.522312265,
+      "dealsPerSecond": 5743.690510503328,
+      "visitsPerSecond": 521599.85176683526,
+      "peakRssMiB": 104.6328125
+     },
+     "native": {
+      "seconds": 0.074452,
+      "threads": 1,
+      "dealsPerSecond": 40294.41787997636,
+      "visitsPerSecond": 3659243.5394616663,
+      "peakRssMiB": 13.0546875,
+      "tableMiB": 4.307,
+      "groupKeys": 9354
+     }
+    }
+   ],
+   "summary": {
+    "identicalTables": true,
+    "speedup": 8.007448693271517,
+    "jsDealsPerSecond": 5896.89105504447,
+    "nativeDealsPerSecond": 47852.99119940898,
+    "jsPeakRssMiB": 116.26171875,
+    "nativePeakRssMiB": 13.0546875,
+    "timeToTargetRatio": 0.12488372243212474
+   }
+  },
+  {
+   "name": "Detailed 6-seat flop (4 deals/update)",
+   "config": {
+    "board": "Td7c2h",
+    "dealt": 8,
+    "common": 1.5,
+    "stacks": [
+     20,
+     35,
+     8,
+     50,
+     14,
+     26
+    ],
+    "prior": [
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5
+    ],
+    "folded": [
+     1,
+     2.5
+    ],
+    "ranges": [
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6"
+    ],
+    "privateMode": "sampled",
+    "traversal": "external",
+    "evaluationDeals": 128,
+    "streets": {
+     "flop": {
+      "bets": "33",
+      "raises": "",
+      "maxBets": 1
+     },
+     "turn": {
+      "bets": "50",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "75",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "batchDeals": 4,
+    "actionStreams": "deal",
+    "abstraction": "detailed"
+   },
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 29237,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.901123237,
+      "dealsPerSecond": 1775.5618036515023,
+      "visitsPerSecond": 366027.626918248,
+      "peakRssMiB": 147.8203125
+     },
+     "native": {
+      "seconds": 0.121948,
+      "threads": 1,
+      "dealsPerSecond": 13120.346377144357,
+      "visitsPerSecond": 2704726.604782366,
+      "peakRssMiB": 15.95703125,
+      "tableMiB": 6.628,
+      "groupKeys": 11938
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 30362,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.880710328,
+      "dealsPerSecond": 1816.715382041029,
+      "visitsPerSecond": 381394.41462301096,
+      "peakRssMiB": 141.1171875
+     },
+     "native": {
+      "seconds": 0.092156,
+      "threads": 1,
+      "dealsPerSecond": 17361.86466426494,
+      "visitsPerSecond": 3644884.7606232907,
+      "peakRssMiB": 16.45703125,
+      "tableMiB": 6.748,
+      "groupKeys": 12026
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 29410,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.814443421,
+      "dealsPerSecond": 1964.5318001776823,
+      "visitsPerSecond": 406042.9386168496,
+      "peakRssMiB": 145.06640625
+     },
+     "native": {
+      "seconds": 0.109054,
+      "threads": 1,
+      "dealsPerSecond": 14671.630568342289,
+      "visitsPerSecond": 3032433.4733251417,
+      "peakRssMiB": 16.05859375,
+      "tableMiB": 6.66,
+      "groupKeys": 12021
+     }
+    }
+   ],
+   "summary": {
+    "identicalTables": true,
+    "speedup": 8.034079261537698,
+    "jsDealsPerSecond": 1852.2696619567378,
+    "nativeDealsPerSecond": 15051.280536583863,
+    "jsPeakRssMiB": 147.8203125,
+    "nativePeakRssMiB": 16.45703125,
+    "timeToTargetRatio": 0.12446977026818665
+   }
+  },
+  {
+   "name": "Detailed 6-seat flop (4 deals/update, 4 threads)",
+   "config": {
+    "board": "Td7c2h",
+    "dealt": 8,
+    "common": 1.5,
+    "stacks": [
+     20,
+     35,
+     8,
+     50,
+     14,
+     26
+    ],
+    "prior": [
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5
+    ],
+    "folded": [
+     1,
+     2.5
+    ],
+    "ranges": [
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6"
+    ],
+    "privateMode": "sampled",
+    "traversal": "external",
+    "evaluationDeals": 128,
+    "streets": {
+     "flop": {
+      "bets": "33",
+      "raises": "",
+      "maxBets": 1
+     },
+     "turn": {
+      "bets": "50",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "75",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "batchDeals": 4,
+    "actionStreams": "deal",
+    "abstraction": "detailed"
+   },
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 29237,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.814203672,
+      "dealsPerSecond": 1965.1102728016192,
+      "visitsPerSecond": 405102.5699623718,
+      "peakRssMiB": 144.9375
+     },
+     "native": {
+      "seconds": 0.096342,
+      "threads": 1,
+      "dealsPerSecond": 16607.502439226922,
+      "visitsPerSecond": 3423595.1090905317,
+      "peakRssMiB": 16.3359375,
+      "tableMiB": 6.628,
+      "groupKeys": 11938
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 30362,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.889117222,
+      "dealsPerSecond": 1799.5377441918451,
+      "visitsPerSecond": 377788.20574909524,
+      "peakRssMiB": 148.4609375
+     },
+     "native": {
+      "seconds": 0.109046,
+      "threads": 1,
+      "dealsPerSecond": 14672.706931019937,
+      "visitsPerSecond": 3080333.070447334,
+      "peakRssMiB": 16.609375,
+      "tableMiB": 6.748,
+      "groupKeys": 12026
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 400,
+     "deals": 1600,
+     "rows": 29410,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.916359929,
+      "dealsPerSecond": 1746.0388100405469,
+      "visitsPerSecond": 360883.30527599924,
+      "peakRssMiB": 136.08203125
+     },
+     "native": {
+      "seconds": 0.092361,
+      "threads": 1,
+      "dealsPerSecond": 17323.32911077186,
+      "visitsPerSecond": 3580504.758501965,
+      "peakRssMiB": 16.4765625,
+      "tableMiB": 6.66,
+      "groupKeys": 12021
+     }
+    }
+   ],
+   "summary": {
+    "identicalTables": true,
+    "speedup": 8.798285881732598,
+    "jsDealsPerSecond": 1836.895609011337,
+    "nativeDealsPerSecond": 16201.179493672907,
+    "jsPeakRssMiB": 148.4609375,
+    "nativePeakRssMiB": 16.609375,
+    "timeToTargetRatio": 0.113658502740431
+   }
+  },
+  {
+   "name": "Compact 8-seat linked preflop (2 deals/update)",
+   "config": {
+    "preflop": {
+     "mode": "linked",
+     "opens": "2",
+     "raises": "3x,a",
+     "maxBets": 3
+    },
+    "board": "",
+    "dealt": 8,
+    "common": 0,
+    "stacks": [
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "privateMode": "sampled",
+    "evaluationDeals": 128,
+    "bets": "50",
+    "raises": "",
+    "maxBets": 1,
+    "traversal": "external",
+    "batchDeals": 2,
+    "actionStreams": "deal",
+    "abstraction": "compact"
+   },
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 200,
+     "deals": 400,
+     "rows": 12452,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.481112502,
+      "dealsPerSecond": 831.406372391462,
+      "visitsPerSecond": 312930.9659884914,
+      "peakRssMiB": 160.2109375
+     },
+     "native": {
+      "seconds": 0.052673,
+      "threads": 1,
+      "dealsPerSecond": 7594.023503502744,
+      "visitsPerSecond": 2858295.521424639,
+      "peakRssMiB": 13.94921875,
+      "tableMiB": 5.89,
+      "groupKeys": 6332
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 200,
+     "deals": 400,
+     "rows": 12820,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.523958225,
+      "dealsPerSecond": 763.4196409456116,
+      "visitsPerSecond": 296025.50852217275,
+      "peakRssMiB": 162.4609375
+     },
+     "native": {
+      "seconds": 0.053048,
+      "threads": 1,
+      "dealsPerSecond": 7540.3408234052185,
+      "visitsPerSecond": 2923861.408535666,
+      "peakRssMiB": 13.8046875,
+      "tableMiB": 5.957,
+      "groupKeys": 6383
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 200,
+     "deals": 400,
+     "rows": 12737,
+     "identicalTables": true,
+     "js": {
+      "seconds": 0.538005745,
+      "dealsPerSecond": 743.4864845170009,
+      "visitsPerSecond": 284612.2024217418,
+      "peakRssMiB": 154.0546875
+     },
+     "native": {
+      "seconds": 0.050714,
+      "threads": 1,
+      "dealsPerSecond": 7887.368379540166,
+      "visitsPerSecond": 3019343.770950822,
+      "peakRssMiB": 14.26171875,
+      "tableMiB": 5.936,
+      "groupKeys": 6360
+     }
+    }
+   ],
+   "summary": {
+    "identicalTables": true,
+    "speedup": 9.864010432447982,
+    "jsDealsPerSecond": 779.4374992846915,
+    "nativeDealsPerSecond": 7673.910902149376,
+    "jsPeakRssMiB": 162.4609375,
+    "nativePeakRssMiB": 14.26171875,
+    "timeToTargetRatio": 0.10137864379283984
+   }
+  }
+ ]
+}

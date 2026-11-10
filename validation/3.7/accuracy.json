@@ -1,0 +1,1935 @@
+{
+  "method": "Independent finite river best responses, 3.6 baseline vs 3.7 optional fold baseline. Paired two-sided individual 95% t intervals across seven seeds.",
+  "cfg": {
+    "board": "Qs9h4d2c7s",
+    "common": 10,
+    "stacks": [
+      40,
+      40
+    ],
+    "ranges": [
+      "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd,Ts8s,AcAd,5h5d",
+      "QcJc,TdTc,As4s,KdJd,6s5s,9d8d,7c7d,AhJh,Kc2s"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,a",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "engine": "native",
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "external",
+    "weighting": "linear",
+    "batchDeals": 1,
+    "evaluationDeals": 128
+  },
+  "seeds": [
+    11,
+    29,
+    43,
+    67,
+    89,
+    131,
+    157
+  ],
+  "threads": 1,
+  "paired": [
+    {
+      "type": "sample",
+      "budget": 4000,
+      "old": {
+        "mean": 0.42966054771405904,
+        "ci95HalfWidth": 0.04623386135722186
+      },
+      "updated": {
+        "mean": 0.41646488034602264,
+        "ci95HalfWidth": 0.07824977023216395
+      },
+      "reduction": {
+        "mean": 0.013195667368036392,
+        "ci95HalfWidth": 0.06221100405371687
+      }
+    },
+    {
+      "type": "sample",
+      "budget": 20000,
+      "old": {
+        "mean": 0.19897661050207296,
+        "ci95HalfWidth": 0.04064033703547086
+      },
+      "updated": {
+        "mean": 0.19273881557251762,
+        "ci95HalfWidth": 0.020352080273439054
+      },
+      "reduction": {
+        "mean": 0.00623779492955534,
+        "ci95HalfWidth": 0.047184410784334586
+      }
+    },
+    {
+      "type": "sample",
+      "budget": 50000,
+      "old": {
+        "mean": 0.12650214372614316,
+        "ci95HalfWidth": 0.027347501481568823
+      },
+      "updated": {
+        "mean": 0.11602331300985565,
+        "ci95HalfWidth": 0.018242733294404352
+      },
+      "reduction": {
+        "mean": 0.010478830716287524,
+        "ci95HalfWidth": 0.039775599702141576
+      }
+    },
+    {
+      "type": "sample",
+      "budget": 100000,
+      "old": {
+        "mean": 0.08805976559969693,
+        "ci95HalfWidth": 0.015281287553473818
+      },
+      "updated": {
+        "mean": 0.09410063452742813,
+        "ci95HalfWidth": 0.017770724249924607
+      },
+      "reduction": {
+        "mean": -0.00604086892773121,
+        "ci95HalfWidth": 0.029089017055254626
+      }
+    },
+    {
+      "type": "sample",
+      "budget": 250000,
+      "old": {
+        "mean": 0.047310141203110216,
+        "ci95HalfWidth": 0.005843392550734562
+      },
+      "updated": {
+        "mean": 0.0524441131306007,
+        "ci95HalfWidth": 0.012376840327881012
+      },
+      "reduction": {
+        "mean": -0.0051339719274904804,
+        "ci95HalfWidth": 0.012929656889792087
+      }
+    },
+    {
+      "type": "sample",
+      "budget": 500000,
+      "old": {
+        "mean": 0.0357505086425577,
+        "ci95HalfWidth": 0.004982340856754592
+      },
+      "updated": {
+        "mean": 0.038926909390247726,
+        "ci95HalfWidth": 0.0045832622638951595
+      },
+      "reduction": {
+        "mean": -0.003176400747690021,
+        "ci95HalfWidth": 0.005906190042427811
+      }
+    },
+    {
+      "type": "time",
+      "budget": 250,
+      "old": {
+        "mean": 0.06538410609851304,
+        "ci95HalfWidth": 0.009477437591963274
+      },
+      "updated": {
+        "mean": 0.06192184125828141,
+        "ci95HalfWidth": 0.005829246366437958
+      },
+      "reduction": {
+        "mean": 0.003462264840231631,
+        "ci95HalfWidth": 0.013035159338427424
+      }
+    },
+    {
+      "type": "time",
+      "budget": 1000,
+      "old": {
+        "mean": 0.03840046750762797,
+        "ci95HalfWidth": 0.01022610884120745
+      },
+      "updated": {
+        "mean": 0.03437756712864567,
+        "ci95HalfWidth": 0.004227996088456691
+      },
+      "reduction": {
+        "mean": 0.004022900378982294,
+        "ci95HalfWidth": 0.008838175250663632
+      }
+    }
+  ],
+  "rows": [
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005349,
+      "processSeconds": 0.009864550000000008,
+      "visits": 59924,
+      "peakRssMiB": 8.1,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.42770312025088586,
+      "seatGains": [
+        0.4436027031553351,
+        0.4118035373464366
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.032595,
+      "processSeconds": 0.04077068700000002,
+      "visits": 297572,
+      "peakRssMiB": 8.1,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.14711350646229038,
+      "seatGains": [
+        0.14478349829317416,
+        0.1494435146314066
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.074211,
+      "processSeconds": 0.08594817200000004,
+      "visits": 745771,
+      "peakRssMiB": 8.6,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.13734511004199357,
+      "seatGains": [
+        0.13295807517942393,
+        0.1417321449045632
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.145314,
+      "processSeconds": 0.16084972300000003,
+      "visits": 1492823,
+      "peakRssMiB": 8.8,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.08758429861715067,
+      "seatGains": [
+        0.11540284194248684,
+        0.05976575529181449
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.369906,
+      "processSeconds": 0.392182399,
+      "visits": 3742305,
+      "peakRssMiB": 8.8,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.05002931619298989,
+      "seatGains": [
+        0.04644271674245548,
+        0.0536159156435243
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.7316910000000001,
+      "processSeconds": 0.757340732,
+      "visits": 7483456,
+      "peakRssMiB": 9.2,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.028061806031028258,
+      "seatGains": [
+        0.026875961091270995,
+        0.02924765097078552
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250185,
+      "processSeconds": 0.25387775999999995,
+      "visits": 1904452,
+      "deals": 127040,
+      "exactExploitabilityBB": 0.073282737123183,
+      "seatGains": [
+        0.07546599510338581,
+        0.0710994791429802
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 11,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000155,
+      "processSeconds": 1.0036835929999999,
+      "visits": 10742815,
+      "deals": 718272,
+      "exactExploitabilityBB": 0.02718235688896886,
+      "seatGains": [
+        0.02599741226415553,
+        0.028367301513782195
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005877,
+      "processSeconds": 0.00911718699999983,
+      "visits": 72957,
+      "peakRssMiB": 9.4,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3971980112899214,
+      "seatGains": [
+        0.5634929523465955,
+        0.2309030702332473
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.03266,
+      "processSeconds": 0.03990539099999978,
+      "visits": 372905,
+      "peakRssMiB": 9.8,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.2108860640525274,
+      "seatGains": [
+        0.23085070363865245,
+        0.19092142446640237
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.078985,
+      "processSeconds": 0.09009624499999973,
+      "visits": 926572,
+      "peakRssMiB": 9.9,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.1251807543957797,
+      "seatGains": [
+        0.16029338253031877,
+        0.09006812626124061
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.156394,
+      "processSeconds": 0.17123204899999972,
+      "visits": 1871759,
+      "peakRssMiB": 10,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.0787654948963814,
+      "seatGains": [
+        0.0766682822924123,
+        0.08086270750035052
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.41743700000000006,
+      "processSeconds": 0.43685296599999945,
+      "visits": 4670314,
+      "peakRssMiB": 10.4,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.04685886580508569,
+      "seatGains": [
+        0.0383313338049458,
+        0.055386397805225585
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.9067040000000001,
+      "processSeconds": 0.9304110889999992,
+      "visits": 9348776,
+      "peakRssMiB": 11,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.04412219531815498,
+      "seatGains": [
+        0.0509814837159519,
+        0.03726290692035805
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250141,
+      "processSeconds": 0.253769182,
+      "visits": 3058528,
+      "deals": 163392,
+      "exactExploitabilityBB": 0.06747701366064418,
+      "seatGains": [
+        0.06113227622152806,
+        0.0738217510997603
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 11,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000131,
+      "processSeconds": 1.00337151,
+      "visits": 11826171,
+      "deals": 632640,
+      "exactExploitabilityBB": 0.03652480316079476,
+      "seatGains": [
+        0.04594770385072344,
+        0.02710190247086608
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005724,
+      "processSeconds": 0.009101853999999548,
+      "visits": 71710,
+      "peakRssMiB": 12.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3656929854168878,
+      "seatGains": [
+        0.3979852465382141,
+        0.33340072429556145
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.031817,
+      "processSeconds": 0.03842459400000007,
+      "visits": 368780,
+      "peakRssMiB": 12.4,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.15517085340963876,
+      "seatGains": [
+        0.1466686768581189,
+        0.16367302996115862
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.07911699999999999,
+      "processSeconds": 0.08944928299999992,
+      "visits": 925078,
+      "peakRssMiB": 12.6,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.11431518985195188,
+      "seatGains": [
+        0.08308144291138486,
+        0.1455489367925189
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.195255,
+      "processSeconds": 0.20944687199999953,
+      "visits": 1857876,
+      "peakRssMiB": 13.4,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.06851092040929818,
+      "seatGains": [
+        0.061858955198755616,
+        0.07516288561984075
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.44314200000000004,
+      "processSeconds": 0.46108992599999876,
+      "visits": 4690026,
+      "peakRssMiB": 13.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.07000706988500838,
+      "seatGains": [
+        0.05554542568221965,
+        0.0844687140877971
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.8110660000000001,
+      "processSeconds": 0.8329154789999984,
+      "visits": 9373158,
+      "peakRssMiB": 13.5,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.03937748232304994,
+      "seatGains": [
+        0.032487621255491206,
+        0.04626734339060867
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250163,
+      "processSeconds": 0.25345688300000074,
+      "visits": 2947983,
+      "deals": 157632,
+      "exactExploitabilityBB": 0.054208478926012216,
+      "seatGains": [
+        0.048521548227257405,
+        0.059895409624767026
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 29,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000093,
+      "processSeconds": 1.0035722699999996,
+      "visits": 12331233,
+      "deals": 658432,
+      "exactExploitabilityBB": 0.03296729443519175,
+      "seatGains": [
+        0.026840851680121958,
+        0.039093737190261546
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005317,
+      "processSeconds": 0.009408204000000297,
+      "visits": 58476,
+      "peakRssMiB": 14,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3718075055781118,
+      "seatGains": [
+        0.4827454951867374,
+        0.26086951596948627
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.02899,
+      "processSeconds": 0.037460251999999854,
+      "visits": 297704,
+      "peakRssMiB": 14.2,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.18078839407522884,
+      "seatGains": [
+        0.19689958453326284,
+        0.16467720361719485
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.076735,
+      "processSeconds": 0.08933199599999989,
+      "visits": 745246,
+      "peakRssMiB": 14.2,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.16817090158804837,
+      "seatGains": [
+        0.1746647380207227,
+        0.16167706515537406
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.14152700000000001,
+      "processSeconds": 0.15836851599999954,
+      "visits": 1492045,
+      "peakRssMiB": 14.4,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.11774101260731662,
+      "seatGains": [
+        0.1428093527350356,
+        0.09267267247959765
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.33609900000000004,
+      "processSeconds": 0.3582967729999991,
+      "visits": 3750945,
+      "peakRssMiB": 14.6,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.053492656893366464,
+      "seatGains": [
+        0.05579346701880539,
+        0.05119184676792754
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.661845,
+      "processSeconds": 0.6885015909999993,
+      "visits": 7470417,
+      "peakRssMiB": 14.7,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.04001928723227799,
+      "seatGains": [
+        0.03891201404832234,
+        0.04112656041623364
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250113,
+      "processSeconds": 0.25387313300000003,
+      "visits": 2333389,
+      "deals": 156288,
+      "exactExploitabilityBB": 0.07325669324137518,
+      "seatGains": [
+        0.07013845401206087,
+        0.0763749324706895
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 29,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000151,
+      "processSeconds": 1.0037479270000003,
+      "visits": 10150084,
+      "deals": 677376,
+      "exactExploitabilityBB": 0.03203579984785465,
+      "seatGains": [
+        0.03783653351667393,
+        0.02623506617903537
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.00549,
+      "processSeconds": 0.008967398000000685,
+      "visits": 58920,
+      "peakRssMiB": 15,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3830367545965503,
+      "seatGains": [
+        0.3311698710103128,
+        0.43490363818278777
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.026292999999999997,
+      "processSeconds": 0.033337625000000114,
+      "visits": 296590,
+      "peakRssMiB": 15,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.2051063220598064,
+      "seatGains": [
+        0.17458374355798867,
+        0.2356289005616241
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.07067599999999999,
+      "processSeconds": 0.08232245800000056,
+      "visits": 747187,
+      "peakRssMiB": 15.2,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.11666079417425679,
+      "seatGains": [
+        0.12133652550185481,
+        0.11198506284665877
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.137565,
+      "processSeconds": 0.15476865400000134,
+      "visits": 1493219,
+      "peakRssMiB": 15.4,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.061593255880995956,
+      "seatGains": [
+        0.06687988984265214,
+        0.05630662191933977
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.387781,
+      "processSeconds": 0.40915857700000013,
+      "visits": 3722127,
+      "peakRssMiB": 15.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.041927032471752,
+      "seatGains": [
+        0.02796247536378349,
+        0.05589158957972051
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.722899,
+      "processSeconds": 0.748091601,
+      "visits": 7446749,
+      "peakRssMiB": 15.7,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.030751888082084067,
+      "seatGains": [
+        0.023237141068379152,
+        0.03826663509578898
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250099,
+      "processSeconds": 0.25362803299999903,
+      "visits": 2438973,
+      "deals": 163904,
+      "exactExploitabilityBB": 0.05622557394031813,
+      "seatGains": [
+        0.06617419431772031,
+        0.046276953562915946
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 43,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000162,
+      "processSeconds": 1.0036054480000003,
+      "visits": 10335571,
+      "deals": 692224,
+      "exactExploitabilityBB": 0.034412978857567555,
+      "seatGains": [
+        0.04409012645771515,
+        0.02473583125741996
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.00673,
+      "processSeconds": 0.010344681000000492,
+      "visits": 74117,
+      "peakRssMiB": 15.9,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3281847359354657,
+      "seatGains": [
+        0.23178866772607076,
+        0.42458080414486066
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.032096,
+      "processSeconds": 0.039456392000001866,
+      "visits": 366404,
+      "peakRssMiB": 16.1,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.169257233812802,
+      "seatGains": [
+        0.13737686235059066,
+        0.20113760527501334
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.079473,
+      "processSeconds": 0.09044005300000026,
+      "visits": 931901,
+      "peakRssMiB": 16.2,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.13141358688585592,
+      "seatGains": [
+        0.13684984981693926,
+        0.12597732395477257
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.15867399999999998,
+      "processSeconds": 0.17359129200000098,
+      "visits": 1866783,
+      "peakRssMiB": 16.3,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.10905676877958048,
+      "seatGains": [
+        0.09889986413807872,
+        0.11921367342108224
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.39578499999999994,
+      "processSeconds": 0.41474317900000096,
+      "visits": 4662714,
+      "peakRssMiB": 16.3,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.04739747818720352,
+      "seatGains": [
+        0.03672556229819968,
+        0.05806939407620737
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.7880909999999999,
+      "processSeconds": 0.8108340720000015,
+      "visits": 9324028,
+      "peakRssMiB": 16.3,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.034544497495473836,
+      "seatGains": [
+        0.023708504543677122,
+        0.04538049044727055
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250132,
+      "processSeconds": 0.2538984529999998,
+      "visits": 3164183,
+      "deals": 169664,
+      "exactExploitabilityBB": 0.05931555479541317,
+      "seatGains": [
+        0.06903075466495778,
+        0.04960035492586856
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 43,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000172,
+      "processSeconds": 1.0045622519999997,
+      "visits": 9887835,
+      "deals": 530240,
+      "exactExploitabilityBB": 0.037569752598610284,
+      "seatGains": [
+        0.02751686043757484,
+        0.04762264475964573
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.006046,
+      "processSeconds": 0.009811181000000942,
+      "visits": 73763,
+      "peakRssMiB": 16.4,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.5414430986942964,
+      "seatGains": [
+        0.4592683876467136,
+        0.6236178097418792
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.031387,
+      "processSeconds": 0.03893585100000018,
+      "visits": 373336,
+      "peakRssMiB": 16.5,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.21048226159759387,
+      "seatGains": [
+        0.27764497771248653,
+        0.1433195454827012
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.084314,
+      "processSeconds": 0.09589885700000013,
+      "visits": 930910,
+      "peakRssMiB": 16.5,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.10661458309610383,
+      "seatGains": [
+        0.0803827127588228,
+        0.13284645343338486
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.16320099999999998,
+      "processSeconds": 0.17862579500000175,
+      "visits": 1865578,
+      "peakRssMiB": 16.5,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.07822972142258422,
+      "seatGains": [
+        0.06265699578562334,
+        0.0938024470595451
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.388289,
+      "processSeconds": 0.4077288300000018,
+      "visits": 4655444,
+      "peakRssMiB": 16.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.047628386951543034,
+      "seatGains": [
+        0.05154314731062026,
+        0.043713626592465804
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.7681089999999999,
+      "processSeconds": 0.7912606360000008,
+      "visits": 9358422,
+      "peakRssMiB": 16.5,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.04676635439149712,
+      "seatGains": [
+        0.06526818398732726,
+        0.02826452479566699
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250222,
+      "processSeconds": 0.2540349249999999,
+      "visits": 2866128,
+      "deals": 153856,
+      "exactExploitabilityBB": 0.06271154075260665,
+      "seatGains": [
+        0.08585995212565667,
+        0.03956312937955664
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 67,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000147,
+      "processSeconds": 1.0038019089999999,
+      "visits": 11325044,
+      "deals": 606528,
+      "exactExploitabilityBB": 0.03397331597544473,
+      "seatGains": [
+        0.03071784576850245,
+        0.03722878618238701
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005254,
+      "processSeconds": 0.008712842999999339,
+      "visits": 58847,
+      "peakRssMiB": 16.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.5113433644050662,
+      "seatGains": [
+        0.4842660639987759,
+        0.5384206648113565
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.026829,
+      "processSeconds": 0.033468032999999196,
+      "visits": 298014,
+      "peakRssMiB": 16.5,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.16060054817185576,
+      "seatGains": [
+        0.14148385517152295,
+        0.17971724117218857
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.06613,
+      "processSeconds": 0.07617281100000037,
+      "visits": 744564,
+      "peakRssMiB": 16.5,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.12730469494069707,
+      "seatGains": [
+        0.08669200920266196,
+        0.1679173806787322
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.13219799999999998,
+      "processSeconds": 0.1458764080000001,
+      "visits": 1495032,
+      "peakRssMiB": 16.5,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.08164797278665081,
+      "seatGains": [
+        0.08967839032990987,
+        0.07361755524339175
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.331731,
+      "processSeconds": 0.3492960779999994,
+      "visits": 3737568,
+      "peakRssMiB": 16.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.05086670354500744,
+      "seatGains": [
+        0.05542120911300774,
+        0.04631219797700714
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.727997,
+      "processSeconds": 0.7490467590000007,
+      "visits": 7479718,
+      "peakRssMiB": 16.5,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.041922727263812076,
+      "seatGains": [
+        0.05663302441665419,
+        0.027212430110969965
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250137,
+      "processSeconds": 0.2537387679999993,
+      "visits": 2131962,
+      "deals": 141888,
+      "exactExploitabilityBB": 0.054743755891722534,
+      "seatGains": [
+        0.05633503341970769,
+        0.05315247836373738
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 67,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000138,
+      "processSeconds": 1.0039867379999996,
+      "visits": 8755145,
+      "deals": 584832,
+      "exactExploitabilityBB": 0.04869038825116401,
+      "seatGains": [
+        0.07053198419154327,
+        0.02684879231078474
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005472,
+      "processSeconds": 0.008711750999998913,
+      "visits": 59999,
+      "peakRssMiB": 16.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.4207044979706902,
+      "seatGains": [
+        0.5946218654529298,
+        0.24678713048845058
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.025878,
+      "processSeconds": 0.03246246299999621,
+      "visits": 297715,
+      "peakRssMiB": 16.5,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.27914981166920794,
+      "seatGains": [
+        0.38705174031673106,
+        0.1712478830216848
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.072609,
+      "processSeconds": 0.08265465299999414,
+      "visits": 746495,
+      "peakRssMiB": 16.5,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.08391128188415409,
+      "seatGains": [
+        0.0759892086053151,
+        0.09183335516299307
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.141661,
+      "processSeconds": 0.15526200399999288,
+      "visits": 1497013,
+      "peakRssMiB": 16.5,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.09148236327880288,
+      "seatGains": [
+        0.10215255538730084,
+        0.08081217117030493
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.361628,
+      "processSeconds": 0.3801441889999915,
+      "visits": 3759224,
+      "peakRssMiB": 16.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.04590385422587695,
+      "seatGains": [
+        0.042575691756172596,
+        0.049232016695581304
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.706547,
+      "processSeconds": 0.7289824669999907,
+      "visits": 7456793,
+      "peakRssMiB": 16.5,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.04070982937881906,
+      "seatGains": [
+        0.049541649735376225,
+        0.0318780090222619
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250103,
+      "processSeconds": 0.253431317999999,
+      "visits": 2813121,
+      "deals": 187264,
+      "exactExploitabilityBB": 0.06723601374095733,
+      "seatGains": [
+        0.06737458778334915,
+        0.06709743969856552
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 89,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.00014,
+      "processSeconds": 1.003676621999999,
+      "visits": 10157210,
+      "deals": 681984,
+      "exactExploitabilityBB": 0.058547768123411004,
+      "seatGains": [
+        0.06552135439133178,
+        0.05157418185549023
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.007568,
+      "processSeconds": 0.010840721000000485,
+      "visits": 75304,
+      "peakRssMiB": 16.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.5311834384332974,
+      "seatGains": [
+        0.7701801904343588,
+        0.292186686432236
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.044983999999999996,
+      "processSeconds": 0.05270130000000063,
+      "visits": 372668,
+      "peakRssMiB": 16.5,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.1987443345972546,
+      "seatGains": [
+        0.1884461865424294,
+        0.2090424826520798
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.093477,
+      "processSeconds": 0.10514634699999806,
+      "visits": 936043,
+      "peakRssMiB": 16.5,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.14586499585636026,
+      "seatGains": [
+        0.10848256358869879,
+        0.18324742812402173
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.19207200000000002,
+      "processSeconds": 0.20761271799999667,
+      "visits": 1873744,
+      "peakRssMiB": 16.5,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.09476635008376166,
+      "seatGains": [
+        0.0799140875505353,
+        0.10961861261698802
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.438121,
+      "processSeconds": 0.4578912789999958,
+      "visits": 4671875,
+      "peakRssMiB": 16.5,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.07256769717597078,
+      "seatGains": [
+        0.09940174297953064,
+        0.04573365137241092
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.8471839999999999,
+      "processSeconds": 0.8713546439999991,
+      "visits": 9324895,
+      "peakRssMiB": 16.5,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.036728119285933,
+      "seatGains": [
+        0.03730426408575305,
+        0.03615197448611296
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250076,
+      "processSeconds": 0.2539254179999989,
+      "visits": 2846113,
+      "deals": 152384,
+      "exactExploitabilityBB": 0.06842739017350197,
+      "seatGains": [
+        0.06265036308463223,
+        0.0742044172623717
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 89,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000128,
+      "processSeconds": 1.0036421110000011,
+      "visits": 11864697,
+      "deals": 636992,
+      "exactExploitabilityBB": 0.041398123044210866,
+      "seatGains": [
+        0.04042936820240772,
+        0.04236687788601401
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.006176,
+      "processSeconds": 0.012029215000002296,
+      "visits": 75520,
+      "peakRssMiB": 16.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3681934964502478,
+      "seatGains": [
+        0.4357360947755051,
+        0.30065089812499046
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.030948,
+      "processSeconds": 0.04011909100000048,
+      "visits": 372405,
+      "peakRssMiB": 16.5,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.19603164692748143,
+      "seatGains": [
+        0.14731398931469286,
+        0.24474930454027
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.07657,
+      "processSeconds": 0.08952971199999957,
+      "visits": 926102,
+      "peakRssMiB": 16.8,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.10129285057880644,
+      "seatGains": [
+        0.10839866531055442,
+        0.09418703584705845
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.151479,
+      "processSeconds": 0.16855434199999944,
+      "visits": 1862602,
+      "peakRssMiB": 16.8,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.11384187787304545,
+      "seatGains": [
+        0.07329750148029923,
+        0.15438625426579167
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.371628,
+      "processSeconds": 0.3926865749999997,
+      "visits": 4666653,
+      "peakRssMiB": 17,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.03720575502909007,
+      "seatGains": [
+        0.0399006908511641,
+        0.03451081920701604
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.776528,
+      "processSeconds": 0.8014859769999967,
+      "visits": 9323392,
+      "peakRssMiB": 17.1,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.037800691124057595,
+      "seatGains": [
+        0.046234150261721396,
+        0.029367231986393794
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.25009,
+      "processSeconds": 0.25360977899999854,
+      "visits": 2938782,
+      "deals": 156608,
+      "exactExploitabilityBB": 0.05376268101633119,
+      "seatGains": [
+        0.05622946953450647,
+        0.051295892498155915
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 131,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000137,
+      "processSeconds": 1.0036115339999996,
+      "visits": 11555996,
+      "deals": 620160,
+      "exactExploitabilityBB": 0.03043562229132246,
+      "seatGains": [
+        0.0358038524307025,
+        0.025067392151942425
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005782,
+      "processSeconds": 0.008794628999999986,
+      "visits": 59514,
+      "peakRssMiB": 17.5,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.4137387051790611,
+      "seatGains": [
+        0.5464646453889364,
+        0.2810127649691858
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.027427,
+      "processSeconds": 0.0342247040000002,
+      "visits": 298901,
+      "peakRssMiB": 17.7,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.22385226601468733,
+      "seatGains": [
+        0.2659362960788485,
+        0.18176823595052616
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.066509,
+      "processSeconds": 0.07702656800000113,
+      "visits": 743745,
+      "peakRssMiB": 17.8,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.0988569071556955,
+      "seatGains": [
+        0.09925085667452649,
+        0.09846295763686452
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.137998,
+      "processSeconds": 0.15222068200000285,
+      "visits": 1490024,
+      "peakRssMiB": 17.9,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.08949185625471645,
+      "seatGains": [
+        0.06610900255486474,
+        0.11287470995456816
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.35054799999999997,
+      "processSeconds": 0.368126570000004,
+      "visits": 3735890,
+      "peakRssMiB": 17.9,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.05266757629649721,
+      "seatGains": [
+        0.04399898249695244,
+        0.061336170096041975
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.737074,
+      "processSeconds": 0.7588584510000037,
+      "visits": 7470516,
+      "peakRssMiB": 17.9,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.036040778413995334,
+      "seatGains": [
+        0.04417656808558679,
+        0.02790498874240388
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250127,
+      "processSeconds": 0.2536945309999974,
+      "visits": 2353408,
+      "deals": 156992,
+      "exactExploitabilityBB": 0.0787759390364624,
+      "seatGains": [
+        0.08447239884564173,
+        0.07307947922728308
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 131,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000071,
+      "processSeconds": 1.0043110510000006,
+      "visits": 10239282,
+      "deals": 683904,
+      "exactExploitabilityBB": 0.033701685211466215,
+      "seatGains": [
+        0.031739840791514595,
+        0.035663529631417834
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.005628,
+      "processSeconds": 0.008945357000000513,
+      "visits": 59608,
+      "peakRssMiB": 18,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.4792898860180481,
+      "seatGains": [
+        0.520136501631999,
+        0.43844327040409725
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.027279,
+      "processSeconds": 0.03428085400000055,
+      "visits": 293749,
+      "peakRssMiB": 18.2,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.19622542506143414,
+      "seatGains": [
+        0.2251426799846401,
+        0.16730817013822818
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.071088,
+      "processSeconds": 0.08206239899999855,
+      "visits": 742802,
+      "peakRssMiB": 18.3,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.15326531629815676,
+      "seatGains": [
+        0.2326851206841365,
+        0.07384551191217703
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.139063,
+      "processSeconds": 0.1538494350000001,
+      "visits": 1496013,
+      "peakRssMiB": 18.5,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.08687759977224507,
+      "seatGains": [
+        0.10642417489914813,
+        0.06733102464534202
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.340472,
+      "processSeconds": 0.35887954900000113,
+      "visits": 3753343,
+      "peakRssMiB": 18.6,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.03628384879628155,
+      "seatGains": [
+        0.04301002076334015,
+        0.029557676829222945
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.6923980000000001,
+      "processSeconds": 0.7142488479999993,
+      "visits": 7487804,
+      "peakRssMiB": 18.8,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.03274724409588714,
+      "seatGains": [
+        0.03599462253775343,
+        0.02949986565402085
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.25013,
+      "processSeconds": 0.2530966780000017,
+      "visits": 2559510,
+      "deals": 170688,
+      "exactExploitabilityBB": 0.05416802971557266,
+      "seatGains": [
+        0.06608135175820706,
+        0.04225470767293826
+      ]
+    },
+    {
+      "version": "3.6",
+      "seed": 157,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.000183,
+      "processSeconds": 1.0039795890000023,
+      "visits": 9846240,
+      "deals": 658496,
+      "exactExploitabilityBB": 0.03423229537296346,
+      "seatGains": [
+        0.028026110111627034,
+        0.04043848063429989
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 4000,
+      "seconds": 0.006328,
+      "processSeconds": 0.011215856999999232,
+      "visits": 74132,
+      "peakRssMiB": 19.3,
+      "deals": 4000,
+      "exactExploitabilityBB": 0.3833583962020424,
+      "seatGains": [
+        0.36100105798538706,
+        0.4057157344186977
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 20000,
+      "seconds": 0.042757,
+      "processSeconds": 0.05239848500000153,
+      "visits": 374237,
+      "peakRssMiB": 19.4,
+      "deals": 20000,
+      "exactExploitabilityBB": 0.20859931461032533,
+      "seatGains": [
+        0.19844602132590516,
+        0.2187526078947455
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 50000,
+      "seconds": 0.10891300000000001,
+      "processSeconds": 0.12300685500000327,
+      "visits": 934348,
+      "peakRssMiB": 19.6,
+      "deals": 50000,
+      "exactExploitabilityBB": 0.08748123040413147,
+      "seatGains": [
+        0.07977046521284059,
+        0.09519199559542235
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 100000,
+      "seconds": 0.21450400000000003,
+      "processSeconds": 0.23392384300000413,
+      "visits": 1869344,
+      "peakRssMiB": 19.7,
+      "deals": 100000,
+      "exactExploitabilityBB": 0.11553330822734553,
+      "seatGains": [
+        0.0950786732372011,
+        0.13598794321748997
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 250000,
+      "seconds": 0.484628,
+      "processSeconds": 0.5105982120000044,
+      "visits": 4678882,
+      "peakRssMiB": 19.7,
+      "deals": 250000,
+      "exactExploitabilityBB": 0.04544353888030339,
+      "seatGains": [
+        0.04091338446418469,
+        0.049973693296422095
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "sample",
+      "budget": 500000,
+      "seconds": 0.942836,
+      "processSeconds": 0.9726598250000061,
+      "visits": 9304806,
+      "peakRssMiB": 19.7,
+      "deals": 500000,
+      "exactExploitabilityBB": 0.0331490257935676,
+      "seatGains": [
+        0.022266180355814846,
+        0.04403187123132035
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "time",
+      "budget": 250,
+      "seconds": 0.250121,
+      "processSeconds": 0.2585035519999983,
+      "visits": 2881723,
+      "deals": 154176,
+      "exactExploitabilityBB": 0.06755022948346046,
+      "seatGains": [
+        0.06748010803149285,
+        0.06762035093542806
+      ]
+    },
+    {
+      "version": "3.7",
+      "seed": 157,
+      "type": "time",
+      "budget": 1000,
+      "seconds": 1.00017,
+      "processSeconds": 1.00477016,
+      "visits": 9963608,
+      "deals": 535360,
+      "exactExploitabilityBB": 0.027774058394944845,
+      "seatGains": [
+        0.02633578829701122,
+        0.02921232849287847
+      ]
+    }
+  ]
+}

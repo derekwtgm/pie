@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: index recovery: missing
+ok 1 - index recovery: missing
+  ---
+  duration_ms: 1180.470278
+  type: 'test'
+  ...
+# Subtest: index recovery: stale
+ok 2 - index recovery: stale
+  ---
+  duration_ms: 1076.039379
+  type: 'test'
+  ...
+# Subtest: index recovery: corrupt
+ok 3 - index recovery: corrupt
+  ---
+  duration_ms: 1061.312567
+  type: 'test'
+  ...
+# Subtest: index recovery: truncated
+ok 4 - index recovery: truncated
+  ---
+  duration_ms: 1077.692352
+  type: 'test'
+  ...
+# Subtest: ambiguous legacy remains downloadable and explicitly adoptable without overwrites
+ok 5 - ambiguous legacy remains downloadable and explicitly adoptable without overwrites
+  ---
+  duration_ms: 947.763388
+  type: 'test'
+  ...
+# Subtest: healthy 3.4 index migrates with original files retained
+ok 6 - healthy 3.4 index migrates with original files retained
+  ---
+  duration_ms: 543.124462
+  type: 'test'
+  ...
+# Subtest: damage and removal skip invalid generations while retaining the previous high-water mark
+ok 7 - damage and removal skip invalid generations while retaining the previous high-water mark
+  ---
+  duration_ms: 579.907479
+  type: 'test'
+  ...
+# Subtest: multiple corruptions fail closed and preserve survivors
+ok 8 - multiple corruptions fail closed and preserve survivors
+  ---
+  duration_ms: 629.915513
+  type: 'test'
+  ...
+# Subtest: duplicate sequences expose candidates without rotating
+ok 9 - duplicate sequences expose candidates without rotating
+  ---
+  duration_ms: 389.836533
+  type: 'test'
+  ...
+# Subtest: concurrent hosts serialize acknowledged commits; rejected requests can retry
+ok 10 - concurrent hosts serialize acknowledged commits; rejected requests can retry
+  ---
+  duration_ms: 2282.746698
+  type: 'test'
+  ...
+# Subtest: interruption at validation
+ok 11 - interruption at validation
+  ---
+  duration_ms: 1042.669683
+  type: 'test'
+  ...
+# Subtest: interruption at temp-create
+ok 12 - interruption at temp-create
+  ---
+  duration_ms: 1162.560971
+  type: 'test'
+  ...
+# Subtest: interruption at write
+ok 13 - interruption at write
+  ---
+  duration_ms: 1152.48842
+  type: 'test'
+  ...
+# Subtest: interruption at flush
+ok 14 - interruption at flush
+  ---
+  duration_ms: 1077.229159
+  type: 'test'
+  ...
+# Subtest: interruption at rotation
+ok 15 - interruption at rotation
+  ---
+  duration_ms: 1162.972998
+  type: 'test'
+  ...
+# Subtest: interruption at replace
+ok 16 - interruption at replace
+  ---
+  duration_ms: 1168.29532
+  type: 'test'
+  ...
+# Subtest: interruption at after-slot
+ok 17 - interruption at after-slot
+  ---
+  duration_ms: 1021.568435
+  type: 'test'
+  ...
+# Subtest: interruption at published
+ok 18 - interruption at published
+  ---
+  duration_ms: 967.649007
+  type: 'test'
+  ...
+# Subtest: interruption at index-update
+ok 19 - interruption at index-update
+  ---
+  duration_ms: 1004.689983
+  type: 'test'
+  ...
+# Subtest: interruption at ack
+ok 20 - interruption at ack
+  ---
+  duration_ms: 1057.873486
+  type: 'test'
+  ...
+# Subtest: interruption at reconstruction
+ok 21 - interruption at reconstruction
+  ---
+  duration_ms: 931.310248
+  type: 'test'
+  ...
+# Subtest: six-player 2 MiB stop, interrupted autosave, index recovery and byte-identical native continuation
+ok 22 - six-player 2 MiB stop, interrupted autosave, index recovery and byte-identical native continuation
+  ---
+  duration_ms: 4163.884078
+  type: 'test'
+  ...
+# Subtest: JavaScript calibrated turn respects manual and restored traversal
+ok 23 - JavaScript calibrated turn respects manual and restored traversal
+  ---
+  duration_ms: 45.362182
+  type: 'test'
+  ...
+# Subtest: CUDA driver fixture enforces reduced VRAM budgets on reused batches
+ok 24 - CUDA driver fixture enforces reduced VRAM budgets on reused batches
+  ---
+  duration_ms: 554.641127
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26427.735505

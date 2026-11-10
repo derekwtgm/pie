@@ -1,0 +1,48 @@
+{
+  "version": "3.7",
+  "build": "d802f79f8736854f",
+  "originalZipSHA256": "027b0e9db76e041cba0141bd795e248f00f9eb9904371b7d2bd6581d2147d924",
+  "baselineManifestVerified": 615,
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "nativeLinuxExecuted": true,
+  "windowsX64CrossCompiled": true,
+  "windowsRepeatLinkByteIdentical": true,
+  "physicalWindowsExecuted": false,
+  "wineExecuted": false,
+  "physicalCudaExecuted": false,
+  "shaderImages": "Existing verified PTX and sm_75, sm_80, sm_86, sm_89 cubins embedded in both rebuilt PEs",
+  "tests": {
+    "passed": 319,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "todo": 0,
+    "hardwareDependentRun": 11,
+    "hardwareDependentSkipped": 0
+  },
+  "ASanUBSanFocusedPasses": 59,
+  "leakSanitizerDisabled": true,
+  "threadSanitizerFourWorkerRun": "passed",
+  "syntaxSourceJS": 96,
+  "trainedLargestDecodedBytes": 1082483966,
+  "trainedComparison": "Full CLI bytes vs uninterrupted +1 and independent HTTP counter/RNG/row check at all four milestones. Entire HTTP re-save compared after corrupt index on separate real 20000-update archive.",
+  "syntheticLargestWireBytes": 2149909523,
+  "generatedTrainedAbove2GiB": false,
+  "targetWindowsTimeToAccuracyMeasured": false,
+  "eightSeatExactNashVerified": false,
+  "measuredGeneralConvergenceGain": false,
+  "provedHybridSpeedup": false,
+  "checksNotRun": [
+    "Physical Windows GUI and drivers",
+    "Wine execution",
+    "Physical RTX allocation, parity, real hybrid throughput and target time to accuracy",
+    "Graphical browser rendering of final Windows binary"
+  ],
+  "otherLimits": [
+    "2 GiB browser-side decoded table policy",
+    "Real training stopped at the specified 5300 MiB table budget while seeking 2050 MiB checkpoint",
+    "Host native exploration supports root averages, deeper explorer requires browser-compatible study",
+    "Uncontrolled shared-host timing variability"
+  ]
+}

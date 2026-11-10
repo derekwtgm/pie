@@ -1,0 +1,23 @@
+{
+  "method": "Windows executable UI JavaScript, simulated DOM, real native Linux HTTP host",
+  "status": "Restored and checksum verified. · Native study open · 15 updates · 60 sampled deals · 2,400 rows · 0.792 MiB tables · 10906 betting states",
+  "initialUpdates": 8,
+  "rootHands": 1326,
+  "generation": "1",
+  "routes": [
+    "GET /api/mw/status",
+    "POST /api/checkpoint/native-upload",
+    "GET /api/checkpoint/progress",
+    "GET /api/mw/status",
+    "GET /api/mw/desktop-policy",
+    "POST /api/mw/desktop-train",
+    "GET /api/mw/status",
+    "GET /api/mw/status",
+    "POST /api/checkpoint/native-save",
+    "GET /api/mw/status",
+    "POST /api/mw/desktop-release",
+    "GET /api/mw/status",
+    "POST /api/checkpoint/native-latest",
+    "GET /api/mw/status"
+  ]
+}

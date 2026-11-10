@@ -1,0 +1,50 @@
+{
+  "compiler": "GCC ThreadSanitizer -O1 -fno-omit-frame-pointer -ffp-contract=off -no-pie",
+  "coverage": "Four worker eight-player linked CPU run, 80 updates, 16 deals per update, no race diagnostic",
+  "engine": {
+    "protocol": 1,
+    "specProtocol": 4,
+    "algorithm": "external",
+    "actionStreams": "deal",
+    "iterations": 80,
+    "trainingDeals": 1280,
+    "stateVisits": 388783,
+    "rng": 2943294904,
+    "actionRng": 1899539349,
+    "rows": 30754,
+    "states": 127969,
+    "tableMiB": 8.055,
+    "weighting": "linear",
+    "tablePeakBytes": 10832384,
+    "tableCapacityBytes": 9897600,
+    "scratchPeakBytes": 2295872,
+    "scratchBudgetBytes": 2147483648,
+    "attemptedDealsThisSession": 1280,
+    "transientLimitPerDealBytes": 33554432,
+    "budgetMiB": 2048,
+    "scoreCalibrations": 0,
+    "scoreCalibrationSeconds": 0.0,
+    "cpuScoreProbeSeconds": 0.0,
+    "bestDeviceScoreSeconds": 0.0,
+    "studyId": "a7d3f7427128db26",
+    "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+    "requestedDevice": "cpu",
+    "gpuBufferPeakBytes": 0,
+    "gpuStageBound": {
+      "scoringShare": 0.0072,
+      "maxSavingFraction": 0.0072
+    },
+    "limitReached": false,
+    "threads": 4,
+    "batchDeals": 16,
+    "seconds": {
+      "deal": 0.0467,
+      "traverse": 0.3181,
+      "merge": 0.2427,
+      "profiledUpdates": 0.0374,
+      "scoreInProfiledUpdates": 0.0003
+    },
+    "wallSeconds": 0.613325,
+    "processPeakRssMiB": 71.7
+  }
+}

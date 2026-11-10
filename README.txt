@@ -1,5 +1,15 @@
-EightMax 2.9 - 8-max MTT solver for Windows
+EightMax 3.7 - 8-max MTT solver for Windows
 ============================================
+
+CONTINUING A NATIVE STUDY
+Extract the ZIP and double-click EightMax.exe. Open Multiway, then Native
+checkpoint recovery. Open latest on desktop or choose a portable .emstudy.
+After verification, enter Additional updates and choose Continue training.
+View starting-hand strategy shows root action probabilities. Use Save native
+checkpoint to commit and Close desktop study to release memory.
+The default storage cap is 2,048 MiB. See RELEASE-3.7.md for larger studies,
+generation retention, disk estimates, RAM limits and validation results.
+Use Run self-tests.bat and Validate CUDA hardware.bat for your Windows PC.
 
 QUICK START
 1. In Windows Explorer, right-click the ZIP, choose Extract All, and open the
@@ -16,7 +26,59 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.9
+HISTORICAL CHANGES IN 3.6
+Open Multiway and use Save training for a portable .emstudy file. Enable the
+autosave interval to keep recoverable generations in Documents\EightMax.
+Checkpoint recovery details shows progress, generation, time, size, integrity
+and disk or storage policy errors. The default per-checkpoint cap is 2 GiB
+with 128 MiB of disk space reserved. Read RELEASE-3.6.md for storage policy,
+validation, memory requirements and measured accuracy and performance.
+
+Extract the ZIP completely before double-clicking EightMax.exe. Run self-tests.bat
+produces Windows-self-test.json. Validate CUDA hardware.bat produces
+hardware-validation.json for your Windows PC and RTX 4060 Ti.
+
+HISTORICAL CHANGES IN 3.5
+Open Multiway and choose Checkpoint recovery details to see generations,
+download a portable checkpoint, or adopt an older legacy save. See
+RELEASE-3.5.md for measured results and local hardware validation.
+
+NEW IN 3.4
+Desktop checkpoints are verified before commit. A failed background job can be
+retried. Native full betting traversal now supports Compact and Detailed groups.
+Eligible sampled batches can use CUDA for scoring. For tests, benchmark results,
+known limitations and instructions for your PC, read RELEASE-3.4.md.
+
+PREVIOUS RELEASE: NEW IN 3.2
+Read RELEASE-3.2.md for checkpoint recovery, memory caps, supported grouped games,
+accuracy measurements and Windows hardware validation. Results are in validation/3.2.
+
+PREVIOUS RELEASE 3.1
+Read RELEASE-3.1.md for the supported configuration matrix, measured accuracy per
+second, CUDA status and known limitations.
+- Large and preflop Multiway studies now train in native C++ too. Choose Wide
+  ranges, Exact cards and Training engine = Native C++ when eligible. Big trees
+  use native external sampling (sampled betting) instead of falling back to
+  JavaScript; small trees still use full traversal. Results are identical to the
+  JavaScript engine, only faster (about 8-9x on one thread, more with threads).
+- Sampled-betting action streams = Per deal lets frozen batches (Deals per update
+  above 1) use every CPU core. Shared keeps a single stream.
+- The progress line shows which engine, algorithm, device and memory are in use,
+  and why JavaScript was used if it was.
+- Validate CUDA hardware.bat checks your NVIDIA GPU (e.g. RTX 4060 Ti) against the
+  CPU with exact all-in equities and records speed. CUDA was not run on a physical
+  GPU while preparing this release.
+
+PREVIOUS RELEASE: NEW IN 3.0
+Read RELEASE-3.0.md for supported games, accuracy measurements and outstanding hardware checks.
+Balanced remains the accuracy preset. CPU Only is the initial multiway scoring device.
+For native training choose Wide ranges, Exact cards and Native C++ when eligible.
+The desktop interface offers CPU Only, Automatic, GPU Preferred and Hybrid CPU/GPU.
+Run Compare processing modes.bat on Windows to test an identical turn study on your machine.
+It records the observed device, wall time and a digest of the final strategy for each mode.
+The earlier GPU self-test exercises the separate OpenCL heads-up engine.
+
+ADDED IN 2.9
 Read RELEASE-2.9.md for everything measured in this release and what remains
 untested.
 - Native C++ multiway training: in EightMax.exe, sampled Multiway studies that
@@ -30,7 +92,7 @@ untested.
   within half of your RAM (at most 8 GB). EIGHTMAX_APP_MIB changes this. Studies
   too large for the budget are refused with an estimate.
 - Browser checkpoints were tested across browser restarts and crashes.
-- No CUDA support. The executables are unsigned and were tested under Wine on
+- Version 2.9 had no CUDA support. Its executables were unsigned and tested under Wine on
   Linux, not on Windows.
 
 PREVIOUS RELEASE: NEW IN 2.8
@@ -473,7 +535,7 @@ THE GPU ENGINE
   solves every river subgame at once, and the CPU finishes the iteration
   with the river results. Results match the CPU engine.
 - Requirements: a graphics card with OpenCL, which the normal NVIDIA, AMD and
-  Intel drivers include. An RTX 3060 Ti with an up-to-date NVIDIA driver is
+  Intel drivers include. An RTX 4060 Ti with an up-to-date NVIDIA driver is
   fine. Nothing else to install.
 - GPU self-test: double-click "GPU self-test.bat". It checks the GPU results
   against the CPU engine on a turn spot, in full precision and in 16-bit,
