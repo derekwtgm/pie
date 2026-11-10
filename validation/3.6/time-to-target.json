@@ -1,0 +1,1043 @@
+{
+ "targetBB": 0.15,
+ "horizons": [
+  1000,
+  4000,
+  16000,
+  64000
+ ],
+ "pilotWallMs": 2019.7030879999998,
+ "selected": {
+  "cfg": {
+   "board": "Qs9h4d2c7s",
+   "common": 10,
+   "stacks": [
+    40,
+    40
+   ],
+   "ranges": [
+    "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd,Ts8s,AcAd,5h5d",
+    "QcJc,TdTc,As4s,KdJd,6s5s,9d8d,7c7d,AhJh,Kc2s"
+   ],
+   "streets": {
+    "river": {
+     "bets": "50,a",
+     "raises": "2.5x",
+     "maxBets": 2
+    }
+   },
+   "engine": "native",
+   "privateMode": "sampled",
+   "abstraction": "exact",
+   "batchDeals": 1,
+   "evaluationDeals": 128,
+   "privateSeed": 7409,
+   "traversal": "full",
+   "weighting": "linear",
+   "regretMatching": "standard",
+   "terminalExpectation": false
+  },
+  "selected": 0,
+  "candidates": [
+   {
+    "traversal": "full",
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "terminalExpectation": false
+   },
+   {
+    "traversal": "external",
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "terminalExpectation": false
+   },
+   {
+    "traversal": "external",
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "terminalExpectation": true
+   },
+   {
+    "traversal": "external",
+    "weighting": "dcfr",
+    "regretMatching": "standard",
+    "terminalExpectation": false
+   },
+   {
+    "traversal": "full",
+    "weighting": "uniform",
+    "regretMatching": "standard",
+    "terminalExpectation": false
+   },
+   {
+    "traversal": "full",
+    "weighting": "linear",
+    "regretMatching": "plus",
+    "terminalExpectation": false
+   }
+  ],
+  "trials": [
+   {
+    "candidate": 0,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.08463328826994498,
+    "se": 0,
+    "seconds": 0.100045,
+    "backend": "native CPU",
+    "deals": 101824,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 1,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.1140682613378321,
+    "se": 0,
+    "seconds": 0.100131,
+    "backend": "native CPU",
+    "deals": 42432,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 2,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.13210254550903122,
+    "se": 0,
+    "seconds": 0.100153,
+    "backend": "native CPU",
+    "deals": 44160,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 3,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.2593314128559261,
+    "se": 0,
+    "seconds": 0.100106,
+    "backend": "native CPU",
+    "deals": 48320,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 4,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.06272457036131662,
+    "se": 0,
+    "seconds": 0.100037,
+    "backend": "native CPU",
+    "deals": 127168,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 5,
+    "seed": 17,
+    "seat": null,
+    "gain": 0.1659185562140515,
+    "se": 0,
+    "seconds": 0.1001,
+    "backend": "native CPU",
+    "deals": 117760,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 1,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.1137484220206042,
+    "se": 0,
+    "seconds": 0.100118,
+    "backend": "native CPU",
+    "deals": 50880,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 2,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.12926113667648154,
+    "se": 0,
+    "seconds": 0.100155,
+    "backend": "native CPU",
+    "deals": 46144,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 3,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.24710745623807795,
+    "se": 0,
+    "seconds": 0.100095,
+    "backend": "native CPU",
+    "deals": 37888,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 4,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.05907003788394327,
+    "se": 0,
+    "seconds": 0.100162,
+    "backend": "native CPU",
+    "deals": 95232,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 5,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.16257760087166884,
+    "se": 0,
+    "seconds": 0.100063,
+    "backend": "native CPU",
+    "deals": 113920,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 0,
+    "seed": 127,
+    "seat": null,
+    "gain": 0.053386521180081026,
+    "se": 0,
+    "seconds": 0.100039,
+    "backend": "native CPU",
+    "deals": 114304,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 2,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.12957865664880042,
+    "se": 0,
+    "seconds": 0.100078,
+    "backend": "native CPU",
+    "deals": 54208,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 3,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.2871658452828454,
+    "se": 0,
+    "seconds": 0.100201,
+    "backend": "native CPU",
+    "deals": 43072,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 4,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.055513840684624505,
+    "se": 0,
+    "seconds": 0.100035,
+    "backend": "native CPU",
+    "deals": 109568,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 5,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.16798348923300632,
+    "se": 0,
+    "seconds": 0.100094,
+    "backend": "native CPU",
+    "deals": 93248,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 0,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.06231981680972298,
+    "se": 0,
+    "seconds": 0.100064,
+    "backend": "native CPU",
+    "deals": 99456,
+    "budgetMs": 100
+   },
+   {
+    "candidate": 1,
+    "seed": 991,
+    "seat": null,
+    "gain": 0.15171553521832548,
+    "se": 0,
+    "seconds": 0.100165,
+    "backend": "native CPU",
+    "deals": 37696,
+    "budgetMs": 100
+   }
+  ],
+  "metric": "exact exploitability",
+  "reason": "Pilot evidence retained the starting algorithm",
+  "inputs": {
+   "players": 2,
+   "street": "River",
+   "utility": "chip EV",
+   "abstraction": "exact",
+   "tableMiB": 112,
+   "tree": 21,
+   "precision": "balanced",
+   "eligibility": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+  }
+ },
+ "rows": [
+  {
+   "seed": 103,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.8069999999999999,
+     "processMs": 5.951602999999977,
+     "exactExploitabilityBB": 0.8398463353831063
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 7.724,
+     "processMs": 15.10486899999978,
+     "exactExploitabilityBB": 0.3778194402043049
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 25.589000000000002,
+     "processMs": 37.1340409999998,
+     "exactExploitabilityBB": 0.16346477029683926
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 60.422999999999995,
+     "processMs": 67.06209200000012,
+     "exactExploitabilityBB": 0.10055960546317633
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 60.422999999999995,
+    "processMs": 67.06209200000012,
+    "exactExploitabilityBB": 0.10055960546317633
+   }
+  },
+  {
+   "seed": 103,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.957,
+     "processMs": 6.59084699999994,
+     "exactExploitabilityBB": 0.8398463353831063
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 6.103,
+     "processMs": 12.232240000000274,
+     "exactExploitabilityBB": 0.3778194402043049
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 35.818000000000005,
+     "processMs": 54.13070199999993,
+     "exactExploitabilityBB": 0.16346477029683926
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 58.857,
+     "processMs": 64.26590400000032,
+     "exactExploitabilityBB": 0.10055960546317633
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 58.857,
+    "processMs": 64.26590400000032,
+    "exactExploitabilityBB": 0.10055960546317633
+   }
+  },
+  {
+   "seed": 227,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.975,
+     "processMs": 5.777912999999899,
+     "exactExploitabilityBB": 0.4578601089160448
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.4160000000000004,
+     "processMs": 15.68222999999989,
+     "exactExploitabilityBB": 0.3721651571569806
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 14.144,
+     "processMs": 18.66419700000006,
+     "exactExploitabilityBB": 0.12638377888436225
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 62.025999999999996,
+     "processMs": 72.75348399999984,
+     "exactExploitabilityBB": 0.09859515938791197
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 16000,
+    "deals": 16000,
+    "trainingMs": 14.144,
+    "processMs": 18.66419700000006,
+    "exactExploitabilityBB": 0.12638377888436225
+   }
+  },
+  {
+   "seed": 227,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 1.191,
+     "processMs": 9.480176999999912,
+     "exactExploitabilityBB": 0.4578601089160448
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 8.125,
+     "processMs": 19.968346999999994,
+     "exactExploitabilityBB": 0.3721651571569806
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 15.559,
+     "processMs": 22.068472999999813,
+     "exactExploitabilityBB": 0.12638377888436225
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 57.762,
+     "processMs": 62.54256000000032,
+     "exactExploitabilityBB": 0.09859515938791197
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 16000,
+    "deals": 16000,
+    "trainingMs": 15.559,
+    "processMs": 22.068472999999813,
+    "exactExploitabilityBB": 0.12638377888436225
+   }
+  },
+  {
+   "seed": 347,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.851,
+     "processMs": 5.490009999999984,
+     "exactExploitabilityBB": 0.53346227961345
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 2.951,
+     "processMs": 7.82831299999998,
+     "exactExploitabilityBB": 0.2892448267509362
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 17.593,
+     "processMs": 22.835025000000314,
+     "exactExploitabilityBB": 0.15644685427910532
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 56.230000000000004,
+     "processMs": 60.747464000000036,
+     "exactExploitabilityBB": 0.08098968194481837
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 56.230000000000004,
+    "processMs": 60.747464000000036,
+    "exactExploitabilityBB": 0.08098968194481837
+   }
+  },
+  {
+   "seed": 347,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.857,
+     "processMs": 5.291192000000137,
+     "exactExploitabilityBB": 0.53346227961345
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.779,
+     "processMs": 8.358179000000291,
+     "exactExploitabilityBB": 0.2892448267509362
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 13.324000000000002,
+     "processMs": 17.58986300000015,
+     "exactExploitabilityBB": 0.15644685427910532
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 56.989,
+     "processMs": 62.6573699999999,
+     "exactExploitabilityBB": 0.08098968194481837
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 56.989,
+    "processMs": 62.6573699999999,
+    "exactExploitabilityBB": 0.08098968194481837
+   }
+  },
+  {
+   "seed": 463,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.694,
+     "processMs": 4.9516950000002,
+     "exactExploitabilityBB": 0.7831314140489989
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.318,
+     "processMs": 7.282438000000184,
+     "exactExploitabilityBB": 0.4504153078347819
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 14.404,
+     "processMs": 19.02174100000002,
+     "exactExploitabilityBB": 0.1532924338502204
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 68.71900000000001,
+     "processMs": 73.89802099999997,
+     "exactExploitabilityBB": 0.07296401500255478
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 68.71900000000001,
+    "processMs": 73.89802099999997,
+    "exactExploitabilityBB": 0.07296401500255478
+   }
+  },
+  {
+   "seed": 463,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.733,
+     "processMs": 11.889864000000216,
+     "exactExploitabilityBB": 0.7831314140489989
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.4520000000000004,
+     "processMs": 8.110012000000097,
+     "exactExploitabilityBB": 0.4504153078347819
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 13.164,
+     "processMs": 18.76058899999998,
+     "exactExploitabilityBB": 0.1532924338502204
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 55.088,
+     "processMs": 59.543470999999954,
+     "exactExploitabilityBB": 0.07296401500255478
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 55.088,
+    "processMs": 59.543470999999954,
+    "exactExploitabilityBB": 0.07296401500255478
+   }
+  },
+  {
+   "seed": 577,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.937,
+     "processMs": 5.126282000000174,
+     "exactExploitabilityBB": 0.7350562109308607
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 2.919,
+     "processMs": 5.906476999999995,
+     "exactExploitabilityBB": 0.3695335356405802
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 11.346,
+     "processMs": 15.240947999999662,
+     "exactExploitabilityBB": 0.17250665740190563
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 56.781,
+     "processMs": 62.20451099999991,
+     "exactExploitabilityBB": 0.11216539385864244
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 56.781,
+    "processMs": 62.20451099999991,
+    "exactExploitabilityBB": 0.11216539385864244
+   }
+  },
+  {
+   "seed": 577,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.746,
+     "processMs": 4.454098000000158,
+     "exactExploitabilityBB": 0.7350562109308607
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 4.077,
+     "processMs": 7.938190000000304,
+     "exactExploitabilityBB": 0.3695335356405802
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 22.019000000000002,
+     "processMs": 27.268596000000343,
+     "exactExploitabilityBB": 0.17250665740190563
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 87.31,
+     "processMs": 97.57196699999986,
+     "exactExploitabilityBB": 0.11216539385864244
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 87.31,
+    "processMs": 97.57196699999986,
+    "exactExploitabilityBB": 0.11216539385864244
+   }
+  },
+  {
+   "seed": 691,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.794,
+     "processMs": 6.341930000000048,
+     "exactExploitabilityBB": 1.0543153327111268
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.589,
+     "processMs": 11.696688999999878,
+     "exactExploitabilityBB": 0.3278504396396511
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 14.463000000000001,
+     "processMs": 18.735373999999865,
+     "exactExploitabilityBB": 0.22556814867149155
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 87.633,
+     "processMs": 93.380001,
+     "exactExploitabilityBB": 0.08946289876323221
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 87.633,
+    "processMs": 93.380001,
+    "exactExploitabilityBB": 0.08946289876323221
+   }
+  },
+  {
+   "seed": 691,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.866,
+     "processMs": 9.356017000000065,
+     "exactExploitabilityBB": 1.0543153327111268
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 7.436,
+     "processMs": 18.91958999999997,
+     "exactExploitabilityBB": 0.3278504396396511
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 26.011,
+     "processMs": 41.82341799999995,
+     "exactExploitabilityBB": 0.22556814867149155
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 123.139,
+     "processMs": 129.25646900000038,
+     "exactExploitabilityBB": 0.08946289876323221
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 64000,
+    "deals": 64000,
+    "trainingMs": 123.139,
+    "processMs": 129.25646900000038,
+    "exactExploitabilityBB": 0.08946289876323221
+   }
+  },
+  {
+   "seed": 811,
+   "version": "3.5",
+   "traversal": {
+    "requested": "auto",
+    "chosen": "full traversal",
+    "states": 21,
+    "sampledVisitsPerDeal": 15.556,
+    "gainRatio": 3,
+    "sampledWork": 140,
+    "rangeCombinations": [
+     9,
+     9
+    ],
+    "budgetMiB": 112,
+    "estimatedFullTreeMiB": 0.04,
+    "utility": "chip EV",
+    "calibration": "3.3 traversal model",
+    "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+    "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.941,
+     "processMs": 12.158100999999988,
+     "exactExploitabilityBB": 0.7073336123671721
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 7.2700000000000005,
+     "processMs": 13.775793000000249,
+     "exactExploitabilityBB": 0.25236944899099867
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 14.699,
+     "processMs": 19.76103000000012,
+     "exactExploitabilityBB": 0.1415119832424654
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 65.95700000000001,
+     "processMs": 70.84778899999992,
+     "exactExploitabilityBB": 0.06773606949807509
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 16000,
+    "deals": 16000,
+    "trainingMs": 14.699,
+    "processMs": 19.76103000000012,
+    "exactExploitabilityBB": 0.1415119832424654
+   }
+  },
+  {
+   "seed": 811,
+   "version": "3.6",
+   "traversal": {
+    "requested": "full",
+    "chosen": "full traversal",
+    "reason": "selected manually"
+   },
+   "weighting": "linear",
+   "horizons": [
+    {
+     "it": 1000,
+     "deals": 1000,
+     "trainingMs": 0.901,
+     "processMs": 5.65024799999992,
+     "exactExploitabilityBB": 0.7073336123671721
+    },
+    {
+     "it": 4000,
+     "deals": 4000,
+     "trainingMs": 3.9490000000000003,
+     "processMs": 10.86036200000035,
+     "exactExploitabilityBB": 0.25236944899099867
+    },
+    {
+     "it": 16000,
+     "deals": 16000,
+     "trainingMs": 10.561,
+     "processMs": 14.399746999999934,
+     "exactExploitabilityBB": 0.1415119832424654
+    },
+    {
+     "it": 64000,
+     "deals": 64000,
+     "trainingMs": 52.562,
+     "processMs": 56.23805799999991,
+     "exactExploitabilityBB": 0.06773606949807509
+    }
+   ],
+   "firstObservedAtTarget": {
+    "it": 16000,
+    "deals": 16000,
+    "trainingMs": 10.561,
+    "processMs": 14.399746999999934,
+    "exactExploitabilityBB": 0.1415119832424654
+   }
+  }
+ ]
+}

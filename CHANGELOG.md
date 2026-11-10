@@ -1,3 +1,172 @@
+# EightMax Windows 4.0
+
+- Fixed the action-EV time-limit defect: an eight-player preflop ICM exact EV with fixed hands and a 100 ms limit ran 10.2 s in 3.9 (and returned an "exact" result after 8 s at another node). A shared monotonic deadline, cooperative cancellation and adaptive polling now cover every expensive loop (runouts, showdown tables, opponent and best-response tuples, chance cards, ICM terminals, rejection retries, subtree sizing, CUDA batches); measured 101-103 ms for a 100 ms limit on Linux, under Wine and on a GitHub Windows runner, cancellation in about 1-2 ms. Timed-out exact evaluations return HTTP 408 with no numbers; partial sampled results need at least minSamples samples and are labelled partial.
+- Added background evaluation jobs to the desktop host (`/api/mw/jobs/...`): validation before queueing, bounded worker pool, FIFO queue with a memory pool, progress, results, cancel, release, configuration. Explorer queries and status keep working during evaluations; mutations of the study are refused while it is read; solver state is provably unchanged (byte-identical exports, deterministic continuation around jobs).
+- Exact EVs: per-deal showdown tables reduced to integer rank-pattern histograms (CPU, CUDA, hybrid; GPU verified against the CPU before use), multithreaded work items with item-order reduction; sampled EVs in fixed per-seed blocks. Results are bit-identical for every thread count and device. 3.9 vs 4.0 exact EVs agree to <= 7e-13 relative. Eight-player push/fold root 24.5 s -> 2.0-2.4 s (1 thread, several measurements), 1.3 s with threads; linked preflop-to-river exact case finishes in 91 s with 4 threads (3.9: not finished in 300 s).
+- Statistics: `equivalentToBest` no longer means "within 1.96 SE". Per-action classifications from paired differences (differenceSupported, differenceUncertain, practicallyEquivalent only with an explicit margin via two one-sided tests, insufficientSamples; exact: highest/exactTie/withinMargin/lower), difference intervals and plain-language interpretations.
+- Coverage: policy lookups, stored/fallback rows, distinct untrained information sets, probability-weighted fallback shares (actions, opponent ranges, samples), warning levels with thresholds, selectable fallback policy and fallback sensitivity analysis.
+- Response gains: new restricted best response (first street, backward induction; equals the exact best response on single-street studies to 1e-8), mode labels, per-seat timing and lookups.
+- Explorer: evaluations run as jobs with status/progress/cancel; controls for method, utility (ICM or chip EV), time limit, visit budget, CPU/GPU/hybrid processing, equivalence margin and fallback; classification labels and coverage warnings.
+- Investigated convergence (four games, five seeds, exact NashConv): no existing variant beats the default linear averaging at practical budgets; training unchanged and byte-identical to 3.9.
+- Measured regressions: single-threaded sampled evaluation up to ~10-15% slower in three- and six-player spots; peak RSS +0.1-0.7 MiB.
+- Tests: 17 new tests in tests/v40.test.js (all 341 earlier tests unchanged); TSan/ASan/UBSan and cppcheck pass; Windows runner: 349 passed, 0 failed, 9 skipped. Windows self-test and hardware validation scripts extended. No NVIDIA GPU was available: CUDA EV acceleration is untested on real hardware. See RELEASE-4.0.md and validation/4.0.
+
+# EightMax Windows 3.9
+
+- Fixed the explorer defect where numeric fields were silently coerced (`"rangeSeat":"nonsense"` read as "acting seat"; strings, booleans and null in `offset`/`limit` read as defaults). Explorer, action-EV and response-gain requests are validated against a strict schema: wrong JSON types, null, fractions, out-of-range or negative integers, unknown/duplicate fields, malformed arrays, unsupported action paths, duplicate or board-blocked cards, invalid hand indices, mismatched study/state identifiers and requests over 64 KiB return HTTP 400/409/413 with the offending field named. The desktop host and `mwcli --node` share the validator.
+- Added native action-specific EVs (`native/action_ev.hpp`, `POST /api/mw/ev`, `mwcli --ev`): EV of every legal action, the stored mixed strategy and their differences, per exact hand and for the reach-weighted range, under a named continuation policy (average or current). Opponent ranges are conditioned on their own path strategy and card removal; future cards, later actions, side pots, unmatched-chip returns, eliminations and ICM are evaluated with the engine's own rules. Exact enumeration when the work fits a visit budget, otherwise Monte Carlo with exact-posterior rejection sampling, common random numbers, seeds, standard errors, 95% intervals, paired standard errors, time limits and cancellation. Missing strategy rows are either substituted uniformly with the affected probability share reported, or refused. Bounded results cache, cleared by training and imports.
+- Added per-seat response gains (`POST /api/mw/response-gain`, `mwcli --gain`): exact best responses over exact private cards inside the betting abstraction (exact exploitability for heads-up chip EV; NashConv otherwise, without an exploitability claim), and for large multiway studies a sampled one-shot deviation gain per seat with independent selection and evaluation streams, reach probability and standard errors. Every seat is reported; the summary does not replace them.
+- Explorer interface: EV tables with method, policy, samples, ± intervals, best/equivalent actions and fallback markers; matrix modes for strategy, EV of an action, EV minus mixed-strategy EV and EV standard error. Classes without computed EVs stay empty.
+- Training code is unchanged: 3.9 produces byte-identical states to 3.8 in all ten benchmark scenarios. No CUDA code changed.
+- Added 14 regression tests (341 total) including an independent JavaScript EV and best-response reference, a hand-built heads-up game, Compact/Detailed group-mapping parity against the JavaScript implementation, sampled-versus-exact coverage, host HTTP 400 checks and cache invalidation; ASan/UBSan runs; ten-scenario 3.8/3.9 benchmark; convergence measurements from 4,000 to 500,000 sampled deals. See RELEASE-3.9.md and validation/3.9.
+- Rebuilt EightMax.exe, mwcli.exe and the offline interface (cross-compiled; tested under Wine, not on physical Windows or an NVIDIA GPU).
+
+# EightMax Windows 3.8
+
+- Profiled the 3.7 native external-sampling engine (instruction-level) on the ten benchmark studies. Repaired the measured hotspots without changing any result: ICM finishing-set sums and places are built incrementally (no per-mask rescan, no libgcc popcount call), terminal ICM results use a budget-scaled exact cache, betting transitions and terminal pot layouts are cached per worker, and the betting states of hot committed states are stored once. Every exported state is byte-identical to 3.7 for equal settings (240 paired runs, 1 and 4 threads, all estimators).
+- Added a native-backed strategy explorer for open native studies (the interface control is in Native checkpoint recovery for desktop studies; the host API also serves an idle live native study): preflop, flop, turn and river decision points, validated action paths, chance-card selection, legal actions and bet sizes, pots, stacks, live/folded/all-in seats, 13x13 matrix, per-combo frequencies, range reach, aggregate frequencies, average versus current strategies, card blockers and coverage. The host returns one node per request (at most 1,326 hands). Unsolved branches are refused, never synthesized. EVs are not shown because the stored state does not contain them.
+- Added a restoration memory estimate computed from the archive counts before the large allocations. Restores that cannot fit are refused immediately with the required and available MiB. The estimate matched the restored live tables exactly on five genuine trained states from 157 MiB to 1.55 GiB.
+- Added 8 regression tests (327 total), an independent explorer reference checker, a genuine trained-state restoration series, an interleaved native timing harness, sanitizer runs and Windows self-test explorer checks. See RELEASE-3.8.md and validation/3.8.
+- Rebuilt EightMax.exe, mwcli.exe and the offline interface. The executables were cross-compiled on Linux and were not executed on Windows or on an NVIDIA GPU for this release.
+
+# EightMax Windows 3.7
+
+- Added streamed reconstruction of a live C++ external-sampling study from a portable or stored generation. The prior state survives failed imports, and the resumed engine can train, expose per-hand root averages, stop and save again.
+- Added spending limits for restore RAM and checkpoint storage, available-memory detection, conservative disk forecasting, progress, cancellation, and configurable retention of two or three validated generations.
+- Added streamed CLI native import/export, preallocated row indexes, and lossless host-side export. Protected RNG, average tables, regrets, state identifiers and deterministic continuation.
+- Reduced repeated work in native betting-state traversal and equal-contribution pots. Added an optional external-sampling fold control variate and corrected long-horizon DCFR discount arithmetic.
+- Reduced repeated pilot calculations and exposed measured CPU scoring calibration data. CPU-only and CUDA-assisted routes share the same sampled deals.
+- Rebuilt the Windows executables and offline interface. Added native restoration, memory pressure, deterministic continuation, mathematical comparisons and hardware validation procedures. See RELEASE-3.7.md and validation/3.7.
+
+# EightMax Windows 3.6
+
+- Replaced the desktop checkpoint request buffer with bounded streaming, incremental hashes, temporary-file verification, disk reserves, cancellation, timeouts and protected slot publication.
+- Added EMCP36 v1 lossless native and JavaScript table archives. Updated large legacy base64 decoding, desktop file staging, offline import, adoption and recovery diagnostics.
+- Added bounded public-edge reuse, allocation-free small bet sorting, traverser-specific chip utilities and optional conditional terminal evaluation. Existing tournament defaults and the JavaScript fallback are preserved.
+- Added opt-in timed algorithm trials with response or exact finite-game measurements and retained manual selection.
+- Added shared-board deal scoring, improved exact-equity enumeration, verified free-VRAM checks and CPU fallback on slower CUDA batches. Rebuilt the embedded sm_89 image.
+- Rebuilt the unsigned Windows x64 binaries and offline app. Added 22 regression cases and reproducible size, fault, continuation, accuracy and performance utilities. See RELEASE-3.6.md for results and open hardware checks.
+
+# EightMax Windows 3.5
+
+
+
+The native host scans three autosave.N.em35 files. Each contains the original study envelope, a monotonic generation number, the save time and a SHA-256 seal over the generation fields and envelope. It validates the payload checksum, schema and restore semantics before admitting a candidate. Timestamps are for display. A checksummed index caches rotation order and retains the highest issued sequence when a slot disappears.
+
+Saving writes to a same-directory temporary file, flushes and closes it, then replaces the unused or oldest safe slot. Slot publication commits the new generation. The host verifies the published bytes and rebuilt index before acknowledging success. A process killed after publication can leave a complete new generation even if the caller never received a reply. Check recovery details before retrying an unacknowledged write.
+
+Open Multiway → Checkpoint recovery details to inspect index health, generation numbers and failed validation. Download generation returns a portable .emstudy. The old 3.4 .emstudy slots stay untouched. An intact legacy index supports automatic migration. When order is ambiguous, download candidates or choose Use this checkpoint to start the numbered store. For multiple damaged numbered files with incomplete history, export the survivors, close all hosts, archive the complete autosave file set together, then restart and load the chosen export.
+
+Linux publication uses fsync on the file and parent directory. Windows uses _commit and a same-directory MoveFileExA replacement with MOVEFILE_WRITE_THROUGH. Power-loss behavior on a particular device, controller, network share or filesystem requires measurement there.
+
+## Solver changes
+
+Small grouped fixed-turn JavaScript studies reuse hand evaluations and history keys for identical seat, physical hand and river. Cache admission is bounded by the range sizes and configured strategy memory. A narrowly calibrated JavaScript automatic decision selects full traversal for small two-seat Detailed 60%-pot turn trees. Manual selection and checkpoint traversal are preserved.
+
+Native Detailed grouping appends features directly to the destination string and counts suit blockers with rank masks. GPU scoring recalibrates when the actual batch length changes, avoids duplicate rounded partitions and checks the current VRAM cap even when device buffers already exist. All four processing modes remain available. The eight-seat opening pot is 2.3 BB with 0.1 BB individual antes.
+
+
+# EightMax Windows 3.4
+
+- Added server-side checkpoint integrity and restore validation, bounded verification memory, a flushed third slot and atomic publication of the generation index.
+- Checked thread startup for solve, report and multiway training. Job-start failures preserve prior diagnostics and return a recoverable error.
+- Added native grouped full traversal, sparse staged imports, and shared dictionary key storage. Added native/JavaScript parity tests over all starting streets.
+- Extended automatic traversal to grouped studies and connected sufficiently large external-sampling batches to CPU/GPU scoring. Rebuilt CUDA images and both Windows x64 executables.
+- Added 14 regression cases, fault-injection coverage, cross-version continuation checks and paired convergence measurements. Detailed implementation and reproduction instructions are in RELEASE-3.4.md.
+
+# EightMax Windows 3.3
+
+- **Fixed: negative individual antes were accepted.** The native spec field `anteOf` was not
+  validated; a seat with a −0.1 BB ante trained successfully. All native, CLI, heads-up and
+  JavaScript entry paths now refuse negative, non-finite, out-of-range and malformed values,
+  and the native engine checks chip conservation (`pot0` = common pot + every contribution),
+  blinds against stacks, integer counters, pot seats, duplicate hands and combo identifiers.
+  `mwcli` refuses non-numeric arguments (3.2 read `abc` iterations as 0). Heads-up configs
+  refuse negative weights (3.2 silently dropped them) and fractional card ids.
+- **Fixed (JavaScript): a frozen batch could be partly applied** before a non-finite value
+  threw, and that partial batch survived the rollback. The batch is now validated first.
+- **Native external-sampling DCFR** (`weighting: 'dcfr'`, α/β/γ configurable) with per-row
+  lazy discounting, bit-identical to the JavaScript reference for the standard exponents,
+  equal to textbook eager DCFR within 1e-9, journaled, checkpointed and fault-injection tested.
+  Measured: DCFR(1.5, 0, 2) converges *worse* than linear MCCFR under sampling; linear stays
+  the default.
+- **Native Compact and Detailed hand groups** for flop and preflop starts and large turns
+  (previously JavaScript only): the engine computes the same keys as `seatKey()`; tables are
+  bit-identical to JavaScript in 7 configurations, 8–10× faster in measured deals per second (validation/3.3/grouped-native.json).
+- **Calibrated automatic traversal:** the cost-model ratio for ≤3-seat turn and river starts is
+  refitted from exact equal-time measurements; on two turn trees 3.2 chose external sampling
+  where full traversal gave significantly lower exact gain. Decisions are shown in diagnostics.
+- **Diagnostics:** algorithm and weighting, traversal decision and reason, native hand groups,
+  process peak RSS, a measured bound on GPU benefit for external sampling, and a separation
+  of throughput from solution quality. UI: iteration-weighting selector.
+- **Validation:** 34 new regression tests (248 total; 2 existing tests updated for lifted 3.2 limitations), sanitizers on all 3.3 paths, cppcheck
+  enabled, 10 recovery scenarios byte-identical to 3.2, host stress, 3.2-vs-3.3 benchmarks.
+  CUDA kernels unchanged; no physical GPU or physical Windows desktop was available.
+
+See RELEASE-3.3.md and validation/3.3.
+
+# EightMax Windows 3.2
+
+- Made native external-sampling updates transactional and protected checkpoint import and continuation.
+- Added aggregate scratch and persistent-capacity limits, host admission checks and committed-deal diagnostics.
+- Added tree-cost selection, bounded native river/turn grouping and optional fixed-river batch stratification.
+- Rebuilt the executables, offline interface and CUDA images. Added resumable benchmarks, allocation fault injection, cross-version comparisons and a Windows hardware report.
+
+See RELEASE-3.2.md and validation/3.2 for source references, reproducible results and outstanding validation.
+
+# EightMax Windows 3.1
+
+Full details, measurements and limitations: RELEASE-3.1.md; raw results: validation/3.1/.
+
+- **Native external-sampling MCCFR with native betting rules (spec protocol 4).** New
+  `source/native/mw_es.hpp` / `mw_es_impl.hpp` generate betting states on demand from the
+  study's rules (stacks, earlier and folded wagers, blinds and antes, per-street bet/raise
+  abstraction, raise caps, minimum raises, all-ins, side pots, opening permissions) and train
+  them with the external-sampling update of `lib_wide.js`. Studies that 3.0 sent to
+  JavaScript (sampled betting, trees above the full-tree cap, all preflop studies) now train
+  natively: preflop linked and shove/call, flop, turn and river, 2-8 seats, chip EV and ICM.
+  Bit-identical to JavaScript in 12 tested configurations, under Linux and (Windows build)
+  under Wine.
+- **Per-deal action streams** (`actionStreams: 'deal'`, also in JavaScript): deals of a frozen
+  batch traverse in parallel with thread-count-independent results. 8-seat linked preflop:
+  about 8,900 deals/s on one thread and 16,400 on four (JavaScript: about 950).
+- **EMMW4 training state**: parent-first state table plus rows, CRC32, study tag, and a full
+  replay of every state through the betting rules before import. JS -> native -> native
+  resume is identical to uninterrupted JavaScript training.
+- **Automatic full-tree limit replaced**: the tree is counted without being kept; full traversal
+  is used up to 20,000 states and native external sampling beyond. The 3.0 attempt allocated
+  about 290 MiB of browser heap and 1.3 s before abandoning a 250,000-state tree. 3.0 checkpoints
+  restore with the traversal they were trained with.
+- **Accuracy per second**: on exactly evaluable benchmark games, native external sampling reaches
+  2.2-2.5x lower exact response gain than the 3.0 JavaScript path at equal time (5 seeds,
+  95% intervals in RELEASE-3.1.md). Full traversal is unchanged and remains the better choice for
+  small trees; no tested variant (CFR+, DCFR, enumeration, stratification) beat the 3.0 default
+  with non-overlapping intervals, so defaults are unchanged.
+- **CUDA**: kernels rebuilt with NVRTC 12.9 and assembled to SASS for sm_75/80/86/89 (RTX 4060 Ti
+  is sm_89), so a CUDA 12 driver suffices; PTX JIT is the fallback. Device probe (name, compute
+  capability, VRAM, driver) in `/api/info` and `mwcli --cuda-info`; GPUs below 7.5 are refused.
+  New exact multiway all-in equity kernel (integer share units) with CPU reference,
+  `/api/equity` and `mwcli --equity`. River starts no longer send work to the GPU. Every GPU
+  failure falls back to the CPU with the reason. Physical GPU execution remains unverified.
+- **Hardware validation utility**: `Validate CUDA hardware.bat` / `source/tools/validate_hardware.ps1`.
+- **Diagnostics**: training progress shows engine, algorithm, players, street, utility,
+  device path, threads, native and browser memory, VRAM buffers, visited states, CUDA status and
+  the JavaScript fallback reason. No completion percentage is shown for sampled training.
+- **Tests**: 201 automated regressions (172 retained, 29 new in `tests/v31.test.js`), counted by
+  `tools/run_tests.js` with per-file limits; timeouts and skips are reported separately. Native
+  builds are shared across suites (`tests/native_build.js`). Two 2.9 assertions were updated for
+  the intended 3.1 behaviour (see RELEASE-3.1.md).
+- **Host**: `/api/mw/import` accepts states up to half the application budget (2 GiB maximum).
+  Strategy budgets up to 2,048 MiB in the desktop app.
+
+# EightMax Windows 3.0
+
+- Embedded a source and build-configuration identifier in both executables and the offline interface. Packaging checks all three against a fresh fingerprint.
+- Added exact native ICM terminal utility, weighted stratified river sampling and linked preflop full-tree training with complete public-card histories.
+- Added optional integer CUDA hand scoring with CPU cross-checks, score-stage timing, adaptive device partitions and fallback. Kept CPU Only as the initial device.
+- Added advance reservation for sparse immediate updates, frozen-batch RNG rollback on budget failure, native state integrity checks and atomic CLI state replacement.
+- Included matched-deal, equal-training-time and worker-count measurements. See RELEASE-3.0.md for release scope and test limitations.
+
 # EightMax changelog
 
 ## 2.9 (2026-11-07)

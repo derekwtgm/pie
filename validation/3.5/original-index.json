@@ -1,0 +1,35 @@
+{
+ "intact": {
+  "latest": {
+   "status": 200,
+   "matchesExpected": true
+  },
+  "previous": {
+   "status": 200,
+   "matchesExpected": true
+  },
+  "write": 200
+ },
+ "corrupt": {
+  "latest": {
+   "status": 503,
+   "matchesExpected": false
+  },
+  "previous": {
+   "status": 503,
+   "matchesExpected": false
+  },
+  "write": 503
+ },
+ "missing": {
+  "latest": {
+   "status": 200,
+   "matchesExpected": true
+  },
+  "previous": {
+   "status": 404,
+   "matchesExpected": false
+  },
+  "write": 200
+ }
+}

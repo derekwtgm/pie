@@ -1,0 +1,16 @@
+{
+ "passed": true,
+ "checks": [
+  "Automatic checkpoint written, then the training worker was terminated mid-run (Checkpoint saved at update 5,176)",
+  "After a browser restart the newest checkpoint recovers 5176 updates and 20704 sampled deals (Recovered the newest automatic checkpoint.)",
+  "Recovered training continues bit-identically to uninterrupted training (regrets, averages, both random streams, counters)",
+  "An aborted (incomplete) write leaves the newest valid checkpoint intact",
+  "A truncated newest checkpoint fails its integrity check; the previous generation is recovered with a message: \"The newest automatic checkpoint was damaged or incompatible (Truncated streaming checkpoint); recovered the previous one.\"",
+  "A checkpoint from an unknown engine version is refused with: \"This checkpoint was written by an incompatible EightMax engine (multiway-9.9, format 1, wr…\"",
+  "A storage-quota failure reports \"Browser storage is full or blocked (Simulated quota exceeded). The pre…\" and leaves stored checkpoints unchanged"
+ ],
+ "error": null,
+ "browser": "Playwright Chromium (headless, persistent profile)",
+ "node": "v24.22.1",
+ "generated": "2026-11-09T16:59:33.237Z"
+}

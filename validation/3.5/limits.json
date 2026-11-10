@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Rejected invalid EIGHTMAX_THREADS=0",
+    "Rejected invalid EIGHTMAX_THREADS=-1",
+    "Rejected invalid EIGHTMAX_THREADS=1.5",
+    "Rejected invalid EIGHTMAX_THREADS=abc",
+    "Rejected invalid EIGHTMAX_THREADS=257",
+    "Rejected invalid EIGHTMAX_THREADS=999999999999999999999",
+    "Native turn solve rejected before strategy allocation at 32 MiB limit"
+  ]
+}

@@ -1,59 +1,23 @@
-# EightMax roadmap after 2.9
+# Remaining validation after 3.9
 
-- Measure on the intended Windows desktop (13th-gen Core i7, RTX 3060 Ti, 16 GB):
-  run Run self-tests.bat, tools/perf29.js and tools/bench29.js there.
-- CUDA: prototype batched showdowns for own-hand enumeration on real NVIDIA
-  hardware, keep it only if end-to-end time improves, and validate against the CPU engine.
-- Native betting-tree generation and external (sampled-betting) traversal, so
-  the 6-8 player flop presets (above 250,000 states) can train natively.
-- Native Detailed/Compact hand groups and ICM utilities (currently JavaScript only).
-- Variance reduction with baselines for sampled multiway CFR.
-- Code signing and an executable icon.
+- Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB; 3.9 was exercised only under Wine.
+- Extend sampled multiway response gains beyond one node per seat (e.g. trained responses over a seat's whole subtree) and run 8-player studies past 50,000 deals with more seeds.
+- Run equal-time convergence comparisons of candidate variance-reduction schemes using the 3.9 exact best-response tool before enabling any of them.
+- Add a strategy-quality dashboard and hardware diagnostics panel to the interface (data already available from the host API).
+- Move long EV/response-gain requests off the engine lock so other explorer queries stay responsive.
+- Extend the browser reader beyond its 2 GiB decoded ceiling for JavaScript full-traversal studies.
 
-# EightMax upgrade status
+# Remaining validation after 3.8
 
-Version 2.6 compiles the Windows host from source with matching version and
-build ids, adds automatic exact/sampled mode selection (7- and 8-player
-presets solve again), exact cross-checks of sampled training, itemized
-short-stack antes and regenerated accuracy reports. Windows execution was
-checked only under Wine. Real Windows hardware and physical GPUs are still
-outstanding (run `Run self-tests.bat` or the workflow).
+- Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB. 3.8 executables were cross-compiled and exercised only under Wine on Linux.
+- Find the remaining cost in the eight-player linked preflop-to-river study (2-9% slower than 3.7 at 4 threads on long runs) with hardware cache and contention counters on the 13th-generation Core i7.
+- Repeat the equal-time accuracy comparison with more seeds; 3 seeds did not establish a significant gain despite 13-28% more deals per second.
+- Add an independent reference for grouped-hand (Compact/Detailed) explorer lookups.
+- Extend the browser reader beyond its 2 GiB decoded ceiling for JavaScript full-traversal studies.
 
-Next practical work after 2.6:
-- Variance reduction for sampled multiway training (baselines or vectorized
-  private-hand evaluation). Measured sampled error falls at about 1/sqrt(T),
-  far slower than exact enumeration.
-- Code-sign the Windows executable and add an icon resource.
+# Remaining validation after 3.6
 
-Version 2.3 adds finer observable hand groups, an Exact cards option, configurable
-strategy budgets, and multiway save/load/resume preserving regrets, averages and
-training random state. Automatic traversal now samples betting branches for finer
-hand groups when future streets remain. Windows CPU self-tests and a clean build
-workflow are included; execution on Windows and physical GPUs is still outstanding.
-
-Version 2.2 added regular-payout multiway ICM (up to 16 remaining players),
-conditional linked preflop-to-river studies for up to six live seats, and
-shove/call studies for up to eight seats with overcalls and side pots.
-Eight-handed tables post 0.1 bb per dealt player; there is no big-blind ante.
-
-## Next practical work
-
-- Run the included Windows CPU and GPU tests on actual Windows hardware and
-  record the results. Check real browser rendering and file downloads there.
-- Measure abstraction and action-size sensitivity with larger training budgets
-  and independent held-out response searches; finer groups alone are not evidence
-  of lower exploitability.
-- Improve card-information storage and configurable deviation searches to permit
-  longer multiway runs within desktop memory limits.
-
-## Longer-term scope
-
-- Full eight-player linked preflop-through-river play and regenerated preflop
-  charts using those continuation values. Current linked studies have at most
-  six live seats, with other dealt seats assumed already folded.
-- Large-field tournament evaluation beyond 16 remaining players, future-game
-  simulation, and multiway knockout bounty modeling.
-
-Multiplayer stability and tested response gains do not certify a full-game Nash
-equilibrium. Enumeration gains apply only to the configured game tree. Exact
-cards removes card grouping but still samples training deals and may sample actions.
+- Run the two hardware validation batches on Windows with the RTX 4060 Ti 8 GB, including end-to-end timing and NTFS recovery under actual power loss.
+- Extend independent response measurements to more seats, seeds and longer multiway ICM training horizons. Verify gains inclusive of algorithm calibration overhead.
+- Extend the browser reader beyond its current 2 GiB decoded ceiling and reduce the live interactive strategy footprint.
+- Profile cache misses, thread contention and transfer costs on the 13th-generation Core i7. Measure complete application and driver memory over long sessions.

@@ -1,0 +1,95 @@
+{
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "rows": [
+    {
+      "abstraction": "compact",
+      "seed": 1,
+      "deals": 8000,
+      "jsSeconds": 0.143608614,
+      "nativeSeconds": 0.029135,
+      "nativeRows": 658,
+      "nativeCapacityBytes": 162816,
+      "jsEstimatedBytes": 108400
+    },
+    {
+      "abstraction": "compact",
+      "seed": 2,
+      "deals": 8000,
+      "jsSeconds": 0.14975702000000002,
+      "nativeSeconds": 0.043793,
+      "nativeRows": 661,
+      "nativeCapacityBytes": 177856,
+      "jsEstimatedBytes": 108568
+    },
+    {
+      "abstraction": "compact",
+      "seed": 3,
+      "deals": 8000,
+      "jsSeconds": 0.126822613,
+      "nativeSeconds": 0.036778,
+      "nativeRows": 665,
+      "nativeCapacityBytes": 174720,
+      "jsEstimatedBytes": 108792
+    },
+    {
+      "abstraction": "detailed",
+      "seed": 1,
+      "deals": 8000,
+      "jsSeconds": 0.13028424699999994,
+      "nativeSeconds": 0.038892,
+      "nativeRows": 4452,
+      "nativeCapacityBytes": 952064,
+      "jsEstimatedBytes": 1000624
+    },
+    {
+      "abstraction": "detailed",
+      "seed": 2,
+      "deals": 8000,
+      "jsSeconds": 0.12117582099999993,
+      "nativeSeconds": 0.037446,
+      "nativeRows": 4427,
+      "nativeCapacityBytes": 1073920,
+      "jsEstimatedBytes": 996652
+    },
+    {
+      "abstraction": "detailed",
+      "seed": 3,
+      "deals": 8000,
+      "jsSeconds": 0.12439933199999996,
+      "nativeSeconds": 0.070274,
+      "nativeRows": 4440,
+      "nativeCapacityBytes": 1108480,
+      "jsEstimatedBytes": 998508
+    },
+    {
+      "abstraction": "exact",
+      "seed": 1,
+      "deals": 8000,
+      "jsSeconds": 0.160335292,
+      "nativeSeconds": 0.074143,
+      "nativeRows": 9572,
+      "nativeCapacityBytes": 1860032,
+      "jsEstimatedBytes": 1641512
+    },
+    {
+      "abstraction": "exact",
+      "seed": 2,
+      "deals": 8000,
+      "jsSeconds": 0.14668984000000002,
+      "nativeSeconds": 0.062503,
+      "nativeRows": 9519,
+      "nativeCapacityBytes": 2097664,
+      "jsEstimatedBytes": 1636780
+    },
+    {
+      "abstraction": "exact",
+      "seed": 3,
+      "deals": 8000,
+      "jsSeconds": 0.175102441,
+      "nativeSeconds": 0.041759,
+      "nativeRows": 9569,
+      "nativeCapacityBytes": 2175040,
+      "jsEstimatedBytes": 1641250
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "originalArchiveSHA256": "f7f0210483b35a1da58d9afb230da69d0cb7d29f0dd5bf5fc4d5bb858f57a011",
+  "originalManifestFiles": 550,
+  "build": "900e85e1f0ddf2b1",
+  "sourceVerification": "Verified both executables, interface and source: 900e85e1f0ddf2b1",
+  "physicalWindowsTested": false,
+  "physicalGpuTested": false,
+  "wine": "Wine 10 could not start cmd /c ver in the test environment; desktop and CLI execution tested on Linux.",
+  "mwcli.exe": {
+    "sha256": "f39681f038f001c28ba52904a77678e616216fba0e6aac51d3f2017d53a472ff",
+    "bytes": 1542144,
+    "PE": "AMD64",
+    "repeatBuildIdentical": true,
+    "imports": [
+      "KERNEL32.dll",
+      "msvcrt.dll"
+    ]
+  },
+  "EightMax.exe": {
+    "sha256": "eb853eaff1d2d0f4c7e7b7f77ee554b0372a7b71baded09a182c19c37f2abb39",
+    "bytes": 3939840,
+    "PE": "AMD64",
+    "repeatBuildIdentical": true,
+    "imports": [
+      "bcrypt.dll",
+      "KERNEL32.dll",
+      "msvcrt.dll",
+      "SHELL32.dll",
+      "WINMM.dll",
+      "WS2_32.dll"
+    ]
+  },
+  "sameNativeFiles34to35": [
+    "mw.cpp",
+    "mw_es.hpp",
+    "mw_es_impl.hpp",
+    "mwcli.cpp"
+  ]
+}

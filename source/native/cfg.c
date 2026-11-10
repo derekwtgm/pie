@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 #include "solver.h"
 /* ---------------- config parsing ---------------- */
 // size tokens: 33 or 33% (of the pot), 2.5x (raises: times the bet faced), g (bets: geometric, all-in by
@@ -39,8 +40,20 @@ int solver_parse_cfg(const char *json, GameCfg *cfg, char *err, int errlen) {
   if (!v) return 0;
   JV *b = jget(v, "board"), *rg = jget(v, "ranges"), *sz = jget(v, "sizes");
   if (!b || b->type != J_ARR || b->n < 3 || b->n > 5) { snprintf(err, (size_t)errlen, "Board needs 3-5 cards"); json_free(v); return 0; }
-  cfg->nb = b->n; for (int i = 0; i < b->n; i++) cfg->board[i] = (int)jnum(b->items[i], -1);
+  cfg->nb = b->n;
+  for (int i = 0; i < b->n; i++) {
+    JV *c = b->items[i];
+    /* 3.3: card identifiers must be whole numbers 0..51 (2.5 was truncated to 2 before). */
+    if (c->type != J_NUM || floor(c->num) != c->num || c->num < 0 || c->num > 51) { snprintf(err, (size_t)errlen, "Board cards must be whole numbers from 0 to 51"); json_free(v); return 0; }
+    cfg->board[i] = (int)c->num;
+  }
+  /* 3.3: pot, stack and the bet cap must be finite numbers of the right type when present. */
+  { static const char *NUMS[] = { "pot", "stack", "maxBets", "forceAllin", "compressAboveMB", "gamma" };
+    for (unsigned i = 0; i < sizeof NUMS / sizeof *NUMS; i++) { JV *x = jget(v, NUMS[i]);
+      if (x && (x->type != J_NUM || !isfinite(x->num))) { snprintf(err, (size_t)errlen, "%s must be a finite number", NUMS[i]); json_free(v); return 0; } } }
   cfg->pot = jnum(jget(v, "pot"), 0); cfg->stack = jnum(jget(v, "stack"), 0);
+  if (!(cfg->pot > 0) || cfg->stack < 0) { snprintf(err, (size_t)errlen, cfg->stack < 0 ? "Stack must be 0 or more" : "Pot must be above 0"); json_free(v); return 0; }
+  { JV *mb = jget(v, "maxBets"); if (mb && (floor(mb->num) != mb->num || mb->num < 0 || mb->num > 8)) { snprintf(err, (size_t)errlen, "maxBets must be a whole number from 0 to 8"); json_free(v); return 0; } }
   cfg->maxBets = (int)jnum(jget(v, "maxBets"), 3); cfg->forceAllin = jnum(jget(v, "forceAllin"), 0.2);
   if (!(cfg->forceAllin >= 0)) cfg->forceAllin = 0;
   if (cfg->forceAllin > 1) cfg->forceAllin = 1;
@@ -56,13 +69,23 @@ int solver_parse_cfg(const char *json, GameCfg *cfg, char *err, int errlen) {
     cfg->icm = 1; cfg->icmN = u0->n;
     cfg->icmX0 = jnum(jget(ic, "x0"), 0); cfg->icmDx = jnum(jget(ic, "dx"), 1); cfg->icmB0 = jnum(jget(ic, "b0"), 0);
     if (!(cfg->icmDx > 0)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
-    for (int i = 0; i < u0->n; i++) { cfg->icmU[0][i] = (float)jnum(u0->items[i], 0); cfg->icmU[1][i] = (float)jnum(u1->items[i], 0); }
+    if (!isfinite(cfg->icmX0) || !isfinite(cfg->icmDx) || !isfinite(cfg->icmB0)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
+    for (int i = 0; i < u0->n; i++) {
+      JV *a = u0->items[i], *c = u1->items[i];
+      if (a->type != J_NUM || c->type != J_NUM || !isfinite(a->num) || !isfinite(c->num)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
+      cfg->icmU[0][i] = (float)a->num; cfg->icmU[1][i] = (float)c->num;
+    }
   }
   if (!rg || rg->type != J_ARR || rg->n != 2) { snprintf(err, (size_t)errlen, "Missing ranges"); json_free(v); return 0; }
   for (int p = 0; p < 2; p++) {
     JV *a = rg->items[p];
     if (!a || a->type != J_ARR || a->n != 1326) { snprintf(err, (size_t)errlen, "Range needs 1326 weights"); json_free(v); return 0; }
-    for (int i = 0; i < 1326; i++) cfg->ranges[p][i] = (float)jnum(a->items[i], 0);
+    for (int i = 0; i < 1326; i++) {
+      /* 3.3: negative, non-numeric or non-finite weights were silently treated as 0 before. */
+      JV *w = a->items[i];
+      if (w->type != J_NUM || !isfinite(w->num) || w->num < 0 || w->num > 3.0e38) { snprintf(err, (size_t)errlen, "Range weights must be finite and nonnegative (%s, combo %d)", p ? "IP" : "OOP", i); json_free(v); return 0; }
+      cfg->ranges[p][i] = (float)w->num;
+    }
   }
   if (!sz) { snprintf(err, (size_t)errlen, "Missing bet sizes"); json_free(v); return 0; }
   JV *bet = jget(sz, "bet"), *raise = jget(sz, "raise"), *donk = jget(sz, "donk");

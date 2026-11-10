@@ -1,0 +1,26 @@
+[
+  {
+    "action": "cancel",
+    "observedProgress": {
+      "phase": "rebuild tables",
+      "active": true,
+      "receivedBytes": 295114,
+      "expectedBytes": 133916983
+    },
+    "recoveredGeneration": "1",
+    "resumedUpdates": 8,
+    "scratchRemoved": true
+  },
+  {
+    "action": "kill",
+    "observedProgress": {
+      "phase": "decompress",
+      "active": true,
+      "receivedBytes": 1310720,
+      "expectedBytes": 133916983
+    },
+    "recoveredGeneration": "1",
+    "resumedUpdates": 8,
+    "scratchRemoved": true
+  }
+]

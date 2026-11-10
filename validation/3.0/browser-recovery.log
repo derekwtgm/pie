@@ -1,0 +1,7 @@
+PASS  Automatic checkpoint written, then the training worker was terminated mid-run (Checkpoint saved at update 10,043)
+PASS  After a browser restart the newest checkpoint recovers 10043 updates and 40172 sampled deals (Recovered the newest automatic checkpoint.)
+PASS  Recovered training continues bit-identically to uninterrupted training (regrets, averages, both random streams, counters)
+PASS  An aborted (incomplete) write leaves the newest valid checkpoint intact
+PASS  A truncated newest checkpoint fails its integrity check; the previous generation is recovered with a message: "The newest automatic checkpoint was damaged or incompatible (Invalid or incompatible training checkpoint); recovered the previous one."
+PASS  A checkpoint from an unknown engine version is refused with: "This checkpoint was written by an incompatible EightMax engine (multiway-9.9, format 1, wr…"
+PASS  A storage-quota failure reports "Browser storage is full or blocked (Simulated quota exceeded). The pre…" and leaves stored checkpoints unchanged

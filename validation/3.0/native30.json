@@ -1,0 +1,169 @@
+{
+  "label": "3.0",
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "stratified": false,
+  "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "full",
+    "evaluationDeals": 128
+  },
+  "summary": [
+    {
+      "deals": 4000,
+      "meanGainBb": 0.38615679660753993,
+      "ci95HalfWidth": 0.10150453925704936,
+      "meanSeconds": 0.021922666666666663
+    },
+    {
+      "deals": 20000,
+      "meanGainBb": 0.20032087063668413,
+      "ci95HalfWidth": 0.10482334524110191,
+      "meanSeconds": 0.09987466666666667
+    },
+    {
+      "deals": 50000,
+      "meanGainBb": 0.1092536376287514,
+      "ci95HalfWidth": 0.03819773564414002,
+      "meanSeconds": 0.25047033333333335
+    },
+    {
+      "deals": 100000,
+      "meanGainBb": 0.08559057771646976,
+      "ci95HalfWidth": 0.022103092044796692,
+      "meanSeconds": 0.49942766666666677
+    },
+    {
+      "deals": 250000,
+      "meanGainBb": 0.04385350899909805,
+      "ci95HalfWidth": 0.011982906505641612,
+      "meanSeconds": 1.237414
+    }
+  ],
+  "rows": [
+    {
+      "deals": 4000,
+      "seed": 1,
+      "seconds": 0.026038,
+      "maxGainBb": 0.3826258704588037,
+      "dealsPerSecond": 153621.62992549353
+    },
+    {
+      "deals": 20000,
+      "seed": 1,
+      "seconds": 0.102381,
+      "maxGainBb": 0.17545580748030076,
+      "dealsPerSecond": 195348.7463494203
+    },
+    {
+      "deals": 50000,
+      "seed": 1,
+      "seconds": 0.25950300000000004,
+      "maxGainBb": 0.12699832941601752,
+      "dealsPerSecond": 192675.99989210142
+    },
+    {
+      "deals": 100000,
+      "seed": 1,
+      "seconds": 0.5100420000000001,
+      "maxGainBb": 0.08022791041848265,
+      "dealsPerSecond": 196062.28506671995
+    },
+    {
+      "deals": 250000,
+      "seed": 1,
+      "seconds": 1.253838,
+      "maxGainBb": 0.047358049906443433,
+      "dealsPerSecond": 199387.79969980172
+    },
+    {
+      "deals": 4000,
+      "seed": 2,
+      "seconds": 0.020634,
+      "maxGainBb": 0.34717907065361153,
+      "dealsPerSecond": 193854.8027527382
+    },
+    {
+      "deals": 20000,
+      "seed": 2,
+      "seconds": 0.100705,
+      "maxGainBb": 0.17646838850470647,
+      "dealsPerSecond": 198599.8709100839
+    },
+    {
+      "deals": 50000,
+      "seed": 2,
+      "seconds": 0.247668,
+      "maxGainBb": 0.10087916673528419,
+      "dealsPerSecond": 201883.16617407175
+    },
+    {
+      "deals": 100000,
+      "seed": 2,
+      "seconds": 0.490455,
+      "maxGainBb": 0.0958605537385564,
+      "dealsPerSecond": 203892.30408498232
+    },
+    {
+      "deals": 250000,
+      "seed": 2,
+      "seconds": 1.22838,
+      "maxGainBb": 0.04585005657166885,
+      "dealsPerSecond": 203520.08336182614
+    },
+    {
+      "deals": 4000,
+      "seed": 3,
+      "seconds": 0.019096,
+      "maxGainBb": 0.4286654487102046,
+      "dealsPerSecond": 209467.9514034353
+    },
+    {
+      "deals": 20000,
+      "seed": 3,
+      "seconds": 0.096538,
+      "maxGainBb": 0.24903841592504516,
+      "dealsPerSecond": 207172.30520624004
+    },
+    {
+      "deals": 50000,
+      "seed": 3,
+      "seconds": 0.24424,
+      "maxGainBb": 0.09988341673495249,
+      "dealsPerSecond": 204716.6721257779
+    },
+    {
+      "deals": 100000,
+      "seed": 3,
+      "seconds": 0.497786,
+      "maxGainBb": 0.08068326899237022,
+      "dealsPerSecond": 200889.53887815247
+    },
+    {
+      "deals": 250000,
+      "seed": 3,
+      "seconds": 1.230024,
+      "maxGainBb": 0.03835242051918186,
+      "dealsPerSecond": 203248.0667043895
+    }
+  ]
+}

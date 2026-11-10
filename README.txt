@@ -1,5 +1,100 @@
-EightMax 2.9 - 8-max MTT solver for Windows
+EightMax 4.0 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 4.0: RESPONSIVE, CANCELLABLE AND CLEARER ACTION EVs
+Open a native study, choose Explore strategy, pick a decision and a hand
+class, then "Calculate EVs". 4.0 changes how that works:
+  - EVs run as BACKGROUND JOBS on the desktop host. While a large evaluation
+    runs you can keep navigating the explorer, change hands, look at results
+    and checkpoints, and press Cancel at any time. The status line shows the
+    job state, elapsed time, completed samples, runout boards scored (and how
+    many on the GPU), the current stage and evaluation memory. No completion
+    percentage is shown because the remaining work is not known in advance.
+  - Time limits are enforced. 3.9 could ignore a 100 ms limit for more than
+    ten seconds in an eight-player preflop ICM spot; 4.0 stops within a few
+    milliseconds of the limit (measured: 101-102 ms for a 100 ms limit on
+    Linux, under Wine and on a GitHub Windows runner). A timed-out EXACT
+    evaluation shows no numbers; a timed-out sampled evaluation shows its
+    completed samples marked PARTIAL, only if at least 100 were completed.
+  - New controls: Method (Automatic/Exact/Sampled), Utility (ICM or chip EV in
+    tournament studies), Time limit, Visit budget, Processing (Automatic, CPU
+    only, GPU preferred, Hybrid CPU/GPU), Equivalence margin, and how
+    untrained states are handled (uniform, fold/check or call/check fallback,
+    or refuse).
+  - Honest comparisons. Each action is labelled against the highest estimate:
+    "lower (supported)" when the 95% interval of the paired difference
+    excludes zero, "difference uncertain" when it does not - which is NOT
+    evidence that the actions are equal - and "equivalent within margin" only
+    if you set a margin and two one-sided tests support it. Overlapping
+    intervals are never presented as equality.
+  - Strategy coverage. Every result reports how many strategy lookups found a
+    trained row, which fallback policy replaced the missing ones and how much
+    probability passed through them. A red warning appears when the share is
+    notable (default 5%) or substantial (25%), because those EVs depend on the
+    fallback assumption rather than on a trained strategy.
+  - Exact evaluations are much faster in multiway all-in spots (showdown tables
+    shared by all terminals of a deal; e.g. 24.5 s -> 2.0-2.4 s single-threaded,
+    1.3 s with threads, for the eight-player push/fold root) and use several
+    CPU threads. Results do not depend on the thread count.
+  - Response gains have three clearly named modes: exact best response (small
+    games), restricted best response (best response on the study's first
+    street, exact or sampled) and the 3.9 sampled one-decision deviation.
+    None of them is a claim that an eight-player game is solved.
+Training is unchanged from 3.9 (byte-identical strategies). Read
+RELEASE-4.0.md for measurements, test results and limitations, and run
+Run self-tests.bat and Validate CUDA hardware.bat on your PC: the RTX 4060 Ti
+CUDA path for EV showdown tables has NOT been run on NVIDIA hardware yet.
+
+EARLIER (3.9): ACTION EVs, RESPONSE GAINS AND STRICT EXPLORER REQUESTS
+Open a native study and choose Explore strategy (preflop to river) as in 3.8.
+At a decision, click a hand class, then "Calculate EVs of the selected class"
+(or "Calculate EVs of every hand"). EightMax computes the expected value of
+every legal action (fold, check, call, bet/raise sizes, all-in) for each combo,
+the EV of the stored mixed strategy, and each action's difference from it.
+  - EVs are COMPUTED from the game model, not read from the checkpoint (it
+    does not store EVs) and not derived from strategy frequencies or regrets.
+  - Every later decision of every seat follows the named continuation policy
+    (Average = solver output, or Current regret matching). Opponent ranges are
+    weighted by their own strategy on the path and by card removal.
+  - Chip-EV studies report BB; ICM studies report tournament equity (payout
+    units). Small spots are enumerated exactly; larger ones are Monte Carlo
+    estimates with sample counts, a seed and 95% intervals (shown as +/-).
+  - "Matrix shows" switches the 13x13 matrix between strategy frequencies, the
+    EV of one action, EV minus mixed-strategy EV, and the EV standard error.
+    Classes without computed combos stay empty.
+Desktop API: POST /api/mw/ev and POST /api/mw/response-gain (see
+source/native/MW-PROTOCOL.md). Malformed explorer, EV and response-gain
+requests (for example "rangeSeat":"nonsense", negative offsets, fractional
+numbers, unknown fields) are now refused with HTTP 400 instead of being
+silently converted. Response gains are exact best responses for small studies
+(exact exploitability for heads-up chip EV) or clearly labelled sampled
+one-shot deviation gains per seat for large multiway studies; they are not
+claims that an eight-player game is solved.
+Read RELEASE-3.9.md for test results, measurements and limitations.
+
+EARLIER (3.8): STRATEGY EXPLORER FOR NATIVE STUDIES
+Extract the ZIP and double-click EightMax.exe. Open Multiway, then Native
+checkpoint recovery, and open a saved native study (Open latest on desktop or
+choose a portable .emstudy). Choose Explore strategy (preflop to river).
+Click actions to move through the solved betting tree, select flop, turn and
+river cards when a street ends, and click a hand in the 13x13 matrix to see
+each combo. Previous decision and the history buttons go back. Strategy
+switches between the average strategy (the solver output) and current regret
+matching. Range of shows another seat's reach distribution. The explorer reads
+one decision point at a time from the desktop host, so large studies are not
+copied into the browser. EVs are not shown: saved native studies do not store
+them. Branches outside the solved bet sizes are refused, not invented.
+Native restores are now checked against an up-front memory estimate and are
+refused with the required and available MiB when they cannot fit.
+Read RELEASE-3.8.md for measured speed, accuracy, memory and test results.
+
+CONTINUING A NATIVE STUDY
+After verification, enter Additional updates and choose Continue training.
+View starting-hand strategy shows root action probabilities. Use Save native
+checkpoint to commit and Close desktop study to release memory.
+The default storage cap is 2,048 MiB. See RELEASE-3.7.md for larger studies,
+generation retention, disk estimates and RAM limits.
+Use Run self-tests.bat and Validate CUDA hardware.bat for your Windows PC.
 
 QUICK START
 1. In Windows Explorer, right-click the ZIP, choose Extract All, and open the
@@ -16,7 +111,59 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.9
+HISTORICAL CHANGES IN 3.6
+Open Multiway and use Save training for a portable .emstudy file. Enable the
+autosave interval to keep recoverable generations in Documents\EightMax.
+Checkpoint recovery details shows progress, generation, time, size, integrity
+and disk or storage policy errors. The default per-checkpoint cap is 2 GiB
+with 128 MiB of disk space reserved. Read RELEASE-3.6.md for storage policy,
+validation, memory requirements and measured accuracy and performance.
+
+Extract the ZIP completely before double-clicking EightMax.exe. Run self-tests.bat
+produces Windows-self-test.json. Validate CUDA hardware.bat produces
+hardware-validation.json for your Windows PC and RTX 4060 Ti.
+
+HISTORICAL CHANGES IN 3.5
+Open Multiway and choose Checkpoint recovery details to see generations,
+download a portable checkpoint, or adopt an older legacy save. See
+RELEASE-3.5.md for measured results and local hardware validation.
+
+NEW IN 3.4
+Desktop checkpoints are verified before commit. A failed background job can be
+retried. Native full betting traversal now supports Compact and Detailed groups.
+Eligible sampled batches can use CUDA for scoring. For tests, benchmark results,
+known limitations and instructions for your PC, read RELEASE-3.4.md.
+
+PREVIOUS RELEASE: NEW IN 3.2
+Read RELEASE-3.2.md for checkpoint recovery, memory caps, supported grouped games,
+accuracy measurements and Windows hardware validation. Results are in validation/3.2.
+
+PREVIOUS RELEASE 3.1
+Read RELEASE-3.1.md for the supported configuration matrix, measured accuracy per
+second, CUDA status and known limitations.
+- Large and preflop Multiway studies now train in native C++ too. Choose Wide
+  ranges, Exact cards and Training engine = Native C++ when eligible. Big trees
+  use native external sampling (sampled betting) instead of falling back to
+  JavaScript; small trees still use full traversal. Results are identical to the
+  JavaScript engine, only faster (about 8-9x on one thread, more with threads).
+- Sampled-betting action streams = Per deal lets frozen batches (Deals per update
+  above 1) use every CPU core. Shared keeps a single stream.
+- The progress line shows which engine, algorithm, device and memory are in use,
+  and why JavaScript was used if it was.
+- Validate CUDA hardware.bat checks your NVIDIA GPU (e.g. RTX 4060 Ti) against the
+  CPU with exact all-in equities and records speed. CUDA was not run on a physical
+  GPU while preparing this release.
+
+PREVIOUS RELEASE: NEW IN 3.0
+Read RELEASE-3.0.md for supported games, accuracy measurements and outstanding hardware checks.
+Balanced remains the accuracy preset. CPU Only is the initial multiway scoring device.
+For native training choose Wide ranges, Exact cards and Native C++ when eligible.
+The desktop interface offers CPU Only, Automatic, GPU Preferred and Hybrid CPU/GPU.
+Run Compare processing modes.bat on Windows to test an identical turn study on your machine.
+It records the observed device, wall time and a digest of the final strategy for each mode.
+The earlier GPU self-test exercises the separate OpenCL heads-up engine.
+
+ADDED IN 2.9
 Read RELEASE-2.9.md for everything measured in this release and what remains
 untested.
 - Native C++ multiway training: in EightMax.exe, sampled Multiway studies that
@@ -30,7 +177,7 @@ untested.
   within half of your RAM (at most 8 GB). EIGHTMAX_APP_MIB changes this. Studies
   too large for the budget are refused with an estimate.
 - Browser checkpoints were tested across browser restarts and crashes.
-- No CUDA support. The executables are unsigned and were tested under Wine on
+- Version 2.9 had no CUDA support. Its executables were unsigned and tested under Wine on
   Linux, not on Windows.
 
 PREVIOUS RELEASE: NEW IN 2.8
@@ -473,7 +620,7 @@ THE GPU ENGINE
   solves every river subgame at once, and the CPU finishes the iteration
   with the river results. Results match the CPU engine.
 - Requirements: a graphics card with OpenCL, which the normal NVIDIA, AMD and
-  Intel drivers include. An RTX 3060 Ti with an up-to-date NVIDIA driver is
+  Intel drivers include. An RTX 4060 Ti with an up-to-date NVIDIA driver is
   fine. Nothing else to install.
 - GPU self-test: double-click "GPU self-test.bat". It checks the GPU results
   against the CPU engine on a turn spot, in full precision and in 16-bit,

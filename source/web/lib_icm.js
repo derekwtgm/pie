@@ -142,7 +142,7 @@ function multiwayICM(cfg, stacks, prior, n, ownAnte) {
     }
     return value;
   }
-  return {evaluate,unit:'prize units',utility:'icm',prizePool:pool,
+  return {evaluate,native:{start,payouts,others},unit:'prize units',utility:'icm',prizePool:pool,
     reportThreshold:pool*0.001,players:count};
 }
 Object.assign(EM, { icmRaw, icmRawReference, icmWithBusts, parseNumberList, multiwayICM });

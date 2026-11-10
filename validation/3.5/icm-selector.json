@@ -1,0 +1,127 @@
+{
+ "config": {
+  "board": "2c4d7h9sJc",
+  "common": 4,
+  "stacks": [
+   4,
+   8,
+   13,
+   20
+  ],
+  "ranges": [
+   "QhQd,9c9d",
+   "AsAd,KsTh",
+   "JhJd,8s8d",
+   "AcKd,5c5d"
+  ],
+  "bets": "a",
+  "raises": "",
+  "maxBets": 1,
+  "privateMode": "sampled",
+  "engine": "native",
+  "abstraction": "exact",
+  "icm": {
+   "payouts": [
+    50,
+    30,
+    20
+   ]
+  },
+  "batchDeals": 1,
+  "evaluationDeals": 128
+ },
+ "auto": {
+  "requested": "auto",
+  "chosen": "full traversal",
+  "states": 65,
+  "sampledVisitsPerDeal": 37.5,
+  "gainRatio": 1.629,
+  "sampledWork": 99.5,
+  "rangeCombinations": [
+   2,
+   2,
+   2,
+   2
+  ],
+  "budgetMiB": 112,
+  "estimatedFullTreeMiB": 0.09,
+  "utility": "ICM",
+  "calibration": "3.3 traversal model",
+  "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+  "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+ },
+ "budgetMs": 250,
+ "threads": 1,
+ "rows": [
+  {
+   "seed": 1,
+   "traversal": "full",
+   "seconds": 0.250254,
+   "deals": 69696,
+   "maxUnilateralGainPrizeUnits": 0.04276939067183427
+  },
+  {
+   "seed": 1,
+   "traversal": "external",
+   "seconds": 0.250202,
+   "deals": 64384,
+   "maxUnilateralGainPrizeUnits": 0.04142577139462489
+  },
+  {
+   "seed": 2,
+   "traversal": "external",
+   "seconds": 0.250254,
+   "deals": 66112,
+   "maxUnilateralGainPrizeUnits": 0.020419339366242184
+  },
+  {
+   "seed": 2,
+   "traversal": "full",
+   "seconds": 0.250227,
+   "deals": 73024,
+   "maxUnilateralGainPrizeUnits": 0.009523790120130826
+  },
+  {
+   "seed": 3,
+   "traversal": "full",
+   "seconds": 0.250087,
+   "deals": 70976,
+   "maxUnilateralGainPrizeUnits": 0.04048805370269548
+  },
+  {
+   "seed": 3,
+   "traversal": "external",
+   "seconds": 0.250154,
+   "deals": 63168,
+   "maxUnilateralGainPrizeUnits": 0.03754535225519007
+  },
+  {
+   "seed": 4,
+   "traversal": "external",
+   "seconds": 0.250311,
+   "deals": 34880,
+   "maxUnilateralGainPrizeUnits": 0.044857552980879234
+  },
+  {
+   "seed": 4,
+   "traversal": "full",
+   "seconds": 0.250093,
+   "deals": 71936,
+   "maxUnilateralGainPrizeUnits": 0.020124347094208517
+  },
+  {
+   "seed": 5,
+   "traversal": "full",
+   "seconds": 0.250148,
+   "deals": 70144,
+   "maxUnilateralGainPrizeUnits": 0.04406071692118907
+  },
+  {
+   "seed": 5,
+   "traversal": "external",
+   "seconds": 0.250296,
+   "deals": 63360,
+   "maxUnilateralGainPrizeUnits": 0.028494708172569716
+  }
+ ]
+}
