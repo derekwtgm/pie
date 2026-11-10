@@ -10,6 +10,8 @@
 #define EM_BUILD_ID "development"
 #endif
 #include <chrono>
+#include <atomic>
+#include <thread>
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
@@ -74,7 +76,26 @@ int main(int argc, char **argv) {
     if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : "Unable to open state"); return 1; }
     JB j; jb_init(&j); req.push_back(0);
     auto *query = !std::strcmp(argv[1], "--ev") ? mw_action_ev : !std::strcmp(argv[1], "--gain") ? mw_response_gain : mw_node_query;
-    const int status = query(m, (const char *)req.data(), req.size() - 1, &j, err, sizeof err, nullptr);
+    // 4.0: EM_CANCEL_AFTER_MS=N raises the cancellation flag N ms after the
+    // query starts (tests measure cancellation latency); the time from the
+    // request to the return is printed to stderr as "cancelLatencyMs".
+    static volatile int cancel = 0; long long cancelAfter = -1;
+    if (const char *c = std::getenv("EM_CANCEL_AFTER_MS")) { if (!wholeArg(c, 0, 3600000, cancelAfter)) { std::fprintf(stderr, "error: bad EM_CANCEL_AFTER_MS\n"); return 2; } }
+    std::chrono::steady_clock::time_point raised{};
+    std::atomic<bool> done{false}; std::thread canceller;
+    if (cancelAfter >= 0) canceller = std::thread([&] {
+      const auto until = std::chrono::steady_clock::now() + std::chrono::milliseconds(cancelAfter);
+      while (!done.load() && std::chrono::steady_clock::now() < until) std::this_thread::sleep_for(std::chrono::microseconds(200));
+      if (!done.load()) { raised = std::chrono::steady_clock::now(); __atomic_store_n(&cancel, 1, __ATOMIC_RELAXED); }
+    });
+    const auto q0 = std::chrono::steady_clock::now();
+    const int status = query(m, (const char *)req.data(), req.size() - 1, &j, err, sizeof err, &cancel);
+    const auto q1 = std::chrono::steady_clock::now(); done = true; if (canceller.joinable()) canceller.join();
+    if (cancelAfter >= 0 || std::getenv("EM_QUERY_TIMING")) {
+      std::fprintf(stderr, "{\"queryMs\":%.3f", std::chrono::duration<double, std::milli>(q1 - q0).count());
+      if (raised != std::chrono::steady_clock::time_point{}) std::fprintf(stderr, ",\"cancelLatencyMs\":%.3f", std::chrono::duration<double, std::milli>(q1 - raised).count());
+      std::fprintf(stderr, ",\"status\":%d}\n", status);
+    }
     if (status != 200) { std::fprintf(stderr, "error %d: %s\n", status, err); jb_free(&j); mw_free(m); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); mw_free(m); return 0;
   }

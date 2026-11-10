@@ -1,0 +1,137 @@
+// EightMax 4.0: shared deadline, cooperative cancellation and progress for
+// action-EV and response-gain evaluations (action_ev.hpp). Included by mw.cpp.
+//
+// WHY (3.9 defect, reproduced): Evaluator::poll() only looked at the clock when
+// `visits & 4095` was zero at entry to value(). Exhaustive runouts inside a
+// terminal added ~377,000 visits at once without polling, so the bit test hit
+// at random and an eight-player push/fold ICM study with a 100 ms limit ran for
+// 10.2 s (validation/4.0/deadline-repro-3.9.json); at another node 3.9 ignored
+// the limit entirely and returned an "exact" result after 8 s.
+//
+// DESIGN
+//  * One EvControl per request, shared by every worker thread: the deadline on
+//    std::chrono::steady_clock (monotonic: wall-clock changes cannot move it),
+//    an external cancellation flag, an atomic stop code and progress counters.
+//  * Every expensive loop calls poll(site) once per unit of work (board runout,
+//    opponent tuple, tree node, ICM terminal, rejection try, response-tuple...).
+//    poll() is a countdown; when it reaches zero it reads the clock and the
+//    flags. The countdown ADAPTS to measured work per check: if the time
+//    between two checks exceeded 1 ms the interval halves, if it was under
+//    0.125 ms it doubles (1..65,536 units). The interval therefore tracks the
+//    cost of the current loop instead of a fixed visit count, and the expected
+//    gap between checks stays near 0.25-1 ms on any CPU.
+//  * When any worker sees a stop condition it publishes it (first code wins);
+//    every other worker throws at its next poll. Workers are always joined
+//    before the request returns: no thread outlives its request.
+//  * Stop codes: 1 cancelled (HTTP 409), 2 time limit (408), 3 maxVisits
+//    budget (EvBudget), 4 failure in another worker (the failing worker's own
+//    exception is rethrown), 5 memory budget (503).
+//  * EM_EV_FAULT=<site>:<n> (tests only) raises a cancellation at the n-th poll
+//    of that site, so the regression suite proves that cancellation is honoured
+//    inside each expensive phase.
+#pragma once
+#include <atomic>
+#include <chrono>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+namespace {
+namespace es {
+enum EvSite { SITE_TREE, SITE_RUNOUT, SITE_TABLE, SITE_PATTERN, SITE_CHANCE, SITE_OPPONENTS, SITE_REACH, SITE_SAMPLE, SITE_RETRY, SITE_ICM, SITE_BR, SITE_TUPLES, SITE_SELECTION, SITE_SUBTREE, SITE_GPU, SITE_COUNT };
+inline const char *siteName(int s) {
+  static const char *names[] = {"game-tree traversal", "board runout enumeration", "showdown table construction", "showdown pattern counting", "chance-card enumeration", "opponent-hand enumeration", "reach-weight computation", "sampled evaluation", "rejection-sampling retries", "ICM terminal evaluation", "best-response traversal", "best-response tuple enumeration", "deviation selection", "betting-subtree sizing", "GPU batch"};
+  return s >= 0 && s < SITE_COUNT ? names[s] : "evaluation";
+}
+inline const char *siteKey(int s) {
+  static const char *keys[] = {"tree", "runout", "table", "pattern", "chance", "opponents", "reach", "sample", "retry", "icm", "br", "tuples", "selection", "subtree", "gpu"};
+  return s >= 0 && s < SITE_COUNT ? keys[s] : "unknown";
+}
+struct EvStop { int code; int site; };
+struct EvBudget {};
+struct EvMemory {};
+struct EvControl {
+  using Clock = std::chrono::steady_clock;
+  volatile int *cancel = nullptr;
+  Clock::time_point start = Clock::now(), deadline = Clock::time_point::max();
+  std::atomic<int> stop{0}, stopSite{-1};
+  // progress (read by the desktop job API while the evaluation runs)
+  std::atomic<long long> visits{0}, samples{0}, unitsDone{0}, unitsTotal{0}, tables{0}, boards{0}, gpuBoards{0};
+  std::atomic<int> stage{0};             // EvSite of the current phase
+  std::atomic<long long> memoryBytes{0}, peakMemoryBytes{0};
+  long long maxVisits = LLONG_MAX;       // budget of the current exact unit (hand)
+  std::atomic<long long> unitVisits{0};
+  // measured deadline behaviour
+  std::atomic<long long> checks{0}, maxGapNs{0};
+  // fault injection (tests)
+  int faultSite = -1; long long faultAt = 0; std::atomic<long long> faultCount{0}; int faultFlag = 0;
+  EvControl() {
+    if (const char *f = std::getenv("EM_EV_FAULT")) {
+      const char *colon = std::strchr(f, ':'); std::string site = colon ? std::string(f, (size_t)(colon - f)) : std::string(f);
+      for (int s = 0; s < SITE_COUNT; s++) if (site == siteKey(s)) faultSite = s;
+      faultAt = colon ? std::atoll(colon + 1) : 1; if (faultAt < 1) faultAt = 1;
+    }
+  }
+  void setDeadline(long long ms) { deadline = start + std::chrono::milliseconds(ms); }
+  double elapsedMs() const { return std::chrono::duration<double, std::milli>(Clock::now() - start).count(); }
+  void raise(int code, int site) { int z = 0; if (stop.compare_exchange_strong(z, code)) stopSite.store(site); }
+  void charge(long long bytes) { const long long now = memoryBytes.fetch_add(bytes) + bytes; long long p = peakMemoryBytes.load(); while (now > p && !peakMemoryBytes.compare_exchange_weak(p, now)) {} }
+  void release(long long bytes) { memoryBytes.fetch_sub(bytes); }
+  // Throws the exception that matches a published stop code.
+  [[noreturn]] void rethrowStop() const {
+    const int c = stop.load();
+    if (c == 3) throw EvBudget{};
+    if (c == 5) throw EvMemory{};
+    throw EvStop{c, stopSite.load()};
+  }
+};
+// Per-worker poller: cheap countdown, adaptive clock checks.
+struct Poller {
+  EvControl *ctl = nullptr; unsigned interval = 64, countdown = 64; EvControl::Clock::time_point last = EvControl::Clock::now();
+  long long flushed = 0;   // visits already added to ctl->unitVisits
+  void reset() { interval = countdown = 64; last = EvControl::Clock::now(); flushed = 0; }
+  inline void operator()(int site, long long visits) { if (--countdown) return; slow(site, visits); }
+  void slow(int site, long long visits) {
+    EvControl &c = *ctl; const auto now = EvControl::Clock::now();
+    const long long gap = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last).count(); last = now;
+    if (gap > 1000000 && interval > 1) interval >>= 1; else if (gap < 125000 && interval < 65536) interval <<= 1;
+    countdown = interval;
+    c.checks.fetch_add(1, std::memory_order_relaxed);
+    long long m = c.maxGapNs.load(std::memory_order_relaxed); while (gap > m && !c.maxGapNs.compare_exchange_weak(m, gap)) {}
+    c.stage.store(site, std::memory_order_relaxed);
+    if (visits > flushed) { c.visits.fetch_add(visits - flushed, std::memory_order_relaxed); if (c.unitVisits.fetch_add(visits - flushed) + (visits - flushed) > c.maxVisits) c.raise(3, site); flushed = visits; }
+    if (c.faultSite == site && c.faultCount.fetch_add(1) + 1 >= c.faultAt) c.faultFlag = 1;
+    if (c.faultFlag || (c.cancel && __atomic_load_n(c.cancel, __ATOMIC_RELAXED))) c.raise(1, site);
+    if (now >= c.deadline) c.raise(2, site);
+    if (c.stop.load(std::memory_order_relaxed)) c.rethrowStop();
+  }
+  // Forces a check now (phase boundaries).
+  void now(int site, long long visits) { countdown = 1; operator()(site, visits); }
+};
+// Runs fn(worker, item) for items [0, count) on `threads` workers (inline for
+// one). The first exception is kept, the others are told to stop through the
+// control, every worker is joined, then the first exception is rethrown.
+template <class Fn> void parallelFor(EvControl &ctl, int threads, size_t count, Fn fn) {
+  if (count == 0) return;
+  threads = (int)std::min<size_t>((size_t)std::max(1, threads), count);
+  if (threads == 1) { for (size_t i = 0; i < count; i++) fn(0, i); return; }
+  std::atomic<size_t> next{0}; std::exception_ptr first; std::mutex mu;
+  auto body = [&](int w) {
+    try { for (size_t i; (i = next.fetch_add(1)) < count;) { if (ctl.stop.load(std::memory_order_relaxed)) ctl.rethrowStop(); fn(w, i); } }
+    catch (...) { std::lock_guard<std::mutex> g(mu); if (!first) first = std::current_exception(); ctl.raise(4, -1); }
+  };
+  std::vector<std::thread> pool; pool.reserve((size_t)threads - 1);
+  try { for (int w = 1; w < threads; w++) pool.emplace_back(body, w); }
+  catch (...) { /* thread creation failed: continue with the workers we have */ }
+  body(0);
+  for (auto &t : pool) t.join();
+  if (first) {
+    // A worker that stopped only because another one failed rethrows that one's cause.
+    std::rethrow_exception(first);
+  }
+}
+} // namespace es
+} // namespace

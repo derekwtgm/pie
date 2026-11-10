@@ -948,7 +948,27 @@ extern "C" void mw_root_policy(MW *m,JB *out){
   jb_puts(out,"]}");
 }
 #include "explorer.hpp"
+#include "ev_control.hpp"
+#include "showdown_table.hpp"
 #include "action_ev.hpp"
+// ---- 4.0: evaluation tasks for the desktop job API (server.c) ----
+struct MwEvalTask { es::EvShared shared; volatile int cancel = 0; };
+extern "C" MwEvalTask *mw_eval_task_new(void) { try { return new MwEvalTask(); } catch (...) { return nullptr; } }
+extern "C" void mw_eval_task_free(MwEvalTask *t) { delete t; }
+extern "C" void mw_eval_cancel(MwEvalTask *t) { if (t) __atomic_store_n(&t->cancel, 1, __ATOMIC_RELAXED); }
+extern "C" int mw_eval_run(MW *m, int kind, const char *json, size_t len, JB *out, char *err, int errlen, MwEvalTask *t) {
+  if (!t) { fail(err, errlen, "No evaluation task"); return 500; }
+  return kind == 0 ? actionEvImpl(m, json, len, out, err, errlen, &t->cancel, &t->shared) : responseGainImpl(m, json, len, out, err, errlen, &t->cancel, &t->shared);
+}
+extern "C" void mw_eval_progress(MwEvalTask *t, JB *out) {
+  if (!t) { jb_puts(out, "null"); return; }
+  const es::EvControl &c = t->shared.ctl;
+  jb_printf(out, "{\"stage\":\"%s\",\"elapsedMs\":%.1f,\"visits\":%lld,\"samples\":%lld,\"unitsDone\":%lld,\"unitsTotal\":%lld,\"showdownTables\":%lld,\"boardsScored\":%lld,\"gpuBoards\":%lld,\"evaluationMiB\":%.3f,\"peakEvaluationMiB\":%.3f,\"cancelRequested\":%s,\"note\":\"unitsDone/unitsTotal count work items scheduled so far (more may be added); they are not a completion percentage\"}",
+            es::siteName(c.stage.load()), c.elapsedMs(), c.visits.load(), c.samples.load(), c.unitsDone.load(), c.unitsTotal.load(), c.tables.load(), c.boards.load(), t->shared.show.gpuBoards.load(),
+            c.memoryBytes.load() / 1048576.0, c.peakMemoryBytes.load() / 1048576.0, __atomic_load_n(&t->cancel, __ATOMIC_RELAXED) ? "true" : "false");
+}
+extern "C" void mw_set_eval_threads(int cap) { es::evThreadCap().store(cap < 1 ? 1 : cap > 256 ? 256 : cap); }
+extern "C" int mw_eval_threads(void) { return es::evThreadCap().load(); }
 extern "C" void mw_info(MW *m, JB *out) {
   size_t visited = 0; for (auto &r : m->rows) visited += r.visited;
   if (m->es) {

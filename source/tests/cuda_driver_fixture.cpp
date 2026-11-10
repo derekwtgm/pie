@@ -35,7 +35,7 @@ int cuCtxDestroy_v2(void*){return 0;}
 int cuCtxSynchronize(){return 0;}
 int cuModuleLoadData(void **p,const void*){*p=(void*)1;return 0;}
 int cuModuleUnload(void*){return 0;}
-int cuModuleGetFunction(void **p,void*,const char *name){*p=(void*)(uintptr_t)(!std::strcmp(name,"equity")?2:!std::strcmp(name,"score_deals")?3:1);return 0;}
+int cuModuleGetFunction(void **p,void*,const char *name){*p=(void*)(uintptr_t)(!std::strcmp(name,"equity")?2:!std::strcmp(name,"score_deals")?3:!std::strcmp(name,"board_scores")?4:1);return 0;}
 int cuMemGetInfo_v2(size_t *available,size_t *total){*total=8ULL<<30;*available=fault("pressure")?50000:*total-(size_t)live.load();return 0;}
 int cuMemAlloc_v2(uint64_t *p,size_t len){if(fault("alloc"))return 1;*p=(uint64_t)std::malloc(len);live+=(long long)len;return !*p;}
 int cuMemFree_v2(uint64_t p){std::free((void*)p);return 0;}
@@ -49,6 +49,13 @@ int cuLaunchKernel(void *f,unsigned gx,unsigned,unsigned,unsigned bx,unsigned,un
   auto spec=(const unsigned char*)*(uint64_t*)args[0];auto binom=(const unsigned long long*)*(uint64_t*)args[1];
   unsigned long long combos=*(unsigned long long*)args[2],first=*(unsigned long long*)args[3];auto out=(unsigned long long*)*(uint64_t*)args[4];
   for(unsigned b=0;b<gx;b++)for(unsigned t=0;t<bx;t++){blockIdx.x=b;threadIdx.x=t;equity(spec,binom,combos,first,out);}
+  return 0;
+ }
+ if(f==(void*)4){   // 4.0 board_scores (showdown tables)
+  auto spec=(const unsigned char*)*(uint64_t*)args[0];auto binom=(const unsigned long long*)*(uint64_t*)args[1];
+  unsigned long long first=*(unsigned long long*)args[2],end=*(unsigned long long*)args[3];auto out=(int*)*(uint64_t*)args[4];
+  for(unsigned b=0;b<gx;b++)for(unsigned t=0;t<bx;t++){blockIdx.x=b;threadIdx.x=t;board_scores(spec,binom,first,end,out);}
+  if(fault("mismatch"))out[0]^=1;
   return 0;
  }
  auto input=(unsigned char*)*(uint64_t*)args[0];auto output=(int*)*(uint64_t*)args[1];int n=*(int*)args[2];

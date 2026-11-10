@@ -77,3 +77,28 @@ extern "C" __global__ void equity(const unsigned char *spec,const unsigned long 
   }
   for(int p=0;p<9;p++) if(mine[p]) atomicAdd(out+p,mine[p]);
 }
+// 4.0: showdown table for exact action-EV runouts. Same board decoding as
+// `equity`; writes every seat's score for board completions [first,end):
+// out[(index-first)*n+p]. The host turns the scores into rank patterns (exact
+// integers), so CPU, GPU and hybrid tables are identical.
+extern "C" __global__ void board_scores(const unsigned char *spec,const unsigned long long *binom,unsigned long long first,
+                                        unsigned long long end,int *out) {
+  const int n=spec[0],boardLen=spec[1],deckCount=spec[2],need=5-boardLen;
+  const unsigned long long stride=(unsigned long long)gridDim.x*blockDim.x;
+  for(unsigned long long index=first+(unsigned long long)blockIdx.x*blockDim.x+threadIdx.x;index<end;index+=stride){
+    unsigned char seven[7]; unsigned char boardCards[5];
+    for(int j=0;j<boardLen;j++) boardCards[j]=spec[3+2*n+j];
+    unsigned long long rest=index;
+    int upper=deckCount;
+    for(int r=need;r>=1;--r){
+      int lo=r-1,hi=upper;while(lo+1<hi){int mid=lo+(hi-lo)/2;if(binom[mid*6+r]<=rest)lo=mid;else hi=mid;}
+      int x=lo;upper=x;
+      rest-=binom[x*6+r]; boardCards[boardLen+r-1]=spec[3+2*n+boardLen+x];
+    }
+    for(int p=0;p<n;p++){
+      seven[0]=spec[3+2*p];seven[1]=spec[4+2*p];
+      for(int j=0;j<5;j++) seven[2+j]=boardCards[j];
+      out[(index-first)*n+p]=(int)score7(seven);
+    }
+  }
+}

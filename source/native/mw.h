@@ -53,6 +53,22 @@ int mw_node_query(MW *m, const char *json, size_t len, JB *out, char *err, int e
 int mw_action_ev(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
 // 3.9: per-seat response gains (exact best response or sampled one-shot deviation).
 int mw_response_gain(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
+// 4.0: background evaluation tasks. A task carries the cancellation flag, the
+// shared deadline/progress state and the result of one action-EV (kind 0) or
+// response-gain (kind 1) request. mw_eval_run blocks (call it on a worker
+// thread); mw_eval_progress and mw_eval_cancel may be called concurrently from
+// any thread. The engine is only read: concurrent tasks and explorer queries
+// are safe while no training, import, restore or free runs (the host enforces
+// this with a reader count).
+typedef struct MwEvalTask MwEvalTask;
+MwEvalTask *mw_eval_task_new(void);
+void mw_eval_task_free(MwEvalTask *);
+void mw_eval_cancel(MwEvalTask *);
+int mw_eval_run(MW *m, int kind, const char *json, size_t len, JB *out, char *err, int errlen, MwEvalTask *);
+void mw_eval_progress(MwEvalTask *, JB *out);
+// Process-wide cap on evaluation worker threads per request (default: logical CPUs).
+void mw_set_eval_threads(int cap);
+int mw_eval_threads(void);
 void mw_info(MW *m, JB *out);
 // 3.1: CUDA device probe (availability, reason, name, compute capability, VRAM).
 void mw_cuda_info(JB *out);

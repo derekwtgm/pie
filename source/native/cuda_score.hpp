@@ -24,7 +24,9 @@ struct CudaInfo {
   int major = 0, minor = 0, driver = 0; size_t totalBytes = 0, freeBytes = 0;
 };
 class CudaScore {
-  void *library=nullptr,*context=nullptr,*module=nullptr,*kernel=nullptr,*equityKernel=nullptr,*dealsKernel=nullptr;
+  void *library=nullptr,*context=nullptr,*module=nullptr,*kernel=nullptr,*equityKernel=nullptr,*dealsKernel=nullptr,*boardsKernel=nullptr;
+  // 4.0: reusable buffers of the showdown-table kernel (board_scores).
+  uint64_t bSpec=0,bBinom=0,bOut=0; size_t bSpecCap=0,bOutCap=0,bBytes=0; unsigned long long bCount=0; int bSeats=0;
   uint64_t input=0,output=0;
   size_t capacity=0,inputCapacity=0,allocatedBytes=0;
   using Device=int;
@@ -60,6 +62,13 @@ class CudaScore {
     if(input) release(input);
     if(output) release(output);
     input=output=0; capacity=inputCapacity=0; allocatedBytes=0;
+    clearBoards();
+  }
+  void clearBoards() {
+    if(bSpec) release(bSpec);
+    if(bBinom) release(bBinom);
+    if(bOut) release(bOut);
+    bSpec=bBinom=bOut=0; bSpecCap=bOutCap=bBytes=0;
   }
   bool fail(const char *why){info.reason=why;info.available=false;return false;}
   // Leave max(1 GiB, 25% of the device) for Windows display and other programs.
@@ -109,6 +118,7 @@ public:
     if(function(&kernel,module,"score")) return fail("score kernel missing");
     if(function(&dealsKernel,module,"score_deals"))dealsKernel=nullptr;
     if(function(&equityKernel,module,"equity")) equityKernel=nullptr;
+    if(function(&boardsKernel,module,"board_scores")) boardsKernel=nullptr;
     size_t freeBytes=0,total=0; if(!memory(&freeBytes,&total)){info.freeBytes=freeBytes; if(total) info.totalBytes=total;}
     info.available=true; info.reason="available";
     return true;
@@ -127,7 +137,33 @@ public:
     return !upload(input,cards,bytes)&&!launch(seats?dealsKernel:kernel,(count+127)/128,1,1,128,1,1,0,nullptr,args,nullptr);
   }
   bool finish(int *scores,int count){return !download(scores,output,4ULL*count);}
-  size_t allocated() const {return allocatedBytes;}
+  size_t allocated() const {return allocatedBytes+bBytes;}
+  // 4.0: showdown table for action-EV runouts. Scores every seat's seven-card
+  // hand on the board completions [first,end) (colexicographic combinadic order,
+  // the same as `equity`) into out[(index-first)*seats+p]. boardsBegin uploads
+  // and launches without waiting; boardsFinish downloads (and so synchronizes).
+  // Buffers are reused between tables and stay inside `budget` and the VRAM
+  // reserve of fits(). Any failure returns false and the caller uses the CPU.
+  bool hasBoards() const { return boardsKernel!=nullptr; }
+  bool boardsBegin(const std::vector<unsigned char> &spec,const std::vector<unsigned long long> &binom,unsigned long long first,unsigned long long end,int seats,size_t budget){
+    if(!boardsKernel||end<=first||seats<1||seats>8) return false;
+    const size_t outBytes=(size_t)(end-first)*(size_t)seats*4, binomBytes=binom.size()*8;
+    const size_t need=std::max(spec.size(),bSpecCap)+binomBytes+std::max(outBytes,bOutCap);
+    if(need>budget) return false;
+    if(spec.size()>bSpecCap||outBytes>bOutCap||!bBinom){
+      clearBoards(); if(!fits(spec.size()+binomBytes+outBytes,budget)) return false;
+      if(allocate(&bSpec,spec.size())||allocate(&bBinom,binomBytes)||allocate(&bOut,outBytes)){clearBoards();return false;}
+      bSpecCap=spec.size(); bOutCap=outBytes; bBytes=bSpecCap+binomBytes+bOutCap;
+      if(upload(bBinom,binom.data(),binomBytes)){clearBoards();return false;}
+    }
+    if(upload(bSpec,spec.data(),spec.size())) return false;
+    const unsigned threads=128; const unsigned long long lanes=end-first;
+    const unsigned blocks=(unsigned)std::min<unsigned long long>(4096,(lanes+threads-1)/threads);
+    void *args[]={&bSpec,&bBinom,&first,&end,&bOut};
+    bCount=lanes; bSeats=seats;
+    return !launch(boardsKernel,blocks,1,1,threads,1,1,0,nullptr,args,nullptr);
+  }
+  bool boardsFinish(int *out){ return !download(out,bOut,(size_t)bCount*(size_t)bSeats*4); }
   void releaseBuffers(){ if(context) clear(); }
   // Exact equity units: out[0..n-1] share units (840 per board), out[8] boards.
   bool equity(const std::vector<unsigned char> &spec,const std::vector<unsigned long long> &binom,unsigned long long combos,
