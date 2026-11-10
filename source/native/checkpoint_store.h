@@ -322,6 +322,8 @@ static void checkpoint_api(sock_t s,const char *method,const char *part,CpReques
     if(MW_RUNNING||MW_RESTORING||(nativeSave && !MW_ARCHIVE_META)){
       pthread_mutex_unlock(&MW_MU);release_game();respond_err(s,409,"Stop training or open a native checkpoint first");return;
     }
+    // 4.0: a restore replaces MWG, so it waits for no evaluation to be reading it.
+    if(!nativeSave && MW_READERS){pthread_mutex_unlock(&MW_MU);release_game();respond_err(s,409,"Evaluations are reading the open study; cancel them or wait for them to finish first");return;}
     MW_RESTORING=1;candidate.budget=fmin(restore_budget_mib(),policy_value("EIGHTMAX_RESTORE_MIB",65536,1,65536));
     pthread_mutex_unlock(&MW_MU);
   }
@@ -404,7 +406,7 @@ static void checkpoint_api(sock_t s,const char *method,const char *part,CpReques
       char parseError[64];JV *v=b.failed?NULL:json_parse(b.s,b.n,parseError,sizeof parseError);
       if(!v){rc=503;strcpy(err,"Insufficient memory for restored study status");}
       else{
-        mw_free(MWG);free(MW_ARCHIVE_META);
+        mw_free(MWG);free(MW_ARCHIVE_META);MW_GEN++;
         MWG=candidate.game;candidate.game=NULL;MW_ARCHIVE_META=candidate.meta;candidate.meta=NULL;
         MW_IT=(long long)jnum(jget(v,"iterations"),0);MW_TARGET=MW_IT;MW_DEALS=(long long)jnum(jget(v,"trainingDeals"),0);
         MW_TABLE_MIB=jnum(jget(v,"tableMiB"),0);MW_ERR[0]=0;MW_ELAPSED=0;

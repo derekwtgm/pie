@@ -142,7 +142,7 @@ static int send_all(sock_t s, const char *b, size_t n) {
 }
 static void respond(sock_t s, int code, const char *type, const char *body, size_t n) {
   char h[512];
-  const char *msg = code == 200 ? "OK" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 408 ? "Request Timeout" : code == 409 ? "Conflict" : code == 413 ? "Payload Too Large" : code == 422 ? "Unprocessable Entity" : code == 503 ? "Service Unavailable" : "Error";
+  const char *msg = code == 200 ? "OK" : code == 202 ? "Accepted" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 408 ? "Request Timeout" : code == 409 ? "Conflict" : code == 413 ? "Payload Too Large" : code == 422 ? "Unprocessable Entity" : code == 503 ? "Service Unavailable" : "Error";
   int k = snprintf(h, sizeof h, "HTTP/1.1 %d %s\r\nContent-Type: %s\r\nContent-Length: %zu\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nConnection: close\r\n\r\n", code, msg, type, n);
   send_all(s, h, (size_t)k);
   if (n) send_all(s, body, n);
@@ -395,6 +395,13 @@ static void release_game(void) { pthread_mutex_lock(&STATE_MU); G_BUSY = 0; pthr
 static pthread_mutex_t MW_MU = PTHREAD_MUTEX_INITIALIZER;   // guards MWG and the fields below
 static MW *MWG = NULL;
 static volatile int MW_RUNNING = 0, MW_STOP = 0, MW_QUERY_CANCEL = 0;
+// 4.0: evaluations (background jobs, synchronous EV/response-gain requests and
+// explorer queries) read MWG without holding MW_MU. MW_READERS counts them;
+// every operation that mutates or replaces MWG (train, import, init, free,
+// restore, desktop release) is refused while it is non-zero, and MW_GEN
+// changes whenever the study changes, so a queued job never evaluates a
+// different study than the one it was submitted for.
+static int MW_READERS = 0; static unsigned long long MW_GEN = 1; static volatile int MW_NODE_CANCEL = 0;
 static long long MW_IT = 0, MW_DEALS = 0, MW_TARGET = 0;
 static double MW_T0 = 0, MW_ELAPSED = 0, MW_TABLE_MIB = 0;
 static int MW_THREADS = 1;
@@ -476,6 +483,7 @@ static void memory_json(JB *b) {
   jb_puts(b,",\"availableSystemMiB\":");jb_num(b,available_memory_mib(),1);
   jb_printf(b, ",\"systemRamMiB\":%.0f}", RAM_MB);
 }
+#include "ev_jobs.h"
 // Returns 1 when the route was handled.
 static int mw_api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   char err[512] = "";
@@ -500,13 +508,16 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   // 3.8: native strategy explorer. Reads one node of the open (desktop or
   // live) native study under the engine lock; the response is bounded by the
   // acting range (at most 1,326 hands) and the requested page.
-  if(!strcmp(r,"node-cancel")&&!strcmp(method,"POST")){__atomic_store_n(&MW_QUERY_CANCEL,1,__ATOMIC_RELAXED);respond_ok(s);return 1;}
+  if(!strcmp(r,"node-cancel")&&!strcmp(method,"POST")){__atomic_store_n(&MW_QUERY_CANCEL,1,__ATOMIC_RELAXED);__atomic_store_n(&MW_NODE_CANCEL,1,__ATOMIC_RELAXED);respond_ok(s);return 1;}
+  if(ev_jobs_api(s,method,r,body,blen))return 1;
   if(!strcmp(r,"node")&&!strcmp(method,"POST")){
     pthread_mutex_lock(&MW_MU);
     if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before exploring the study":"Open a native study first");return 1;}
-    __atomic_store_n(&MW_QUERY_CANCEL,0,__ATOMIC_RELAXED);
-    JB b;jb_init(&b);int status=mw_node_query(MWG,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
-    pthread_mutex_unlock(&MW_MU);
+    // 4.0: explorer queries read the engine as readers, so they keep working while evaluation jobs run.
+    MW *m=MWG;MW_READERS++;pthread_mutex_unlock(&MW_MU);
+    __atomic_store_n(&MW_NODE_CANCEL,0,__ATOMIC_RELAXED);
+    JB b;jb_init(&b);int status=mw_node_query(m,body,blen,&b,err,sizeof err,&MW_NODE_CANCEL);
+    pthread_mutex_lock(&MW_MU);MW_READERS--;pthread_mutex_unlock(&MW_MU);
     if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Query failed");
     jb_free(&b);return 1;
   }
@@ -514,12 +525,16 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   // Both are bounded by the request's own limits (hands <= 64, samples,
   // maxVisits, timeLimitMs <= 1 h) and run under the engine lock; POST
   // node-cancel stops them. Malformed requests return 400 (see explorer.hpp).
+  // 4.0: the synchronous form remains for small queries; it runs as a reader
+  // (other explorer requests and status keep working) and node-cancel stops it.
+  // Large evaluations should use the background job API (/api/mw/jobs).
   if((!strcmp(r,"ev")||!strcmp(r,"response-gain"))&&!strcmp(method,"POST")){
     pthread_mutex_lock(&MW_MU);
     if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before evaluating the study":"Open a native study first");return 1;}
     __atomic_store_n(&MW_QUERY_CANCEL,0,__ATOMIC_RELAXED);
-    JB b;jb_init(&b);int status=(!strcmp(r,"ev")?mw_action_ev:mw_response_gain)(MWG,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
-    pthread_mutex_unlock(&MW_MU);
+    MW *m=MWG;MW_READERS++;pthread_mutex_unlock(&MW_MU);
+    JB b;jb_init(&b);int status=(!strcmp(r,"ev")?mw_action_ev:mw_response_gain)(m,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
+    pthread_mutex_lock(&MW_MU);MW_READERS--;pthread_mutex_unlock(&MW_MU);
     if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Evaluation failed");
     jb_free(&b);return 1;
   }
@@ -536,6 +551,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   if (!strcmp(r, "stop")) { __atomic_store_n(&MW_STOP,1,__ATOMIC_RELAXED); respond_ok(s); return 1; }
   pthread_mutex_lock(&MW_MU);
   if (MW_RUNNING || MW_RESTORING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
+  if (MW_READERS) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Evaluations are reading this study; cancel them or wait for them to finish first"); return 1; }
   if(MW_ARCHIVE_META && strcmp(r,"desktop-release") && strcmp(r,"desktop-train")){
     pthread_mutex_unlock(&MW_MU);respond_err(s,409,"A restored desktop study is open. Close it first.");return 1;
   }
@@ -544,7 +560,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   }
   if (!strcmp(r,"desktop-release")){free(MW_ARCHIVE_META);MW_ARCHIVE_META=NULL;r="free";}
   if (!strcmp(r,"desktop-train"))r="train";
-  if (!strcmp(r, "free")) { mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
+  if (!strcmp(r, "free")) { MW_GEN++; mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
   if (!strcmp(r, "init")) {
     if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
     double budget = mw_budget_mib();
@@ -553,7 +569,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     if(budget<1){pthread_mutex_unlock(&MW_MU);respond_err(s,503,"Insufficient process or application RAM budget");return 1;}
     MW *m = mw_create(body, blen, budget, err, sizeof err);
     if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
-    mw_free(MWG);MWG=m;MW_TABLE_MIB=0; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
+    mw_free(MWG);MWG=m;MW_GEN++;MW_TABLE_MIB=0; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
     JB b; jb_init(&b); mw_info(m, &b);
     { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); MW_IT = (long long)jnum(jget(iv, "iterations"), 0); MW_DEALS = (long long)jnum(jget(iv, "trainingDeals"), 0); json_free(iv); } }
     jb_free(&b); jb_init(&b); jb_puts(&b, "{\"ok\":true,\"budgetMiB\":"); jb_num(&b, budget, 1); jb_puts(&b, ",\"engine\":"); mw_info(m, &b); jb_putc(&b, '}');
@@ -562,7 +578,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   }
   if (!strcmp(r, "import")) {
     if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
-    int ok = body && mw_import(MWG, (const unsigned char *)body, blen, err, sizeof err);
+    MW_GEN++; int ok = body && mw_import(MWG, (const unsigned char *)body, blen, err, sizeof err);
     pthread_mutex_unlock(&MW_MU);
     if (!ok) { respond_err(s, 400, err[0] ? err : "Empty state"); return 1; }
     respond_ok(s); return 1;
@@ -579,7 +595,7 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     if(MW_IT+(long long)it>10000000){free(A);pthread_mutex_unlock(&MW_MU);respond_err(s,400,"Checkpoint update count limit would be exceeded");return 1;}
     A->iterations = (long long)it; A->threads = (int)th > LOGICAL_CPUS ? LOGICAL_CPUS : (int)th;
     if (launch_job_thread(mw_job,A)) { free(A); pthread_mutex_unlock(&MW_MU); respond_err(s,503,"Could not start a training thread"); return 1; }
-    MW_THREADS = A->threads; __atomic_store_n(&MW_STOP,0,__ATOMIC_RELAXED); MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
+    MW_THREADS = A->threads; __atomic_store_n(&MW_STOP,0,__ATOMIC_RELAXED); MW_RUNNING = 1; MW_GEN++; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
     pthread_mutex_unlock(&MW_MU);
     respond_ok(s); return 1;
   }

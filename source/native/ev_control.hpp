@@ -66,6 +66,7 @@ struct EvControl {
   std::atomic<long long> unitVisits{0};
   // measured deadline behaviour
   std::atomic<long long> checks{0}, maxGapNs{0};
+  bool validateOnly = false;             // jobs: check the request, do no work
   // fault injection (tests)
   int faultSite = -1; long long faultAt = 0; std::atomic<long long> faultCount{0}; int faultFlag = 0;
   EvControl() {
@@ -90,10 +91,11 @@ struct EvControl {
 };
 // Per-worker poller: cheap countdown, adaptive clock checks.
 struct Poller {
-  EvControl *ctl = nullptr; unsigned interval = 64, countdown = 64; EvControl::Clock::time_point last = EvControl::Clock::now();
+  EvControl *ctl = nullptr; unsigned interval = 64, countdown = 64; EvControl::Clock::time_point last = EvControl::Clock::now(); int fault = -1;
   long long flushed = 0;   // visits already added to ctl->unitVisits
   void reset() { interval = countdown = 64; last = EvControl::Clock::now(); flushed = 0; }
-  inline void operator()(int site, long long visits) { if (--countdown) return; slow(site, visits); }
+  // (A fault-injection site is checked on every poll so tests hit it deterministically.)
+  inline void operator()(int site, long long visits) { if (--countdown && site != fault) return; slow(site, visits); }
   void slow(int site, long long visits) {
     EvControl &c = *ctl; const auto now = EvControl::Clock::now();
     const long long gap = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last).count(); last = now;
@@ -103,8 +105,8 @@ struct Poller {
     long long m = c.maxGapNs.load(std::memory_order_relaxed); while (gap > m && !c.maxGapNs.compare_exchange_weak(m, gap)) {}
     c.stage.store(site, std::memory_order_relaxed);
     if (visits > flushed) { c.visits.fetch_add(visits - flushed, std::memory_order_relaxed); if (c.unitVisits.fetch_add(visits - flushed) + (visits - flushed) > c.maxVisits) c.raise(3, site); flushed = visits; }
-    if (c.faultSite == site && c.faultCount.fetch_add(1) + 1 >= c.faultAt) c.faultFlag = 1;
-    if (c.faultFlag || (c.cancel && __atomic_load_n(c.cancel, __ATOMIC_RELAXED))) c.raise(1, site);
+    if (c.faultSite == site && c.faultCount.fetch_add(1) + 1 >= c.faultAt) __atomic_store_n(&c.faultFlag, 1, __ATOMIC_RELAXED);
+    if (__atomic_load_n(&c.faultFlag, __ATOMIC_RELAXED) || (c.cancel && __atomic_load_n(c.cancel, __ATOMIC_RELAXED))) c.raise(1, site);
     if (now >= c.deadline) c.raise(2, site);
     if (c.stop.load(std::memory_order_relaxed)) c.rethrowStop();
   }

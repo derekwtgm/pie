@@ -66,6 +66,8 @@ void mw_eval_task_free(MwEvalTask *);
 void mw_eval_cancel(MwEvalTask *);
 int mw_eval_run(MW *m, int kind, const char *json, size_t len, JB *out, char *err, int errlen, MwEvalTask *);
 void mw_eval_progress(MwEvalTask *, JB *out);
+// Validates a request (schema, path, hands, identifiers) without evaluating it.
+int mw_eval_validate(MW *m, int kind, const char *json, size_t len, char *err, int errlen);
 // Process-wide cap on evaluation worker threads per request (default: logical CPUs).
 void mw_set_eval_threads(int cap);
 int mw_eval_threads(void);

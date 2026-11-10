@@ -967,6 +967,10 @@ extern "C" void mw_eval_progress(MwEvalTask *t, JB *out) {
             es::siteName(c.stage.load()), c.elapsedMs(), c.visits.load(), c.samples.load(), c.unitsDone.load(), c.unitsTotal.load(), c.tables.load(), c.boards.load(), t->shared.show.gpuBoards.load(),
             c.memoryBytes.load() / 1048576.0, c.peakMemoryBytes.load() / 1048576.0, __atomic_load_n(&t->cancel, __ATOMIC_RELAXED) ? "true" : "false");
 }
+extern "C" int mw_eval_validate(MW *m, int kind, const char *json, size_t len, char *err, int errlen) {
+  MwEvalTask t; t.shared.ctl.validateOnly = true; JB out; jb_init(&out);
+  const int rc = mw_eval_run(m, kind, json, len, &out, err, errlen, &t); jb_free(&out); return rc;
+}
 extern "C" void mw_set_eval_threads(int cap) { es::evThreadCap().store(cap < 1 ? 1 : cap > 256 ? 256 : cap); }
 extern "C" int mw_eval_threads(void) { return es::evThreadCap().load(); }
 extern "C" void mw_info(MW *m, JB *out) {

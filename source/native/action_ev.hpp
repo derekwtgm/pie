@@ -115,6 +115,8 @@ inline std::atomic<int> &evThreadCap() { static std::atomic<int> cap{std::max(1,
 // Everything one request shares between its worker threads.
 struct EvShared {
   EvControl ctl; ShowdownStats show; Device device = Device::Auto; size_t gpuBudget = 512ULL << 20; long long memoryBudget = 512LL << 20;
+  // EM_EV_NO_TABLES=1 (tests, benchmarks): use the 3.9 per-board runout enumeration.
+  bool noTables = std::getenv("EM_EV_NO_TABLES") != nullptr;
   Fallback fallback = Fallback::Uniform;
 };
 struct Coverage {
@@ -140,7 +142,7 @@ struct Evaluator {
   std::unordered_map<uint64_t, Key> memo; size_t memoCap = 4000000;
   std::array<std::unique_ptr<ShowTable>, 3> tables; long long tableStamp = 0;
   Evaluator(const MW &mm, const Game &gg, Pol p, bool refuse, int seat, EvShared *shared) : m(mm), g(gg), pol(p), refuseMissing(refuse), actor(seat), sh(shared), tour(!mm.tournament.start.empty()) {
-    poller.ctl = &sh->ctl;
+    poller.ctl = &sh->ctl; poller.fault = sh->ctl.faultSite;
     if (tour) m.tournament.prepare(icm, std::min(m.budgetBytes, 64.0 * 1048576));
     memoCap = (size_t)std::clamp<long long>(sh->memoryBudget / 16 / 96, 4096, 262144);
   }
@@ -246,18 +248,21 @@ struct Evaluator {
     if (hybrid) { sh->show.hybridTables++; sh->show.cpuBoards += (long long)(end - cpuFrom); } else sh->show.gpuTables++;
     return true;
   }
-  // Verifies the device against the CPU on one table (exact integer equality) and measures both.
-  bool verifyGpu(ShowTable &T) {
+  // Verifies the device against the CPU on the first boards of a table (exact
+  // integer equality) and measures both; returns the number of boards of T
+  // already scored (0 if the device is unusable).
+  unsigned long long verifyGpu(ShowTable &T) {
     EvGpu &G = EvGpu::get();
-    { std::lock_guard<std::mutex> lk(G.mu); if (!G.open()) { sh->show.note("CUDA unavailable: " + G.reason); return false; } if (G.verified) return true; }
-    const double t0 = nowSec(); cpuScores(T, 0, T.boards); const double cpu = nowSec() - t0;
-    std::vector<int32_t> ref = T.scores;
-    const double t1 = nowSec(); const bool ok = gpuScores(T, 0, T.boards, true, false); const double gpu = nowSec() - t1;
+    { std::lock_guard<std::mutex> lk(G.mu); if (!G.open()) { sh->show.note("CUDA unavailable: " + G.reason); return 0; } if (G.verified) return 0; }
+    const unsigned long long prefix = std::min<unsigned long long>(T.boards, 65536);
+    const double t0 = nowSec(); cpuScores(T, 0, prefix); const double cpu = nowSec() - t0;
+    std::vector<int32_t> ref(T.scores.begin(), T.scores.begin() + (long)(prefix * (unsigned long long)T.n));
+    const double t1 = nowSec(); const bool ok = gpuScores(T, 0, prefix, true, false); const double gpu = nowSec() - t1;
     std::lock_guard<std::mutex> lk(G.mu);
-    if (!ok) return false;
-    if (T.scores != ref) { G.disable("CUDA showdown scores differed from the CPU reference; GPU disabled for EV tables"); sh->show.note(G.reason); T.scores.swap(ref); return false; }
-    G.verified = true; const double evals = (double)T.boards * T.n; G.cpuNsPerEval = cpu * 1e9 / evals; G.gpuNsPerEval = gpu * 1e9 / evals;
-    return true;
+    if (!ok) return 0;
+    if (!std::equal(ref.begin(), ref.end(), T.scores.begin())) { G.disable("CUDA showdown scores differed from the CPU reference; GPU disabled for EV tables"); sh->show.note(G.reason); std::copy(ref.begin(), ref.end(), T.scores.begin()); sh->show.gpuBoards -= (long long)prefix; return prefix; }
+    G.verified = true; const double evals = (double)prefix * T.n; G.cpuNsPerEval = cpu * 1e9 / evals; G.gpuNsPerEval = gpu * 1e9 / evals;
+    return prefix;
   }
   ShowTable *table(int len) {
     int holes[16]; for (int p = 0; p < m.n; p++) { const Hand &h = m.hands[(size_t)p][(size_t)hand[p]]; holes[2 * p] = h.a; holes[2 * p + 1] = h.b; }
@@ -272,18 +277,26 @@ struct Evaluator {
     T->used = used; T->len = len; T->n = m.n; std::copy_n(cards, len, T->prefix); std::copy_n(holes, 2 * m.n, T->holes); T->boards = boards;
     std::copy_n(deck, deckCount, T->deck); T->deckCount = deckCount; T->stamp = ++tableStamp;
     T->scores.resize((size_t)boards * (size_t)m.n); T->charged = bytes; sh->ctl.charge(bytes);
-    const double evals = (double)boards * m.n; bool done = false; Device d = sh->device;
-    if (d != Device::Cpu && boards >= 2) {
-      EvGpu &G = EvGpu::get(); bool verified; double gns, cns; { std::lock_guard<std::mutex> lk(G.mu); verified = G.verified; gns = G.gpuNsPerEval; cns = G.cpuNsPerEval; }
-      const bool large = evals >= 262144;
-      if (d == Device::Gpu || d == Device::Hybrid || large) {
-        if (!verified) done = verifyGpu(*T);
-        else if (d == Device::Gpu) done = gpuScores(*T, 0, boards, true, false);
-        else if (d == Device::Hybrid) done = gpuScores(*T, 0, boards, false, true);
-        else if (gns < 0.9 * cns) done = gpuScores(*T, 0, boards, false, false);   // auto: only when measured faster
+    // Scheduling: small tables always use the CPU (transfers and launches cost
+    // more than they save); "auto" uses CUDA only for large tables and only
+    // after the device has been verified against the CPU and measured at least
+    // 10% faster; "gpu" uses it whenever it works; "hybrid" splits a table
+    // between the GPU and this CPU thread in proportion to measured speed.
+    // Any device failure falls back to the CPU for the unscored boards.
+    const double evals = (double)boards * m.n; Device d = sh->device; unsigned long long from = 0;
+    if (d != Device::Cpu && boards >= 2 && (d != Device::Auto || evals >= 262144)) {
+      EvGpu &G = EvGpu::get(); bool verified; { std::lock_guard<std::mutex> lk(G.mu); verified = G.verified; }
+      if (!verified) from = verifyGpu(*T);
+      double gns, cns; { std::lock_guard<std::mutex> lk(G.mu); verified = G.verified; gns = G.gpuNsPerEval; cns = G.cpuNsPerEval; }
+      if (verified && from < boards) {
+        bool ok = false;
+        if (d == Device::Gpu) ok = gpuScores(*T, from, boards, true, false);
+        else if (d == Device::Hybrid) ok = boards - from >= 2 && gpuScores(*T, from, boards, false, true);
+        else if (gns < 0.9 * cns) ok = gpuScores(*T, from, boards, false, false);
+        if (ok) from = boards;
       }
     }
-    if (!done) { cpuScores(*T, 0, boards); sh->show.cpuBoards += (long long)boards; }
+    if (from < boards) { cpuScores(*T, from, boards); sh->show.cpuBoards += (long long)(boards - from); }
     sh->show.tables++; sh->show.boards += (long long)boards; sh->ctl.tables++; sh->ctl.boards += (long long)boards;
     tables[slot] = std::move(T); return tables[slot].get();
   }
@@ -300,7 +313,7 @@ struct Evaluator {
   // Exact average over every completion of the board from `len` cards.
   double runout(const BS &t, int np, int len) {
     if (len == 5) { visits++; return scored(t, np); }
-    if (ShowTable *T = table(len)) {
+    if (ShowTable *T = sh->noTables ? nullptr : table(len)) {
       uint32_t mask = 0; for (int q = 0; q < np; q++) mask |= pots[q].mask;
       int seats[8], c = 0; for (uint32_t x = mask; x; x &= x - 1) seats[c++] = std::countr_zero(x);
       const auto &P = patterns(*T, mask); double sum = 0; int score[8] = {};
@@ -713,6 +726,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
       const Hand &h = arange[(size_t)hands[i]];
       if ((R.used >> h.a & 1) || (R.used >> h.b & 1)) throw QueryError{400, "hands[" + std::to_string(i) + "] is impossible: it shares a card with the board"};
     }
+    if (S.ctl.validateOnly) { jb_puts(out, "{\"valid\":true}"); return 200; }
     // ---- cache (thread count, device and memory do not change results) ----
     std::string key = std::to_string(m->iterations) + "|" + std::to_string(m->trainingDeals) + "|" + std::to_string(m->rows.size()) + "|" + std::to_string(m->stateVisits) + "|";
     for (int a : path) key += std::to_string(a) + ","; key += "|"; for (int c : dealt) key += std::to_string(c) + ","; key += "|"; for (int h : hands) key += std::to_string(h) + ",";
@@ -774,6 +788,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
             std::copy_n(R.cards, 5, X.cards);
             if (!Sm.draw(X, rng, base, R.known, 200000)) { rare[b] = 1; break; }
             if (fixedHand >= 0) X.hand[actor] = fixedHand;
+            X.poll(SITE_SAMPLE);
             double v[8], fbs[8], sg[8];
             sampleValues(X, R, v, fbs);
             X.policy(R.state, k, actor, X.hand[actor], R.known, sg, &t); part[b].add(v, sg, fbs); S.ctl.samples++;
@@ -955,14 +970,17 @@ inline std::pair<double, double> brRec(Evaluator &E, int seat, int own, int stat
   if (t.k == 1) { const int cs = E.childOf(state, t, 0, c); return brRec(E, seat, own, cs, c, len, T, w, maxLen); }
   double p[8];
   if (t.actor == seat) {
+    // p: sigma (the evaluated policy, for the second value); pd: what the
+    // responder plays (a fixed deviation where one is given, else sigma).
     E.policy(state, t.k, seat, own, len, p, &t);
-    if (E.dev && state >= 0) { auto it = E.dev->find(Evaluator::devKey(state, own)); if (it != E.dev->end()) for (int a = 0; a < t.k; a++) p[a] = a == it->second ? 1.0 : 0.0; }
+    double pd[8]; std::copy_n(p, t.k, pd);
+    if (E.dev && state >= 0) { auto it = E.dev->find(Evaluator::devKey(state, own)); if (it != E.dev->end()) for (int a = 0; a < t.k; a++) pd[a] = a == it->second ? 1.0 : 0.0; }
     const bool maximize = !E.dev && t.length <= maxLen;
     double best = -INFINITY, pv = 0, follow = 0;
     for (int a = 0; a < t.k; a++) {
-      if (!maximize && !(p[a] > 0)) continue;
+      if (!maximize && !(p[a] > 0) && !(pd[a] > 0)) continue;
       const int cs = E.childOf(state, t, a, c); const auto r = brRec(E, seat, own, cs, c, len, T, w, maxLen);
-      best = std::max(best, r.first); pv += p[a] * r.second; follow += p[a] * r.first;
+      best = std::max(best, r.first); pv += p[a] * r.second; follow += pd[a] * r.first;
     }
     return {maximize ? best : follow, pv};
   }
@@ -1056,6 +1074,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
     if (method != "restricted" && (F.has("selection") || F.has("maxNodes"))) throw QueryError{400, "selection and maxNodes apply to method restricted"};
     if (const JV *v = F.get("studyId")) { if (v->type != J_STR) throw QueryError{400, "studyId must be a string"}; if (m->studyId.empty() || m->studyId != v->str) throw QueryError{409, "studyId does not match the open study"}; }
     S.ctl.setDeadline(P.timeMs); S.device = P.device; S.memoryBudget = P.memoryMiB << 20; S.fallback = P.fallback; S.ctl.maxVisits = method == "sampled" ? LLONG_MAX : P.maxVisits;
+    if (S.ctl.validateOnly) { jb_puts(out, "{\"valid\":true}"); return 200; }
     const bool chip = m->tournament.start.empty();
     JB body; jb_init(&body); JB *o = &body;
     struct FreeB { JB *b; ~FreeB() { jb_free(b); } } freeB{&body};
@@ -1102,6 +1121,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
           const auto &rg = m->hands[(size_t)seat];
           for (size_t h = 0; h < rg.size(); h++) {
             const Hand &oh = rg[h]; if (!(oh.w > 0) || (R.used >> oh.a & 1) || (R.used >> oh.b & 1)) continue;
+            E.poll(SITE_SELECTION);
             double v[8]; bool ok = false;
             if (exactSel) {
               try {
