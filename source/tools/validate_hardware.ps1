@@ -1,4 +1,4 @@
-# EightMax 4.0 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
+# EightMax 4.1 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
 # Produces hardware-validation.json next to the executables. Every number in it is
 # measured on the machine that runs this script.
 #   1. CUDA probe: driver, GPU name, compute capability, VRAM, loaded image (SASS or PTX).
@@ -11,6 +11,15 @@
 #      CPU only, GPU preferred, hybrid and automatic processing: wall time,
 #      boards scored on the GPU, and bit-identical EVs; evaluation thread
 #      scaling (1, 2, 4, 8, all logical processors); the 100 ms deadline.
+#   7. 4.1: complete EV workloads (exact root and node evaluations of the
+#      eight-player ICM fixture) with CPU only, GPU preferred, hybrid and
+#      automatic processing: end-to-end time, numerical agreement, peak VRAM,
+#      the scheduler's per-table decisions and cancellation latency while the
+#      GPU is in use; parallel response gains (1, 2, 4, 8, all processors);
+#      malformed-number refusal. "physicalNvidiaExecution" is true only when
+#      CUDA scored boards on this PC and matched the CPU bit for bit;
+#      "environment" records Wine and virtual-machine indicators so a report
+#      from an emulator or VM is never mistaken for physical hardware.
 param([string]$Exe = '', [string]$Report = '')
 $ErrorActionPreference = 'Stop'
 # 3.3: Windows PowerShell 5.1 serializes arrays returned from functions as {"value":[...],"Count":n}
@@ -183,24 +192,61 @@ try {
   $ErrorActionPreference = 'Stop'; Remove-Item Env:EM_QUERY_TIMING
   $v40.deadline100ms = $lines | Where-Object { $_ -match '^\{"queryMs"' } | Select-Object -First 1 | ConvertFrom-Json
   if ($v40.deadline100ms.status -ne 408 -or $v40.deadline100ms.queryMs -gt 250) { $failures += 'The 100 ms action-EV deadline was not honoured' }
+  # 4.1: complete workloads, scheduling decisions, peak VRAM, cancellation, parallel gains, numeric safety
+  $v41 = [ordered]@{ devices = @(); responseGainThreads = @() }
+  $wine = (Test-Path 'HKLM:\Software\Wine') -or (Test-Path 'HKCU:\Software\Wine')
+  $model = (Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue).Model
+  $v41.environment = [ordered]@{ wine = $wine; computerModel = $model; virtualMachineIndicated = [bool]($model -match 'Virtual|VMware|KVM|HVM|Xen|QEMU|VirtualBox') }
+  $ref41 = $null
+  foreach ($dev in @('cpu', 'gpu', 'hybrid', 'auto')) {
+    Write-Json $evq @{ path = @(); hands = @(0); method = 'exact'; device = $dev; threads = $logical; timeLimitMs = 600000; maxVisits = 2000000000; gpuMiB = 2048 }
+    $clock = [Diagnostics.Stopwatch]::StartNew(); $r = (& $Exe --ev $fxSpec $fxState $evq) | ConvertFrom-Json; $clock.Stop()
+    if ($LASTEXITCODE -ne 0) { $failures += "4.1 complete EV workload failed with device $dev"; continue }
+    $evText = ($r.hands[0].ev | ForEach-Object { '{0:R}' -f [double]$_ }) -join ','
+    if ($null -eq $ref41) { $ref41 = $evText }
+    if ($evText -ne $ref41) { $failures += "4.1 complete EV workload with device $dev differs from the CPU result" }
+    $v41.devices += [ordered]@{ device = $dev; seconds = $clock.Elapsed.TotalSeconds; identicalToCpu = ($evText -eq $ref41); gpuBoards = $r.execution.gpuBoards; cpuBoards = $r.execution.cpuBoards; gpuPeakMiB = $r.execution.gpuPeakMiB; peakEvaluationMiB = $r.execution.peakEvaluationMiB; scheduling = $r.execution.scheduling; boardEvaluations = $r.work.boardEvaluations; gpuNote = $r.execution.gpuNote }
+    Write-Host ("4.1 complete exact EV ({0}): {1:N3} s, {2} GPU boards, peak VRAM {3} MiB" -f $dev, $clock.Elapsed.TotalSeconds, $r.execution.gpuBoards, $r.execution.gpuPeakMiB)
+  }
+  $v41.physicalNvidiaExecution = [bool]($cuda.available -and -not $wine -and ($v41.devices | Where-Object { $_.gpuBoards -gt 0 -and $_.identicalToCpu }))
+  $cpuRow = $v41.devices | Where-Object { $_.device -eq 'cpu' } | Select-Object -First 1
+  foreach ($row in $v41.devices) { if ($cpuRow -and $row.seconds -gt 0) { $row.speedupVsCpu = [math]::Round($cpuRow.seconds / $row.seconds, 3) } }
+  Write-Json $evq @{ path = @(); hands = @(0); method = 'exact'; device = 'gpu'; threads = $logical; timeLimitMs = 600000; maxVisits = 2000000000 }
+  $env:EM_QUERY_TIMING = '1'; $env:EM_CANCEL_AFTER_MS = '300'; $ErrorActionPreference = 'Continue'
+  $lines = & $Exe --ev $fxSpec $fxState $evq 2>&1 | ForEach-Object { "$_" }
+  $ErrorActionPreference = 'Stop'; Remove-Item Env:EM_QUERY_TIMING; Remove-Item Env:EM_CANCEL_AFTER_MS
+  $v41.cancelWhileGpu = $lines | Where-Object { $_ -match '^\{"queryMs"' } | Select-Object -First 1 | ConvertFrom-Json
+  if ($v41.cancelWhileGpu.status -ne 409 -or $v41.cancelWhileGpu.cancelLatencyMs -gt 250) { $failures += '4.1 cancellation during GPU evaluation was not prompt' }
+  foreach ($t in @(1, 2, 4, 8, $logical) | Sort-Object -Unique) {
+    if ($t -gt $logical) { continue }
+    Write-Json $evq @{ method = 'exact'; seats = @(0, 1, 2, 3, 4, 5, 6, 7); threads = $t; timeLimitMs = 600000 }
+    $clock = [Diagnostics.Stopwatch]::StartNew(); $g = (& $Exe --gain $fxSpec $fxState $evq) | ConvertFrom-Json; $clock.Stop()
+    $v41.responseGainThreads += [ordered]@{ threads = $t; seconds = $clock.Elapsed.TotalSeconds; gains = (@($g.seats | ForEach-Object { '{0:R}' -f [double]$_.gain }) -join ',') }
+    Write-Host ("Exact response gains, 8 seats, {0} threads: {1:N3} s" -f $t, $clock.Elapsed.TotalSeconds)
+  }
+  if (@($v41.responseGainThreads | ForEach-Object { $_.gains } | Select-Object -Unique).Count -ne 1) { $failures += '4.1 response gains differ between thread counts' }
+  [IO.File]::WriteAllText($evq, '{"path":[],"hands":[0],"memoryMiB":1e300}')
+  $ErrorActionPreference = 'Continue'; $msg = (& $Exe --ev $fxSpec $fxState $evq 2>&1 | Out-String); $code = $LASTEXITCODE; $ErrorActionPreference = 'Stop'
+  $v41.malformedNumberRefused = ($code -ne 0 -and $msg -match 'memoryMiB')
+  if (-not $v41.malformedNumberRefused) { $failures += '4.1 memoryMiB 1e300 was not refused' }
   $devices = $null
   try { & (Join-Path $PSScriptRoot 'test_devices.ps1'); $devices = Get-Content (Join-Path $root 'device-results.json') -Raw | ConvertFrom-Json }
   catch { $failures += "Scoring-mode comparison failed: $($_.Exception.Message)" }
 
-  $out = [ordered]@{ tool = 'EightMax 4.0 hardware validation'; build = $build; date = (Get-Date).ToString('s');
+  $out = [ordered]@{ tool = 'EightMax 4.1 hardware validation'; build = $build; date = (Get-Date).ToString('s');
     os = [Environment]::OSVersion.VersionString; cpu = $env:PROCESSOR_IDENTIFIER; logicalProcessors = $logical;
     memoryGiB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1);
     graphics = @(Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, AdapterRAM);
-    cuda = $cuda; equity = $equity; v39 = $v39; v40 = $v40; vramCapFallback = [ordered]@{ ok = $capOk; gpuUsed = $cap.gpuUsed; reason = $cap.gpuFallbackReason };
+    cuda = $cuda; equity = $equity; v39 = $v39; v40 = $v40; v41 = $v41; physicalNvidiaExecution = [bool]$v41.physicalNvidiaExecution; vramCapFallback = [ordered]@{ ok = $capOk; gpuUsed = $cap.gpuUsed; reason = $cap.gpuFallbackReason };
     gpuExecutionVerified = [bool]($cuda.available -and ($equity | Where-Object { $_.gpuUsed -and $_.gpuMatchesCpu }))
     checkpointRecovery = @{ identical = $same; stopped = $stopped; resumed = $continued; uninterrupted = $referenceRun }
     externalSampling = $training; version33 = $v33; externalBatchModes = $batchRuns; scoringModes = $devices; failures = $failures; passed = ($failures.Count -eq 0) }
   $out | ConvertTo-Json -Depth 8 | Set-Content -Encoding UTF8 $Report
   Write-Host "Saved $Report"
   if ($failures.Count) { $failures | ForEach-Object { Write-Host "FAILED: $_" }; exit 1 }
-  Write-Host 'Completed available checks. See gpuExecutionVerified for physical CUDA status.'
+  Write-Host 'Completed available checks. See physicalNvidiaExecution and gpuExecutionVerified for physical CUDA status.'
 } catch {
-  [ordered]@{tool='EightMax 4.0 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
+  [ordered]@{tool='EightMax 4.1 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;physicalNvidiaExecution=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
   Write-Host ('Hardware check stopped: '+$_.Exception.Message)
   exit 1
 } finally { Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue }

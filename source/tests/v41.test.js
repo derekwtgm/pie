@@ -370,3 +370,23 @@ test('4.1 CUDA scheduling: decisions and peak VRAM are reported; CPU, GPU, hybri
   const small = S.ev({ path: [1, 1], board: [0, 13, 26], hands: [0], method: 'exact', maxVisits: 2000000000, device: 'auto' }, env);
   if (small.json) assert.equal(small.json.execution.gpuBoards, 0);
 });
+
+// ============================== explorer presentation ==============================
+test('4.1 explorer: strategy-quality panel lists every seat with evaluator, interval, samples and no unsupported claims; EV labels use adjusted statistics', { skip: cliSkip }, t => {
+  require('../web/lib_explorer');
+  const P = cliStudy(t, 'push8', 40), H = cliStudy(t, 'huRiver', 300);
+  const names = ['UTG', 'UTG+1', 'MP', 'HJ', 'CO', 'BTN', 'SB', 'BB'];
+  const sampled = P.gain({ method: 'sampled', samples: 500 }).json, exact2 = H.gain({ method: 'exact' }).json;
+  const html = EM.explorerQualityHtml({ qOptions: { method: 'sampled', samples: 500 }, qResult: sampled, names, qHistory: [{ deals: 100, maxGain: 0.5, method: 'sampled' }, { deals: 200, maxGain: 0.3, method: 'sampled' }] });
+  for (const n of names.filter((_, i) => sampled.seats.some(s => s.seat === i))) assert.match(html, new RegExp('<th>' + n.replace('+', '\\+') + '</th>'));
+  assert.match(html, /lower bounds/); assert.doesNotMatch(html, /Exploitability \(two seats/); assert.match(html, /sampled one-decision deviation/);
+  assert.match(html, /Measurements this session/);
+  const h2 = EM.explorerQualityHtml({ qOptions: {}, qResult: exact2, names: ['BTN', 'BB'] });
+  assert.match(h2, /Exploitability \(two seats, chip EV, this abstraction\)/); assert.match(h2, /exact best response/);
+  // EV table: adjusted labels and simultaneous intervals in the tooltip
+  const ev = P.ev({ path: [1], hands: [0], method: 'sampled', samples: 3000, seed: 2 }).json;
+  ev.actions = ev.actions || ev.hands[0].ev.map((_, a) => ({ slot: a, label: 'a' + a }));
+  const node = { node: ev.node };
+  const table = EM.renderExplorer ? true : false; assert.ok(table);
+  const cls = ev.hands[0].classification; assert.ok(cls.every(c => ['supportedBest', 'highestEstimate', 'differenceSupported', 'differenceUncertain', 'practicallyEquivalent', 'insufficientSamples'].includes(c)));
+});

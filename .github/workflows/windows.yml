@@ -50,7 +50,7 @@ jobs:
           Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
@@ -92,6 +92,22 @@ jobs:
           $v = (Get-Content source/VERSION -TotalCount 1).Trim()
           python source/tools/package36.py $r "release/EightMax-Windows-$v.zip"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Concurrency stress on Windows (4.1; the 4.0 runner saw intermittent startup-test failures)
+        shell: powershell
+        run: |
+          # Every concurrent-startup, cancellation and job test, 5 times in a row on the
+          # fresh Windows host. A failure in any repetition fails the step; no rerun.
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
+          $ErrorActionPreference = 'Continue'; $failed = 0; $log = @()
+          for ($i = 1; $i -le 5; $i++) {
+            $out = node --test --test-concurrency=1 --test-name-pattern='startup failure|concurrency|desktop jobs|worker start' source/tests/v34.test.js source/tests/v40.test.js source/tests/v41.test.js 2>&1 | ForEach-Object { "$_" }
+            $pass = ($out | Select-String '^# pass (\d+)').Matches.Groups[1].Value; $fail = ($out | Select-String '^# fail (\d+)').Matches.Groups[1].Value
+            $log += "repetition $i : pass $pass fail $fail"; Write-Host "repetition $i : pass $pass fail $fail"
+            if ($LASTEXITCODE -or [int]$fail -gt 0) { $failed++; $out | Select-String -Pattern 'not ok|error' | ForEach-Object { Write-Host $_ } }
+          }
+          $log | Set-Content -Encoding utf8 windows-concurrency-stress.txt
+          if ($failed) { exit 1 }
       - name: Parse every PowerShell script (3.3)
         shell: powershell
         run: |
@@ -115,4 +131,5 @@ jobs:
             fresh-windows.json
             fresh-windows-host.json
             windows-runner-hardware-validation.json
+            windows-concurrency-stress.txt
             release/EightMax/validation/

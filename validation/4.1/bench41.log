@@ -1,0 +1,18 @@
+Heads-up river seed 1 {"exact":[0.006,0.0061,0.0065],"sampled":[0.1374,0.1427],"gain":[0.0061,0.0055,0.0043],"deadline":[2.102,1.972]}
+Heads-up river seed 2 {"exact":[0.0054,0.0049,0.0063],"sampled":[0.1282,0.15],"gain":[0.0047,0.0043,0.005],"deadline":[1.583,2.084]}
+Heads-up river seed 3 {"exact":[0.005,0.0047,0.0058],"sampled":[0.1494,0.146],"gain":[0.0045,0.0045,0.0046],"deadline":[1.735,1.701]}
+Heads-up turn seed 1 {"exact":[0.0078,0.0073,0.0071],"sampled":[0.1464,0.1234],"gain":[0.0055,0.0055,0.0049],"deadline":[1.926,1.799]}
+Heads-up turn seed 2 {"exact":[0.0062,0.0058,0.0073],"sampled":[0.1158,0.1321],"gain":[0.0054,0.0136,0.0056],"deadline":[2.025,2.278]}
+Heads-up turn seed 3 {"exact":[0.0062,0.006,0.0063],"sampled":[0.1223,0.1399],"gain":[0.0063,0.0062,0.0058],"deadline":[2.318,2.345]}
+Three-player river (side pots) seed 1 {"exact":[0.0063,0.0062,0.0066],"sampled":[0.4801,0.5026],"gain":[0.0069,0.0066,0.0057],"deadline":[2.121,2.119]}
+Three-player river (side pots) seed 2 {"exact":[0.0071,0.007,0.007],"sampled":[0.5617,0.5335],"gain":[0.0075,0.0071,0.006],"deadline":[2.519,2.183]}
+Three-player river (side pots) seed 3 {"exact":[0.0091,0.0068,0.0075],"sampled":[0.4722,0.4868],"gain":[0.0069,0.0066,0.0052],"deadline":[1.821,1.864]}
+Four-player flop seed 1 {"exact":[1.7808,1.8477,0.6834],"sampled":[0.3095,0.3178],"gain":[0.2508,0.2251,0.0901],"deadline":[101.541,101.317]}
+Four-player flop seed 2 {"exact":[1.8126,1.7992,0.8247],"sampled":[0.3041,0.3265],"gain":[0.2662,0.3524,0.0716],"deadline":[101.875,101.47]}
+Four-player flop seed 3 {"exact":[1.6963,1.9249,0.7316],"sampled":[0.3221,0.3282],"gain":[0.2351,0.2184,0.0826],"deadline":[101.975,101.513]}
+Six-player flop seed 1 {"exact":[1.9228,2.1532,1.1306],"sampled":[2.4126,2.4094],"gain":[2.6627,2.7332,0.8693],"deadline":[101.085,100.975]}
+Six-player flop seed 2 {"exact":[1.84,1.8398,1.0287],"sampled":[2.3306,2.4403],"gain":[2.5864,2.5345,0.8319],"deadline":[100.938,101.274]}
+Six-player flop seed 3 {"exact":[2.0628,1.9738,1.1003],"sampled":[2.58,2.5061],"gain":[2.5019,2.464,1.0591],"deadline":[101.426,101.401]}
+Eight-player preflop (push/fold, fixed hands) seed 1 {"exact":[0.8795,0.8699,0.5209],"sampled":[2.3429,2.1945],"gain":[1.742,1.8826,0.9596],"deadline":[102.755,101.752]}
+Eight-player preflop (push/fold, fixed hands) seed 2 {"exact":[0.9209,0.8374,0.5393],"sampled":[2.2779,2.2537],"gain":[1.8565,1.7977,0.9278],"deadline":[102.014,102.114]}
+Eight-player preflop (push/fold, fixed hands) seed 3 {"exact":[0.9414,0.8394,0.5068],"sampled":[2.3516,2.515],"gain":[1.9289,1.9268,0.9479],"deadline":[102.144,101.675]}

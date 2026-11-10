@@ -200,6 +200,71 @@ try {
   Assert-Check ($st.status -eq 'completed' -and $res.hands[0].classification.Count -eq $res.actions.Count -and $null -ne $res.coverage) 'Background evaluation job completes with classifications and coverage'
   foreach ($id in @($job.jobId, $small.jobId)) { $null = Api ('mw/jobs/' + $id + '/release') @{} }
   Assert-Check (@((Api 'mw/jobs').jobs).Count -eq 0) 'Released evaluation jobs free their results'
+  # 4.1: numeric input safety, concurrent-start reliability, queued-job deadlines,
+  # work budgets, parallel response gains and adjusted action statistics.
+  $v41 = [ordered]@{}
+  function Status-Of([string]$route, [string]$body) {
+    try { $null = Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/$route" -Method POST -Headers @{ 'X-EightMax' = '1' } -Body $body; return 200 }
+    catch { if ($_.Exception.Response) { return [int]$_.Exception.Response.StatusCode } else { return -1 } }
+  }
+  $bad = [ordered]@{
+    'mw/jobs/ev memoryMiB 1e300' = @('mw/jobs/ev', '{"hands":[0],"memoryMiB":1e300}');
+    'mw/jobs/ev timeLimitMs -1e300' = @('mw/jobs/ev', '{"hands":[0],"timeLimitMs":-1e300}');
+    'mw/jobs/response-gain memoryMiB 1e19' = @('mw/jobs/response-gain', '{"method":"sampled","memoryMiB":1e19}');
+    'mw/jobs/config workers 1e300' = @('mw/jobs/config', '{"workers":1e300}');
+    'mw/node offset 2^64' = @('mw/node', '{"path":[],"offset":18446744073709551616}');
+    'mw/train iterations 0.5' = @('mw/train', '{"iterations":0.5}');
+    'equity threads 1e300' = @('equity', '{"hands":[[0,1],[2,3]],"threads":1e300}');
+    'node path 1e300' = @('node', '{"path":[1e300]}');
+    'solve maxIter 1e300' = @('solve', '{"maxIter":1e300}')
+  }
+  $codes = [ordered]@{}
+  foreach ($k in $bad.Keys) { $codes[$k] = Status-Of $bad[$k][0] $bad[$k][1] }
+  $v41.malformedNumberStatus = $codes
+  $alive = Api 'info'
+  Assert-Check ((@($codes.Values | Where-Object { $_ -lt 400 -or $_ -ge 500 }).Count -eq 0) -and $null -ne $alive.build) ('Malformed numbers (1e300, 2^64, fractions) are refused with 4xx before conversion and the host keeps running (' + (($codes.Values | ForEach-Object { $_ }) -join ',') + ')')
+  Assert-Check (@((Api 'mw/jobs').jobs).Count -eq 0) 'Refused requests created no evaluation job'
+  # concurrent training starts: exactly one of eight simultaneous requests wins, repeatedly
+  Add-Type -AssemblyName System.Net.Http
+  $http = [System.Net.Http.HttpClient]::new(); $http.DefaultRequestHeaders.Add('X-EightMax', '1'); $rounds = @()
+  for ($round = 0; $round -lt 10; $round++) {
+    $tasks = @(); for ($i = 0; $i -lt 8; $i++) { $tasks += $http.PostAsync("$script:base/api/mw/train", [System.Net.Http.StringContent]::new('{"iterations":20000,"threads":2}')) }
+    [System.Threading.Tasks.Task]::WaitAll([System.Threading.Tasks.Task[]]$tasks)
+    $sc = @($tasks | ForEach-Object { [int]$_.Result.StatusCode }); $rounds += ($sc -join ',')
+    $null = Api 'mw/stop' @{}
+    $deadline = [DateTime]::UtcNow.AddSeconds(15); do { Start-Sleep -Milliseconds 20; $ms = Api 'mw/status' } while ($ms.running -and [DateTime]::UtcNow -lt $deadline)
+    Assert-Check (@($sc | Where-Object { $_ -eq 200 }).Count -eq 1 -and @($sc | Where-Object { $_ -ne 200 -and $_ -ne 409 }).Count -eq 0 -and -not $ms.running) ("Concurrent training start round {0}: exactly one of 8 requests started, none stuck ({1})" -f $round, ($sc -join ','))
+  }
+  $http.Dispose(); $v41.concurrentStartRounds = $rounds
+  # a queued job receives its full time limit from when it starts (4.0 counted queue time)
+  $null = Api 'mw/jobs/config' @{ workers = 1; threadsPerJob = 1 }
+  $blocker = Api 'mw/jobs/ev' @{ path = @(); hands = @(0, 1); range = $true; method = 'sampled'; samples = 2000000; timeLimitMs = 600000 }
+  do { Start-Sleep -Milliseconds 20; $st = Api ('mw/jobs/' + $blocker.jobId) } while ($st.status -eq 'pending')
+  $queued = Api 'mw/jobs/ev' @{ path = @(); hands = @(0); method = 'sampled'; samples = 300; seed = 2; timeLimitMs = 500 }
+  Start-Sleep -Milliseconds 1200; $null = Api ('mw/jobs/' + $blocker.jobId + '/cancel') @{}
+  do { Start-Sleep -Milliseconds 20; $q2 = Api ('mw/jobs/' + $queued.jobId) } while ($q2.status -eq 'pending' -or $q2.status -eq 'running')
+  $v41.queuedJob = [ordered]@{ status = $q2.status; queuedMs = $q2.queuedMs; runningMs = $q2.runningMs; partial = $q2.partial }
+  Assert-Check ($q2.status -eq 'completed' -and -not $q2.partial -and $q2.queuedMs -ge 1000) ('A job queued for {0:N0} ms still received its 500 ms time limit' -f $q2.queuedMs)
+  foreach ($id in @($blocker.jobId, $queued.jobId)) { $null = Api ('mw/jobs/' + $id + '/release') @{} }
+  $null = Api 'mw/jobs/config' @{ workers = 2 }
+  $res41 = Api 'mw/ev' @{ path = @(); hands = @(0); method = 'sampled'; samples = 2000; seed = 3 }
+  $mc = $res41.hands[0].multipleComparisons
+  Assert-Check ($null -ne $mc -and [double]$mc.criticalValue -gt 1.96 -and $null -ne $res41.work -and $res41.statistics.comparison -match 'simultaneous') ('Sampled action EVs carry simultaneous comparisons (critical value {0:N3}) and work counters' -f [double]$mc.criticalValue)
+  # work budget and parallel response gains on the eight-player fixture (CLI)
+  [IO.File]::WriteAllText($q, '{"path":[1,1],"hands":[0],"method":"exact","maxVisits":2000000000,"maxBoardEvaluations":100000}')
+  $ErrorActionPreference = 'Continue'; $budgetOut = (& $cli --ev $fxSpec $fxState $q 2>&1 | Out-String); $budgetCode = $LASTEXITCODE; $ErrorActionPreference = 'Stop'
+  Assert-Check ($budgetCode -ne 0 -and $budgetOut -match 'maxBoardEvaluations') 'Exact EV past maxBoardEvaluations is refused with no numbers'
+  [IO.File]::WriteAllText($q, '{"path":[1,1],"hands":[0],"method":"exact","maxVisits":2000000000}')
+  $full = (& $cli --ev $fxSpec $fxState $q) | ConvertFrom-Json
+  Assert-Check ([long]$full.work.boardEvaluations -ge 376992) ('Board enumeration is counted ({0} board evaluations)' -f $full.work.boardEvaluations)
+  $gainRows = @()
+  foreach ($t in @(1, 2, [Math]::Min(8, [Environment]::ProcessorCount)) | Sort-Object -Unique) {
+    [IO.File]::WriteAllText($q, ('{"method":"exact","seats":[0,3,6],"threads":' + $t + '}'))
+    $clock = [Diagnostics.Stopwatch]::StartNew(); $g = (& $cli --gain $fxSpec $fxState $q) | ConvertFrom-Json; $clock.Stop()
+    $gainRows += [ordered]@{ threads = $t; seconds = $clock.Elapsed.TotalSeconds; gains = @($g.seats | ForEach-Object { '{0:R}' -f [double]$_.gain }) -join ',' }
+  }
+  $v41.parallelResponseGain = $gainRows
+  Assert-Check (@($gainRows | ForEach-Object { $_.gains } | Select-Object -Unique).Count -eq 1) ('Exact response gains identical for 1, 2 and more threads (' + (($gainRows | ForEach-Object { '{0} thr {1:N2} s' -f $_.threads, $_.seconds }) -join ', ') + ')')
   $passed = $true
 } catch {
   $failure = $_.Exception.Message
@@ -208,7 +273,7 @@ try {
   $env:USERPROFILE=$oldProfile
   if ($engineProcess -and -not $engineProcess.HasExited) { Stop-Process -Id $engineProcess.Id -Force -ErrorAction SilentlyContinue }
   $env:EIGHTMAX_GPU = $oldGpu; $env:EIGHTMAX_THREADS = $oldThreads
-  $reportData = [ordered]@{ version=$ExpectedVersion; build=$info.build; largeCheckpoint=$large; v40=$v40; passed=$passed; checks=$checks.ToArray(); error=$failure; os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
+  $reportData = [ordered]@{ version=$ExpectedVersion; build=$info.build; largeCheckpoint=$large; v40=$v40; v41=$v41; passed=$passed; checks=$checks.ToArray(); error=$failure; os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
   $reportData | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Report -Encoding UTF8
   Write-Host "Report: $Report"
   Remove-Item -LiteralPath $work -Recurse -Force -ErrorAction SilentlyContinue

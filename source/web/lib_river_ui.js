@@ -216,7 +216,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   }
   // 3.8: native strategy explorer. Each request asks the host for one node.
   const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0,
-    evOptions:{method:'auto',utility:'study',timeLimitS:60,maxVisits:20000000,device:'auto',margin:0,fallback:'uniform'},evJob:null,evJobId:null};
+    evOptions:{method:'auto',utility:'study',timeLimitS:60,maxVisits:20000000,maxBoards:0,memoryMiB:512,device:'auto',margin:0,fallback:'uniform'},evJob:null,evJobId:null,
+    qOptions:{method:'sampled',samples:2000,seed:1},qJob:null,qJobId:null,qResult:null,qError:null,qHistory:[]};
   function explorerNames(n){
     if(spot&&spot.seats&&spot.seats.length===n)return spot.seats.map(x=>x.name);
     return n>=2&&EM.pfPositions?EM.pfPositions(n):null;
@@ -224,7 +225,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   function drawExplorer(){
     const box=root.querySelector('#rv-desktop-explorer');if(!box)return;
     box.hidden=!explorer.open;if(!explorer.open)return;
-    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction,evOptions:explorer.evOptions,evJob:explorer.evJob});
+    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction,evOptions:explorer.evOptions,evJob:explorer.evJob,qOptions:explorer.qOptions,qJob:explorer.qJob,qResult:explorer.qResult,qError:explorer.qError,qHistory:explorer.qHistory});
   }
   async function exploreNode(path,board){
     if(explorer.busy)return;explorer.busy=true;explorer.error='';
@@ -266,11 +267,38 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       }
     }finally{desktopRequest('mw/jobs/'+submitted.jobId+'/release','{}').catch(()=>{});explorer.evJobId=null;}
   }
+  // 4.1: strategy quality as a background response-gain job (all seats, in parallel on the host).
+  async function explorerQuality(){
+    const o=explorer.qOptions;explorer.qError=null;
+    const body={method:o.method,samples:Math.max(64,Math.min(2000000,Math.round(o.samples)||2000)),seed:Math.max(0,Math.min(4294967295,Math.round(o.seed)||0)),
+      timeLimitMs:Math.max(100,Math.min(3600000,Math.round((explorer.evOptions.timeLimitS||60)*1000))),memoryMiB:Math.max(16,Math.min(4096,Math.round(explorer.evOptions.memoryMiB||512)))};
+    if(explorer.evOptions.maxBoards>=1000)body.maxBoardEvaluations=Math.round(explorer.evOptions.maxBoards);
+    if(o.method==='restricted')body.selection='auto';
+    try{
+      const submitted=await desktopRequest('mw/jobs/response-gain',JSON.stringify(body));
+      explorer.qJobId=submitted.jobId;explorer.qJob=submitted;drawExplorer();
+      try{
+        for(;;){
+          await new Promise(r=>setTimeout(r,250));
+          const j=await desktopRequest('mw/jobs/'+submitted.jobId);explorer.qJob=j;drawExplorer();
+          if(j.status==='completed'){const r=await desktopRequest('mw/jobs/'+submitted.jobId+'/result');explorer.qResult=r;
+            const gains=(r.seats||[]).map(x=>typeof x.gain==='number'?x.gain:x.gain&&x.gain.mean).filter(Number.isFinite);
+            if(gains.length)explorer.qHistory.push({deals:r.sampledDeals,maxGain:Math.max(...gains),method:r.method});break;}
+          if(j.status==='cancelled')throw Error('Response-gain measurement cancelled');
+          if(j.status==='timedOut')throw Error('Time limit reached before the response gains were complete; no incomplete exact gain is shown.');
+          if(j.status==='failed')throw Error(j.error||'Response-gain measurement failed');
+        }
+      }finally{desktopRequest('mw/jobs/'+submitted.jobId+'/release','{}').catch(()=>{});explorer.qJobId=null;}
+    }catch(e){explorer.qError=e.message;}
+    finally{explorer.qJob=null;drawExplorer();}
+  }
   function evBody(hands,range,which){
     const o=explorer.evOptions,body={path:explorer.path,board:explorer.board,hands,range,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,
       timeLimitMs:Math.max(100,Math.min(3600000,Math.round((o.timeLimitS||(which==='all'?15:60))*1000))),maxVisits:Math.max(1000,Math.min(2000000000,Math.round(o.maxVisits)||20000000)),method:o.method,device:o.device};
     if(o.utility&&o.utility!=='study')body.utility=o.utility;
     if(o.margin>0)body.equivalenceMargin=o.margin;
+    if(o.maxBoards>=1000)body.maxBoardEvaluations=Math.min(1e15,Math.round(o.maxBoards));
+    if(o.memoryMiB)body.memoryMiB=Math.max(16,Math.min(4096,Math.round(o.memoryMiB)));
     if(o.fallback==='refuse')body.missing='refuse';else body.fallback=o.fallback;
     return body;
   }
@@ -298,6 +326,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     finally{explorer.evBusy='';explorer.evJob=null;drawExplorer();}
   }
   function explorerClick(d){
+    if(d.exQ!==undefined){if(d.exQ==='cancel'){if(explorer.qJobId)desktopRequest('mw/jobs/'+explorer.qJobId+'/cancel','{}').catch(()=>{});return true;}explorerQuality();return true;}
     if(d.exEv!==undefined){if(d.exEv==='cancel'){if(explorer.evJobId)desktopRequest('mw/jobs/'+explorer.evJobId+'/cancel','{}').catch(()=>{});else desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
     if(d.exAction!==undefined){exploreNode([...explorer.path,Number(d.exAction)],explorer.board);explorer.selectedCell=null;return true;}
     if(d.exGo!==undefined){const k=Number(d.exGo);exploreNode(explorer.path.slice(0,k),boardBefore(k));return true;}
@@ -671,10 +700,15 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id==='ex-ev-action'){explorer.evAction=Number(e.target.value)||0;drawExplorer();return;}
     if(e.target.id==='ex-ev-samples'){explorer.evSamples=Number(e.target.value)||4000;return;}
     if(e.target.id==='ex-ev-policy'){explorer.evPolicy=e.target.value==='current'?'current':'average';explorer.ev=null;drawExplorer();return;}
+    if(e.target.id==='ex-q-method'){explorer.qOptions.method=['sampled','restricted','exact'].includes(e.target.value)?e.target.value:'sampled';return;}
+    if(e.target.id==='ex-q-samples'){explorer.qOptions.samples=Math.max(64,Math.min(2000000,Math.round(Number(e.target.value))||2000));return;}
+    if(e.target.id==='ex-q-seed'){explorer.qOptions.seed=Math.max(0,Math.min(4294967295,Math.round(Number(e.target.value))||0));return;}
     {const o=explorer.evOptions,v=e.target.value;
       if(e.target.id==='ex-ev-method'){o.method=['auto','exact','sampled'].includes(v)?v:'auto';return;}
       if(e.target.id==='ex-ev-utility'){o.utility=v==='chip'?'chip':'study';explorer.ev=null;drawExplorer();return;}
       if(e.target.id==='ex-ev-time'){o.timeLimitS=Math.max(0.1,Math.min(3600,Number(v)||60));return;}
+      if(e.target.id==='ex-ev-boards'){const x=Math.round(Number(v));o.maxBoards=Number.isFinite(x)&&x>=1000?x:0;return;}
+      if(e.target.id==='ex-ev-mem'){o.memoryMiB=Math.max(16,Math.min(4096,Math.round(Number(v))||512));return;}
       if(e.target.id==='ex-ev-visits'){o.maxVisits=Math.max(1000,Math.min(2000000000,Math.round(Number(v))||20000000));return;}
       if(e.target.id==='ex-ev-device'){o.device=['auto','cpu','gpu','hybrid'].includes(v)?v:'auto';return;}
       if(e.target.id==='ex-ev-margin'){const x=Number(v);o.margin=Number.isFinite(x)&&x>0?x:0;return;}

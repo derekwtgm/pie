@@ -102,8 +102,9 @@ function evTable(ev, names, filter) {
   const exec = ev.execution ? ' · ' + (ev.threads || 1) + ' thread' + ((ev.threads || 1) > 1 ? 's' : '') + ', device ' + ev.execution.device + (ev.execution.gpuBoards ? ' (' + ev.execution.gpuBoards.toLocaleString() + ' boards on the GPU)' : '') : '';
   let h = '<div class="ex-ev"><h4>Action EVs (' + esc(ev.utility.model === 'icm' ? 'ICM tournament equity, ' + unit : 'chip EV, ' + unit) + ')</h4>' +
     '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a per-action normal 95% interval (unadjusted)') +
-    ' · continuation policy: ' + ev.policy + (ev.status === 'partial' || ev.stoppedEarly ? ' · PARTIAL: stopped early at the time limit (estimates from the completed samples only)' : '') + (ev.note ? ' · ' + ev.note : '') + exec + (ev.elapsedMs != null ? ' · ' + (ev.elapsedMs / 1000).toFixed(2) + ' s' : '')) + '</p>';
+    ' · continuation policy: ' + ev.policy + (ev.status === 'partial' || ev.stoppedEarly ? ' · PARTIAL: stopped early ' + (ev.stoppedBy === 'maxBoardEvaluations' ? 'by the board-evaluation limit' : 'at the time limit') + ' (estimates from the completed samples only)' : '') + (ev.note ? ' · ' + ev.note : '') + exec + (ev.elapsedMs != null ? ' · ' + (ev.elapsedMs / 1000).toFixed(2) + ' s' : '')) + '</p>';
   h += coverageHtml(ev);
+  if (ev.work) h += '<p class="note">Work: ' + ev.work.boardEvaluations.toLocaleString() + ' board evaluations, ' + ev.work.treeVisits.toLocaleString() + ' tree visits' + (ev.work.samples ? ', ' + ev.work.samples.toLocaleString() + ' samples' : '') + (ev.work.icmEvaluations ? ', ' + ev.work.icmEvaluations.toLocaleString() + ' ICM evaluations' : '') + (ev.budgets && ev.budgets.maxBoardEvaluations ? ' (board-evaluation limit ' + ev.budgets.maxBoardEvaluations.toLocaleString() + ')' : '') + '.</p>';
   h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th>' + ev.actions.map(a => '<th>' + esc(actionLabel(a)) + '</th>').join('') + '<th>Mixed strategy</th><th>Method</th></tr></thead><tbody>';
   const card = h0 => h0.cards ? esc(EM.cardStr(h0.cards[1]) + EM.cardStr(h0.cards[0])) : 'range';
   const row = x => {
@@ -127,6 +128,9 @@ function evOptions(ui, s) {
     ' <label>Utility ' + sel('ex-ev-utility', o.utility || 'study', s && s.tournament ? [['study', 'ICM (study)'], ['chip', 'Chip EV']] : [['study', 'Chip EV (study)']]) + '</label>' +
     ' <label>Time limit (s) <input id="ex-ev-time" type="number" min="0.1" max="3600" step="0.1" value="' + (o.timeLimitS || 60) + '"></label>' +
     ' <label>Visit budget <input id="ex-ev-visits" type="number" min="1000" max="2000000000" step="1000" value="' + (o.maxVisits || 20000000) + '"></label>' +
+    // 4.1: separate budgets for board evaluations (showdown boards scored) and evaluation memory
+    ' <label>Board-evaluation limit <input id="ex-ev-boards" type="number" min="1000" max="1000000000000000" step="1000" placeholder="none" value="' + (o.maxBoards > 0 ? o.maxBoards : '') + '"></label>' +
+    ' <label>Memory (MiB) <input id="ex-ev-mem" type="number" min="16" max="4096" step="16" value="' + (o.memoryMiB || 512) + '"></label>' +
     ' <label>Processing ' + sel('ex-ev-device', o.device || 'auto', [['auto', 'Automatic'], ['cpu', 'CPU only'], ['gpu', 'GPU preferred'], ['hybrid', 'Hybrid CPU/GPU']]) + '</label>' +
     ' <label>Equivalence margin <input id="ex-ev-margin" type="number" min="0" step="any" placeholder="none" value="' + (o.margin > 0 ? o.margin : '') + '"></label>' +
     ' <label>Untrained states ' + sel('ex-ev-fallback', o.fallback || 'uniform', [['uniform', 'Uniform fallback'], ['foldCheck', 'Fold/check fallback'], ['callCheck', 'Call/check fallback'], ['refuse', 'Refuse']]) + '</label>';
@@ -207,6 +211,7 @@ function renderExplorer(response, ui) {
     '<button type="button" class="btn sm" data-ex-ev="all">Calculate EVs of every hand (sampled, bounded)</button> ' +
     '<label>Samples <input id="ex-ev-samples" type="number" min="16" max="2000000" step="1" value="' + (ui.evSamples || 4000) + '"></label> ' +
     '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' + evOptions(ui, s) + '</div>';
+  if (ui.qOptions) h += qualityHtml(ui);
   if (ui.evJob) h += evJobHtml(ui.evJob, ui.evBusy);
   else if (ui.evBusy) h += '<p class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></p>';
   if (ui.evError) h += '<p class="bad" role="alert">' + esc(ui.evError) + '</p>';
@@ -241,5 +246,41 @@ function evBar(cell, scale, mode) {
   const x = cell.value / scale, pos = mode === 'stderr' ? 'var(--a-bet2)' : x >= 0 ? 'var(--call)' : 'var(--fold)';
   return '<div class="ex-bar" title="' + evNumber(cell.value) + ' (' + cell.computed + ' of ' + cell.combos + ' combos computed)"><i style="width:' + Math.min(100, 100 * Math.abs(x)).toFixed(1) + '%;background:' + pos + '"></i></div><span class="ex-ev-val">' + evNumber(cell.value) + '</span>';
 }
-Object.assign(EM, { explorerMatrix, explorerEvMatrix, renderExplorer, explorerActionLabel: actionLabel });
+// 4.1: strategy-quality panel (native response gains as a background job).
+// Every seat is listed separately; no aggregate replaces the per-seat values,
+// and restricted or sampled gains are labelled as lower bounds, never as exploitability.
+const Q_MODE = { exactBestResponse: 'exact best response', restrictedBestResponse: 'restricted best response (first street)', sampledOneDecisionDeviation: 'sampled one-decision deviation' };
+function qualityHtml(ui) {
+  const o = ui.qOptions || {}, sel = (id, cur, opts) => '<select id="' + id + '">' + opts.map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
+  let h = '<div class="ex-quality"><h4>Strategy quality (response gains)</h4><div class="ex-controls"><button type="button" class="btn sm" data-ex-q="run"' + (ui.qJob && ['pending', 'running'].includes(ui.qJob.status) ? ' disabled' : '') + '>Measure response gains (background)</button> ' +
+    '<label>Evaluator ' + sel('ex-q-method', o.method || 'sampled', [['sampled', 'Sampled one-decision deviation'], ['restricted', 'Restricted best response (first street)'], ['exact', 'Exact best response (small studies)']]) + '</label>' +
+    ' <label>Samples <input id="ex-q-samples" type="number" min="64" max="2000000" step="64" value="' + (o.samples || 2000) + '"></label>' +
+    ' <label>Seed <input id="ex-q-seed" type="number" min="0" max="4294967295" step="1" value="' + (o.seed ?? 1) + '"></label></div>';
+  if (ui.qJob && ['pending', 'running'].includes(ui.qJob.status)) {
+    const p = ui.qJob.progress || {};
+    h += '<p class="note" role="status">Response-gain job ' + esc(ui.qJob.status) + (ui.qJob.runningMs != null ? ' · ' + (ui.qJob.runningMs / 1000).toFixed(1) + ' s' : '') + (p.samples ? ' · ' + p.samples.toLocaleString() + ' samples' : '') + (p.stage ? ' · stage: ' + esc(p.stage) : '') + ' <button type="button" class="btn sm ghost" data-ex-q="cancel">Cancel</button></p>';
+  }
+  if (ui.qError) h += '<p class="bad" role="alert">' + esc(ui.qError) + '</p>';
+  const r = ui.qResult;
+  if (r) {
+    const unit = r.utility && r.utility.unit || '', names = ui.names;
+    h += '<p class="note">' + esc(r.responseClass || '') + '</p>';
+    h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Seat</th><th>Evaluator</th><th>Gain (' + esc(unit) + ')</th><th>95% interval</th><th>Evaluation samples</th><th>Fallback lookups</th><th>Time</th></tr></thead><tbody>';
+    for (const x of r.seats || []) {
+      const g = typeof x.gain === 'number' ? { mean: x.gain, ci95: null, samples: null } : x.gain;
+      const seatName = names && names[x.seat] ? names[x.seat] : 'Seat ' + (x.seat + 1);
+      if (x.available === false || !g) { h += '<tr><th>' + esc(seatName) + '</th><td colspan="6"><span class="note">not available: ' + esc(x.reason || x.note || 'no estimate') + '</span></td></tr>'; continue; }
+      h += '<tr><th>' + esc(seatName) + '</th><td>' + esc(Q_MODE[x.mode] || (r.method === 'exact' ? 'exact best response' : r.method)) + '</td><td>' + evNumber(g.mean) + '</td><td>' + (g.ci95 ? evNumber(g.ci95[0]) + ' to ' + evNumber(g.ci95[1]) : r.method === 'exact' || x.evaluation === 'exact' ? 'exact' : '–') + '</td><td>' + (g.samples != null ? g.samples.toLocaleString() : x.evaluationSamples != null ? x.evaluationSamples.toLocaleString() : 'enumerated') + '</td><td>' +
+        (x.policyLookups ? (100 * (x.fallbackLookups || 0) / x.policyLookups).toFixed(1) + '% of ' + x.policyLookups.toLocaleString() : '–') + '</td><td>' + (x.elapsedMs != null ? (x.elapsedMs / 1000).toFixed(2) + ' s' : '') + '</td></tr>';
+    }
+    h += '</tbody></table></div>';
+    h += '<p class="note">Utility: ' + esc(r.utility ? r.utility.model : '') + ' · training: ' + (r.updates || 0).toLocaleString() + ' updates, ' + (r.sampledDeals || 0).toLocaleString() + ' sampled deals · evaluation seed ' + r.seed + ' (independent of training streams) · ' + (r.threads || 1) + ' thread' + ((r.threads || 1) > 1 ? 's' : '') + (r.elapsedMs != null ? ' · ' + (r.elapsedMs / 1000).toFixed(2) + ' s' : '') + '. ' +
+      (r.exploitability != null ? 'Exploitability (two seats, chip EV, this abstraction): ' + evNumber(r.exploitability) + ' ' + esc(unit) + '. ' : r.method === 'exact' ? 'More than two seats or ICM: per-seat gains only; no exploitability or equilibrium is claimed. ' : 'Restricted and sampled gains are lower bounds on what a seat could gain; they are not exploitability and do not certify an equilibrium. ') + '</p>';
+  }
+  if (ui.qHistory && ui.qHistory.length > 1) {
+    h += '<p class="note">Measurements this session (largest seat gain by training size, same evaluator settings are not guaranteed): ' + ui.qHistory.map(q => (q.deals || 0).toLocaleString() + ' deals: ' + evNumber(q.maxGain) + ' (' + esc(q.method) + ')').join(' · ') + '</p>';
+  }
+  return h + '</div>';
+}
+Object.assign(EM, { explorerMatrix, explorerEvMatrix, renderExplorer, explorerActionLabel: actionLabel, explorerQualityHtml: qualityHtml });
 })(globalThis.EM || (globalThis.EM = {}));
