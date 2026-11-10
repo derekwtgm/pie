@@ -16,3 +16,16 @@ Six-player flop seed 3 {"exact":[2.0628,1.9738,1.1003],"sampled":[2.58,2.5061],"
 Eight-player preflop (push/fold, fixed hands) seed 1 {"exact":[0.8795,0.8699,0.5209],"sampled":[2.3429,2.1945],"gain":[1.742,1.8826,0.9596],"deadline":[102.755,101.752]}
 Eight-player preflop (push/fold, fixed hands) seed 2 {"exact":[0.9209,0.8374,0.5393],"sampled":[2.2779,2.2537],"gain":[1.8565,1.7977,0.9278],"deadline":[102.014,102.114]}
 Eight-player preflop (push/fold, fixed hands) seed 3 {"exact":[0.9414,0.8394,0.5068],"sampled":[2.3516,2.515],"gain":[1.9289,1.9268,0.9479],"deadline":[102.144,101.675]}
+Eight-player linked preflop-to-river (fixed hands) seed 1 {"exact":[150.0129,150.0124,125.5541],"sampled":[0.0419,0.0456],"gain":[0.693,0.6081,0.4838],"deadline":[101.85,101.628]}
+Eight-player linked preflop-to-river (fixed hands) seed 2 {"exact":[150.0157,150.023,115.0398],"sampled":[0.0462,0.0514],"gain":[0.4753,0.4859,0.435],"deadline":[101.212,101.489]}
+Eight-player linked preflop-to-river (fixed hands) seed 3 {"exact":[150.0197,150.0235,121.4505],"sampled":[0.0443,0.0517],"gain":[0.4539,0.5006,0.4159],"deadline":[101.332,102.437]}
+Multiway short-stack all-ins (chip EV) seed 1 {"exact":[0.5127,0.5591,0.314],"sampled":[0.4253,0.4329],"gain":[1.4056,1.3244,0.747],"deadline":[101.878,101.967]}
+Multiway short-stack all-ins (chip EV) seed 2 {"exact":[0.557,0.5064,0.3026],"sampled":[0.4103,0.4317],"gain":[1.3022,1.2506,0.6621],"deadline":[102.211,101.584]}
+Multiway short-stack all-ins (chip EV) seed 3 {"exact":[0.535,0.5011,0.3828],"sampled":[0.438,0.4447],"gain":[1.372,1.337,0.7569],"deadline":[102.135,102.772]}
+Tournament bubble ICM (4 players, random ranges) seed 1 {"sampled":[0.1164,0.1482],"gain":[0.2365,0.2585,0.1383]}
+Tournament bubble ICM (4 players, random ranges) seed 2 {"sampled":[0.1124,0.1369],"gain":[0.2439,0.2486,0.1528]}
+Tournament bubble ICM (4 players, random ranges) seed 3 {"sampled":[0.1118,0.1247],"gain":[0.2506,0.2426,0.1324]}
+Eight-player final-table ICM (random ranges) seed 1 {"sampled":[0.2065,0.2168],"gain":[12.0588,12.1526,9.1645]}
+Eight-player final-table ICM (random ranges) seed 2 {"sampled":[0.1969,0.2279],"gain":[13.4782,13.9359,10.4955]}
+Eight-player final-table ICM (random ranges) seed 3 {"sampled":[0.1848,0.2052],"gain":[12.2762,11.9779,9.1558]}
+exit=0

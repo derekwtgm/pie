@@ -15,8 +15,11 @@
 // highest estimate, using an unadjusted 95% normal interval for the paired
 // difference. With k actions that is up to k-1 tests at 5% each, and b^ is
 // chosen on the same samples, so "b^ is better than a" was overstated: with
-// four equal actions the 4.0 rule flagged at least one difference in about 11%
-// of runs (tests/stats41.cpp; nominal 5%).
+// four equal actions the 4.0 rule made at least one false claim in 20-21% of
+// runs, with eight equal actions in 50% (tests/stats41.cpp, 2,000 replications;
+// nominal 5%). Measured for this procedure: 4.3-5.9% in the same scenarios
+// (8 actions: 5.9%, Wilson 95% CI 5.0-7.1%, i.e. at most slightly above nominal
+// from estimating the covariance), simultaneous coverage 94.0-97.9%.
 //
 // WHAT 4.1 DOES (alpha = 0.05 family-wise):
 //  1. Simultaneous two-sided intervals for ALL m = k(k-1)/2 pairwise

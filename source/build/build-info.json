@@ -1,6 +1,6 @@
 {
  "version": "4.1",
- "build": "ff935f972f137d4a",
+ "build": "75728455d4513029",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",
@@ -75,6 +75,7 @@
   "tools/bench33.js",
   "tools/bench34.js",
   "tools/bench40.js",
+  "tools/bench41.js",
   "tools/benchmark.js",
   "tools/browser_recovery.js",
   "tools/browser_recovery.py",
@@ -125,6 +126,7 @@
   "tools/sanitize29.sh",
   "tools/sanitize33.sh",
   "tools/sanitize40.sh",
+  "tools/sanitize41.sh",
   "tools/scenarios33.js",
   "tools/scenarios34.js",
   "tools/scenarios39.js",

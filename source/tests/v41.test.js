@@ -337,7 +337,12 @@ test('4.1 response gains: seats run in parallel with results bit-identical for 1
 test('4.1 response gains: a parallel response-gain job is cancelled promptly and leaves no reader or worker behind', { skip }, async t => {
   await withHost(home(t), {}, async api => {
     await trained(api, 'push8', 40);
+    const stateBytes = async () => Buffer.from(await (await api('mw/state')).arrayBuffer()), before = await stateBytes();
     await api('mw/jobs/config', { workers: 1, threadsPerJob: 2 });
+    // a completed parallel job first
+    const ok = await json(await api('mw/jobs/response-gain', { method: 'sampled', samples: 300, threads: 2 }));
+    await until(async () => (await json(await api('mw/jobs/' + ok.jobId))).status === 'completed');
+    assert.equal((await json(await api('mw/jobs/' + ok.jobId + '/result'))).threads, 2); await api('mw/jobs/' + ok.jobId + '/release', {});
     for (let i = 0; i < 3; i++) {
       const j = await json(await api('mw/jobs/response-gain', { method: 'exact', threads: 2 }));
       assert.equal(j.http, 202, j.error);
@@ -348,6 +353,7 @@ test('4.1 response gains: a parallel response-gain job is cancelled promptly and
       assert.equal(done.status, 'cancelled'); assert.ok(Date.now() - t0 < 1500, 'cancelled in ' + (Date.now() - t0) + ' ms');
     }
     const cfg = (await json(await api('mw/jobs'))).config; assert.equal(cfg.running, 0); assert.equal(cfg.runningMiB, 0);
+    assert.ok(before.equals(await stateBytes()), 'completed and cancelled parallel evaluations left the solver state byte-identical');
     assert.equal((await api('mw/train', { iterations: 2, threads: 1 })).status, 200);
   });
 });

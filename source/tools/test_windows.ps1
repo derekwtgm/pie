@@ -213,7 +213,7 @@ try {
     'mw/jobs/response-gain memoryMiB 1e19' = @('mw/jobs/response-gain', '{"method":"sampled","memoryMiB":1e19}');
     'mw/jobs/config workers 1e300' = @('mw/jobs/config', '{"workers":1e300}');
     'mw/node offset 2^64' = @('mw/node', '{"path":[],"offset":18446744073709551616}');
-    'mw/train iterations 0.5' = @('mw/train', '{"iterations":0.5}');
+    'mw/desktop-train iterations 0.5' = @('mw/desktop-train', '{"iterations":0.5}');
     'equity threads 1e300' = @('equity', '{"hands":[[0,1],[2,3]],"threads":1e300}');
     'node path 1e300' = @('node', '{"path":[1e300]}');
     'solve maxIter 1e300' = @('solve', '{"maxIter":1e300}')
@@ -224,11 +224,13 @@ try {
   $alive = Api 'info'
   Assert-Check ((@($codes.Values | Where-Object { $_ -lt 400 -or $_ -ge 500 }).Count -eq 0) -and $null -ne $alive.build) ('Malformed numbers (1e300, 2^64, fractions) are refused with 4xx before conversion and the host keeps running (' + (($codes.Values | ForEach-Object { $_ }) -join ',') + ')')
   Assert-Check (@((Api 'mw/jobs').jobs).Count -eq 0) 'Refused requests created no evaluation job'
-  # concurrent training starts: exactly one of eight simultaneous requests wins, repeatedly
+  # concurrent training starts: exactly one of eight simultaneous requests wins, repeatedly.
+  # The open study is a restored desktop study, which trains through mw/desktop-train
+  # (mw/train is refused with 409 for it by design).
   Add-Type -AssemblyName System.Net.Http
   $http = [System.Net.Http.HttpClient]::new(); $http.DefaultRequestHeaders.Add('X-EightMax', '1'); $rounds = @()
   for ($round = 0; $round -lt 10; $round++) {
-    $tasks = @(); for ($i = 0; $i -lt 8; $i++) { $tasks += $http.PostAsync("$script:base/api/mw/train", [System.Net.Http.StringContent]::new('{"iterations":20000,"threads":2}')) }
+    $tasks = @(); for ($i = 0; $i -lt 8; $i++) { $tasks += $http.PostAsync("$script:base/api/mw/desktop-train", [System.Net.Http.StringContent]::new('{"iterations":20000,"threads":2}')) }
     [System.Threading.Tasks.Task]::WaitAll([System.Threading.Tasks.Task[]]$tasks)
     $sc = @($tasks | ForEach-Object { [int]$_.Result.StatusCode }); $rounds += ($sc -join ',')
     $null = Api 'mw/stop' @{}

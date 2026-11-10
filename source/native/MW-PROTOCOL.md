@@ -402,3 +402,112 @@ retained jobs (the oldest finished job is evicted first). Running jobs and the
 explorer read the study concurrently; training, imports, restores, `free` and
 `init` are refused (409) while any evaluation reads it, and a queued job whose
 study changed fails with an explanation instead of evaluating another study.
+
+## 4.1: input safety, statistics, work budgets, parallel response gains
+
+### Numeric input validation (all routes)
+
+Every numeric field is checked **before** it is converted to an integer or a
+float (`native/num_safe.h`): JSON type (numbers only; `null`, numeric strings,
+booleans, arrays and objects are refused, except where a route documents
+booleans), finiteness (the JSON parser already refuses literals such as `1e999`),
+the integer requirement, representability in the destination type (compared
+with exact powers of two), and the documented minimum and maximum. Invalid
+values are answered with HTTP 400 (413 when a valid memory request exceeds the
+evaluation pool) and a message naming the field; nothing is clamped and no
+default replaces a present-but-invalid value. Omitted fields take the
+documented defaults. In 4.0, 10 of 16 probed input paths performed an
+out-of-range conversion before validation (`validation/4.1/numeric-ub-probe-4.0.json`).
+
+Ranges that were previously implicit are now explicit:
+
+| Route | Field | Accepted |
+|---|---|---|
+| `jobs/ev`, `jobs/response-gain` | `memoryMiB` | integer 16-4096 (default 512); above the pool: 413 |
+| | `timeLimitMs` | integer 100-3,600,000 (defaults 60,000 / 120,000) |
+| `jobs/config` | `workers`, `threadsPerJob`, `memoryPoolMiB` | integers 1-8, 1-64, 64-16,384 (the pool is capped at half the available RAM and the response reports the value in force) |
+| `mw/init` | `tableLimitMiB` | number > 0 and <= 1,048,576 (4.0 ignored invalid values) |
+| `mw/train` | `iterations`, `threads` | integers 1-10,000,000 and 1-256 (booleans are no longer accepted) |
+| `/api/node`, `/api/lock` | `path` entries | integers 0-255, at most 64 |
+| `/api/lock` | `strategy` entries | numbers 0-1 |
+| `/api/solve`, `/api/report` | `maxIter` | integer 1-1e9; values above 49,000 are capped at 49,000 (documented legacy behaviour, unchanged) |
+| | `target` | number 0-1e6; `power` integer 0-2; `reset` 0/1 or boolean |
+| `/api/report` | `flops[i]` | `[card, card, card, weight?]`, cards 0-51, weight integer 0-1e9 (default 1) |
+| `/api/build` | `compress`, `iso`, `gpu` | integers -1..1, 0..1, 0..1 or booleans; ICM utilities must fit in a float |
+| `/api/equity` | cards, `threads`, `gpuMiB` | integers 0-51, 1-256, number 1-8192 |
+| command line | `--port=` | integer 1-65535 |
+
+### Background jobs
+
+* A job's `timeLimitMs` counts from when the job **starts**, not from its
+  submission (4.0 counted queue time, so a queued job could time out at once);
+  `progress.elapsedMs` likewise excludes queue time (`queuedMs` reports it).
+* A cancel that arrives while a job is being returned to the queue finishes it
+  as `cancelled` immediately.
+* `progress.boardEvaluations` is reported while a job runs.
+
+### Action-EV statistics (sampled results)
+
+Classes now come from simultaneous, family-wise 95% comparisons
+(`native/action_stats.hpp`): `supportedBest`, `highestEstimate` (advantage
+not established), `practicallyEquivalent` (only with `equivalenceMargin`),
+`differenceSupported`, `differenceUncertain`, `insufficientSamples`. Exact
+results are unchanged (`highest`, `exactTie`, `withinMargin`, `lower`). New
+per-hand field for sampled results:
+
+```
+"multipleComparisons": {
+  "familyConfidence": 0.95, "criticalValue": c, "unadjustedCriticalValue": 1.96,
+  "pairs": k(k-1)/2, "simulationDraws": 20000,
+  "supportedBest": a | null,
+  "vsBestOfOthers": [mu_a - max_{b!=a} mu_b estimates],
+  "vsBestOfOthersCi": [[lo, hi], ...],          // simultaneous
+  "holmAdjustedPvsHighest": [...],
+  "pairwiseCi": [[null, [lo, hi], ...], ...]   // simultaneous, row a column b: mu_a - mu_b
+}
+```
+
+`stdErr`, `ci95`, `vsBestStdErr` and `vsBestCi95` keep their 4.0 meaning and
+are labelled unadjusted. `statistics` describes the design, the method, the
+stopping rule and the limitations.
+
+### Work accounting and budgets (action EV and response gain)
+
+New optional request field `maxBoardEvaluations` (integer 1,000-1e15; absent:
+unlimited). One board evaluation = one board scored for every seat of the hand
+(a showdown-table row, a GPU-scored board or a single scored runout). Tables
+are charged in full before they are built; single boards every 256. When the
+budget is exhausted an exact evaluation returns **422** with no numbers; a
+sampled evaluation publishes a `partial` estimate only with at least
+`minSamples` samples and reports `"stoppedBy": "maxBoardEvaluations"`
+(`"timeLimit"` for the deadline).
+
+Every response carries:
+
+```
+"work": { "units": "...", "treeVisits", "treeNodePolls", "chanceCards", "opponentTuples",
+          "reachWeights", "boardRunouts", "boardEvaluations", "showdownTables", "tableCacheHits",
+          "tableBoardsCpu", "patternCounts", "terminalUtilities", "icmEvaluations", "samples",
+          "rejectedSamplingAttempts", "bestResponseNodes", "responseTuples", "selectionSteps",
+          "subtreeSizingNodes", "gpuBatches", "gpuBoards", "workerTasks" },
+"budgets": { "maxVisits", "maxBoardEvaluations", "samples", "timeLimitMs", "memoryMiB", "boardBudgetExhausted" }
+```
+
+Counts of different kinds are never added together. `maxVisits` is unchanged
+(tree visits of exact evaluations).
+
+### CPU/GPU scheduling report
+
+`execution.gpuPeakMiB` (largest device allocation during the request) and
+`execution.scheduling` with per-table decisions: `cpuForced`, `cpuSmallTable`,
+`cpuGpuSlower`, `cpuGpuUnavailable`, `cpuGpuBusy`, `cpuAfterGpuFailure`, and
+`gpuVerificationBoards` (the one-time bit-exact CPU/GPU check; not counted as a
+GPU table).
+
+### Response gains
+
+Optional `threads` (1-64; default as for action EVs) and
+`maxBoardEvaluations`. Seats are evaluated concurrently, each with its own
+random streams (derived from seed and seat) and control block; results are
+bit-identical for every thread count. The response reports `"version": "4.1"`
+and `"threads"`.

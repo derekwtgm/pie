@@ -1,3 +1,12 @@
+# Remaining validation after 4.1
+
+- Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB. No physical Windows desktop and no NVIDIA GPU were available for 4.1; hardware-validation.json reports physicalNvidiaExecution, complete-workload CPU/GPU/hybrid times, peak VRAM and the scheduler's decisions.
+- If the RTX measurements show GPU tables are slower end to end, keep auto on the CPU (it decides from its own measurement); if they are faster, consider moving pattern counting (the larger share of push/fold evaluations) to the GPU.
+- Sampled one-decision response gains scale only to ~2 threads on push/fold studies because a few seats dominate; split a seat's samples into blocks for finer parallelism.
+- The 8-action simultaneous comparison measured 5.9% family-wise error (95% CI 5.0-7.1%) at n = 1,000; a bootstrap of the covariance estimate could bring it closer to 5%.
+- Training convergence: no DCFR setting beat linear averaging; remaining candidates need code (variance-reduced external sampling, stratified chance sampling) and the same exact-NashConv protocol.
+- Extend the browser reader beyond its 2 GiB decoded ceiling for JavaScript full-traversal studies (unchanged).
+
 # Remaining validation after 3.9
 
 - Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB; 3.9 was exercised only under Wine.

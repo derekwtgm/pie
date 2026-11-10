@@ -1,7 +1,45 @@
-EightMax 4.0 - 8-max MTT solver for Windows
+EightMax 4.1 - 8-max MTT solver for Windows
 ============================================
 
-NEW IN 4.0: RESPONSIVE, CANCELLABLE AND CLEARER ACTION EVs
+NEW IN 4.1: SAFER INPUT, RELIABLE JOBS, HONEST STATISTICS, FASTER GAINS
+  - Malformed numbers are refused. Values such as 1e300, 2^64, fractions,
+    null or "512" in any request field are rejected with a clear message
+    BEFORE they are converted. In 4.0 such values could crash the desktop
+    host (undefined behaviour reproduced in 10 of 16 tested input paths).
+  - Background evaluation jobs: a job that waits in the queue now gets its
+    full time limit once it starts (4.0 subtracted the waiting time). The
+    intermittent Windows test failure of 4.0 was traced to the test comparing
+    a live memory measurement, not to the engine; the test was corrected and a
+    repeated concurrent-start stress test was added.
+  - Action comparisons account for the number of actions and for picking the
+    highest estimate. Labels: "best (supported)" only when an action beats
+    every other one with family-wise 95% confidence; "highest estimate (not
+    established)" when the top estimate is not clearly ahead; "lower
+    (supported)", "difference uncertain" (never evidence of equality) and
+    "equivalent within margin" (only with a margin you set). The tooltip shows
+    the simultaneous interval. In simulations the 4.0 labels made a false
+    claim in 20% (4 equal actions) to 50% (8 equal actions) of runs; 4.1 in
+    about 5%.
+  - Work budgets: the EV result reports the work done (board evaluations,
+    tree visits, samples, ICM evaluations, ...). A new "Board-evaluation
+    limit" and a "Memory (MiB)" field join the time limit, sample count and
+    visit budget. An exact result is never shown when a budget ran out.
+  - Strategy quality: "Measure response gains" (explorer) runs a background
+    job and lists every seat (UTG ... BB) with the evaluator used (exact,
+    restricted or sampled one-decision deviation), gain, 95% interval,
+    samples, seed, time and fallback share. Seats are evaluated in parallel:
+    eight-seat exact gains 19.1 s -> 4.7 s on 4 threads, identical numbers.
+    Restricted and sampled gains are lower bounds, never exploitability.
+  - Training is unchanged. A new convergence study (other DCFR settings, exact
+    measurements, five seeds, multiplicity-adjusted) found no setting better
+    than the default, so none was adopted.
+  - The GPU report shows why each showdown table ran on the CPU or GPU and the
+    peak VRAM used. The RTX 4060 Ti has still NOT been tested: run
+    Validate CUDA hardware.bat; its "physicalNvidiaExecution" field says
+    whether CUDA really ran on your PC and matched the CPU.
+Read RELEASE-4.1.md for measurements, test results and limitations.
+
+EARLIER (4.0): RESPONSIVE, CANCELLABLE AND CLEARER ACTION EVs
 Open a native study, choose Explore strategy, pick a decision and a hand
 class, then "Calculate EVs". 4.0 changes how that works:
   - EVs run as BACKGROUND JOBS on the desktop host. While a large evaluation

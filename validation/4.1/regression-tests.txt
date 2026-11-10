@@ -1,0 +1,28 @@
+checkpoint.test.js          1.76 s pass 12 fail 0 skip 0 timeout 0
+fgs.test.js                  6.8 s pass 5 fail 0 skip 0 timeout 0
+fingerprint.test.js         0.13 s pass 1 fail 0 skip 0 timeout 0
+information.test.js         0.15 s pass 5 fail 0 skip 0 timeout 0
+mtt.test.js                 3.35 s pass 13 fail 0 skip 0 timeout 0
+multiway.test.js             1.5 s pass 11 fail 0 skip 0 timeout 0
+oracle.test.js             21.26 s pass 3 fail 0 skip 0 timeout 0
+quality.test.js              1.8 s pass 9 fail 0 skip 0 timeout 0
+solver.test.js              2.27 s pass 14 fail 0 skip 0 timeout 0
+upgrades.test.js            2.81 s pass 6 fail 0 skip 0 timeout 0
+v26.test.js                    8 s pass 42 fail 0 skip 0 timeout 0
+v27.test.js                 0.83 s pass 9 fail 0 skip 0 timeout 0
+v28.test.js                 0.27 s pass 4 fail 0 skip 0 timeout 0
+v29.test.js                29.58 s pass 31 fail 0 skip 0 timeout 0
+v31.test.js                72.01 s pass 42 fail 0 skip 0 timeout 0
+v33.test.js                51.33 s pass 34 fail 0 skip 0 timeout 0
+v34.test.js                 8.79 s pass 14 fail 0 skip 0 timeout 0
+v35.test.js                 9.56 s pass 24 fail 0 skip 0 timeout 0
+v36.test.js                16.33 s pass 22 fail 0 skip 0 timeout 0
+v37.test.js                 4.15 s pass 11 fail 0 skip 0 timeout 0
+v38.test.js                 2.74 s pass 8 fail 0 skip 0 timeout 0
+v39.test.js                19.11 s pass 14 fail 0 skip 0 timeout 0
+v40.test.js                28.89 s pass 17 fail 0 skip 0 timeout 0
+v41.test.js                52.64 s pass 15 fail 0 skip 0 timeout 0
+wide.test.js                0.68 s pass 7 fail 0 skip 0 timeout 0
+
+Totals: passed 373 failed 0 skipped 0 timed out 0 | hardware-dependent run 17 skipped 0
+exit=0
