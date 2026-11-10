@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-10T22:54:20.762Z",
+ "generated": "2026-11-10T23:37:33.388Z",
  "node": "v22.23.4",
  "platform": "linux x64",
  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
@@ -7,7 +7,7 @@
  "files": [
   {
    "file": "checkpoint.test.js",
-   "seconds": 1.76,
+   "seconds": 1.49,
    "passed": 12,
    "failed": 0,
    "skipped": 0,
@@ -20,7 +20,7 @@
   },
   {
    "file": "fgs.test.js",
-   "seconds": 6.8,
+   "seconds": 5.65,
    "passed": 5,
    "failed": 0,
    "skipped": 0,
@@ -51,7 +51,7 @@
   },
   {
    "file": "information.test.js",
-   "seconds": 0.15,
+   "seconds": 0.14,
    "passed": 5,
    "failed": 0,
    "skipped": 0,
@@ -64,7 +64,7 @@
   },
   {
    "file": "mtt.test.js",
-   "seconds": 3.35,
+   "seconds": 2.57,
    "passed": 13,
    "failed": 0,
    "skipped": 0,
@@ -77,7 +77,7 @@
   },
   {
    "file": "multiway.test.js",
-   "seconds": 1.5,
+   "seconds": 1.16,
    "passed": 11,
    "failed": 0,
    "skipped": 0,
@@ -90,7 +90,7 @@
   },
   {
    "file": "oracle.test.js",
-   "seconds": 21.26,
+   "seconds": 18.25,
    "passed": 3,
    "failed": 0,
    "skipped": 0,
@@ -103,7 +103,7 @@
   },
   {
    "file": "quality.test.js",
-   "seconds": 1.8,
+   "seconds": 1.51,
    "passed": 9,
    "failed": 0,
    "skipped": 0,
@@ -116,7 +116,7 @@
   },
   {
    "file": "solver.test.js",
-   "seconds": 2.27,
+   "seconds": 1.97,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -129,7 +129,7 @@
   },
   {
    "file": "upgrades.test.js",
-   "seconds": 2.81,
+   "seconds": 2.71,
    "passed": 6,
    "failed": 0,
    "skipped": 0,
@@ -142,7 +142,7 @@
   },
   {
    "file": "v26.test.js",
-   "seconds": 8,
+   "seconds": 6.76,
    "passed": 42,
    "failed": 0,
    "skipped": 0,
@@ -155,7 +155,7 @@
   },
   {
    "file": "v27.test.js",
-   "seconds": 0.83,
+   "seconds": 0.67,
    "passed": 9,
    "failed": 0,
    "skipped": 0,
@@ -168,7 +168,7 @@
   },
   {
    "file": "v28.test.js",
-   "seconds": 0.27,
+   "seconds": 0.23,
    "passed": 4,
    "failed": 0,
    "skipped": 0,
@@ -181,7 +181,7 @@
   },
   {
    "file": "v29.test.js",
-   "seconds": 29.58,
+   "seconds": 7.66,
    "passed": 31,
    "failed": 0,
    "skipped": 0,
@@ -203,7 +203,7 @@
   },
   {
    "file": "v31.test.js",
-   "seconds": 72.01,
+   "seconds": 62.32,
    "passed": 42,
    "failed": 0,
    "skipped": 0,
@@ -233,7 +233,7 @@
   },
   {
    "file": "v33.test.js",
-   "seconds": 51.33,
+   "seconds": 41.42,
    "passed": 34,
    "failed": 0,
    "skipped": 0,
@@ -251,7 +251,7 @@
   },
   {
    "file": "v34.test.js",
-   "seconds": 8.79,
+   "seconds": 8.16,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -269,7 +269,7 @@
   },
   {
    "file": "v35.test.js",
-   "seconds": 9.56,
+   "seconds": 9.09,
    "passed": 24,
    "failed": 0,
    "skipped": 0,
@@ -287,7 +287,7 @@
   },
   {
    "file": "v36.test.js",
-   "seconds": 16.33,
+   "seconds": 14.98,
    "passed": 22,
    "failed": 0,
    "skipped": 0,
@@ -305,7 +305,7 @@
   },
   {
    "file": "v37.test.js",
-   "seconds": 4.15,
+   "seconds": 3.99,
    "passed": 11,
    "failed": 0,
    "skipped": 0,
@@ -318,7 +318,7 @@
   },
   {
    "file": "v38.test.js",
-   "seconds": 2.74,
+   "seconds": 2.52,
    "passed": 8,
    "failed": 0,
    "skipped": 0,
@@ -336,7 +336,7 @@
   },
   {
    "file": "v39.test.js",
-   "seconds": 19.11,
+   "seconds": 17.49,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -354,7 +354,7 @@
   },
   {
    "file": "v40.test.js",
-   "seconds": 28.89,
+   "seconds": 26.12,
    "passed": 17,
    "failed": 0,
    "skipped": 0,
@@ -372,7 +372,7 @@
   },
   {
    "file": "v41.test.js",
-   "seconds": 52.64,
+   "seconds": 48.65,
    "passed": 15,
    "failed": 0,
    "skipped": 0,
@@ -398,7 +398,7 @@
   },
   {
    "file": "wide.test.js",
-   "seconds": 0.68,
+   "seconds": 0.63,
    "passed": 7,
    "failed": 0,
    "skipped": 0,

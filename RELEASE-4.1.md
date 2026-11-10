@@ -251,7 +251,12 @@ single-threaded gains are unchanged within noise. Deadline: 101.1–102.1 ms
 
 ## 11. Tests and sanitizers (Priorities 11–13)
 
-- Regression suite: see §12 totals and `validation/4.1/regression-tests.json`.
+- Regression suite (`validation/4.1/regression-tests.json`): **Linux 373
+  passed, 0 failed, 0 skipped, 0 timed out** (358 from 4.0 + 15 new; 17
+  hardware-dependent tests ran, via the CUDA test double and compilers); **Windows
+  runner 362 passed, 0 failed, 11 skipped, 0 timed out** (tests that need Linux,
+  a compiler or the CUDA test double; `validation/4.1/windows-runner.md`). No
+  hardware-dependent test ran on physical NVIDIA hardware.
   New: `tests/v41.test.js` (numeric safety ×3 incl. the UBSan property test,
   concurrency ×4, statistics ×2, work budgets ×2, parallel response gains ×2,
   CUDA scheduling ×1, explorer ×1) and the two compiled harnesses
