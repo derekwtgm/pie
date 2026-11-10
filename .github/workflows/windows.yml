@@ -50,7 +50,7 @@ jobs:
           Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"

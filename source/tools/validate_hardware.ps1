@@ -1,4 +1,4 @@
-# EightMax 3.8 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
+# EightMax 3.9 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
 # Produces hardware-validation.json next to the executables. Every number in it is
 # measured on the machine that runs this script.
 #   1. CUDA probe: driver, GPU name, compute capability, VRAM, loaded image (SASS or PTX).
@@ -26,7 +26,7 @@ function Body-Hash($path) {
   try { return [BitConverter]::ToString($sha.ComputeHash($state, $at, $state.Length - $at)).Replace('-', '') } finally { $sha.Dispose() }
 }
 try {
-  Write-Host 'EightMax 3.8 hardware validation'
+  Write-Host 'EightMax 3.9 hardware validation'
   $build = (& $Exe --build-id)
   $cuda = (& $Exe --cuda-info) | ConvertFrom-Json
   if ($cuda.available) { Write-Host ("CUDA: {0}, compute capability {1}, {2} MiB total, {3} MiB free, image {4}" -f $cuda.name, $cuda.computeCapability, $cuda.totalMiB, $cuda.freeMiB, $cuda.image) }
@@ -129,15 +129,36 @@ try {
     $clock.Stop()
     $batchRuns += [pscustomobject]@{trainingDeals=$info.trainingDeals; stateVisits=$info.stateVisits; sha256=$hash; mode=$mode; path=$info.devicePath; gpuPeakBytes=$info.gpuBufferPeakBytes; seconds=$info.wallSeconds; processSeconds=$clock.Elapsed.TotalSeconds; processPeakMiB=$info.processPeakRssMiB; calibrationSeconds=$info.scoreCalibrationSeconds; cpuProbeSeconds=$info.cpuScoreProbeSeconds; deviceProbeSeconds=$info.bestDeviceScoreSeconds; sameState=($hash -eq $cpuHash)}
   }
+  # 3.9: end-to-end action-EV and response-gain timing on the eight-handed
+  # preflop fixture (CPU engine; these calculations do not use the GPU), and
+  # malformed-request rejection by the native explorer.
+  $v39 = [ordered]@{}
+  $es8 = Join-Path $tmp 'es1.state'
+  $evReq = Join-Path $tmp 'ev.json'
+  Write-Json $evReq @{ path = @(); hands = @(0, 200, 600); range = $true; samples = 2000; seed = 1 }
+  $clock = [Diagnostics.Stopwatch]::StartNew(); $ev = (& $Exe --ev $fixture $es8 $evReq) | ConvertFrom-Json; $clock.Stop()
+  if ($LASTEXITCODE -ne 0 -or $ev.hands.Count -ne 3) { $failures += 'Action-EV request failed' }
+  $v39.actionEv = [ordered]@{ seconds = $clock.Elapsed.TotalSeconds; method = $ev.method; utility = $ev.utility.model; samplesPerHand = $ev.hands[0].samples; actions = $ev.actions.Count; maxStdErr = ($ev.hands | ForEach-Object { $_.stdErr } | Measure-Object -Maximum).Maximum }
+  $gainReq = Join-Path $tmp 'gain.json'
+  Write-Json $gainReq @{ method = 'sampled'; samples = 400; selectionSamples = 16; reachSamples = 2000; seed = 1; futureActions = 'sample' }
+  $clock = [Diagnostics.Stopwatch]::StartNew(); $gain = (& $Exe --gain $fixture $es8 $gainReq) | ConvertFrom-Json; $clock.Stop()
+  if ($LASTEXITCODE -ne 0) { $failures += 'Response-gain request failed' }
+  $v39.responseGain = [ordered]@{ seconds = $clock.Elapsed.TotalSeconds; seats = @($gain.seats | ForEach-Object { [ordered]@{ seat = $_.seat; gain = $_.gain.mean; stdErr = $_.gain.stdErr } }) }
+  $badReq = Join-Path $tmp 'bad.json'; Set-Content -LiteralPath $badReq -Value '{"rangeSeat":"nonsense"}' -Encoding ASCII
+  $ErrorActionPreference = 'Continue'
+  $refusal = (& $Exe --node $fixture $es8 $badReq 2>&1 | Out-String); $code = $LASTEXITCODE
+  $ErrorActionPreference = 'Stop'
+  $v39.malformedRequestRejected = ($code -ne 0 -and $refusal -match 'rangeSeat must be an integer'); $v39.malformedRequestMessage = $refusal.Trim()
+  if (-not $v39.malformedRequestRejected) { $failures += 'A malformed explorer request was accepted' }
   $devices = $null
   try { & (Join-Path $PSScriptRoot 'test_devices.ps1'); $devices = Get-Content (Join-Path $root 'device-results.json') -Raw | ConvertFrom-Json }
   catch { $failures += "Scoring-mode comparison failed: $($_.Exception.Message)" }
 
-  $out = [ordered]@{ tool = 'EightMax 3.8 hardware validation'; build = $build; date = (Get-Date).ToString('s');
+  $out = [ordered]@{ tool = 'EightMax 3.9 hardware validation'; build = $build; date = (Get-Date).ToString('s');
     os = [Environment]::OSVersion.VersionString; cpu = $env:PROCESSOR_IDENTIFIER; logicalProcessors = $logical;
     memoryGiB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1);
     graphics = @(Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, AdapterRAM);
-    cuda = $cuda; equity = $equity; vramCapFallback = [ordered]@{ ok = $capOk; gpuUsed = $cap.gpuUsed; reason = $cap.gpuFallbackReason };
+    cuda = $cuda; equity = $equity; v39 = $v39; vramCapFallback = [ordered]@{ ok = $capOk; gpuUsed = $cap.gpuUsed; reason = $cap.gpuFallbackReason };
     gpuExecutionVerified = [bool]($cuda.available -and ($equity | Where-Object { $_.gpuUsed -and $_.gpuMatchesCpu }))
     checkpointRecovery = @{ identical = $same; stopped = $stopped; resumed = $continued; uninterrupted = $referenceRun }
     externalSampling = $training; version33 = $v33; externalBatchModes = $batchRuns; scoringModes = $devices; failures = $failures; passed = ($failures.Count -eq 0) }
@@ -146,7 +167,7 @@ try {
   if ($failures.Count) { $failures | ForEach-Object { Write-Host "FAILED: $_" }; exit 1 }
   Write-Host 'Completed available checks. See gpuExecutionVerified for physical CUDA status.'
 } catch {
-  [ordered]@{tool='EightMax 3.8 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
+  [ordered]@{tool='EightMax 3.9 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
   Write-Host ('Hardware check stopped: '+$_.Exception.Message)
   exit 1
 } finally { Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue }

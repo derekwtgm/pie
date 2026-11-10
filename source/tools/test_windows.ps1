@@ -144,6 +144,19 @@ try {
   Assert-Check ($deeper.history.Count -eq 1 -and $deeper.hands.items.Count -le 10) 'Explorer follows an action branch with a bounded page'
   $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/node" -Method POST -Headers @{'X-EightMax'='1'} -Body '{"path":[7]}'}catch{$code=[int]$_.Exception.Response.StatusCode}
   Assert-Check ($code -eq 400) 'Explorer refuses a branch outside the solved abstraction'
+  # 3.9: strict request validation (HTTP 400) and action EVs / response gains on the restored study
+  foreach($body in @('{"rangeSeat":"nonsense"}','{"offset":-1}','{"limit":"5"}','{"path":[0.5]}','{"foo":1}')){
+    $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/node" -Method POST -Headers @{'X-EightMax'='1'} -Body $body}catch{$code=[int]$_.Exception.Response.StatusCode}
+    Assert-Check ($code -eq 400) ('Explorer rejects malformed request '+$body)
+  }
+  $ev=Api 'mw/ev' @{path=@();hands=@(0,1);range=$true;samples=500;seed=1}
+  Assert-Check ($ev.hands.Count -eq 2 -and $ev.actions.Count -eq $node.actions.Count -and $ev.hands[0].ev.Count -eq $node.actions.Count -and ($ev.method -eq 'exact' -or $ev.hands[0].stdErr.Count -eq $node.actions.Count)) 'Action EVs computed for every legal action with method and uncertainty'
+  $again=Api 'mw/ev' @{path=@();hands=@(0,1);range=$true;samples=500;seed=1}
+  Assert-Check ($again.cache.hit -eq $true -and $again.hands[0].ev[0] -eq $ev.hands[0].ev[0]) 'Repeated action-EV request is served from the cache'
+  $gain=Api 'mw/response-gain' @{method='sampled';samples=200;selectionSamples=16;reachSamples=500;seed=1;futureActions='sample'}
+  Assert-Check ($gain.seats.Count -ge 2) 'Per-seat sampled response gains computed'
+  $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/ev" -Method POST -Headers @{'X-EightMax'='1'} -Body '{"hands":["0"]}'}catch{$code=[int]$_.Exception.Response.StatusCode}
+  Assert-Check ($code -eq 400) 'Action-EV endpoint rejects a string hand index'
   $passed = $true
 } catch {
   $failure = $_.Exception.Message

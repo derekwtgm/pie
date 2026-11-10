@@ -1,3 +1,12 @@
+# Remaining validation after 3.9
+
+- Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB; 3.9 was exercised only under Wine.
+- Extend sampled multiway response gains beyond one node per seat (e.g. trained responses over a seat's whole subtree) and run 8-player studies past 50,000 deals with more seeds.
+- Run equal-time convergence comparisons of candidate variance-reduction schemes using the 3.9 exact best-response tool before enabling any of them.
+- Add a strategy-quality dashboard and hardware diagnostics panel to the interface (data already available from the host API).
+- Move long EV/response-gain requests off the engine lock so other explorer queries stay responsive.
+- Extend the browser reader beyond its 2 GiB decoded ceiling for JavaScript full-traversal studies.
+
 # Remaining validation after 3.8
 
 - Run Run self-tests.bat and Validate CUDA hardware.bat on the Windows PC with the RTX 4060 Ti 8 GB. 3.8 executables were cross-compiled and exercised only under Wine on Linux.

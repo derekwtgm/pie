@@ -23,7 +23,8 @@
 // Range reach of a seat at the node = combo weight * product of that seat's
 // average-strategy probabilities for the actions it took on the path (uniform
 // where a row has no average, flagged per hand), zero for board-blocked hands.
-// Action EVs are not part of the stored state and are never reported.
+// Action EVs are not part of the stored state; 3.9 computes them on request
+// in action_ev.hpp (mw_action_ev) from the game model and a named policy.
 namespace {
 namespace es {
 struct QueryError { int status; std::string message; };
@@ -78,6 +79,110 @@ inline const char *actionName(const BS &s, int a) {
 }
 inline void seatArray(JB *o, const char *name, const double *v, int n) { jb_printf(o, ",\"%s\":[", name); for (int p = 0; p < n; p++) { if (p) jb_putc(o, ','); jb_num(o, v[p], 10); } jb_putc(o, ']'); }
 struct Step { int seat, slot, state, length; };
+// ---- 3.9: strict request validation ----------------------------------------
+// 3.8 read numeric fields with jnum(), which returned the default for strings,
+// null, arrays and objects and 1/0 for booleans, so {"rangeSeat":"nonsense"}
+// silently became "the acting seat". Every explorer, action-EV and response-
+// gain request is now checked against an explicit schema: unknown or duplicate
+// fields, wrong JSON types, fractional or out-of-range integers, null values
+// and oversized arrays are rejected with HTTP 400 and a message naming the
+// field. Only omitted optional fields take their documented defaults.
+constexpr size_t MAX_REQUEST_BYTES = 65536;
+struct Fields {
+  const JV *root;
+  Fields(const JV *r, std::initializer_list<const char *> allowed) : root(r) {
+    if (!r || r->type != J_OBJ) throw QueryError{400, "The request must be a JSON object"};
+    for (int i = 0; i < r->n; i++) {
+      const char *key = r->keys[i]; bool ok = false;
+      for (const char *a : allowed) if (!std::strcmp(a, key)) ok = true;
+      if (!ok) throw QueryError{400, std::string("Unknown field \"") + key + "\""};
+      for (int j = 0; j < i; j++) if (!std::strcmp(r->keys[j], key)) throw QueryError{400, std::string("Duplicate field \"") + key + "\""};
+    }
+  }
+  const JV *get(const char *name) const {
+    const JV *v = jget(root, name);
+    if (v && v->type == J_NULL) throw QueryError{400, std::string(name) + " must not be null (omit it to use the default)"};
+    return v;
+  }
+  static const char *typeName(const JV *v) { return v->type == J_STR ? "a string" : v->type == J_BOOL ? "a boolean" : v->type == J_ARR ? "an array" : v->type == J_OBJ ? "an object" : v->type == J_NULL ? "null" : "a number"; }
+  static long long integer(const JV *v, const std::string &name, long long lo, long long hi) {
+    if (v->type != J_NUM) throw QueryError{400, name + " must be an integer, not " + typeName(v)};
+    if (!std::isfinite(v->num) || std::floor(v->num) != v->num) throw QueryError{400, name + " must be a whole number"};
+    if (v->num < (double)lo || v->num > (double)hi) throw QueryError{400, name + " must be from " + std::to_string(lo) + " to " + std::to_string(hi)};
+    return (long long)v->num;
+  }
+  long long optInt(const char *name, long long lo, long long hi, long long def) const { const JV *v = get(name); return v ? integer(v, name, lo, hi) : def; }
+  bool has(const char *name) const { return get(name) != nullptr; }
+  std::vector<int> intArray(const char *name, int lo, int hi, size_t maxLen) const {
+    std::vector<int> out; const JV *a = get(name); if (!a) return out;
+    if (a->type != J_ARR) throw QueryError{400, std::string(name) + " must be an array, not " + typeName(a)};
+    if ((size_t)a->n > maxLen) throw QueryError{400, std::string(name) + " has more than " + std::to_string(maxLen) + " entries"};
+    out.reserve((size_t)a->n);
+    for (int i = 0; i < a->n; i++) out.push_back((int)integer(a->items[i], std::string(name) + "[" + std::to_string(i) + "]", lo, hi));
+    return out;
+  }
+  std::string choice(const char *name, std::initializer_list<const char *> options, const char *def) const {
+    const JV *v = get(name); if (!v) return def;
+    if (v->type != J_STR) throw QueryError{400, std::string(name) + " must be a string, not " + typeName(v)};
+    for (const char *o : options) if (!std::strcmp(o, v->str)) return v->str;
+    std::string list; for (const char *o : options) list += (list.empty() ? "" : ", ") + std::string(o);
+    throw QueryError{400, std::string(name) + " must be one of: " + list};
+  }
+};
+inline JV *parseRequest(const char *json, size_t len, char *err, int errlen) {
+  if (json && len > MAX_REQUEST_BYTES) throw QueryError{413, "The request exceeds 64 KiB"};
+  JV *req = json_parse(json && len ? json : "{}", json && len ? len : 2, err, errlen);
+  if (!req) throw QueryError{400, std::string("Malformed JSON: ") + (err && err[0] ? err : "parse error")};
+  return req;
+}
+// A node of the solved betting abstraction reached by `path` (action slots at
+// decisions) and `dealt` (cards at chance nodes, after the study board).
+struct Resolved {
+  std::vector<BS> trail; std::vector<Step> steps;
+  int state = 0, known = 0, needCards = 0; int cards[5] = {0, 0, 0, 0, 0}; uint64_t used = 0;
+  const BS &node() const { return trail.back(); }
+};
+inline Resolved resolvePath(const MW &m, const Game &g, const std::vector<int> &path, const std::vector<int> &dealt, volatile int *cancel) {
+  Resolved R; R.known = m.startLen;
+  for (int i = 0; i < m.startLen; i++) { R.cards[i] = m.board[i]; R.used |= 1ULL << R.cards[i]; }
+  if ((int)dealt.size() > 5 - m.startLen) throw QueryError{400, "Too many board cards for this study"};
+  for (int c : dealt) { if (R.used >> c & 1) throw QueryError{400, "Board cards must be distinct and differ from the study board"}; R.used |= 1ULL << c; }
+  R.trail.reserve(path.size() + 8); R.trail.push_back(g.rootState);
+  size_t pi = 0, di = 0;
+  for (;;) {
+    if (cancel && __atomic_load_n(cancel, __ATOMIC_RELAXED)) throw QueryError{409, "Query cancelled"};
+    const BS &t = R.trail.back();
+    if (t.kind == 2) { if (pi < path.size()) throw QueryError{400, "The path continues past a terminal state (hand over)"}; break; }
+    if (t.kind == 1) {
+      const int next = t.length == 0 ? 3 : t.length + 1, need = t.length == 0 ? 3 : 1;
+      if ((int)(dealt.size() - di) < need) { if (pi < path.size()) throw QueryError{400, "Select the next board card(s) before continuing the path"}; R.needCards = need; break; }
+      for (int j = 0; j < need; j++) R.cards[R.known++] = dealt[di++];
+      if (m.startLen == 0 && next == 3) std::sort(R.cards, R.cards + 3);   // MW::deal() sorts a dealt flop
+      BS c; g.rules.nextStreet(t, c);
+      R.steps.push_back({-1, CHANCE_SLOT, R.state, t.length});
+      R.state = R.state >= 0 ? g.states.find((uint32_t)R.state, CHANCE_SLOT) : -1; R.trail.push_back(c); continue;
+    }
+    if (pi >= path.size()) break;
+    const int a = path[pi++];
+    if (a >= t.k) throw QueryError{400, "Action " + std::to_string(a) + " is not in the solved abstraction at step " + std::to_string(pi) + " (" + std::to_string(t.k) + " legal actions). Unsolved branches are never synthesized."};
+    BS c; g.rules.advance(t, a, c);
+    R.steps.push_back({t.actor, a, R.state, t.length});
+    R.state = R.state >= 0 && c.kind != 2 ? g.states.find((uint32_t)R.state, a) : -1; R.trail.push_back(c);
+  }
+  if (di < dealt.size()) throw QueryError{400, "More board cards were given than the path reaches"};
+  return R;
+}
+// Optional identifiers: a request may pin the study and the decision it expects.
+inline void checkIdentifiers(const MW &m, const Fields &F, const Resolved &R) {
+  if (const JV *v = F.get("studyId")) {
+    if (v->type != J_STR) throw QueryError{400, "studyId must be a string"};
+    if (m.studyId.empty() || m.studyId != v->str) throw QueryError{409, "studyId does not match the open study"};
+  }
+  if (F.has("stateId")) {
+    const long long id = F.optInt("stateId", -1, (long long)((1u << 27) - 1), -1);
+    if (id != R.state) throw QueryError{409, "stateId " + std::to_string(id) + " does not match the decision reached by the path (" + std::to_string(R.state) + ")"};
+  }
+}
 } // namespace es
 } // namespace
 
@@ -85,50 +190,18 @@ extern "C" int mw_node_query(MW *m, const char *json, size_t len, JB *out, char 
   using namespace es;
   if (!m || !m->es) { fail(err, errlen, "The strategy explorer needs a native external-sampling study"); return 400; }
   const Game &g = *m->es; const int n = m->n;
-  JV *req = json_parse(json && len ? json : "{}", json && len ? len : 2, err, errlen);
-  if (!req) return 400;
+  JV *req = nullptr;
+  try { req = parseRequest(json, len, err, errlen); } catch (const QueryError &e) { fail(err, errlen, e.message.c_str()); return e.status; }
   struct Free { JV *v; ~Free() { json_free(v); } } freeReq{req};
   try {
-    auto ints = [&](const char *name, std::vector<int> &v, int lo, int hi, size_t max) {
-      JV *a = jget(req, name); if (!a) return;
-      if (a->type != J_ARR || (size_t)a->n > max) throw QueryError{400, std::string("Invalid ") + name};
-      for (int i = 0; i < a->n; i++) { JV *x = a->items[i]; if (!isInt(x) || x->num < lo || x->num > hi) throw QueryError{400, std::string("Invalid ") + name}; v.push_back((int)x->num); }
-    };
-    std::vector<int> path, dealt; ints("path", path, 0, 7, MAX_DEPTH); ints("board", dealt, 0, 51, 5);
-    const double offD = jnum(jget(req, "offset"), 0), limD = jnum(jget(req, "limit"), 1326);
-    if (!(offD >= 0 && offD <= 1e6 && std::floor(offD) == offD) || !(limD >= 0 && limD <= 1326 && std::floor(limD) == limD)) throw QueryError{400, "offset must be >= 0 and limit 0 to 1326"};
-    const double rangeD = jnum(jget(req, "rangeSeat"), -1);
-    if (!(rangeD >= -1 && rangeD < n && std::floor(rangeD) == rangeD)) throw QueryError{400, "Invalid rangeSeat"};
-    // Board: the study's fixed cards, then the requested dealt cards in order.
-    int cards[5] = {0, 0, 0, 0, 0}; uint64_t used = 0; int known = m->startLen;
-    for (int i = 0; i < m->startLen; i++) { cards[i] = m->board[i]; used |= 1ULL << cards[i]; }
-    if ((int)dealt.size() > 5 - m->startLen) throw QueryError{400, "Too many board cards for this study"};
-    for (int c : dealt) { if (used >> c & 1) throw QueryError{400, "Board cards must be distinct and differ from the study board"}; used |= 1ULL << c; }
-    std::vector<BS> trail; trail.reserve(path.size() + 8); trail.push_back(g.rootState);
-    std::vector<Step> steps; int state = 0; size_t pi = 0, di = 0; int needCards = 0;
-    // Walk: decision nodes consume path entries, chance nodes consume board cards.
-    for (;;) {
-      if (cancel && __atomic_load_n(cancel, __ATOMIC_RELAXED)) throw QueryError{409, "Query cancelled"};
-      const BS &t = trail.back();
-      if (t.kind == 2) { if (pi < path.size()) throw QueryError{400, "The path continues past a terminal state (hand over)"}; break; }
-      if (t.kind == 1) {
-        const int next = t.length == 0 ? 3 : t.length + 1;
-        const int need = (t.length == 0 ? 3 : 1);
-        if ((int)(dealt.size() - di) < need) { if (pi < path.size()) throw QueryError{400, "Select the next board card(s) before continuing the path"}; needCards = need; break; }
-        for (int j = 0; j < need; j++) cards[known++] = dealt[di++];
-        if (m->startLen == 0 && next == 3) std::sort(cards, cards + 3);   // MW::deal() sorts a dealt flop
-        BS c; g.rules.nextStreet(t, c);
-        steps.push_back({-1, CHANCE_SLOT, state, t.length});
-        state = state >= 0 ? g.states.find((uint32_t)state, CHANCE_SLOT) : -1; trail.push_back(c); continue;
-      }
-      if (pi >= path.size()) break;
-      const int a = path[pi++];
-      if (a >= t.k) throw QueryError{400, "Action " + std::to_string(a) + " is not in the solved abstraction at step " + std::to_string(pi) + " (" + std::to_string(t.k) + " legal actions). Unsolved branches are never synthesized."};
-      BS c; g.rules.advance(t, a, c);
-      steps.push_back({t.actor, a, state, t.length});
-      state = state >= 0 && c.kind != 2 ? g.states.find((uint32_t)state, a) : -1; trail.push_back(c);
-    }
-    if (di < dealt.size()) throw QueryError{400, "More board cards were given than the path reaches"};
+    const Fields F(req, {"path", "board", "rangeSeat", "offset", "limit", "studyId", "stateId"});
+    const std::vector<int> path = F.intArray("path", 0, 7, MAX_DEPTH), dealt = F.intArray("board", 0, 51, 5);
+    const long long offD = F.optInt("offset", 0, 1326, 0), limD = F.optInt("limit", 1, 1326, 1326);
+    const long long rangeD = F.optInt("rangeSeat", 0, n - 1, -1);
+    Resolved R = resolvePath(*m, g, path, dealt, cancel);
+    checkIdentifiers(*m, F, R);
+    std::vector<BS> &trail = R.trail; std::vector<Step> &steps = R.steps; const int state = R.state, known = R.known, needCards = R.needCards;
+    int *cards = R.cards; const uint64_t used = R.used;
     const BS &t = trail.back();
     const int k = t.kind == 0 ? t.k : 0, actor = t.kind == 0 ? t.actor : -1;
     const int rangeSeat = rangeD >= 0 ? (int)rangeD : actor >= 0 ? actor : -1;
@@ -178,12 +251,13 @@ extern "C" int mw_node_query(MW *m, const char *json, size_t len, JB *out, char 
       jb_printf(out, "%s{\"slot\":%d,\"name\":\"%s\",\"to\":", a ? "," : "", a, actionName(t, a)); jb_num(out, t.to[a], 10);
       jb_printf(out, ",\"leadsTo\":\"%s\",\"childVisited\":%s}", c.kind == 2 ? "terminal" : c.kind == 1 ? "chance" : "decision", c.kind == 2 ? "null" : child >= 0 ? "true" : "false");
     }
-    jb_puts(out, "],\"ev\":{\"available\":false,\"reason\":\"External-sampling checkpoints store cumulative regrets and average-strategy sums only; action EVs are not stored and are not estimated here.\"}");
+    jb_puts(out, "],\"ev\":{\"available\":false,\"requested\":false,\"reason\":\"Checkpoints store cumulative regrets and average-strategy sums only, so action EVs are not stored. Request them with POST /api/mw/ev (computed from the game model and a named continuation policy).\"}");
     jb_puts(out, ",\"strategyKinds\":{\"average\":\"normalized stored average-strategy sums (solver output)\",\"current\":\"regret matching of stored cumulative regrets\"}");
     if (rangeSeat < 0) { jb_puts(out, ",\"hands\":null}"); return 200; }
     // ---- hands of the range seat ----
     const auto &range = m->hands[(size_t)rangeSeat]; const size_t N = range.size();
     const size_t off = (size_t)offD, lim = (size_t)limD;
+    if (off > N) throw QueryError{400, "offset " + std::to_string(off) + " is past the end of the range (" + std::to_string(N) + " hands)"};
     // reach: product over the seat's decisions on the path
     std::vector<double> reach(N); std::vector<uint8_t> approx(N, 0);
     std::vector<double> prob(8);

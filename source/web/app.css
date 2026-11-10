@@ -292,4 +292,7 @@ details[open] summary { margin-bottom: 8px; }
 .ex .ex-bar { position: absolute; inset: 0; display: flex; }
 .ex .ex-bar i { display: block; height: 100%; }
 .ex .ex-freq { white-space: nowrap; margin-right: 8px; }
+.ex .ex-cell .ex-ev-val { position: absolute; right: 2px; bottom: 1px; z-index: 1; font-size: 8px; opacity: .85; }
+.ex .ex-ev td.best { outline: 1px solid var(--gold); }
+.ex .ex-ev td { white-space: nowrap; }
 @media (max-width: 560px) { .ex .ex-cell { font-size: 8px; } }

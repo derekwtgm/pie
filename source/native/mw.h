@@ -46,6 +46,13 @@ void mw_root_policy(MW *m, JB *out);
 // strategies of its rows. Returns an HTTP-style status (200 on success) and
 // sets err otherwise. *cancel is polled. See explorer.hpp.
 int mw_node_query(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
+// 3.9: action-specific EVs at one decision node (action_ev.hpp). Request
+// {path, board, hands:[acting-seat range indices], range?, policy?, missing?,
+// method?, futureActions?, samples?, seed?, maxVisits?, timeLimitMs?,
+// studyId?, stateId?}. Returns an HTTP-style status.
+int mw_action_ev(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
+// 3.9: per-seat response gains (exact best response or sampled one-shot deviation).
+int mw_response_gain(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
 void mw_info(MW *m, JB *out);
 // 3.1: CUDA device probe (availability, reason, name, compute capability, VRAM).
 void mw_cuda_info(JB *out);

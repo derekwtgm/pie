@@ -142,7 +142,7 @@ static int send_all(sock_t s, const char *b, size_t n) {
 }
 static void respond(sock_t s, int code, const char *type, const char *body, size_t n) {
   char h[512];
-  const char *msg = code == 200 ? "OK" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 409 ? "Conflict" : "Error";
+  const char *msg = code == 200 ? "OK" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 408 ? "Request Timeout" : code == 409 ? "Conflict" : code == 413 ? "Payload Too Large" : code == 422 ? "Unprocessable Entity" : code == 503 ? "Service Unavailable" : "Error";
   int k = snprintf(h, sizeof h, "HTTP/1.1 %d %s\r\nContent-Type: %s\r\nContent-Length: %zu\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nConnection: close\r\n\r\n", code, msg, type, n);
   send_all(s, h, (size_t)k);
   if (n) send_all(s, body, n);
@@ -508,6 +508,19 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     JB b;jb_init(&b);int status=mw_node_query(MWG,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
     pthread_mutex_unlock(&MW_MU);
     if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Query failed");
+    jb_free(&b);return 1;
+  }
+  // 3.9: action-specific EVs and response gains for the open native study.
+  // Both are bounded by the request's own limits (hands <= 64, samples,
+  // maxVisits, timeLimitMs <= 1 h) and run under the engine lock; POST
+  // node-cancel stops them. Malformed requests return 400 (see explorer.hpp).
+  if((!strcmp(r,"ev")||!strcmp(r,"response-gain"))&&!strcmp(method,"POST")){
+    pthread_mutex_lock(&MW_MU);
+    if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before evaluating the study":"Open a native study first");return 1;}
+    __atomic_store_n(&MW_QUERY_CANCEL,0,__ATOMIC_RELAXED);
+    JB b;jb_init(&b);int status=(!strcmp(r,"ev")?mw_action_ev:mw_response_gain)(MWG,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
+    pthread_mutex_unlock(&MW_MU);
+    if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Evaluation failed");
     jb_free(&b);return 1;
   }
   if (!strcmp(r, "state") && !strcmp(method, "GET")) {

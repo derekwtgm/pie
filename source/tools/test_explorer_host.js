@@ -1,5 +1,5 @@
 'use strict';
-// EightMax 3.8: end-to-end test of the native strategy explorer HTTP route.
+// EightMax 3.8/3.9: end-to-end test of the native strategy explorer, action-EV and response-gain HTTP routes.
 // usage: node tools/test_explorer_host.js <eightmax host> [report.json]
 // Starts the host, creates a native external-sampling study through
 // /api/mw/init, trains it, then:
@@ -99,6 +99,18 @@ function average(v) { const k = v.length / 2; let t = 0; for (let a = 0; a < k; 
     check('range of another seat, paginated', r.status === 200 && r.value.hands.seat === 3 && !r.value.hands.actingSeat && r.value.hands.items.length === 50 && r.value.hands.items[0].i === 100, r.value.hands && r.value.hands.items.length);
     r = await api('mw/node', { path: [], limit: 5000 }); check('oversized page refused', r.status === 400, r.value);
     r = await api('mw/node', 'not json'); check('malformed request refused', r.status === 400, r.value);
+    // 3.9: strict validation over HTTP (the 3.8 defect) and action EVs / response gains
+    for (const bad of [{ rangeSeat: 'nonsense' }, { rangeSeat: true }, { offset: -1 }, { offset: '10' }, { limit: 1.5 }, { limit: null }, { path: [0, '1'] }, { board: [60] }, { unknown: 1 }]) {
+      r = await api('mw/node', bad); check('malformed ' + JSON.stringify(bad) + ' refused with 400', r.status === 400 && !r.value.hands, r.value);
+    }
+    t0 = Date.now(); r = await api('mw/ev', { path: [], hands: [0, 500, 1000], range: true, samples: 1000, seed: 1, timeLimitMs: 120000 }); const evMs = Date.now() - t0;
+    check('action EVs for every legal action (sampled, eight seats)', r.status === 200 && r.value.method === 'sampled' && r.value.hands.every(h => h.available && h.ev.length === r.value.actions.length && h.stdErr.every(Number.isFinite)), r.value);
+    const again = await api('mw/ev', { path: [], hands: [0, 500, 1000], range: true, samples: 1000, seed: 1, timeLimitMs: 120000 });
+    check('repeated EV request served from the cache', again.status === 200 && again.value.cache.hit === true && JSON.stringify(again.value.hands) === JSON.stringify(r.value.hands), again.value.cache);
+    r = await api('mw/ev', { hands: ['0'] }); check('EV request with a string hand refused', r.status === 400, r.value);
+    t0 = Date.now(); r = await api('mw/response-gain', { method: 'sampled', samples: 300, selectionSamples: 16, reachSamples: 2000, seed: 1, futureActions: 'sample' }); const gainMs = Date.now() - t0;
+    check('per-seat sampled response gains', r.status === 200 && r.value.seats.length === 8 && r.value.seats.every(s => s.available && Number.isFinite(s.gain.mean)), r.value.seats && r.value.seats.map(s => s.gain));
+    out.evMs = evMs; out.gainMs = gainMs; out.seatGains = r.value.seats.map(s => ({ seat: s.seat, gain: s.gain.mean, stdErr: s.gain.stdErr }));
     out.rootMs = rootMs; out.passed = out.checks.length;
   } finally { host.kill(); }
   if (reportPath) fs.writeFileSync(reportPath, JSON.stringify(out, null, 1));

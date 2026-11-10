@@ -27,6 +27,10 @@
 #include <atomic>
 #include <pthread.h>
 #include <chrono>
+#include <unordered_map>
+#include <functional>
+#include <climits>
+#include <bit>
 #include "icm.hpp"
 #include "cuda_score.hpp"
 
@@ -123,6 +127,9 @@ struct MW {
     vals(tableMemory?tableMemory:&arena),delta(vals.get_allocator()),rows(vals.get_allocator()),
     hkeys(vals.get_allocator()),hrow(vals.get_allocator()),touched(vals.get_allocator()) {}
   es::RestoreEstimate restoreEstimate;   // 3.8: set by a native restore
+  // 3.9: bounded action-EV result cache (action_ev.hpp). Keys hold the full
+  // request and the training counters; cleared by training and imports.
+  std::unordered_map<std::string,std::string> evCache;
   std::shared_ptr<es::Game> es;   // protocol 4: native betting rules + external sampling
   Tournament tournament;
   std::string mode="cpu",studyId;
@@ -745,6 +752,7 @@ extern "C" void mw_free(MW *m) { delete m; }
 
 
 extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *stop, mw_progress_fn progress, void *ctx, char *err, int errlen) {
+  if (m) m->evCache.clear();   // 3.9: cached action EVs describe the previous state
   if (iterations < 0 || m->iterations + iterations > 10000000LL) { fail(err, errlen, "Iteration count must fit the 10 million iteration limit"); return 0; }
   if (threads < 1) threads = 1;
   if (threads > 256) threads = 256;
@@ -940,6 +948,7 @@ extern "C" void mw_root_policy(MW *m,JB *out){
   jb_puts(out,"]}");
 }
 #include "explorer.hpp"
+#include "action_ev.hpp"
 extern "C" void mw_info(MW *m, JB *out) {
   size_t visited = 0; for (auto &r : m->rows) visited += r.visited;
   if (m->es) {
@@ -1143,7 +1152,7 @@ static int importState(MW *m, const unsigned char *buf, size_t len, char *err, i
   return 1;
 }
 
-extern "C" int mw_import(MW *m,const unsigned char *buf,size_t len,char *err,int errlen){
+extern "C" int mw_import(MW *m,const unsigned char *buf,size_t len,char *err,int errlen){if(m)m->evCache.clear();
   try{return importState(m,buf,len,err,errlen);}
   catch(const std::bad_alloc &){fail(err,errlen,"Insufficient memory to stage checkpoint import");return 0;}
 }

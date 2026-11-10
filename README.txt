@@ -1,7 +1,34 @@
-EightMax 3.8 - 8-max MTT solver for Windows
+EightMax 3.9 - 8-max MTT solver for Windows
 ============================================
 
-NEW IN 3.8: STRATEGY EXPLORER FOR NATIVE STUDIES
+NEW IN 3.9: ACTION EVs, RESPONSE GAINS AND STRICT EXPLORER REQUESTS
+Open a native study and choose Explore strategy (preflop to river) as in 3.8.
+At a decision, click a hand class, then "Calculate EVs of the selected class"
+(or "Calculate EVs of every hand"). EightMax computes the expected value of
+every legal action (fold, check, call, bet/raise sizes, all-in) for each combo,
+the EV of the stored mixed strategy, and each action's difference from it.
+  - EVs are COMPUTED from the game model, not read from the checkpoint (it
+    does not store EVs) and not derived from strategy frequencies or regrets.
+  - Every later decision of every seat follows the named continuation policy
+    (Average = solver output, or Current regret matching). Opponent ranges are
+    weighted by their own strategy on the path and by card removal.
+  - Chip-EV studies report BB; ICM studies report tournament equity (payout
+    units). Small spots are enumerated exactly; larger ones are Monte Carlo
+    estimates with sample counts, a seed and 95% intervals (shown as +/-).
+  - "Matrix shows" switches the 13x13 matrix between strategy frequencies, the
+    EV of one action, EV minus mixed-strategy EV, and the EV standard error.
+    Classes without computed combos stay empty.
+Desktop API: POST /api/mw/ev and POST /api/mw/response-gain (see
+source/native/MW-PROTOCOL.md). Malformed explorer, EV and response-gain
+requests (for example "rangeSeat":"nonsense", negative offsets, fractional
+numbers, unknown fields) are now refused with HTTP 400 instead of being
+silently converted. Response gains are exact best responses for small studies
+(exact exploitability for heads-up chip EV) or clearly labelled sampled
+one-shot deviation gains per seat for large multiway studies; they are not
+claims that an eight-player game is solved.
+Read RELEASE-3.9.md for test results, measurements and limitations.
+
+EARLIER (3.8): STRATEGY EXPLORER FOR NATIVE STUDIES
 Extract the ZIP and double-click EightMax.exe. Open Multiway, then Native
 checkpoint recovery, and open a saved native study (Open latest on desktop or
 choose a portable .emstudy). Choose Explore strategy (preflop to river).

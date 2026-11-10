@@ -1,0 +1,162 @@
+{
+ "generated": "2026-11-10T15:10:39.932Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalProcessors": 4,
+ "cases": [
+  {
+   "name": "Heads-up river, 200,000 deals",
+   "updates": 200000,
+   "threads": 4,
+   "reps": 7,
+   "seconds38": [
+    0.381863,
+    0.312025,
+    0.359584,
+    0.295699,
+    0.29424,
+    0.397975,
+    0.356335
+   ],
+   "seconds39": [
+    0.342484,
+    0.310193,
+    0.328292,
+    0.289866,
+    0.321629,
+    0.321823,
+    0.270881
+   ],
+   "median38": 0.356335,
+   "median39": 0.321629,
+   "medianPairedRatio": 0.9129772181187148,
+   "pairs39Faster": 6,
+   "peakRss38MiB": 6.1,
+   "peakRss39MiB": 6.1,
+   "identicalPairs": 7
+  },
+  {
+   "name": "Three-player river, 60,000 deals",
+   "updates": 60000,
+   "threads": 4,
+   "reps": 7,
+   "seconds38": [
+    0.169417,
+    0.233372,
+    0.298101,
+    0.212537,
+    0.220092,
+    0.305695,
+    0.182123
+   ],
+   "seconds39": [
+    0.186619,
+    0.198655,
+    0.296844,
+    0.212333,
+    0.179056,
+    0.253178,
+    0.18306
+   ],
+   "median38": 0.220092,
+   "median39": 0.198655,
+   "medianPairedRatio": 0.9957833083418036,
+   "pairs39Faster": 5,
+   "peakRss38MiB": 7.5,
+   "peakRss39MiB": 7.5,
+   "identicalPairs": 7
+  },
+  {
+   "name": "Eight-player linked preflop to river, 1,500 x 16 deals",
+   "updates": 1500,
+   "threads": 4,
+   "reps": 7,
+   "seconds38": [
+    1.686503,
+    1.564523,
+    1.55062,
+    1.495398,
+    1.563069,
+    1.61551,
+    1.46027
+   ],
+   "seconds39": [
+    1.552726,
+    1.538674,
+    1.490142,
+    1.517329,
+    1.688892,
+    1.659296,
+    1.717016
+   ],
+   "median38": 1.563069,
+   "median39": 1.552726,
+   "medianPairedRatio": 1.0146656609143518,
+   "pairs39Faster": 3,
+   "peakRss38MiB": 118,
+   "peakRss39MiB": 118.2,
+   "identicalPairs": 7
+  },
+  {
+   "name": "Eight-player final-table ICM, 1,000 x 16 deals",
+   "updates": 1000,
+   "threads": 4,
+   "reps": 7,
+   "seconds38": [
+    1.33774,
+    1.378513,
+    1.269183,
+    1.283856,
+    1.350129,
+    1.143939,
+    1.302528
+   ],
+   "seconds39": [
+    1.200115,
+    1.240863,
+    1.231463,
+    1.214455,
+    1.281407,
+    1.204273,
+    1.193005
+   ],
+   "median38": 1.302528,
+   "median39": 1.214455,
+   "medianPairedRatio": 0.9459433145150234,
+   "pairs39Faster": 6,
+   "peakRss38MiB": 90.5,
+   "peakRss39MiB": 88.8,
+   "identicalPairs": 7
+  },
+  {
+   "name": "Short-stack multiway all-ins, 4,000 x 4 deals",
+   "updates": 4000,
+   "threads": 4,
+   "reps": 7,
+   "seconds38": [
+    0.764354,
+    0.70562,
+    0.644232,
+    0.706965,
+    0.841734,
+    0.768667,
+    0.792059
+   ],
+   "seconds39": [
+    0.814126,
+    0.830492,
+    0.742431,
+    0.780564,
+    0.844082,
+    0.744962,
+    0.776022
+   ],
+   "median38": 0.764354,
+   "median39": 0.780564,
+   "medianPairedRatio": 1.0651164251119247,
+   "pairs39Faster": 2,
+   "peakRss38MiB": 63.1,
+   "peakRss39MiB": 63.1,
+   "identicalPairs": 7
+  }
+ ]
+}

@@ -9,7 +9,13 @@
 //   - "average" and "current" strategies are shown as the host labels them;
 //   - hands without a stored row are shown as "no stored strategy";
 //   - board-blocked combos are shown as impossible;
-//   - EVs are not shown because the stored state does not contain them.
+//   - EVs are never read from the stored state (it does not contain them).
+//     3.9: action EVs are shown only after the user requests them from
+//     POST /api/mw/ev (computed natively from the game model and a named
+//     continuation policy, see native/action_ev.hpp), with their method
+//     (exact / sampled), sample counts, standard errors and 95% intervals.
+//     A matrix cell shows the reach-weighted mean of the combos whose EV was
+//     actually computed; classes without computed combos stay empty.
 const ACTION_COLORS = ['var(--fold)', 'var(--call)', 'var(--a-bet1)', 'var(--a-bet2)', 'var(--a-bet3)', 'var(--a-bet4)', 'var(--a-allin)', 'var(--jam)'];
 function actionColor(action, index) {
   if (action.name === 'Fold') return 'var(--fold)';
@@ -42,6 +48,50 @@ function explorerMatrix(response, kind) {
   for (const cell of cells) cell.intensity = cell.weight / maxWeight;
   return cells;
 }
+// 3.9: per-class EV values for the matrix. mode: 'ev' (EV of action a), 'diff'
+// (EV of a minus the mixed-strategy EV), 'stderr' (standard error of the EV of
+// a; 0 for exact values). Combos are weighted by their explorer reach.
+function explorerEvMatrix(response, ev, action, mode) {
+  const hands = response && response.hands; if (!hands || !ev) return null;
+  const byIndex = new Map((ev.hands || []).map(h => [h.i, h]));
+  const cells = Array.from({ length: 169 }, (_, c) => ({ cls: c, value: null, mass: 0, computed: 0, combos: 0 }));
+  for (const item of hands.items) {
+    if (item.blocked) continue;
+    const cell = cells[EM.classOf(item.cards[0], item.cards[1])]; cell.combos++;
+    const h = byIndex.get(item.i); if (!h || !h.available) continue;
+    const v = mode === 'diff' ? h.diff[action] : mode === 'stderr' ? (h.stdErr ? h.stdErr[action] : 0) : h.ev[action];
+    if (!Number.isFinite(v)) continue;
+    const w = item.reach > 0 ? item.reach : 0; cell.computed++;
+    if (w > 0) { cell.value = (cell.value || 0) + w * v; cell.mass += w; }
+    else if (cell.mass === 0) cell.value = cell.computed === 1 ? v : (cell.value * (cell.computed - 1) + v) / cell.computed;
+  }
+  for (const c of cells) if (c.mass > 0) c.value /= c.mass;
+  return cells;
+}
+function evNumber(x) { return Number.isFinite(x) ? (Math.abs(x) >= 100 ? x.toFixed(1) : x.toFixed(Math.abs(x) >= 10 ? 2 : 3)) : '–'; }
+function evCell(h, a) {
+  if (!h.stdErr) return evNumber(h.ev[a]);
+  return evNumber(h.ev[a]) + ' <span class="note">± ' + evNumber(1.96 * h.stdErr[a]) + '</span>';
+}
+// EV table for the evaluated combos (only those in `filter`, if given).
+function evTable(ev, names, filter) {
+  if (!ev) return '';
+  const unit = ev.utility.unit, rows = (ev.hands || []).filter(h => !filter || filter.has(h.i));
+  let h = '<div class="ex-ev"><h4>Action EVs (' + esc(ev.utility.model === 'icm' ? 'ICM tournament equity, ' + unit : 'chip EV, ' + unit) + ')</h4>' +
+    '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a normal 95% interval') +
+    ' · continuation policy: ' + ev.policy + (ev.stoppedEarly ? ' · stopped early at the time limit' : '') + (ev.note ? ' · ' + ev.note : '')) + '</p>';
+  h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th>' + ev.actions.map(a => '<th>' + esc(actionLabel(a)) + '</th>').join('') + '<th>Mixed strategy</th><th>Method</th></tr></thead><tbody>';
+  const card = h0 => h0.cards ? esc(EM.cardStr(h0.cards[1]) + EM.cardStr(h0.cards[0])) : 'range';
+  const row = x => {
+    if (!x.available) return '<tr><th>' + card(x) + '</th><td colspan="' + (ev.actions.length + 2) + '"><span class="note">EV unavailable: ' + esc(x.reason || 'not computed') + '</span></td></tr>';
+    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + (x.equivalentToBest[a] ? (x.method === 'exact' ? 'equal to the best EV' : 'not significantly different from the best EV (95%)') : 'below the best EV') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used a uniform policy where none is stored' : '') + '">' + evCell(x, a) +
+      (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
+      '<td>' + evNumber(x.mixed) + (x.mixedStdErr != null ? ' <span class="note">± ' + evNumber(1.96 * x.mixedStdErr) + '</span>' : '') + '</td><td>' + esc(x.method) + (x.samples ? ' (' + x.samples.toLocaleString() + ')' : '') + '</td></tr>';
+  };
+  h += rows.map(row).join('') + (ev.range && !filter ? row({ ...ev.range, cards: null }) : '') + '</tbody></table></div>';
+  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Actions within the best EV (exactly, or within sampling error) are marked in the cell tooltip. * part of the value passes through states without a stored strategy (uniform substitution, reported share in the tooltip). ' + esc(ev.utility.convention) + '</p></div>';
+  return h;
+}
 function seatName(names, seat) { return names && names[seat] ? names[seat] : 'Seat ' + (seat + 1); }
 function boardHtml(cards) { return cards.length ? cards.map(c => '<span class="ex-card">' + esc(EM.cardStr(c)) + '</span>').join('') : '<span class="note">none</span>'; }
 function mixBar(mix, actions) {
@@ -52,7 +102,7 @@ function freqList(mix, actions) {
   if (!mix) return '<span class="note">no stored strategy</span>';
   return actions.map((a, i) => '<span class="ex-freq"><b style="color:' + actionColor(a, i) + '">■</b> ' + esc(actionLabel(a)) + ' ' + (100 * mix[i]).toFixed(1) + '%</span>').join(' ');
 }
-// ui: {kind, names, selectedCell, pending, error, boardInput}
+// ui: {kind, names, selectedCell, pending, error, boardInput, ev, evBusy, evError, evSamples, evPolicy, matrixMode, evAction}
 function renderExplorer(response, ui) {
   const names = ui.names;
   if (ui.error && !response) return '<div class="card ex"><h3>Strategy explorer</h3><p class="bad">' + esc(ui.error) + '</p></div>';
@@ -96,16 +146,28 @@ function renderExplorer(response, ui) {
   h += '<p><b>Range-weighted ' + esc(ui.kind) + ' strategy of ' + esc(seatName(names, n.actor)) + ':</b> ' + freqList(agg && agg[ui.kind], r.actions) + '</p>';
   if (agg) h += '<p class="note">Coverage: ' + agg.coverage.withRows + ' of ' + (agg.coverage.hands - agg.coverage.blocked) + ' possible combos have stored rows; ' + agg.coverage.blocked + ' blocked by the board. ' +
     'Aggregates weight each combo by its range weight × its own average-strategy probability of reaching this node.</p>';
-  h += '<p class="note">' + esc(r.ev.reason) + '</p>';
+  if (!ui.ev) h += '<p class="note">' + esc(r.ev.reason) + '</p>';
   if (!r.hands) return h + '</div>';
   if (!r.hands.actingSeat) h += '<p class="note">Showing the reach distribution of ' + esc(seatName(names, r.hands.seat)) + ', who is not acting here; strategies are shown for the acting seat only.</p>';
+  const ev = ui.ev && (!ui.ev.node || (ui.ev.node.stateId === n.stateId && ui.ev.node.board.length === n.board.length)) && r.hands.actingSeat ? ui.ev : null;
+  h += '<div class="ex-controls"><button type="button" class="btn sm" data-ex-ev="class"' + (ui.selectedCell == null ? ' disabled title="Select a hand class first"' : '') + '>Calculate EVs of the selected class</button> ' +
+    '<button type="button" class="btn sm" data-ex-ev="all">Calculate EVs of every hand (sampled, bounded)</button> ' +
+    '<label>Samples <input id="ex-ev-samples" type="number" min="16" max="2000000" step="1" value="' + (ui.evSamples || 4000) + '"></label> ' +
+    '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' +
+    (ui.evBusy ? ' <span class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></span>' : '') + '</div>';
+  if (ui.evError) h += '<p class="bad" role="alert">' + esc(ui.evError) + '</p>';
+  const mode = ev ? (ui.matrixMode || 'strategy') : 'strategy', evAction = Math.min(Math.max(0, ui.evAction || 0), r.actions.length - 1);
+  if (ev) h += '<div class="ex-controls"><label>Matrix shows <select id="ex-matrix"><option value="strategy"' + (mode === 'strategy' ? ' selected' : '') + '>Strategy frequencies</option><option value="ev"' + (mode === 'ev' ? ' selected' : '') + '>EV of an action</option><option value="diff"' + (mode === 'diff' ? ' selected' : '') + '>EV minus mixed-strategy EV</option><option value="stderr"' + (mode === 'stderr' ? ' selected' : '') + '>EV standard error</option></select></label> ' +
+    '<label>Action <select id="ex-ev-action">' + r.actions.map((a, i) => '<option value="' + i + '"' + (i === evAction ? ' selected' : '') + '>' + esc(actionLabel(a)) + '</option>').join('') + '</select></label></div>';
+  const evCells = ev && mode !== 'strategy' ? explorerEvMatrix(r, ev, evAction, mode) : null;
+  let evScale = 1e-300; if (evCells) for (const c of evCells) if (c.value != null) evScale = Math.max(evScale, Math.abs(c.value));
   const cells = explorerMatrix(r, ui.kind);
   h += '<div class="ex-matrix" role="grid" aria-label="Starting-hand matrix">';
   for (let row = 0; row < 13; row++) for (let col = 0; col < 13; col++) {
     const c = cells[row * 13 + col];
     const impossible = c.combos.length && c.blocked === c.combos.length;
     h += '<button type="button" class="ex-cell' + (ui.selectedCell === c.cls ? ' on' : '') + (impossible ? ' blocked' : '') + (!c.combos.length ? ' absent' : '') + '" data-ex-cell="' + c.cls + '" style="opacity:' + (impossible || !c.combos.length ? 0.35 : (0.35 + 0.65 * c.intensity).toFixed(3)) + '" title="' + esc(c.name + ': ' + c.combos.length + ' combos in range, ' + c.blocked + ' blocked, ' + c.missing + ' without stored strategy') + '">' +
-      (r.hands.actingSeat ? mixBar(c.mix, r.actions) : '') + '<span>' + esc(c.name) + '</span></button>';
+      (evCells ? evBar(evCells[c.cls], evScale, mode) : r.hands.actingSeat ? mixBar(c.mix, r.actions) : '') + '<span>' + esc(c.name) + '</span></button>';
   }
   h += '</div>';
   if (ui.selectedCell != null) {
@@ -114,8 +176,16 @@ function renderExplorer(response, ui) {
       c.combos.map(x => '<tr><th>' + esc(EM.cardStr(x.cards[1]) + EM.cardStr(x.cards[0])) + '</th><td>' + amount(x.weight) + '</td><td>' + (x.blocked ? 'blocked' : x.reach.toPrecision(4) + (x.reachUsesUniform ? '*' : '')) + '</td><td style="text-align:left">' +
         (x.blocked ? '<span class="note">impossible: blocked by the board</span>' : r.hands.actingSeat ? freqList(x[ui.kind], r.actions) : '–') + '</td></tr>').join('') + '</tbody></table></div>' +
       '<p class="note">* reach uses a uniform probability where an earlier decision of this seat has no stored average strategy.</p>';
+    if (ev) h += evTable(ev, names, new Set(c.combos.map(x => x.i)));
   }
+  if (ev && ui.selectedCell == null) h += evTable(ev, names, null);
+  if (evCells) h += '<p class="note">Matrix: ' + esc(mode === 'ev' ? 'EV of ' : mode === 'diff' ? 'EV minus mixed-strategy EV of ' : 'standard error of the EV of ') + esc(actionLabel(r.actions[evAction])) + ' (' + esc(ev.utility.unit) + '), reach-weighted over the combos whose EV was computed; empty cells have no computed EV.</p>';
   return h + '</div>';
 }
-Object.assign(EM, { explorerMatrix, renderExplorer, explorerActionLabel: actionLabel });
+function evBar(cell, scale, mode) {
+  if (!cell || cell.value == null) return '<div class="ex-bar ex-empty" title="no computed EV"></div>';
+  const x = cell.value / scale, pos = mode === 'stderr' ? 'var(--a-bet2)' : x >= 0 ? 'var(--call)' : 'var(--fold)';
+  return '<div class="ex-bar" title="' + evNumber(cell.value) + ' (' + cell.computed + ' of ' + cell.combos + ' combos computed)"><i style="width:' + Math.min(100, 100 * Math.abs(x)).toFixed(1) + '%;background:' + pos + '"></i></div><span class="ex-ev-val">' + evNumber(cell.value) + '</span>';
+}
+Object.assign(EM, { explorerMatrix, explorerEvMatrix, renderExplorer, explorerActionLabel: actionLabel });
 })(globalThis.EM || (globalThis.EM = {}));

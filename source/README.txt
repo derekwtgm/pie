@@ -1,5 +1,9 @@
-EightMax Windows 3.8 source
+EightMax Windows 3.9 source
 
+Read ../RELEASE-3.9.md and ../validation/3.9/README.md for 3.9. 3.9 additions: native/action_ev.hpp
+(mw_action_ev, mw_response_gain; POST /api/mw/ev, /api/mw/response-gain; mwcli --ev / --gain), strict
+request validation in native/explorer.hpp, EV display in web/lib_explorer.js, tests/v39.test.js,
+tools/scenarios39.js, tools/convergence39.js.
 Read ../RELEASE-3.8.md and ../validation/3.8/README.md for what changed, measurements and reproduction.
 3.8 additions: native/explorer.hpp (mw_node_query, POST /api/mw/node), web/lib_explorer.js (explorer UI),
 restore estimate (mw_es.hpp restoreEstimate, checkpoint_native.hpp), engine caches (icm.hpp, mw_es.hpp,

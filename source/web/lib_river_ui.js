@@ -215,7 +215,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     el('desktop-mix').textContent=(hand.observed?'Saved average':'Unvisited hand, uniform default')+' · '+rootPolicy.actions.map((a,i)=>a.name+(['Bet to','Raise to','Call'].includes(a.name)?' '+a.to+' BB':'')+' '+(hand.probabilities[i]*100).toFixed(1)+'%').join(' · ');
   }
   // 3.8: native strategy explorer. Each request asks the host for one node.
-  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false};
+  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0};
   function explorerNames(n){
     if(spot&&spot.seats&&spot.seats.length===n)return spot.seats.map(x=>x.name);
     return n>=2&&EM.pfPositions?EM.pfPositions(n):null;
@@ -223,14 +223,14 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   function drawExplorer(){
     const box=root.querySelector('#rv-desktop-explorer');if(!box)return;
     box.hidden=!explorer.open;if(!explorer.open)return;
-    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error});
+    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction});
   }
   async function exploreNode(path,board){
     if(explorer.busy)return;explorer.busy=true;explorer.error='';
     try{
       const body={path,board,limit:1326};if(explorer.rangeSeat!=null)body.rangeSeat=explorer.rangeSeat;
       const response=await desktopRequest('mw/node',JSON.stringify(body));
-      explorer.response=response;explorer.path=path;explorer.board=board;explorer.boardInput=[];
+      explorer.response=response;explorer.path=path;explorer.board=board;explorer.boardInput=[];explorer.ev=null;explorer.evError='';explorer.matrixMode='strategy';
       if(explorer.rangeSeat!=null&&explorer.rangeSeat===response.node.actor)explorer.rangeSeat=null;
     }catch(e){explorer.error=e.message;}
     finally{explorer.busy=false;drawExplorer();}
@@ -248,7 +248,30 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(last&&last.chance){exploreNode(explorer.path,explorer.board.slice(0,explorer.board.length-last.cards.length));return;}
     if(explorer.path.length)exploreNode(explorer.path.slice(0,-1),boardBefore(explorer.path.length-1));
   }
+  // 3.9: action EVs for hands of the acting seat, requested in bounded batches
+  // of at most 64 combos (the host's limit). Values are only those the host
+  // computed; nothing is interpolated for combos that were not evaluated.
+  async function explorerEv(which){
+    const r=explorer.response;if(!r||!r.hands||!r.hands.actingSeat||explorer.evBusy)return;
+    const items=r.hands.items.filter(x=>!x.blocked&&(which!=='class'||EM.classOf(x.cards[0],x.cards[1])===explorer.selectedCell)&&(which==='class'||x.reach>0));
+    if(!items.length){explorer.evError='No possible combos to evaluate here.';drawExplorer();return;}
+    const batches=[];for(let i=0;i<items.length;i+=64)batches.push(items.slice(i,i+64).map(x=>x.i));
+    explorer.evError='';let merged=null;
+    try{
+      for(const [b,hands] of batches.entries()){
+        explorer.evBusy='Calculating EVs ('+(b+1)+' of '+batches.length+')…';drawExplorer();
+        const body={path:explorer.path,board:explorer.board,hands,range:b===0,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,timeLimitMs:which==='all'?15000:60000};
+        const ev=await desktopRequest('mw/ev',JSON.stringify(body));
+        if(!merged)merged=ev;else{merged.hands=merged.hands.concat(ev.hands);merged.stoppedEarly=merged.stoppedEarly||ev.stoppedEarly;if(ev.method!==merged.method)merged.method='mixed (exact and sampled)';}
+        if(explorer.response!==r)return;
+      }
+      if(explorer.ev&&explorer.ev.node.stateId===merged.node.stateId&&explorer.ev.policy===merged.policy){const seen=new Set(merged.hands.map(h=>h.i));merged.hands=merged.hands.concat(explorer.ev.hands.filter(h=>!seen.has(h.i)));if(!merged.range)merged.range=explorer.ev.range;}
+      explorer.ev=merged;if(which==='all'&&explorer.matrixMode==='strategy')explorer.matrixMode='ev';
+    }catch(e){explorer.evError=e.message;}
+    finally{explorer.evBusy='';drawExplorer();}
+  }
   function explorerClick(d){
+    if(d.exEv!==undefined){if(d.exEv==='cancel'){desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
     if(d.exAction!==undefined){exploreNode([...explorer.path,Number(d.exAction)],explorer.board);explorer.selectedCell=null;return true;}
     if(d.exGo!==undefined){const k=Number(d.exGo);exploreNode(explorer.path.slice(0,k),boardBefore(k));return true;}
     if(d.exBack!==undefined){explorerBack();return true;}
@@ -617,6 +640,10 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   root.addEventListener('change',e=>{
     if(e.target.id==='rv-desktop-hand'){showNativeHand(Number(e.target.value));return;}
     if(e.target.id==='ex-kind'){explorer.kind=e.target.value==='current'?'current':'average';drawExplorer();return;}
+    if(e.target.id==='ex-matrix'){explorer.matrixMode=e.target.value;drawExplorer();return;}
+    if(e.target.id==='ex-ev-action'){explorer.evAction=Number(e.target.value)||0;drawExplorer();return;}
+    if(e.target.id==='ex-ev-samples'){explorer.evSamples=Number(e.target.value)||4000;return;}
+    if(e.target.id==='ex-ev-policy'){explorer.evPolicy=e.target.value==='current'?'current':'average';explorer.ev=null;drawExplorer();return;}
     if(e.target.id==='ex-seat'){explorer.rangeSeat=Number(e.target.value);exploreNode(explorer.path,explorer.board);return;}
     if(e.target.id==='rv-desktop-file' && !busy){if(e.target.files?.[0])desktopAction('upload',e.target.files[0]);return;}
     if(e.target.id==='rv-load' && !busy){loadTraining(e.target.files?.[0]);return;}

@@ -241,3 +241,43 @@ EMMW4 headers of grouped-key states contain `"rowKeys": 1`; each row record is
 `gpuStageBound {scoringShare, maxSavingFraction}` (the measured share of training
 time spent scoring hands, which bounds any GPU offload of that stage),
 `seconds.profiledUpdates` and `seconds.scoreInProfiledUpdates` (one update in 16 is timed, to keep clock reads off the hot path); `mwcli` adds `processPeakRssMiB`.
+
+## 3.9: explorer, action-EV and response-gain requests
+
+All three requests are JSON objects, at most 64 KiB, validated against a fixed
+schema (`explorer.hpp` `Fields`). Unknown or duplicate fields, a non-object
+body, `null`, a string/boolean/array/object where an integer is expected,
+fractional or out-of-range integers, oversized arrays and duplicate or
+board-blocked cards return HTTP 400 (413 when too large) with a message naming
+the field. Omitted optional fields take the defaults listed below; nothing is
+coerced. Optional `studyId` (string) and `stateId` (integer) must match the
+open study and the resolved decision, otherwise 409.
+
+POST /api/mw/node (mwcli --node): `path` int[0..7] (<= 480), `board` int[0..51]
+(<= 5, distinct, not on the study board), `rangeSeat` 0..n-1 (default: actor),
+`offset` 0..range size (default 0), `limit` 1..1326 (default 1326).
+
+POST /api/mw/ev (mwcli --ev): `path`, `board` as above, ending at a decision;
+`hands` (<= 64 distinct indices of the acting seat's range, not board-blocked)
+and/or `range: true`; `policy` "average" (default) | "current"; `missing`
+"uniform" (default; substitution reported as fallbackShare) | "refuse" (422);
+`method` "auto" (default) | "exact" | "sampled"; `futureActions` "auto" |
+"enumerate" | "sample"; `samples` 16..2,000,000 (default 20,000); `seed`
+0..2^32-1 (default 1); `maxVisits` 1,000..2e9 (default 2e7, exact budget);
+`timeLimitMs` 100..3,600,000 (default 60,000). Response: node, policy,
+utility {model chip|icm, unit, convention}, actions, method, per hand: ev[],
+stdErr[]/ci95[] (sampled) or null (exact), mixed, diff[], best,
+equivalentToBest[], fallbackShare[], strategy[], reach, samples; optional range
+aggregate; cache {hit}. The cache holds at most 32 results per engine and is
+cleared by training and imports.
+
+POST /api/mw/response-gain (mwcli --gain): `method` "sampled" (default) |
+"exact"; `seats` (distinct, default all); `path`/`board` (sampled, one seat);
+`policy`, `missing`, `samples` (64..2e6), `selectionSamples` (16..1e5),
+`reachSamples`, `seed`, `maxVisits` (default 2e8), `timeLimitMs` (default
+120,000), `futureActions`. Exact: per-seat best-response value, policy value
+and gain; nashConv for all seats; exploitability only for two seats with chip
+EV. Sampled: per seat the node, conditional gain, reach probability and gain
+with standard errors (one-shot deviation class; a lower bound).
+
+The node-cancel endpoint also cancels EV and response-gain calculations.

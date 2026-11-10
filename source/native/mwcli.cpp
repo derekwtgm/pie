@@ -1,5 +1,6 @@
 // Command-line driver for the native multiway engine (tests and benchmarks).
 // usage: mwcli <spec.json> <iterations> <threads> <out.state> [memoryMiB] [in.state]
+//        mwcli --node|--ev|--gain spec.json state request.json [memoryMiB]
 //        mwcli --cuda-info            CUDA device probe (JSON)
 //        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
 // Prints mw_info JSON plus "seconds" (training wall time) on stdout.
@@ -61,7 +62,8 @@ int main(int argc, char **argv) {
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0;
   }
   // 3.8: mwcli --node spec.json state.emmw request.json [memoryMiB]  (strategy explorer query)
-  if (argc >= 5 && argc <= 6 && !std::strcmp(argv[1], "--node")) {
+  // 3.9: mwcli --ev | --gain spec.json state.emmw request.json [memoryMiB]  (action EVs, response gains)
+  if (argc >= 5 && argc <= 6 && (!std::strcmp(argv[1], "--node") || !std::strcmp(argv[1], "--ev") || !std::strcmp(argv[1], "--gain"))) {
     std::vector<unsigned char> spec = slurp(argv[2]), req = slurp(argv[4]); char err[512] = ""; double mib = 4096;
     if (argc == 6 && !numberArg(argv[5], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
     if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[2]); return 2; }
@@ -71,7 +73,8 @@ int main(int argc, char **argv) {
     if (f) std::fclose(f);
     if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : "Unable to open state"); return 1; }
     JB j; jb_init(&j); req.push_back(0);
-    const int status = mw_node_query(m, (const char *)req.data(), req.size() - 1, &j, err, sizeof err, nullptr);
+    auto *query = !std::strcmp(argv[1], "--ev") ? mw_action_ev : !std::strcmp(argv[1], "--gain") ? mw_response_gain : mw_node_query;
+    const int status = query(m, (const char *)req.data(), req.size() - 1, &j, err, sizeof err, nullptr);
     if (status != 200) { std::fprintf(stderr, "error %d: %s\n", status, err); jb_free(&j); mw_free(m); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); mw_free(m); return 0;
   }
