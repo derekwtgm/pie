@@ -255,8 +255,12 @@ single-threaded gains are unchanged within noise. Deadline: 101.1–102.1 ms
 - `tools/sanitize41.sh`: UBSan(+float-cast-overflow)+ASan desktop host and CLI
   (num_safe property tests, the 16-path probe, v39/v40/v41 suites), TSan
   desktop host (all concurrency/job/startup tests, 0 reports), TSan stress tool
-  and parallel response gains; cppcheck if installed (it was not installed
-  here: static analysis by cppcheck was **not** run for 4.1).
+  and parallel response gains (0 ThreadSanitizer reports; all UBSan/ASan
+  suites passed). cppcheck 2.13 on `mw.cpp` with every header: no finding in
+  4.0/4.1 code; one pre-existing finding in unchanged 3.x training code
+  (`mw_es_impl.hpp`: `Walker::cpots` not initialized in the constructor),
+  listed in `validation/4.1/sanitizers.log` and left unchanged with the
+  training code.
 - Checkpoint and MCCFR invariants: training code is unchanged; the 3.x/4.0
   checkpoint tests (rollback on allocation failure, cancellation, worker
   failure, interrupted streaming saves, damaged/missing/truncated indexes,
@@ -283,4 +287,3 @@ single-threaded gains are unchanged within noise. Deadline: 101.1–102.1 ms
 - `maxBoardEvaluations` may overshoot by at most 256 boards per worker.
 - Training algorithms unchanged; no convergence improvement.
 - Browser full-traversal checkpoint memory limits unchanged.
-- cppcheck was not available.

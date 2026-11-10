@@ -1,3 +1,47 @@
 == build (UBSan+ASan host and CLI, TSan host)
 embedded 969624 bytes
 embedded 155352 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/tmp.rxeWlAToBC/ub/eightmax, /tmp/tmp.rxeWlAToBC/ub/mwcli
+embedded 969624 bytes
+embedded 155352 bytes
+sanitized (thread) host: /tmp/tmp.rxeWlAToBC/ts/eightmax, /tmp/tmp.rxeWlAToBC/ts/mwcli
+In file included from /home/user/pie/source/native/mw.cpp:1485:
+/home/user/pie/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+== num_safe.h property tests (UBSan+ASan)
+{"propertyCases":2000000,"failures":0}
+== numeric probe: 16 input paths against the sanitized host
+{"cases":16,"undefinedBehaviour":0,"refused4xx":16}
+== v39, v40, v41 against the UBSan+ASan host and CLI
+v39:
+# pass 14
+# fail 0
+# skipped 0
+v40:
+# pass 17
+# fail 0
+# skipped 0
+v41:
+# pass 15
+# fail 0
+# skipped 0
+== ThreadSanitizer: concurrency, cancellation, jobs and startup tests on the TSan host
+# pass 12
+# fail 0
+# skipped 0
+ThreadSanitizer report files: 0
+== ThreadSanitizer: 4.0 stress tool and parallel response gains (TSan mwcli)
+{"rounds":3,"completed":15,"cancelled":3,"failures":0,"stateUnchanged":true}
+tsan parallel gain g ok
+tsan parallel gain g2 ok
+== cppcheck
+cppcheck not installed: static analysis skipped
+sanitize41: all passed
+exit=0
+== cppcheck 2.13.0 (installed after the pass above; run separately on mw.cpp with all headers)
+mw_es_impl.hpp:70:3: warning: Member variable 'Walker::cpots' is not initialized in the constructor. [uninitMemberVar]
+cppcheck: 1 finding, in unchanged 3.x training code (mw_es_impl.hpp Walker); none in 4.0/4.1 evaluation, statistics, budget or input code

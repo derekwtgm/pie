@@ -101,10 +101,15 @@ jobs:
           $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
           $ErrorActionPreference = 'Continue'; $failed = 0; $log = @()
           for ($i = 1; $i -le 5; $i++) {
-            $out = node --test --test-concurrency=1 --test-name-pattern='startup failure|concurrency|desktop jobs|worker start' source/tests/v34.test.js source/tests/v40.test.js source/tests/v41.test.js 2>&1 | ForEach-Object { "$_" }
-            $pass = ($out | Select-String '^# pass (\d+)').Matches.Groups[1].Value; $fail = ($out | Select-String '^# fail (\d+)').Matches.Groups[1].Value
-            $log += "repetition $i : pass $pass fail $fail"; Write-Host "repetition $i : pass $pass fail $fail"
-            if ($LASTEXITCODE -or [int]$fail -gt 0) { $failed++; $out | Select-String -Pattern 'not ok|error' | ForEach-Object { Write-Host $_ } }
+            # TAP reporter: the default reporter on a non-terminal prints no "# pass" totals,
+            # which made the first version of this step pass without checking anything.
+            $out = node --test --test-reporter=tap --test-concurrency=1 --test-name-pattern='startup failure|concurrency|desktop jobs|worker start' source/tests/v34.test.js source/tests/v40.test.js source/tests/v41.test.js 2>&1 | ForEach-Object { "$_" }
+            $code = $LASTEXITCODE
+            $pm = $out | Select-String '^# pass (\d+)' | Select-Object -Last 1; $fm = $out | Select-String '^# fail (\d+)' | Select-Object -Last 1; $sm = $out | Select-String '^# skipped (\d+)' | Select-Object -Last 1
+            $pass = if ($pm) { [int]$pm.Matches[0].Groups[1].Value } else { -1 }; $fail = if ($fm) { [int]$fm.Matches[0].Groups[1].Value } else { -1 }; $skip = if ($sm) { [int]$sm.Matches[0].Groups[1].Value } else { -1 }
+            $log += "repetition $i : pass $pass fail $fail skipped $skip exit $code"; Write-Host "repetition $i : pass $pass fail $fail skipped $skip exit $code"
+            # 3 (v34) + 2 (v40) + 4 (v41) tests match the pattern; require all of them to run and pass
+            if ($code -or $fail -ne 0 -or $pass -lt 9 -or $skip -ne 0) { $failed++; $out | Select-String -Pattern 'not ok|error|# Subtest' | ForEach-Object { Write-Host $_ } }
           }
           $log | Set-Content -Encoding utf8 windows-concurrency-stress.txt
           if ($failed) { exit 1 }

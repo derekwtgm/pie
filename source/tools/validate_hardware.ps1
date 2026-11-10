@@ -39,7 +39,7 @@ function Body-Hash($path) {
   try { return [BitConverter]::ToString($sha.ComputeHash($state, $at, $state.Length - $at)).Replace('-', '') } finally { $sha.Dispose() }
 }
 try {
-  Write-Host 'EightMax 4.0 hardware validation'
+  Write-Host 'EightMax 4.1 hardware validation'
   $build = (& $Exe --build-id)
   $cuda = (& $Exe --cuda-info) | ConvertFrom-Json
   if ($cuda.available) { Write-Host ("CUDA: {0}, compute capability {1}, {2} MiB total, {3} MiB free, image {4}" -f $cuda.name, $cuda.computeCapability, $cuda.totalMiB, $cuda.freeMiB, $cuda.image) }
