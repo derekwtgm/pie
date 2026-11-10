@@ -60,6 +60,21 @@ int main(int argc, char **argv) {
     if (!mw_equity((const char *)spec.data(), spec.size(), &j, err, sizeof err)) { std::fprintf(stderr, "error: %s\n", err); jb_free(&j); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0;
   }
+  // 3.8: mwcli --node spec.json state.emmw request.json [memoryMiB]  (strategy explorer query)
+  if (argc >= 5 && argc <= 6 && !std::strcmp(argv[1], "--node")) {
+    std::vector<unsigned char> spec = slurp(argv[2]), req = slurp(argv[4]); char err[512] = ""; double mib = 4096;
+    if (argc == 6 && !numberArg(argv[5], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
+    if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[2]); return 2; }
+    FILE *f = std::fopen(argv[3], "rb"); std::error_code ec; auto size = std::filesystem::file_size(argv[3], ec);
+    std::string text((const char *)spec.data(), spec.size()); MW *m = nullptr;
+    const bool ok = f && !ec && mw_load_stream(f, size, text.c_str(), mib, -1, &m, err, sizeof err, nullptr, nullptr) == 200;
+    if (f) std::fclose(f);
+    if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : "Unable to open state"); return 1; }
+    JB j; jb_init(&j); req.push_back(0);
+    const int status = mw_node_query(m, (const char *)req.data(), req.size() - 1, &j, err, sizeof err, nullptr);
+    if (status != 200) { std::fprintf(stderr, "error %d: %s\n", status, err); jb_free(&j); mw_free(m); return 1; }
+    std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); mw_free(m); return 0;
+  }
   if (argc < 5 || argc > 7) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
   // 3.3: strict numeric arguments (atoll/atoi/atof accepted "abc" as 0 and negative thread counts).
   long long iterations = 0, threads = 0; double memoryMiB = 4096;

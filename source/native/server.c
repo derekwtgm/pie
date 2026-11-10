@@ -394,7 +394,7 @@ static void release_game(void) { pthread_mutex_lock(&STATE_MU); G_BUSY = 0; pthr
 /* ---------------- native multiway engine (protocol MW_PROTOCOL, see MW-PROTOCOL.md) ---------------- */
 static pthread_mutex_t MW_MU = PTHREAD_MUTEX_INITIALIZER;   // guards MWG and the fields below
 static MW *MWG = NULL;
-static volatile int MW_RUNNING = 0, MW_STOP = 0;
+static volatile int MW_RUNNING = 0, MW_STOP = 0, MW_QUERY_CANCEL = 0;
 static long long MW_IT = 0, MW_DEALS = 0, MW_TARGET = 0;
 static double MW_T0 = 0, MW_ELAPSED = 0, MW_TABLE_MIB = 0;
 static int MW_THREADS = 1;
@@ -496,6 +496,19 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     pthread_mutex_lock(&MW_MU);
     if(!MW_ARCHIVE_META||!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,"Open an idle desktop study first");return 1;}
     JB b;jb_init(&b);mw_root_policy(MWG,&b);pthread_mutex_unlock(&MW_MU);respond_json(s,200,&b);jb_free(&b);return 1;
+  }
+  // 3.8: native strategy explorer. Reads one node of the open (desktop or
+  // live) native study under the engine lock; the response is bounded by the
+  // acting range (at most 1,326 hands) and the requested page.
+  if(!strcmp(r,"node-cancel")&&!strcmp(method,"POST")){__atomic_store_n(&MW_QUERY_CANCEL,1,__ATOMIC_RELAXED);respond_ok(s);return 1;}
+  if(!strcmp(r,"node")&&!strcmp(method,"POST")){
+    pthread_mutex_lock(&MW_MU);
+    if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before exploring the study":"Open a native study first");return 1;}
+    __atomic_store_n(&MW_QUERY_CANCEL,0,__ATOMIC_RELAXED);
+    JB b;jb_init(&b);int status=mw_node_query(MWG,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
+    pthread_mutex_unlock(&MW_MU);
+    if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Query failed");
+    jb_free(&b);return 1;
   }
   if (!strcmp(r, "state") && !strcmp(method, "GET")) {
     pthread_mutex_lock(&MW_MU);

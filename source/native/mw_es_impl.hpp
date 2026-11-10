@@ -10,24 +10,77 @@ struct Walker {
   const MW &m; const Game &g;
   Unit *u = nullptr; Rng *rng = nullptr; int player = 0; double step = 1, avgStep = 1;
   std::pmr::vector<BS> st; std::pmr::vector<double> sig, samp, val;
+  struct Edge;
   Tournament::Workspace icm; double util[8] = {}; LPot pots[24];
-  struct Edge {uint64_t key=UINT64_MAX;BS state{};};
-  std::pmr::vector<Edge> edges;
-  void advance(int ref,const BS &t,int a,BS &next){
-    if((unsigned)ref>=64||edges.empty()){g.rules.advance(t,a,next);return;}
-    const uint64_t key=(uint64_t)(uint32_t)ref*8+(unsigned)a;
-    auto &edge=edges[key];
-    if(edge.key==key){next=edge.state;return;}
-    g.rules.advance(t,a,next);edge={key,next};
+  // 3.8: per-worker direct-mapped cache of committed betting transitions,
+  // keyed by (committed parent state id, action slot). A betting state depends
+  // only on the action path, never on cards, so a hit returns the identical
+  // BS that Rules::advance/nextStreet would rebuild, plus the child's committed
+  // state id once known. 3.7 cached only the first 64 parents and only for
+  // four or more seats. Committed ids are never renumbered while a Walker
+  // lives: states are appended during merges and a rollback ends train().
+  //
+  // Only the key arrays are initialized. Payload slots are raw storage from the
+  // scratch budget and are written before they are first read (a key match
+  // implies a prior store), so pages a short run never touches are never
+  // faulted in. Zero-filling multi-megabyte caches cost more than they saved
+  // on runs of a few milliseconds.
+  template<class T> struct Raw {
+    std::pmr::memory_resource *r=nullptr; T *p=nullptr; size_t n=0;
+    void init(std::pmr::memory_resource *res,size_t count){r=res;n=count;p=count?static_cast<T*>(r->allocate(count*sizeof(T),alignof(T))):nullptr;}
+    ~Raw(){if(p)r->deallocate(p,n*sizeof(T),alignof(T));}
+    T &operator[](size_t i){return p[i];}
+  };
+  struct Edge {int id;BS state;};
+  std::pmr::vector<uint64_t> edgeKeys,termKeys; Raw<Edge> edges; size_t edgeMask=0;
+  static size_t edgeEntries(double budgetBytes){
+#ifdef EM_EDGE_ENTRIES
+    if(budgetBytes>=8*1048576.0)return EM_EDGE_ENTRIES;
+#endif
+    // Measured (validation/3.8/cache-tuning.json): 512 hashed entries were
+    // neutral on short multiway runs dominated by first-time states and kept
+    // the gain on long heads-up/three-way runs; 1,024-8,192 entries thrashed
+    // L1/L2 on those short runs.
+    return budgetBytes>=8*1048576.0?512:0;
   }
-  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget),edges(&budget) {
-    if(mm.budgetBytes>=64*1048576.0 && mm.n>=4)edges.resize(512);
+  // Index of the cache slot of (ref, a), or SIZE_MAX when uncacheable.
+  // Four or more seats: 3.7's direct map of the first 64 committed parents
+  // (the hot top of a wide tree; no conflicts). Two or three seats: hashed
+  // over every committed parent, which measured faster on deep narrow trees
+  // (validation/3.8/native-timing*.json).
+  size_t slotOf(int ref,int a) const {
+    if(ref<0||!edgeMask)return SIZE_MAX;
+    if(m.n>=4)return (unsigned)ref<64?(size_t)ref*8+(unsigned)a:SIZE_MAX;
+    return StateTable::mix((uint64_t)(uint32_t)ref*8+(unsigned)a)&edgeMask;
+  }
+  void advance(int ref,const BS &t,int a,BS &next){
+    const size_t i=slotOf(ref,a);
+    if(i==SIZE_MAX){g.rules.advance(t,a,next);return;}
+    const uint64_t key=(uint64_t)(uint32_t)ref*8+(unsigned)a;
+    if(edgeKeys[i]==key){next=edges[i].state;return;}
+    g.rules.advance(t,a,next);edgeKeys[i]=key;edges[i].id=-1;edges[i].state=next;
+  }
+  void street(int ref,const BS &t,BS &next){
+    const size_t i=slotOf(ref,CHANCE_SLOT);
+    if(i==SIZE_MAX){g.rules.nextStreet(t,next);return;}
+    const uint64_t key=(uint64_t)(uint32_t)ref*8+CHANCE_SLOT;
+    if(edgeKeys[i]==key){next=edges[i].state;return;}
+    g.rules.nextStreet(t,next);edgeKeys[i]=key;edges[i].id=-1;edges[i].state=next;
+  }
+  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget),edgeKeys(&budget),termKeys(&budget) {
+    if(const size_t e=edgeEntries(mm.budgetBytes)){edgeKeys.assign(e,UINT64_MAX);termKeys.assign(e,UINT64_MAX);edges.init(&budget,e);terms.init(&budget,e);edgeMask=e-1;}
     st.resize(MAX_DEPTH + 2); sig.resize((MAX_DEPTH + 2) * 8); samp.resize((MAX_DEPTH + 2) * 8); val.resize((MAX_DEPTH + 2) * 8);
-    if (!m.tournament.start.empty()) { icm.cache.resize(127); icm.probability.resize(1u << m.tournament.start.size()); }
+    if (!m.tournament.start.empty()) m.tournament.prepare(icm,m.budgetBytes);
   }
   int child(int ref, int slot, const BS &c) {
-    if (c.kind == 2) return TERMINAL_REF;
-    if (ref >= 0) { int id = g.states.find((uint32_t)ref, slot); if (id >= 0) return id; }
+    if (c.kind == 2) { terminalKey = edgeKey(ref, slot); return TERMINAL_REF; }
+    if (ref >= 0) {
+      const size_t i=slotOf(ref,slot);const uint64_t key=(uint64_t)(uint32_t)ref*8+(unsigned)slot;
+      const bool cached=i!=SIZE_MAX&&edgeKeys[i]==key;
+      if(cached&&edges[i].id>=0)return edges[i].id;
+      int id = g.states.find((uint32_t)ref, slot);
+      if (id >= 0) { if(cached)edges[i].id=id; return id; }
+    }
     if (!u->room(1, 0, 0, g.unitLimitBytes)) { u->overflow = true; return 0; }
     u->pending.push_back({ref, slot, (uint8_t)c.kind, (uint8_t)std::max(0, c.actor), (uint8_t)c.length, (uint8_t)c.k});
     return -(int)u->pending.size();
@@ -40,32 +93,65 @@ struct Walker {
     for(int a=0;a<k;a++){s[a]=jsMax0(regrets[a]);tot+=s[a];}
     for (int a = 0; a < k; a++) s[a] = tot ? s[a] / tot : 1.0 / k;
   }
-  const double *payoff(const BS &t) {
-    const int n = m.n, np = g.rules.pots(t, pots);
+  // 3.8: pot layouts of terminal betting states, reduced to the dealt seats
+  // that can win them (ascending seat bitmask; folded and absent entries can
+  // never collect a pot in payoff()/seatPayoff()). A layout depends only on the
+  // betting path, so it is cached per committed (parent state, action) edge.
+  // Seats are visited in the same ascending order and all additions happen in
+  // the same order as in 3.7, so utilities are bit-identical.
+  struct CPot { double amount; uint32_t mask; };
+  static constexpr int MAX_CACHED_POTS = 12;
+  struct TermEntry { int np; CPot pot[MAX_CACHED_POTS]; };
+  Raw<TermEntry> terms; uint64_t terminalKey = UINT64_MAX; CPot cpots[24];
+  int layout(const BS &t, uint64_t key, const CPot *&out) {
+    const size_t i = key != UINT64_MAX ? slotOf((int)(key / 8), (int)(key % 8)) : SIZE_MAX;
+    TermEntry *e = i != SIZE_MAX ? &terms[i] : nullptr;
+    if (e && termKeys[i] == key) { out = e->pot; return e->np; }
+    const int np = g.rules.pots(t, pots);
+    for (int q = 0; q < np; q++) cpots[q] = {pots[q].amount, pots[q].mask};
+    if (e && np <= MAX_CACHED_POTS) { termKeys[i] = key; e->np = np; std::copy_n(cpots, np, e->pot); }
+    out = cpots; return np;
+  }
+  const double *payoff(const BS &t, uint64_t key = UINT64_MAX) {
+    const int n = m.n; const CPot *lay; const int np = layout(t, key, lay);
     const bool tour = !m.tournament.start.empty();
     for (int p = 0; p < n; p++) util[p] = tour ? t.behind[p] : -t.total[p] - m.anteOf[(size_t)p];
     for (int q = 0; q < np; q++) {
-      const LPot &pot = pots[q]; double top = -INFINITY; int count = 0;
-      for (int j = 0; j < pot.count; j++) { int e = pot.seat[j]; if (e >= n) continue; double v = u->w.score[e]; if (v > top) { top = v; count = 1; } else if (v == top) count++; }
+      const CPot &pot = lay[q]; double top = -INFINITY; int count = 0;
+      for (uint32_t x = pot.mask; x; x &= x - 1) { const int e = std::countr_zero(x); double v = u->w.score[e]; if (v > top) { top = v; count = 1; } else if (v == top) count++; }
       if (!count) continue;
       const double share = pot.amount / count;
-      for (int j = 0; j < pot.count; j++) { int e = pot.seat[j]; if (e < n && u->w.score[e] == top) util[e] += share; }
+      for (uint32_t x = pot.mask; x; x &= x - 1) { const int e = std::countr_zero(x); if (u->w.score[e] == top) util[e] += share; }
     }
     if (tour) m.tournament.evaluate(util, n, icm);
     return util;
   }
-  double seatPayoff(const BS &t){
-    if(!m.tournament.start.empty())return payoff(t)[player];
+  double seatPayoff(const BS &t, uint64_t key = UINT64_MAX){
+    if(!m.tournament.start.empty())return payoff(t,key)[player];
     double value=-t.total[player]-m.anteOf[player];
-    const int count=g.rules.pots(t,pots),rank=u->w.score[player];
-    for(int q=0;q<count;q++){const auto &pot=pots[q];int ties=0;bool eligible=false,lost=false;
-      for(int j=0;j<pot.count;j++){const int seat=pot.seat[j];if(seat>=m.n)continue;
+    const CPot *lay; const int count=layout(t,key,lay),rank=u->w.score[player];
+    for(int q=0;q<count;q++){const auto &pot=lay[q];int ties=0;bool eligible=false,lost=false;
+      for(uint32_t x=pot.mask;x;x&=x-1){const int seat=std::countr_zero(x);
         if(u->w.score[seat]>rank){lost=true;break;}
         eligible|=seat==player;ties+=u->w.score[seat]==rank;
       }
       if(eligible&&!lost)value+=pot.amount/ties;
     }return value;
   }
+  // Child state and reference after action slot `a` (CHANCE_SLOT: next street).
+  int descend(int ref,const BS &t,int a,BS &c){
+    if(ref>=0&&!g.store.empty()){
+      const int id=g.states.find((uint32_t)ref,a);
+      if(id>=0){
+        if((size_t)id<g.store.size()){c=g.store[(size_t)id];return id;}
+        if(a==CHANCE_SLOT)street(ref,t,c);else advance(ref,t,a,c);
+        return id;
+      }
+    }
+    if(a==CHANCE_SLOT)street(ref,t,c);else advance(ref,t,a,c);
+    return child(ref,a,c);
+  }
+  static uint64_t edgeKey(int ref,int a){return ref>=0?(uint64_t)(uint32_t)ref*8+(unsigned)a:UINT64_MAX;}
   static int choose(const double *q, int k, Rng &r) {
     const double value = r.next(); double cumulative = 0;
     for (int a = 0; a < k; a++) { cumulative += q[a]; if (value < cumulative) return a; }
@@ -75,6 +161,7 @@ struct Walker {
   double learn(int d, int ref, double own, double opp, double sp) {
     u->visits++;
     BS &t = st[(size_t)d];
+    const uint64_t tkey = ref == TERMINAL_REF ? terminalKey : UINT64_MAX;
     if (t.kind == 2 || (g.terminalExpectation && !t.live[player] && m.tournament.start.empty())) {
       // A folded player only receives chips if an unmatched top contribution
       // is returned. A covering contribution rules that out.
@@ -85,13 +172,13 @@ struct Walker {
           if(seat!=player && paid(seat)>=wager)
             return -t.total[player]-m.anteOf[player];
       }
-      if(t.kind==2)return seatPayoff(t);
+      if(t.kind==2)return seatPayoff(t,tkey);
     }
     if (d + 1 >= MAX_DEPTH || u->overflow) { u->overflow = true; return 0; }
     BS &c = st[(size_t)d + 1];
-    if (t.kind == 1) { g.rules.nextStreet(t, c); return learn(d + 1, child(ref, CHANCE_SLOT, c), own, opp, sp); }
+    if (t.kind == 1) { const int r = descend(ref, t, CHANCE_SLOT, c); return learn(d + 1, r, own, opp, sp); }
     const int k = t.k;
-    if (k == 1) { advance(ref,t,0,c); return learn(d + 1, child(ref, 0, c), own, opp, sp); }
+    if (k == 1) { const int r = descend(ref, t, 0, c); return learn(d + 1, r, own, opp, sp); }
     double *s = &sig[(size_t)d * 8], *q = &samp[(size_t)d * 8], *v = &val[(size_t)d * 8];
     const int physical=u->w.seat[t.actor];
     int hand=m.hands[t.actor][physical].strategyHand;uint32_t code=u->code[t.length];
@@ -110,26 +197,26 @@ struct Walker {
       if(g.terminalBaseline && t.facing){
         advance(ref,t,0,c);
         if(c.kind==2){
-          const double baseline=seatPayoff(c);double known=baseline;bool terminal=a==0;
+          const double baseline=seatPayoff(c,edgeKey(ref,0));double known=baseline;bool terminal=a==0;
           u->visits++;
           for(int i=1;i<k;i++){
             advance(ref,t,i,c);
-            if(c.kind==2){known+=s[i]*(seatPayoff(c)-baseline);u->visits++;if(a==i)terminal=true;}
+            if(c.kind==2){known+=s[i]*(seatPayoff(c,edgeKey(ref,i))-baseline);u->visits++;if(a==i)terminal=true;}
           }
           if(terminal)return known;
-          advance(ref,t,a,c);
-          const double v=learn(d+1,child(ref,a,c),own,opp*s[a],sp*q[a]);
+          const int r=descend(ref,t,a,c);
+          const double v=learn(d+1,r,own,opp*s[a],sp*q[a]);
           return known+s[a]/q[a]*(v-baseline);
         }
       }
       if(g.terminalExpectation && k==2 && t.facing){
         advance(ref,t,1,c);
-        if(c.kind==2){const double called=seatPayoff(c);advance(ref,t,0,c);
-          if(c.kind==2){u->visits+=2;return s[0]*seatPayoff(c)+s[1]*called;}}
+        if(c.kind==2){const double called=seatPayoff(c,edgeKey(ref,1));advance(ref,t,0,c);
+          if(c.kind==2){u->visits+=2;return s[0]*seatPayoff(c,edgeKey(ref,0))+s[1]*called;}}
       }
-      advance(ref,t,a,c);
+      const int r = descend(ref, t, a, c);
       const double ratio = s[a] / q[a];
-      return ratio * learn(d + 1, child(ref, a, c), own, opp * s[a], sp * q[a]);
+      return ratio * learn(d + 1, r, own, opp * s[a], sp * q[a]);
     }
     const size_t off = u->vals.size();
     if (!u->room(0, 1, 2 * (size_t)k, g.unitLimitBytes)) { u->overflow = true; return 0; }
@@ -137,8 +224,8 @@ struct Walker {
     double mean = 0;
     for (int a = 0; a < k; a++) {
       u->vals[off + (size_t)(k + a)] = avgStep * own * s[a] / sp;
-      advance(ref,t,a,c);
-      v[a] = learn(d + 1, child(ref, a, c), own * s[a], opp, sp);
+      const int r = descend(ref, t, a, c);
+      v[a] = learn(d + 1, r, own * s[a], opp, sp);
       mean += s[a] * v[a];
     }
     for (int a = 0; a < k; a++) u->vals[off + (size_t)a] = step * opp / sp * (v[a] - mean);
@@ -245,9 +332,9 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
   const int B = m->batchDeals, n = m->n;
   const bool parallel = B > 1 && g.perDealStreams;
   const size_t cap=(size_t)m->budgetBytes;
-  const size_t icmBytes=m->tournament.start.empty()?0:127*sizeof(Tournament::Entry)+(sizeof(double)<<m->tournament.start.size());
+  const size_t icmBytes=m->tournament.start.empty()?0:Tournament::workspaceBytes(m->tournament.start.size(),m->budgetBytes);
   const size_t fixed=sizeof(Walker)+icmBytes+512;
-  const size_t cacheBytes=m->budgetBytes>=64*1048576.0 && m->n>=4?512*sizeof(Walker::Edge):0;
+  const size_t cacheBytes=Walker::edgeEntries(m->budgetBytes)*(sizeof(Walker::Edge)+sizeof(Walker::TermEntry)+16);
   const size_t perWorker=fixed+cacheBytes+(MAX_DEPTH+2)*(sizeof(BS)+3*8*sizeof(double))+4096;
   const int affordable=(int)std::min<size_t>(B,cap/perWorker);
   const int T=parallel ? std::max(1,std::min(threads,affordable)) : 1;
@@ -261,6 +348,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
     const bool routeBatch=m->mode!="cpu" && B*n>=128 && m->startLen!=5;
     m->route=routeBatch?"CPU (external sampling traversal)":"CPU (external sampling traversal; small batch or CPU scoring)";
 
+    g.setStoreCap(m->budgetBytes); g.extendStore(m->stateVisits);
     std::vector<std::unique_ptr<Walker>> walkers;
     for (int i = 0; i < T; i++) walkers.emplace_back(new Walker(*m, g, budget));
     std::vector<Unit> units;units.reserve(B);
@@ -359,6 +447,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
       if (status < 0) return failMsg("Non-finite sampled CFR increment");
       if (status == 0) { m->limitReached = true; break; }
       update.commit();
+      g.extendStore(m->stateVisits + visits);
       m->stateVisits += visits; visitsPerDeal = (double)visits / B;
       if (profiled) g.secProfiled += now() - t0;
       m->trainingDeals += B; m->iterations++;

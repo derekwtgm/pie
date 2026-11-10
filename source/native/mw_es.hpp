@@ -52,13 +52,16 @@ struct BS {
   bool live[8];
   double previous[8], put[8], acted[8], total[8], behind[8], to[8];
 };
-struct LPot { double amount; int count; int seat[16]; };
+struct LPot { double amount; int count; int seat[16]; uint32_t mask; };   // 3.8 mask: dealt seats (< n) of seat[]
 // 3.3: discounted CFR schedule for external sampling (see EM.dcfrSchedule in
 // lib_wide.js, which performs the same operations). Prefix products
 // P_t = prod_{u<=t} u^x/(u^x+1) are kept as a mantissa in [0.5,1) and a binary
 // exponent; P_t/P_s is one division times an exact power of two, so beta = 0
 // (factor 1/2 per iteration) never underflows. Rows store the iteration through
 // which their regrets are discounted and catch up when next updated.
+#ifndef EM_STATE_STORE_MIB
+#define EM_STATE_STORE_MIB 16
+#endif
 struct Dcfr {
   double alpha = 1.5, beta = 0, gamma = 2;
   std::vector<double> mant[2]; std::vector<int64_t> expo[2]; double two[1001] = {};
@@ -202,7 +205,8 @@ struct Rules {
     auto add = [&](double amount, const int *e, int c) {
       if (amount <= EPS) return;
       if (np && out[np - 1].count == c && std::equal(e, e + c, out[np - 1].seat)) { out[np - 1].amount += amount; return; }
-      out[np].amount = amount; out[np].count = c; std::copy_n(e, c, out[np].seat); np++;
+      uint32_t mask = 0; for (int j = 0; j < c; j++) if (e[j] < n) mask |= 1u << e[j];
+      out[np].amount = amount; out[np].count = c; out[np].mask = mask; std::copy_n(e, c, out[np].seat); np++;
     };
     add(common, active, na);
     if(m==n && na && std::all_of(committed+1,committed+m,[&](double x){return x==committed[0];})){
@@ -348,6 +352,40 @@ struct Game {
   bool dcfr = false, dcfrEager = false; Dcfr schedule;
   GroupKeys groups; std::vector<std::vector<uint32_t>> startKey;   // 3.3 native Compact/Detailed groups   // 3.3 external-sampling DCFR (eager: validation reference)
   size_t unitLimitBytes = 64u << 20;   // transient increments of one deal
+  // 3.8: betting state of every committed state id (up to a cap), built once
+  // in deal order while increments are merged (single-threaded) and read-only
+  // while workers traverse. A BS depends only on its action path, so stored
+  // entries equal what Rules::advance/nextStreet rebuilt on every visit in 3.7.
+  // The store has its own allowance (1/32 of the table budget, at most
+  // EM_STATE_STORE_MIB, default 16 MiB)
+  // and is NOT charged to the table budget, so when a study reaches its table
+  // limit is unchanged. It is reported as stateCacheMiB and rebuilt after a
+  // restore; a rolled-back update truncates it with the state table.
+  std::vector<BS> store; size_t storeCap = 0;
+  // Ids are assigned in first-visit order, so a prefix holds the most revisited
+  // top of the tree. Storing every state cost 2.8x the table in RAM on the
+  // eight-player linked benchmark and ran slower (random DRAM reads of mostly
+  // once-visited states); a small prefix keeps the gain on hot states.
+  static size_t storeBytesFor(double budgetBytes) { return (size_t)std::min(budgetBytes / 32, (double)EM_STATE_STORE_MIB * 1048576); }
+  void setStoreCap(double budgetBytes) { storeCap = storeBytesFor(budgetBytes) / sizeof(BS); }
+  // Enabled once states are revisited (state visits >= 16 x states): while most
+  // states are new, building and faulting in their stored copies cost more
+  // wall time than the rebuilds they saved (validation/3.8/native-timing.json).
+  void extendStore(long long stateVisits) {
+    if (store.size() > states.parent.size()) store.clear();   // defensive: tables replaced
+    if (store.empty() && (double)stateVisits < 16.0 * (double)states.parent.size()) return;
+    const size_t want = std::min(states.parent.size(), storeCap);
+    if (store.size() >= want) return;
+    try { if (store.capacity() < want) store.reserve(std::min(storeCap, std::max(want + want / 2, store.capacity() * 2))); } catch (const std::bad_alloc &) { storeCap = store.size(); return; }
+    while (store.size() < want) {
+      const size_t id = store.size();
+      if (id == 0) { store.push_back(rootState); continue; }
+      const uint32_t par = states.parent[id]; const int slot = states.slot[id];
+      BS c; if (slot == CHANCE_SLOT) rules.nextStreet(store[par], c); else rules.advance(store[par], slot, c);
+      store.push_back(c);
+    }
+  }
+  double storeMiB() const { return store.capacity() * (double)sizeof(BS) / 1048576.0; }
 };
 } // namespace es
 } // namespace

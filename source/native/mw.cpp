@@ -311,7 +311,7 @@ struct MW {
   }
   Scratch makeScratch() const {
     Scratch s;
-    if (!tournament.start.empty()) { s.icm.cache.resize(127); s.icm.probability.resize(1u<<tournament.start.size()); }
+    if (!tournament.start.empty()) tournament.prepare(s.icm,budgetBytes);
     s.u.assign((size_t)(maxDepth + 2) * n, 0); s.av.assign((size_t)(maxDepth + 2) * kmax, 0);
     s.sig.assign((size_t)(maxDepth + 2) * kmax, 0); s.reach.assign(n, 1); return s;
   }
@@ -757,7 +757,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
     std::vector<GroupedWorld> grouped;
     const double totalBudget=m->budgetBytes;
     struct BudgetReset { MW *m; double bytes; ~BudgetReset(){m->budgetBytes=bytes;} } reset{m,totalBudget};
-    const double icmScratch=m->tournament.start.empty()?0:(1ULL<<m->tournament.start.size())*8+127*sizeof(Tournament::Entry);
+    const double icmScratch=m->tournament.start.empty()?0:(double)Tournament::workspaceBytes(m->tournament.start.size(),m->budgetBytes);
     const double workerScratch=(icmScratch+(m->maxDepth+2)*(m->n+2*m->kmax)*8.0+1024)*threads;
     std::vector<DealWork> phaseWork;
     pool.start(m, threads);
@@ -938,6 +938,7 @@ extern "C" void mw_root_policy(MW *m,JB *out){
   }
   jb_puts(out,"]}");
 }
+#include "explorer.hpp"
 extern "C" void mw_info(MW *m, JB *out) {
   size_t visited = 0; for (auto &r : m->rows) visited += r.visited;
   if (m->es) {
@@ -956,6 +957,7 @@ extern "C" void mw_info(MW *m, JB *out) {
     if(g.dcfr){jb_puts(out,",\"dcfr\":{\"alpha\":");jb_num(out,g.schedule.alpha,6);jb_puts(out,",\"beta\":");jb_num(out,g.schedule.beta,6);
       jb_puts(out,",\"gamma\":");jb_num(out,g.schedule.gamma,6);jb_printf(out,",\"scheduleBytes\":%zu,\"lazyRowDiscount\":true}",g.schedule.bytes());}
     jb_printf(out,",\"tablePeakBytes\":%zu",m->tablePeak.load());
+    jb_printf(out,",\"stateCache\":{\"states\":%zu,\"capStates\":%zu,\"bytes\":%.0f,\"chargedToTableBudget\":false}",g.store.size(),g.storeCap,g.storeMiB()*1048576.0);
     jb_printf(out,",\"tableCapacityBytes\":%zu,\"scratchPeakBytes\":%zu,\"scratchBudgetBytes\":%zu",persistent,g.scratchPeak.load(),(size_t)m->budgetBytes);
     jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
     jb_puts(out, ",\"budgetMiB\":"); jb_num(out, m->budgetBytes / 1048576.0, 1);
@@ -1352,7 +1354,7 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
     meta.visited=1; meta.sync=r.sync;
     std::memcpy(staged.vals.data()+meta.off,buf+r.at,16*(size_t)r.k);
   }
-  g.states=std::move(fresh);
+  g.states=std::move(fresh); g.store.clear();
   if (rowKeys) { g.groups = std::move(stagedGroups); g.startKey = std::move(stagedStart); }
   m->rows.swap(staged.rows); m->hkeys.swap(staged.hkeys); m->hrow.swap(staged.hrow);
   m->vals.swap(staged.vals); m->delta.swap(staged.delta); m->touched.clear();

@@ -41,6 +41,11 @@ int mw_train(MW *m, long long iterations, int threads, volatile int *stop, mw_pr
 size_t mw_export(MW *m, unsigned char **out);
 // {"protocol","iterations","trainingDeals","stateVisits","rng","rows","tableMiB","limitReached","threads"}
 void mw_root_policy(MW *m, JB *out);
+// 3.8: strategy explorer. Request JSON {path:[action slots], board:[dealt cards],
+// rangeSeat?, offset?, limit?}; writes one node's description and the stored
+// strategies of its rows. Returns an HTTP-style status (200 on success) and
+// sets err otherwise. *cancel is polled. See explorer.hpp.
+int mw_node_query(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
 void mw_info(MW *m, JB *out);
 // 3.1: CUDA device probe (availability, reason, name, compute capability, VRAM).
 void mw_cuda_info(JB *out);
