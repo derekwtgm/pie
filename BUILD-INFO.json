@@ -1,6 +1,6 @@
 {
- "version": "3.7",
- "build": "d802f79f8736854f",
+ "version": "3.8",
+ "build": "fb81c492ed20320d",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",
@@ -19,6 +19,7 @@
   "native/es_groups.hpp",
   "native/es_memory.hpp",
   "native/es_transaction.hpp",
+  "native/explorer.hpp",
   "native/gen_cl.py",
   "native/gen_ptx.py",
   "native/gen_ui.py",
@@ -115,6 +116,7 @@
   "tools/strata32.js",
   "tools/stress28.js",
   "tools/test_devices.ps1",
+  "tools/test_explorer_host.js",
   "tools/test_large_checkpoint.ps1",
   "tools/test_limits.py",
   "tools/test_native_host.js",
@@ -136,6 +138,7 @@
   "web/lib_deeplib.js",
   "web/lib_eqdata.js",
   "web/lib_eval.js",
+  "web/lib_explorer.js",
   "web/lib_fgs.js",
   "web/lib_flops.js",
   "web/lib_icm.js",

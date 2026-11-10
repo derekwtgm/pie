@@ -17,8 +17,10 @@ if [ "${2:-}" != --package-only ]; then
  cp "$src/build/build-info.json" "$top/BUILD-INFO.json"
  export EM_TEST_HOST="$src/build/linux/eightmax" EM_TEST_MWCLI="$src/build/linux/mwcli"
  node "$src/tools/run_tests.js" "$val/regression-tests.json"
- python3 "$val/restore-sizes.py" "$EM_TEST_HOST" "$val/native-restore-sizes.json"
- python3 "$val/native-continuation.py" "$EM_TEST_HOST" "$EM_TEST_MWCLI" "$val/native-continuation.json"
+ # 3.7 restoration and continuation utilities are unchanged and still apply.
+ python3 "$top/validation/3.7/restore-sizes.py" "$EM_TEST_HOST" "$val/native-restore-sizes.json"
+ python3 "$top/validation/3.7/native-continuation.py" "$EM_TEST_HOST" "$EM_TEST_MWCLI" "$val/native-continuation.json"
+ node "$src/tools/test_explorer_host.js" "$EM_TEST_HOST" "$val/explorer-host-linux.json"
  python3 "$src/tools/checkpoint_stress36.py" "$EM_TEST_HOST" "$val/checkpoint-sizes.json"
  for t in package_smoke mtt_ui_smoke checkpoint_ui_smoke; do node "$src/tools/$t.js" "$top" > "$val/$t.log"; done
  node "$src/tools/test_native_host.js" "$EM_TEST_HOST" "$src/build" "$val/native-host-linux.json"

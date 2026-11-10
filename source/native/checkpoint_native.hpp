@@ -108,6 +108,10 @@ static void verify(Reader &r,MW &m,int iterations,const char *dir,int(*stop)(),i
   auto budget=[](bool ok){if(!ok)throw Reject{503,"Native checkpoint exceeds the available solver RAM budget"};};
   flag("rowSync",g.dcfr);flag("rowKeys",g.groups.on);const char *crc=jstr(get("rowCrc32"));require(crc&&strlen(crc)==8,"Invalid native checksum");
   r.hashing=true;uint32_t sc=r.get<uint32_t>();require(sc&&sc<(1u<<27)&&sc<=(r.total-r.pos)/9,"Invalid state count");
+  if(load){   // 3.8: the betting-state table alone (rows are checked once their count is read)
+    const auto est=es::restoreEstimate(sc,0,0,1,0);const double need=est.states+est.stateHash;
+    if(m.bytes+need>m.budgetBytes){static thread_local char text[256];snprintf(text,sizeof text,"Restoring this study needs at least %.0f MiB for its %u betting states alone; %.0f MiB is available. Close other programs or raise EIGHTMAX_RESTORE_MIB / EIGHTMAX_PROCESS_MIB.",need/1048576.0,sc,(m.budgetBytes-m.bytes)/1048576.0);throw Reject{503,text};}
+  }
   States states{r,m,r.pos,sc,load};Unique keys(dir,stop,space);
   for(uint32_t i=0;i<sc;i++){if(!(i%8192))checkpoint();
     unsigned char raw[9];r.take(raw,9);auto s=States::unpack(raw);
@@ -122,6 +126,20 @@ static void verify(Reader &r,MW &m,int iterations,const char *dir,int(*stop)(),i
       (b.kind!=0||(s.actor==b.actor&&s.k==b.k)),"State disagrees with betting rules");
   }
   uint32_t rows=r.get<uint32_t>();require(rows<=(r.total-r.pos)/40,"Invalid row count");
+  if(load&&!g.groups.on){
+    // 3.8: estimate every live structure of the restored study before the
+    // large allocations, and refuse with the numbers when it cannot fit.
+    const uint64_t fixed=uint64_t(rows)*(12+(g.dcfr?4:0));
+    if(fixed<=r.total-r.pos){
+      auto est=es::restoreEstimate(sc,rows,(r.total-r.pos-fixed)/8,m.batchDeals,(double)sizeof(MW::RowMeta));
+      m.restoreEstimate=est;
+      if(est.total>m.budgetBytes-m.bytes+est.states+est.stateHash){
+        static thread_local char text[320];snprintf(text,sizeof text,"Restoring this study needs an estimated %.0f MiB of solver tables (%.0f MiB values, %.0f MiB row index, %.0f MiB betting states); %.0f MiB is available. Close other programs or raise EIGHTMAX_RESTORE_MIB / EIGHTMAX_PROCESS_MIB.",
+          est.total/1048576.0,est.values/1048576.0,(est.rowMeta+est.rowHash)/1048576.0,(est.states+est.stateHash)/1048576.0,(m.budgetBytes-m.bytes+est.states+est.stateHash)/1048576.0);
+        throw Reject{503,text};
+      }
+    }
+  }
   if(load){
     // Reserve exact physical value counts once. The PMR arena charges allocations
     // before they happen and also charges the eventual scratch for frozen batches.

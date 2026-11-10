@@ -1,14 +1,28 @@
-EightMax 3.7 - 8-max MTT solver for Windows
+EightMax 3.8 - 8-max MTT solver for Windows
 ============================================
 
-CONTINUING A NATIVE STUDY
+NEW IN 3.8: STRATEGY EXPLORER FOR NATIVE STUDIES
 Extract the ZIP and double-click EightMax.exe. Open Multiway, then Native
-checkpoint recovery. Open latest on desktop or choose a portable .emstudy.
+checkpoint recovery, and open a saved native study (Open latest on desktop or
+choose a portable .emstudy). Choose Explore strategy (preflop to river).
+Click actions to move through the solved betting tree, select flop, turn and
+river cards when a street ends, and click a hand in the 13x13 matrix to see
+each combo. Previous decision and the history buttons go back. Strategy
+switches between the average strategy (the solver output) and current regret
+matching. Range of shows another seat's reach distribution. The explorer reads
+one decision point at a time from the desktop host, so large studies are not
+copied into the browser. EVs are not shown: saved native studies do not store
+them. Branches outside the solved bet sizes are refused, not invented.
+Native restores are now checked against an up-front memory estimate and are
+refused with the required and available MiB when they cannot fit.
+Read RELEASE-3.8.md for measured speed, accuracy, memory and test results.
+
+CONTINUING A NATIVE STUDY
 After verification, enter Additional updates and choose Continue training.
 View starting-hand strategy shows root action probabilities. Use Save native
 checkpoint to commit and Close desktop study to release memory.
 The default storage cap is 2,048 MiB. See RELEASE-3.7.md for larger studies,
-generation retention, disk estimates, RAM limits and validation results.
+generation retention, disk estimates and RAM limits.
 Use Run self-tests.bat and Validate CUDA hardware.bat for your Windows PC.
 
 QUICK START

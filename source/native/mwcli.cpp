@@ -75,6 +75,23 @@ int main(int argc, char **argv) {
     if (status != 200) { std::fprintf(stderr, "error %d: %s\n", status, err); jb_free(&j); mw_free(m); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); mw_free(m); return 0;
   }
+  // 3.8: mwcli --restore spec.json state [memoryMiB]: restore only; prints the
+  // pre-allocation estimate, the live table capacity and the process peak RSS.
+  if ((argc == 4 || argc == 5) && !std::strcmp(argv[1], "--restore")) {
+    std::vector<unsigned char> spec = slurp(argv[2]); char err[512] = ""; double mib = 4096;
+    if (argc == 5 && !numberArg(argv[4], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
+    const double before = peakRssMiB();
+    FILE *f = std::fopen(argv[3], "rb"); std::error_code ec; auto size = std::filesystem::file_size(argv[3], ec);
+    std::string text((const char *)spec.data(), spec.size()); MW *m = nullptr;
+    auto t0 = std::chrono::steady_clock::now();
+    const int status = f && !ec ? mw_load_stream(f, size, text.c_str(), mib, -1, &m, err, sizeof err, nullptr, nullptr) : 404;
+    if (f) std::fclose(f);
+    const double secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    if (status != 200) { std::printf("{\"status\":%d,\"error\":\"%s\",\"seconds\":%.3f,\"processPeakRssMiB\":%.1f}\n", status, err, secs, peakRssMiB()); return 1; }
+    JB j; jb_init(&j); mw_info(m, &j);
+    std::printf("%.*s,\"restoreSeconds\":%.3f,\"rssBeforeMiB\":%.1f,\"processPeakRssMiB\":%.1f,\"fileBytes\":%llu}\n", (int)j.n - 1, j.s, secs, before, peakRssMiB(), (unsigned long long)size);
+    jb_free(&j); mw_free(m); return 0;
+  }
   if (argc < 5 || argc > 7) { std::fprintf(stderr, "usage: mwcli spec.json iterations threads out.state [memoryMiB] [in.state]\n"); return 2; }
   // 3.3: strict numeric arguments (atoll/atoi/atof accepted "abc" as 0 and negative thread counts).
   long long iterations = 0, threads = 0; double memoryMiB = 4096;

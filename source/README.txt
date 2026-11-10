@@ -1,6 +1,11 @@
-EightMax Windows 3.7 source
+EightMax Windows 3.8 source
 
-Read ../RELEASE-3.7.md for build requirements, reproduction commands, release validation and hardware checks.
+Read ../RELEASE-3.8.md and ../validation/3.8/README.md for what changed, measurements and reproduction.
+3.8 additions: native/explorer.hpp (mw_node_query, POST /api/mw/node), web/lib_explorer.js (explorer UI),
+restore estimate (mw_es.hpp restoreEstimate, checkpoint_native.hpp), engine caches (icm.hpp, mw_es.hpp,
+mw_es_impl.hpp), mwcli --node / --restore, tools/test_explorer_host.js, tests/v38.test.js.
+Toolchains for 3.8: Ubuntu 24.04, Node 22, GCC 13, MinGW-w64 GCC 13 (posix), Python 3.12, Wine 9.0 (tests only).
+Earlier: ../RELEASE-3.7.md for checkpoint storage and restoration.
 
 HISTORICAL 3.1 BUILD, TEST AND BENCHMARK
 Toolchains used for this release (Ubuntu 24.04): Node 22, GCC 13, MinGW-w64 GCC 13

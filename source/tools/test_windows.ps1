@@ -135,6 +135,15 @@ try {
     $null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/$route" -Method POST -Headers @{'X-EightMax'='1'}
   }
   Assert-Check ((Api 'mw/status').engine.rng -eq $status.engine.rng) 'Reopened native generation with the saved RNG'
+  # 3.8: native strategy explorer on the restored desktop study
+  $node=Api 'mw/node' @{path=@();limit=1326}
+  Assert-Check ($node.node.kind -eq 'decision' -and $node.actions.Count -ge 2 -and $node.hands.items.Count -gt 0 -and $node.ev.available -eq $false) 'Explorer reads the root decision of the restored native study'
+  $sum=0.0;foreach($p in $node.aggregate.average){$sum+=$p}
+  Assert-Check ([math]::Abs($sum-1) -lt 1e-9) 'Explorer aggregate strategy is normalized'
+  $deeper=Api 'mw/node' @{path=@(1);limit=10}
+  Assert-Check ($deeper.history.Count -eq 1 -and $deeper.hands.items.Count -le 10) 'Explorer follows an action branch with a bounded page'
+  $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/node" -Method POST -Headers @{'X-EightMax'='1'} -Body '{"path":[7]}'}catch{$code=[int]$_.Exception.Response.StatusCode}
+  Assert-Check ($code -eq 400) 'Explorer refuses a branch outside the solved abstraction'
   $passed = $true
 } catch {
   $failure = $_.Exception.Message

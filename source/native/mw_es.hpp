@@ -102,6 +102,26 @@ struct Dcfr {
   }
   double averageWeight(double t) const { return powExact(t, gamma); }
 };
+// 3.8: live memory of a restored external-sampling study, from the counts in
+// its archive header, before any large allocation. Mirrors the allocations of
+// the loader (checkpoint_native.hpp) and the table/hash growth rules: values
+// (+ equal frozen-batch delta when batchDeals > 1, + reserve headroom), row
+// metadata, the row hash (power of two >= 2 x rows, 12 bytes per bucket), the
+// betting-state arrays (9 bytes per state, vector growth up to 2x) and the
+// state hash (power of two, kept at most half full, 12 bytes per bucket).
+struct RestoreEstimate { double values = 0, rowMeta = 0, rowHash = 0, states = 0, stateHash = 0, total = 0; };
+inline size_t pow2AtLeast(size_t x, size_t lo) { size_t b = lo; while (b < x) b *= 2; return b; }
+inline RestoreEstimate restoreEstimate(uint64_t stateCount, uint64_t rowCount, uint64_t valueCount, int batchDeals, double rowMetaBytes) {
+  RestoreEstimate e;
+  const double headroom = (double)std::min<uint64_t>(valueCount / 256 + 16, 131072);
+  e.values = ((double)valueCount + headroom) * 8.0 * (batchDeals > 1 ? 2 : 1);
+  e.rowMeta = ((double)rowCount + (double)std::min<uint64_t>(rowCount / 256 + 4, 16384)) * rowMetaBytes;
+  e.rowHash = (double)pow2AtLeast(2 * (rowCount + 1), 1024) * 12.0;
+  e.states = (double)pow2AtLeast(stateCount, 1) * 9.0;
+  e.stateHash = (double)pow2AtLeast(2 * stateCount, 4096) * 12.0;
+  e.total = e.values + e.rowMeta + e.rowHash + e.states + e.stateHash;
+  return e;
+}
 inline double jsMax0(double v) { return v > 0 ? v : 0.0; }   // Math.max(0, v) for finite v (returns +0 for -0)
 
 struct Rules {

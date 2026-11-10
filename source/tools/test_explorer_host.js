@@ -32,7 +32,10 @@ function average(v) { const k = v.length / 2; let t = 0; for (let a = 0; a < k; 
   const out = { generated: new Date().toISOString(), host: path.basename(exe), checks: [] };
   const check = (name, ok, detail) => { out.checks.push({ name, ok: !!ok, detail }); if (!ok) throw Error(name + ': ' + JSON.stringify(detail)); };
   const port = await freePort(), home = fs.mkdtempSync(path.join(os.tmpdir(), 'em38-ex-'));
-  const host = spawn(exe, ['--no-browser', '--port=' + port], { env: { ...process.env, HOME: home, USERPROFILE: home, APPDATA: home, LOCALAPPDATA: home, EIGHTMAX_DATA: home }, stdio: 'ignore' });
+  // Non-Windows runs of a Windows .exe use Wine (reported as such, not as physical Windows).
+  const viaWine = process.platform !== 'win32' && /\.exe$/i.test(exe), wine = process.env.EM_WINE || 'wine';
+  out.runner = viaWine ? 'wine' : process.platform;
+  const host = spawn(viaWine ? wine : exe, viaWine ? [exe, '--no-browser', '--port=' + port] : ['--no-browser', '--port=' + port], { env: { ...process.env, HOME: home, USERPROFILE: home, APPDATA: home, LOCALAPPDATA: home, EIGHTMAX_DATA: home }, stdio: 'ignore' });
   const base = 'http://127.0.0.1:' + port + '/api/';
   async function api(route, body, raw) {
     const r = await fetch(base + route, body === undefined ? {} : { method: 'POST', headers: { 'X-EightMax': '1' }, body: typeof body === 'string' ? body : JSON.stringify(body) });
@@ -40,7 +43,7 @@ function average(v) { const k = v.length / 2; let t = 0; for (let a = 0; a < k; 
     const text = await r.text(); return { status: r.status, value: JSON.parse(text), size: text.length };
   }
   try {
-    for (let i = 0; i < 100; i++) { try { await fetch(base + 'mw/status'); break; } catch { await sleep(100); } }
+    for (let i = 0; i < 600; i++) { try { await fetch(base + 'mw/status'); break; } catch { await sleep(100); } }
     // Eight-player linked preflop-to-river study (3.7 benchmark rules), chip EV.
     const cfg = { privateMode: 'sampled', abstraction: 'exact', traversal: 'external', evaluationDeals: 1024, privateSeed: 5,
       preflop: { mode: 'linked', opens: '2,a', raises: '2.75x,a', maxBets: 3 }, board: '', dealt: 8, common: 0, stacks: [24.9, 18, 40, 12, 30, 9, 55, 20], ranges: Array(8).fill('random'),

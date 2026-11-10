@@ -1,4 +1,4 @@
-# EightMax 3.7 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
+# EightMax 3.8 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
 # Produces hardware-validation.json next to the executables. Every number in it is
 # measured on the machine that runs this script.
 #   1. CUDA probe: driver, GPU name, compute capability, VRAM, loaded image (SASS or PTX).
@@ -26,7 +26,7 @@ function Body-Hash($path) {
   try { return [BitConverter]::ToString($sha.ComputeHash($state, $at, $state.Length - $at)).Replace('-', '') } finally { $sha.Dispose() }
 }
 try {
-  Write-Host 'EightMax 3.7 hardware validation'
+  Write-Host 'EightMax 3.8 hardware validation'
   $build = (& $Exe --build-id)
   $cuda = (& $Exe --cuda-info) | ConvertFrom-Json
   if ($cuda.available) { Write-Host ("CUDA: {0}, compute capability {1}, {2} MiB total, {3} MiB free, image {4}" -f $cuda.name, $cuda.computeCapability, $cuda.totalMiB, $cuda.freeMiB, $cuda.image) }
@@ -133,7 +133,7 @@ try {
   try { & (Join-Path $PSScriptRoot 'test_devices.ps1'); $devices = Get-Content (Join-Path $root 'device-results.json') -Raw | ConvertFrom-Json }
   catch { $failures += "Scoring-mode comparison failed: $($_.Exception.Message)" }
 
-  $out = [ordered]@{ tool = 'EightMax 3.7 hardware validation'; build = $build; date = (Get-Date).ToString('s');
+  $out = [ordered]@{ tool = 'EightMax 3.8 hardware validation'; build = $build; date = (Get-Date).ToString('s');
     os = [Environment]::OSVersion.VersionString; cpu = $env:PROCESSOR_IDENTIFIER; logicalProcessors = $logical;
     memoryGiB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1);
     graphics = @(Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, AdapterRAM);
@@ -146,7 +146,7 @@ try {
   if ($failures.Count) { $failures | ForEach-Object { Write-Host "FAILED: $_" }; exit 1 }
   Write-Host 'Completed available checks. See gpuExecutionVerified for physical CUDA status.'
 } catch {
-  [ordered]@{tool='EightMax 3.7 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
+  [ordered]@{tool='EightMax 3.8 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
   Write-Host ('Hardware check stopped: '+$_.Exception.Message)
   exit 1
 } finally { Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue }

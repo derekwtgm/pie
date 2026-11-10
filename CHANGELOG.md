@@ -1,3 +1,11 @@
+# EightMax Windows 3.8
+
+- Profiled the 3.7 native external-sampling engine (instruction-level) on the ten benchmark studies. Repaired the measured hotspots without changing any result: ICM finishing-set sums and places are built incrementally (no per-mask rescan, no libgcc popcount call), terminal ICM results use a budget-scaled exact cache, betting transitions and terminal pot layouts are cached per worker, and the betting states of hot committed states are stored once. Every exported state is byte-identical to 3.7 for equal settings (240 paired runs, 1 and 4 threads, all estimators).
+- Added a native-backed strategy explorer for open native studies (the interface control is in Native checkpoint recovery for desktop studies; the host API also serves an idle live native study): preflop, flop, turn and river decision points, validated action paths, chance-card selection, legal actions and bet sizes, pots, stacks, live/folded/all-in seats, 13x13 matrix, per-combo frequencies, range reach, aggregate frequencies, average versus current strategies, card blockers and coverage. The host returns one node per request (at most 1,326 hands). Unsolved branches are refused, never synthesized. EVs are not shown because the stored state does not contain them.
+- Added a restoration memory estimate computed from the archive counts before the large allocations. Restores that cannot fit are refused immediately with the required and available MiB. The estimate matched the restored live tables exactly on five genuine trained states from 157 MiB to 1.55 GiB.
+- Added 8 regression tests (327 total), an independent explorer reference checker, a genuine trained-state restoration series, an interleaved native timing harness, sanitizer runs and Windows self-test explorer checks. See RELEASE-3.8.md and validation/3.8.
+- Rebuilt EightMax.exe, mwcli.exe and the offline interface. The executables were cross-compiled on Linux and were not executed on Windows or on an NVIDIA GPU for this release.
+
 # EightMax Windows 3.7
 
 - Added streamed reconstruction of a live C++ external-sampling study from a portable or stored generation. The prior state survives failed imports, and the resumed engine can train, expose per-hand root averages, stop and save again.

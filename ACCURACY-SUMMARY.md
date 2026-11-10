@@ -1,3 +1,7 @@
+# Version 3.8 measurements
+
+3.8 exports byte-identical states to 3.7 for equal settings (240 paired runs), so accuracy at equal sampled deals is unchanged. At equal time (2 s, 3 seeds) 3.8 completed 13-28% more deals in the heads-up river, heads-up turn and three-player river studies; mean exact exploitability or largest unilateral gain was lower (0.0354 to 0.0343 BB, 0.3205 to 0.3152 BB, 0.0645 to 0.0519), but every paired 95% interval includes zero. Multiway values are approximate one-seat response gains, not exploitability. The fold control variate remains optional and off by default. See RELEASE-3.8.md and validation/3.8/scenarios-accuracy.json.
+
 # Version 3.7 measurements
 
 At 500,000 deals, the seven-seed mean exact heads-up river exploitability was 0.0358 BB in 3.6 and 0.0389 BB with the optional 3.7 fold baseline. The paired 95% interval for the reduction includes zero at every tested budget. The new fold-payoff estimator remains optional. The default uses the previous estimator. Equal-deal and equal-time benchmarks use exact best responses in the finite heads-up river and sampled unilateral gains in large multiway games. See validation/3.7 and RELEASE-3.7.md.

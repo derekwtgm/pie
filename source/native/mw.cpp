@@ -122,6 +122,7 @@ struct MW {
   explicit MW(std::pmr::memory_resource *tableMemory=nullptr):
     vals(tableMemory?tableMemory:&arena),delta(vals.get_allocator()),rows(vals.get_allocator()),
     hkeys(vals.get_allocator()),hrow(vals.get_allocator()),touched(vals.get_allocator()) {}
+  es::RestoreEstimate restoreEstimate;   // 3.8: set by a native restore
   std::shared_ptr<es::Game> es;   // protocol 4: native betting rules + external sampling
   Tournament tournament;
   std::string mode="cpu",studyId;
@@ -957,6 +958,7 @@ extern "C" void mw_info(MW *m, JB *out) {
     if(g.dcfr){jb_puts(out,",\"dcfr\":{\"alpha\":");jb_num(out,g.schedule.alpha,6);jb_puts(out,",\"beta\":");jb_num(out,g.schedule.beta,6);
       jb_puts(out,",\"gamma\":");jb_num(out,g.schedule.gamma,6);jb_printf(out,",\"scheduleBytes\":%zu,\"lazyRowDiscount\":true}",g.schedule.bytes());}
     jb_printf(out,",\"tablePeakBytes\":%zu",m->tablePeak.load());
+    if(m->restoreEstimate.total>0)jb_printf(out,",\"restoreEstimate\":{\"totalBytes\":%.0f,\"valueBytes\":%.0f,\"rowMetaBytes\":%.0f,\"rowHashBytes\":%.0f,\"stateBytes\":%.0f,\"stateHashBytes\":%.0f}",m->restoreEstimate.total,m->restoreEstimate.values,m->restoreEstimate.rowMeta,m->restoreEstimate.rowHash,m->restoreEstimate.states,m->restoreEstimate.stateHash);
     jb_printf(out,",\"stateCache\":{\"states\":%zu,\"capStates\":%zu,\"bytes\":%.0f,\"chargedToTableBudget\":false}",g.store.size(),g.storeCap,g.storeMiB()*1048576.0);
     jb_printf(out,",\"tableCapacityBytes\":%zu,\"scratchPeakBytes\":%zu,\"scratchBudgetBytes\":%zu",persistent,g.scratchPeak.load(),(size_t)m->budgetBytes);
     jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
