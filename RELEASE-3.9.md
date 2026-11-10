@@ -232,8 +232,9 @@ in `hardware-validation.json`.
 | 3.8 baseline reproduced here | 327 | 0 | 0 | 0 |
 | 3.9 full suite (Linux native) | 341 | 0 | 0 | 0 |
 | v38 + v39 native suites under ASan + UBSan | 22 | 0 | 0 | 0 (0 sanitizer reports) |
-| v39 suite against Windows mwcli.exe under Wine | see validation/3.9/wine-v39.log |
-| Explorer/EV/gain HTTP host test, Linux and Windows host under Wine | see explorer-host-*.json |
+| Windows mwcli.exe under Wine vs Linux build: trained states and EV / gain / malformed-request answers (wine-parity.json) | 18 | 0 | 0 | 0 |
+| Explorer/EV/gain HTTP host test: Linux host and Windows EightMax.exe under Wine (explorer-host-*.json) | 105 + 105 | 0 | 0 | 0 |
+| Full v39 file against mwcli.exe under Wine | — | — | — | 1 (file limit 50 min: the JS reference launches hundreds of Wine processes; replaced by wine-parity.json) |
 
 Hardware-dependent: 13 tests ran with the CUDA driver *test double* (not a
 GPU); no physical GPU or physical Windows test was run.

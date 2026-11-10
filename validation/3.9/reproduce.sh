@@ -18,4 +18,5 @@ node tools/scenarios39.js "$old" "$src/build/linux/mwcli" "$out/scenarios39.json
 node tools/timing39.js "$old" "$src/build/linux/mwcli" "$out/timing39.json" 7
 node tools/convergence39.js "$old" "$src/build/linux/mwcli" "$out/convergence39.json"
 printf '#!/bin/sh\nexport WINEDEBUG=-all\nfor a in "$@"; do case "$a" in /*) set -- "$@" "Z:$a";; *) set -- "$@" "$a";; esac; shift; done\nexec wine "%s" "$@"\n' "$src/build/windows/mwcli.exe" > "$w/wine-mwcli"; chmod +x "$w/wine-mwcli"
-EM_TEST_MWCLI="$w/wine-mwcli" node --test --test-timeout=2400000 tests/v39.test.js > "$out/wine-v39.log" 2>&1 || true
+node "$top/validation/3.9/wine-parity.js" "$src/build/linux/mwcli" "$w/wine-mwcli" "$out/wine-parity.json"
+node tools/test_explorer_host.js "$src/build/windows/EightMax.exe" "$out/explorer-host-wine.json"
