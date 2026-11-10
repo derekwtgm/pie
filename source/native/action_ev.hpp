@@ -117,6 +117,8 @@ struct EvShared {
   EvControl ctl; ShowdownStats show; Device device = Device::Auto; size_t gpuBudget = 512ULL << 20; long long memoryBudget = 512LL << 20;
   // EM_EV_NO_TABLES=1 (tests, benchmarks): use the 3.9 per-board runout enumeration.
   bool noTables = std::getenv("EM_EV_NO_TABLES") != nullptr;
+  // utility:"chip" in a tournament study evaluates net chips instead of ICM equity.
+  bool forceChip = false;
   Fallback fallback = Fallback::Uniform;
 };
 struct Coverage {
@@ -141,7 +143,7 @@ struct Evaluator {
   struct Key { int hand; uint32_t code; bool ok; };
   std::unordered_map<uint64_t, Key> memo; size_t memoCap = 4000000;
   std::array<std::unique_ptr<ShowTable>, 3> tables; long long tableStamp = 0;
-  Evaluator(const MW &mm, const Game &gg, Pol p, bool refuse, int seat, EvShared *shared) : m(mm), g(gg), pol(p), refuseMissing(refuse), actor(seat), sh(shared), tour(!mm.tournament.start.empty()) {
+  Evaluator(const MW &mm, const Game &gg, Pol p, bool refuse, int seat, EvShared *shared) : m(mm), g(gg), pol(p), refuseMissing(refuse), actor(seat), sh(shared), tour(!mm.tournament.start.empty() && !shared->forceChip) {
     poller.ctl = &sh->ctl; poller.fault = sh->ctl.faultSite;
     if (tour) m.tournament.prepare(icm, std::min(m.budgetBytes, 64.0 * 1048576));
     memoCap = (size_t)std::clamp<long long>(sh->memoryBudget / 16 / 96, 4096, 262144);
@@ -272,11 +274,12 @@ struct Evaluator {
     // evict the least recently used table first
     size_t slot = 0; for (size_t i = 0; i < tables.size(); i++) { if (!tables[i]) { slot = i; break; } if (tables[i]->stamp < tables[slot]->stamp) slot = i; }
     if (tables[slot]) { sh->ctl.release(tables[slot]->charged); tables[slot].reset(); }
-    if (sh->ctl.memoryBytes.load() + bytes > sh->memoryBudget) return nullptr;
-    auto T = std::make_unique<ShowTable>();
+    if (!sh->ctl.tryCharge(bytes, sh->memoryBudget)) return nullptr;
+    std::unique_ptr<ShowTable> T;
+    try { T = std::make_unique<ShowTable>(); T->scores.resize((size_t)boards * (size_t)m.n); } catch (const std::bad_alloc &) { sh->ctl.release(bytes); return nullptr; }
     T->used = used; T->len = len; T->n = m.n; std::copy_n(cards, len, T->prefix); std::copy_n(holes, 2 * m.n, T->holes); T->boards = boards;
     std::copy_n(deck, deckCount, T->deck); T->deckCount = deckCount; T->stamp = ++tableStamp;
-    T->scores.resize((size_t)boards * (size_t)m.n); T->charged = bytes; sh->ctl.charge(bytes);
+    T->charged = bytes;
     // Scheduling: small tables always use the CPU (transfers and launches cost
     // more than they save); "auto" uses CUDA only for large tables and only
     // after the device has been verified against the CPU and measured at least
@@ -598,8 +601,8 @@ inline void nodeJson(JB *out, const MW &m, const Resolved &R) {
   jb_puts(out, ",\"path\":["); bool first = true; for (const Step &s : R.steps) if (s.seat >= 0) { jb_printf(out, "%s%d", first ? "" : ",", s.slot); first = false; } jb_puts(out, "]}");
   (void)m;
 }
-inline void utilityJson(JB *out, const MW &m) {
-  if (m.tournament.start.empty()) jb_puts(out, ",\"utility\":{\"model\":\"chip\",\"unit\":\"BB\",\"convention\":\"ev = net chips of the acting seat relative to the study root (chips collected from main and side pots minus chips it puts in from the study root on, plus its own ante in preflop studies); identical for every action at this node. fromDecision = ev + chips the seat had already committed at this decision (sunk), i.e. chips collected minus ADDITIONAL chips put in from this decision on.\"}");
+inline void utilityJson(JB *out, const MW &m, bool forceChip = false) {
+  if (m.tournament.start.empty() || forceChip) jb_puts(out, ",\"utility\":{\"model\":\"chip\",\"unit\":\"BB\",\"convention\":\"ev = net chips of the acting seat relative to the study root (chips collected from main and side pots minus chips it puts in from the study root on, plus its own ante in preflop studies); identical for every action at this node. fromDecision = ev + chips the seat had already committed at this decision (sunk), i.e. chips collected minus ADDITIONAL chips put in from this decision on.\"}");
   else jb_puts(out, ",\"utility\":{\"model\":\"icm\",\"unit\":\"payout units\",\"convention\":\"ev = tournament equity of the acting seat (expected payout under the study's ICM payout table, exact finishing-set recursion, busted players ranked by starting stack) after the hand; chip EV is not substituted.\"}");
 }
 inline const char *interpretation(const char *c) {
@@ -695,8 +698,6 @@ inline void deadlineJson(JB *o, EvShared &S, long long timeMs) {
 // training counters, and cleared by every training call, import and restore.
 // 4.0: guarded by a mutex because desktop evaluation jobs run concurrently.
 static std::mutex &evCacheMutex() { static std::mutex mu; return mu; }
-// Extended entry point: the desktop host passes a control for progress and cancellation.
-struct MwEvJob { es::EvShared *shared; };
 static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel, es::EvShared *shared) {
   using namespace es;
   if (!m || !m->es) { fail(err, errlen, "Action EVs need a native external-sampling study"); return 400; }
@@ -707,7 +708,10 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
   struct Free { JV *v; ~Free() { json_free(v); } } freeReq{req};
   try {
     const Fields F(req, {"path", "board", "hands", "range", "policy", "missing", "method", "futureActions", "samples", "seed", "maxVisits", "timeLimitMs", "studyId", "stateId",
-                         "minSamples", "threads", "memoryMiB", "gpuMiB", "device", "equivalenceMargin", "fallback", "fallbackWarnShare", "fallbackSevereShare", "fallbackSensitivity"});
+                         "minSamples", "threads", "memoryMiB", "gpuMiB", "device", "equivalenceMargin", "fallback", "fallbackWarnShare", "fallbackSevereShare", "fallbackSensitivity", "utility"});
+    const std::string utility = F.choice("utility", {"study", "chip", "icm"}, "study");
+    if (utility == "icm" && m->tournament.start.empty()) throw QueryError{400, "utility icm needs a study with a tournament payout table"};
+    S.forceChip = utility == "chip" && !m->tournament.start.empty();
     const std::vector<int> path = F.intArray("path", 0, 7, MAX_DEPTH), dealt = F.intArray("board", 0, 51, 5);
     std::vector<int> hands = F.intArray("hands", 0, 1325, 64);
     bool range = false; if (const JV *v = F.get("range")) { if (v->type != J_BOOL) throw QueryError{400, "range must be true or false"}; range = v->num != 0; }
@@ -731,7 +735,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     std::string key = std::to_string(m->iterations) + "|" + std::to_string(m->trainingDeals) + "|" + std::to_string(m->rows.size()) + "|" + std::to_string(m->stateVisits) + "|";
     for (int a : path) key += std::to_string(a) + ","; key += "|"; for (int c : dealt) key += std::to_string(c) + ","; key += "|"; for (int h : hands) key += std::to_string(h) + ",";
     key += std::string("|") + (range ? "r" : "") + policyName(P.pol) + (P.refuse ? "R" : "U") + P.method + P.future + "|" + std::to_string(P.samples) + "|" + std::to_string(P.seed) + "|" + std::to_string(P.maxVisits) +
-           "|" + std::to_string(P.minSamples) + "|" + fallbackName(P.fallback) + "|" + (std::isfinite(P.margin) ? std::to_string(P.margin) : "-") + "|" + std::to_string(P.warnShare) + "|" + std::to_string(P.severeShare) + (P.sensitivity ? "S" : "");
+           "|" + std::to_string(P.minSamples) + "|" + (S.forceChip ? "chip|" : "") + fallbackName(P.fallback) + "|" + (std::isfinite(P.margin) ? std::to_string(P.margin) : "-") + "|" + std::to_string(P.warnShare) + "|" + std::to_string(P.severeShare) + (P.sensitivity ? "S" : "");
     {
       std::lock_guard<std::mutex> lk(evCacheMutex());
       auto it = m->evCache.find(key);
@@ -750,7 +754,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     bool useExact = P.method == "exact" || (P.method == "auto" && cost * units <= (double)P.maxVisits);
     const bool sampleActions = P.future == "sample" || (P.future == "auto" && subtreeNodes > P.enumerateCap);
     std::vector<HandResult> results; HandResult agg; agg.index = -1; bool stopped = false; std::string fellBack;
-    const bool chip = m->tournament.start.empty(); const double sunk = t.total[actor] + m->anteOf[(size_t)actor];
+    const bool chip = m->tournament.start.empty() || S.forceChip; const double sunk = t.total[actor] + m->anteOf[(size_t)actor];
     auto evalExact = [&]() {
       S.ctl.stage = SITE_OPPONENTS; results.clear();
       for (int h : hands) { HandResult r; r.index = h; r.reach = reach[(size_t)actor][(size_t)h]; exactHand(pool, R, reach, h, r, P.maxVisits);
@@ -837,7 +841,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
       for (Fallback f : {Fallback::Uniform, Fallback::FoldCheck, Fallback::CallCheck}) {
         Sens s{f, {}, {}, ""};
         if (!useExact) { s.error = "sensitivity analysis needs an exact evaluation"; sens.push_back(s); continue; }
-        EvShared S2; S2.ctl.cancel = cancel; S2.ctl.deadline = S.ctl.deadline; S2.device = S.device; S2.gpuBudget = S.gpuBudget; S2.memoryBudget = S.memoryBudget; S2.fallback = f;
+        EvShared S2; S2.ctl.cancel = cancel; S2.ctl.deadline = S.ctl.deadline; S2.device = S.device; S2.gpuBudget = S.gpuBudget; S2.memoryBudget = S.memoryBudget; S2.fallback = f; S2.forceChip = S.forceChip;
         EvalPool p2(*m, g, P.pol, false, actor, &S2, threads);
         std::vector<std::vector<double>> reach2((size_t)n); size_t dummy = 0;
         for (int p = 0; p < n; p++) reach2[(size_t)p] = reachWeights(p2.main(), R, p, R.used, dummy);
@@ -862,7 +866,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     jb_puts(o, "{\"engine\":\"native action EV\",\"version\":\"4.0\",\"node\":"); nodeJson(o, *m, R);
     jb_printf(o, ",\"policy\":\"%s\",\"missing\":\"%s\",\"fallback\":\"%s\"", policyName(P.pol), P.refuse ? "refuse" : "uniform", fallbackName(P.fallback));
     jb_printf(o, ",\"policyNote\":\"%s\"", P.pol == Pol::Average ? "Every seat (including the actor after this decision, and every seat's earlier actions that define the opponent ranges) follows the stored AVERAGE strategy." : "Every seat follows the CURRENT regret-matching strategy of the stored regrets (uniform where all regrets are non-positive, as in training).");
-    utilityJson(o, *m);
+    utilityJson(o, *m, S.forceChip);
     jb_puts(o, ",\"actions\":["); for (int a = 0; a < k; a++) { jb_printf(o, "%s{\"slot\":%d,\"name\":\"%s\",\"to\":", a ? "," : "", a, actionName(t, a)); jb_num(o, t.to[a], 10); jb_putc(o, '}'); } jb_putc(o, ']');
     jb_printf(o, ",\"method\":\"%s\",\"status\":\"%s\",\"futureActions\":\"%s\",\"seed\":%lld,\"samplesRequested\":%lld,\"minSamples\":%lld,\"threads\":%d,\"exactCostEstimate\":", useExact ? "exact" : "sampled", stopped ? "partial" : "completed", useExact ? "enumerated" : sampleActions ? "sampled from the policy" : "enumerated", P.seed, useExact ? 0LL : P.samples, P.minSamples, threads);
     jnumOrNull(o, cost); jb_printf(o, ",\"subtreeNodes\":%lld,\"subtreeNodesIsLowerBound\":%s", subtreeNodes, subtreeCapped ? "true" : "false");

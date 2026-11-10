@@ -27,6 +27,7 @@ const studies = {
   icmFinal: { ...base, preflop: { mode: 'linked', opens: '2.2,a', raises: 'a', maxBets: 2 }, board: '', dealt: 8, common: 0, stacks: STACKS8, ranges: Array(8).fill('random'), icm: { payouts: PAY8 }, streets: { flop: { bets: '50', raises: '', maxBets: 1 }, turn: { bets: 'a', raises: '', maxBets: 1 }, river: { bets: 'a', raises: '', maxBets: 1 } }, batchDeals: 4, actionStreams: 'deal', privateSeed: 4 },
   // the scenario of the independently reproduced 3.9 defect: eight seats, preflop, fixed non-overlapping hands, ICM
   push8: { ...base, preflop: { mode: 'shove' }, board: '', dealt: 8, common: 0, stacks: STACKS8, ranges: FIXED8, icm: { payouts: PAY8 }, batchDeals: 4, actionStreams: 'deal', privateSeed: 4 },
+  push4: { ...base, preflop: { mode: 'shove' }, board: '', dealt: 4, common: 0, stacks: [10, 14, 6, 20], ranges: ['AsAh', 'KsKh', 'QsQh', 'JsJh'], icm: { payouts: [50, 30, 20] }, batchDeals: 4, actionStreams: 'deal', privateSeed: 2 },
   push8chip: { ...base, preflop: { mode: 'shove' }, board: '', dealt: 8, common: 0, stacks: STACKS8, ranges: FIXED8, batchDeals: 4, actionStreams: 'deal', privateSeed: 4 },
   linked8: { ...base, preflop: { mode: 'linked', opens: '2.2,a', raises: 'a', maxBets: 2 }, board: '', dealt: 8, common: 0, stacks: STACKS8, ranges: FIXED8, icm: { payouts: PAY8 }, streets: { flop: { bets: '50', raises: '', maxBets: 1 }, turn: { bets: 'a', raises: '', maxBets: 1 }, river: { bets: 'a', raises: '', maxBets: 1 } }, batchDeals: 4, actionStreams: 'deal', privateSeed: 4 },
 };
@@ -145,6 +146,18 @@ test('4.0 CUDA path (driver test double running score.cu): GPU, hybrid and CPU s
   assert.deepEqual(none.hands[0].ev, cpu.hands[0].ev); assert.match(none.execution.gpuNote, /unavailable/);
 });
 
+test('4.0 evaluation memory budget: a showdown table larger than memoryMiB falls back to per-board enumeration with the same EVs', { skip }, t => {
+  const S = study(t, 'push4', 60), q = { path: [], hands: [0], method: 'exact', maxVisits: 2000000000, timeLimitMs: 600000 };
+  const big = S.ev(q).json, small = S.ev({ ...q, memoryMiB: 16 }).json;   // C(44,5) boards x 4 seats x 4 bytes = 17.4 MB > 16 MiB
+  // several workers never hold more tables than the budget allows together (atomic reservation)
+  const two = S.ev({ ...q, memoryMiB: 20, threads: 4 }).json; assert.ok(two.execution.peakEvaluationMiB <= 20, 'peak ' + two.execution.peakEvaluationMiB);
+  two.hands[0].ev.forEach((v, a) => assert.ok(rel(v, big.hands[0].ev[a]) < 1e-9));
+  assert.ok(big.execution.showdownTables > 0 && big.execution.perBoardTerminals === 0, JSON.stringify(big.execution));
+  assert.ok(small.execution.perBoardTerminals > 0 && small.execution.showdownTables === 0, JSON.stringify(small.execution));
+  assert.ok(small.execution.peakEvaluationMiB <= 16, 'peak ' + small.execution.peakEvaluationMiB);
+  big.hands[0].ev.forEach((v, a) => assert.ok(rel(small.hands[0].ev[a], v) < 1e-9));
+  assert.match(S.ev({ ...q, memoryMiB: 8 }).error, /memoryMiB must be from 16/);
+});
 // ============================== Priority 3/4: sampled EVs and statistics ==============================
 test('4.0 sampled EVs: thread-count invariant for a fixed seed, consistent with exact values, CI shrinks ~1/sqrt(N)', { skip }, t => {
   const S = study(t, 'threeIcm', 800), exact = S.ev({ path: [], hands: [0, 3], method: 'exact' }).json; const z = [];
@@ -247,7 +260,7 @@ async function trained(api, name, iterations) {
   await until(async () => !(await (await api('mw/status')).json()).running);
 }
 const stateBytes = async api => Buffer.from(await (await api('mw/state')).arrayBuffer());
-test('4.0 desktop jobs: nonblocking explorer, progress, cancellation, timeouts, queueing, release, malformed requests and unchanged solver state', { skip: skip || process.platform === 'win32' && 'Linux host' }, async t => {
+test('4.0 desktop jobs: nonblocking explorer, progress, cancellation, timeouts, queueing, release, malformed requests and unchanged solver state', { skip }, async t => {
   await withHost(home(t), {}, async api => {
     assert.equal((await json(await api('mw/jobs/ev', { hands: [0] }))).http, 409, 'no study open');
     await trained(api, 'push8', 40);
@@ -302,7 +315,7 @@ test('4.0 desktop jobs: nonblocking explorer, progress, cancellation, timeouts, 
     assert.equal((await api('mw/train', { iterations: 5, threads: 1 })).status, 200, 'training is allowed again once no evaluation reads the study');
   });
 });
-test('4.0 desktop jobs: worker start failure is reported and recovers; worker threads stay bounded', { skip: skip || process.platform !== 'linux' && 'Linux host' }, async t => {
+test('4.0 desktop jobs: worker start failure is reported and recovers; worker threads stay bounded', { skip }, async t => {
   await withHost(home(t), { EIGHTMAX_TEST_FAIL_EV_WORKER: '1' }, async (api) => {
     await trained(api, 'huRiver', 300);
     const first = await json(await api('mw/jobs/ev', { path: [], hands: [0], method: 'exact' })); assert.equal(first.http, 503); assert.match(first.error, /worker/);
@@ -312,7 +325,7 @@ test('4.0 desktop jobs: worker start failure is reported and recovers; worker th
     const cfg = (await json(await api('mw/jobs'))).config; assert.ok(cfg.workersStarted <= cfg.workers, JSON.stringify(cfg)); assert.equal(cfg.workerStartFailures, 1); assert.equal(cfg.running, 0); assert.equal(cfg.runningMiB, 0);
   });
 });
-test('4.0 evaluations between training runs do not change deterministic continuation (state equals uninterrupted training)', { skip: skip || process.platform !== 'linux' && 'Linux host' }, async t => {
+test('4.0 evaluations between training runs do not change deterministic continuation (state equals uninterrupted training)', { skip }, async t => {
   let plain, withJobs;
   await withHost(home(t), {}, async api => { await trained(api, 'huRiver', 200); assert.equal((await api('mw/train', { iterations: 200, threads: 2 })).status, 200); await until(async () => !(await (await api('mw/status')).json()).running); plain = await stateBytes(api); });
   await withHost(home(t), {}, async api => {
@@ -353,4 +366,29 @@ test('4.0 ICM reference: Malmuth-Harville equity of a three-player final table e
   for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) if (j !== i) for (let k = 0; k < 3; k++) if (k !== i && k !== j) { const p = s[i] / 100 * s[j] / (100 - s[i]); eq[i] += p * pay[0]; eq[j] += p * pay[1]; eq[k] += p * pay[2]; }
   const icm = E.icmWithBusts(s, s, pay); for (let i = 0; i < 3; i++) assert.ok(Math.abs(icm[i] - eq[i]) < 1e-9, icm[i] + ' vs ' + eq[i]);
   assert.ok(Math.abs(icm.reduce((a, b) => a + b, 0) - 100) < 1e-9);
+});
+
+// ============================== Priority 4/5/14: explorer presentation ==============================
+test('4.0 explorer shows classifications, uncertainty, coverage warnings and job status without claiming equivalence from overlap', () => {
+  const resp = { study: { players: 2, startStreet: 'river', abstraction: 'exact cards', weighting: 'linear', regretMatching: 'standard', tournament: true, updates: 1, sampledDeals: 1, rows: 1, states: 1 },
+    node: { kind: 'decision', street: 'river', stateId: 0, visited: true, actor: 0, facing: false, price: 0, pot: 10, behind: [10, 10], live: [true, true], allIn: [false, false], effectiveStack: 10, board: [48, 49, 0, 4, 8] },
+    history: [], actions: [{ slot: 0, name: 'Check', to: 0 }, { slot: 1, name: 'Bet to', to: 5 }], ev: { available: false, reason: 'none' },
+    hands: { seat: 0, actingSeat: true, total: 1, offset: 0, items: [{ i: 0, cards: [50, 51], weight: 1, blocked: false, reach: 1, average: [0.25, 0.75], current: [0, 1] }] },
+    aggregate: { rangeMass: 1, average: [0.25, 0.75], current: [0, 1], coverage: { hands: 1, blocked: 0, withRows: 1 } } };
+  const hand = { i: 0, cards: [50, 51], available: true, method: 'sampled', samples: 1000, ev: [1.5, 1.52], stdErr: [0.1, 0.2], ci95: [[1.3, 1.7], [1.1, 1.9]], mixed: 1.51, mixedStdErr: 0.1, diff: [-0.01, 0.01], diffStdErr: [0, 0], best: 1,
+    vsBest: [-0.02, 0], vsBestCi95: [[-0.3, 0.26], [0, 0]], classification: ['differenceUncertain', 'highestEstimate'], interpretation: ['difference not established: the 95% interval of the paired difference includes zero. This is NOT evidence that the EVs are equal', 'highest EV'],
+    equivalentToBest: [false, true], fallbackShare: [0.6, 0.5], strategy: [0.25, 0.75], reach: 1 };
+  const ev = { method: 'sampled', status: 'partial', stoppedEarly: true, policy: 'average', utility: { model: 'icm', unit: 'payout units', convention: 'x' }, actions: resp.actions, futureActions: 'enumerated', seed: 1, samplesRequested: 1000, threads: 4, execution: { device: 'auto', gpuBoards: 0 },
+    coverage: { rowCoverage: 0.5, policyLookups: 10, distinctFallbackInformationSets: 2, maxActionFallbackShare: 0.6, maxOpponentReachFallbackShare: 0.1, fallbackPolicy: 'uniform', fallbackDescription: 'uniform over the legal actions', warning: 'Up to 60.0% of the probability mass ...' },
+    statistics: { equivalenceMargin: null }, hands: [hand], range: null };
+  const html = E.renderExplorer(resp, { kind: 'average', ev, evJob: { jobId: 'ev-1', status: 'running', progress: { elapsedMs: 1500, samples: 300, stage: 'sampled evaluation' } }, selectedCell: E.classOf(50, 51) });
+  for (const re of [/difference uncertain/, /NOT evidence/, /⚠ Up to 60\.0%/, /PARTIAL/, /Job ev-1: running/, /data-ex-ev="cancel"/, /300 samples/, /ex-ev-method/, /ex-ev-time/, /ex-ev-visits/, /ex-ev-device/, /Hybrid CPU\/GPU/, /ex-ev-margin/, /ex-ev-fallback/, /Chip EV/, /95% interval -0\.300 to 0\.260/]) assert.match(html, re);
+  assert.doesNotMatch(html, /not significantly different|equal to the best/, 'no equivalence wording from overlapping intervals');
+  assert.doesNotMatch(html, /\d+(\.\d+)?% complete/, 'no unsupported progress percentage');
+  // with a margin and a supported equivalence the label says so explicitly
+  const eq = { ...ev, statistics: { equivalenceMargin: 0.5 }, hands: [{ ...hand, classification: ['practicallyEquivalent', 'highestEstimate'], interpretation: ['practically equivalent: ...', 'highest EV'] }] };
+  assert.match(E.renderExplorer(resp, { kind: 'average', ev: eq, selectedCell: E.classOf(50, 51) }), /equivalent within margin[\s\S]*margin 0\.500 payout units/);
+  // a 3.9 result without classifications makes no equivalence claim either
+  const old = { ...ev, coverage: undefined, hands: [{ ...hand, classification: undefined, interpretation: undefined }] };
+  assert.match(E.renderExplorer(resp, { kind: 'average', ev: old, selectedCell: E.classOf(50, 51) }), /makes no equivalence claim/);
 });

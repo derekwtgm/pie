@@ -73,24 +73,75 @@ function evCell(h, a) {
   if (!h.stdErr) return evNumber(h.ev[a]);
   return evNumber(h.ev[a]) + ' <span class="note">± ' + evNumber(1.96 * h.stdErr[a]) + '</span>';
 }
+// 4.0: short plain-language labels for the per-action statistical classification.
+// A difference that is not statistically supported is "uncertain", never "equal".
+const CLASS_LABEL = { highest: 'highest EV', highestEstimate: 'highest estimate', exactTie: 'exact tie with highest', withinMargin: 'exact; within margin', lower: 'exact; lower',
+  differenceSupported: 'lower (supported)', differenceUncertain: 'difference uncertain', practicallyEquivalent: 'equivalent within margin', insufficientSamples: 'too few samples' };
+function classLabel(x, a) {
+  if (x.classification && x.classification[a]) return CLASS_LABEL[x.classification[a]] || x.classification[a];
+  return x.best === a ? 'highest' : x.method === 'exact' ? 'lower' : 'not classified (older result)';
+}
+function classTitle(x, a) {
+  if (x.interpretation && x.interpretation[a]) return x.interpretation[a];
+  return x.best === a ? 'highest EV' : 'lower than the highest EV; this older result has no statistical classification and makes no equivalence claim';
+}
+// 4.0: strategy-coverage and fallback warning (always shown when reported).
+function coverageHtml(ev) {
+  const c = ev.coverage; if (!c) return '';
+  const pct = x => (100 * (x || 0)).toFixed(1) + '%';
+  let h = '<p class="note">Strategy coverage: ' + pct(c.rowCoverage) + ' of ' + (c.policyLookups || 0).toLocaleString() + ' policy lookups found a stored strategy (' + (c.distinctFallbackInformationSets || 0).toLocaleString() + ' distinct untrained information sets' + (c.distinctCountCapped ? ', count capped' : '') + '). ' +
+    'Probability-weighted fallback: up to ' + pct(c.maxActionFallbackShare) + ' of an action\'s outcomes and ' + pct(c.maxOpponentReachFallbackShare) + ' of an opponent range' + (c.samplesEvaluated ? '; ' + pct(c.sampleFallbackShare) + ' of samples touched a fallback' : '') + '. Fallback policy: ' + esc(c.fallbackDescription || c.fallbackPolicy) + '.</p>';
+  if (c.warning) h = '<p class="bad" role="alert">⚠ ' + esc(c.warning) + '</p>' + h;
+  return h;
+}
 // EV table for the evaluated combos (only those in `filter`, if given).
 function evTable(ev, names, filter) {
   if (!ev) return '';
   const unit = ev.utility.unit, rows = (ev.hands || []).filter(h => !filter || filter.has(h.i));
+  const exec = ev.execution ? ' · ' + (ev.threads || 1) + ' thread' + ((ev.threads || 1) > 1 ? 's' : '') + ', device ' + ev.execution.device + (ev.execution.gpuBoards ? ' (' + ev.execution.gpuBoards.toLocaleString() + ' boards on the GPU)' : '') : '';
   let h = '<div class="ex-ev"><h4>Action EVs (' + esc(ev.utility.model === 'icm' ? 'ICM tournament equity, ' + unit : 'chip EV, ' + unit) + ')</h4>' +
     '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a normal 95% interval') +
-    ' · continuation policy: ' + ev.policy + (ev.stoppedEarly ? ' · stopped early at the time limit' : '') + (ev.note ? ' · ' + ev.note : '')) + '</p>';
+    ' · continuation policy: ' + ev.policy + (ev.status === 'partial' || ev.stoppedEarly ? ' · PARTIAL: stopped early at the time limit (estimates from the completed samples only)' : '') + (ev.note ? ' · ' + ev.note : '') + exec + (ev.elapsedMs != null ? ' · ' + (ev.elapsedMs / 1000).toFixed(2) + ' s' : '')) + '</p>';
+  h += coverageHtml(ev);
   h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th>' + ev.actions.map(a => '<th>' + esc(actionLabel(a)) + '</th>').join('') + '<th>Mixed strategy</th><th>Method</th></tr></thead><tbody>';
   const card = h0 => h0.cards ? esc(EM.cardStr(h0.cards[1]) + EM.cardStr(h0.cards[0])) : 'range';
   const row = x => {
     if (!x.available) return '<tr><th>' + card(x) + '</th><td colspan="' + (ev.actions.length + 2) + '"><span class="note">EV unavailable: ' + esc(x.reason || 'not computed') + '</span></td></tr>';
-    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + (x.equivalentToBest[a] ? (x.method === 'exact' ? 'equal to the best EV' : 'not significantly different from the best EV (95%)') : 'below the best EV') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used a uniform policy where none is stored' : '') + '">' + evCell(x, a) +
-      (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
+    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + esc(classTitle(x, a) + (x.vsBestCi95 && a !== x.best ? '; difference from the highest: ' + evNumber(x.vsBest[a]) + ' (95% interval ' + evNumber(x.vsBestCi95[a][0]) + ' to ' + evNumber(x.vsBestCi95[a][1]) + ')' : '') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used the fallback policy where no strategy is stored' : '')) + '">' + evCell(x, a) +
+      (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + '<br><span class="note ex-cls">' + esc(classLabel(x, a)) + '</span>' + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
       '<td>' + evNumber(x.mixed) + (x.mixedStdErr != null ? ' <span class="note">± ' + evNumber(1.96 * x.mixedStdErr) + '</span>' : '') + '</td><td>' + esc(x.method) + (x.samples ? ' (' + x.samples.toLocaleString() + ')' : '') + '</td></tr>';
   };
   h += rows.map(row).join('') + (ev.range && !filter ? row({ ...ev.range, cards: null }) : '') + '</tbody></table></div>';
-  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Actions within the best EV (exactly, or within sampling error) are marked in the cell tooltip. * part of the value passes through states without a stored strategy (uniform substitution, reported share in the tooltip). ' + esc(ev.utility.convention) + '</p></div>';
+  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Labels compare each action with the highest estimate using paired differences: "lower (supported)" means the 95% interval of the difference excludes zero; "difference uncertain" means the data cannot tell the actions apart — this is NOT evidence that they are equal, and mixed-strategy actions need not have equal estimated EVs. "Equivalent within margin" appears only when you set an equivalence margin and two one-sided tests support it' +
+    (ev.statistics && ev.statistics.equivalenceMargin != null ? ' (margin ' + evNumber(ev.statistics.equivalenceMargin) + ' ' + esc(unit) + ')' : '') + '. * part of the value passes through states without a stored strategy (fallback share in the tooltip). ' + esc(ev.utility.convention) + '</p>';
+  if (ev.fallbackSensitivity) h += '<p class="note">Fallback sensitivity (not a confidence interval): ' + ev.fallbackSensitivity.policies.map(p => esc(p.fallback) + (p.error ? ' — ' + esc(p.error) : '')).join(', ') + (ev.fallbackSensitivity.bestActionChanges ? ' — <b>the highest-EV action changes with the fallback assumption</b>' : ' — the highest-EV action does not change') + '.</p>';
+  h += '</div>';
   return h;
+}
+// 4.0: evaluation options (all sent to the host, which validates them).
+function evOptions(ui, s) {
+  const o = ui.evOptions || {}, sel = (id, cur, opts) => '<select id="' + id + '">' + opts.map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
+  return ' <label>Method ' + sel('ex-ev-method', o.method || 'auto', [['auto', 'Automatic'], ['exact', 'Exact'], ['sampled', 'Sampled']]) + '</label>' +
+    ' <label>Utility ' + sel('ex-ev-utility', o.utility || 'study', s && s.tournament ? [['study', 'ICM (study)'], ['chip', 'Chip EV']] : [['study', 'Chip EV (study)']]) + '</label>' +
+    ' <label>Time limit (s) <input id="ex-ev-time" type="number" min="0.1" max="3600" step="0.1" value="' + (o.timeLimitS || 60) + '"></label>' +
+    ' <label>Visit budget <input id="ex-ev-visits" type="number" min="1000" max="2000000000" step="1000" value="' + (o.maxVisits || 20000000) + '"></label>' +
+    ' <label>Processing ' + sel('ex-ev-device', o.device || 'auto', [['auto', 'Automatic'], ['cpu', 'CPU only'], ['gpu', 'GPU preferred'], ['hybrid', 'Hybrid CPU/GPU']]) + '</label>' +
+    ' <label>Equivalence margin <input id="ex-ev-margin" type="number" min="0" step="any" placeholder="none" value="' + (o.margin > 0 ? o.margin : '') + '"></label>' +
+    ' <label>Untrained states ' + sel('ex-ev-fallback', o.fallback || 'uniform', [['uniform', 'Uniform fallback'], ['foldCheck', 'Fold/check fallback'], ['callCheck', 'Call/check fallback'], ['refuse', 'Refuse']]) + '</label>';
+}
+// 4.0: status of the background evaluation job (no completion percentage is shown: the work is not known in advance).
+function evJobHtml(j, label) {
+  const p = j.progress || {};
+  const parts = ['Job ' + esc(j.jobId || '') + ': ' + esc(j.status || 'submitting'), label ? esc(label) : ''];
+  if (p.elapsedMs != null) parts.push((p.elapsedMs / 1000).toFixed(1) + ' s');
+  if (p.samples) parts.push(p.samples.toLocaleString() + ' samples');
+  if (p.boardsScored) parts.push(p.boardsScored.toLocaleString() + ' runout boards scored' + (p.gpuBoards ? ' (' + p.gpuBoards.toLocaleString() + ' on the GPU)' : ''));
+  if (p.stage && j.status === 'running') parts.push('stage: ' + esc(p.stage));
+  if (p.peakEvaluationMiB != null) parts.push('evaluation memory ' + p.peakEvaluationMiB.toFixed(1) + ' MiB');
+  if (j.cancelRequested) parts.push('cancellation requested');
+  if (j.overdue) parts.push('past its time limit; waiting for the worker to stop');
+  const active = j.status === 'running' || j.status === 'pending' || !j.status;
+  return '<p class="note" role="status">' + parts.filter(Boolean).join(' · ') + (active ? ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button>' : '') + '</p>';
 }
 function seatName(names, seat) { return names && names[seat] ? names[seat] : 'Seat ' + (seat + 1); }
 function boardHtml(cards) { return cards.length ? cards.map(c => '<span class="ex-card">' + esc(EM.cardStr(c)) + '</span>').join('') : '<span class="note">none</span>'; }
@@ -153,8 +204,9 @@ function renderExplorer(response, ui) {
   h += '<div class="ex-controls"><button type="button" class="btn sm" data-ex-ev="class"' + (ui.selectedCell == null ? ' disabled title="Select a hand class first"' : '') + '>Calculate EVs of the selected class</button> ' +
     '<button type="button" class="btn sm" data-ex-ev="all">Calculate EVs of every hand (sampled, bounded)</button> ' +
     '<label>Samples <input id="ex-ev-samples" type="number" min="16" max="2000000" step="1" value="' + (ui.evSamples || 4000) + '"></label> ' +
-    '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' +
-    (ui.evBusy ? ' <span class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></span>' : '') + '</div>';
+    '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' + evOptions(ui, s) + '</div>';
+  if (ui.evJob) h += evJobHtml(ui.evJob, ui.evBusy);
+  else if (ui.evBusy) h += '<p class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></p>';
   if (ui.evError) h += '<p class="bad" role="alert">' + esc(ui.evError) + '</p>';
   const mode = ev ? (ui.matrixMode || 'strategy') : 'strategy', evAction = Math.min(Math.max(0, ui.evAction || 0), r.actions.length - 1);
   if (ev) h += '<div class="ex-controls"><label>Matrix shows <select id="ex-matrix"><option value="strategy"' + (mode === 'strategy' ? ' selected' : '') + '>Strategy frequencies</option><option value="ev"' + (mode === 'ev' ? ' selected' : '') + '>EV of an action</option><option value="diff"' + (mode === 'diff' ? ' selected' : '') + '>EV minus mixed-strategy EV</option><option value="stderr"' + (mode === 'stderr' ? ' selected' : '') + '>EV standard error</option></select></label> ' +

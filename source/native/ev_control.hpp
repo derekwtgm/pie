@@ -81,6 +81,14 @@ struct EvControl {
   void raise(int code, int site) { int z = 0; if (stop.compare_exchange_strong(z, code)) stopSite.store(site); }
   void charge(long long bytes) { const long long now = memoryBytes.fetch_add(bytes) + bytes; long long p = peakMemoryBytes.load(); while (now > p && !peakMemoryBytes.compare_exchange_weak(p, now)) {} }
   void release(long long bytes) { memoryBytes.fetch_sub(bytes); }
+  // Reserves `bytes` only if the total stays within `budget` (atomic: concurrent
+  // workers cannot both pass the check and overshoot the budget together).
+  bool tryCharge(long long bytes, long long budget) {
+    long long cur = memoryBytes.load();
+    do { if (cur + bytes > budget) return false; } while (!memoryBytes.compare_exchange_weak(cur, cur + bytes));
+    long long p = peakMemoryBytes.load(); while (cur + bytes > p && !peakMemoryBytes.compare_exchange_weak(p, cur + bytes)) {}
+    return true;
+  }
   // Throws the exception that matches a published stop code.
   [[noreturn]] void rethrowStop() const {
     const int c = stop.load();

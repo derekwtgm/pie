@@ -215,7 +215,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     el('desktop-mix').textContent=(hand.observed?'Saved average':'Unvisited hand, uniform default')+' · '+rootPolicy.actions.map((a,i)=>a.name+(['Bet to','Raise to','Call'].includes(a.name)?' '+a.to+' BB':'')+' '+(hand.probabilities[i]*100).toFixed(1)+'%').join(' · ');
   }
   // 3.8: native strategy explorer. Each request asks the host for one node.
-  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0};
+  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0,
+    evOptions:{method:'auto',utility:'study',timeLimitS:60,maxVisits:20000000,device:'auto',margin:0,fallback:'uniform'},evJob:null,evJobId:null};
   function explorerNames(n){
     if(spot&&spot.seats&&spot.seats.length===n)return spot.seats.map(x=>x.name);
     return n>=2&&EM.pfPositions?EM.pfPositions(n):null;
@@ -223,7 +224,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   function drawExplorer(){
     const box=root.querySelector('#rv-desktop-explorer');if(!box)return;
     box.hidden=!explorer.open;if(!explorer.open)return;
-    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction});
+    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction,evOptions:explorer.evOptions,evJob:explorer.evJob});
   }
   async function exploreNode(path,board){
     if(explorer.busy)return;explorer.busy=true;explorer.error='';
@@ -248,6 +249,31 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(last&&last.chance){exploreNode(explorer.path,explorer.board.slice(0,explorer.board.length-last.cards.length));return;}
     if(explorer.path.length)exploreNode(explorer.path.slice(0,-1),boardBefore(explorer.path.length-1));
   }
+  // 4.0: one batch runs as a background job on the host (POST /api/mw/jobs/ev),
+  // polled for status and progress; the interface stays usable and Cancel stops
+  // the job. Results are fetched only for completed jobs and the job is released.
+  async function evJob(body){
+    const submitted=await desktopRequest('mw/jobs/ev',JSON.stringify(body));
+    explorer.evJobId=submitted.jobId;explorer.evJob=submitted;drawExplorer();
+    try{
+      for(;;){
+        await new Promise(r=>setTimeout(r,250));
+        const j=await desktopRequest('mw/jobs/'+submitted.jobId);explorer.evJob=j;drawExplorer();
+        if(j.status==='completed')return await desktopRequest('mw/jobs/'+submitted.jobId+'/result');
+        if(j.status==='cancelled')throw Error('Evaluation cancelled');
+        if(j.status==='timedOut')throw Error('Time limit reached before the evaluation completed: '+(j.error||'no incomplete exact result is shown')+' Raise the time limit or use sampled evaluation.');
+        if(j.status==='failed')throw Error(j.error||'Evaluation failed');
+      }
+    }finally{desktopRequest('mw/jobs/'+submitted.jobId+'/release','{}').catch(()=>{});explorer.evJobId=null;}
+  }
+  function evBody(hands,range,which){
+    const o=explorer.evOptions,body={path:explorer.path,board:explorer.board,hands,range,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,
+      timeLimitMs:Math.max(100,Math.min(3600000,Math.round((o.timeLimitS||(which==='all'?15:60))*1000))),maxVisits:Math.max(1000,Math.min(2000000000,Math.round(o.maxVisits)||20000000)),method:o.method,device:o.device};
+    if(o.utility&&o.utility!=='study')body.utility=o.utility;
+    if(o.margin>0)body.equivalenceMargin=o.margin;
+    if(o.fallback==='refuse')body.missing='refuse';else body.fallback=o.fallback;
+    return body;
+  }
   // 3.9: action EVs for hands of the acting seat, requested in bounded batches
   // of at most 64 combos (the host's limit). Values are only those the host
   // computed; nothing is interpolated for combos that were not evaluated.
@@ -260,18 +286,19 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     try{
       for(const [b,hands] of batches.entries()){
         explorer.evBusy='Calculating EVs ('+(b+1)+' of '+batches.length+')…';drawExplorer();
-        const body={path:explorer.path,board:explorer.board,hands,range:b===0,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,timeLimitMs:which==='all'?15000:60000};
-        const ev=await desktopRequest('mw/ev',JSON.stringify(body));
-        if(!merged)merged=ev;else{merged.hands=merged.hands.concat(ev.hands);merged.stoppedEarly=merged.stoppedEarly||ev.stoppedEarly;if(ev.method!==merged.method)merged.method='mixed (exact and sampled)';}
+        const ev=await evJob(evBody(hands,b===0,which));
+        if(!merged)merged=ev;else{merged.hands=merged.hands.concat(ev.hands);merged.stoppedEarly=merged.stoppedEarly||ev.stoppedEarly;if(ev.status==='partial')merged.status='partial';if(ev.method!==merged.method)merged.method='mixed (exact and sampled)';
+          if(ev.coverage&&merged.coverage){const c=merged.coverage,d=ev.coverage;for(const k of ['policyLookups','storedLookups','fallbackLookups'])c[k]+=d[k];c.rowCoverage=c.policyLookups?c.storedLookups/c.policyLookups:1;
+            c.maxActionFallbackShare=Math.max(c.maxActionFallbackShare,d.maxActionFallbackShare);c.maxOpponentReachFallbackShare=Math.max(c.maxOpponentReachFallbackShare,d.maxOpponentReachFallbackShare);if(!c.warning)c.warning=d.warning;}}
         if(explorer.response!==r)return;
       }
       if(explorer.ev&&explorer.ev.node.stateId===merged.node.stateId&&explorer.ev.policy===merged.policy){const seen=new Set(merged.hands.map(h=>h.i));merged.hands=merged.hands.concat(explorer.ev.hands.filter(h=>!seen.has(h.i)));if(!merged.range)merged.range=explorer.ev.range;}
       explorer.ev=merged;if(which==='all'&&explorer.matrixMode==='strategy')explorer.matrixMode='ev';
     }catch(e){explorer.evError=e.message;}
-    finally{explorer.evBusy='';drawExplorer();}
+    finally{explorer.evBusy='';explorer.evJob=null;drawExplorer();}
   }
   function explorerClick(d){
-    if(d.exEv!==undefined){if(d.exEv==='cancel'){desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
+    if(d.exEv!==undefined){if(d.exEv==='cancel'){if(explorer.evJobId)desktopRequest('mw/jobs/'+explorer.evJobId+'/cancel','{}').catch(()=>{});else desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
     if(d.exAction!==undefined){exploreNode([...explorer.path,Number(d.exAction)],explorer.board);explorer.selectedCell=null;return true;}
     if(d.exGo!==undefined){const k=Number(d.exGo);exploreNode(explorer.path.slice(0,k),boardBefore(k));return true;}
     if(d.exBack!==undefined){explorerBack();return true;}
@@ -644,6 +671,14 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id==='ex-ev-action'){explorer.evAction=Number(e.target.value)||0;drawExplorer();return;}
     if(e.target.id==='ex-ev-samples'){explorer.evSamples=Number(e.target.value)||4000;return;}
     if(e.target.id==='ex-ev-policy'){explorer.evPolicy=e.target.value==='current'?'current':'average';explorer.ev=null;drawExplorer();return;}
+    {const o=explorer.evOptions,v=e.target.value;
+      if(e.target.id==='ex-ev-method'){o.method=['auto','exact','sampled'].includes(v)?v:'auto';return;}
+      if(e.target.id==='ex-ev-utility'){o.utility=v==='chip'?'chip':'study';explorer.ev=null;drawExplorer();return;}
+      if(e.target.id==='ex-ev-time'){o.timeLimitS=Math.max(0.1,Math.min(3600,Number(v)||60));return;}
+      if(e.target.id==='ex-ev-visits'){o.maxVisits=Math.max(1000,Math.min(2000000000,Math.round(Number(v))||20000000));return;}
+      if(e.target.id==='ex-ev-device'){o.device=['auto','cpu','gpu','hybrid'].includes(v)?v:'auto';return;}
+      if(e.target.id==='ex-ev-margin'){const x=Number(v);o.margin=Number.isFinite(x)&&x>0?x:0;return;}
+      if(e.target.id==='ex-ev-fallback'){o.fallback=['uniform','foldCheck','callCheck','refuse'].includes(v)?v:'uniform';explorer.ev=null;drawExplorer();return;}}
     if(e.target.id==='ex-seat'){explorer.rangeSeat=Number(e.target.value);exploreNode(explorer.path,explorer.board);return;}
     if(e.target.id==='rv-desktop-file' && !busy){if(e.target.files?.[0])desktopAction('upload',e.target.files[0]);return;}
     if(e.target.id==='rv-load' && !busy){loadTraining(e.target.files?.[0]);return;}

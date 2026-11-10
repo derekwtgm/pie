@@ -281,3 +281,121 @@ EV. Sampled: per seat the node, conditional gain, reach probability and gain
 with standard errors (one-shot deviation class; a lower bound).
 
 The node-cancel endpoint also cancels EV and response-gain calculations.
+
+## 4.0: deadlines, cancellation, background evaluation jobs
+
+### Deadline and cancellation semantics (action EV and response gain)
+
+* `timeLimitMs` (100 .. 3,600,000) is measured on the monotonic clock
+  (`std::chrono::steady_clock`), from the moment the request is parsed. Wall
+  clock changes cannot move it.
+* Every expensive loop polls a shared control (ev_control.hpp): game-tree
+  traversal, board runouts, showdown-table construction, rank-pattern counting,
+  chance-card enumeration, opponent-hand enumeration, reach weights, rejection
+  retries, ICM terminals, best-response traversal and tuple enumeration,
+  deviation selection, subtree sizing, CUDA batches. The poll interval adapts to
+  the measured cost of the loop (target: one clock check per 0.125-1 ms).
+* **Tolerance:** the evaluation returns within `timeLimitMs + 50 ms` on an idle
+  machine; measured on the reproduced eight-player case: +1.4 to +2.0 ms (Linux)
+  and +1.4 to +1.8 ms (Windows build under Wine). The response reports
+  `deadline.maxCheckGapMs`, the longest measured interval between two checks.
+  A deadline is resource control, not a promise that an exact result completes.
+* Exact evaluations that time out return **HTTP 408** and no numbers ("an
+  incomplete exact result is never reported"). Cancelled evaluations return
+  **HTTP 409** naming the phase in which the cancellation was observed.
+* Sampled evaluations stopped by the time limit return their completed samples
+  with `"status":"partial"` / `stoppedEarly:true`, but only when at least
+  `minSamples` (default 100) samples were completed; otherwise the hand is
+  reported unavailable.
+* `maxVisits` remains an independent work budget for exact evaluations
+  (deterministic: checked against the exact visit total after the workers join).
+* All worker threads are joined before the request returns; temporary showdown
+  tables and caches are released; the engine state is never modified.
+
+### New action-EV request fields (all optional)
+
+| Field | Values | Default | Meaning |
+|---|---|---|---|
+| `threads` | 1..64 | min(8, host cap) | evaluation threads; results do not depend on it |
+| `memoryMiB` | 16..4096 | 512 | budget for showdown tables and caches (over budget: per-board enumeration) |
+| `device` | `auto`, `cpu`, `gpu`, `hybrid` | `auto` | processing of showdown tables (see below) |
+| `gpuMiB` | 16..6144 | 512 | VRAM budget for showdown tables |
+| `utility` | `study`, `chip`, `icm` | `study` | `chip` evaluates net chips in an ICM study; `icm` requires a payout table |
+| `minSamples` | 16..2,000,000 | 100 | samples needed for a partial estimate and for statistical classification |
+| `equivalenceMargin` | > 0 | none | enables the TOST equivalence test, in utility units |
+| `fallback` | `uniform`, `foldCheck`, `callCheck` | `uniform` | policy substituted where no strategy is stored |
+| `fallbackWarnShare`, `fallbackSevereShare` | 0..1 | 0.05, 0.25 | coverage warning thresholds |
+| `fallbackSensitivity` | boolean | false | recompute exact EVs under all three fallback policies |
+
+### New action-EV response fields
+
+`status` (`completed`/`partial`), `threads`, `minSamples`, `statistics`,
+`coverage` (`policyLookups`, `storedLookups`, `fallbackLookups`,
+`distinctInformationSets`, `distinctFallbackInformationSets`, `rowCoverage`,
+`maxActionFallbackShare`, `opponentReachFallbackShare[]`,
+`maxOpponentReachFallbackShare`, `samplesEvaluated`, `samplesWithFallback`,
+`sampleFallbackShare`, `influence` = none/minor/notable/substantial,
+`warning`), optional `fallbackSensitivity`, `execution` (device, showdown
+tables, boards scored on CPU/GPU, hybrid tables, peak evaluation memory,
+`gpuNote`), `deadline`, `subtreeNodesIsLowerBound`. Per hand: `status`,
+`vsBest`, `vsBestCi95`, `classification[]`, `interpretation[]`,
+`differenceSupported[]`, `practicallyEquivalent[]` (null without a margin),
+`samplesWithFallback`. `equivalentToBest` is kept for compatibility with the
+narrower 4.0 meaning (best action, exact tie, exact difference within the
+margin, or a passed equivalence test).
+
+Classifications: exact `highest | exactTie | withinMargin | lower`; sampled
+`highestEstimate | differenceSupported | differenceUncertain |
+practicallyEquivalent | insufficientSamples`. "differenceUncertain" means the
+95% interval of the paired difference contains zero and is never presented as
+equivalence.
+
+### Showdown tables and CUDA scheduling
+
+Exact runouts score each deal's board completions once (all seats) and reduce
+them to integer histograms of rank patterns per set of contesting seats.
+`auto` uses CUDA only for tables of at least 262,144 seven-card evaluations,
+after verifying the device against the CPU on the first 65,536 boards
+(integer-exact) and measuring it at least 10% faster; `gpu` uses it whenever
+it works; `hybrid` splits a table between the GPU and the CPU in proportion
+to measured speed; a busy device leaves a table to the CPU. Any failure
+(missing driver, compute capability below 7.5, VRAM reserve, allocation,
+launch, download, mismatch) falls back to the CPU for the remaining boards and
+is reported in `execution.gpuNote`. EVs are bit-identical for every device.
+
+### Response gains
+
+`method`: `exact` (`mode` `exactBestResponse`), `restricted`
+(`restrictedBestResponse`; fields `selection` = auto/exact/sampled, `maxNodes`
+1..4096), `sampled` (`sampledOneDecisionDeviation`). Per seat: `elapsedMs`,
+`policyLookups`, `fallbackLookups`; restricted seats also `decisionNodes`,
+`nodesTruncated`, `handDecisions`, `handDecisionsChanged`, `gain{mean,
+stdErr, ci95, samples}`.
+
+### Evaluation jobs (desktop host)
+
+| Route | Method | Result |
+|---|---|---|
+| `/api/mw/jobs/ev` | POST, body = action-EV request | 202 job summary; 400/409/413/422 for invalid requests (validated before a job exists); 503 queue full or worker start failure |
+| `/api/mw/jobs/response-gain` | POST, body = response-gain request | as above |
+| `/api/mw/jobs` | GET | `{config, jobs[]}` in submission order |
+| `/api/mw/jobs/<id>` | GET | job summary + `progress` + `request` |
+| `/api/mw/jobs/<id>/result` | GET | the stored result (200) or 409 if the job is not completed |
+| `/api/mw/jobs/<id>/cancel` | POST | pending: cancelled at once; running: cancellation requested |
+| `/api/mw/jobs/<id>/release` | POST | frees a finished job (409 for pending/running jobs) |
+| `/api/mw/jobs/config` | GET/POST `{workers 1..8, threadsPerJob 1..64, memoryPoolMiB 64..16384}` | current configuration |
+
+Job summary: `jobId`, `kind`, `status` (pending, running, completed,
+cancelled, timedOut, failed), `studyId`, `createdUnix`, `queuedMs`,
+`runningMs`, `memoryMiB`, `timeLimitMs`, `cancelRequested`, `overdue`, and for
+finished jobs `httpStatus`, `partial`, `resultBytes`, `error`. Progress:
+`stage`, `elapsedMs`, `visits`, `samples`, `unitsDone`, `unitsTotal` (work
+items scheduled so far; not a completion percentage), `showdownTables`,
+`boardsScored`, `gpuBoards`, `evaluationMiB`, `peakEvaluationMiB`.
+
+Defaults: 2 workers, threads per job = logical CPUs / 2 (at most 8), memory
+pool = a quarter of available RAM (256..2,048 MiB), 16 pending jobs, 32
+retained jobs (the oldest finished job is evicted first). Running jobs and the
+explorer read the study concurrently; training, imports, restores, `free` and
+`init` are refused (409) while any evaluation reads it, and a queued job whose
+study changed fails with an explanation instead of evaluating another study.
