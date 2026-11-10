@@ -968,8 +968,8 @@ extern "C" int mw_eval_run(MW *m, int kind, const char *json, size_t len, JB *ou
 extern "C" void mw_eval_progress(MwEvalTask *t, JB *out) {
   if (!t) { jb_puts(out, "null"); return; }
   const es::EvControl &c = t->shared.ctl;
-  jb_printf(out, "{\"stage\":\"%s\",\"elapsedMs\":%.1f,\"visits\":%lld,\"samples\":%lld,\"unitsDone\":%lld,\"unitsTotal\":%lld,\"showdownTables\":%lld,\"boardsScored\":%lld,\"gpuBoards\":%lld,\"evaluationMiB\":%.3f,\"peakEvaluationMiB\":%.3f,\"cancelRequested\":%s,\"note\":\"unitsDone/unitsTotal count work items scheduled so far (more may be added); they are not a completion percentage\"}",
-            es::siteName(c.stage.load()), c.elapsedMs(), c.visits.load(), c.samples.load(), c.unitsDone.load(), c.unitsTotal.load(), c.tables.load(), c.boards.load(), t->shared.show.gpuBoards.load(),
+  jb_printf(out, "{\"stage\":\"%s\",\"elapsedMs\":%.1f,\"visits\":%lld,\"samples\":%lld,\"unitsDone\":%lld,\"unitsTotal\":%lld,\"showdownTables\":%lld,\"boardsScored\":%lld,\"boardEvaluations\":%lld,\"gpuBoards\":%lld,\"evaluationMiB\":%.3f,\"peakEvaluationMiB\":%.3f,\"cancelRequested\":%s,\"note\":\"unitsDone/unitsTotal count work items scheduled so far (more may be added); they are not a completion percentage\"}",
+            es::siteName(c.stage.load()), c.elapsedMs(), c.visits.load(), c.samples.load(), c.unitsDone.load(), c.unitsTotal.load(), c.tables.load(), c.boards.load(), c.boardEvals.load(), t->shared.show.gpuBoards.load(),
             c.memoryBytes.load() / 1048576.0, c.peakMemoryBytes.load() / 1048576.0, __atomic_load_n(&t->cancel, __ATOMIC_RELAXED) ? "true" : "false");
 }
 extern "C" int mw_eval_validate(MW *m, int kind, const char *json, size_t len, char *err, int errlen) {

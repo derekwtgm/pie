@@ -25,7 +25,21 @@
 //    before the request returns: no thread outlives its request.
 //  * Stop codes: 1 cancelled (HTTP 409), 2 time limit (408), 3 maxVisits
 //    budget (EvBudget), 4 failure in another worker (the failing worker's own
-//    exception is rethrown), 5 memory budget (503).
+//    exception is rethrown), 5 memory budget (503), 6 board-evaluation budget
+//    (4.1: maxBoardEvaluations; exact -> 422 with no numbers, sampled -> a
+//    labelled partial estimate when at least minSamples samples completed).
+//  * 4.1 WORK ACCOUNTING. Every poll(site) is one unit of work of that site
+//    (tree node, board runout, table board, pattern count, chance card,
+//    opponent tuple, reach weight, sample, rejected sampling attempt, ICM
+//    terminal, best-response node/tuple, selection step, subtree-sizing node,
+//    GPU batch). Pollers count per site locally and flush into `work` at each
+//    clock check and when an evaluator ends, so the totals are exact counts
+//    without cross-thread contention. "Board evaluations" (one board scored for
+//    every seat of the hand: a scored() call, a showdown-table row or a GPU
+//    board) are the unit of maxBoardEvaluations; tables are charged in full
+//    BEFORE they are built, single boards at each check (overshoot at most one
+//    check interval, <= 65,536 boards per worker). Units of different sites are
+//    never added together: they are reported separately.
 //  * EM_EV_FAULT=<site>:<n> (tests only) raises a cancellation at the n-th poll
 //    of that site, so the regression suite proves that cancellation is honoured
 //    inside each expensive phase.
@@ -70,6 +84,9 @@ struct EvControl {
   std::atomic<long long> visits{0}, samples{0}, unitsDone{0}, unitsTotal{0}, tables{0}, boards{0}, gpuBoards{0};
   std::atomic<int> stage{0};             // EvSite of the current phase
   std::atomic<long long> memoryBytes{0}, peakMemoryBytes{0};
+  std::atomic<long long> work[SITE_COUNT] = {};   // 4.1: units of work per site
+  std::atomic<long long> boardEvals{0}; long long maxBoards = LLONG_MAX;
+  bool chargeBoards(long long n) { return boardEvals.fetch_add(n, std::memory_order_relaxed) + n <= maxBoards; }
   long long maxVisits = LLONG_MAX;       // budget of the current exact unit (hand)
   std::atomic<long long> unitVisits{0};
   // measured deadline behaviour
@@ -102,6 +119,7 @@ struct EvControl {
     const int c = stop.load();
     if (c == 3) throw EvBudget{};
     if (c == 5) throw EvMemory{};
+    if (c == 6) throw EvStop{6, stopSite.load()};
     throw EvStop{c, stopSite.load()};
   }
 };
@@ -109,11 +127,20 @@ struct EvControl {
 struct Poller {
   EvControl *ctl = nullptr; unsigned interval = 64, countdown = 64; EvControl::Clock::time_point last = EvControl::Clock::now(); int fault = -1;
   long long flushed = 0;   // visits already added to ctl->unitVisits
+  long long local[SITE_COUNT] = {}, localFlushed[SITE_COUNT] = {}, boards = 0, boardsFlushed = 0;   // 4.1 work accounting
   void reset() { interval = countdown = 64; last = EvControl::Clock::now(); flushed = 0; }
   // (A fault-injection site is checked on every poll so tests hit it deterministically.)
-  inline void operator()(int site, long long visits) { if (--countdown && site != fault) return; slow(site, visits); }
+  inline void operator()(int site, long long visits) { local[site]++; if (--countdown && site != fault) return; slow(site, visits); }
+  // Publishes local work counts; returns false when the board budget is exceeded.
+  bool flushWork() {
+    if (!ctl) return true;
+    for (int s = 0; s < SITE_COUNT; s++) if (local[s] != localFlushed[s]) { ctl->work[s].fetch_add(local[s] - localFlushed[s], std::memory_order_relaxed); localFlushed[s] = local[s]; }
+    bool ok = true; if (boards != boardsFlushed) { ok = ctl->chargeBoards(boards - boardsFlushed); boardsFlushed = boards; }
+    return ok;
+  }
   void slow(int site, long long visits) {
     EvControl &c = *ctl; const auto now = EvControl::Clock::now();
+    if (!flushWork()) c.raise(6, site);
     const long long gap = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last).count(); last = now;
     if (gap > 1000000 && interval > 1) interval >>= 1; else if (gap < 125000 && interval < 65536) interval <<= 1;
     countdown = interval;

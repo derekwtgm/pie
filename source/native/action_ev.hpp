@@ -166,7 +166,7 @@ struct Evaluator {
     if (tour) m.tournament.prepare(icm, std::min(m.budgetBytes, 64.0 * 1048576));
     memoCap = (size_t)std::clamp<long long>(sh->memoryBudget / 16 / 96, 4096, 262144);
   }
-  ~Evaluator() { for (auto &t : tables) if (t) sh->ctl.release(t->charged); }
+  ~Evaluator() { poller.flushWork(); for (auto &t : tables) if (t) sh->ctl.release(t->charged); }
   inline void poll(int site) { poller(site, visits); }
   static uint64_t devKey(int state, int h) { return ((uint64_t)(uint32_t)state << 16) | (uint64_t)(uint32_t)h; }
   // Strategy key of (seat, range index) with the first `len` public cards; mirrors rowOf().
@@ -218,6 +218,9 @@ struct Evaluator {
   double scored(const BS &t, int np) {
     int score[8];
     for (int p = 0; p < m.n; p++) { const Hand &h = m.hands[(size_t)p][(size_t)hand[p]]; score[p] = evalSeven(cards, h.a, h.b); }
+    // 4.1: one board evaluation (all seats scored on one board); checked every
+    // 256 boards so the overshoot of maxBoardEvaluations is at most 256 per worker.
+    if (++poller.boards - poller.boardsFlushed >= 256 && !poller.flushWork()) { sh->ctl.raise(6, SITE_RUNOUT); sh->ctl.rethrowStop(); }
     return utilityWithScores(t, np, score);
   }
   double uncontested(const BS &t, int np) {
@@ -292,6 +295,8 @@ struct Evaluator {
     // evict the least recently used table first
     size_t slot = 0; for (size_t i = 0; i < tables.size(); i++) { if (!tables[i]) { slot = i; break; } if (tables[i]->stamp < tables[slot]->stamp) slot = i; }
     if (tables[slot]) { sh->ctl.release(tables[slot]->charged); tables[slot].reset(); }
+    // 4.1: a new table is charged to maxBoardEvaluations in full before any board is scored.
+    if (!sh->ctl.chargeBoards((long long)boards)) { sh->ctl.raise(6, SITE_TABLE); sh->ctl.rethrowStop(); }
     if (!sh->ctl.tryCharge(bytes, sh->memoryBudget)) return nullptr;
     std::unique_ptr<ShowTable> T;
     try { T = std::make_unique<ShowTable>(); T->scores.resize((size_t)boards * (size_t)m.n); } catch (const std::bad_alloc &) { sh->ctl.release(bytes); return nullptr; }
@@ -424,6 +429,7 @@ struct EvalPool {
   Evaluator &at(int w) { auto &e = ev[(size_t)w]; if (!e) e = std::make_unique<Evaluator>(m, g, pol, refuse, actor, sh); return *e; }
   Evaluator &main() { return *ev[0]; }
   Coverage coverage() const { Coverage c; for (auto &e : ev) if (e) c.merge(e->cov); return c; }
+  void flushWork() { for (auto &e : ev) if (e) e->poller.flushWork(); }
 };
 
 // Reach weight of every range hand of `seat` at the node: w * prod sigma(own path actions); 0 if blocked by `blocked`.
@@ -498,6 +504,7 @@ struct Sampler {
 struct EvParams {
   Pol pol = Pol::Average; bool refuse = false; std::string method = "auto", future = "auto";
   long long samples = 20000, seed = 1, maxVisits = 20000000, timeMs = 60000, enumerateCap = 4096, minSamples = 100, threads = 0, memoryMiB = 512, gpuMiB = 512;
+  long long maxBoards = LLONG_MAX;   // 4.1 maxBoardEvaluations (absent: unlimited)
   double margin = NAN, warnShare = 0.05, severeShare = 0.25; Fallback fallback = Fallback::Uniform; Device device = Device::Auto; bool sensitivity = false;
 };
 inline double optNumber(const Fields &F, const char *name, double lo, double hi, double def) {
@@ -523,6 +530,7 @@ inline EvParams evParams(const Fields &F, long long defaultTime) {
   P.threads = F.optInt("threads", 1, 64, 0);
   P.memoryMiB = F.optInt("memoryMiB", 16, 4096, 512);
   P.gpuMiB = F.optInt("gpuMiB", 16, 6144, 512);
+  P.maxBoards = F.optInt("maxBoardEvaluations", 1000, 1000000000000000LL, LLONG_MAX);
   P.margin = optNumber(F, "equivalenceMargin", 1e-12, 1e9, NAN);
   P.warnShare = optNumber(F, "fallbackWarnShare", 0, 1, 0.05);
   P.severeShare = optNumber(F, "fallbackSevereShare", 0, 1, 0.25);
@@ -727,6 +735,18 @@ inline void showdownJson(JB *o, EvShared &S) {
   if (!s.gpuNote.empty()) { jb_puts(o, ",\"gpuNote\":"); jb_str(o, s.gpuNote.c_str()); }
   jb_putc(o, '}');
 }
+// 4.1: complete work accounting and the budgets that applied (ev_control.hpp).
+inline void workJson(JB *o, EvShared &S, long long maxVisits, long long samples, long long timeMs, long long memoryMiB) {
+  const EvControl &c = S.ctl; auto w = [&](int site) { return c.work[site].load(); };
+  jb_printf(o, ",\"work\":{\"units\":\"counts of work items of each kind; kinds have different costs and are never added together\",\"treeVisits\":%lld,\"treeNodePolls\":%lld,\"chanceCards\":%lld,\"opponentTuples\":%lld,\"reachWeights\":%lld,"
+               "\"boardRunouts\":%lld,\"boardEvaluations\":%lld,\"showdownTables\":%lld,\"tableCacheHits\":%lld,\"tableBoardsCpu\":%lld,\"patternCounts\":%lld,\"terminalUtilities\":%lld,\"icmEvaluations\":%lld,"
+               "\"samples\":%lld,\"rejectedSamplingAttempts\":%lld,\"bestResponseNodes\":%lld,\"responseTuples\":%lld,\"selectionSteps\":%lld,\"subtreeSizingNodes\":%lld,\"gpuBatches\":%lld,\"gpuBoards\":%lld,\"workerTasks\":%lld}",
+            c.visits.load(), w(SITE_TREE), w(SITE_CHANCE), w(SITE_OPPONENTS), w(SITE_REACH), w(SITE_RUNOUT), c.boardEvals.load(), S.show.tables.load(), S.show.reused.load(), w(SITE_TABLE), w(SITE_PATTERN),
+            S.show.patternSets.load() + S.show.directTerminals.load(), w(SITE_ICM), c.samples.load(), w(SITE_RETRY), w(SITE_BR), w(SITE_TUPLES), w(SITE_SELECTION), w(SITE_SUBTREE), w(SITE_GPU), S.show.gpuBoards.load(), c.unitsDone.load());
+  jb_printf(o, ",\"budgets\":{\"maxVisits\":%lld,\"maxBoardEvaluations\":", maxVisits);
+  if (c.maxBoards == LLONG_MAX) jb_puts(o, "null"); else jb_printf(o, "%lld", c.maxBoards);
+  jb_printf(o, ",\"samples\":%lld,\"timeLimitMs\":%lld,\"memoryMiB\":%lld,\"boardBudgetExhausted\":%s}", samples, timeMs, memoryMiB, c.maxBoards != LLONG_MAX && c.boardEvals.load() > c.maxBoards ? "true" : "false");
+}
 inline void deadlineJson(JB *o, EvShared &S, long long timeMs) {
   jb_printf(o, ",\"deadline\":{\"timeLimitMs\":%lld,\"clock\":\"steady (monotonic)\",\"checks\":%lld,\"maxCheckGapMs\":%.3f}", timeMs, S.ctl.checks.load(), S.ctl.maxGapNs.load() / 1e6);
 }
@@ -747,7 +767,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
   struct Free { JV *v; ~Free() { json_free(v); } } freeReq{req};
   try {
     const Fields F(req, {"path", "board", "hands", "range", "policy", "missing", "method", "futureActions", "samples", "seed", "maxVisits", "timeLimitMs", "studyId", "stateId",
-                         "minSamples", "threads", "memoryMiB", "gpuMiB", "device", "equivalenceMargin", "fallback", "fallbackWarnShare", "fallbackSevereShare", "fallbackSensitivity", "utility"});
+                         "minSamples", "threads", "memoryMiB", "gpuMiB", "device", "equivalenceMargin", "fallback", "fallbackWarnShare", "fallbackSevereShare", "fallbackSensitivity", "utility", "maxBoardEvaluations"});
     const std::string utility = F.choice("utility", {"study", "chip", "icm"}, "study");
     if (utility == "icm" && m->tournament.start.empty()) throw QueryError{400, "utility icm needs a study with a tournament payout table"};
     S.forceChip = utility == "chip" && !m->tournament.start.empty();
@@ -755,7 +775,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     std::vector<int> hands = F.intArray("hands", 0, 1325, 64);
     bool range = false; if (const JV *v = F.get("range")) { if (v->type != J_BOOL) throw QueryError{400, "range must be true or false"}; range = v->num != 0; }
     const EvParams P = evParams(F, 60000);
-    S.ctl.setDeadline(P.timeMs); S.device = P.device; S.gpuBudget = (size_t)P.gpuMiB << 20; S.memoryBudget = P.memoryMiB << 20; S.fallback = P.fallback;
+    S.ctl.setDeadline(P.timeMs); S.device = P.device; S.gpuBudget = (size_t)P.gpuMiB << 20; S.memoryBudget = P.memoryMiB << 20; S.fallback = P.fallback; S.ctl.maxBoards = P.maxBoards;
     const int threads = effectiveThreads(P.threads);
     Resolved R = resolvePath(*m, g, path, dealt, cancel);
     checkIdentifiers(*m, F, R);
@@ -773,7 +793,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     // ---- cache (thread count, device and memory do not change results) ----
     std::string key = std::to_string(m->iterations) + "|" + std::to_string(m->trainingDeals) + "|" + std::to_string(m->rows.size()) + "|" + std::to_string(m->stateVisits) + "|";
     for (int a : path) key += std::to_string(a) + ","; key += "|"; for (int c : dealt) key += std::to_string(c) + ","; key += "|"; for (int h : hands) key += std::to_string(h) + ",";
-    key += std::string("|") + (range ? "r" : "") + policyName(P.pol) + (P.refuse ? "R" : "U") + P.method + P.future + "|" + std::to_string(P.samples) + "|" + std::to_string(P.seed) + "|" + std::to_string(P.maxVisits) +
+    key += std::string("|") + (range ? "r" : "") + policyName(P.pol) + (P.refuse ? "R" : "U") + P.method + P.future + "|" + std::to_string(P.samples) + "|" + std::to_string(P.seed) + "|" + std::to_string(P.maxVisits) + "|" + std::to_string(P.maxBoards) +
            "|" + std::to_string(P.minSamples) + "|" + (S.forceChip ? "chip|" : "") + fallbackName(P.fallback) + "|" + (std::isfinite(P.margin) ? std::to_string(P.margin) : "-") + "|" + std::to_string(P.warnShare) + "|" + std::to_string(P.severeShare) + (P.sensitivity ? "S" : "");
     {
       std::lock_guard<std::mutex> lk(evCacheMutex());
@@ -792,7 +812,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     const double cost = exactCost(E, R, reach, actor, (double)P.maxVisits / std::max(1.0, units), P.enumerateCap, subtreeNodes, subtreeCapped);
     bool useExact = P.method == "exact" || (P.method == "auto" && cost * units <= (double)P.maxVisits);
     const bool sampleActions = P.future == "sample" || (P.future == "auto" && subtreeNodes > P.enumerateCap);
-    std::vector<HandResult> results; HandResult agg; agg.index = -1; bool stopped = false; std::string fellBack;
+    std::vector<HandResult> results; HandResult agg; agg.index = -1; bool stopped = false, boardBudgetHit = false; std::string fellBack;
     const bool chip = m->tournament.start.empty() || S.forceChip; const double sunk = t.total[actor] + m->anteOf[(size_t)actor];
     auto evalExact = [&]() {
       S.ctl.stage = SITE_OPPONENTS; results.clear();
@@ -838,7 +858,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
           }
           vis[b] = X.visits - v0; S.ctl.unitsDone++;
         });
-      } catch (const EvStop &e) { if (e.code != 2) throw; timeUp = true; }
+      } catch (const EvStop &e) { if (e.code != 2 && e.code != 6) throw; timeUp = true; if (e.code == 6) boardBudgetHit = true; }
       Moments M; M.k = k; bool anyRare = false; long long visits = 0;
       for (long long b = 0; b < blocks; b++) { M.merge(part[(size_t)b]); anyRare |= rare[(size_t)b]; visits += vis[(size_t)b]; }
       if (timeUp) { stopped = true; r.partial = true; S.ctl.stop = 0; }
@@ -941,8 +961,10 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     if (chip) { jb_puts(o, ",\"sunk\":"); jb_num(o, sunk, 10); }
     jb_puts(o, ",\"hands\":["); for (size_t i = 0; i < results.size(); i++) { if (i) jb_putc(o, ','); handJson(o, *m, t, actor, results[i], sunk, chip, P.margin); } jb_putc(o, ']');
     jb_puts(o, ",\"range\":"); if (range) handJson(o, *m, t, actor, agg, sunk, false, P.margin); else jb_puts(o, "null");
-    showdownJson(o, S); deadlineJson(o, S, P.timeMs);
-    jb_printf(o, ",\"stoppedEarly\":%s,\"elapsedMs\":%.1f}", stopped ? "true" : "false", (nowSec() - t0) * 1000);
+    pool.flushWork();
+    if (useExact && S.ctl.boardEvals.load() > S.ctl.maxBoards) throw EvStop{6, SITE_TREE};   // never publish an exact result past its budget
+    showdownJson(o, S); deadlineJson(o, S, P.timeMs); workJson(o, S, P.maxVisits, useExact ? 0 : P.samples, P.timeMs, P.memoryMiB);
+    jb_printf(o, ",\"stoppedEarly\":%s,\"stoppedBy\":%s,\"elapsedMs\":%.1f}", stopped ? "true" : "false", !stopped ? "null" : boardBudgetHit ? "\"maxBoardEvaluations\"" : "\"timeLimit\"", (nowSec() - t0) * 1000);
     if (body.failed) { jb_free(&body); throw std::bad_alloc(); }
     jb_putn(out, body.s, body.n - 1); jb_puts(out, ",\"cache\":{\"hit\":false}}");
     if (!stopped) {
@@ -956,6 +978,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
   catch (const EvStop &e) {
     char msg[300];
     if (e.code == 1) { std::snprintf(msg, sizeof msg, "Calculation cancelled (during %s); no result is reported", siteName(e.site)); fail(err, errlen, msg); return 409; }
+    if (e.code == 6) { std::snprintf(msg, sizeof msg, "Board-evaluation budget (maxBoardEvaluations) exhausted during %s before the evaluation completed; an incomplete exact result is never reported", siteName(e.site)); fail(err, errlen, msg); return 422; }
     std::snprintf(msg, sizeof msg, "Time limit reached (during %s) before the evaluation completed; an incomplete exact result is never reported", siteName(e.site)); fail(err, errlen, msg); return 408;
   }
   catch (const EvUnavailable &e) { fail(err, errlen, ("Unavailable: " + e.why + " (missing:\"refuse\")").c_str()); return 422; }
@@ -1097,7 +1120,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
   struct Free { JV *v; ~Free() { json_free(v); } } freeReq{req};
   try {
     const Fields F(req, {"method", "seats", "path", "board", "policy", "missing", "samples", "selectionSamples", "reachSamples", "seed", "maxVisits", "timeLimitMs", "futureActions", "studyId",
-                         "selection", "maxNodes", "memoryMiB", "device", "fallback"});
+                         "selection", "maxNodes", "memoryMiB", "device", "fallback", "maxBoardEvaluations", "threads"});
     const std::string method = F.choice("method", {"exact", "sampled", "restricted"}, "sampled");
     std::vector<int> seats = F.intArray("seats", 0, n - 1, 8);
     for (size_t i = 0; i < seats.size(); i++) for (size_t j = 0; j < i; j++) if (seats[i] == seats[j]) throw QueryError{400, "seats lists a seat twice"};
@@ -1112,11 +1135,13 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
     P.maxVisits = F.optInt("maxVisits", 1000, 2000000000LL, 200000000); P.timeMs = F.optInt("timeLimitMs", 100, 3600000, 120000);
     P.future = F.choice("futureActions", {"auto", "enumerate", "sample"}, "auto");
     P.memoryMiB = F.optInt("memoryMiB", 16, 4096, 512); P.device = deviceOf(F); P.fallback = fallbackOf(F);
+    P.maxBoards = F.optInt("maxBoardEvaluations", 1000, 1000000000000000LL, LLONG_MAX);
+    P.threads = F.optInt("threads", 1, 64, 0);   // 4.1: per-seat parallel response evaluation
     const long long selection = F.optInt("selectionSamples", 16, 100000, 200), reachN = F.optInt("reachSamples", 64, 2000000, 20000), maxNodes = F.optInt("maxNodes", 1, 4096, 256);
     const std::string selMode = F.choice("selection", {"auto", "exact", "sampled"}, "auto");
     if (method != "restricted" && (F.has("selection") || F.has("maxNodes"))) throw QueryError{400, "selection and maxNodes apply to method restricted"};
     if (const JV *v = F.get("studyId")) { if (v->type != J_STR) throw QueryError{400, "studyId must be a string"}; if (m->studyId.empty() || m->studyId != v->str) throw QueryError{409, "studyId does not match the open study"}; }
-    S.ctl.setDeadline(P.timeMs); S.device = P.device; S.memoryBudget = P.memoryMiB << 20; S.fallback = P.fallback; S.ctl.maxVisits = method == "sampled" ? LLONG_MAX : P.maxVisits;
+    S.ctl.setDeadline(P.timeMs); S.device = P.device; S.memoryBudget = P.memoryMiB << 20; S.fallback = P.fallback; S.ctl.maxVisits = method == "sampled" ? LLONG_MAX : P.maxVisits; S.ctl.maxBoards = P.maxBoards;
     if (S.ctl.validateOnly) { jb_puts(out, "{\"valid\":true}"); return 200; }
     const bool chip = m->tournament.start.empty();
     JB body; jb_init(&body); JB *o = &body;
@@ -1218,7 +1243,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
                 E.dev = nullptr; E.rng = Rng{streamSeed}; const double pv = E.value(0, g.rootState, m->startLen, 1.0, false);
                 const double d = dv - pv; sd += d; sd2 += d * d; cnt++; S.ctl.samples++;
               }
-            } catch (const EvStop &e) { if (e.code != 2 || cnt < 64) throw; S.ctl.stop = 0; selNote += selNote.empty() ? "evaluation stopped at the time limit" : "; evaluation stopped at the time limit"; }
+            } catch (const EvStop &e) { if ((e.code != 2 && e.code != 6) || cnt < 64) throw; S.ctl.stop = 0; selNote += selNote.empty() ? "evaluation stopped at the time limit" : "; evaluation stopped at the time limit"; }
           }
           if (cnt >= 2) { gain = sd / cnt; se = std::sqrt(std::max(0.0, (sd2 - cnt * gain * gain) / (cnt - 1)) / cnt); }
         }
@@ -1272,7 +1297,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
           if (!Sj.draw(E, evRng, R.used, R.known, 200000)) break;
           const int h = E.hand[seat]; if (choice[(size_t)h] < 0) continue;
           double v[8], f[8], sg[8];
-          try { sampleValues(E, R, v, f); } catch (const EvStop &e) { if (e.code == 2 && cnt >= 64) { stopped = true; S.ctl.stop = 0; break; } throw; }
+          try { sampleValues(E, R, v, f); } catch (const EvStop &e) { if ((e.code == 2 || e.code == 6) && cnt >= 64) { stopped = true; S.ctl.stop = 0; break; } throw; }
           E.policy(R.state, k, seat, h, R.known, sg, &t); double mix = 0; for (int a = 0; a < k; a++) mix += sg[a] * v[a];
           const double d = v[choice[(size_t)h]] - mix; sd += d; sd2 += d * d; cnt++; S.ctl.samples++;
         }
@@ -1288,7 +1313,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
               double x = 1; for (int p = 0; p < n; p++) { const double w0 = prior[(size_t)p][(size_t)E.hand[p]]; x *= w0 > 0 ? reach[(size_t)p][(size_t)E.hand[p]] / w0 : 0; }
               rs += x; rs2 += x * x; rc++;
             }
-          } catch (const EvStop &e) { if (e.code != 2 || rc < 64) throw; stopped = true; S.ctl.stop = 0; }
+          } catch (const EvStop &e) { if ((e.code != 2 && e.code != 6) || rc < 64) throw; stopped = true; S.ctl.stop = 0; }
         }
         jb_printf(o, "{\"seat\":%d,\"available\":%s,\"mode\":\"sampledOneDecisionDeviation\",\"node\":", seat, cnt >= 2 && rc >= 2 ? "true" : "false"); nodeJson(o, *m, R);
         jb_printf(o, ",\"futureActions\":\"%s\",\"handsConsidered\":%zu,\"handsWithDeviation\":%zu,\"selectionSamplesPerHand\":%lld,\"evaluationSamples\":%lld,\"stoppedEarly\":%s", E.sampleActions ? "sampled from the policy" : "enumerated", considered, deviating, selection, cnt, stopped ? "true" : "false");
@@ -1309,7 +1334,8 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
       double mx = -INFINITY, mean = 0; for (double x : gains) { mx = std::max(mx, x); mean += x; } mean /= gains.size();
       jb_puts(o, ",\"summary\":{\"maxSeatGain\":"); jnumOrNull(o, mx); jb_puts(o, ",\"meanSeatGain\":"); jnumOrNull(o, mean); jb_printf(o, ",\"seatsEvaluated\":%zu,\"note\":\"Per-seat values are listed above; the mean does not replace them.\"}", gains.size());
     }
-    showdownJson(o, S); deadlineJson(o, S, P.timeMs);
+    if (method == "exact" && S.ctl.boardEvals.load() > S.ctl.maxBoards) throw EvStop{6, SITE_BR};   // 4.1: exact gains are never published past the budget
+    showdownJson(o, S); deadlineJson(o, S, P.timeMs); workJson(o, S, P.maxVisits, P.samples, P.timeMs, P.memoryMiB);
     jb_printf(o, ",\"elapsedMs\":%.1f}", (nowSec() - t0) * 1000);
     if (body.failed) throw std::bad_alloc();
     jb_putn(out, body.s, body.n);
@@ -1318,6 +1344,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
   catch (const EvStop &e) {
     char msg[300];
     if (e.code == 1) { std::snprintf(msg, sizeof msg, "Calculation cancelled (during %s); no result is reported", siteName(e.site)); fail(err, errlen, msg); return 409; }
+    if (e.code == 6) { std::snprintf(msg, sizeof msg, "Board-evaluation budget (maxBoardEvaluations) exhausted during %s before the evaluation completed; an incomplete exact result is never reported", siteName(e.site)); fail(err, errlen, msg); return 422; }
     std::snprintf(msg, sizeof msg, "Time limit reached (during %s) before the evaluation completed", siteName(e.site)); fail(err, errlen, msg); return 408;
   }
   catch (const EvUnavailable &e) { fail(err, errlen, ("Unavailable: " + e.why + " (missing:\"refuse\")").c_str()); return 422; }

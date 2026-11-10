@@ -268,3 +268,55 @@ test('4.1 statistics: sampled native results carry simultaneous comparisons cons
   const ex = ev({ path: [1, 1], hands: [0], method: 'exact' }).hands[0];
   assert.equal(ex.multipleComparisons, undefined); ex.classification.forEach((c, a) => assert.ok(['highest', 'exactTie', 'lower'].includes(c)));
 });
+
+// ============================== work budgets ==============================
+function cliStudy(t, name, iterations) {
+  const cp = require('node:child_process'), fs = require('node:fs'), os = require('node:os'), path = require('node:path');
+  const cli = process.env.EM_TEST_MWCLI || build.cli().cli;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'em41b-')); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const spec = path.join(dir, 'spec.json'), state = path.join(dir, 'state'); let n = 0;
+  fs.writeFileSync(spec, JSON.stringify(E.MultiwayGame(studies[name]).nativeSpec()));
+  cp.execFileSync(cli, [spec, String(iterations), '2', state, '512']);
+  const run = (mode, query) => { const q = path.join(dir, 'q' + (n++) + '.json'); fs.writeFileSync(q, JSON.stringify(query)); const r = cp.spawnSync(cli, [mode, spec, state, q], { encoding: 'utf8', maxBuffer: 1 << 26 }); return { json: r.status === 0 ? JSON.parse(r.stdout) : null, error: r.stderr }; };
+  return { ev: q => run('--ev', q), gain: q => run('--gain', q) };
+}
+const cliSkip = !(process.env.EM_TEST_MWCLI || build.cli().cli) && 'no native CLI';
+test('4.1 work budgets: board enumeration is counted and maxBoardEvaluations is enforced (exact: no result; sampled: labelled partial)', { skip: cliSkip }, t => {
+  const S = cliStudy(t, 'push8', 40);
+  const full = S.ev({ path: [1, 1], hands: [0], method: 'exact', maxVisits: 2000000000 }).json;
+  assert.ok(full.work.boardEvaluations >= 376992, 'eight-player preflop showdown boards are counted: ' + full.work.boardEvaluations);
+  assert.ok(full.work.treeVisits < 1000, 'tree visits alone (the 4.0 maxVisits unit) miss that work');
+  assert.equal(full.work.boardEvaluations, full.work.tableBoardsCpu + full.work.gpuBoards + full.work.boardRunouts, 'CPU-only run: every board evaluation is a table row');
+  assert.ok(full.work.icmEvaluations > 0 && full.work.patternCounts > 0 && full.work.showdownTables > 0);
+  assert.equal(full.budgets.maxBoardEvaluations, null); assert.equal(full.budgets.boardBudgetExhausted, false);
+  // the exact method refuses to publish when the budget is exhausted
+  const cut = S.ev({ path: [1, 1], hands: [0], method: 'exact', maxVisits: 2000000000, maxBoardEvaluations: 100000 });
+  assert.equal(cut.json, null); assert.match(cut.error, /422.*maxBoardEvaluations.*never reported/);
+  // a budget that covers the work gives the identical exact result
+  const ok = S.ev({ path: [1, 1], hands: [0], method: 'exact', maxVisits: 2000000000, maxBoardEvaluations: full.work.boardEvaluations }).json;
+  assert.deepEqual(ok.hands[0].ev, full.hands[0].ev);
+  // sampled: a partial estimate only with >= minSamples samples, labelled with the budget that stopped it
+  const part = S.ev({ path: [1], hands: [0], method: 'sampled', samples: 200000, seed: 4, maxBoardEvaluations: 400000 }).json;
+  assert.equal(part.stoppedBy, 'maxBoardEvaluations'); assert.equal(part.budgets.boardBudgetExhausted, true);
+  const h = part.hands[0];
+  if (h.available) { assert.equal(h.status, 'partial'); assert.ok(h.samples >= 100 && h.samples < 200000); }
+  else assert.match(h.reason, /minSamples|samples/);
+  assert.ok(part.work.boardEvaluations <= 400000 + 256 * 64, "overshoot bounded by 256 boards per worker: " + part.work.boardEvaluations);
+  const tiny = S.ev({ path: [1], hands: [0], method: 'sampled', samples: 200000, seed: 4, maxBoardEvaluations: 1000 }).json.hands[0];
+  assert.equal(tiny.available, false, 'too few samples within the budget: no estimate');
+  // invalid budget values
+  for (const v of [0, 999, -1, 1.5, 1e300]) assert.match(S.ev({ path: [1], hands: [0], maxBoardEvaluations: v }).error, /400/);
+  // the time limit still applies together with the budgets
+  const timed = S.ev({ path: [], hands: [0], method: 'exact', maxVisits: 2000000000, maxBoardEvaluations: 1e12, timeLimitMs: 150 });
+  assert.equal(timed.json, null); assert.match(timed.error, /408/);
+});
+test('4.1 work budgets: response gains report work and honour maxBoardEvaluations', { skip: cliSkip }, t => {
+  const S = cliStudy(t, 'huRiver', 300);
+  const g = S.gain({ method: 'exact' }).json;
+  assert.ok(g.work.boardEvaluations > 0 && g.work.bestResponseNodes > 0, JSON.stringify(g.work));
+  assert.equal(S.gain({ method: 'exact', maxBoardEvaluations: 1000 }).json.budgets.boardBudgetExhausted, false, 'a budget above the work done is not reported as exhausted');
+  const P = cliStudy(t, 'push8', 40);
+  const full = P.gain({ method: 'exact', seats: [0] }).json; assert.equal(full.work.boardEvaluations, 376992);
+  const cut = P.gain({ method: 'exact', seats: [0], maxBoardEvaluations: 100000 });
+  assert.equal(cut.json, null); assert.match(cut.error, /422.*maxBoardEvaluations/);
+});
