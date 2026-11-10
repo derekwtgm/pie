@@ -75,7 +75,11 @@ jobs:
           $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
           $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
           node --test source/tests/*.test.js 2>&1 | Out-File -Encoding utf8 "$r/validation/regression-tests.txt"
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $testExit = $LASTEXITCODE
+          # 4.0: show failures and totals in the job log (the artifact is not always reachable)
+          Select-String -Path "$r/validation/regression-tests.txt" -Pattern '^# (tests|pass|fail|skipped|cancelled|todo)' | ForEach-Object { $_.Line }
+          Select-String -Path "$r/validation/regression-tests.txt" -Pattern '^\s*not ok' -Context 0,30 | Select-Object -First 12 | ForEach-Object { $_.Line; $_.Context.PostContext | Where-Object { $_ -match 'error|expected|actual|location|message' } }
+          if ($testExit) { exit $testExit }
           $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
           "EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"
           Push-Location $r

@@ -121,14 +121,33 @@ struct EvShared {
   bool forceChip = false;
   Fallback fallback = Fallback::Uniform;
 };
+// Distinct information sets are counted in a fixed open-addressing table
+// (32,768 slots, filled to at most 50%) instead of std::unordered_set: the
+// 3.9-to-4.0 benchmark showed the node-based set costing 10-15% of sampled
+// evaluation time. Beyond 16,384 distinct keys the counts are lower bounds
+// ("distinctCountCapped").
 struct Coverage {
-  long long lookups = 0, stored = 0, missing = 0;
-  std::unordered_set<uint64_t> seen, seenMissing; size_t cap = 16384; bool capped = false;
+  static constexpr size_t SLOTS = 32768, LIMIT = SLOTS / 2;
+  long long lookups = 0, stored = 0, missing = 0; bool capped = false; size_t distinct = 0, distinctMissing = 0;
+  std::vector<uint64_t> slot; std::vector<uint8_t> miss;
+  static uint64_t mix(uint64_t x) { x ^= x >> 33; x *= 0xff51afd7ed558ccdULL; x ^= x >> 33; x *= 0xc4ceb9fe1a85ec53ULL; return x ^ (x >> 33); }
+  // returns the slot of key (inserting it), or SIZE_MAX when the table is full
+  size_t place(uint64_t key) {
+    if (slot.empty()) { slot.assign(SLOTS, 0); miss.assign(SLOTS, 0); }
+    const uint64_t k = key | 1;   // 0 marks an empty slot
+    for (size_t i = mix(key) & (SLOTS - 1);; i = (i + 1) & (SLOTS - 1)) {
+      if (slot[i] == k) return i;
+      if (!slot[i]) { if (distinct >= LIMIT) { capped = true; return SIZE_MAX; } slot[i] = k; distinct++; return i; }
+    }
+  }
   void note(uint64_t key, bool ok) {
     lookups++; (ok ? stored : missing)++;
-    if (seen.size() < cap) { seen.insert(key); if (!ok) seenMissing.insert(key); } else if (!seen.count(key)) capped = true;
+    const size_t i = place(key); if (i != SIZE_MAX && !ok && !miss[i]) { miss[i] = 1; distinctMissing++; }
   }
-  void merge(const Coverage &o) { lookups += o.lookups; stored += o.stored; missing += o.missing; capped |= o.capped; for (auto k : o.seen) if (seen.size() < cap) seen.insert(k); else capped = true; for (auto k : o.seenMissing) if (seenMissing.size() < cap) seenMissing.insert(k); }
+  void merge(const Coverage &o) {
+    lookups += o.lookups; stored += o.stored; missing += o.missing; capped |= o.capped;
+    for (size_t i = 0; i < o.slot.size(); i++) if (o.slot[i]) { const size_t j = place(o.slot[i]); if (j != SIZE_MAX && o.miss[i] && !miss[j]) { miss[j] = 1; distinctMissing++; } }
+  }
 };
 
 struct Evaluator {
@@ -877,7 +896,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     else jb_puts(o, "null,\"equivalenceMargin\":null");
     jb_puts(o, ",\"note\":\"A difference that is not statistically supported is reported as differenceUncertain, never as equivalent. Practical equivalence is only claimed with an explicit equivalenceMargin. Comparisons are not adjusted for multiplicity, and the highest estimate is selected on the same samples.\"}");
     jb_printf(o, ",\"coverage\":{\"fallbackPolicy\":\"%s\",\"fallbackDescription\":\"%s\",\"policyLookups\":%lld,\"storedLookups\":%lld,\"fallbackLookups\":%lld,\"distinctInformationSets\":%zu,\"distinctFallbackInformationSets\":%zu,\"distinctCountCapped\":%s",
-              fallbackName(P.fallback), fallbackText(P.fallback), cov.lookups, cov.stored, cov.missing, cov.seen.size(), cov.seenMissing.size(), cov.capped ? "true" : "false");
+              fallbackName(P.fallback), fallbackText(P.fallback), cov.lookups, cov.stored, cov.missing, cov.distinct, cov.distinctMissing, cov.capped ? "true" : "false");
     jb_puts(o, ",\"rowCoverage\":"); jnumOrNull(o, cov.lookups ? (double)cov.stored / (double)cov.lookups : 1.0);
     jb_puts(o, ",\"maxActionFallbackShare\":"); jnumOrNull(o, maxFb); jb_puts(o, ",\"maxOpponentReachFallbackShare\":"); jnumOrNull(o, maxReachFb);
     jb_puts(o, ",\"opponentReachFallbackShare\":["); for (int p = 0; p < n; p++) { if (p) jb_putc(o, ','); jnumOrNull(o, reachAllW[(size_t)p] > 0 ? reachFbW[(size_t)p] / reachAllW[(size_t)p] : 0); } jb_putc(o, ']');
