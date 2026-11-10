@@ -1,0 +1,37 @@
+{
+  "version": "3.5",
+  "build": "2c966e16bec735bc",
+  "regressions": {
+    "passed": 286,
+    "failed": 0,
+    "skipped": 0,
+    "timedOut": 0,
+    "todo": 0,
+    "hardwareDependentRun": 10,
+    "hardwareDependentSkipped": 0
+  },
+  "newTests": 24,
+  "testPlatform": "Linux x64",
+  "deterministicContinuation": "exact after memory stop, interrupted autosave and reconstructed index",
+  "windows": "MinGW-w64 POSIX cross-compiled, PE32+ verified, independent repeat build byte-identical",
+  "physicalWindows": false,
+  "wineExecutionVerified": false,
+  "cudaCompiled": [
+    "compute_75",
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_89"
+  ],
+  "physicalNvidia": false,
+  "simulatedCuda": "CPU driver fixture, including cap changes and fallback",
+  "headlessChromium": "desktop native worker, fallback, checkpoint recovery panel and offline IndexedDB recovery",
+  "sanitizers": "Native training paths ran with TSan and ASan/UBSan; separate ASan/UBSan v33 regression replay passed 34. LeakSanitizer disabled.",
+  "cppcheck": "normal branch coverage; see static-analysis.log",
+  "openItems": [
+    "Physical Windows recovery and power-loss behavior",
+    "Physical RTX 4060 Ti end-to-end time to accuracy, PCIe timing and peak VRAM",
+    "Broader automatic calibration for large ICM and multiway studies",
+    "Global multiplayer convergence improvement and precise process-wide allocation accounting remain unestablished"
+  ]
+}

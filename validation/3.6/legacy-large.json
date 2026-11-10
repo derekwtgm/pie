@@ -1,0 +1,8 @@
+{
+  "writer": "3.5",
+  "actualTrainedIterations": 20000,
+  "bytes": 178556850,
+  "sha256": "7e10f1ae9f53ae51ed990c1f0860b88ef0a07c3392cad42c822dc17e5a5c9f28",
+  "hostPeakBytes": 14962688,
+  "downloadMatches": true
+}

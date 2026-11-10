@@ -7,8 +7,12 @@ param(
   [switch]$Fresh = $true
 )
 $ErrorActionPreference = 'Stop'
+# 3.3: Windows PowerShell 5.1 serializes arrays returned from functions as {"value":[...],"Count":n}
+# through extended type data; removing it keeps JSON arrays plain (no effect on PowerShell 7).
+Remove-TypeData System.Array -ErrorAction SilentlyContinue
 $checks = [System.Collections.Generic.List[string]]::new()
 $engineProcess = $null
+$oldProfile=$env:USERPROFILE
 $oldGpu = $env:EIGHTMAX_GPU
 $oldThreads = $env:EIGHTMAX_THREADS
 $work = Join-Path ([System.IO.Path]::GetTempPath()) ('EightMax-check-' + [guid]::NewGuid())
@@ -23,7 +27,14 @@ function Assert-Check([bool]$ok, [string]$message) {
 function Api([string]$route, $payload = $null) {
   $requestArgs = @{ Uri = "$script:base/api/$route"; UseBasicParsing = $true; TimeoutSec = 30; Headers = @{ 'X-EightMax' = '1' } }
   if ($null -ne $payload) { $requestArgs.Method = 'POST'; $requestArgs.ContentType = 'application/json'; $requestArgs.Body = ($payload | ConvertTo-Json -Depth 20 -Compress) }
-  return ((Invoke-WebRequest @requestArgs).Content | ConvertFrom-Json)
+  try { return ((Invoke-WebRequest @requestArgs).Content | ConvertFrom-Json) }
+  catch {
+    # 3.3: show the server's reason (expected rejections are still detected by the caller).
+    $response = $_.Exception.Response
+    if ($response) { try { $reader = New-Object IO.StreamReader($response.GetResponseStream()); Write-Host ("  /api/{0} -> HTTP {1}: {2}" -f $route, [int]$response.StatusCode, $reader.ReadToEnd()) } catch {} }
+    if ($requestArgs.Body) { Write-Host ("  request body starts: " + $requestArgs.Body.Substring(0, [math]::Min(300, $requestArgs.Body.Length))) }
+    throw
+  }
 }
 function Card([string]$text) { return 4 * '23456789TJQKA'.IndexOf($text[0]) + 'cdhs'.IndexOf($text[1]) }
 function HandId([string]$text) {
@@ -42,6 +53,7 @@ try {
   $listener.Start(); $port = $listener.LocalEndpoint.Port; $listener.Stop()
   $script:base = "http://127.0.0.1:$port"
   $env:EIGHTMAX_GPU = 'off'; $env:EIGHTMAX_THREADS = '2'
+  $env:USERPROFILE=$work
   $engineProcess = Start-Process -FilePath $Exe -ArgumentList @('--no-browser', "--port=$port") -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $work 'stdout.txt') -RedirectStandardError (Join-Path $work 'stderr.txt')
   $deadline = [datetime]::UtcNow.AddSeconds(20); $info = $null
   while ([datetime]::UtcNow -lt $deadline) {
@@ -49,6 +61,24 @@ try {
     try { $info = Api 'info'; break } catch { Start-Sleep -Milliseconds 100 }
   }
   Assert-Check ($null -ne $info -and $info.native -eq $true -and $info.version -eq $ExpectedVersion) 'Native server starts and reports the expected version'
+  $expected=Join-Path $work 'Documents\EightMax'
+  Assert-Check ($info.saveDir -eq $expected) 'Checkpoint tests use an isolated profile'
+  $fixtures=Get-Content -Raw (Join-Path $PSScriptRoot '../tests/fixtures/checkpoints-2.5.json') | ConvertFrom-Json
+  foreach ($text in @($fixtures.wide.text,$fixtures.exact.text)){
+    $r=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/checkpoint/write" -Method POST -Headers @{'X-EightMax'='1'} -ContentType 'application/json' -Body ([Text.Encoding]::UTF8.GetBytes($text))
+    Assert-Check ($r.StatusCode -eq 200) 'Checkpoint persisted'
+  }
+  foreach($fault in @('missing','corrupt')){
+    $index=Join-Path $expected 'autosave.index'
+    if($fault -eq 'missing'){Remove-Item -LiteralPath $index}else{[IO.File]::WriteAllText($index,'bad')}
+    $health=Api 'checkpoint/status'
+    Assert-Check ($health.reconstructed -and $health.generation -eq '2') "Rebuilt $fault index"
+    foreach($key in @('latest','previous')){
+      $r=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/checkpoint/$key"
+      $v=if($key -eq 'latest'){$fixtures.exact.text}else{$fixtures.wide.text}
+      Assert-Check ($r.Content -ceq $v) "Recovered $key after $fault index"
+    }
+  }
   $page = (Invoke-WebRequest -UseBasicParsing -Uri $script:base -TimeoutSec 15).Content
   Assert-Check ($page.Contains('window.EM_NATIVE = true;') -and $page.Contains('multi-resume') -and $page.Contains('rv-abstraction')) 'Embedded app includes multiway training and grouping controls'
   $cfg = @{
@@ -92,14 +122,50 @@ try {
     $null = Api 'info'
     Assert-Check (-not $engineProcess.HasExited) 'Host is still running after the refused requests'
   }
+  $large=& (Join-Path $PSScriptRoot 'test_large_checkpoint.ps1') -Base $script:base -Work $work -Cli (Join-Path (Split-Path $Exe) 'mwcli.exe') -Store $expected
+  Assert-Check ($large.bytes -gt 64MB) 'Streamed a trained checkpoint larger than 64 MiB and recovered its SHA-256 after index removal'
+  $file=Join-Path (Split-Path $Exe) 'validation/3.7/fixtures/eight-seat-3.6.emstudy'
+  if(-not(Test-Path $file)){$file=Join-Path $PSScriptRoot '../../validation/3.7/fixtures/eight-seat-3.6.emstudy'}
+  $null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/checkpoint/native-upload" -Method POST -Headers @{'X-EightMax'='1'} -InFile $file
+  Assert-Check ((Api 'mw/status').engine.iterations -eq 8) 'Restored genuine 3.6 native fixture'
+  $null=Api 'mw/desktop-train' @{iterations=7;threads=2}
+  do{Start-Sleep -Milliseconds 100;$status=Api 'mw/status'}while($status.running)
+  Assert-Check ($status.engine.iterations -eq 15) 'Committed seven more updates'
+  foreach($route in @('checkpoint/native-save','mw/desktop-release','checkpoint/native-latest')){
+    $null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/$route" -Method POST -Headers @{'X-EightMax'='1'}
+  }
+  Assert-Check ((Api 'mw/status').engine.rng -eq $status.engine.rng) 'Reopened native generation with the saved RNG'
+  # 3.8: native strategy explorer on the restored desktop study
+  $node=Api 'mw/node' @{path=@();limit=1326}
+  Assert-Check ($node.node.kind -eq 'decision' -and $node.actions.Count -ge 2 -and $node.hands.items.Count -gt 0 -and $node.ev.available -eq $false) 'Explorer reads the root decision of the restored native study'
+  $sum=0.0;foreach($p in $node.aggregate.average){$sum+=$p}
+  Assert-Check ([math]::Abs($sum-1) -lt 1e-9) 'Explorer aggregate strategy is normalized'
+  $deeper=Api 'mw/node' @{path=@(1);limit=10}
+  Assert-Check ($deeper.history.Count -eq 1 -and $deeper.hands.items.Count -le 10) 'Explorer follows an action branch with a bounded page'
+  $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/node" -Method POST -Headers @{'X-EightMax'='1'} -Body '{"path":[7]}'}catch{$code=[int]$_.Exception.Response.StatusCode}
+  Assert-Check ($code -eq 400) 'Explorer refuses a branch outside the solved abstraction'
+  # 3.9: strict request validation (HTTP 400) and action EVs / response gains on the restored study
+  foreach($body in @('{"rangeSeat":"nonsense"}','{"offset":-1}','{"limit":"5"}','{"path":[0.5]}','{"foo":1}')){
+    $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/node" -Method POST -Headers @{'X-EightMax'='1'} -Body $body}catch{$code=[int]$_.Exception.Response.StatusCode}
+    Assert-Check ($code -eq 400) ('Explorer rejects malformed request '+$body)
+  }
+  $ev=Api 'mw/ev' @{path=@();hands=@(0,1);range=$true;samples=500;seed=1}
+  Assert-Check ($ev.hands.Count -eq 2 -and $ev.actions.Count -eq $node.actions.Count -and $ev.hands[0].ev.Count -eq $node.actions.Count -and ($ev.method -eq 'exact' -or $ev.hands[0].stdErr.Count -eq $node.actions.Count)) 'Action EVs computed for every legal action with method and uncertainty'
+  $again=Api 'mw/ev' @{path=@();hands=@(0,1);range=$true;samples=500;seed=1}
+  Assert-Check ($again.cache.hit -eq $true -and $again.hands[0].ev[0] -eq $ev.hands[0].ev[0]) 'Repeated action-EV request is served from the cache'
+  $gain=Api 'mw/response-gain' @{method='sampled';samples=200;selectionSamples=16;reachSamples=500;seed=1;futureActions='sample'}
+  Assert-Check ($gain.seats.Count -ge 2) 'Per-seat sampled response gains computed'
+  $code=0;try{$null=Invoke-WebRequest -UseBasicParsing -Uri "$script:base/api/mw/ev" -Method POST -Headers @{'X-EightMax'='1'} -Body '{"hands":["0"]}'}catch{$code=[int]$_.Exception.Response.StatusCode}
+  Assert-Check ($code -eq 400) 'Action-EV endpoint rejects a string hand index'
   $passed = $true
 } catch {
   $failure = $_.Exception.Message
   Write-Host ('FAIL  ' + $failure) -ForegroundColor Red
 } finally {
+  $env:USERPROFILE=$oldProfile
   if ($engineProcess -and -not $engineProcess.HasExited) { Stop-Process -Id $engineProcess.Id -Force -ErrorAction SilentlyContinue }
   $env:EIGHTMAX_GPU = $oldGpu; $env:EIGHTMAX_THREADS = $oldThreads
-  $reportData = [ordered]@{ version=$ExpectedVersion; passed=$passed; checks=$checks.ToArray(); error=$failure; os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
+  $reportData = [ordered]@{ version=$ExpectedVersion; build=$info.build; largeCheckpoint=$large; passed=$passed; checks=$checks.ToArray(); error=$failure; os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
   $reportData | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Report -Encoding UTF8
   Write-Host "Report: $Report"
   Remove-Item -LiteralPath $work -Recurse -Force -ErrorAction SilentlyContinue

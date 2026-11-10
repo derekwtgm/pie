@@ -1,0 +1,10 @@
+EightMax.exe: PE32+ executable for MS Windows 5.02 (console), x86-64 (stripped to external PDB), 9 sections
+mwcli.exe:    PE32+ executable for MS Windows 5.02 (console), x86-64 (stripped to external PDB), 9 sections
+	DLL Name: bcrypt.dll
+	DLL Name: KERNEL32.dll
+	DLL Name: msvcrt.dll
+	DLL Name: SHELL32.dll
+	DLL Name: WINMM.dll
+	DLL Name: WS2_32.dll
+	DLL Name: KERNEL32.dll
+	DLL Name: msvcrt.dll

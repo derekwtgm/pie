@@ -1,0 +1,13 @@
+{
+ "note": "GCC 13 -O1 -g; ASan+UBSan with -fno-sanitize-recover=all, detect_leaks=0 (LeakSanitizer tracing unavailable here); TSan with 4 worker threads. Script: validation/3.8/sanitizers.sh (10 benchmark studies x 4 estimator settings: training, continuation, restore, 4 explorer queries, an invalid branch, a 1 MiB restore refusal).",
+ "asan": {
+  "trainingRuns": 80,
+  "sanitizerDiagnostics": 0,
+  "failedSteps": 0
+ },
+ "tsan": {
+  "trainingRuns": 80,
+  "sanitizerDiagnostics": 0,
+  "failedSteps": 0
+ }
+}

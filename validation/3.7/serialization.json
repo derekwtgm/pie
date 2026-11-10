@@ -1,0 +1,40 @@
+{
+  "description": "Same trained EMMW4 input and 3.6 archive metadata for both writers. CLI import + 1 update + atomic raw export. Child CPU time includes user and kernel time.",
+  "rawBytes": 133916983,
+  "rows": [
+    {
+      "version": "3.6",
+      "encoder": {
+        "rawBytes": 133916983,
+        "archiveBytes": 116541772,
+        "milliseconds": 709.083734,
+        "cpuMilliseconds": 702.742,
+        "peakRssKiB": 50300,
+        "iterations": 20000
+      },
+      "archiveSha256": "8b7ff2cb2a60703584b8583c10ad1b06bfbb7083d1c1e457f3a40778bb0a194b",
+      "continuedSha256": "07089ef751835ac5bb6d60cf22b4482fc61f3106b69ba3c158112d9efaa8c8fb",
+      "restoreTrainAndSaveSeconds": 3.6464440489999106,
+      "restoreTrainAndSaveCpuSeconds": 3.601934000000007,
+      "cliPeakRssMiB": 870.9,
+      "deals": 80004
+    },
+    {
+      "version": "3.7",
+      "encoder": {
+        "rawBytes": 133916983,
+        "archiveBytes": 116541772,
+        "milliseconds": 656.103733,
+        "cpuMilliseconds": 640.551,
+        "peakRssKiB": 50316,
+        "iterations": 20000
+      },
+      "archiveSha256": "8b7ff2cb2a60703584b8583c10ad1b06bfbb7083d1c1e457f3a40778bb0a194b",
+      "continuedSha256": "07089ef751835ac5bb6d60cf22b4482fc61f3106b69ba3c158112d9efaa8c8fb",
+      "restoreTrainAndSaveSeconds": 4.753003498999988,
+      "restoreTrainAndSaveCpuSeconds": 4.717617999999984,
+      "cliPeakRssMiB": 469.4,
+      "deals": 80004
+    }
+  ]
+}

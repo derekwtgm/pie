@@ -18,8 +18,6 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Engine regressions
-        run: node --test source/tests/*.test.js
       - name: Build the UI
         run: |
           node source/tools/build.js build
@@ -27,11 +25,13 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
+          # 3.3: build.sh runs node (fingerprint check); the MSYS2 shell must see the runner's PATH.
+          path-type: inherit
           update: true
           install: mingw-w64-ucrt-x86_64-gcc python
       - name: Compile a fresh native host from the current source
         shell: msys2 {0}
-        run: CC=gcc sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
+        run: CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
       - name: Test the fresh host on Windows
         shell: powershell
         run: |
@@ -50,7 +50,7 @@ jobs:
           Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat' $r
+          Copy-Item RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
@@ -58,6 +58,10 @@ jobs:
         shell: powershell
         run: |
           $r = 'release/EightMax'
+          & "$r/source/tools/test_devices.ps1"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/verify_build.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/package_smoke.js $r
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/mtt_ui_smoke.js $r
@@ -68,6 +72,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/accuracy_report.js "$r/validation"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
           node --test source/tests/*.test.js 2>&1 | Out-File -Encoding utf8 "$r/validation/regression-tests.txt"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
@@ -78,7 +84,21 @@ jobs:
             '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower(), $rel } | Sort-Object { $_.Substring(66) } | Set-Content -Encoding ascii SHA256SUMS.txt
           Pop-Location
           $v = (Get-Content source/VERSION -TotalCount 1).Trim()
-          Compress-Archive -Path $r -DestinationPath "release/EightMax-Windows-$v.zip"
+          python source/tools/package36.py $r "release/EightMax-Windows-$v.zip"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Parse every PowerShell script (3.3)
+        shell: powershell
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Filter *.ps1 source/tools | ForEach-Object {
+            $e = $null; [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$e) | Out-Null
+            if ($e) { $e | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" }; $bad++ } }
+          if ($bad) { exit 1 }
+      - name: Hardware validation script on the runner (CPU paths; runners have no NVIDIA GPU)
+        shell: powershell
+        run: |
+          ./release/EightMax/source/tools/validate_hardware.ps1 -Exe release/EightMax/mwcli.exe -Report windows-runner-hardware-validation.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Upload the release and reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,4 +108,5 @@ jobs:
             release/EightMax-Windows-*.zip
             fresh-windows.json
             fresh-windows-host.json
+            windows-runner-hardware-validation.json
             release/EightMax/validation/

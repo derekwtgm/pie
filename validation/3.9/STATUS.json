@@ -1,0 +1,49 @@
+{
+ "version": "3.9",
+ "build": "4fc8938553309260",
+ "baseline": {
+  "uploadedZip": "EightMax-Windows-3.8.zip",
+  "uploadedZipSHA256": "8e51bc5e36692d55f640f8949f05489debfd3f9af76c8623864c08035bd40621",
+  "baselineManifestEntriesVerified": 707,
+  "baselineInterfaceRebuildByteIdentical": true,
+  "baselineTestsReproduced": {
+   "passed": 327,
+   "failed": 0
+  }
+ },
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalProcessors": 4,
+ "nativeLinuxExecuted": true,
+ "windowsX64CrossCompiled": "MinGW-w64 GCC 13 (Ubuntu)",
+ "windowsRepeatLinkByteIdentical": true,
+ "physicalWindowsExecuted": false,
+ "wineExecuted": "Wine 9.0: EightMax.exe host HTTP test (105 checks), mwcli.exe/Linux parity (18 checks); full v39 file under Wine timed out",
+ "physicalCudaExecuted": false,
+ "cudaCodeChanged": false,
+ "trainingCodeChanged": false,
+ "tests": {
+  "passed": 341,
+  "failed": 0,
+  "skipped": 0,
+  "timedOut": 0,
+  "todo": 0,
+  "hardwareDependentRun": 13,
+  "hardwareDependentSkipped": 0
+ },
+ "sanitizers": {
+  "asanUbsan": {
+   "tests": 22,
+   "failed": 0,
+   "reports": 0
+  }
+ },
+ "byteIdenticalTo38": {
+  "scenarioPairs": 30,
+  "timingPairs": 35,
+  "convergenceCheckpoints": "all",
+  "identical": "all"
+ },
+ "actionEvReference": "exact EVs equal an independent JavaScript reference to 1e-9 (heads-up river/turn, three-way side pots chip and ICM, hand-built game, Compact/Detailed groups)",
+ "exactBestResponseReference": "equal to independent JavaScript best response to 1e-8",
+ "gtoAccuracyImprovementClaimed": false
+}

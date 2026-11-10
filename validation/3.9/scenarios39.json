@@ -1,0 +1,1859 @@
+{
+ "generated": "2026-11-10T15:06:14.801Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalProcessors": 4,
+ "platform": "linux 6.18.44-fc-v338",
+ "quick": false,
+ "physicalGpuTested": false,
+ "note": "Training code paths are unchanged between 3.8 and 3.9, so equal-update states are expected to be byte-identical; time differences are measurement noise unless the confidence intervals separate.",
+ "scenarios": [
+  {
+   "name": "Heads-up river",
+   "abstraction": "exact cards; river bets 50% pot / all-in, raise 2.5x, cap 2",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 2,
+   "street": "river",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 20000,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.031598,
+      "peakRssMiB": 5.7,
+      "trainingDeals": 20000,
+      "stateVisits": 299469,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "323c745277271875437e65ba1f58525a07d6c144b41a342f258297122910f30f"
+     },
+     "3.9": {
+      "wallSeconds": 0.030591,
+      "peakRssMiB": 5.8,
+      "trainingDeals": 20000,
+      "stateVisits": 299469,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "323c745277271875437e65ba1f58525a07d6c144b41a342f258297122910f30f"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.13551389256656118,
+       0.1677443881863049
+      ],
+      "exploitability": 0.15162914037643305,
+      "nashConv": 0.3032582807528661
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 20000,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.029243,
+      "peakRssMiB": 5.8,
+      "trainingDeals": 20000,
+      "stateVisits": 297432,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "2a46c03e4bcc323006e5fd4b40c7cca3ab52c8b59a6f3acd24c42e6a3e9cc233"
+     },
+     "3.8": {
+      "wallSeconds": 0.028849,
+      "peakRssMiB": 5.8,
+      "trainingDeals": 20000,
+      "stateVisits": 297432,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "2a46c03e4bcc323006e5fd4b40c7cca3ab52c8b59a6f3acd24c42e6a3e9cc233"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.11162690067295747,
+       0.1453445706802207
+      ],
+      "exploitability": 0.12848573567658908,
+      "nashConv": 0.25697147135317816
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.032011,
+      "peakRssMiB": 6,
+      "trainingDeals": 20000,
+      "stateVisits": 297692,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "763808476cc769366d6aacb9bb27766e0939b6348a910f4836a731c6fe167a3a"
+     },
+     "3.9": {
+      "wallSeconds": 0.033681,
+      "peakRssMiB": 6.4,
+      "trainingDeals": 20000,
+      "stateVisits": 297692,
+      "states": 8,
+      "rows": 72,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "763808476cc769366d6aacb9bb27766e0939b6348a910f4836a731c6fe167a3a"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.1789202549740086,
+       0.13074350608719557
+      ],
+      "exploitability": 0.1548318805306021,
+      "nashConv": 0.3096637610612042
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.031598,
+     "mean": 0.030819333333333334,
+     "ci95": 0.004270101393497751,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.030591,
+     "mean": 0.031171666666666667,
+     "ci95": 0.005652533513133893,
+     "n": 3
+    },
+    "medianChangePercent": -3.186910563959747,
+    "allIdentical": true,
+    "peakRss38": 6,
+    "peakRss39": 6.4
+   }
+  },
+  {
+   "name": "Heads-up turn",
+   "abstraction": "exact cards; turn bet 60%, river 75% / all-in, cap 1",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 2,
+   "street": "turn",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 20000,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.063355,
+      "peakRssMiB": 6.5,
+      "trainingDeals": 20000,
+      "stateVisits": 525700,
+      "states": 25,
+      "rows": 4850,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "86d399ab711e6d91f2601b10d663b28eb2c503fb3d2d64fe96805b5654136b1e"
+     },
+     "3.9": {
+      "wallSeconds": 0.063193,
+      "peakRssMiB": 6.5,
+      "trainingDeals": 20000,
+      "stateVisits": 525700,
+      "states": 25,
+      "rows": 4850,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "86d399ab711e6d91f2601b10d663b28eb2c503fb3d2d64fe96805b5654136b1e"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       1.9213047482424865,
+       2.2900031296190084
+      ],
+      "exploitability": 2.1056539389307476,
+      "nashConv": 4.211307877861495
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 20000,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.050479,
+      "peakRssMiB": 6.8,
+      "trainingDeals": 20000,
+      "stateVisits": 513022,
+      "states": 25,
+      "rows": 4799,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "443cdc81fa19cf64a76b098109a30f807f37208140d13f24301b3b1546f6fd46"
+     },
+     "3.8": {
+      "wallSeconds": 0.056364,
+      "peakRssMiB": 7,
+      "trainingDeals": 20000,
+      "stateVisits": 513022,
+      "states": 25,
+      "rows": 4799,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "443cdc81fa19cf64a76b098109a30f807f37208140d13f24301b3b1546f6fd46"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       1.8752372216998903,
+       2.186750252711786
+      ],
+      "exploitability": 2.030993737205838,
+      "nashConv": 4.061987474411676
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.051822,
+      "peakRssMiB": 7.4,
+      "trainingDeals": 20000,
+      "stateVisits": 523324,
+      "states": 25,
+      "rows": 4811,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "946a85ce0d5001af27ee20fb3e5fb34336141fea9f034c46ea354763324c7735"
+     },
+     "3.9": {
+      "wallSeconds": 0.063285,
+      "peakRssMiB": 8,
+      "trainingDeals": 20000,
+      "stateVisits": 523324,
+      "states": 25,
+      "rows": 4811,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "946a85ce0d5001af27ee20fb3e5fb34336141fea9f034c46ea354763324c7735"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       1.6861182617813804,
+       1.9068243070009434
+      ],
+      "exploitability": 1.7964712843911619,
+      "nashConv": 3.5929425687823238
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.056364,
+     "mean": 0.05718033333333333,
+     "ci95": 0.014433197308409458,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.063193,
+     "mean": 0.05898566666666666,
+     "ci95": 0.01830245011465201,
+     "n": 3
+    },
+    "medianChangePercent": 12.115889574905973,
+    "allIdentical": true,
+    "peakRss38": 7.4,
+    "peakRss39": 8
+   }
+  },
+  {
+   "name": "Three-player river",
+   "abstraction": "exact cards; 50%/125% bets, 2.5x raise, cap 2",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 3,
+   "street": "river",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 20000,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.063104,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 679971,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "61f21d85a34381570169e6c61a4a5d47c970eac5a9180d1c40cd2629f42e70b0"
+     },
+     "3.9": {
+      "wallSeconds": 0.060094,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 679971,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "61f21d85a34381570169e6c61a4a5d47c970eac5a9180d1c40cd2629f42e70b0"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.20061113244674847,
+       0.2732153208962835,
+       0.15338788963348934
+      ],
+      "exploitability": null,
+      "nashConv": 0.6272143429765213
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 20000,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.081267,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 683749,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "ab5e377c54d3229cf3a5f0a940f72b680c58902ba21371f9d295c8087b6263df"
+     },
+     "3.8": {
+      "wallSeconds": 0.08571,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 683749,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "ab5e377c54d3229cf3a5f0a940f72b680c58902ba21371f9d295c8087b6263df"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.19940568935382458,
+       0.20089422052822078,
+       0.12491591853739804
+      ],
+      "exploitability": null,
+      "nashConv": 0.5252158284194434
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 20000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.061395,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 680397,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "0000d2d3c5aa2b9141959da4e98db96d4533d51f2fe523592993584834aec41d"
+     },
+     "3.9": {
+      "wallSeconds": 0.085175,
+      "peakRssMiB": 8.3,
+      "trainingDeals": 20000,
+      "stateVisits": 680397,
+      "states": 63,
+      "rows": 504,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "0000d2d3c5aa2b9141959da4e98db96d4533d51f2fe523592993584834aec41d"
+     },
+     "quality": {
+      "kind": "exact best-response gain per seat",
+      "seats": [
+       0.2832616234649297,
+       0.23083384278862526,
+       0.15815042496333437
+      ],
+      "exploitability": null,
+      "nashConv": 0.6722458912168894
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.063104,
+     "mean": 0.07006966666666667,
+     "ci95": 0.03371707264344799,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.081267,
+     "mean": 0.07551200000000001,
+     "ci95": 0.03352514392785228,
+     "n": 3
+    },
+    "medianChangePercent": 28.782644523326596,
+    "allIdentical": true,
+    "peakRss38": 8.3,
+    "peakRss39": 8.3
+   }
+  },
+  {
+   "name": "Four-player flop",
+   "abstraction": "exact cards, random ranges; 3 flop sizes",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 4,
+   "street": "flop",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 150,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 150,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.071975,
+      "peakRssMiB": 14.3,
+      "trainingDeals": 2400,
+      "stateVisits": 313918,
+      "states": 20800,
+      "rows": 40438,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "7db39351ae4b4bdda71f7e6ba05c26154218dfa47e9ea3fa6b046272a43facc0"
+     },
+     "3.9": {
+      "wallSeconds": 0.0612,
+      "peakRssMiB": 14.3,
+      "trainingDeals": 2400,
+      "stateVisits": 313918,
+      "states": 20800,
+      "rows": 40438,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "7db39351ae4b4bdda71f7e6ba05c26154218dfa47e9ea3fa6b046272a43facc0"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 3.038980556259223,
+        "stdErr": 1.0530269640395102
+       },
+       {
+        "gain": 1.4605676247505301,
+        "stdErr": 0.2591408788685514
+       },
+       {
+        "gain": 0.37238331711089606,
+        "stdErr": 0.06136789647189299
+       },
+       {
+        "gain": 0.1089429441040223,
+        "stdErr": 0.015323407885429137
+       }
+      ],
+      "maxSeatGain": 3.038980556259223
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 150,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.058878,
+      "peakRssMiB": 14.4,
+      "trainingDeals": 2400,
+      "stateVisits": 312356,
+      "states": 20394,
+      "rows": 40048,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "63008c00857486667437e4d9122e20e72f797e2fd280a49dd47d75b4ebd5c6a1"
+     },
+     "3.8": {
+      "wallSeconds": 0.054772,
+      "peakRssMiB": 14.3,
+      "trainingDeals": 2400,
+      "stateVisits": 312356,
+      "states": 20394,
+      "rows": 40048,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "63008c00857486667437e4d9122e20e72f797e2fd280a49dd47d75b4ebd5c6a1"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 3.02971633108809,
+        "stdErr": 1.0778520889066552
+       },
+       {
+        "gain": 1.6030243268848758,
+        "stdErr": 0.2555083891367509
+       },
+       {
+        "gain": 0.3570674580869127,
+        "stdErr": 0.060517046655517666
+       },
+       {
+        "gain": 0.09301648979127407,
+        "stdErr": 0.01531494119219313
+       }
+      ],
+      "maxSeatGain": 3.02971633108809
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 150,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.072257,
+      "peakRssMiB": 14.4,
+      "trainingDeals": 2400,
+      "stateVisits": 312523,
+      "states": 20611,
+      "rows": 40181,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "bbf4d8feefb250f5c2f2d082459c8ce8c24db38ad85ab5a24f34dadfad517583"
+     },
+     "3.9": {
+      "wallSeconds": 0.074576,
+      "peakRssMiB": 14.4,
+      "trainingDeals": 2400,
+      "stateVisits": 312523,
+      "states": 20611,
+      "rows": 40181,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "bbf4d8feefb250f5c2f2d082459c8ce8c24db38ad85ab5a24f34dadfad517583"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 3.8301137950649813,
+        "stdErr": 1.030427401319516
+       },
+       {
+        "gain": 1.3769820721084904,
+        "stdErr": 0.24933328997769819
+       },
+       {
+        "gain": 0.3571149113610228,
+        "stdErr": 0.06518204845773831
+       },
+       {
+        "gain": 0.09895599309587787,
+        "stdErr": 0.01565943717276284
+       }
+      ],
+      "maxSeatGain": 3.8301137950649813
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.071975,
+     "mean": 0.06633466666666667,
+     "ci95": 0.024879543422556813,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.0612,
+     "mean": 0.06488466666666666,
+     "ci95": 0.02104945287438552,
+     "n": 3
+    },
+    "medianChangePercent": -14.970475859673497,
+    "allIdentical": true,
+    "peakRss38": 14.4,
+    "peakRss39": 14.4
+   }
+  },
+  {
+   "name": "Six-player flop",
+   "abstraction": "exact cards, 60% weighted ranges",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 6,
+   "street": "flop",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 300,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 300,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.315777,
+      "peakRssMiB": 35.4,
+      "trainingDeals": 4800,
+      "stateVisits": 1400330,
+      "states": 111621,
+      "rows": 137024,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "49cba77b2a98b596b30f8abfd53a4e2a388e45f656152212f063c7fb70f4b60b"
+     },
+     "3.9": {
+      "wallSeconds": 0.321293,
+      "peakRssMiB": 34.8,
+      "trainingDeals": 4800,
+      "stateVisits": 1400330,
+      "states": 111621,
+      "rows": 137024,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "49cba77b2a98b596b30f8abfd53a4e2a388e45f656152212f063c7fb70f4b60b"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.6814433861098215,
+        "stdErr": 0.7485432508615361
+       },
+       {
+        "gain": 0.8590773953388106,
+        "stdErr": 0.4013823686974196
+       },
+       {
+        "gain": 0.29515167869577,
+        "stdErr": 0.19508884858488332
+       },
+       {
+        "gain": 0.35169173724680897,
+        "stdErr": 0.09693352774683524
+       },
+       {
+        "gain": 0.04393976090531967,
+        "stdErr": 0.03506436107414667
+       },
+       {
+        "gain": 0.05440733885314619,
+        "stdErr": 0.011077876614556075
+       }
+      ],
+      "maxSeatGain": 0.8590773953388106
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 300,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.282794,
+      "peakRssMiB": 35.5,
+      "trainingDeals": 4800,
+      "stateVisits": 1409112,
+      "states": 112070,
+      "rows": 137953,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "d540c43848d1fabe4482909612f859589347d97b7212d60a1987208a42845d73"
+     },
+     "3.8": {
+      "wallSeconds": 0.300848,
+      "peakRssMiB": 35.4,
+      "trainingDeals": 4800,
+      "stateVisits": 1409112,
+      "states": 112070,
+      "rows": 137953,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "d540c43848d1fabe4482909612f859589347d97b7212d60a1987208a42845d73"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.9108964298812855,
+        "stdErr": 0.6971166922778508
+       },
+       {
+        "gain": 0.7608864500835948,
+        "stdErr": 0.3891567481477142
+       },
+       {
+        "gain": 0.3452656092443088,
+        "stdErr": 0.19239269541051662
+       },
+       {
+        "gain": 0.2818536737095315,
+        "stdErr": 0.1019427046959074
+       },
+       {
+        "gain": 0.1908560923869444,
+        "stdErr": 0.03634205257713135
+       },
+       {
+        "gain": 0.04177813956106825,
+        "stdErr": 0.01053044849139452
+       }
+      ],
+      "maxSeatGain": 0.9108964298812855
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 300,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.306973,
+      "peakRssMiB": 34.9,
+      "trainingDeals": 4800,
+      "stateVisits": 1408356,
+      "states": 112391,
+      "rows": 137848,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "aa9659ba2119744e42d2de7a2a5cd76fff966d8e79c69ac9684eac79dfc45506"
+     },
+     "3.9": {
+      "wallSeconds": 0.336682,
+      "peakRssMiB": 35.1,
+      "trainingDeals": 4800,
+      "stateVisits": 1408356,
+      "states": 112391,
+      "rows": 137848,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "aa9659ba2119744e42d2de7a2a5cd76fff966d8e79c69ac9684eac79dfc45506"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.446114784137778,
+        "stdErr": 0.7801701071825312
+       },
+       {
+        "gain": 0.7087429787248567,
+        "stdErr": 0.3869165203212273
+       },
+       {
+        "gain": 0.6602003277468677,
+        "stdErr": 0.20322702442050886
+       },
+       {
+        "gain": 0.297590008933586,
+        "stdErr": 0.09302749425798354
+       },
+       {
+        "gain": 0.14778696888762186,
+        "stdErr": 0.03771759262626657
+       },
+       {
+        "gain": 0.06275585032958121,
+        "stdErr": 0.0107565503875258
+       }
+      ],
+      "maxSeatGain": 0.7087429787248567
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.306973,
+     "mean": 0.307866,
+     "ci95": 0.018643604645509758,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.321293,
+     "mean": 0.31358966666666666,
+     "ci95": 0.06895930145096074,
+     "n": 3
+    },
+    "medianChangePercent": 4.664905382558075,
+    "allIdentical": true,
+    "peakRss38": 35.4,
+    "peakRss39": 35.5
+   }
+  },
+  {
+   "name": "Eight-player preflop shove/call",
+   "abstraction": "exact hole cards; shove or fold, call or fold",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 8,
+   "street": "preflop",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 2000,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 2000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 1.130257,
+      "peakRssMiB": 33.2,
+      "trainingDeals": 32000,
+      "stateVisits": 3870625,
+      "states": 1062,
+      "rows": 149421,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "963e7ea4e162da365e644d01c889d6c4b1259f6938089e3e940b6907321bfe49"
+     },
+     "3.9": {
+      "wallSeconds": 1.236888,
+      "peakRssMiB": 33.3,
+      "trainingDeals": 32000,
+      "stateVisits": 3870625,
+      "states": 1062,
+      "rows": 149421,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "963e7ea4e162da365e644d01c889d6c4b1259f6938089e3e940b6907321bfe49"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.4774801369242543,
+        "stdErr": 0.16139836699111662
+       },
+       {
+        "gain": 0.2194024919233438,
+        "stdErr": 0.0644503711918159
+       },
+       {
+        "gain": 0.101927173226081,
+        "stdErr": 0.04540312911796156
+       },
+       {
+        "gain": 0.044695171563543294,
+        "stdErr": 0.010029731509816843
+       },
+       {
+        "gain": 0.06143989087034319,
+        "stdErr": 0.011049642399111026
+       },
+       {
+        "gain": 0.019997950873717106,
+        "stdErr": 0.004465547021680031
+       },
+       {
+        "gain": 0.015237514809002586,
+        "stdErr": 0.0012878258926701512
+       },
+       {
+        "gain": 0.007492466436294955,
+        "stdErr": 0.0009134293270809966
+       }
+      ],
+      "maxSeatGain": 0.4774801369242543
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 2000,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 1.188604,
+      "peakRssMiB": 33.2,
+      "trainingDeals": 32000,
+      "stateVisits": 3868013,
+      "states": 1062,
+      "rows": 149243,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "f8f3aec1283e768c73bddbf1b0cc4a3a10b15f7cb49c92094936ea326b1242ef"
+     },
+     "3.8": {
+      "wallSeconds": 1.242492,
+      "peakRssMiB": 33.1,
+      "trainingDeals": 32000,
+      "stateVisits": 3868013,
+      "states": 1062,
+      "rows": 149243,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "f8f3aec1283e768c73bddbf1b0cc4a3a10b15f7cb49c92094936ea326b1242ef"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.44885716279688653,
+        "stdErr": 0.17096576986221937
+       },
+       {
+        "gain": 0.20873081313110672,
+        "stdErr": 0.06517633235014456
+       },
+       {
+        "gain": 0.24818393231714933,
+        "stdErr": 0.049079621525980714
+       },
+       {
+        "gain": 0.055244417558705974,
+        "stdErr": 0.010607705540275602
+       },
+       {
+        "gain": 0.06640434037341396,
+        "stdErr": 0.011656821154393366
+       },
+       {
+        "gain": 0.02896459498928141,
+        "stdErr": 0.004922401030036001
+       },
+       {
+        "gain": 0.014995829627816303,
+        "stdErr": 0.0013964757631799859
+       },
+       {
+        "gain": 0.00981523421052257,
+        "stdErr": 0.0009779906280303738
+       }
+      ],
+      "maxSeatGain": 0.44885716279688653
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 2000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.989004,
+      "peakRssMiB": 33.2,
+      "trainingDeals": 32000,
+      "stateVisits": 3873031,
+      "states": 1062,
+      "rows": 150140,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "68667f1ae6ce24504f7f8029c15d939dd5421f7f34cd0a4d1ff17da7473041f7"
+     },
+     "3.9": {
+      "wallSeconds": 1.174844,
+      "peakRssMiB": 33.4,
+      "trainingDeals": 32000,
+      "stateVisits": 3873031,
+      "states": 1062,
+      "rows": 150140,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "68667f1ae6ce24504f7f8029c15d939dd5421f7f34cd0a4d1ff17da7473041f7"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.32173841440976214,
+        "stdErr": 0.16505398792358952
+       },
+       {
+        "gain": 0.24904682386242497,
+        "stdErr": 0.061851276305888846
+       },
+       {
+        "gain": 0.1659682387481751,
+        "stdErr": 0.043498975835944184
+       },
+       {
+        "gain": 0.05045327268510964,
+        "stdErr": 0.010163091672642633
+       },
+       {
+        "gain": 0.07028159382027088,
+        "stdErr": 0.011263869272269305
+       },
+       {
+        "gain": 0.02839606722654434,
+        "stdErr": 0.004481282302126479
+       },
+       {
+        "gain": 0.01278439943662436,
+        "stdErr": 0.0012311755065783215
+       },
+       {
+        "gain": 0.007648646144677129,
+        "stdErr": 0.0008687864597351879
+       }
+      ],
+      "maxSeatGain": 0.32173841440976214
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 1.130257,
+     "mean": 1.1205843333333332,
+     "ci95": 0.31556192516315806,
+     "n": 3
+    },
+    "wall39": {
+     "median": 1.188604,
+     "mean": 1.200112,
+     "ci95": 0.08094864596297226,
+     "n": 3
+    },
+    "medianChangePercent": 5.162277251987815,
+    "allIdentical": true,
+    "peakRss38": 33.2,
+    "peakRss39": 33.4
+   }
+  },
+  {
+   "name": "Eight-player linked preflop to river",
+   "abstraction": "exact cards; opens 2bb/all-in, raises 2.75x/all-in",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 8,
+   "street": "preflop",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 300,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 300,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.333685,
+      "peakRssMiB": 43.4,
+      "trainingDeals": 4800,
+      "stateVisits": 1418857,
+      "states": 344543,
+      "rows": 110023,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "065fa7bdb61c930f8a46e31a0abc3cda19c39477100dfc5a0cd1101e1abcf870"
+     },
+     "3.9": {
+      "wallSeconds": 0.343069,
+      "peakRssMiB": 43.4,
+      "trainingDeals": 4800,
+      "stateVisits": 1418857,
+      "states": 344543,
+      "rows": 110023,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "065fa7bdb61c930f8a46e31a0abc3cda19c39477100dfc5a0cd1101e1abcf870"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 2.4559948961370917,
+        "stdErr": 0.5526309522954443
+       },
+       {
+        "gain": 0.5835454489683365,
+        "stdErr": 0.15079074410865925
+       },
+       {
+        "gain": 0.3115562123619045,
+        "stdErr": 0.0627251670881416
+       },
+       {
+        "gain": 0.040413939084897765,
+        "stdErr": 0.007228260083426026
+       },
+       {
+        "gain": 0.01292040065238225,
+        "stdErr": 0.0027448937667639145
+       },
+       {
+        "gain": 0.001628537699825902,
+        "stdErr": 0.00027300120240996887
+       },
+       {
+        "gain": 0.00035610839943872206,
+        "stdErr": 0.00009521402413185931
+       },
+       {
+        "gain": 0.000053145781038874465,
+        "stdErr": 0.000022038035793962102
+       }
+      ],
+      "maxSeatGain": 2.4559948961370917
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 300,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.311487,
+      "peakRssMiB": 42.8,
+      "trainingDeals": 4800,
+      "stateVisits": 1421963,
+      "states": 345900,
+      "rows": 110339,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "3ee15b5d464b803abbfa00711e5a000058aabd85e41b618f1a4fe5b3231ee76c"
+     },
+     "3.8": {
+      "wallSeconds": 0.369429,
+      "peakRssMiB": 42.7,
+      "trainingDeals": 4800,
+      "stateVisits": 1421963,
+      "states": 345900,
+      "rows": 110339,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "3ee15b5d464b803abbfa00711e5a000058aabd85e41b618f1a4fe5b3231ee76c"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 2.308505890898657,
+        "stdErr": 0.5385118919311047
+       },
+       {
+        "gain": 0.926871623587517,
+        "stdErr": 0.16267897958597236
+       },
+       {
+        "gain": 0.2840767388232642,
+        "stdErr": 0.060681690254752514
+       },
+       {
+        "gain": 0.03261164847170884,
+        "stdErr": 0.006937084833663728
+       },
+       {
+        "gain": 0.011348903106897137,
+        "stdErr": 0.002514791384637692
+       },
+       {
+        "gain": 0.0018968553962698327,
+        "stdErr": 0.00026496691303255207
+       },
+       {
+        "gain": 0.00048165204626853046,
+        "stdErr": 0.00009386738919810151
+       },
+       {
+        "gain": 0.0000686810025448207,
+        "stdErr": 0.000021685609965901132
+       }
+      ],
+      "maxSeatGain": 2.308505890898657
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 300,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.339429,
+      "peakRssMiB": 43.8,
+      "trainingDeals": 4800,
+      "stateVisits": 1422063,
+      "states": 344124,
+      "rows": 110078,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "a6e6e77fa716a02f62d141670f3cc5e7475fee53223a6d4ffdec69d660e0f66d"
+     },
+     "3.9": {
+      "wallSeconds": 0.295173,
+      "peakRssMiB": 44,
+      "trainingDeals": 4800,
+      "stateVisits": 1422063,
+      "states": 344124,
+      "rows": 110078,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "a6e6e77fa716a02f62d141670f3cc5e7475fee53223a6d4ffdec69d660e0f66d"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 2.417614256552561,
+        "stdErr": 0.5534579280781284
+       },
+       {
+        "gain": 0.7889639276844641,
+        "stdErr": 0.16451250877534127
+       },
+       {
+        "gain": 0.3150518404833997,
+        "stdErr": 0.061314640422420505
+       },
+       {
+        "gain": 0.034258415397669204,
+        "stdErr": 0.007318883019401373
+       },
+       {
+        "gain": 0.0136998535636831,
+        "stdErr": 0.0025749052207872636
+       },
+       {
+        "gain": 0.001633489062718323,
+        "stdErr": 0.0002764177606850603
+       },
+       {
+        "gain": 0.0002791811846981945,
+        "stdErr": 0.00009094718699490034
+       },
+       {
+        "gain": 0.00004110680156089546,
+        "stdErr": 0.00002335048142978318
+       }
+      ],
+      "maxSeatGain": 2.417614256552561
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.339429,
+     "mean": 0.3475143333333333,
+     "ci95": 0.04768621314581236,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.311487,
+     "mean": 0.31657633333333335,
+     "ci95": 0.06049415515996109,
+     "n": 3
+    },
+    "medianChangePercent": -8.23206031305515,
+    "allIdentical": true,
+    "peakRss38": 43.8,
+    "peakRss39": 44
+   }
+  },
+  {
+   "name": "Short-stack multiway all-ins (6-seat flop)",
+   "abstraction": "exact cards; side pots from 3/8/14 BB stacks",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 6,
+   "street": "flop",
+   "utility": "chip EV",
+   "threads": 4,
+   "updates": 500,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 500,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.069752,
+      "peakRssMiB": 11.1,
+      "trainingDeals": 2000,
+      "stateVisits": 278961,
+      "states": 21529,
+      "rows": 24198,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "29306c23a54f5afe464fa1ec084b4098a815f75257474e26c62360216a83a500"
+     },
+     "3.9": {
+      "wallSeconds": 0.110567,
+      "peakRssMiB": 11.1,
+      "trainingDeals": 2000,
+      "stateVisits": 278961,
+      "states": 21529,
+      "rows": 24198,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "29306c23a54f5afe464fa1ec084b4098a815f75257474e26c62360216a83a500"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 1.2112430697587817,
+        "stdErr": 0.36196634034878905
+       },
+       {
+        "gain": 0.8575280056993378,
+        "stdErr": 0.18953713999395272
+       },
+       {
+        "gain": 0.3743680782097938,
+        "stdErr": 0.03465712151747922
+       },
+       {
+        "gain": 0.1625998399519847,
+        "stdErr": 0.022212854640281755
+       },
+       {
+        "gain": 0.06444687531139029,
+        "stdErr": 0.005552265825823747
+       },
+       {
+        "gain": 0.008914103319762275,
+        "stdErr": 0.0008617730481039792
+       }
+      ],
+      "maxSeatGain": 1.2112430697587817
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 500,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.097663,
+      "peakRssMiB": 12.4,
+      "trainingDeals": 2000,
+      "stateVisits": 284910,
+      "states": 22551,
+      "rows": 24968,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "325965571014ab53d829581809eeb9034cb78af63e3da58258e5128647bfd4d1"
+     },
+     "3.8": {
+      "wallSeconds": 0.095133,
+      "peakRssMiB": 12.5,
+      "trainingDeals": 2000,
+      "stateVisits": 284910,
+      "states": 22551,
+      "rows": 24968,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "325965571014ab53d829581809eeb9034cb78af63e3da58258e5128647bfd4d1"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 1.365529955345199,
+        "stdErr": 0.3451086196313227
+       },
+       {
+        "gain": 0.43266616193190305,
+        "stdErr": 0.20043442995289662
+       },
+       {
+        "gain": 0.4161254476667142,
+        "stdErr": 0.04012332374062427
+       },
+       {
+        "gain": 0.21474107181960164,
+        "stdErr": 0.02821610986627256
+       },
+       {
+        "gain": 0.09758918784512208,
+        "stdErr": 0.007408766550926479
+       },
+       {
+        "gain": 0.011149134336044081,
+        "stdErr": 0.001083641805469046
+       }
+      ],
+      "maxSeatGain": 1.365529955345199
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 500,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.071379,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 2000,
+      "stateVisits": 280055,
+      "states": 21692,
+      "rows": 24444,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "e2351493c919ccd5646a79a969f20b41132423c03eda1a361a619078f4c1d68d"
+     },
+     "3.9": {
+      "wallSeconds": 0.073505,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 2000,
+      "stateVisits": 280055,
+      "states": 21692,
+      "rows": 24444,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "e2351493c919ccd5646a79a969f20b41132423c03eda1a361a619078f4c1d68d"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 1.4269414737863673,
+        "stdErr": 0.4002500558053607
+       },
+       {
+        "gain": 0.7391828493975928,
+        "stdErr": 0.18585018297610095
+       },
+       {
+        "gain": 0.45509462833364983,
+        "stdErr": 0.040274423367383134
+       },
+       {
+        "gain": 0.1643133467587477,
+        "stdErr": 0.025097468617341752
+       },
+       {
+        "gain": 0.07339636780689557,
+        "stdErr": 0.0064443427323487385
+       },
+       {
+        "gain": 0.008856054221419213,
+        "stdErr": 0.0009784682441929308
+       }
+      ],
+      "maxSeatGain": 1.4269414737863673
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.071379,
+     "mean": 0.07875466666666667,
+     "ci95": 0.03529589219787171,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.097663,
+     "mean": 0.09391166666666667,
+     "ci95": 0.04673939763257392,
+     "n": 3
+    },
+    "medianChangePercent": 36.823155269757216,
+    "allIdentical": true,
+    "peakRss38": 13.9,
+    "peakRss39": 13.9
+   }
+  },
+  {
+   "name": "Tournament bubble ICM (4 left, 3 paid)",
+   "abstraction": "shove/call, ICM 50/30/20",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 4,
+   "street": "preflop",
+   "utility": "ICM",
+   "threads": 4,
+   "updates": 3000,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 3000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.170031,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392978,
+      "states": 14,
+      "rows": 17969,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "08249cbd1f065de6a34fcc0d2df37a310e810e9dd13c8b296d56f9a2fbe510e0"
+     },
+     "3.9": {
+      "wallSeconds": 0.173883,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392978,
+      "states": 14,
+      "rows": 17969,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "08249cbd1f065de6a34fcc0d2df37a310e810e9dd13c8b296d56f9a2fbe510e0"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.6402411355844435,
+        "stdErr": 0.11098460684138337
+       },
+       {
+        "gain": 0.29467857041546974,
+        "stdErr": 0.09576249746817773
+       },
+       {
+        "gain": 0.11681784748198139,
+        "stdErr": 0.012306185858007189
+       },
+       {
+        "gain": 0.18304994049988144,
+        "stdErr": 0.04362060077669336
+       }
+      ],
+      "maxSeatGain": 0.6402411355844435
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 3000,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.212298,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392981,
+      "states": 14,
+      "rows": 18036,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "3932910edfcf50b957fecab32fc271d32fc6184947b9e4134bb11189245e1ea8"
+     },
+     "3.8": {
+      "wallSeconds": 0.206831,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392981,
+      "states": 14,
+      "rows": 18036,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "3932910edfcf50b957fecab32fc271d32fc6184947b9e4134bb11189245e1ea8"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.6747891922486874,
+        "stdErr": 0.12044088265614857
+       },
+       {
+        "gain": 0.4941481778507487,
+        "stdErr": 0.09421849970017464
+       },
+       {
+        "gain": 0.12295953192804505,
+        "stdErr": 0.01261225226933076
+       },
+       {
+        "gain": 0.1568581175647208,
+        "stdErr": 0.04072184879709238
+       }
+      ],
+      "maxSeatGain": 0.6747891922486874
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 3000,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.176984,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392524,
+      "states": 14,
+      "rows": 17947,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "db0f4a1ff537485cff8826a9c061c127cd436e5b1a1d8cb6c5a91904960ada6e"
+     },
+     "3.9": {
+      "wallSeconds": 0.218279,
+      "peakRssMiB": 13.9,
+      "trainingDeals": 48000,
+      "stateVisits": 1392524,
+      "states": 14,
+      "rows": 17947,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "db0f4a1ff537485cff8826a9c061c127cd436e5b1a1d8cb6c5a91904960ada6e"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.6536955652769999,
+        "stdErr": 0.10779038069870026
+       },
+       {
+        "gain": 0.27869336160084573,
+        "stdErr": 0.09094421382990339
+       },
+       {
+        "gain": 0.13466436249930522,
+        "stdErr": 0.012602652514075666
+       },
+       {
+        "gain": 0.2191045873028126,
+        "stdErr": 0.04304640148157511
+       }
+      ],
+      "maxSeatGain": 0.6536955652769999
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.176984,
+     "mean": 0.18461533333333333,
+     "ci95": 0.04857106347645739,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.212298,
+     "mean": 0.20148666666666668,
+     "ci95": 0.05985218301595476,
+     "n": 3
+    },
+    "medianChangePercent": 19.953216109930832,
+    "allIdentical": true,
+    "peakRss38": 13.9,
+    "peakRss39": 13.9
+   }
+  },
+  {
+   "name": "Eight-player final-table ICM",
+   "abstraction": "linked preflop to river, ICM 8 places",
+   "algorithm": "external-sampling MCCFR (linear weighting)",
+   "players": 8,
+   "street": "preflop",
+   "utility": "ICM",
+   "threads": 4,
+   "updates": 200,
+   "runs": [
+    {
+     "seed": 1,
+     "updates": 200,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.288357,
+      "peakRssMiB": 44.9,
+      "trainingDeals": 3200,
+      "stateVisits": 842843,
+      "states": 153959,
+      "rows": 67943,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "e9100ab3c39cd1f15493da1bda19523a97aafef9349dae7617c67666953d9e2f"
+     },
+     "3.9": {
+      "wallSeconds": 0.231874,
+      "peakRssMiB": 45.3,
+      "trainingDeals": 3200,
+      "stateVisits": 842843,
+      "states": 153959,
+      "rows": 67943,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "e9100ab3c39cd1f15493da1bda19523a97aafef9349dae7617c67666953d9e2f"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.7935530698504117,
+        "stdErr": 0.07374871973710294
+       },
+       {
+        "gain": 0.4044539350215092,
+        "stdErr": 0.026839144936112082
+       },
+       {
+        "gain": 0.10710409872113372,
+        "stdErr": 0.007285208074284421
+       },
+       {
+        "gain": 0.012394254296728625,
+        "stdErr": 0.0012231766355658535
+       },
+       {
+        "gain": 0.0038340780312568477,
+        "stdErr": 0.0003763149917323809
+       },
+       {
+        "gain": 0.0007491115328334659,
+        "stdErr": 0.00009131070597493242
+       },
+       {
+        "gain": 0.00006176868724407279,
+        "stdErr": 0.000012997302193610255
+       },
+       {
+        "gain": 0.000005477842000637712,
+        "stdErr": 0.000004565559931991412
+       }
+      ],
+      "maxSeatGain": 0.7935530698504117
+     }
+    },
+    {
+     "seed": 2,
+     "updates": 200,
+     "identicalState": true,
+     "3.9": {
+      "wallSeconds": 0.231207,
+      "peakRssMiB": 45.4,
+      "trainingDeals": 3200,
+      "stateVisits": 836793,
+      "states": 150947,
+      "rows": 67161,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "1cc61bc4a73d5a1a008e596d7f9397072a24740b63fa43d91df0e64a28d3ccf0"
+     },
+     "3.8": {
+      "wallSeconds": 0.234929,
+      "peakRssMiB": 45.2,
+      "trainingDeals": 3200,
+      "stateVisits": 836793,
+      "states": 150947,
+      "rows": 67161,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "1cc61bc4a73d5a1a008e596d7f9397072a24740b63fa43d91df0e64a28d3ccf0"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.9610843088360702,
+        "stdErr": 0.07521250157415207
+       },
+       {
+        "gain": 0.4033795518911929,
+        "stdErr": 0.026397132458956044
+       },
+       {
+        "gain": 0.09582192341835377,
+        "stdErr": 0.006807779014046947
+       },
+       {
+        "gain": 0.011809227692098911,
+        "stdErr": 0.0011638218340012216
+       },
+       {
+        "gain": 0.003317285277612822,
+        "stdErr": 0.00035743181266877625
+       },
+       {
+        "gain": 0.00080359054001725,
+        "stdErr": 0.00008839733130741404
+       },
+       {
+        "gain": 0.00005259225453482558,
+        "stdErr": 0.000012524415145557499
+       },
+       {
+        "gain": 0.00000494536717555754,
+        "stdErr": 0.00000427055848199529
+       }
+      ],
+      "maxSeatGain": 0.9610843088360702
+     }
+    },
+    {
+     "seed": 3,
+     "updates": 200,
+     "identicalState": true,
+     "3.8": {
+      "wallSeconds": 0.26334,
+      "peakRssMiB": 45.2,
+      "trainingDeals": 3200,
+      "stateVisits": 838233,
+      "states": 148677,
+      "rows": 67654,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "57fcc61d0fdd4027d5cddea9626311fe8faf5089fcdd384af5b740750d3d0f6a"
+     },
+     "3.9": {
+      "wallSeconds": 0.247165,
+      "peakRssMiB": 45.1,
+      "trainingDeals": 3200,
+      "stateVisits": 838233,
+      "states": 148677,
+      "rows": 67654,
+      "gpuPeakBytes": 0,
+      "device": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "sha256": "57fcc61d0fdd4027d5cddea9626311fe8faf5089fcdd384af5b740750d3d0f6a"
+     },
+     "quality": {
+      "kind": "sampled one-shot response gain per seat (lower bound, not exploitability)",
+      "seats": [
+       {
+        "gain": 0.7834292045649963,
+        "stdErr": 0.0733429315739287
+       },
+       {
+        "gain": 0.40758112944423935,
+        "stdErr": 0.02756448394230102
+       },
+       {
+        "gain": 0.11108302340955539,
+        "stdErr": 0.007438045275697178
+       },
+       {
+        "gain": 0.009434329492074966,
+        "stdErr": 0.0013013235127542124
+       },
+       {
+        "gain": 0.0029712411318989105,
+        "stdErr": 0.00036278218241193524
+       },
+       {
+        "gain": 0.0008300861965797176,
+        "stdErr": 0.00009502881288171837
+       },
+       {
+        "gain": 0.000037100054071016254,
+        "stdErr": 0.000012940537734100779
+       },
+       {
+        "gain": 0.000005740269316792866,
+        "stdErr": 0.000004828288741312272
+       }
+      ],
+      "maxSeatGain": 0.7834292045649963
+     }
+    }
+   ],
+   "summary": {
+    "wall38": {
+     "median": 0.26334,
+     "mean": 0.26220866666666665,
+     "ci95": 0.06641123179030566,
+     "n": 3
+    },
+    "wall39": {
+     "median": 0.231874,
+     "mean": 0.23674866666666664,
+     "ci95": 0.02242605128606412,
+     "n": 3
+    },
+    "medianChangePercent": -11.94881142249564,
+    "allIdentical": true,
+    "peakRss38": 45.2,
+    "peakRss39": 45.4
+   }
+  }
+ ]
+}

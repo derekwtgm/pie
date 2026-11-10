@@ -277,3 +277,22 @@ details[open] summary { margin-bottom: 8px; }
 .rv-board b { padding:2px 8px; border:1px solid var(--line); border-radius:5px; font-size:17px; }
 .rv-sizes input { width:100%; min-width:68px; }
 .rv-inputs [hidden] { display:none; }
+
+/* 3.8 strategy explorer */
+.ex .ex-path, .ex .ex-controls, .ex .ex-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; }
+.ex .ex-step { font-size: 13px; color: var(--muted); }
+.ex .ex-card { font-variant-numeric: tabular-nums; margin-right: 3px; }
+.ex .ex-deck { display: flex; flex-wrap: wrap; gap: 4px; }
+.ex .ex-deck .on { outline: 2px solid var(--gold); }
+.ex .ex-matrix { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 2px; margin: 10px 0; max-width: 720px; }
+.ex .ex-cell { position: relative; aspect-ratio: 1.25; min-width: 0; padding: 0; border: 1px solid var(--line); border-radius: 3px; background: var(--panel-2); color: var(--text); font-size: 11px; cursor: pointer; overflow: hidden; }
+.ex .ex-cell span { position: relative; z-index: 1; text-shadow: 0 0 3px #000; }
+.ex .ex-cell.on { outline: 2px solid var(--gold); }
+.ex .ex-cell.blocked span { text-decoration: line-through; }
+.ex .ex-bar { position: absolute; inset: 0; display: flex; }
+.ex .ex-bar i { display: block; height: 100%; }
+.ex .ex-freq { white-space: nowrap; margin-right: 8px; }
+.ex .ex-cell .ex-ev-val { position: absolute; right: 2px; bottom: 1px; z-index: 1; font-size: 8px; opacity: .85; }
+.ex .ex-ev td.best { outline: 1px solid var(--gold); }
+.ex .ex-ev td { white-space: nowrap; }
+@media (max-width: 560px) { .ex .ex-cell { font-size: 8px; } }

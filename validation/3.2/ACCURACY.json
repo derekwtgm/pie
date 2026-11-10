@@ -1,0 +1,456 @@
+{
+ "version": "3.2",
+ "generated": "2026-11-07T20:03:31.479Z",
+ "quick": true,
+ "environment": {
+  "node": "v24.22.1",
+  "platform": "linux 6.18.57 x64",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "cores": 9,
+  "memoryGiB": 9.7
+ },
+ "sections": {
+  "pushfoldOracle": {
+   "note": "The solver models card removal pairwise; the oracle removes all three hands exactly. The oracle gain is each seat's exact best-response gain in the full push/fold game.",
+   "rows": [
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       10,
+       10,
+       10
+      ],
+      "anteType": "classic",
+      "ante": 0.1,
+      "model": "chip"
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "bb",
+     "solverEV": [
+      10.23986230807973,
+      9.947462916178475,
+      9.81267477574179
+     ],
+     "oracleEV": [
+      10.236528247678553,
+      9.946966424761058,
+      9.816505327598891
+     ],
+     "solverReportedGain": [
+      1.1276563090708195e-8,
+      1.3297967850479777e-7,
+      1.4996771078904151e-7
+     ],
+     "exactGain": [
+      0.0001990488807307282,
+      0.00025546278779392355,
+      0.00014156793883867043
+     ],
+     "solveSeconds": 0.759231597,
+     "oracleSeconds": 4.284871951
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       6,
+       14,
+       9
+      ],
+      "anteType": "bba",
+      "ante": 1,
+      "model": "icm",
+      "payouts": [
+       50,
+       30,
+       20
+      ]
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      30.424591252571453,
+      38.21442662883503,
+      31.360982118593526
+     ],
+     "oracleEV": [
+      30.431467546632074,
+      38.20484392916854,
+      31.363688524009106
+     ],
+     "solverReportedGain": [
+      8.212979336337912e-8,
+      5.126710645502891e-8,
+      1.7822974806977568e-8
+     ],
+     "exactGain": [
+      0.00010616766041765535,
+      0.000026414076225254185,
+      1.627362709866187e-8
+     ],
+     "solveSeconds": 0.319447267,
+     "oracleSeconds": 5.007134008
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       20,
+       4,
+       12
+      ],
+      "anteType": "none",
+      "model": "icm",
+      "payouts": [
+       65,
+       35
+      ]
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      49.03016388347373,
+      13.789873922703489,
+      37.17996219382282
+     ],
+     "oracleEV": [
+      49.03287515765725,
+      13.788163671115315,
+      37.17896117131376
+     ],
+     "solverReportedGain": [
+      3.370221530429273e-7,
+      2.0254693425185613e-7,
+      7.558166164993729e-9
+     ],
+     "exactGain": [
+      0.00002292972820058803,
+      0.0004020567259815904,
+      0.00006230489260404884
+     ],
+     "solveSeconds": 1.2452289890000001,
+     "oracleSeconds": 5.26503279
+    }
+   ]
+  },
+  "headsUp": {
+   "rangeSeed": 3,
+   "rangeDensity": 0.25,
+   "js": {
+    "engine": "js",
+    "rows": [
+     {
+      "iterations": 100,
+      "exploitPctPot": 0.15552554675079822,
+      "seconds": 0.0459531
+     },
+     {
+      "iterations": 500,
+      "exploitPctPot": 0.013355320478523615,
+      "seconds": 0.087512266
+     }
+    ]
+   },
+   "wasm": {
+    "engine": "wasm-simd",
+    "rows": [
+     {
+      "iterations": 100,
+      "exploitPctPot": 0.15552984647450752,
+      "seconds": 0.023720595
+     },
+     {
+      "iterations": 500,
+      "exploitPctPot": 0.013356124962697889,
+      "seconds": 0.0391436
+     }
+    ]
+   }
+  },
+  "reference": {
+   "iterations": 3000,
+   "valueBet": 0.9999998889259136,
+   "bluffBet": 0.5003636881033282,
+   "call": 0.49985072087061944,
+   "oopEV": 2.4999997346918765,
+   "theory": {
+    "valueBet": 1,
+    "bluffBet": 0.5,
+    "call": 0.5,
+    "oopEV": 2.5
+   },
+   "maxGain": 0.0018192611951968196
+  },
+  "multiwayExact": {
+   "pot": 12,
+   "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "deals": 404,
+   "rows": [
+    {
+     "iterations": 100,
+     "gain": [
+      0.033681587442282,
+      0.02837972356739371,
+      0.021835936042131632
+     ],
+     "maxGainBb": 0.033681587442282,
+     "seconds": 0.152385349
+    },
+    {
+     "iterations": 500,
+     "gain": [
+      0.00393242832922347,
+      0.0014121787482928028,
+      0.0013109945860261263
+     ],
+     "maxGainBb": 0.00393242832922347,
+     "seconds": 0.741326122
+    },
+    {
+     "iterations": 1000,
+     "gain": [
+      0.0015849895452184626,
+      0.0005672819627902115,
+      0.0005548616039270371
+     ],
+     "maxGainBb": 0.0015849895452184626,
+     "seconds": 1.511338662
+    },
+    {
+     "iterations": 2000,
+     "gain": [
+      0.0006005038950043229,
+      0.0003783684694864675,
+      0.00022591570554286733
+     ],
+     "maxGainBb": 0.0006005038950043229,
+     "seconds": 2.816492336
+    },
+    {
+     "iterations": 5000,
+     "gain": [
+      0.00029153327255038164,
+      0.00023759794257216527,
+      0.00011068717653106575
+     ],
+     "maxGainBb": 0.00029153327255038164,
+     "seconds": 7.239674062000001
+    }
+   ]
+  },
+  "sampled": {
+   "note": "Sampled training evaluated exactly in the enumerated game. Earlier releases reported only tested responses, which understated the gain.",
+   "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "rows": [
+    {
+     "traversal": "external",
+     "updates": "simultaneous",
+     "iterations": 3000,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "maxGainBySeed": [
+      1.104402886255616,
+      0.8892473859469234,
+      0.8654966991697783
+     ],
+     "mean": 0.9530489904574392,
+     "ci95": 0.32697161367124933,
+     "meanSeconds": 0.08126084233333333
+    },
+    {
+     "traversal": "external",
+     "updates": "simultaneous",
+     "iterations": 12000,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "maxGainBySeed": [
+      0.29723198458087197,
+      0.2893036442292862,
+      0.4537565868141771
+     ],
+     "mean": 0.3467640718747784,
+     "ci95": 0.23040496889109086,
+     "meanSeconds": 0.20407728233333336
+    },
+    {
+     "traversal": "full",
+     "updates": "simultaneous",
+     "iterations": 3000,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "maxGainBySeed": [
+      0.5151913221838365,
+      0.5860922017745329,
+      0.5678349073685727
+     ],
+     "mean": 0.556372810442314,
+     "ci95": 0.09145835375511749,
+     "meanSeconds": 0.15103167233333334
+    },
+    {
+     "traversal": "full",
+     "updates": "simultaneous",
+     "iterations": 12000,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "maxGainBySeed": [
+      0.23926055372376176,
+      0.1959272343587184,
+      0.2699722796889734
+     ],
+     "mean": 0.23505335592381785,
+     "ci95": 0.09242080624976129,
+     "meanSeconds": 0.48184057733333335
+    }
+   ],
+   "probeVsExact": {
+    "iterations": 12000,
+    "seed": 1,
+    "exactGain": [
+     0.23926055372376176,
+     0.1781536154855745,
+     0.13250688680849132
+    ],
+    "probe": [
+     {
+      "gain": 0.09791475458171134,
+      "se": 0.049766597238355005,
+      "trainingDeals": 1000
+     },
+     {
+      "gain": 0.11087338415495163,
+      "se": 0.03315266699722316,
+      "trainingDeals": 1000
+     },
+     {
+      "gain": 0.0005839717414701394,
+      "se": 0.060565318530457886,
+      "trainingDeals": 1000
+     }
+    ]
+   }
+  },
+  "eightPlayer": {
+   "modeSelection": {
+    "requested": "auto",
+    "chosen": "sampled",
+    "reason": "Exact enumeration exceeds the desktop limit: This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode."
+   },
+   "rows": [
+    {
+     "seed": 17,
+     "iterations": 2000,
+     "trainSeconds": 3.21021288,
+     "evSE": [
+      0.5801222629133924,
+      0,
+      0.5835137063025446,
+      0,
+      0,
+      0.03161099416281954,
+      0,
+      0.022363281249999974
+     ],
+     "probes": [
+      {
+       "seat": 0,
+       "gain": -1.0992187500000004,
+       "se": 0.514762294613415,
+       "trainingDeals": 500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 3,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 7,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      }
+     ],
+     "strategyMiB": 4.260019302368164,
+     "algorithm": "external"
+    }
+   ],
+   "note": "Exact enumeration is not available for this spot (Exact enumeration exceeds the desktop limit: This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode.). Tested gains are lower bounds."
+  },
+  "fgs": {
+   "headsUpValueShift": 0.018720833243584423,
+   "fourHandedPoolError": 8.526512829121202e-14
+  },
+  "notRegenerated": {
+   "deepChartCalibration": "The 15-100 bb chart realization fit (80 heads-up flop solves) is not recomputed by this report; its 2.5 figures are historical and are not repeated here as measured results. Regenerate with tools/gen_deep.js."
+  }
+ }
+}

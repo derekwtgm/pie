@@ -1,0 +1,115 @@
+{
+ "generated": "2026-11-10T16:16:03.050Z",
+ "runner": "Wine (not physical Windows)",
+ "checks": [
+  {
+   "study": "heads-up river chip",
+   "check": "trained state byte-identical (Linux vs Windows build)",
+   "ok": true
+  },
+  {
+   "study": "heads-up river chip",
+   "check": "--ev {\"path\":[],\"hands\":[0,1,2],\"range\":true,\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "heads-up river chip",
+   "check": "--ev {\"path\":[1],\"hands\":[0,3],\"method\":\"sampled\",\"samples\":2000,\"seed\":7}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "heads-up river chip",
+   "check": "--gain {\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "heads-up river chip",
+   "check": "--gain {\"method\":\"sampled\",\"samples\":1000,\"seed\":2}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "three-way side pots ICM",
+   "check": "trained state byte-identical (Linux vs Windows build)",
+   "ok": true
+  },
+  {
+   "study": "three-way side pots ICM",
+   "check": "--ev {\"path\":[],\"hands\":[0,1],\"range\":true,\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "three-way side pots ICM",
+   "check": "--ev {\"path\":[1],\"hands\":[0],\"method\":\"sampled\",\"samples\":3000}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "three-way side pots ICM",
+   "check": "--gain {\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "heads-up turn",
+   "check": "trained state byte-identical (Linux vs Windows build)",
+   "ok": true
+  },
+  {
+   "study": "heads-up turn",
+   "check": "--ev {\"path\":[],\"hands\":[0,1,2,3],\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "heads-up turn",
+   "check": "--gain {\"method\":\"exact\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "trained state byte-identical (Linux vs Windows build)",
+   "ok": true
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "--ev {\"path\":[],\"hands\":[0,100,600],\"range\":true,\"samples\":300,\"seed\":3}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "--gain {\"method\":\"sampled\",\"samples\":200,\"selectionSamples\":16,\"reachSamples\":1000,\"seed\":5,\"futureActions\":\"sample\"}",
+   "ok": true,
+   "status": 0
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "--node {\"path\":[],\"rangeSeat\":\"nonsense\"}",
+   "ok": true,
+   "status": 1,
+   "error": "error 400: rangeSeat must be an integer, not a string"
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "--node {\"offset\":-1}",
+   "ok": true,
+   "status": 1,
+   "error": "error 400: offset must be from 0 to 1326"
+  },
+  {
+   "study": "eight-player final-table ICM",
+   "check": "--ev {\"hands\":[\"0\"]}",
+   "ok": true,
+   "status": 1,
+   "error": "error 400: hands[0] must be an integer, not a string"
+  }
+ ],
+ "passed": 18,
+ "failed": 0
+}

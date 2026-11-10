@@ -1,0 +1,8 @@
+{
+  "op": "old-save",
+  "iterations": 20000,
+  "bytes": 178556850,
+  "wallSeconds": 11.914069235,
+  "cpuSeconds": 13.869454,
+  "peakRSSKiB": 2320312
+}

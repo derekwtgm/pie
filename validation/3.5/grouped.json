@@ -1,0 +1,835 @@
+{
+ "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+ "platform": "linux",
+ "budgetMs": 300,
+ "rows": [
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "compact",
+    "privateSeed": 1,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 1,
+   "full": {
+    "js": {
+     "seconds": 0.08298065600000001,
+     "gain": 1.4626926468693644,
+     "visits": 144000,
+     "peakRSSMiB": 68.37109375
+    },
+    "fixed": {
+     "gain": 1.4626926468693644,
+     "exploitability": 1.0272228877899094,
+     "visits": 144000,
+     "seconds": 0.009496,
+     "endToEndSeconds": 0.016422545,
+     "peakRSSMiB": 8.4,
+     "visitsPerSecond": 15164279.696714407
+    },
+    "equalTime": {
+     "seconds": 0.300568,
+     "deals": 127232,
+     "gain": 0.9929887235576302,
+     "exploitability": 0.77249504627226
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.102279846,
+     "gain": 1.5704983642457648,
+     "visits": 93229,
+     "peakRSSMiB": 70.53515625
+    },
+    "fixed": {
+     "gain": 1.5704983642457648,
+     "exploitability": 1.1072400141753356,
+     "visits": 93229,
+     "seconds": 0.01978,
+     "endToEndSeconds": 0.03471153900000001,
+     "peakRSSMiB": 15.4,
+     "visitsPerSecond": 4713296.25884732
+    },
+    "equalTime": {
+     "seconds": 0.300287,
+     "deals": 96768,
+     "gain": 0.9611031139552599,
+     "exploitability": 0.7167169259729405
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "compact",
+    "privateSeed": 2,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 2,
+   "full": {
+    "js": {
+     "seconds": 0.082932562,
+     "gain": 1.3425502917141763,
+     "visits": 144000,
+     "peakRSSMiB": 69.02734375
+    },
+    "fixed": {
+     "gain": 1.3425502917141763,
+     "exploitability": 0.9432548423738897,
+     "visits": 144000,
+     "seconds": 0.005501,
+     "endToEndSeconds": 0.009917913999999882,
+     "peakRSSMiB": 18.6,
+     "visitsPerSecond": 26177058.716596983
+    },
+    "equalTime": {
+     "seconds": 0.300568,
+     "deals": 134912,
+     "gain": 0.8265626849817189,
+     "exploitability": 0.6539943823715142
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.088221704,
+     "gain": 1.698632903855438,
+     "visits": 96044,
+     "peakRSSMiB": 67.5234375
+    },
+    "fixed": {
+     "gain": 1.698632903855438,
+     "exploitability": 1.1807329684461834,
+     "visits": 96044,
+     "seconds": 0.019792,
+     "endToEndSeconds": 0.03331525499999998,
+     "peakRSSMiB": 22.3,
+     "visitsPerSecond": 4852667.74454325
+    },
+    "equalTime": {
+     "seconds": 0.300335,
+     "deals": 132864,
+     "gain": 0.9294992030357809,
+     "exploitability": 0.7649000746690331
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "compact",
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 3,
+   "full": {
+    "js": {
+     "seconds": 0.10372396299999997,
+     "gain": 1.3957169351369245,
+     "visits": 144000,
+     "peakRSSMiB": 66.62109375
+    },
+    "fixed": {
+     "gain": 1.3957169351369245,
+     "exploitability": 1.1453749692189987,
+     "visits": 144000,
+     "seconds": 0.01286,
+     "endToEndSeconds": 0.036935743,
+     "peakRSSMiB": 26.2,
+     "visitsPerSecond": 11197511.66407465
+    },
+    "equalTime": {
+     "seconds": 0.300057,
+     "deals": 121600,
+     "gain": 0.8787928012413262,
+     "exploitability": 0.6979758816078866
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.09903662499999999,
+     "gain": 1.6470214535645016,
+     "visits": 96909,
+     "peakRSSMiB": 70.2734375
+    },
+    "fixed": {
+     "gain": 1.6470214535645016,
+     "exploitability": 1.2035276314486836,
+     "visits": 96909,
+     "seconds": 0.013324,
+     "endToEndSeconds": 0.024853672000000188,
+     "peakRSSMiB": 31.7,
+     "visitsPerSecond": 7273266.28640048
+    },
+    "equalTime": {
+     "seconds": 0.300635,
+     "deals": 65280,
+     "gain": 1.0622735665951373,
+     "exploitability": 0.8088796791189545
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "detailed",
+    "privateSeed": 1,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 1,
+   "full": {
+    "js": {
+     "seconds": 0.17868014800000004,
+     "gain": 1.0731924313318244,
+     "visits": 144000,
+     "peakRSSMiB": 72.609375
+    },
+    "fixed": {
+     "gain": 1.0731924313318244,
+     "exploitability": 1.0116053003500882,
+     "visits": 144000,
+     "seconds": 0.010742,
+     "endToEndSeconds": 0.016672010999999657,
+     "peakRSSMiB": 37.3,
+     "visitsPerSecond": 13405324.892943585
+    },
+    "equalTime": {
+     "seconds": 0.300412,
+     "deals": 120832,
+     "gain": 0.3104226775085812,
+     "exploitability": 0.26169515298674617
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.20473007699999998,
+     "gain": 1.4136601244439164,
+     "visits": 96837,
+     "peakRSSMiB": 75.47265625
+    },
+    "fixed": {
+     "gain": 1.4136601244439164,
+     "exploitability": 1.2432103143534512,
+     "visits": 96837,
+     "seconds": 0.014975,
+     "endToEndSeconds": 0.023503544000000147,
+     "peakRSSMiB": 43.5,
+     "visitsPerSecond": 6466577.629382304
+    },
+    "equalTime": {
+     "seconds": 0.300274,
+     "deals": 81408,
+     "gain": 0.3769144382937648,
+     "exploitability": 0.3482336135783325
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "detailed",
+    "privateSeed": 2,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 2,
+   "full": {
+    "js": {
+     "seconds": 0.11706796200000003,
+     "gain": 1.24603877560953,
+     "visits": 144000,
+     "peakRSSMiB": 73.0078125
+    },
+    "fixed": {
+     "gain": 1.24603877560953,
+     "exploitability": 0.975438892718461,
+     "visits": 144000,
+     "seconds": 0.010543,
+     "endToEndSeconds": 0.018174649999999928,
+     "peakRSSMiB": 45.9,
+     "visitsPerSecond": 13658351.512852129
+    },
+    "equalTime": {
+     "seconds": 0.300369,
+     "deals": 90368,
+     "gain": 0.33068288779502364,
+     "exploitability": 0.2840908168266769
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.188109553,
+     "gain": 1.6401323322775538,
+     "visits": 98750,
+     "peakRSSMiB": 73.88671875
+    },
+    "fixed": {
+     "gain": 1.6401323322775538,
+     "exploitability": 1.3923149191286555,
+     "visits": 98750,
+     "seconds": 0.014655,
+     "endToEndSeconds": 0.04464368000000013,
+     "peakRSSMiB": 46.3,
+     "visitsPerSecond": 6738314.568406687
+    },
+    "equalTime": {
+     "seconds": 0.30076,
+     "deals": 92416,
+     "gain": 0.44555841976123856,
+     "exploitability": 0.40359916625120873
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c",
+    "abstraction": "detailed",
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 3,
+   "full": {
+    "js": {
+     "seconds": 0.14051779099999998,
+     "gain": 1.0704985649067114,
+     "visits": 144000,
+     "peakRSSMiB": 73.91796875
+    },
+    "fixed": {
+     "gain": 1.0704985649067114,
+     "exploitability": 0.9301830177694241,
+     "visits": 144000,
+     "seconds": 0.014377,
+     "endToEndSeconds": 0.027471269000001484,
+     "peakRSSMiB": 46.2,
+     "visitsPerSecond": 10015997.774222717
+    },
+    "equalTime": {
+     "seconds": 0.300477,
+     "deals": 115456,
+     "gain": 0.25037321304286464,
+     "exploitability": 0.23544258868556944
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.11824969800000003,
+     "gain": 1.33027705124501,
+     "visits": 96252,
+     "peakRSSMiB": 73.53125
+    },
+    "fixed": {
+     "gain": 1.33027705124501,
+     "exploitability": 1.2442340857278062,
+     "visits": 96252,
+     "seconds": 0.019968,
+     "endToEndSeconds": 0.038967988000000335,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 4820312.5
+    },
+    "equalTime": {
+     "seconds": 0.300535,
+     "deals": 67584,
+     "gain": 0.42644545240259824,
+     "exploitability": 0.420491035946855
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "compact",
+    "privateSeed": 1,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 1,
+   "full": {
+    "js": {
+     "seconds": 0.04844366899999999,
+     "gain": 0.14398059725137813,
+     "visits": 36000,
+     "peakRSSMiB": 52.7890625
+    },
+    "fixed": {
+     "gain": 0.14398059725137813,
+     "exploitability": 0.12070753820744118,
+     "visits": 36000,
+     "seconds": 0.001478,
+     "endToEndSeconds": 0.0073084070000004435,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 24357239.51285521
+    },
+    "equalTime": {
+     "seconds": 0.300053,
+     "deals": 416256,
+     "gain": 0.01010984874632559,
+     "exploitability": 0.007498318516382607
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.08497891199999998,
+     "gain": 0.12369688950943925,
+     "visits": 41467,
+     "peakRSSMiB": 56.62890625
+    },
+    "fixed": {
+     "gain": 0.12369688950943925,
+     "exploitability": 0.11607836986109188,
+     "visits": 41467,
+     "seconds": 0.009081,
+     "endToEndSeconds": 0.022935905000000277,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 4566347.318577249
+    },
+    "equalTime": {
+     "seconds": 0.300593,
+     "deals": 149248,
+     "gain": 0.01969255791551161,
+     "exploitability": 0.012409705328837228
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "compact",
+    "privateSeed": 2,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 2,
+   "full": {
+    "js": {
+     "seconds": 0.06971667100000002,
+     "gain": 0.08615944273286891,
+     "visits": 36000,
+     "peakRSSMiB": 53.48828125
+    },
+    "fixed": {
+     "gain": 0.08615944273286891,
+     "exploitability": 0.0785046367833282,
+     "visits": 36000,
+     "seconds": 0.005853,
+     "endToEndSeconds": 0.013482268000001569,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 6150691.952844695
+    },
+    "equalTime": {
+     "seconds": 0.300185,
+     "deals": 376576,
+     "gain": 0.010776929536589819,
+     "exploitability": 0.008337729084694878
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.08660973500000001,
+     "gain": 0.1566689873986915,
+     "visits": 41722,
+     "peakRSSMiB": 55.609375
+    },
+    "fixed": {
+     "gain": 0.1566689873986915,
+     "exploitability": 0.09983098476680219,
+     "visits": 41722,
+     "seconds": 0.016546,
+     "endToEndSeconds": 0.04021793799999978,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 2521576.211773238
+    },
+    "equalTime": {
+     "seconds": 0.300083,
+     "deals": 241920,
+     "gain": 0.007010056097711548,
+     "exploitability": 0.005560957227213059
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "compact",
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 3,
+   "full": {
+    "js": {
+     "seconds": 0.062454769,
+     "gain": 0.09579024560768357,
+     "visits": 36000,
+     "peakRSSMiB": 53.203125
+    },
+    "fixed": {
+     "gain": 0.09579024560768357,
+     "exploitability": 0.08834435143024733,
+     "visits": 36000,
+     "seconds": 0.002368,
+     "endToEndSeconds": 0.014276776999999128,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 15202702.702702703
+    },
+    "equalTime": {
+     "seconds": 0.300061,
+     "deals": 415744,
+     "gain": 0.009192408139410801,
+     "exploitability": 0.008144457221917367
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.05548321399999999,
+     "gain": 0.1256976839899835,
+     "visits": 41082,
+     "peakRSSMiB": 57.43359375
+    },
+    "fixed": {
+     "gain": 0.1256976839899835,
+     "exploitability": 0.12360526875493383,
+     "visits": 41082,
+     "seconds": 0.008259,
+     "endToEndSeconds": 0.012893886000001657,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 4974209.952778786
+    },
+    "equalTime": {
+     "seconds": 0.300054,
+     "deals": 300288,
+     "gain": 0.016358804369683178,
+     "exploitability": 0.011539216234485172
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "detailed",
+    "privateSeed": 1,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 1,
+   "full": {
+    "js": {
+     "seconds": 0.03663237099999999,
+     "gain": 0.14398059725137813,
+     "visits": 36000,
+     "peakRSSMiB": 54.5
+    },
+    "fixed": {
+     "gain": 0.14398059725137813,
+     "exploitability": 0.12070753820744118,
+     "visits": 36000,
+     "seconds": 0.002148,
+     "endToEndSeconds": 0.007329745999999432,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 16759776.536312848
+    },
+    "equalTime": {
+     "seconds": 0.300033,
+     "deals": 529408,
+     "gain": 0.011439460852172179,
+     "exploitability": 0.008000480042412716
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.065183615,
+     "gain": 0.12369688950943925,
+     "visits": 41467,
+     "peakRSSMiB": 56.56640625
+    },
+    "fixed": {
+     "gain": 0.12369688950943925,
+     "exploitability": 0.11607836986109188,
+     "visits": 41467,
+     "seconds": 0.004749,
+     "endToEndSeconds": 0.015700371000000813,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 8731732.9964203
+    },
+    "equalTime": {
+     "seconds": 0.300245,
+     "deals": 184320,
+     "gain": 0.016617383971987643,
+     "exploitability": 0.011127600804560878
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "detailed",
+    "privateSeed": 2,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 2,
+   "full": {
+    "js": {
+     "seconds": 0.04574771099999998,
+     "gain": 0.08615944273286891,
+     "visits": 36000,
+     "peakRSSMiB": 54.15234375
+    },
+    "fixed": {
+     "gain": 0.08615944273286891,
+     "exploitability": 0.0785046367833282,
+     "visits": 36000,
+     "seconds": 0.00223,
+     "endToEndSeconds": 0.008529039999999441,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 16143497.757847533
+    },
+    "equalTime": {
+     "seconds": 0.300072,
+     "deals": 531456,
+     "gain": 0.012471702764814907,
+     "exploitability": 0.009409947470637281
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.06225717200000003,
+     "gain": 0.1566689873986915,
+     "visits": 41722,
+     "peakRSSMiB": 55.08984375
+    },
+    "fixed": {
+     "gain": 0.1566689873986915,
+     "exploitability": 0.09983098476680219,
+     "visits": 41722,
+     "seconds": 0.006005,
+     "endToEndSeconds": 0.012021816999998918,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 6947876.769358868
+    },
+    "equalTime": {
+     "seconds": 0.300095,
+     "deals": 194304,
+     "gain": 0.022521413643390886,
+     "exploitability": 0.015106041043192464
+    }
+   }
+  },
+  {
+   "cfg": {
+    "board": "Qs9h4d2c7s",
+    "abstraction": "detailed",
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "batchDeals": 4,
+    "common": 10,
+    "stacks": [
+     24,
+     24
+    ],
+    "ranges": [
+     "AsQd:0.6,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "bets": "60",
+    "raises": "",
+    "maxBets": 1,
+    "evaluationDeals": 128
+   },
+   "seed": 3,
+   "full": {
+    "js": {
+     "seconds": 0.04515632500000001,
+     "gain": 0.09579024560768357,
+     "visits": 36000,
+     "peakRSSMiB": 53.77734375
+    },
+    "fixed": {
+     "gain": 0.09579024560768357,
+     "exploitability": 0.08834435143024733,
+     "visits": 36000,
+     "seconds": 0.004766,
+     "endToEndSeconds": 0.011103167999999641,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 7553503.986571548
+    },
+    "equalTime": {
+     "seconds": 0.307669,
+     "deals": 226304,
+     "gain": 0.011058298115425025,
+     "exploitability": 0.009980448439305789
+    }
+   },
+   "external": {
+    "js": {
+     "seconds": 0.10083003700000001,
+     "gain": 0.1256976839899835,
+     "visits": 41082,
+     "peakRSSMiB": 57.0078125
+    },
+    "fixed": {
+     "gain": 0.1256976839899835,
+     "exploitability": 0.12360526875493383,
+     "visits": 41082,
+     "seconds": 0.006641,
+     "endToEndSeconds": 0.022267454000000724,
+     "peakRSSMiB": 46.4,
+     "visitsPerSecond": 6186116.548712543
+    },
+    "equalTime": {
+     "seconds": 0.300519,
+     "deals": 140032,
+     "gain": 0.01604413412091299,
+     "exploitability": 0.015062839177971687
+    }
+   }
+  }
+ ]
+}
