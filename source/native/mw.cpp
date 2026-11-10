@@ -16,6 +16,7 @@
 // there is nothing to parallelize without changing the algorithm, and the engine
 // runs those updates on one thread.
 #include "mw.h"
+#include "num_safe.h"
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -383,7 +384,10 @@ struct Pool {
 };
 
 void fail(char *err, int errlen, const char *msg) { if (err && errlen > 0) snprintf(err, (size_t)errlen, "%s", msg); }
-bool isInt(const JV *v) { return v && v->type == J_NUM && std::floor(v->num) == v->num; }
+// 4.1: finite as well (floor(inf) == inf made infinities "integers" in 4.0).
+// Callers range-check before casting; intIn() does both for int destinations.
+bool isInt(const JV *v) { return v && v->type == J_NUM && std::isfinite(v->num) && std::floor(v->num) == v->num; }
+bool intIn(const JV *v, int lo, int hi) { return isInt(v) && v->num >= lo && v->num <= hi; }
 } // namespace
 #include "score_schedule.hpp"
 #include "mw_es_impl.hpp"
@@ -440,7 +444,7 @@ static const char *parseRules(MW *m, JV *spec) {
     for (int which = 0; which < 2; which++) {
       JV *list = jget(row, which ? "raises" : "bets"); if (!list || list->type != J_ARR || list->n > 5) return "Invalid size list";
       for (int i = 0; i < list->n; i++) {
-        JV *e = list->items[i]; if (e->type != J_ARR || e->n != 2 || !isInt(e->items[0])) return "Invalid size";
+        JV *e = list->items[i]; if (e->type != J_ARR || e->n != 2 || !intIn(e->items[0], 0, 4)) return "Invalid size";
         Size z{(int)e->items[0]->num, jnum(e->items[1], NAN)};
         if (z.kind < 0 || z.kind > 4 || !std::isfinite(z.value) || z.value < 0) return "Invalid size";
         (which ? st.raises : st.bets).push_back(z);
@@ -499,7 +503,7 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
       double tot = 0; std::vector<unsigned char> seenPair(52 * 52, 0);
       for (int i = 0; i < r->n; i++) {
         JV *h = r->items[i]; if (h->type != J_ARR || h->n != 4) return bad("Bad hand");
-        for (int q = 0; q < 3; q++) if (!isInt(h->items[q])) return bad("Bad hand");
+        for (int q = 0; q < 3; q++) if (!intIn(h->items[q], 0, q ? 51 : 1325)) return bad("Bad hand");
         Hand x{(int)h->items[0]->num, (int)h->items[1]->num, (int)h->items[2]->num, h->items[3]->num, 0};
         if (x.id < 0 || x.id > 1325 || x.a < 0 || x.a > 51 || x.b < 0 || x.b > 51 || x.a == x.b || !(x.w > 0) || !std::isfinite(x.w) || h->items[3]->type != J_NUM) return bad("Bad hand");
         if (x.id != es::comboId(x.a, x.b)) return bad("Hand identifier does not match its cards");   // 3.3
@@ -591,10 +595,10 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     m->nodes.resize((size_t)nd->n);
     for (int i = 0; i < nd->n; i++) {
       JV *x = nd->items[i]; Node &o = m->nodes[(size_t)i];
-      if (x->type != J_ARR || x->n < 1 || !isInt(x->items[0])) return bad("Bad tree node");
+      if (x->type != J_ARR || x->n < 1 || !intIn(x->items[0], 0, 2)) return bad("Bad tree node");
       o.kind = (int)x->items[0]->num;
       if (o.kind == 0) {
-        if (x->n != 4 || !isInt(x->items[1]) || !isInt(x->items[2]) || x->items[3]->type != J_ARR) return bad("Bad decision node");
+        if (x->n != 4 || !intIn(x->items[1], 0, 7) || !intIn(x->items[2], 0, 5) || x->items[3]->type != J_ARR) return bad("Bad decision node");
         o.actor = (int)x->items[1]->num; o.len = (int)x->items[2]->num; o.k = x->items[3]->n;
         if (o.actor < 0 || o.actor >= m->n || o.k < 1 || o.k > 16 || o.len < m->startLen || o.len > 5) return bad("Bad decision node");
         o.child0 = (int)m->children.size();
@@ -1415,14 +1419,15 @@ extern "C" int mw_equity(const char *json, size_t len, JB *out, char *err, int e
   if (!hs || hs->type != J_ARR || hs->n < 2 || hs->n > 8) return bad("Give 2 to 8 hands");
   uint64_t used = 0; std::vector<int> cards;
   for (int p = 0; p < hs->n; p++) { JV *h = hs->items[p]; if (h->type != J_ARR || h->n != 2) return bad("Each hand needs two cards");
-    for (int j = 0; j < 2; j++) { int c = (int)jnum(h->items[j], -1); if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; cards.push_back(c); } }
+    for (int j = 0; j < 2; j++) { if (!intIn(h->items[j], 0, 51)) return bad("Invalid or duplicate card"); int c = (int)h->items[j]->num; if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; cards.push_back(c); } }
   std::vector<int> board;
   if (bd) { if (bd->type != J_ARR || bd->n > 5 || bd->n == 1 || bd->n == 2) return bad("Board must have 0, 3, 4 or 5 cards");
-    for (int j = 0; j < bd->n; j++) { int c = (int)jnum(bd->items[j], -1); if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; board.push_back(c); } }
+    for (int j = 0; j < bd->n; j++) { if (!intIn(bd->items[j], 0, 51)) return bad("Invalid or duplicate card"); int c = (int)bd->items[j]->num; if (c < 0 || c > 51 || (used >> c & 1)) return bad("Invalid or duplicate card"); used |= 1ULL << c; board.push_back(c); } }
   const char *dv = jstr(jget(root, "device")); std::string device = dv ? dv : "cpu";
   if (device != "cpu" && device != "gpu" && device != "both") return bad("device must be cpu, gpu or both");
-  int threads = (int)jnum(jget(root, "threads"), 1); threads = std::clamp(threads, 1, 256);
-  double gpuMiB = jnum(jget(root, "gpuMiB"), 512); if (!(gpuMiB >= 1 && gpuMiB <= 8192)) return bad("gpuMiB must be 1 to 8192");
+  // 4.1: threads must be an integer 1-256 when present (4.0 cast, then clamped).
+  int threads = 1; if (JV *tv = jget(root, "threads")) { if (!intIn(tv, 1, 256)) return bad("threads must be an integer from 1 to 256"); threads = (int)tv->num; }
+  double gpuMiB = 512; if (JV *gv = jget(root, "gpuMiB")) { if (gv->type != J_NUM) return bad("gpuMiB must be 1 to 8192"); gpuMiB = gv->num; } if (!(gpuMiB >= 1 && gpuMiB <= 8192)) return bad("gpuMiB must be 1 to 8192");
   json_free(root);
   const int n = (int)cards.size() / 2, need = 5 - (int)board.size();
   std::vector<int> deck; for (int c = 0; c < 52; c++) if (!(used >> c & 1)) deck.push_back(c);

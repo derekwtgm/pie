@@ -107,9 +107,13 @@ struct Fields {
   static const char *typeName(const JV *v) { return v->type == J_STR ? "a string" : v->type == J_BOOL ? "a boolean" : v->type == J_ARR ? "an array" : v->type == J_OBJ ? "an object" : v->type == J_NULL ? "null" : "a number"; }
   static long long integer(const JV *v, const std::string &name, long long lo, long long hi) {
     if (v->type != J_NUM) throw QueryError{400, name + " must be an integer, not " + typeName(v)};
-    if (!std::isfinite(v->num) || std::floor(v->num) != v->num) throw QueryError{400, name + " must be a whole number"};
-    if (v->num < (double)lo || v->num > (double)hi) throw QueryError{400, name + " must be from " + std::to_string(lo) + " to " + std::to_string(hi)};
-    return (long long)v->num;
+    // 4.1: em_dbl_to_i64 checks representability against 2^63 exactly before the
+    // cast, then compares as integers ((double)hi rounds LLONG_MAX up to 2^63).
+    long long out = 0; const int rc = em_dbl_to_i64(v->num, lo, hi, &out);
+    if (rc == EM_NUM_NONFINITE) throw QueryError{400, name + " must be finite"};
+    if (rc == EM_NUM_FRACTION) throw QueryError{400, name + " must be a whole number"};
+    if (rc != EM_NUM_OK) throw QueryError{400, name + " must be from " + std::to_string(lo) + " to " + std::to_string(hi)};
+    return out;
   }
   long long optInt(const char *name, long long lo, long long hi, long long def) const { const JV *v = get(name); return v ? integer(v, name, lo, hi) : def; }
   bool has(const char *name) const { return get(name) != nullptr; }

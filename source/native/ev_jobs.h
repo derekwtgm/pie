@@ -89,7 +89,13 @@ static void *evj_worker(void *arg) {
     else { m = MWG; MW_READERS++; }
     pthread_mutex_unlock(&MW_MU);
     if (requeue) {
-      pthread_mutex_lock(&EVJ_MU); j->status = EVJ_PENDING; j->started = 0; EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->memoryMiB;
+      pthread_mutex_lock(&EVJ_MU); EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->memoryMiB;
+      /* 4.1: a cancel that arrived while the job was briefly "running" here
+         finishes it as cancelled now (4.0 put it back in the queue and only
+         noticed the cancellation after it was picked up and started again). */
+      if (j->cancelRequested) { j->status = EVJ_CANCELLED; j->finished = now_s(); j->http = 409; snprintf(j->error, sizeof j->error, "Cancelled before it started"); }
+      else { j->status = EVJ_PENDING; j->started = 0; }
+      pthread_cond_broadcast(&EVJ_CV);
       pthread_mutex_unlock(&EVJ_MU); sleep_ms(100); pthread_mutex_lock(&EVJ_MU); continue;
     }
     JB out; jb_init(&out); char err[512] = ""; int rc;
@@ -148,10 +154,21 @@ static void evj_grow(void) {   /* EVJ_MU held */
     EVJ_STARTED++; EVJ_STARTS++;
   }
 }
-static long long evj_field(const char *body, size_t blen, const char *name, long long def) {
-  char e[64]; JV *v = json_parse(body, blen, e, sizeof e); long long r = def;
-  if (v) { const JV *f = jget(v, name); if (f && f->type == J_NUM) r = (long long)f->num; json_free(v); }
-  return r;
+/* 4.1: checked extraction of an integer job field. 4.0 converted the JSON double
+   with (long long)f->num BEFORE validation, which is undefined behaviour for
+   values such as 1e300 (UBSan: float-cast-overflow). The request has already
+   passed mw_eval_validate() when this runs, but the conversion is checked here
+   as well so that the job table can never hold a value that was not
+   representable and in range. Returns 0 and stores *out (the default when
+   the field is absent), or writes a message and returns -1. */
+static int evj_field(const char *body, size_t blen, const char *name, long long lo, long long hi, long long def, long long *out, char *msg, size_t msgn) {
+  char e[64]; JV *v = json_parse(body, blen, e, sizeof e);
+  if (!v || v->type != J_OBJ) { if (v) json_free(v); snprintf(msg, msgn, "The request must be a JSON object"); return -1; }
+  const JV *f = jget(v, name); int rc = EM_NUM_MISSING;
+  if (f && f->type == J_NULL) rc = EM_NUM_TYPE; else rc = em_jv_i64(f, lo, hi, out);
+  if (rc == EM_NUM_MISSING) { *out = def; rc = EM_NUM_OK; }
+  if (rc != EM_NUM_OK) em_num_msg(msg, msgn, name, rc, (double)lo, (double)hi, 1);
+  json_free(v); return rc == EM_NUM_OK ? 0 : -1;
 }
 /* Returns 1 when the route was handled. r = path after "/api/mw/". */
 static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *body, size_t blen) {
@@ -176,13 +193,17 @@ static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *
       if (!v || v->type != J_OBJ) { if (v) json_free(v); respond_err(s, 400, "The request must be a JSON object"); return 1; }
       const JV *w = jget(v, "workers"), *t = jget(v, "threadsPerJob"), *p = jget(v, "memoryPoolMiB");
       for (int i = 0; i < v->n; i++) if (strcmp(v->keys[i], "workers") && strcmp(v->keys[i], "threadsPerJob") && strcmp(v->keys[i], "memoryPoolMiB")) { json_free(v); respond_err(s, 400, "Unknown field"); return 1; }
-      int bad = (w && (w->type != J_NUM || w->num != floor(w->num) || w->num < 1 || w->num > EVJ_MAX_WORKERS)) || (t && (t->type != J_NUM || t->num != floor(t->num) || t->num < 1 || t->num > 64)) ||
-                (p && (p->type != J_NUM || p->num != floor(p->num) || p->num < 64 || p->num > 16384));
-      if (bad) { json_free(v); respond_err(s, 400, "workers must be 1-8, threadsPerJob 1-64, memoryPoolMiB 64-16384 (integers)"); return 1; }
+      /* 4.1: checked conversions (4.0 tested floor(x)==x, which is true for
+         infinities, and then cast). */
+      int wv = 0, tv = 0; long long pv = 0;
+      const int rw = em_jv_int(w, 1, EVJ_MAX_WORKERS, &wv), rt = em_jv_int(t, 1, 64, &tv), rp = em_jv_i64(p, 64, 16384, &pv);
+      if ((rw != EM_NUM_OK && rw != EM_NUM_MISSING) || (rt != EM_NUM_OK && rt != EM_NUM_MISSING) || (rp != EM_NUM_OK && rp != EM_NUM_MISSING)) {
+        json_free(v); respond_err(s, 400, "workers must be 1-8, threadsPerJob 1-64, memoryPoolMiB 64-16384 (integers)"); return 1;
+      }
       pthread_mutex_lock(&EVJ_MU);
-      if (w) EVJ_WORKERS = (int)w->num;
-      if (t) { EVJ_THREADS = (int)t->num; if (EVJ_THREADS > LOGICAL_CPUS) EVJ_THREADS = LOGICAL_CPUS; mw_set_eval_threads(EVJ_THREADS); }
-      if (p) { double avail = available_memory_mib(); long long cap = avail > 0 ? (long long)(avail / 2) : 1024; EVJ_POOL_MIB = (long long)p->num > cap ? cap : (long long)p->num; }
+      if (w) EVJ_WORKERS = wv;
+      if (t) { EVJ_THREADS = tv; if (EVJ_THREADS > LOGICAL_CPUS) EVJ_THREADS = LOGICAL_CPUS; mw_set_eval_threads(EVJ_THREADS); }
+      if (p) { double avail = available_memory_mib(); long long cap = avail > 0 && avail < 1e12 ? (long long)(avail / 2) : 1024; EVJ_POOL_MIB = pv > cap ? cap : pv; }
       evj_grow(); pthread_cond_broadcast(&EVJ_CV);
       pthread_mutex_unlock(&EVJ_MU); json_free(v);
     } else if (!get) { respond_err(s, 404, "Not found"); return 1; }
@@ -192,8 +213,8 @@ static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *
     const int kind = !strcmp(rest, "ev") ? 0 : 1; char err[512] = "";
     if (!body || !blen) { respond_err(s, 400, "The request must be a JSON object"); return 1; }
     if (blen > 65536) { respond_err(s, 413, "The request exceeds 64 KiB"); return 1; }
-    const long long mem = evj_field(body, blen, "memoryMiB", 512), lim = evj_field(body, blen, "timeLimitMs", kind ? 120000 : 60000);
-    /* Validate now (schema, path, hands, identifiers) as a short-lived reader. */
+    /* Validate now (schema, path, hands, identifiers, numeric ranges) as a
+       short-lived reader, BEFORE any field is converted (4.1). */
     pthread_mutex_lock(&MW_MU);
     if (!MWG || MW_RUNNING || MW_RESTORING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, MWG ? "Stop training before evaluating the study" : "Open a native study first"); return 1; }
     MW *m = MWG; MW_READERS++; const unsigned long long gen = MW_GEN; pthread_mutex_unlock(&MW_MU);
@@ -201,6 +222,12 @@ static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *
     JB info; jb_init(&info); mw_info(m, &info);
     pthread_mutex_lock(&MW_MU); MW_READERS--; pthread_mutex_unlock(&MW_MU);
     if (rc != 200) { jb_free(&info); respond_err(s, rc, err[0] ? err : "Invalid request"); return 1; }
+    long long mem = 0, lim = 0; char nmsg[200];
+    /* Same ranges and defaults as evParams() / the response-gain parser in action_ev.hpp. */
+    if (evj_field(body, blen, "memoryMiB", 16, 4096, 512, &mem, nmsg, sizeof nmsg) ||
+        evj_field(body, blen, "timeLimitMs", 100, 3600000, kind ? 120000 : 60000, &lim, nmsg, sizeof nmsg)) {
+      jb_free(&info); respond_err(s, 400, nmsg); return 1;
+    }
     char study[96] = "";
     { char e[64]; JV *iv = info.failed ? NULL : json_parse(info.s, info.n, e, sizeof e); if (iv) { const char *sid = jstr(jget(iv, "studyId")); if (sid) snprintf(study, sizeof study, "%s", sid); json_free(iv); } }
     jb_free(&info);

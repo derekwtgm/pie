@@ -1,6 +1,7 @@
 // Read-only EMMW4 oracle. Replay the actual betting rules; verify row identities
 // with an external merge sort, so validation never constructs a second strategy.
 #include <filesystem>
+#include "num_safe.h"
 #include <stdexcept>
 namespace cp36 {
 struct Reject { int status; const char *message; };
@@ -95,7 +96,8 @@ static void verify(Reader &r,MW &m,int iterations,const char *dir,int(*stop)(),i
   uint32_t len=r.get<uint32_t>();require(len>0&&len<=4096,"Invalid native header size");
   std::string header(len,'\0');r.take(header.data(),len);char err[256];std::unique_ptr<JV,decltype(&json_free)> h(json_parse(header.data(),len,err,sizeof err),json_free);
   require(bool(h),"Invalid native header");auto get=[&](const char *k){return jget(h.get(),k);};
-  auto integer=[&](const char *k,uint64_t max){const JV *v=get(k);require(v&&isInt(v)&&v->num>=0&&v->num<=double(max),"Invalid native counter");return(uint64_t)v->num;};
+  // 4.1: checked conversion; 4.0 compared with double(max), which rounds UINT64_MAX up to 2^64.
+  auto integer=[&](const char *k,uint64_t max){const JV *v=get(k);unsigned long long x=0;require(em_jv_u64(v,0,max,&x)==EM_NUM_OK,"Invalid native counter");return(uint64_t)x;};
   auto flag=[&](const char *k,bool want){require(want?get(k)&&isInt(get(k))&&get(k)->num==1:!get(k),"Invalid native row format or weighting");};
   require(integer("protocol",1)==1&&integer("specProtocol",4)==4&&jstr(get("studyId"))&&m.studyId==jstr(get("studyId")),"State belongs to a different study");
   const auto updates=integer("iterations",10000000),deals=integer("trainingDeals",9007199254740991ULL);

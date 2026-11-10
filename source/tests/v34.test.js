@@ -61,9 +61,15 @@ for(const route of ['solve','report','mw/train'])test(route+' startup failure ro
    }else if(route==='report')body={cfg:JSON.stringify(cfg),flops:[[0,9,22,1]],maxIter:1};
    else assert.equal((await api('build',cfg)).status,200);
    const status=route==='mw/train'?'mw/status':route==='report'?'report':'status';
-   const old=await(await api(status)).json();
+   // 4.1: /api/status carries residentMiB, a live RSS measurement that changes
+   // between two reads when the machine is busy. Comparing it made this test
+   // intermittent (reproduced: 1 of 12 runs under CPU load, 6.63 -> 6.66 MiB;
+   // the same signature as the 4.0 Windows-runner failures). Every job-state
+   // field is still compared exactly; the measurement must be a finite number.
+   const job=async()=>{const j=await(await api(status)).json();if('residentMiB' in j){assert.ok(Number.isFinite(j.residentMiB));delete j.residentMiB;}return j;};
+   const old=await job();
    assert.equal((await api(route,body)).status,503);
-   assert.deepEqual(await(await api(status)).json(),old);
+   assert.deepEqual(await job(),old);
    const codes=await Promise.all(Array.from({length:4},async()=>(await api(route,body)).status));
    assert.ok(codes.includes(200));assert.ok(codes.every(n=>n===200||n===409));
    await api(route==='mw/train'?'mw/stop':'stop',{});

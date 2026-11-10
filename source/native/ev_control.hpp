@@ -56,7 +56,15 @@ struct EvMemory {};
 struct EvControl {
   using Clock = std::chrono::steady_clock;
   volatile int *cancel = nullptr;
-  Clock::time_point start = Clock::now(), deadline = Clock::time_point::max();
+  // 4.1: `start` is atomic and restarted by setDeadline() when the evaluation
+  // actually begins. 4.0 set it when the job's task was CREATED (at submission),
+  // so a job that waited in the queue lost the queue time from its own
+  // timeLimitMs (it could time out the moment it started) and its progress
+  // elapsedMs included queue time; the desktop API reads elapsedMs from another
+  // thread, hence atomic.
+  std::atomic<Clock::rep> startTicks{Clock::now().time_since_epoch().count()};
+  Clock::time_point deadline = Clock::time_point::max();
+  Clock::time_point start() const { return Clock::time_point(Clock::duration(startTicks.load(std::memory_order_acquire))); }
   std::atomic<int> stop{0}, stopSite{-1};
   // progress (read by the desktop job API while the evaluation runs)
   std::atomic<long long> visits{0}, samples{0}, unitsDone{0}, unitsTotal{0}, tables{0}, boards{0}, gpuBoards{0};
@@ -76,8 +84,8 @@ struct EvControl {
       faultAt = colon ? std::atoll(colon + 1) : 1; if (faultAt < 1) faultAt = 1;
     }
   }
-  void setDeadline(long long ms) { deadline = start + std::chrono::milliseconds(ms); }
-  double elapsedMs() const { return std::chrono::duration<double, std::milli>(Clock::now() - start).count(); }
+  void setDeadline(long long ms) { const auto now = Clock::now(); startTicks.store(now.time_since_epoch().count(), std::memory_order_release); deadline = now + std::chrono::milliseconds(ms); }
+  double elapsedMs() const { return std::chrono::duration<double, std::milli>(Clock::now() - start()).count(); }
   void raise(int code, int site) { int z = 0; if (stop.compare_exchange_strong(z, code)) stopSite.store(site); }
   void charge(long long bytes) { const long long now = memoryBytes.fetch_add(bytes) + bytes; long long p = peakMemoryBytes.load(); while (now > p && !peakMemoryBytes.compare_exchange_weak(p, now)) {} }
   void release(long long bytes) { memoryBytes.fetch_sub(bytes); }

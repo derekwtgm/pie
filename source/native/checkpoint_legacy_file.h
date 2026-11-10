@@ -17,9 +17,15 @@ static int cp_legacy_native(FILE *f,uint64_t size,size_t room,char *err,NativeRe
   memmove(small+first,quote,tail-skip);size_t shortLen=(size_t)first+tail-skip;small[shortLen]=0;
   rc=checkpoint_legacy_meta(small,shortLen,room,&result,err);if(rc!=200)goto done;
   fields=json_parse(result,strlen(result),err,256);if(!fields){rc=400;goto done;}
-  uint64_t start=(uint64_t)jnum(jget(fields,"start"),0),payload=(uint64_t)jnum(jget(fields,"emptyLength"),0)+chars;
-  double expected=jnum(jget(fields,"length"),-1);
-  if((uint64_t)jnum(jget(fields,"marker"),0)!=first||start>size||payload>size-start||(expected!=-1&&expected!=payload)){rc=400;goto done;}
+  /* 4.1: these come from an untrusted checkpoint (via the JS verifier); convert with checks. */
+  unsigned long long start=0,emptyLength=0,markerAt=0,expectedLen=0,payload=0;
+  {const JV *lv=jget(fields,"length");
+   /* checkpoint_verify.js sends length -1 when the file declares no payload length. */
+   if(lv&&lv->type==J_NUM&&lv->num==-1)lv=NULL;
+   if(em_jv_u64(jget(fields,"start"),0,UINT64_MAX,&start)!=EM_NUM_OK||em_jv_u64(jget(fields,"emptyLength"),0,UINT64_MAX,&emptyLength)!=EM_NUM_OK||
+      em_jv_u64(jget(fields,"marker"),0,UINT64_MAX,&markerAt)!=EM_NUM_OK||(lv&&em_jv_u64(lv,0,UINT64_MAX,&expectedLen)!=EM_NUM_OK)||
+      em_add_u64(emptyLength,chars,&payload)){rc=400;goto done;}
+   if(markerAt!=first||start>size||payload>size-start||(lv&&expectedLen!=payload)){rc=400;goto done;}}
   char hash[65];if(cp_seek(f,origin+start,SEEK_SET)){rc=500;goto done;}
   rc=cp_filehash(f,payload,hash);if(rc!=200)goto done;
   if(strcmp(hash,jstr(jget(fields,"sha256")))){rc=400;strcpy(err,"Legacy payload SHA-256 mismatch");goto done;}

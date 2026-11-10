@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "solver.h"
+#include "num_safe.h"
 /* ---------------- config parsing ---------------- */
 // size tokens: 33 or 33% (of the pot), 2.5x (raises: times the bet faced), g (bets: geometric, all-in by
 // the river), a (all-in). Encoded as floats: > 0 % of pot, SZ_ALLIN, SZ_GEO, or SZ_X(m) for multiples.
@@ -57,10 +58,18 @@ int solver_parse_cfg(const char *json, GameCfg *cfg, char *err, int errlen) {
   cfg->maxBets = (int)jnum(jget(v, "maxBets"), 3); cfg->forceAllin = jnum(jget(v, "forceAllin"), 0.2);
   if (!(cfg->forceAllin >= 0)) cfg->forceAllin = 0;
   if (cfg->forceAllin > 1) cfg->forceAllin = 1;
-  cfg->compress = (int)jnum(jget(v, "compress"), -1); cfg->compressAboveMB = jnum(jget(v, "compressAboveMB"), 4000);
-  cfg->iso = (int)jnum(jget(v, "iso"), 1);
+  cfg->compressAboveMB = jnum(jget(v, "compressAboveMB"), 4000);
+  /* 4.1: integer switches are converted with checks (4.0: (int)jnum(), undefined
+     for out-of-range doubles). true/false remain accepted as 1/0. */
+  { static const char *SW[] = { "compress", "iso", "gpu" }; static const int LO[] = { -1, 0, 0 }, HI[] = { 1, 1, 1 }, DEF[] = { -1, 1, 1 };
+    int *dst[] = { &cfg->compress, &cfg->iso, &cfg->gpu };
+    for (int i = 0; i < 3; i++) {
+      const JV *x = jget(v, SW[i]); *dst[i] = DEF[i];
+      if (x && x->type == J_BOOL) { *dst[i] = x->num != 0; continue; }
+      const int rc = em_jv_int(x, LO[i], HI[i], dst[i]);
+      if (rc < 0) { em_num_msg(err, (size_t)errlen, SW[i], rc, LO[i], HI[i], 1); json_free(v); return 0; }
+    } }
   cfg->gamma = jnum(jget(v, "gamma"), 3);
-  cfg->gpu = (int)jnum(jget(v, "gpu"), 1);
   { const char *rr = jstr(jget(v, "reraise")); cfg->reraiseAllin = rr && !strcmp(rr, "allin"); }
   JV *ic = jget(v, "icm");
   if (ic && ic->type == J_OBJ) {
@@ -72,8 +81,8 @@ int solver_parse_cfg(const char *json, GameCfg *cfg, char *err, int errlen) {
     if (!isfinite(cfg->icmX0) || !isfinite(cfg->icmDx) || !isfinite(cfg->icmB0)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
     for (int i = 0; i < u0->n; i++) {
       JV *a = u0->items[i], *c = u1->items[i];
-      if (a->type != J_NUM || c->type != J_NUM || !isfinite(a->num) || !isfinite(c->num)) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
-      cfg->icmU[0][i] = (float)a->num; cfg->icmU[1][i] = (float)c->num;
+      /* 4.1: float narrowing is checked (|x| <= FLT_MAX); 4.0 converted any finite double. */
+      if (a->type != J_NUM || c->type != J_NUM || em_dbl_to_f32(a->num, &cfg->icmU[0][i]) || em_dbl_to_f32(c->num, &cfg->icmU[1][i])) { snprintf(err, (size_t)errlen, "Bad ICM table"); json_free(v); return 0; }
     }
   }
   if (!rg || rg->type != J_ARR || rg->n != 2) { snprintf(err, (size_t)errlen, "Missing ranges"); json_free(v); return 0; }

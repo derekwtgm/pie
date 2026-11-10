@@ -408,7 +408,7 @@ static void checkpoint_api(sock_t s,const char *method,const char *part,CpReques
       else{
         mw_free(MWG);free(MW_ARCHIVE_META);MW_GEN++;
         MWG=candidate.game;candidate.game=NULL;MW_ARCHIVE_META=candidate.meta;candidate.meta=NULL;
-        MW_IT=(long long)jnum(jget(v,"iterations"),0);MW_TARGET=MW_IT;MW_DEALS=(long long)jnum(jget(v,"trainingDeals"),0);
+        {long long x=0;MW_IT=em_jv_i64(jget(v,"iterations"),0,LLONG_MAX,&x)==EM_NUM_OK?x:0;x=0;MW_TARGET=MW_IT;MW_DEALS=em_jv_i64(jget(v,"trainingDeals"),0,LLONG_MAX,&x)==EM_NUM_OK?x:0;}
         MW_TABLE_MIB=jnum(jget(v,"tableMiB"),0);MW_ERR[0]=0;MW_ELAPSED=0;
       }json_free(v);jb_free(&b);
     }

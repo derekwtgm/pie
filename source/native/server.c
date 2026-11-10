@@ -38,6 +38,7 @@ typedef int sock_t;
 #include <math.h>
 #include <sys/stat.h>
 #include "json.h"
+#include "num_safe.h"
 #include "solver.h"
 #include "gpu.h"
 #include "ui_html.h"
@@ -168,7 +169,10 @@ static const char *find_header(const char *hdr, const char *name) {
 static int path_from(JV *v, int *path, int max) {
   JV *a = jget(v, "path"); int n = 0;
   if (!a || a->type != J_ARR) return 0;
-  for (int i = 0; i < a->n && n < max; i++) path[n++] = (int)jnum(a->items[i], -1);
+  /* 4.1: each step must be an integer action index (0-255); 4.0 cast any
+     double to int. An invalid entry makes the whole path invalid (-1). */
+  if (a->n > max) return -1;
+  for (int i = 0; i < a->n; i++) { int x; if (em_jv_int(a->items[i], 0, 255, &x) != EM_NUM_OK) return -1; path[n++] = x; }
   return n;
 }
 static void game_meta(JB *b, Game *g) {
@@ -565,13 +569,18 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
     double budget = mw_budget_mib();
     JV *request=json_parse(body,blen,err,sizeof err);
-    if(request){double requested=jnum(jget(request,"tableLimitMiB"),budget);json_free(request);if(requested>0 && requested<budget)budget=requested;}
+    if(request){
+      /* 4.1: tableLimitMiB must be a finite positive number when present (4.0 ignored invalid values silently). */
+      const JV *tl=jget(request,"tableLimitMiB"); double requested=budget; int rc1=em_jv_dbl(tl,1e-6,1048576.0,&requested);
+      json_free(request);
+      if(rc1<0){pthread_mutex_unlock(&MW_MU);char nm[160];em_num_msg(nm,sizeof nm,"tableLimitMiB",rc1,1e-6,1048576,0);respond_err(s,400,nm);return 1;}
+      if(requested<budget)budget=requested;}
     if(budget<1){pthread_mutex_unlock(&MW_MU);respond_err(s,503,"Insufficient process or application RAM budget");return 1;}
     MW *m = mw_create(body, blen, budget, err, sizeof err);
     if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
     mw_free(MWG);MWG=m;MW_GEN++;MW_TABLE_MIB=0; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
     JB b; jb_init(&b); mw_info(m, &b);
-    { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); MW_IT = (long long)jnum(jget(iv, "iterations"), 0); MW_DEALS = (long long)jnum(jget(iv, "trainingDeals"), 0); json_free(iv); } }
+    { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); long long x = 0; MW_IT = em_jv_i64(jget(iv, "iterations"), 0, LLONG_MAX, &x) == EM_NUM_OK ? x : 0; x = 0; MW_DEALS = em_jv_i64(jget(iv, "trainingDeals"), 0, LLONG_MAX, &x) == EM_NUM_OK ? x : 0; json_free(iv); } }
     jb_free(&b); jb_init(&b); jb_puts(&b, "{\"ok\":true,\"budgetMiB\":"); jb_num(&b, budget, 1); jb_puts(&b, ",\"engine\":"); mw_info(m, &b); jb_putc(&b, '}');
     pthread_mutex_unlock(&MW_MU);
     respond_json(s, 200, &b); jb_free(&b); return 1;
@@ -586,10 +595,12 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   if (!strcmp(r, "train")) {
     JV *v = json_parse(body ? body : "{}", body ? blen : 2, err, sizeof err);
     if (!v) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
-    double it = jnum(jget(v, "iterations"), -1), th = jnum(jget(v, "threads"), THREADS); json_free(v);
+    /* 4.1: typed, checked conversions (4.0 accepted true/false as 1/0 via jnum). */
+    long long iti = 0, thi = THREADS; const int ri = em_jv_i64(jget(v, "iterations"), 1, 10000000, &iti), rth = em_jv_i64(jget(v, "threads"), 1, 256, &thi); json_free(v);
     if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
-    if (!(it >= 1 && it <= 10000000) || floor(it) != it) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "iterations must be an integer from 1 to 10,000,000"); return 1; }
-    if (!(th >= 1 && th <= 256) || floor(th) != th) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "threads must be an integer from 1 to 256"); return 1; }
+    if (ri != EM_NUM_OK) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "iterations must be an integer from 1 to 10,000,000"); return 1; }
+    if (rth != EM_NUM_OK && rth != EM_NUM_MISSING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "threads must be an integer from 1 to 256"); return 1; }
+    const double it = (double)iti, th = (double)thi;
     MwArgs *A = (MwArgs *)malloc(sizeof *A);
     if (!A) { pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Out of memory"); return 1; }
     if(MW_IT+(long long)it>10000000){free(A);pthread_mutex_unlock(&MW_MU);respond_err(s,400,"Checkpoint update count limit would be exceeded");return 1;}
@@ -722,17 +733,27 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     if (!G) { json_free(v); respond_err(s, 400, "Set up the spot first"); return; }
     SolveArgs *A = (SolveArgs *)malloc(sizeof *A);
     if (!A) { json_free(v); respond_err(s, 503, "Out of memory"); return; }
-    A->target = jnum(jget(v, "target"), 0.5); A->maxIter = (int)jnum(jget(v, "maxIter"), 1000); A->reset = (int)jnum(jget(v, "reset"), 0);
-    int power=jget(v,"power")?(int)jnum(jget(v,"power"),1):-1;
-    if (A->maxIter < 1) A->maxIter = 1;
+    /* 4.1: checked. maxIter accepts 1 to 1e9; values above 49,000 are capped
+       at 49,000 (documented in MW-PROTOCOL.md, unchanged since 2.x) and the
+       capped value is reported by /api/progress. Non-integers, non-numbers
+       and out-of-range values are refused. */
+    char nm[200]; int power = -1, rc1;
+    A->target = 0.5; A->maxIter = 1000; A->reset = 0;
+    if ((rc1 = em_jv_dbl(jget(v, "target"), 0.0, 1e6, &A->target)) < 0) { em_num_msg(nm, sizeof nm, "target", rc1, 0, 1e6, 0); goto solve_bad; }
+    if ((rc1 = em_jv_int(jget(v, "maxIter"), 1, 1000000000, &A->maxIter)) < 0) { em_num_msg(nm, sizeof nm, "maxIter", rc1, 1, 1e9, 1); goto solve_bad; }
+    { const JV *rv = jget(v, "reset"); if (rv && rv->type == J_BOOL) A->reset = rv->num != 0;
+      else if ((rc1 = em_jv_int(rv, 0, 1, &A->reset)) < 0) { em_num_msg(nm, sizeof nm, "reset", rc1, 0, 1, 1); goto solve_bad; } }
+    if ((rc1 = em_jv_int(jget(v, "power"), 0, 2, &power)) < 0) { em_num_msg(nm, sizeof nm, "power", rc1, 0, 2, 1); goto solve_bad; }
     if (A->maxIter > 49000) A->maxIter = 49000;
     json_free(v);
+    if (0) { solve_bad: json_free(v); free(A); respond_err(s, 400, nm); return; }
     int rc=start_job(solve_job,A,1,power);
     if (rc!=200) { free(A); respond_err(s, rc, rc==503?"Could not start solve thread":"A solve is already running"); return; }
     respond_ok(s); return;
   }
   if (!strcmp(path, "/api/node")) {
     int pth[64]; int n = path_from(v, pth, 64); json_free(v);
+    if (n < 0) { respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     if (!G) { respond_err(s, 400, "No solution loaded"); return; }
     JB b; jb_init(&b);
     pthread_mutex_lock(&GAME_MU);
@@ -743,6 +764,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   }
   if (!strcmp(path, "/api/runouts")) {
     int pth[64]; int n = path_from(v, pth, 64); json_free(v);
+    if (n < 0) { respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     if (!G) { respond_err(s, 400, "No solution loaded"); return; }
     JB b; jb_init(&b);
     pthread_mutex_lock(&GAME_MU);
@@ -753,9 +775,19 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   }
   if (!strcmp(path, "/api/lock")) {
     int pth[64]; int n = path_from(v, pth, 64);
+    if (n < 0) { json_free(v); respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     JV *st = jget(v, "strategy");
     float *arr = NULL; int na = 0;
-    if (st && st->type == J_ARR) { na = st->n; arr = (float *)malloc(sizeof(float) * (size_t)(na ? na : 1)); for (int i = 0; i < na; i++) arr[i] = (float)jnum(st->items[i], 0); }
+    if (st && st->type != J_ARR && st->type != J_NULL) { json_free(v); respond_err(s, 400, "strategy must be an array of probabilities or null"); return; }
+    if (st && st->type == J_ARR) {
+      na = st->n; arr = (float *)malloc(sizeof(float) * (size_t)(na ? na : 1));
+      if (!arr) { json_free(v); respond_err(s, 503, "Out of memory"); return; }
+      /* 4.1: (float) of an out-of-range double is undefined; entries are probabilities. */
+      for (int i = 0; i < na; i++) {
+        double x; if (em_jv_dbl(st->items[i], 0.0, 1.0, &x) != EM_NUM_OK) { free(arr); json_free(v); respond_err(s, 400, "strategy entries must be numbers from 0 to 1"); return; }
+        arr[i] = (float)x;
+      }
+    }
     json_free(v);
     if (!G) { free(arr); respond_err(s, 400, "No solution loaded"); return; }
     if (!claim_game()) { free(arr); respond_err(s, 409, "Stop the current solve first"); return; }
@@ -820,12 +852,23 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     jb_free(&cj);
     A->n = fl->n; A->flops = (int (*)[4])malloc(sizeof(int[4]) * (size_t)fl->n);
     if(!A->flops){free(A);json_free(v);respond_err(s,503,"Out of memory");return;}
-    for (int i = 0; i < fl->n; i++) for (int k = 0; k < 4; k++) A->flops[i][k] = (int)jnum(fl->items[i]->type == J_ARR && k < fl->items[i]->n ? fl->items[i]->items[k] : NULL, 1);
-    A->target = jnum(jget(v, "target"), 1); A->maxIter = (int)jnum(jget(v, "maxIter"), 300);
-    if (A->maxIter < 1) A->maxIter = 1;
+    /* 4.1: each flop is [card, card, card, weight?]: cards 0-51, weight an
+       integer 0 to 1e9 (default 1 when omitted). */
+    char nm[200]; int power = -1, rc1;
+    for (int i = 0; i < fl->n; i++) {
+      const JV *f = fl->items[i];
+      if (f->type != J_ARR || f->n < 3 || f->n > 4) { snprintf(nm, sizeof nm, "flops[%d] must be [card, card, card, weight]", i); goto report_bad; }
+      for (int k = 0; k < 3; k++) if (em_jv_int(f->items[k], 0, 51, &A->flops[i][k]) != EM_NUM_OK) { snprintf(nm, sizeof nm, "flops[%d] cards must be integers 0-51", i); goto report_bad; }
+      A->flops[i][3] = 1;
+      if (f->n == 4 && em_jv_int(f->items[3], 0, 1000000000, &A->flops[i][3]) != EM_NUM_OK) { snprintf(nm, sizeof nm, "flops[%d] weight must be an integer 0 to 1e9", i); goto report_bad; }
+    }
+    A->target = 1; A->maxIter = 300;
+    if ((rc1 = em_jv_dbl(jget(v, "target"), 0.0, 1e6, &A->target)) < 0) { em_num_msg(nm, sizeof nm, "target", rc1, 0, 1e6, 0); goto report_bad; }
+    if ((rc1 = em_jv_int(jget(v, "maxIter"), 1, 1000000000, &A->maxIter)) < 0) { em_num_msg(nm, sizeof nm, "maxIter", rc1, 1, 1e9, 1); goto report_bad; }
+    if ((rc1 = em_jv_int(jget(v, "power"), 0, 2, &power)) < 0) { em_num_msg(nm, sizeof nm, "power", rc1, 0, 2, 1); goto report_bad; }
     if (A->maxIter > 49000) A->maxIter = 49000;
-    int power=jget(v,"power")?(int)jnum(jget(v,"power"),1):-1;
     json_free(v);
+    if (0) { report_bad: json_free(v); free(A->flops); free(A); respond_err(s, 400, nm); return; }
     int rc=start_job(report_job,A,2,power);
     if (rc!=200) { free(A->flops); free(A); respond_err(s, rc, rc==503?"Could not start report thread":"Another job is running"); return; }
     respond_ok(s); return;
@@ -931,7 +974,11 @@ int gpu_selftest(const SolverVT *VT);
 int main(int argc, char **argv) {
     if(argc==2 && !strcmp(argv[1],"--build-id")) { puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
   int noBrowser = 0, wantPort = 8708, gpuTest = 0;
-  for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) wantPort = atoi(argv[i] + 7); else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
+  for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) {
+      /* 4.1: strtol with checks (atoi is undefined on overflow). */
+      char *end = NULL; errno = 0; long pv = strtol(argv[i] + 7, &end, 10);
+      if (errno || end == argv[i] + 7 || *end || pv < 1 || pv > 65535) { fprintf(stderr, "--port must be an integer from 1 to 65535\n"); return 2; }
+      wantPort = (int)pv; } else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
 #ifdef _WIN32
   WSADATA wsa; WSAStartup(MAKEWORD(2, 2), &wsa);
   SYSTEM_INFO si; GetSystemInfo(&si); THREADS = (int)si.dwNumberOfProcessors;
