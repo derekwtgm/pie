@@ -1,0 +1,242 @@
+{
+ "generated": "2026-11-10T19:42:37.296Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCPUs": 4,
+ "counts": [
+  1,
+  2,
+  4
+ ],
+ "rngPolicy": "sampled: fixed blocks of 256 samples, block b uses deriveSeed(seed, b); blocks are reduced in block order, so a completed run is identical for every thread count. Partial (time-limited) runs depend on which blocks finished.",
+ "cases": [
+  {
+   "label": "8-player push/fold ICM, exact, root (2 actions)",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact"
+   },
+   "rows": [
+    {
+     "threads": 1,
+     "wallSeconds": 2.356,
+     "queryMs": 2348.005,
+     "cpuUtilization": 0.98,
+     "peakRssMiB": 17.1,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 1.555,
+     "showdownTables": 1,
+     "peakEvaluationMiB": 11.658,
+     "speedup": 1
+    },
+    {
+     "threads": 2,
+     "wallSeconds": 1.3374,
+     "queryMs": 1331.791,
+     "cpuUtilization": 1.71,
+     "peakRssMiB": 29.6,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 2.191,
+     "showdownTables": 2,
+     "peakEvaluationMiB": 23.163,
+     "speedup": 1.76
+    },
+    {
+     "threads": 4,
+     "wallSeconds": 1.3163,
+     "queryMs": 1310.787,
+     "cpuUtilization": 1.83,
+     "peakRssMiB": 29.6,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 2.433,
+     "showdownTables": 2,
+     "peakEvaluationMiB": 23.163,
+     "speedup": 1.79
+    }
+   ]
+  },
+  {
+   "label": "8-player push/fold ICM, exact, range of hands at [1,1,1] path",
+   "request": {
+    "path": [
+     1,
+     1,
+     1
+    ],
+    "hands": [
+     0
+    ],
+    "method": "exact"
+   },
+   "rows": [
+    {
+     "threads": 1,
+     "wallSeconds": 0.461,
+     "queryMs": 453.924,
+     "cpuUtilization": 0.97,
+     "peakRssMiB": 17.1,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 1.32,
+     "showdownTables": 1,
+     "peakEvaluationMiB": 11.553,
+     "speedup": 1
+    },
+    {
+     "threads": 2,
+     "wallSeconds": 0.2811,
+     "queryMs": 273.044,
+     "cpuUtilization": 1.91,
+     "peakRssMiB": 29.4,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 1.892,
+     "showdownTables": 2,
+     "peakEvaluationMiB": 23.058,
+     "speedup": 1.66
+    },
+    {
+     "threads": 4,
+     "wallSeconds": 0.2868,
+     "queryMs": 281.334,
+     "cpuUtilization": 1.76,
+     "peakRssMiB": 29.5,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 2.298,
+     "showdownTables": 2,
+     "peakEvaluationMiB": 23.058,
+     "speedup": 1.61
+    }
+   ]
+  },
+  {
+   "label": "3-player river, exact, every hand + range aggregate",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "range": true,
+    "method": "exact"
+   },
+   "rows": [
+    {
+     "threads": 1,
+     "wallSeconds": 0.0079,
+     "queryMs": 2.471,
+     "cpuUtilization": 0.63,
+     "peakRssMiB": 5,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 200,
+     "cancelLatencyMs": null,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 1
+    },
+    {
+     "threads": 2,
+     "wallSeconds": 0.0068,
+     "queryMs": 2.412,
+     "cpuUtilization": 0.89,
+     "peakRssMiB": 5.3,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 200,
+     "cancelLatencyMs": null,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 1.02
+    },
+    {
+     "threads": 4,
+     "wallSeconds": 0.0077,
+     "queryMs": 2.781,
+     "cpuUtilization": 1.05,
+     "peakRssMiB": 6,
+     "samplesPerSecond": null,
+     "identicalToOneThread": true,
+     "cancelStatus": 200,
+     "cancelLatencyMs": null,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 0.89
+    }
+   ]
+  },
+  {
+   "label": "8-player final table, sampled, 20,000 samples x 2 hands",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     600
+    ],
+    "method": "sampled",
+    "samples": 20000,
+    "seed": 3
+   },
+   "rows": [
+    {
+     "threads": 1,
+     "wallSeconds": 1.107,
+     "queryMs": 1084.676,
+     "cpuUtilization": 0.99,
+     "peakRssMiB": 10.8,
+     "samplesPerSecond": 36877,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 0.719,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 1
+    },
+    {
+     "threads": 2,
+     "wallSeconds": 0.5364,
+     "queryMs": 509.638,
+     "cpuUtilization": 1.91,
+     "peakRssMiB": 12,
+     "samplesPerSecond": 78487,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 1.423,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 2.13
+    },
+    {
+     "threads": 4,
+     "wallSeconds": 0.3065,
+     "queryMs": 277.492,
+     "cpuUtilization": 3.56,
+     "peakRssMiB": 15.3,
+     "samplesPerSecond": 144148,
+     "identicalToOneThread": true,
+     "cancelStatus": 409,
+     "cancelLatencyMs": 2.145,
+     "showdownTables": 0,
+     "peakEvaluationMiB": 0,
+     "speedup": 3.91
+    }
+   ]
+  }
+ ]
+}

@@ -312,7 +312,7 @@ details[open] summary { margin-bottom: 8px; }
       <circle cx="16" cy="16" r="9.5" fill="#0a0e16" stroke="#1d1505" stroke-width="1.5"/>
       <text x="16" y="20.6" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="13" fill="#f2b84b">8</text>
     </svg>
-    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 3.9</p></div>
+    <div><h1>Eight<b>Max</b></h1><p>8-max MTT solver · 4.0</p></div>
     <span class="engine" id="engine"></span>
   </div>
   <nav class="tabs" role="tablist" aria-label="Sections">
@@ -5493,24 +5493,75 @@ function evCell(h, a) {
   if (!h.stdErr) return evNumber(h.ev[a]);
   return evNumber(h.ev[a]) + ' <span class="note">± ' + evNumber(1.96 * h.stdErr[a]) + '</span>';
 }
+// 4.0: short plain-language labels for the per-action statistical classification.
+// A difference that is not statistically supported is "uncertain", never "equal".
+const CLASS_LABEL = { highest: 'highest EV', highestEstimate: 'highest estimate', exactTie: 'exact tie with highest', withinMargin: 'exact; within margin', lower: 'exact; lower',
+  differenceSupported: 'lower (supported)', differenceUncertain: 'difference uncertain', practicallyEquivalent: 'equivalent within margin', insufficientSamples: 'too few samples' };
+function classLabel(x, a) {
+  if (x.classification && x.classification[a]) return CLASS_LABEL[x.classification[a]] || x.classification[a];
+  return x.best === a ? 'highest' : x.method === 'exact' ? 'lower' : 'not classified (older result)';
+}
+function classTitle(x, a) {
+  if (x.interpretation && x.interpretation[a]) return x.interpretation[a];
+  return x.best === a ? 'highest EV' : 'lower than the highest EV; this older result has no statistical classification and makes no equivalence claim';
+}
+// 4.0: strategy-coverage and fallback warning (always shown when reported).
+function coverageHtml(ev) {
+  const c = ev.coverage; if (!c) return '';
+  const pct = x => (100 * (x || 0)).toFixed(1) + '%';
+  let h = '<p class="note">Strategy coverage: ' + pct(c.rowCoverage) + ' of ' + (c.policyLookups || 0).toLocaleString() + ' policy lookups found a stored strategy (' + (c.distinctFallbackInformationSets || 0).toLocaleString() + ' distinct untrained information sets' + (c.distinctCountCapped ? ', count capped' : '') + '). ' +
+    'Probability-weighted fallback: up to ' + pct(c.maxActionFallbackShare) + ' of an action\'s outcomes and ' + pct(c.maxOpponentReachFallbackShare) + ' of an opponent range' + (c.samplesEvaluated ? '; ' + pct(c.sampleFallbackShare) + ' of samples touched a fallback' : '') + '. Fallback policy: ' + esc(c.fallbackDescription || c.fallbackPolicy) + '.</p>';
+  if (c.warning) h = '<p class="bad" role="alert">⚠ ' + esc(c.warning) + '</p>' + h;
+  return h;
+}
 // EV table for the evaluated combos (only those in `filter`, if given).
 function evTable(ev, names, filter) {
   if (!ev) return '';
   const unit = ev.utility.unit, rows = (ev.hands || []).filter(h => !filter || filter.has(h.i));
+  const exec = ev.execution ? ' · ' + (ev.threads || 1) + ' thread' + ((ev.threads || 1) > 1 ? 's' : '') + ', device ' + ev.execution.device + (ev.execution.gpuBoards ? ' (' + ev.execution.gpuBoards.toLocaleString() + ' boards on the GPU)' : '') : '';
   let h = '<div class="ex-ev"><h4>Action EVs (' + esc(ev.utility.model === 'icm' ? 'ICM tournament equity, ' + unit : 'chip EV, ' + unit) + ')</h4>' +
     '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a normal 95% interval') +
-    ' · continuation policy: ' + ev.policy + (ev.stoppedEarly ? ' · stopped early at the time limit' : '') + (ev.note ? ' · ' + ev.note : '')) + '</p>';
+    ' · continuation policy: ' + ev.policy + (ev.status === 'partial' || ev.stoppedEarly ? ' · PARTIAL: stopped early at the time limit (estimates from the completed samples only)' : '') + (ev.note ? ' · ' + ev.note : '') + exec + (ev.elapsedMs != null ? ' · ' + (ev.elapsedMs / 1000).toFixed(2) + ' s' : '')) + '</p>';
+  h += coverageHtml(ev);
   h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th>' + ev.actions.map(a => '<th>' + esc(actionLabel(a)) + '</th>').join('') + '<th>Mixed strategy</th><th>Method</th></tr></thead><tbody>';
   const card = h0 => h0.cards ? esc(EM.cardStr(h0.cards[1]) + EM.cardStr(h0.cards[0])) : 'range';
   const row = x => {
     if (!x.available) return '<tr><th>' + card(x) + '</th><td colspan="' + (ev.actions.length + 2) + '"><span class="note">EV unavailable: ' + esc(x.reason || 'not computed') + '</span></td></tr>';
-    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + (x.equivalentToBest[a] ? (x.method === 'exact' ? 'equal to the best EV' : 'not significantly different from the best EV (95%)') : 'below the best EV') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used a uniform policy where none is stored' : '') + '">' + evCell(x, a) +
-      (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
+    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + esc(classTitle(x, a) + (x.vsBestCi95 && a !== x.best ? '; difference from the highest: ' + evNumber(x.vsBest[a]) + ' (95% interval ' + evNumber(x.vsBestCi95[a][0]) + ' to ' + evNumber(x.vsBestCi95[a][1]) + ')' : '') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used the fallback policy where no strategy is stored' : '')) + '">' + evCell(x, a) +
+      (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + '<br><span class="note ex-cls">' + esc(classLabel(x, a)) + '</span>' + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
       '<td>' + evNumber(x.mixed) + (x.mixedStdErr != null ? ' <span class="note">± ' + evNumber(1.96 * x.mixedStdErr) + '</span>' : '') + '</td><td>' + esc(x.method) + (x.samples ? ' (' + x.samples.toLocaleString() + ')' : '') + '</td></tr>';
   };
   h += rows.map(row).join('') + (ev.range && !filter ? row({ ...ev.range, cards: null }) : '') + '</tbody></table></div>';
-  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Actions within the best EV (exactly, or within sampling error) are marked in the cell tooltip. * part of the value passes through states without a stored strategy (uniform substitution, reported share in the tooltip). ' + esc(ev.utility.convention) + '</p></div>';
+  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Labels compare each action with the highest estimate using paired differences: "lower (supported)" means the 95% interval of the difference excludes zero; "difference uncertain" means the data cannot tell the actions apart — this is NOT evidence that they are equal, and mixed-strategy actions need not have equal estimated EVs. "Equivalent within margin" appears only when you set an equivalence margin and two one-sided tests support it' +
+    (ev.statistics && ev.statistics.equivalenceMargin != null ? ' (margin ' + evNumber(ev.statistics.equivalenceMargin) + ' ' + esc(unit) + ')' : '') + '. * part of the value passes through states without a stored strategy (fallback share in the tooltip). ' + esc(ev.utility.convention) + '</p>';
+  if (ev.fallbackSensitivity) h += '<p class="note">Fallback sensitivity (not a confidence interval): ' + ev.fallbackSensitivity.policies.map(p => esc(p.fallback) + (p.error ? ' — ' + esc(p.error) : '')).join(', ') + (ev.fallbackSensitivity.bestActionChanges ? ' — <b>the highest-EV action changes with the fallback assumption</b>' : ' — the highest-EV action does not change') + '.</p>';
+  h += '</div>';
   return h;
+}
+// 4.0: evaluation options (all sent to the host, which validates them).
+function evOptions(ui, s) {
+  const o = ui.evOptions || {}, sel = (id, cur, opts) => '<select id="' + id + '">' + opts.map(([v, l]) => '<option value="' + v + '"' + (cur === v ? ' selected' : '') + '>' + l + '</option>').join('') + '</select>';
+  return ' <label>Method ' + sel('ex-ev-method', o.method || 'auto', [['auto', 'Automatic'], ['exact', 'Exact'], ['sampled', 'Sampled']]) + '</label>' +
+    ' <label>Utility ' + sel('ex-ev-utility', o.utility || 'study', s && s.tournament ? [['study', 'ICM (study)'], ['chip', 'Chip EV']] : [['study', 'Chip EV (study)']]) + '</label>' +
+    ' <label>Time limit (s) <input id="ex-ev-time" type="number" min="0.1" max="3600" step="0.1" value="' + (o.timeLimitS || 60) + '"></label>' +
+    ' <label>Visit budget <input id="ex-ev-visits" type="number" min="1000" max="2000000000" step="1000" value="' + (o.maxVisits || 20000000) + '"></label>' +
+    ' <label>Processing ' + sel('ex-ev-device', o.device || 'auto', [['auto', 'Automatic'], ['cpu', 'CPU only'], ['gpu', 'GPU preferred'], ['hybrid', 'Hybrid CPU/GPU']]) + '</label>' +
+    ' <label>Equivalence margin <input id="ex-ev-margin" type="number" min="0" step="any" placeholder="none" value="' + (o.margin > 0 ? o.margin : '') + '"></label>' +
+    ' <label>Untrained states ' + sel('ex-ev-fallback', o.fallback || 'uniform', [['uniform', 'Uniform fallback'], ['foldCheck', 'Fold/check fallback'], ['callCheck', 'Call/check fallback'], ['refuse', 'Refuse']]) + '</label>';
+}
+// 4.0: status of the background evaluation job (no completion percentage is shown: the work is not known in advance).
+function evJobHtml(j, label) {
+  const p = j.progress || {};
+  const parts = ['Job ' + esc(j.jobId || '') + ': ' + esc(j.status || 'submitting'), label ? esc(label) : ''];
+  if (p.elapsedMs != null) parts.push((p.elapsedMs / 1000).toFixed(1) + ' s');
+  if (p.samples) parts.push(p.samples.toLocaleString() + ' samples');
+  if (p.boardsScored) parts.push(p.boardsScored.toLocaleString() + ' runout boards scored' + (p.gpuBoards ? ' (' + p.gpuBoards.toLocaleString() + ' on the GPU)' : ''));
+  if (p.stage && j.status === 'running') parts.push('stage: ' + esc(p.stage));
+  if (p.peakEvaluationMiB != null) parts.push('evaluation memory ' + p.peakEvaluationMiB.toFixed(1) + ' MiB');
+  if (j.cancelRequested) parts.push('cancellation requested');
+  if (j.overdue) parts.push('past its time limit; waiting for the worker to stop');
+  const active = j.status === 'running' || j.status === 'pending' || !j.status;
+  return '<p class="note" role="status">' + parts.filter(Boolean).join(' · ') + (active ? ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button>' : '') + '</p>';
 }
 function seatName(names, seat) { return names && names[seat] ? names[seat] : 'Seat ' + (seat + 1); }
 function boardHtml(cards) { return cards.length ? cards.map(c => '<span class="ex-card">' + esc(EM.cardStr(c)) + '</span>').join('') : '<span class="note">none</span>'; }
@@ -5573,8 +5624,9 @@ function renderExplorer(response, ui) {
   h += '<div class="ex-controls"><button type="button" class="btn sm" data-ex-ev="class"' + (ui.selectedCell == null ? ' disabled title="Select a hand class first"' : '') + '>Calculate EVs of the selected class</button> ' +
     '<button type="button" class="btn sm" data-ex-ev="all">Calculate EVs of every hand (sampled, bounded)</button> ' +
     '<label>Samples <input id="ex-ev-samples" type="number" min="16" max="2000000" step="1" value="' + (ui.evSamples || 4000) + '"></label> ' +
-    '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' +
-    (ui.evBusy ? ' <span class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></span>' : '') + '</div>';
+    '<label>Policy <select id="ex-ev-policy"><option value="average"' + (ui.evPolicy !== 'current' ? ' selected' : '') + '>Average</option><option value="current"' + (ui.evPolicy === 'current' ? ' selected' : '') + '>Current</option></select></label>' + evOptions(ui, s) + '</div>';
+  if (ui.evJob) h += evJobHtml(ui.evJob, ui.evBusy);
+  else if (ui.evBusy) h += '<p class="note" role="status">' + esc(ui.evBusy) + ' <button type="button" class="btn sm ghost" data-ex-ev="cancel">Cancel</button></p>';
   if (ui.evError) h += '<p class="bad" role="alert">' + esc(ui.evError) + '</p>';
   const mode = ev ? (ui.matrixMode || 'strategy') : 'strategy', evAction = Math.min(Math.max(0, ui.evAction || 0), r.actions.length - 1);
   if (ev) h += '<div class="ex-controls"><label>Matrix shows <select id="ex-matrix"><option value="strategy"' + (mode === 'strategy' ? ' selected' : '') + '>Strategy frequencies</option><option value="ev"' + (mode === 'ev' ? ' selected' : '') + '>EV of an action</option><option value="diff"' + (mode === 'diff' ? ' selected' : '') + '>EV minus mixed-strategy EV</option><option value="stderr"' + (mode === 'stderr' ? ' selected' : '') + '>EV standard error</option></select></label> ' +
@@ -6049,7 +6101,7 @@ function postNode(m) {
 })(globalThis.EM || (globalThis.EM = {}));
 
 ;
-globalThis.EM.BUILD = Object.freeze({version:"3.9",build:"4fc8938553309260"});</script>
+globalThis.EM.BUILD = Object.freeze({version:"4.0",build:"e46140fff4cf2f46"});</script>
 <script>(function (EM) {
 'use strict';
 const streets=['Flop','Turn','River'];
@@ -6267,7 +6319,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     el('desktop-mix').textContent=(hand.observed?'Saved average':'Unvisited hand, uniform default')+' · '+rootPolicy.actions.map((a,i)=>a.name+(['Bet to','Raise to','Call'].includes(a.name)?' '+a.to+' BB':'')+' '+(hand.probabilities[i]*100).toFixed(1)+'%').join(' · ');
   }
   // 3.8: native strategy explorer. Each request asks the host for one node.
-  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0};
+  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false,ev:null,evBusy:'',evError:'',evSamples:4000,evPolicy:'average',matrixMode:'strategy',evAction:0,
+    evOptions:{method:'auto',utility:'study',timeLimitS:60,maxVisits:20000000,device:'auto',margin:0,fallback:'uniform'},evJob:null,evJobId:null};
   function explorerNames(n){
     if(spot&&spot.seats&&spot.seats.length===n)return spot.seats.map(x=>x.name);
     return n>=2&&EM.pfPositions?EM.pfPositions(n):null;
@@ -6275,7 +6328,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   function drawExplorer(){
     const box=root.querySelector('#rv-desktop-explorer');if(!box)return;
     box.hidden=!explorer.open;if(!explorer.open)return;
-    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction});
+    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error,ev:explorer.ev,evBusy:explorer.evBusy,evError:explorer.evError,evSamples:explorer.evSamples,evPolicy:explorer.evPolicy,matrixMode:explorer.matrixMode,evAction:explorer.evAction,evOptions:explorer.evOptions,evJob:explorer.evJob});
   }
   async function exploreNode(path,board){
     if(explorer.busy)return;explorer.busy=true;explorer.error='';
@@ -6300,6 +6353,31 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(last&&last.chance){exploreNode(explorer.path,explorer.board.slice(0,explorer.board.length-last.cards.length));return;}
     if(explorer.path.length)exploreNode(explorer.path.slice(0,-1),boardBefore(explorer.path.length-1));
   }
+  // 4.0: one batch runs as a background job on the host (POST /api/mw/jobs/ev),
+  // polled for status and progress; the interface stays usable and Cancel stops
+  // the job. Results are fetched only for completed jobs and the job is released.
+  async function evJob(body){
+    const submitted=await desktopRequest('mw/jobs/ev',JSON.stringify(body));
+    explorer.evJobId=submitted.jobId;explorer.evJob=submitted;drawExplorer();
+    try{
+      for(;;){
+        await new Promise(r=>setTimeout(r,250));
+        const j=await desktopRequest('mw/jobs/'+submitted.jobId);explorer.evJob=j;drawExplorer();
+        if(j.status==='completed')return await desktopRequest('mw/jobs/'+submitted.jobId+'/result');
+        if(j.status==='cancelled')throw Error('Evaluation cancelled');
+        if(j.status==='timedOut')throw Error('Time limit reached before the evaluation completed: '+(j.error||'no incomplete exact result is shown')+' Raise the time limit or use sampled evaluation.');
+        if(j.status==='failed')throw Error(j.error||'Evaluation failed');
+      }
+    }finally{desktopRequest('mw/jobs/'+submitted.jobId+'/release','{}').catch(()=>{});explorer.evJobId=null;}
+  }
+  function evBody(hands,range,which){
+    const o=explorer.evOptions,body={path:explorer.path,board:explorer.board,hands,range,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,
+      timeLimitMs:Math.max(100,Math.min(3600000,Math.round((o.timeLimitS||(which==='all'?15:60))*1000))),maxVisits:Math.max(1000,Math.min(2000000000,Math.round(o.maxVisits)||20000000)),method:o.method,device:o.device};
+    if(o.utility&&o.utility!=='study')body.utility=o.utility;
+    if(o.margin>0)body.equivalenceMargin=o.margin;
+    if(o.fallback==='refuse')body.missing='refuse';else body.fallback=o.fallback;
+    return body;
+  }
   // 3.9: action EVs for hands of the acting seat, requested in bounded batches
   // of at most 64 combos (the host's limit). Values are only those the host
   // computed; nothing is interpolated for combos that were not evaluated.
@@ -6312,18 +6390,19 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     try{
       for(const [b,hands] of batches.entries()){
         explorer.evBusy='Calculating EVs ('+(b+1)+' of '+batches.length+')…';drawExplorer();
-        const body={path:explorer.path,board:explorer.board,hands,range:b===0,policy:explorer.evPolicy,samples:Math.max(16,Math.min(2000000,Math.round(explorer.evSamples)||4000)),seed:1,timeLimitMs:which==='all'?15000:60000};
-        const ev=await desktopRequest('mw/ev',JSON.stringify(body));
-        if(!merged)merged=ev;else{merged.hands=merged.hands.concat(ev.hands);merged.stoppedEarly=merged.stoppedEarly||ev.stoppedEarly;if(ev.method!==merged.method)merged.method='mixed (exact and sampled)';}
+        const ev=await evJob(evBody(hands,b===0,which));
+        if(!merged)merged=ev;else{merged.hands=merged.hands.concat(ev.hands);merged.stoppedEarly=merged.stoppedEarly||ev.stoppedEarly;if(ev.status==='partial')merged.status='partial';if(ev.method!==merged.method)merged.method='mixed (exact and sampled)';
+          if(ev.coverage&&merged.coverage){const c=merged.coverage,d=ev.coverage;for(const k of ['policyLookups','storedLookups','fallbackLookups'])c[k]+=d[k];c.rowCoverage=c.policyLookups?c.storedLookups/c.policyLookups:1;
+            c.maxActionFallbackShare=Math.max(c.maxActionFallbackShare,d.maxActionFallbackShare);c.maxOpponentReachFallbackShare=Math.max(c.maxOpponentReachFallbackShare,d.maxOpponentReachFallbackShare);if(!c.warning)c.warning=d.warning;}}
         if(explorer.response!==r)return;
       }
       if(explorer.ev&&explorer.ev.node.stateId===merged.node.stateId&&explorer.ev.policy===merged.policy){const seen=new Set(merged.hands.map(h=>h.i));merged.hands=merged.hands.concat(explorer.ev.hands.filter(h=>!seen.has(h.i)));if(!merged.range)merged.range=explorer.ev.range;}
       explorer.ev=merged;if(which==='all'&&explorer.matrixMode==='strategy')explorer.matrixMode='ev';
     }catch(e){explorer.evError=e.message;}
-    finally{explorer.evBusy='';drawExplorer();}
+    finally{explorer.evBusy='';explorer.evJob=null;drawExplorer();}
   }
   function explorerClick(d){
-    if(d.exEv!==undefined){if(d.exEv==='cancel'){desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
+    if(d.exEv!==undefined){if(d.exEv==='cancel'){if(explorer.evJobId)desktopRequest('mw/jobs/'+explorer.evJobId+'/cancel','{}').catch(()=>{});else desktopRequest('mw/node-cancel','').catch(()=>{});return true;}explorerEv(d.exEv);return true;}
     if(d.exAction!==undefined){exploreNode([...explorer.path,Number(d.exAction)],explorer.board);explorer.selectedCell=null;return true;}
     if(d.exGo!==undefined){const k=Number(d.exGo);exploreNode(explorer.path.slice(0,k),boardBefore(k));return true;}
     if(d.exBack!==undefined){explorerBack();return true;}
@@ -6696,6 +6775,14 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     if(e.target.id==='ex-ev-action'){explorer.evAction=Number(e.target.value)||0;drawExplorer();return;}
     if(e.target.id==='ex-ev-samples'){explorer.evSamples=Number(e.target.value)||4000;return;}
     if(e.target.id==='ex-ev-policy'){explorer.evPolicy=e.target.value==='current'?'current':'average';explorer.ev=null;drawExplorer();return;}
+    {const o=explorer.evOptions,v=e.target.value;
+      if(e.target.id==='ex-ev-method'){o.method=['auto','exact','sampled'].includes(v)?v:'auto';return;}
+      if(e.target.id==='ex-ev-utility'){o.utility=v==='chip'?'chip':'study';explorer.ev=null;drawExplorer();return;}
+      if(e.target.id==='ex-ev-time'){o.timeLimitS=Math.max(0.1,Math.min(3600,Number(v)||60));return;}
+      if(e.target.id==='ex-ev-visits'){o.maxVisits=Math.max(1000,Math.min(2000000000,Math.round(Number(v))||20000000));return;}
+      if(e.target.id==='ex-ev-device'){o.device=['auto','cpu','gpu','hybrid'].includes(v)?v:'auto';return;}
+      if(e.target.id==='ex-ev-margin'){const x=Number(v);o.margin=Number.isFinite(x)&&x>0?x:0;return;}
+      if(e.target.id==='ex-ev-fallback'){o.fallback=['uniform','foldCheck','callCheck','refuse'].includes(v)?v:'uniform';explorer.ev=null;drawExplorer();return;}}
     if(e.target.id==='ex-seat'){explorer.rangeSeat=Number(e.target.value);exploreNode(explorer.path,explorer.board);return;}
     if(e.target.id==='rv-desktop-file' && !busy){if(e.target.files?.[0])desktopAction('upload',e.target.files[0]);return;}
     if(e.target.id==='rv-load' && !busy){loadTraining(e.target.files?.[0]);return;}

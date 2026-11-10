@@ -1,7 +1,51 @@
-EightMax 3.9 - 8-max MTT solver for Windows
+EightMax 4.0 - 8-max MTT solver for Windows
 ============================================
 
-NEW IN 3.9: ACTION EVs, RESPONSE GAINS AND STRICT EXPLORER REQUESTS
+NEW IN 4.0: RESPONSIVE, CANCELLABLE AND CLEARER ACTION EVs
+Open a native study, choose Explore strategy, pick a decision and a hand
+class, then "Calculate EVs". 4.0 changes how that works:
+  - EVs run as BACKGROUND JOBS on the desktop host. While a large evaluation
+    runs you can keep navigating the explorer, change hands, look at results
+    and checkpoints, and press Cancel at any time. The status line shows the
+    job state, elapsed time, completed samples, runout boards scored (and how
+    many on the GPU), the current stage and evaluation memory. No completion
+    percentage is shown because the remaining work is not known in advance.
+  - Time limits are enforced. 3.9 could ignore a 100 ms limit for more than
+    ten seconds in an eight-player preflop ICM spot; 4.0 stops within a few
+    milliseconds of the limit (measured: 101-102 ms for a 100 ms limit on
+    Linux, under Wine and on a GitHub Windows runner). A timed-out EXACT
+    evaluation shows no numbers; a timed-out sampled evaluation shows its
+    completed samples marked PARTIAL, only if at least 100 were completed.
+  - New controls: Method (Automatic/Exact/Sampled), Utility (ICM or chip EV in
+    tournament studies), Time limit, Visit budget, Processing (Automatic, CPU
+    only, GPU preferred, Hybrid CPU/GPU), Equivalence margin, and how
+    untrained states are handled (uniform, fold/check or call/check fallback,
+    or refuse).
+  - Honest comparisons. Each action is labelled against the highest estimate:
+    "lower (supported)" when the 95% interval of the paired difference
+    excludes zero, "difference uncertain" when it does not - which is NOT
+    evidence that the actions are equal - and "equivalent within margin" only
+    if you set a margin and two one-sided tests support it. Overlapping
+    intervals are never presented as equality.
+  - Strategy coverage. Every result reports how many strategy lookups found a
+    trained row, which fallback policy replaced the missing ones and how much
+    probability passed through them. A red warning appears when the share is
+    notable (default 5%) or substantial (25%), because those EVs depend on the
+    fallback assumption rather than on a trained strategy.
+  - Exact evaluations are much faster in multiway all-in spots (showdown tables
+    shared by all terminals of a deal; e.g. 24.5 s -> 2.0-2.4 s single-threaded,
+    1.3 s with threads, for the eight-player push/fold root) and use several
+    CPU threads. Results do not depend on the thread count.
+  - Response gains have three clearly named modes: exact best response (small
+    games), restricted best response (best response on the study's first
+    street, exact or sampled) and the 3.9 sampled one-decision deviation.
+    None of them is a claim that an eight-player game is solved.
+Training is unchanged from 3.9 (byte-identical strategies). Read
+RELEASE-4.0.md for measurements, test results and limitations, and run
+Run self-tests.bat and Validate CUDA hardware.bat on your PC: the RTX 4060 Ti
+CUDA path for EV showdown tables has NOT been run on NVIDIA hardware yet.
+
+EARLIER (3.9): ACTION EVs, RESPONSE GAINS AND STRICT EXPLORER REQUESTS
 Open a native study and choose Explore strategy (preflop to river) as in 3.8.
 At a decision, click a hand class, then "Calculate EVs of the selected class"
 (or "Calculate EVs of every hand"). EightMax computes the expected value of
