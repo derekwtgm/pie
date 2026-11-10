@@ -1,0 +1,13 @@
+ok 1 - solve startup failure rolls back and supports concurrent retry/cancel
+ok 2 - report startup failure rolls back and supports concurrent retry/cancel
+ok 3 - mw/train startup failure rolls back and supports concurrent retry/cancel
+ok 4 - 4.0 desktop jobs: nonblocking explorer, progress, cancellation, timeouts, queueing, release, malformed requests and unchanged solver state
+ok 5 - 4.0 desktop jobs: worker start failure is reported and recovers; worker threads stay bounded
+ok 6 - 4.1 concurrency: repeated simultaneous starts of solve, report and training — exactly one wins, none stuck
+ok 7 - 4.1 concurrency: rapid job creation and cancellation, cancel while queued/starting, no stale or stuck jobs
+ok 8 - 4.1 concurrency: a queued job gets its full time limit from when it starts (4.0 counted queue time)
+ok 9 - 4.1 concurrency: repeated host shutdown with running and queued jobs leaves saved state usable
+# pass 9
+# fail 0
+# skipped 0
+ThreadSanitizer reports written: 0 (log_path verified with a planted race: caught)

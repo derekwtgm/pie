@@ -206,3 +206,65 @@ test('4.1 numeric safety: num_safe.h boundary and property tests under UBSan+ASa
   const r = JSON.parse(cp.execFileSync(exe, { encoding: 'utf8' }));
   assert.equal(r.failures, 0); assert.ok(r.propertyCases >= 2000000);
 });
+
+// ============================== statistics (action_stats.hpp) ==============================
+test('4.1 statistics: simulated family-wise error, coverage, selection bias, equivalence and sequential stopping (compiler)', t => {
+  const cp = require('node:child_process'), fs = require('node:fs'), os = require('node:os'), path = require('node:path');
+  if (cp.spawnSync('g++', ['--version']).status !== 0) return t.skip('needs g++');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'em41st-')); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const exe = path.join(dir, 'stats41');
+  cp.execFileSync('g++', ['-std=c++20', '-O2', '-I' + path.join(__dirname, '..', 'native'), path.join(__dirname, 'stats41.cpp'), '-o', exe]);
+  const r = JSON.parse(cp.execFileSync(exe, ['--quick'], { encoding: 'utf8', maxBuffer: 1 << 24 }));
+  const by = n => r.scenarios.find(s => s.name.startsWith(n));
+  // With 400 replications the Wilson interval of a 5% rate is about +/-2.2%:
+  // the lower confidence bound must not exceed the nominal 5% (no evidence of excess error).
+  for (const s of r.scenarios.filter(s => s.kind !== 'sequential')) {
+    assert.ok(s.v41.familyErrorRate.ci95[0] <= 0.05, s.name + ': family-wise error ' + JSON.stringify(s.v41.familyErrorRate));
+    assert.ok(s.v41.simultaneousCoverage.ci95[1] >= 0.95, s.name + ': coverage ' + JSON.stringify(s.v41.simultaneousCoverage));
+  }
+  // the 4.0 rule overstated evidence when several equal actions were compared with the selected highest estimate
+  for (const n of ['4 equal actions, correlated', '8 equal actions']) assert.ok(by(n).v40rule.familyErrorRate.ci95[0] > 0.10, n + ' 4.0 rule ' + JSON.stringify(by(n).v40rule.familyErrorRate));
+  // large genuine differences are still detected; the critical value grows with the number of actions
+  assert.ok(by('3 actions, large difference').v41.powerSupportedBest.rate > 0.99);
+  assert.ok(by('8 equal actions').meanCriticalValue > by('4 equal actions, correlated').meanCriticalValue && by('4 equal actions, correlated').meanCriticalValue > by('2 equal actions').meanCriticalValue);
+  assert.ok(by('2 equal actions').meanCriticalValue < 2.1, 'two actions: close to the single-comparison 1.96');
+  // equivalence at the margin boundary is claimed at most at the nominal rate
+  assert.ok(by('equivalence at the margin boundary').v41.familyErrorRate.ci95[0] <= 0.05);
+  assert.ok(by('equivalence, equal values').v41.anyClaim.rate > 0.5, 'equivalence is established for equal values with enough samples');
+  // selection: the highest estimate overstates its lead on average (winner's curse) - reported, and covered by the intervals
+  assert.ok(by('4 equal actions, independent').v41.winnersCurseMean > 0);
+  // data-dependent stopping with a fixed alpha inflates errors; the spending rule controls them
+  const seq = r.scenarios.filter(s => s.kind === 'sequential');
+  assert.ok(seq[0].v41.familyErrorRate.rate > 0.15, JSON.stringify(seq[0].v41)); assert.ok(seq[1].v41.familyErrorRate.ci95[0] <= 0.05, JSON.stringify(seq[1].v41));
+});
+
+test('4.1 statistics: sampled native results carry simultaneous comparisons consistent with their classes; exact results unchanged', { skip }, async t => {
+  const cp = require('node:child_process'), fs = require('node:fs'), os = require('node:os'), path = require('node:path');
+  const cli = process.env.EM_TEST_MWCLI || build.cli().cli; if (!cli) return t.skip('no native CLI');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'em41ev-')); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const spec = path.join(dir, 'spec.json'), state = path.join(dir, 'state'), q = path.join(dir, 'q.json');
+  fs.writeFileSync(spec, JSON.stringify(E.MultiwayGame(studies.push8).nativeSpec()));
+  cp.execFileSync(cli, [spec, '40', '2', state, '512']);
+  const ev = query => { fs.writeFileSync(q, JSON.stringify(query)); return JSON.parse(cp.execFileSync(cli, ['--ev', spec, state, q], { encoding: 'utf8', maxBuffer: 1 << 26 })); };
+  const r = ev({ path: [1, 1], hands: [0], method: 'sampled', samples: 3000, seed: 3 });
+  assert.match(r.statistics.comparison, /simultaneous/); assert.match(r.statistics.stopping, /never on the observed values/);
+  for (const h of r.hands.filter(h => h.available)) {
+    const mc = h.multipleComparisons, k = h.ev.length;
+    assert.equal(mc.pairs, k * (k - 1) / 2); assert.equal(mc.familyConfidence, 0.95);
+    for (let a = 0; a < k; a++) for (let b = 0; b < k; b++) if (a !== b) {
+      const [lo, hi] = mc.pairwiseCi[a][b]; assert.ok(Math.abs((lo + hi) / 2 - (h.ev[a] - h.ev[b])) < 1e-9);
+      assert.ok(Math.abs(lo + mc.pairwiseCi[b][a][1]) < 1e-9, 'antisymmetric');
+    }
+    // the adjusted interval is never narrower than the unadjusted one for the same pair
+    for (let a = 0; a < k; a++) if (a !== h.best) { const [l, u] = mc.pairwiseCi[a][h.best], [l0, u0] = h.vsBestCi95[a]; assert.ok(u - l >= u0 - l0 - 1e-12); }
+    for (let a = 0; a < k; a++) {
+      const [lo, hi] = mc.vsBestOfOthersCi[a], c = h.classification[a];
+      if (c === 'supportedBest') assert.ok(lo > 0); if (c === 'differenceSupported') assert.ok(hi < 0);
+      if (c === 'differenceUncertain' || c === 'highestEstimate') assert.ok(lo <= 0 && hi >= 0);
+    }
+  }
+  // determinism: same request, same statistics
+  assert.deepEqual(ev({ path: [1, 1], hands: [0], method: 'sampled', samples: 3000, seed: 3 }).hands, r.hands);
+  const ex = ev({ path: [1, 1], hands: [0], method: 'exact' }).hands[0];
+  assert.equal(ex.multipleComparisons, undefined); ex.classification.forEach((c, a) => assert.ok(['highest', 'exactTie', 'lower'].includes(c)));
+});

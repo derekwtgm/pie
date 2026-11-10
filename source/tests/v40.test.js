@@ -175,18 +175,25 @@ test('4.0 statistics: a non-significant difference is "differenceUncertain", nev
   const r = S.ev({ path: [], hands: [0, 1, 2, 3, 4, 5], method: 'sampled', samples: 200, seed: 2 }).json; let uncertain = 0;
   for (const h of r.hands) {
     if (!h.available) continue;
-    assert.equal(h.classification[h.best], 'highestEstimate'); assert.equal(h.practicallyEquivalent, null, 'no margin, no equivalence claims');
+    // 4.1: classes come from simultaneous (family-wise 95%) comparisons with the
+    // best of the other actions (multipleComparisons), not from the unadjusted
+    // vsBestCi95; the highest estimate may be "supportedBest" when its
+    // advantage over every other action is established.
+    const mc = h.multipleComparisons; assert.ok(mc && mc.criticalValue > 1.96, 'adjusted critical value');
+    assert.ok(['highestEstimate', 'supportedBest'].includes(h.classification[h.best])); assert.equal(h.practicallyEquivalent, null, 'no margin, no equivalence claims');
     h.classification.forEach((c, a) => {
+      const [lo, hi] = mc.vsBestOfOthersCi[a];
+      assert.ok(lo <= mc.vsBestOfOthers[a] && mc.vsBestOfOthers[a] <= hi);
+      if (c === 'supportedBest') { assert.equal(a, h.best); assert.ok(lo > 0); assert.equal(mc.supportedBest, a); }
       if (a === h.best) return;
       assert.ok(['differenceSupported', 'differenceUncertain', 'insufficientSamples'].includes(c), c);
       assert.equal(h.equivalentToBest[a], false, 'equivalentToBest is never set from a non-significant difference');
-      const [lo, hi] = h.vsBestCi95[a];
       if (c === 'differenceUncertain') { uncertain++; assert.ok(lo <= 0 && hi >= 0); assert.match(h.interpretation[a], /NOT evidence/); }
       if (c === 'differenceSupported') assert.ok(hi < 0);
     });
   }
   assert.ok(uncertain > 0, 'small samples leave some differences uncertain');
-  assert.equal(r.statistics.equivalenceTest, null); assert.match(r.statistics.note, /never as equivalent/);
+  assert.equal(r.statistics.equivalenceTest, null); assert.match(r.statistics.note, /never evidence of equality/);
   // with a margin: wide -> equivalent, tiny -> not; insufficient samples are labelled
   const wide = S.ev({ path: [], hands: [0], method: 'sampled', samples: 4000, seed: 2, equivalenceMargin: 1000 }).json.hands[0];
   wide.classification.forEach((c, a) => { if (a !== wide.best) { assert.equal(c, 'practicallyEquivalent'); assert.equal(wide.equivalentToBest[a], true); } });

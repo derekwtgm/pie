@@ -5495,7 +5495,8 @@ function evCell(h, a) {
 }
 // 4.0: short plain-language labels for the per-action statistical classification.
 // A difference that is not statistically supported is "uncertain", never "equal".
-const CLASS_LABEL = { highest: 'highest EV', highestEstimate: 'highest estimate', exactTie: 'exact tie with highest', withinMargin: 'exact; within margin', lower: 'exact; lower',
+// 4.1: sampled labels come from simultaneous, selection-adjusted comparisons.
+const CLASS_LABEL = { highest: 'highest EV', highestEstimate: 'highest estimate (not established)', supportedBest: 'best (supported)', exactTie: 'exact tie with highest', withinMargin: 'exact; within margin', lower: 'exact; lower',
   differenceSupported: 'lower (supported)', differenceUncertain: 'difference uncertain', practicallyEquivalent: 'equivalent within margin', insufficientSamples: 'too few samples' };
 function classLabel(x, a) {
   if (x.classification && x.classification[a]) return CLASS_LABEL[x.classification[a]] || x.classification[a];
@@ -5520,19 +5521,20 @@ function evTable(ev, names, filter) {
   const unit = ev.utility.unit, rows = (ev.hands || []).filter(h => !filter || filter.has(h.i));
   const exec = ev.execution ? ' · ' + (ev.threads || 1) + ' thread' + ((ev.threads || 1) > 1 ? 's' : '') + ', device ' + ev.execution.device + (ev.execution.gpuBoards ? ' (' + ev.execution.gpuBoards.toLocaleString() + ' boards on the GPU)' : '') : '';
   let h = '<div class="ex-ev"><h4>Action EVs (' + esc(ev.utility.model === 'icm' ? 'ICM tournament equity, ' + unit : 'chip EV, ' + unit) + ')</h4>' +
-    '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a normal 95% interval') +
+    '<p class="note">' + esc((ev.method === 'exact' ? 'Exact enumeration' : 'Monte Carlo estimate, ' + (ev.samplesRequested || 0).toLocaleString() + ' samples per hand requested, seed ' + ev.seed + ', later actions ' + ev.futureActions + '; ± is a per-action normal 95% interval (unadjusted)') +
     ' · continuation policy: ' + ev.policy + (ev.status === 'partial' || ev.stoppedEarly ? ' · PARTIAL: stopped early at the time limit (estimates from the completed samples only)' : '') + (ev.note ? ' · ' + ev.note : '') + exec + (ev.elapsedMs != null ? ' · ' + (ev.elapsedMs / 1000).toFixed(2) + ' s' : '')) + '</p>';
   h += coverageHtml(ev);
   h += '<div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th>' + ev.actions.map(a => '<th>' + esc(actionLabel(a)) + '</th>').join('') + '<th>Mixed strategy</th><th>Method</th></tr></thead><tbody>';
   const card = h0 => h0.cards ? esc(EM.cardStr(h0.cards[1]) + EM.cardStr(h0.cards[0])) : 'range';
   const row = x => {
     if (!x.available) return '<tr><th>' + card(x) + '</th><td colspan="' + (ev.actions.length + 2) + '"><span class="note">EV unavailable: ' + esc(x.reason || 'not computed') + '</span></td></tr>';
-    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + esc(classTitle(x, a) + (x.vsBestCi95 && a !== x.best ? '; difference from the highest: ' + evNumber(x.vsBest[a]) + ' (95% interval ' + evNumber(x.vsBestCi95[a][0]) + ' to ' + evNumber(x.vsBestCi95[a][1]) + ')' : '') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used the fallback policy where no strategy is stored' : '')) + '">' + evCell(x, a) +
+    return '<tr><th>' + card(x) + '</th>' + ev.actions.map((_, a) => '<td' + (x.best === a ? ' class="best"' : '') + ' title="' + esc(classTitle(x, a) + (x.multipleComparisons ? '; minus the best of the other actions: ' + evNumber(x.multipleComparisons.vsBestOfOthers[a]) + ' (simultaneous 95% interval ' + evNumber(x.multipleComparisons.vsBestOfOthersCi[a][0]) + ' to ' + evNumber(x.multipleComparisons.vsBestOfOthersCi[a][1]) + (a !== x.best ? ', Holm-adjusted p vs the highest estimate ' + Number(x.multipleComparisons.holmAdjustedPvsHighest[a]).toPrecision(2) : '') + ')' : x.vsBestCi95 && a !== x.best ? '; difference from the highest: ' + evNumber(x.vsBest[a]) + ' (unadjusted 95% interval ' + evNumber(x.vsBestCi95[a][0]) + ' to ' + evNumber(x.vsBestCi95[a][1]) + ')' : '') + (x.fallbackShare[a] > 0 ? '; ' + (100 * x.fallbackShare[a]).toFixed(1) + '% of this value used the fallback policy where no strategy is stored' : '')) + '">' + evCell(x, a) +
       (x.strategy ? '<br><span class="note">' + (100 * x.strategy[a]).toFixed(1) + '% · Δ ' + evNumber(x.diff[a]) + '</span>' : '') + '<br><span class="note ex-cls">' + esc(classLabel(x, a)) + '</span>' + (x.fallbackShare[a] > 0 ? '*' : '') + '</td>').join('') +
       '<td>' + evNumber(x.mixed) + (x.mixedStdErr != null ? ' <span class="note">± ' + evNumber(1.96 * x.mixedStdErr) + '</span>' : '') + '</td><td>' + esc(x.method) + (x.samples ? ' (' + x.samples.toLocaleString() + ')' : '') + '</td></tr>';
   };
   h += rows.map(row).join('') + (ev.range && !filter ? row({ ...ev.range, cards: null }) : '') + '</tbody></table></div>';
-  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. Labels compare each action with the highest estimate using paired differences: "lower (supported)" means the 95% interval of the difference excludes zero; "difference uncertain" means the data cannot tell the actions apart — this is NOT evidence that they are equal, and mixed-strategy actions need not have equal estimated EVs. "Equivalent within margin" appears only when you set an equivalence margin and two one-sided tests support it' +
+  const mc = rows.find(x => x.multipleComparisons);
+  h += '<p class="note">Δ = action EV minus the EV of the stored mixed strategy. ± is a per-action, unadjusted 95% interval. ' + (mc ? 'Labels use simultaneous paired intervals over all ' + mc.multipleComparisons.pairs + ' action pairs (family-wise 95%, critical value ' + evNumber(mc.multipleComparisons.criticalValue) + ' instead of 1.96), which account for the number of actions and for picking the highest estimate: "best (supported)" means higher than every other action; "highest estimate (not established)" means the largest estimate whose advantage is not established; "lower (supported)" means lower than at least one other action; ' : 'Exact results are labelled by their exact values; ') + '"difference uncertain" means the data cannot order the actions — this is NOT evidence that they are equal, and mixed-strategy actions need not have equal estimated EVs. "Equivalent within margin" appears only when you set an equivalence margin and the simultaneous interval lies inside it' +
     (ev.statistics && ev.statistics.equivalenceMargin != null ? ' (margin ' + evNumber(ev.statistics.equivalenceMargin) + ' ' + esc(unit) + ')' : '') + '. * part of the value passes through states without a stored strategy (fallback share in the tooltip). ' + esc(ev.utility.convention) + '</p>';
   if (ev.fallbackSensitivity) h += '<p class="note">Fallback sensitivity (not a confidence interval): ' + ev.fallbackSensitivity.policies.map(p => esc(p.fallback) + (p.error ? ' — ' + esc(p.error) : '')).join(', ') + (ev.fallbackSensitivity.bestActionChanges ? ' — <b>the highest-EV action changes with the fallback assumption</b>' : ' — the highest-EV action does not change') + '.</p>';
   h += '</div>';
@@ -6101,7 +6103,7 @@ function postNode(m) {
 })(globalThis.EM || (globalThis.EM = {}));
 
 ;
-globalThis.EM.BUILD = Object.freeze({version:"4.1",build:"42b5b96ba43458f0"});</script>
+globalThis.EM.BUILD = Object.freeze({version:"4.1",build:"e233f5a056ed1e4b"});</script>
 <script>(function (EM) {
 'use strict';
 const streets=['Flop','Turn','River'];

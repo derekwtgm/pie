@@ -33,6 +33,7 @@
 #include <climits>
 #include <bit>
 #include "icm.hpp"
+#include "action_stats.hpp"
 #include "cuda_score.hpp"
 
 namespace {

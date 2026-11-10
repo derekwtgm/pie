@@ -56,26 +56,25 @@
 //             "partial" and is published only when at least minSamples samples
 //             were completed.
 //
-// STATISTICS (4.0, replaces the 3.9 "equivalentToBest = within 1.96 SE")
-// Each sample yields one value per action, so action comparisons are PAIRED:
-// d_i = v_a,i - v_best,i is i.i.d. over samples (independent worlds). The
-// standard error of the mean difference uses the sample variance of d_i (the
-// covariance between actions is included). Per action the response gives a
-// classification:
-//   highestEstimate       - the largest estimated EV (selected on these samples)
-//   differenceSupported   - the 95% interval of d excludes 0
-//   differenceUncertain   - the 95% interval of d contains 0: NO evidence of a
-//                           difference, which is NOT evidence of equivalence
-//   practicallyEquivalent - only with an explicit equivalenceMargin delta > 0:
-//                           two one-sided tests at alpha = 0.05 (the 90%
-//                           interval of d lies inside (-delta, delta))
-//   insufficientSamples   - fewer than minSamples samples
+// STATISTICS (4.1; see action_stats.hpp for the method and its validation)
+// Each sample yields one value per action (common random numbers), so the k
+// estimates are correlated and paired. 4.0 compared each action with the
+// highest estimate using unadjusted 95% intervals, which overstated evidence
+// for the highest estimate (family-wise error 20-49% with 4-8 equal actions).
+// 4.1 classifies sampled results with simultaneous intervals for all pairwise
+// differences and for D_a = mu_a - max_{b!=a} mu_b (family-wise 95%):
+//   supportedBest         better than every other action
+//   highestEstimate       largest estimate, advantage not established
+//   practicallyEquivalent only with equivalenceMargin delta: interval for D_a
+//                         inside (-delta, delta)
+//   differenceSupported   lower than at least one other action
+//   differenceUncertain   ordering not established (NOT evidence of equality)
+//   insufficientSamples   fewer than minSamples samples
 // Exact results: highest | exactTie | withinMargin (|d| < delta) | lower.
-// Intervals are normal approximations, unadjusted for multiple comparisons, and
-// the best action is chosen on the same samples (selection makes "best" look
-// slightly better than it is). "equivalentToBest" is kept for compatibility
-// and is true only for the best action, exact ties, exact differences within
-// the margin, or a passed equivalence test.
+// stdErr/ci95/vsBestCi95 remain per-action unadjusted values (labelled so);
+// "multipleComparisons" carries the adjusted intervals and Holm p-values.
+// "equivalentToBest" is kept for compatibility: true for the highest estimate,
+// exact ties, exact differences within the margin, or practicallyEquivalent.
 //
 // RESPONSE GAINS (mw_response_gain) - three clearly distinguished modes
 //   exact      - exact best response of one seat to the fixed policies of all
@@ -540,6 +539,9 @@ struct HandResult {
   double ev[8], se[8], fb[8], sigma[8], mix = NAN, seMix = NAN, diff[8], seDiffMix[8], seVsBest[8]; bool sigmaStored = true;
   long long samples = 0, visits = 0, affected = 0; std::string note; int best = -1; bool tie[8] = {};
   const char *cls[8] = {}; bool supported[8] = {}, equivalent[8] = {};
+  // 4.1: joint covariance of the per-sample action values and the
+  // multiplicity/selection-adjusted comparison (action_stats.hpp)
+  double cov[8][8] = {}; bool hasCov = false; emstats::Result mc; bool hasMc = false;
 };
 // Exact per-hand evaluation on the worker pool. Throws EvBudget when maxVisits is exceeded.
 // Work items are (action, first opponent's hand); partial sums are reduced in item order.
@@ -625,13 +627,15 @@ inline void utilityJson(JB *out, const MW &m, bool forceChip = false) {
   else jb_puts(out, ",\"utility\":{\"model\":\"icm\",\"unit\":\"payout units\",\"convention\":\"ev = tournament equity of the acting seat (expected payout under the study's ICM payout table, exact finishing-set recursion, busted players ranked by starting stack) after the hand; chip EV is not substituted.\"}");
 }
 inline const char *interpretation(const char *c) {
-  if (!std::strcmp(c, "highest") || !std::strcmp(c, "highestEstimate")) return "highest EV";
+  if (!std::strcmp(c, "highest")) return "highest EV";
+  if (!std::strcmp(c, "highestEstimate")) return "highest point estimate; its advantage over the other actions is NOT statistically established (the ordering is uncertain)";
+  if (!std::strcmp(c, "supportedBest")) return "statistically supported best: higher than every other action (simultaneous intervals, family-wise 95%, adjusted for multiple actions and for selecting the highest estimate)";
   if (!std::strcmp(c, "exactTie")) return "exactly equal to the highest EV";
   if (!std::strcmp(c, "withinMargin")) return "exactly computed; below the highest EV by less than the equivalence margin";
   if (!std::strcmp(c, "lower")) return "exactly computed; lower than the highest EV";
-  if (!std::strcmp(c, "differenceSupported")) return "lower than the highest estimate; the 95% interval of the paired difference excludes zero";
-  if (!std::strcmp(c, "differenceUncertain")) return "difference not established: the 95% interval of the paired difference includes zero. This is NOT evidence that the EVs are equal";
-  if (!std::strcmp(c, "practicallyEquivalent")) return "practically equivalent: the 90% interval of the paired difference lies inside the equivalence margin (two one-sided tests, alpha 0.05)";
+  if (!std::strcmp(c, "differenceSupported")) return "lower than at least one other action (simultaneous paired intervals, family-wise 95%)";
+  if (!std::strcmp(c, "differenceUncertain")) return "ordering not established: the simultaneous interval includes zero. This is NOT evidence that the EVs are equal";
+  if (!std::strcmp(c, "practicallyEquivalent")) return "practically equivalent to the best of the other actions: the simultaneous interval lies inside the equivalence margin (family-wise 95%)";
   if (!std::strcmp(c, "insufficientSamples")) return "too few samples for a statistical comparison";
   return "";
 }
@@ -662,7 +666,20 @@ inline void handJson(JB *out, const MW &m, const BS &t, int actor, const HandRes
   jb_puts(out, ",\"differenceSupported\":["); for (int a = 0; a < k; a++) jb_printf(out, "%s%s", a ? "," : "", r.supported[a] ? "true" : "false"); jb_putc(out, ']');
   jb_puts(out, ",\"practicallyEquivalent\":"); if (std::isfinite(margin)) { jb_putc(out, '['); for (int a = 0; a < k; a++) jb_printf(out, "%s%s", a ? "," : "", r.equivalent[a] ? "true" : "false"); jb_putc(out, ']'); } else jb_puts(out, "null");
   jb_puts(out, ",\"equivalentToBest\":["); for (int a = 0; a < k; a++) jb_printf(out, "%s%s", a ? "," : "", r.tie[a] ? "true" : "false"); jb_putc(out, ']');
-  jb_puts(out, ",\"fallbackShare\":"); jarr(out, r.fb, k); jb_putc(out, '}');
+  jb_puts(out, ",\"fallbackShare\":"); jarr(out, r.fb, k);
+  if (!r.exact && r.hasMc) {
+    // 4.1: simultaneous (family-wise 95%) comparisons; see action_stats.hpp.
+    const emstats::Result &c = r.mc;
+    jb_puts(out, ",\"multipleComparisons\":{\"familyConfidence\":0.95,\"criticalValue\":"); jnumOrNull(out, c.crit);
+    jb_printf(out, ",\"unadjustedCriticalValue\":1.959963984540054,\"pairs\":%d,\"simulationDraws\":%d", c.pairs, c.draws);
+    jb_puts(out, ",\"supportedBest\":"); if (c.supportedBest >= 0) jb_printf(out, "%d", c.supportedBest); else jb_puts(out, "null");
+    jb_puts(out, ",\"vsBestOfOthers\":"); jarr(out, c.est, k);
+    jb_puts(out, ",\"vsBestOfOthersCi\":["); for (int a = 0; a < k; a++) { if (a) jb_putc(out, ','); jb_putc(out, '['); jnumOrNull(out, c.lo[a]); jb_putc(out, ','); jnumOrNull(out, c.hi[a]); jb_putc(out, ']'); } jb_putc(out, ']');
+    jb_puts(out, ",\"holmAdjustedPvsHighest\":"); jarr(out, c.holmP, k);
+    jb_puts(out, ",\"pairwiseCi\":["); for (int a = 0; a < k; a++) { if (a) jb_putc(out, ','); jb_putc(out, '['); for (int b = 0; b < k; b++) { if (b) jb_putc(out, ','); if (a == b) jb_puts(out, "null"); else { jb_putc(out, '['); jnumOrNull(out, c.pairLo[a][b]); jb_putc(out, ','); jnumOrNull(out, c.pairHi[a][b]); jb_putc(out, ']'); } } jb_putc(out, ']'); } jb_putc(out, ']');
+    jb_putc(out, '}');
+  }
+  jb_putc(out, '}');
 }
 // Classification (see the header). `margin` is NaN when no equivalence test was requested.
 inline void finishResult(HandResult &r, int k, double margin, long long minSamples) {
@@ -678,13 +695,14 @@ inline void finishResult(HandResult &r, int k, double margin, long long minSampl
       r.tie[a] = tie || r.equivalent[a];
       continue;
     }
-    const double se = r.seVsBest[a];
-    if (a == r.best) { r.cls[a] = "highestEstimate"; r.tie[a] = true; if (hasMargin) r.equivalent[a] = true; continue; }
-    if (r.samples < minSamples || !std::isfinite(se)) { r.cls[a] = "insufficientSamples"; r.tie[a] = false; continue; }
-    r.supported[a] = d + 1.96 * se < 0;
-    r.equivalent[a] = hasMargin && d - 1.6448536269514722 * se > -margin && d + 1.6448536269514722 * se < margin;
-    r.cls[a] = r.equivalent[a] ? "practicallyEquivalent" : r.supported[a] ? "differenceSupported" : "differenceUncertain";
-    r.tie[a] = r.equivalent[a];
+    // 4.1: sampled results use simultaneous, selection-adjusted comparisons
+    // (action_stats.hpp). The 4.0 per-action rule (unadjusted 95% interval
+    // against the highest estimate) had a family-wise error of 20-49% with
+    // 4-8 equal actions in tests/stats41.cpp.
+    if (!r.hasCov) { r.cls[a] = "insufficientSamples"; r.tie[a] = false; continue; }
+    if (!r.hasMc) { r.mc = emstats::compare(k, r.samples, r.ev, r.cov, margin, minSamples); r.hasMc = true; }
+    r.cls[a] = r.mc.cls[a]; r.supported[a] = r.mc.supported[a]; r.equivalent[a] = r.mc.equivalent[a];
+    r.tie[a] = a == r.best || r.equivalent[a];
   }
 }
 inline void fromMoments(HandResult &r, const Moments &M, int k) {
@@ -693,6 +711,8 @@ inline void fromMoments(HandResult &r, const Moments &M, int k) {
   r.mix = M.mix / M.n; r.seMix = M.seMix();
   int best = 0; for (int a = 1; a < k; a++) if (r.ev[a] > r.ev[best]) best = a;
   for (int a = 0; a < k; a++) r.seVsBest[a] = a == best ? 0 : M.seDiff(a, best);
+  for (int a = 0; a < k; a++) for (int b = 0; b < k; b++) r.cov[a][b] = emstats::covFromSums(M.n, M.s[a], M.s[b], M.ss[a][b]);
+  r.hasCov = true;
 }
 // One sampled world's action values at the node (all actions share the cards).
 inline void sampleValues(Evaluator &E, const Resolved &R, double *v, double *fbs) {
@@ -891,10 +911,10 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
     jnumOrNull(o, cost); jb_printf(o, ",\"subtreeNodes\":%lld,\"subtreeNodesIsLowerBound\":%s", subtreeNodes, subtreeCapped ? "true" : "false");
     if (!fellBack.empty()) { jb_puts(o, ",\"note\":"); jb_str(o, fellBack.c_str()); }
     jb_puts(o, ",\"reachFallbackHands\":["); for (int p = 0; p < n; p++) jb_printf(o, "%s%zu", p ? "," : "", reachFb[(size_t)p]); jb_putc(o, ']');
-    jb_puts(o, ",\"statistics\":{\"comparison\":\"paired differences against the highest estimate (common random numbers: every sample evaluates all actions on the same cards)\",\"interval\":\"normal approximation, 95% two-sided\",\"equivalenceTest\":");
-    if (std::isfinite(P.margin)) { jb_puts(o, "\"two one-sided tests, alpha 0.05 (90% interval inside +/- margin)\",\"equivalenceMargin\":"); jnumOrNull(o, P.margin); }
+    jb_puts(o, ",\"statistics\":{\"version\":\"4.1\",\"design\":\"common random numbers: every sample evaluates all actions on the same cards, so every action has the same sample count and the estimates are correlated; the joint covariance is estimated from the samples\",\"comparison\":\"simultaneous paired intervals for all pairwise differences (single-step max-|t|, critical value simulated from the estimated joint covariance, multivariate t with n-1 degrees of freedom) and comparisons with the best of the other actions (Hsu MCB form), family-wise 95%: valid whichever action is truly best, so selecting the highest estimate is accounted for\",\"crossCheck\":\"Holm-adjusted p-values over all pairs\",\"equivalenceTest\":");
+    if (std::isfinite(P.margin)) { jb_puts(o, "\"the simultaneous interval for (action minus best of the others) lies inside +/- margin (intersection-union, family-wise 95%)\",\"equivalenceMargin\":"); jnumOrNull(o, P.margin); }
     else jb_puts(o, "null,\"equivalenceMargin\":null");
-    jb_puts(o, ",\"note\":\"A difference that is not statistically supported is reported as differenceUncertain, never as equivalent. Practical equivalence is only claimed with an explicit equivalenceMargin. Comparisons are not adjusted for multiplicity, and the highest estimate is selected on the same samples.\"}");
+    jb_puts(o, ",\"unadjustedFields\":\"stdErr, ci95, vsBestStdErr and vsBestCi95 are per-action and unadjusted (95% for one pre-specified comparison); use multipleComparisons for claims about which action is best\",\"stopping\":\"sampling stops at the sample target, the time limit or a budget, never on the observed values, so fixed-n intervals apply; re-running until an interval excludes zero is not covered\",\"note\":\"supportedBest is claimed only when the action beats every other action with family-wise 95% confidence. highestEstimate means the largest point estimate whose advantage is not established. differenceUncertain is never evidence of equality; practical equivalence is only claimed with an explicit equivalenceMargin. Intervals rely on the central limit theorem; with rare large payoffs and few samples coverage can be below nominal.\"}");
     jb_printf(o, ",\"coverage\":{\"fallbackPolicy\":\"%s\",\"fallbackDescription\":\"%s\",\"policyLookups\":%lld,\"storedLookups\":%lld,\"fallbackLookups\":%lld,\"distinctInformationSets\":%zu,\"distinctFallbackInformationSets\":%zu,\"distinctCountCapped\":%s",
               fallbackName(P.fallback), fallbackText(P.fallback), cov.lookups, cov.stored, cov.missing, cov.distinct, cov.distinctMissing, cov.capped ? "true" : "false");
     jb_puts(o, ",\"rowCoverage\":"); jnumOrNull(o, cov.lookups ? (double)cov.stored / (double)cov.lookups : 1.0);
