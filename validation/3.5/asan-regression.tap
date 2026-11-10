@@ -1,0 +1,214 @@
+TAP version 13
+# Subtest: Default eight-handed structure: 0.5/1 blinds, 0.1 individual antes, 0.8 total, 2.3 initial pot
+ok 1 - Default eight-handed structure: 0.5/1 blinds, 0.1 individual antes, 0.8 total, 2.3 initial pot
+  ---
+  duration_ms: 59.649406
+  type: 'test'
+  ...
+# Subtest: Short stacks never contribute more chips than they possess
+ok 2 - Short stacks never contribute more chips than they possess
+  ---
+  duration_ms: 50.483845
+  type: 'test'
+  ...
+# Subtest: JavaScript rejects negative, non-finite and out-of-range antes and malformed arrays; zero antes are valid
+ok 3 - JavaScript rejects negative, non-finite and out-of-range antes and malformed arrays; zero antes are valid
+  ---
+  duration_ms: 66.064686
+  type: 'test'
+  ...
+# Subtest: Native engine rejects negative, non-finite and malformed antes (3.2 accepted anteOf -0.1)
+ok 4 - Native engine rejects negative, non-finite and malformed antes (3.2 accepted anteOf -0.1)
+  ---
+  duration_ms: 442.538304
+  type: 'test'
+  ...
+# Subtest: Native preflop specs: valid zero, nonuniform and short-stack antes train; mismatched ante lists are refused
+ok 5 - Native preflop specs: valid zero, nonuniform and short-stack antes train; mismatched ante lists are refused
+  ---
+  duration_ms: 368.336463
+  type: 'test'
+  ...
+# Subtest: Native and JavaScript validation agree on ante configurations
+ok 6 - Native and JavaScript validation agree on ante configurations
+  ---
+  duration_ms: 379.145758
+  type: 'test'
+  ...
+# Subtest: Invalid configuration files and arguments never crash the native CLI
+ok 7 - Invalid configuration files and arguments never crash the native CLI
+  ---
+  duration_ms: 145.711402
+  type: 'test'
+  ...
+# Subtest: Checkpoint imports reject invalid tournament state
+ok 8 - Checkpoint imports reject invalid tournament state
+  ---
+  duration_ms: 98.983372
+  type: 'test'
+  ...
+# Subtest: Chip conservation: every terminal pot layer sums to the chips committed plus the starting pot
+ok 9 - Chip conservation: every terminal pot layer sums to the chips committed plus the starting pot
+  ---
+  duration_ms: 21377.69908
+  type: 'test'
+  ...
+# Subtest: Heads-up native configuration rejects negative weights, fractional cards and non-finite pots
+ok 10 - Heads-up native configuration rejects negative weights, fractional cards and non-finite pots
+  ---
+  duration_ms: 270.281712
+  type: 'test'
+  ...
+# Subtest: Heads-up JavaScript configuration applies the same checks as the native host
+ok 11 - Heads-up JavaScript configuration applies the same checks as the native host
+  ---
+  duration_ms: 699.97365
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, one deal per update
+ok 12 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, one deal per update
+  ---
+  duration_ms: 59.26073
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, CFR+ clipping
+ok 13 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, CFR+ clipping
+  ---
+  duration_ms: 39.486333
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat flop, frozen batches of 8, shared stream
+ok 14 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat flop, frozen batches of 8, shared stream
+  ---
+  duration_ms: 194.930779
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 6-seat flop, per-deal streams, 4 deals, 2 threads
+ok 15 - native external-sampling DCFR matches the JavaScript reference bit for bit: 6-seat flop, per-deal streams, 4 deals, 2 threads
+  ---
+  duration_ms: 240.255161
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 8-seat linked preflop, per-deal streams
+ok 16 - native external-sampling DCFR matches the JavaScript reference bit for bit: 8-seat linked preflop, per-deal streams
+  ---
+  duration_ms: 193.885287
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, alpha 2, beta 0.5, gamma 3
+ok 17 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, alpha 2, beta 0.5, gamma 3
+  ---
+  duration_ms: 45.775477
+  type: 'test'
+  ...
+# Subtest: DCFR with non-integer exponents (std::pow) agrees with JavaScript to 1e-12
+ok 18 - DCFR with non-integer exponents (std::pow) agrees with JavaScript to 1e-12
+  ---
+  duration_ms: 28.483713
+  type: 'test'
+  ...
+# Subtest: Lazy per-row DCFR equals textbook eager DCFR (independent reference) on sparse rows
+ok 19 - Lazy per-row DCFR equals textbook eager DCFR (independent reference) on sparse rows
+  ---
+  duration_ms: 304.114055
+  type: 'test'
+  ...
+# Subtest: DCFR checkpoints continue bit for bit across native, JavaScript and native again
+ok 20 - DCFR checkpoints continue bit for bit across native, JavaScript and native again
+  ---
+  duration_ms: 431.44882
+  type: 'test'
+  ...
+# Subtest: DCFR state files are refused by studies with other weightings and vice versa
+ok 21 - DCFR state files are refused by studies with other weightings and vice versa
+  ---
+  duration_ms: 52.60148
+  type: 'test'
+  ...
+# Subtest: DCFR memory stops leave the committed state unchanged and resume to the uninterrupted result
+ok 22 - DCFR memory stops leave the committed state unchanged and resume to the uninterrupted result
+  ---
+  duration_ms: 1694.602792
+  type: 'test'
+  ...
+# Subtest: Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes
+ok 23 - Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes
+  ---
+  duration_ms: 7511.705315
+  type: 'test'
+  ...
+# Subtest: DCFR with alpha = beta = gamma = 1 reproduces linear MCCFR (independent identity)
+ok 24 - DCFR with alpha = beta = gamma = 1 reproduces linear MCCFR (independent identity)
+  ---
+  duration_ms: 467.852063
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 3-seat flop
+ok 25 - native grouped hands match JavaScript bit for bit: Compact 3-seat flop
+  ---
+  duration_ms: 79.575953
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 3-seat flop
+ok 26 - native grouped hands match JavaScript bit for bit: Detailed 3-seat flop
+  ---
+  duration_ms: 91.001689
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 6-seat flop, weighted ranges, all-ins, per-deal streams, 2 threads
+ok 27 - native grouped hands match JavaScript bit for bit: Detailed 6-seat flop, weighted ranges, all-ins, per-deal streams, 2 threads
+  ---
+  duration_ms: 259.985449
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 8-seat linked preflop (169 classes) to river
+ok 28 - native grouped hands match JavaScript bit for bit: Compact 8-seat linked preflop (169 classes) to river
+  ---
+  duration_ms: 163.967472
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 8-seat shove/call with ICM
+ok 29 - native grouped hands match JavaScript bit for bit: Detailed 8-seat shove/call with ICM
+  ---
+  duration_ms: 194.830036
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 3-seat turn above the 3.2 representative limit
+ok 30 - native grouped hands match JavaScript bit for bit: Compact 3-seat turn above the 3.2 representative limit
+  ---
+  duration_ms: 36.768254
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 3-seat flop with DCFR
+ok 31 - native grouped hands match JavaScript bit for bit: Detailed 3-seat flop with DCFR
+  ---
+  duration_ms: 90.518023
+  type: 'test'
+  ...
+# Subtest: grouped native checkpoints resume bit for bit, and memory stops on the key dictionary roll back
+ok 32 - grouped native checkpoints resume bit for bit, and memory stops on the key dictionary roll back
+  ---
+  duration_ms: 1282.825549
+  type: 'test'
+  ...
+# Subtest: grouped specs are validated (abstraction, range-size flags, combo identifiers)
+ok 33 - grouped specs are validated (abstraction, range-size flags, combo identifiers)
+  ---
+  duration_ms: 49.93444
+  type: 'test'
+  ...
+# Subtest: automatic traversal uses the calibrated cost model and records its reasoning; manual choices are kept
+ok 34 - automatic traversal uses the calibrated cost model and records its reasoning; manual choices are kept
+  ---
+  duration_ms: 26.900021
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37624.190424

@@ -1,0 +1,534 @@
+{
+ "note": "Equal wall time, 1 thread, 5 seeds; exact largest unilateral gain (BB). selection = the automatic decision with the ratio in force when this ran.",
+ "HU turn 2 sizes": {
+  "selection": {
+   "requested": "auto",
+   "chosen": "full traversal",
+   "states": 126,
+   "sampledVisitsPerDeal": 36.272,
+   "gainRatio": 3,
+   "sampledWork": 326.4,
+   "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+   "reason": "small fixed-river or tiny tree: full traversal keeps every branch for the exact check"
+  },
+  "runs": [
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 0.4423761499208685,
+    "deals": 183296
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 0.45405272920223727,
+    "deals": 158720
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 0.4806971144485169,
+    "deals": 183296
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 0.4893623818429574,
+    "deals": 152832
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 0.4197056145010609,
+    "deals": 167680
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.22205857319488415,
+    "deals": 700672
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.20925657307115997,
+    "deals": 732928
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.22486960090562502,
+    "deals": 700416
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.2024750401031309,
+    "deals": 722944
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.20161582793515603,
+    "deals": 722688
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 0.736760608813692,
+    "deals": 230272
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 0.6239103360925575,
+    "deals": 240128
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 0.6190215930660674,
+    "deals": 232064
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 0.713505356037011,
+    "deals": 239680
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 0.7012634416168778,
+    "deals": 239424
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.32482510675816256,
+    "deals": 876416
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.3043685465029492,
+    "deals": 927744
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.3892200338781162,
+    "deals": 898880
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.3700939686331939,
+    "deals": 917504
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.437749028453716,
+    "deals": 938944
+   }
+  ],
+  "summary": [
+   {
+    "ms": 1000,
+    "full": 0.45723879798312816,
+    "external": 0.6788922671252411,
+    "pairedFullAdvantageBb": 0.22165346914211295,
+    "ci95": 0.08445397434600742,
+    "effectiveRatio": 2.7673067899524812
+   },
+   {
+    "ms": 4000,
+    "full": 0.2120551230419912,
+    "external": 0.3652513368452276,
+    "pairedFullAdvantageBb": 0.15319621380323634,
+    "ci95": 0.0711217124151583,
+    "effectiveRatio": 3.210277436029687
+   }
+  ]
+ },
+ "HU turn 3 sizes": {
+  "selection": {
+   "requested": "auto",
+   "chosen": "full traversal",
+   "states": 516,
+   "sampledVisitsPerDeal": 63.43,
+   "gainRatio": 3,
+   "sampledWork": 570.9,
+   "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+   "reason": "predicted faster to a given accuracy with full traversal (516 states <= 571 weighted sampled visits)"
+  },
+  "runs": [
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 1.273359813494117,
+    "deals": 34816
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 1.3674799760843845,
+    "deals": 38400
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 1.368875908248922,
+    "deals": 34816
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 1.1802016210935722,
+    "deals": 38400
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 1.207157517162783,
+    "deals": 38912
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.585658588256601,
+    "deals": 161024
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.6028812451459137,
+    "deals": 153600
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.6129702191980146,
+    "deals": 152576
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.6000355756196551,
+    "deals": 156416
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.6069483966744254,
+    "deals": 138752
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 1.6536947339530772,
+    "deals": 129856
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 1.9769708430662032,
+    "deals": 134400
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 1.575130740102024,
+    "deals": 139008
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 1.7369866520888688,
+    "deals": 141120
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 1.6834837935619489,
+    "deals": 135488
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.7061539571476043,
+    "deals": 583104
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.6157145376150267,
+    "deals": 588224
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.6819776644427833,
+    "deals": 606080
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.8104923896941436,
+    "deals": 623296
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.7929992466064348,
+    "deals": 607360
+   }
+  ],
+  "summary": [
+   {
+    "ms": 1000,
+    "full": 1.279414967216756,
+    "external": 1.7252533525544245,
+    "pairedFullAdvantageBb": 0.4458383853376686,
+    "ci95": 0.19796577170260515,
+    "effectiveRatio": 3.8460856202545424
+   },
+   {
+    "ms": 4000,
+    "full": 0.6016988049789219,
+    "external": 0.7214675591011985,
+    "pairedFullAdvantageBb": 0.11976875412227658,
+    "ci95": 0.10129561208834845,
+    "effectiveRatio": 3.419913754727092
+   }
+  ]
+ },
+ "HU turn 3 sizes deep": {
+  "selection": {
+   "requested": "auto",
+   "chosen": "external sampling",
+   "states": 1158,
+   "sampledVisitsPerDeal": 101.444,
+   "gainRatio": 3,
+   "sampledWork": 913,
+   "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+   "reason": "predicted faster to a given accuracy with external sampling (1158 states > 913 weighted sampled visits)"
+  },
+  "runs": [],
+  "unavailable": "Exact enumeration exceeds the desktop limit: This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode.",
+  "summary": null
+ },
+ "3-way turn": {
+  "selection": {
+   "requested": "auto",
+   "chosen": "full traversal",
+   "states": 299,
+   "sampledVisitsPerDeal": 60.444,
+   "gainRatio": 3,
+   "sampledWork": 544,
+   "model": "choose full traversal when states <= sampled visits x gainRatio^2 (time-to-accuracy cost model; gainRatio calibrated in validation/3.3)",
+   "reason": "predicted faster to a given accuracy with full traversal (299 states <= 544 weighted sampled visits)"
+  },
+  "runs": [
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 0.8516895508510327,
+    "deals": 55296
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 0.6512512433106581,
+    "deals": 66304
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 0.7270201620190351,
+    "deals": 62720
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 0.7336814978297701,
+    "deals": 63232
+   },
+   {
+    "trav": "full",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 0.6926654404693782,
+    "deals": 67840
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.345984750171378,
+    "deals": 269056
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.3230302890290071,
+    "deals": 279808
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.35740450470104257,
+    "deals": 271616
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.33480273062409793,
+    "deals": 269568
+   },
+   {
+    "trav": "full",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.35197124296187976,
+    "deals": 262656
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 1,
+    "gain": 1.1262899105043607,
+    "deals": 126080
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 2,
+    "gain": 0.9535036621991155,
+    "deals": 156416
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 3,
+    "gain": 1.1131854648091908,
+    "deals": 146560
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 4,
+    "gain": 1.071617382743277,
+    "deals": 159680
+   },
+   {
+    "trav": "external",
+    "ms": 1000,
+    "seed": 5,
+    "gain": 0.9082539797334146,
+    "deals": 155200
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 1,
+    "gain": 0.5748235706536287,
+    "deals": 632448
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 2,
+    "gain": 0.6428921180523215,
+    "deals": 624384
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 3,
+    "gain": 0.6166357882859614,
+    "deals": 646848
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 4,
+    "gain": 0.6231863835131177,
+    "deals": 644608
+   },
+   {
+    "trav": "external",
+    "ms": 4000,
+    "seed": 5,
+    "gain": 0.6016790840921713,
+    "deals": 643136
+   }
+  ],
+  "summary": [
+   {
+    "ms": 1000,
+    "full": 0.7312615788959749,
+    "external": 1.0345700799978716,
+    "pairedFullAdvantageBb": 0.3033085011018969,
+    "ci95": 0.0799381234840399,
+    "effectiveRatio": 3.146633443963993
+   },
+   {
+    "ms": 4000,
+    "full": 0.34263870349748105,
+    "external": 0.6118433889194401,
+    "pairedFullAdvantageBb": 0.2692046854219591,
+    "ci95": 0.044080649899660804,
+    "effectiveRatio": 3.97157574197911
+   }
+  ]
+ }
+}

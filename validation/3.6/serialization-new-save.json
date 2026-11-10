@@ -1,0 +1,8 @@
+{
+  "op": "new-save",
+  "iterations": 20000,
+  "bytes": 116541772,
+  "wallSeconds": 0.9516748629999984,
+  "cpuSeconds": 0.777603,
+  "peakRSSKiB": 1299720
+}

@@ -1,0 +1,121 @@
+(function (EM) {
+'use strict';
+// EightMax 3.8: native-backed strategy explorer (rendering and aggregation).
+//
+// The desktop host answers POST /api/mw/node with ONE node of the open native
+// study (see source/native/explorer.hpp). This module turns that bounded
+// response into a 13x13 matrix, combo lists and aggregate frequencies. It never
+// requests or holds the whole solver state, and it never invents values:
+//   - "average" and "current" strategies are shown as the host labels them;
+//   - hands without a stored row are shown as "no stored strategy";
+//   - board-blocked combos are shown as impossible;
+//   - EVs are not shown because the stored state does not contain them.
+const ACTION_COLORS = ['var(--fold)', 'var(--call)', 'var(--a-bet1)', 'var(--a-bet2)', 'var(--a-bet3)', 'var(--a-bet4)', 'var(--a-allin)', 'var(--jam)'];
+function actionColor(action, index) {
+  if (action.name === 'Fold') return 'var(--fold)';
+  if (action.name === 'Check' || action.name === 'Call') return 'var(--call)';
+  if (action.name === 'All-in') return 'var(--a-allin)';
+  return ACTION_COLORS[2 + Math.min(4, Math.max(0, index - 1))];
+}
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function amount(x) { return Number.isFinite(x) ? (Math.round(x * 100) / 100).toString() : '–'; }
+function actionLabel(a) { return a.name + (['Bet to', 'Raise to', 'Call', 'All-in'].includes(a.name) && a.to > 0 ? ' ' + amount(a.to) : ''); }
+// Matrix cells: per 169 hand class, reach-weighted strategy of the combos that
+// have the chosen strategy kind, plus counts of blocked and unstored combos.
+function explorerMatrix(response, kind) {
+  const hands = response && response.hands; if (!hands) return null;
+  const k = response.actions.length;
+  const cells = Array.from({ length: 169 }, (_, c) => ({ cls: c, name: EM.CLASS_NAMES[c], combos: [], mix: null, mass: 0, weight: 0, blocked: 0, missing: 0, stored: 0 }));
+  for (const item of hands.items) {
+    const cell = cells[EM.classOf(item.cards[0], item.cards[1])]; cell.combos.push(item);
+    if (item.blocked) { cell.blocked++; continue; }
+    cell.weight += item.reach;
+    const p = hands.actingSeat ? item[kind] : null;
+    if (!p) { cell.missing++; continue; }
+    cell.stored++;
+    if (!cell.mix) cell.mix = new Array(k).fill(0);
+    for (let a = 0; a < k; a++) cell.mix[a] += item.reach * p[a];
+    cell.mass += item.reach;
+  }
+  for (const cell of cells) if (cell.mix && cell.mass > 0) cell.mix = cell.mix.map(x => x / cell.mass); else cell.mix = null;
+  const maxWeight = Math.max(1e-300, ...cells.map(c => c.weight));
+  for (const cell of cells) cell.intensity = cell.weight / maxWeight;
+  return cells;
+}
+function seatName(names, seat) { return names && names[seat] ? names[seat] : 'Seat ' + (seat + 1); }
+function boardHtml(cards) { return cards.length ? cards.map(c => '<span class="ex-card">' + esc(EM.cardStr(c)) + '</span>').join('') : '<span class="note">none</span>'; }
+function mixBar(mix, actions) {
+  if (!mix) return '<div class="ex-bar ex-empty"></div>';
+  return '<div class="ex-bar">' + mix.map((p, a) => p > 0 ? '<i style="width:' + (100 * p).toFixed(2) + '%;background:' + actionColor(actions[a], a) + '"></i>' : '').join('') + '</div>';
+}
+function freqList(mix, actions) {
+  if (!mix) return '<span class="note">no stored strategy</span>';
+  return actions.map((a, i) => '<span class="ex-freq"><b style="color:' + actionColor(a, i) + '">■</b> ' + esc(actionLabel(a)) + ' ' + (100 * mix[i]).toFixed(1) + '%</span>').join(' ');
+}
+// ui: {kind, names, selectedCell, pending, error, boardInput}
+function renderExplorer(response, ui) {
+  const names = ui.names;
+  if (ui.error && !response) return '<div class="card ex"><h3>Strategy explorer</h3><p class="bad">' + esc(ui.error) + '</p></div>';
+  if (!response) return '<div class="card ex"><h3>Strategy explorer</h3><p class="note">Loading…</p></div>';
+  const r = response, n = r.node, s = r.study;
+  let h = '<div class="card ex"><h3>Strategy explorer</h3>';
+  h += '<p class="note">' + esc(s.players + '-player ' + s.startStreet + ' study · ' + s.abstraction + ' · ' + s.weighting + ' weighting' + (s.regretMatching === 'plus' ? ', CFR+' : '') + (s.tournament ? ' · ICM' : ' · chip EV') +
+    ' · ' + s.updates.toLocaleString() + ' updates · ' + s.sampledDeals.toLocaleString() + ' sampled deals · ' + s.rows.toLocaleString() + ' rows · ' + s.states.toLocaleString() + ' betting states') + '</p>';
+  if (ui.error) h += '<p class="bad" role="alert">' + esc(ui.error) + '</p>';
+  // history / breadcrumbs
+  h += '<div class="ex-path"><button type="button" class="btn sm" data-ex-go="0">Root</button>';
+  let decisions = 0;
+  r.history.forEach((step, i) => {
+    if (step.chance) h += ' <span class="ex-step">' + esc(step.street) + ' ' + step.cards.map(c => esc(EM.cardStr(c))).join('') + '</span>';
+    else { decisions++; h += ' <button type="button" class="btn sm ghost" data-ex-go="' + decisions + '" title="Return to the decision after this action">' + esc(seatName(names, step.seat) + ': ' + actionLabel({ name: step.action, to: step.to })) + '</button>'; }
+  });
+  h += '</div><div class="ex-controls"><button type="button" class="btn sm" data-ex-back ' + (decisions || r.history.length ? '' : 'disabled') + '>Previous decision</button> ' +
+    '<label>Strategy <select id="ex-kind"><option value="average"' + (ui.kind === 'average' ? ' selected' : '') + '>Average (solver output)</option><option value="current"' + (ui.kind === 'current' ? ' selected' : '') + '>Current regret matching</option></select></label> ' +
+    '<label>Range of <select id="ex-seat">' + Array.from({ length: s.players }, (_, p) => '<option value="' + p + '"' + (r.hands && r.hands.seat === p ? ' selected' : '') + '>' + esc(seatName(names, p)) + (p === n.actor ? ' (to act)' : '') + '</option>').join('') + '</select></label></div>';
+  // node summary
+  const live = n.live.map((x, p) => x ? (n.allIn[p] ? seatName(names, p) + ' (all-in)' : seatName(names, p)) : null).filter(Boolean);
+  h += '<table class="rv-table ex-node"><tbody>' +
+    '<tr><th>Street</th><td>' + esc(n.street) + (n.kind !== 'decision' ? ' · ' + esc(n.kind) : '') + '</td><th>Board</th><td>' + boardHtml(n.board) + '</td></tr>' +
+    '<tr><th>To act</th><td>' + (n.actor >= 0 ? esc(seatName(names, n.actor)) : '–') + '</td><th>Pot</th><td>' + amount(n.pot) + ' BB' + (n.facing ? ' · facing ' + amount(n.price) : '') + '</td></tr>' +
+    '<tr><th>Active players</th><td>' + esc(live.join(', ')) + '</td><th>Effective stack</th><td>' + (n.effectiveStack == null ? '–' : amount(n.effectiveStack) + ' BB') + '</td></tr>' +
+    '<tr><th>Stacks behind</th><td colspan="3">' + n.behind.map((b, p) => esc(seatName(names, p)) + ' ' + amount(b) + (n.live[p] ? '' : ' (folded)')).join(' · ') + '</td></tr>' +
+    '<tr><th>Information set</th><td colspan="3">' + (n.stateId >= 0 ? 'betting state #' + n.stateId + (n.visited ? '' : ' (not visited)') : (n.kind === 'terminal' ? 'terminal' : 'not visited in training: no stored strategy')) + '</td></tr></tbody></table>';
+  if (n.kind === 'terminal') {
+    h += '<p>Hand over. Pots: ' + (n.pots || []).map(p => amount(p.amount) + ' BB to ' + p.eligible.map(e => esc(seatName(names, e))).join('/')).join(' · ') + '</p>';
+    return h + '</div>';
+  }
+  if (n.kind === 'chance' || n.needsCards) {
+    const used = new Set(n.board);
+    h += '<p>Select the ' + (n.needsCards === 3 ? 'flop' : n.board.length === 3 ? 'turn' : 'river') + ' card' + (n.needsCards > 1 ? 's' : '') + ' to continue (' + n.needsCards + ').</p><div class="ex-deck">';
+    for (let c = 51; c >= 0; c--) h += '<button type="button" class="btn sm ghost ex-card' + ((ui.boardInput || []).includes(c) ? ' on' : '') + '" data-ex-card="' + c + '"' + (used.has(c) ? ' disabled' : '') + '>' + esc(EM.cardStr(c)) + '</button>';
+    return h + '</div></div>';
+  }
+  // actions
+  h += '<div class="ex-actions">' + r.actions.map(a => '<button type="button" class="btn sm" data-ex-action="' + a.slot + '" title="' + (a.childVisited === false ? 'Branch exists in the abstraction but was not visited in training' : '') + '">' + esc(actionLabel(a)) + (a.childVisited === false ? ' (unvisited)' : '') + '</button>').join(' ') + '</div>';
+  const agg = r.aggregate;
+  h += '<p><b>Range-weighted ' + esc(ui.kind) + ' strategy of ' + esc(seatName(names, n.actor)) + ':</b> ' + freqList(agg && agg[ui.kind], r.actions) + '</p>';
+  if (agg) h += '<p class="note">Coverage: ' + agg.coverage.withRows + ' of ' + (agg.coverage.hands - agg.coverage.blocked) + ' possible combos have stored rows; ' + agg.coverage.blocked + ' blocked by the board. ' +
+    'Aggregates weight each combo by its range weight × its own average-strategy probability of reaching this node.</p>';
+  h += '<p class="note">' + esc(r.ev.reason) + '</p>';
+  if (!r.hands) return h + '</div>';
+  if (!r.hands.actingSeat) h += '<p class="note">Showing the reach distribution of ' + esc(seatName(names, r.hands.seat)) + ', who is not acting here; strategies are shown for the acting seat only.</p>';
+  const cells = explorerMatrix(r, ui.kind);
+  h += '<div class="ex-matrix" role="grid" aria-label="Starting-hand matrix">';
+  for (let row = 0; row < 13; row++) for (let col = 0; col < 13; col++) {
+    const c = cells[row * 13 + col];
+    const impossible = c.combos.length && c.blocked === c.combos.length;
+    h += '<button type="button" class="ex-cell' + (ui.selectedCell === c.cls ? ' on' : '') + (impossible ? ' blocked' : '') + (!c.combos.length ? ' absent' : '') + '" data-ex-cell="' + c.cls + '" style="opacity:' + (impossible || !c.combos.length ? 0.35 : (0.35 + 0.65 * c.intensity).toFixed(3)) + '" title="' + esc(c.name + ': ' + c.combos.length + ' combos in range, ' + c.blocked + ' blocked, ' + c.missing + ' without stored strategy') + '">' +
+      (r.hands.actingSeat ? mixBar(c.mix, r.actions) : '') + '<span>' + esc(c.name) + '</span></button>';
+  }
+  h += '</div>';
+  if (ui.selectedCell != null) {
+    const c = cells[ui.selectedCell];
+    h += '<h4>' + esc(c.name) + ' — ' + c.combos.length + ' combos</h4><div class="rv-scroll"><table class="rv-table"><thead><tr><th>Combo</th><th>Weight</th><th>Reach</th><th>Strategy</th></tr></thead><tbody>' +
+      c.combos.map(x => '<tr><th>' + esc(EM.cardStr(x.cards[1]) + EM.cardStr(x.cards[0])) + '</th><td>' + amount(x.weight) + '</td><td>' + (x.blocked ? 'blocked' : x.reach.toPrecision(4) + (x.reachUsesUniform ? '*' : '')) + '</td><td style="text-align:left">' +
+        (x.blocked ? '<span class="note">impossible: blocked by the board</span>' : r.hands.actingSeat ? freqList(x[ui.kind], r.actions) : '–') + '</td></tr>').join('') + '</tbody></table></div>' +
+      '<p class="note">* reach uses a uniform probability where an earlier decision of this seat has no stored average strategy.</p>';
+  }
+  return h + '</div>';
+}
+Object.assign(EM, { explorerMatrix, renderExplorer, explorerActionLabel: actionLabel });
+})(globalThis.EM || (globalThis.EM = {}));

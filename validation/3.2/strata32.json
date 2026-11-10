@@ -1,0 +1,74 @@
+{
+  "rows": [
+    {
+      "seed": 1,
+      "stratified": false,
+      "deals": 8192,
+      "seconds": 0.035797,
+      "maxUnilateralGainBB": 0.25684574385603653
+    },
+    {
+      "seed": 1,
+      "stratified": true,
+      "deals": 8192,
+      "seconds": 0.037544,
+      "maxUnilateralGainBB": 0.1771268603137539
+    },
+    {
+      "seed": 2,
+      "stratified": false,
+      "deals": 8192,
+      "seconds": 0.028188,
+      "maxUnilateralGainBB": 0.11875046009149237
+    },
+    {
+      "seed": 2,
+      "stratified": true,
+      "deals": 8192,
+      "seconds": 0.036086,
+      "maxUnilateralGainBB": 0.27624417379993194
+    },
+    {
+      "seed": 3,
+      "stratified": false,
+      "deals": 8192,
+      "seconds": 0.028743,
+      "maxUnilateralGainBB": 0.2367330735120532
+    },
+    {
+      "seed": 3,
+      "stratified": true,
+      "deals": 8192,
+      "seconds": 0.047998,
+      "maxUnilateralGainBB": 0.22998773133535444
+    },
+    {
+      "seed": 4,
+      "stratified": false,
+      "deals": 8192,
+      "seconds": 0.040166,
+      "maxUnilateralGainBB": 0.1549447392443195
+    },
+    {
+      "seed": 4,
+      "stratified": true,
+      "deals": 8192,
+      "seconds": 0.047438,
+      "maxUnilateralGainBB": 0.2741481876210514
+    },
+    {
+      "seed": 5,
+      "stratified": false,
+      "deals": 8192,
+      "seconds": 0.041927,
+      "maxUnilateralGainBB": 0.2689185484102694
+    },
+    {
+      "seed": 5,
+      "stratified": true,
+      "deals": 8192,
+      "seconds": 0.029193,
+      "maxUnilateralGainBB": 0.49249987240647464
+    }
+  ]
+}

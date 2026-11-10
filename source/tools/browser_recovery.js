@@ -29,7 +29,7 @@ const checks = [], pass = (m) => { checks.push(m); console.log('PASS  ' + m); };
   const url = `http://127.0.0.1:${server.address().port}/EightMax-Offline.html`;
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'em-browser-'));
   let ctx, failure = null, info = {};
-  const open = async () => { ctx = await chromium.launchPersistentContext(profile, { headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] }); const p = await ctx.newPage(); await p.goto(url); await p.evaluate(setup); return p; };
+  const open = async () => { ctx = await chromium.launchPersistentContext(profile, { executablePath:process.env.CHROMIUM_PATH||undefined,headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] }); const p = await ctx.newPage(); await p.goto(url); await p.evaluate(setup); return p; };
   try {
     let p = await open();
     const killed = await p.evaluate((cfg) => sendJob('multi-solve', { cfg, maxIter: 1000000, target: 0, autosaveSeconds: 1 }, true), config);
@@ -54,7 +54,7 @@ const checks = [], pass = (m) => { checks.push(m); console.log('PASS  ' + m); };
     await p.evaluate(idb("const tx=db.transaction('checkpoints','readwrite');tx.objectStore('checkpoints').put('bad','latest');tx.onabort=()=>{db.close();resolve(true)};tx.abort();"));
     if ((await p.evaluate(() => sendJob('multi-recover'))).metrics.iterations !== it + 10) throw Error('aborted write changed the stored checkpoint');
     pass('An aborted (incomplete) write leaves the newest valid checkpoint intact');
-    await p.evaluate(idb("const tx=db.transaction('checkpoints','readwrite');tx.objectStore('checkpoints').get('latest').onsuccess=e=>{const t=e.target.result;tx.objectStore('checkpoints').put(t.slice(0,t.length-200),'latest');};tx.oncomplete=()=>{db.close();resolve(true)};"));
+    await p.evaluate(idb("const tx=db.transaction('checkpoints','readwrite');tx.objectStore('checkpoints').get('latest').onsuccess=e=>{const t=e.target.result;tx.objectStore('checkpoints').put(t.slice(0,(t.size??t.length)-200),'latest');};tx.oncomplete=()=>{db.close();resolve(true)};"));
     const prev = await p.evaluate(() => sendJob('multi-recover'));
     if (prev.metrics.iterations !== it || !/previous/.test(prev.reason)) throw Error('truncated newest checkpoint did not fall back: ' + prev.reason);
     pass('A truncated newest checkpoint fails its integrity check; the previous generation is recovered with a message: "' + prev.reason + '"');

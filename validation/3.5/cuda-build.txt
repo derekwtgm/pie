@@ -1,0 +1,2 @@
+PTX 32159 bytes; sm_75 25960 bytes, sm_80 25704 bytes, sm_86 25704 bytes, sm_89 25704 bytes
+Regenerated header matches embedded bytes.

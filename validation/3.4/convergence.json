@@ -1,0 +1,3238 @@
+{
+ "generated": "2026-11-08T12:38:04.516Z",
+ "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+ "threadsAvailable": 9,
+ "node": "v24.22.1",
+ "metric": "largest exact unilateral response gain (BB); heads-up sumGainBb is NashConv; exploitability is half this sum",
+ "games": {
+  "heads-up turn": {
+   "config": {
+    "board": "Qs9h4d2c",
+    "common": 10,
+    "stacks": [
+     40,
+     40
+    ],
+    "ranges": [
+     "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "streets": {
+     "turn": {
+      "bets": "60",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "75,a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "evaluationDeals": 128
+   },
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "byDeals": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.340396634985454,
+      "ci95": 0.4754472707792356,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 4.880711314490824,
+      "ci95": 0.29748961140703756,
+      "n": 3
+     },
+     "seconds": 0.02368033333333333
+    },
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.1278592297772465,
+      "ci95": 0.4925485857327042,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.977706320175914,
+      "ci95": 0.40080422082650374,
+      "n": 3
+     },
+     "seconds": 0.09969233333333333
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.340396634985454,
+      "ci95": 0.4754472707792356,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 4.880711314490824,
+      "ci95": 0.29748961140703756,
+      "n": 3
+     },
+     "seconds": 0.027362666666666664
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.1278592297772465,
+      "ci95": 0.4925485857327042,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.977706320175914,
+      "ci95": 0.40080422082650374,
+      "n": 3
+     },
+     "seconds": 0.12957
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 6.034579673513524,
+      "ci95": 1.25827158392321,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 5.416332792010142,
+      "ci95": 0.6644439066166066,
+      "n": 3
+     },
+     "seconds": 0.02731266666666667
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.6375195608700728,
+      "ci95": 0.1798548983145937,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 2.1388328365211833,
+      "ci95": 0.25408664300730804,
+      "n": 3
+     },
+     "seconds": 0.09438933333333333
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.700364838644177,
+      "ci95": 1.1865689364089884,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 5.017735549246955,
+      "ci95": 0.4522529918630214,
+      "n": 3
+     },
+     "seconds": 0.021138
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 20000,
+     "gain": {
+      "mean": 1.9928085257129504,
+      "ci95": 0.06668954767398087,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.6396962129422004,
+      "ci95": 0.1714522087595993,
+      "n": 3
+     },
+     "seconds": 0.09109099999999999
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.264763640129968,
+      "ci95": 1.4121869691154403,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 4.712514610287754,
+      "ci95": 0.7015198054653011,
+      "n": 3
+     },
+     "seconds": 0.020606666666666665
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.0733976325159156,
+      "ci95": 0.21431987909372033,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.916342092675834,
+      "ci95": 0.17885464218186697,
+      "n": 3
+     },
+     "seconds": 0.09069433333333332
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.5512090929443145,
+      "ci95": 0.4522083922007767,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 5.070947120274728,
+      "ci95": 0.407621898775097,
+      "n": 3
+     },
+     "seconds": 0.017666333333333333
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.0784734182590188,
+      "ci95": 0.18116494174563927,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.7773386323270355,
+      "ci95": 0.027921885476854966,
+      "n": 3
+     },
+     "seconds": 0.06628066666666667
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 3.3124485335817746,
+      "ci95": 0.22845888866503988,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 2.760706332322979,
+      "ci95": 0.31937530899811173,
+      "n": 3
+     },
+     "seconds": 0.011497
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 1.3348361105586728,
+      "ci95": 0.33579952344484665,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.128192585114032,
+      "ci95": 0.11883041130347592,
+      "n": 3
+     },
+     "seconds": 0.050043666666666674
+    }
+   ],
+   "byTime": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 1.1734617427340848,
+      "ci95": 0.5280653716531004,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.9690684317240249,
+      "ci95": 0.4856013991144582,
+      "n": 3
+     },
+     "deals": 56128,
+     "seconds": 0.25021699999999997
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 1.322789126292487,
+      "ci95": 0.14164728762355278,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.1242958513839965,
+      "ci95": 0.1065824792457076,
+      "n": 3
+     },
+     "deals": 43434.666666666664,
+     "seconds": 0.25038333333333335
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 1.763501796257767,
+      "ci95": 0.25297427063377265,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.4418773002607344,
+      "ci95": 0.13795562714251342,
+      "n": 3
+     },
+     "deals": 42389.333333333336,
+     "seconds": 0.2503646666666667
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 1.2289324931211703,
+      "ci95": 0.5180679379765217,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.9829205274646563,
+      "ci95": 0.3482969167041554,
+      "n": 3
+     },
+     "deals": 56832,
+     "seconds": 0.250313
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.9386367341565535,
+      "ci95": 0.08250707445579857,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.7705089269471427,
+      "ci95": 0.07639917517860863,
+      "n": 3
+     },
+     "deals": 70933.33333333333,
+     "seconds": 0.2501573333333333
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.9886223269393405,
+      "ci95": 0.16887754468321528,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.829199834233502,
+      "ci95": 0.09101201048365998,
+      "n": 3
+     },
+     "deals": 87722.66666666667,
+     "seconds": 0.251211
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.5229887545714603,
+      "ci95": 0.031273703587742646,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.44042718304646966,
+      "ci95": 0.052469960305475224,
+      "n": 3
+     },
+     "deals": 93098.66666666667,
+     "seconds": 0.250439
+    }
+   ],
+   "paired": [
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.3599682036587228,
+      "ci95": 1.3957533934829214,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0.13505070406429595,
+      "ci95": 0.47463222365528324,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": 0.0938566331713168,
+      "ci95": 0.6212710063752774,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.14932738355840222,
+      "ci95": 0.5054523527139098,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.69418303852807,
+      "ci95": 0.786759309674231,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.5096603310928263,
+      "ci95": 0.6358652153161807,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.44071266996528013,
+      "ci95": 0.2564851451806082,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": 0.07563299485548569,
+      "ci95": 1.6924319413499118,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0.05446159726133093,
+      "ci95": 0.6853751574525861,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": 0.3841523921359335,
+      "ci95": 0.059241378868774626,
+      "n": 3
+     }
+    }
+   ],
+   "rows": [
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.015926,
+     "stateVisits": 112456,
+     "maxGainBb": 5.191325159753887,
+     "sumGainBb": 9.494136942165454
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.067005,
+     "stateVisits": 525700,
+     "maxGainBb": 2.290003129619008,
+     "sumGainBb": 4.211307877861488
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250205,
+     "deals": 79744,
+     "maxGainBb": 0.9280279820782829,
+     "sumGainBb": 1.486736598593498
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.024463,
+     "stateVisits": 111190,
+     "maxGainBb": 5.273656940712501,
+     "sumGainBb": 9.956508192960259
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.113493,
+     "stateVisits": 513022,
+     "maxGainBb": 2.1867502527117866,
+     "sumGainBb": 4.061987474411674
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250154,
+     "deals": 46336,
+     "maxGainBb": 1.2977611474516006,
+     "sumGainBb": 2.1660189919686648
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.030652,
+     "stateVisits": 114350,
+     "maxGainBb": 5.556207804489973,
+     "sumGainBb": 9.833622751819235
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.118579,
+     "stateVisits": 523324,
+     "maxGainBb": 1.9068243070009445,
+     "sumGainBb": 3.592942568782322
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250292,
+     "deals": 42304,
+     "maxGainBb": 1.2945960986723706,
+     "sumGainBb": 2.161654999781986
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.024695,
+     "stateVisits": 112456,
+     "maxGainBb": 5.191325159753887,
+     "sumGainBb": 9.494136942165454
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.11990999999999999,
+     "stateVisits": 525700,
+     "maxGainBb": 2.290003129619008,
+     "sumGainBb": 4.211307877861488
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250454,
+     "deals": 42048,
+     "maxGainBb": 1.3041434578564919,
+     "sumGainBb": 2.292892820858823
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.030213,
+     "stateVisits": 111190,
+     "maxGainBb": 5.273656940712501,
+     "sumGainBb": 9.956508192960259
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.139213,
+     "stateVisits": 513022,
+     "maxGainBb": 2.1867502527117866,
+     "sumGainBb": 4.061987474411674
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250497,
+     "deals": 44288,
+     "maxGainBb": 1.3867936804179593,
+     "sumGainBb": 2.3031894461461206
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.02718,
+     "stateVisits": 114350,
+     "maxGainBb": 5.556207804489973,
+     "sumGainBb": 9.833622751819235
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.129587,
+     "stateVisits": 523324,
+     "maxGainBb": 1.9068243070009445,
+     "sumGainBb": 3.592942568782322
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250199,
+     "deals": 43968,
+     "maxGainBb": 1.2774302406030096,
+     "sumGainBb": 2.149692841299035
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.030553,
+     "stateVisits": 116052,
+     "maxGainBb": 5.598288451333945,
+     "sumGainBb": 10.274858323407821
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.089005,
+     "stateVisits": 544039,
+     "maxGainBb": 2.6346070597478954,
+     "sumGainBb": 4.50783188923613
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250464,
+     "deals": 39744,
+     "maxGainBb": 1.8640483340673437,
+     "sumGainBb": 3.0117333502043655
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.025901,
+     "stateVisits": 114994,
+     "maxGainBb": 5.915440411735851,
+     "sumGainBb": 10.881867460073849
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.075768,
+     "stateVisits": 547460,
+     "maxGainBb": 2.5666242673501167,
+     "sumGainBb": 4.116662515130605
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250337,
+     "deals": 44288,
+     "maxGainBb": 1.7660173654799456,
+     "sumGainBb": 2.812661586188196
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.025484,
+     "stateVisits": 115795,
+     "maxGainBb": 6.5900101574707755,
+     "sumGainBb": 11.34127096857918
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.118395,
+     "stateVisits": 542732,
+     "maxGainBb": 2.7113273555122057,
+     "sumGainBb": 4.208502614760363
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250293,
+     "deals": 43136,
+     "maxGainBb": 1.6604396892260118,
+     "sumGainBb": 2.8268688651718445
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.026107,
+     "stateVisits": 115981,
+     "maxGainBb": 5.412916691163726,
+     "sumGainBb": 9.815993758421294
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.077096,
+     "stateVisits": 539725,
+     "maxGainBb": 2.0207305997512415,
+     "sumGainBb": 3.3499796814884353
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250072,
+     "deals": 57856,
+     "maxGainBb": 1.1016611103281302,
+     "sumGainBb": 1.8442129343862983
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.015723,
+     "stateVisits": 115201,
+     "maxGainBb": 6.251704877894022,
+     "sumGainBb": 10.455739802296979
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.072698,
+     "stateVisits": 535767,
+     "maxGainBb": 1.9671912421086781,
+     "sumGainBb": 3.120347498331276
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250524,
+     "deals": 71360,
+     "maxGainBb": 1.1155434690021384,
+     "sumGainBb": 1.7667978188066293
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.021584,
+     "stateVisits": 115149,
+     "maxGainBb": 5.436472946874781,
+     "sumGainBb": 9.834679734763455
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.123479,
+     "stateVisits": 536529,
+     "maxGainBb": 1.9905037352789317,
+     "sumGainBb": 3.3678500978334895
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250343,
+     "deals": 41280,
+     "maxGainBb": 1.4695929000332417,
+     "sumGainBb": 2.2865124115950093
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.027648,
+     "stateVisits": 112681,
+     "maxGainBb": 5.051933215333328,
+     "sumGainBb": 9.148190972425049
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.127865,
+     "stateVisits": 526537,
+     "maxGainBb": 1.9767545557798747,
+     "sumGainBb": 3.940743594288168
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250203,
+     "deals": 74432,
+     "maxGainBb": 0.9266043288605589,
+     "sumGainBb": 1.476631313835973
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.018217,
+     "stateVisits": 114627,
+     "maxGainBb": 5.908902530995716,
+     "sumGainBb": 10.074787145198949
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.0732,
+     "stateVisits": 523959,
+     "maxGainBb": 2.100806892056388,
+     "sumGainBb": 3.6692274847853077
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250073,
+     "deals": 65984,
+     "maxGainBb": 0.9761867108307034,
+     "sumGainBb": 1.5472572805560838
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.015955,
+     "stateVisits": 112590,
+     "maxGainBb": 4.83345517406086,
+     "sumGainBb": 9.052109544102532
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.071018,
+     "stateVisits": 523475,
+     "maxGainBb": 2.142631449711484,
+     "sumGainBb": 3.8880814769815295
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250196,
+     "deals": 72384,
+     "maxGainBb": 0.9131191627783979,
+     "sumGainBb": 1.5991649672907995
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.020729,
+     "stateVisits": 117789,
+     "maxGainBb": 5.409026276158899,
+     "sumGainBb": 10.499022344128658
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.068005,
+     "stateVisits": 553115,
+     "maxGainBb": 2.000771045689724,
+     "sumGainBb": 3.5759274519474125
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250931,
+     "deals": 83968,
+     "maxGainBb": 1.0560062742023606,
+     "sumGainBb": 1.7267434382424656
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.015481,
+     "stateVisits": 118678,
+     "maxGainBb": 5.488245824503881,
+     "sumGainBb": 9.853652338676723
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.061984000000000004,
+     "stateVisits": 547550,
+     "maxGainBb": 2.089226681429826,
+     "sumGainBb": 3.556959433228522
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.252041,
+     "deals": 89088,
+     "maxGainBb": 0.9200676497381735,
+     "sumGainBb": 1.5810405532036085
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.016789,
+     "stateVisits": 117536,
+     "maxGainBb": 5.756355178170164,
+     "sumGainBb": 10.07300803884299
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.068853,
+     "stateVisits": 549234,
+     "maxGainBb": 2.145422527657506,
+     "sumGainBb": 3.5311449087862785
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250661,
+     "deals": 90112,
+     "maxGainBb": 0.9897930568774875,
+     "sumGainBb": 1.667415013954938
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.01043,
+     "stateVisits": 216000,
+     "maxGainBb": 3.2065924257138745,
+     "sumGainBb": 5.354828110344985
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.046123000000000004,
+     "stateVisits": 1080000,
+     "maxGainBb": 1.3573430408484277,
+     "sumGainBb": 2.2558731519751154
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250452,
+     "deals": 90112,
+     "maxGainBb": 0.5356396798846133,
+     "sumGainBb": 0.9296009575330091
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.011441,
+     "stateVisits": 216000,
+     "maxGainBb": 3.3581349182782567,
+     "sumGainBb": 5.817527034082012
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.052305,
+     "stateVisits": 1080000,
+     "maxGainBb": 1.457336469866478,
+     "sumGainBb": 2.352303786284544
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.25047,
+     "deals": 89088,
+     "maxGainBb": 0.5104639397518794,
+     "sumGainBb": 0.85792852141223
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.01262,
+     "stateVisits": 216000,
+     "maxGainBb": 3.3726182567531935,
+     "sumGainBb": 5.391882849510873
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.051703,
+     "stateVisits": 1080000,
+     "maxGainBb": 1.1898288209611128,
+     "sumGainBb": 2.1609785724245327
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250395,
+     "deals": 100096,
+     "maxGainBb": 0.5228626440778881,
+     "sumGainBb": 0.855033619333579
+    }
+   ]
+  },
+  "heads-up river": {
+   "config": {
+    "board": "Qs9h4d2c7s",
+    "common": 10,
+    "stacks": [
+     40,
+     40
+    ],
+    "ranges": [
+     "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd,Ts8s,AcAd,5h5d",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d,7c7d,AhJh,Kc2s"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,a",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "evaluationDeals": 128
+   },
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "byDeals": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.515189437363206,
+      "ci95": 0.7265237147254815,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.43667206035881806,
+      "ci95": 0.43221746254082155,
+      "n": 3
+     },
+     "seconds": 0.010365666666666667
+    },
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.16400307128017907,
+      "ci95": 0.04247635225617811,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.1449822521945431,
+      "ci95": 0.03571452664316549,
+      "n": 3
+     },
+     "seconds": 0.05103666666666667
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.515189437363206,
+      "ci95": 0.7265237147254815,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.43667206035881806,
+      "ci95": 0.43221746254082155,
+      "n": 3
+     },
+     "seconds": 0.010040333333333333
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.16400307128017907,
+      "ci95": 0.04247635225617811,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.1449822521945431,
+      "ci95": 0.03571452664316549,
+      "n": 3
+     },
+     "seconds": 0.065432
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.196731349579599,
+      "ci95": 0.3193991313392513,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 1.0200677112768564,
+      "ci95": 0.1755608923869668,
+      "n": 3
+     },
+     "seconds": 0.009125333333333334
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.6122265996564016,
+      "ci95": 0.09796557348994749,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.5440729351384808,
+      "ci95": 0.06260934098829979,
+      "n": 3
+     },
+     "seconds": 0.08440233333333334
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.8633067072319092,
+      "ci95": 0.1940090715728891,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.7409562689427208,
+      "ci95": 0.17384125362858646,
+      "n": 3
+     },
+     "seconds": 0.019833666666666666
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.40924111208099,
+      "ci95": 0.02969576659506654,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.36322317827595935,
+      "ci95": 0.07062656039557455,
+      "n": 3
+     },
+     "seconds": 0.06427899999999999
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.5802136526567415,
+      "ci95": 0.7366051951109764,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.4854535007426742,
+      "ci95": 0.47237360666569905,
+      "n": 3
+     },
+     "seconds": 0.012696333333333332
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.20374274877103785,
+      "ci95": 0.10298036823138347,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.19241187333525214,
+      "ci95": 0.08799180811811091,
+      "n": 3
+     },
+     "seconds": 0.05534833333333333
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.8846666309980459,
+      "ci95": 0.1919464878244484,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.7599647868787125,
+      "ci95": 0.23009637061002977,
+      "n": 3
+     },
+     "seconds": 0.009785333333333333
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.4173400175419353,
+      "ci95": 0.05746820184485827,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.3700420566735209,
+      "ci95": 0.02636209664215347,
+      "n": 3
+     },
+     "seconds": 0.049444666666666665
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.5000779891652188,
+      "ci95": 0.11585658105577566,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.435302832195249,
+      "ci95": 0.036292410879671104,
+      "n": 3
+     },
+     "seconds": 0.005645333333333333
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.19853131060142756,
+      "ci95": 0.06727814585207824,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.1692869729791068,
+      "ci95": 0.05543063934736359,
+      "n": 3
+     },
+     "seconds": 0.027967333333333334
+    }
+   ],
+   "byTime": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.13861372527495094,
+      "ci95": 0.18740934692127637,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.111208210954801,
+      "ci95": 0.10416604219536595,
+      "n": 3
+     },
+     "deals": 70144,
+     "seconds": 0.250247
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.11247677614515987,
+      "ci95": 0.05527289875961831,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.0930734892776343,
+      "ci95": 0.0224986922687292,
+      "n": 3
+     },
+     "deals": 86464,
+     "seconds": 0.2501073333333333
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.31835201849271827,
+      "ci95": 0.03126930634446685,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.2713240591051656,
+      "ci95": 0.037961872260513174,
+      "n": 3
+     },
+     "deals": 103509.33333333333,
+     "seconds": 0.2521096666666667
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.2167461081514593,
+      "ci95": 0.06678999456773729,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.1894321412117382,
+      "ci95": 0.022689725513914377,
+      "n": 3
+     },
+     "deals": 83754.66666666667,
+     "seconds": 0.25051
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.10584864554563038,
+      "ci95": 0.00741427654503151,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.09007543273561125,
+      "ci95": 0.03636566550045642,
+      "n": 3
+     },
+     "deals": 106880,
+     "seconds": 0.2502783333333334
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.16432289545304224,
+      "ci95": 0.055839412248542546,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.14987410574556592,
+      "ci95": 0.062593641398676,
+      "n": 3
+     },
+     "deals": 122538.66666666667,
+     "seconds": 0.2516403333333333
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.07486967270299649,
+      "ci95": 0.013272815827245307,
+      "n": 3
+     },
+     "exploitability": {
+      "mean": 0.05910576241360377,
+      "ci95": 0.012204656251815903,
+      "n": 3
+     },
+     "deals": 194474.66666666666,
+     "seconds": 0.2501656666666667
+    }
+   ],
+   "paired": [
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.34811726986870317,
+      "ci95": 0.8897194648445956,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.24523804080081094,
+      "ci95": 0.07184306422596325,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.10426933200629944,
+      "ci95": 0.023036121899868475,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": 0.02613694912979107,
+      "ci95": 0.22438857749075666,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.6815419122163932,
+      "ci95": 0.5536576027159411,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.44822352837622254,
+      "ci95": 0.13089765822373778,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.2058752423475584,
+      "ci95": 0.03426645260586174,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.06502421529353548,
+      "ci95": 0.2799195936009363,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.03973967749085879,
+      "ci95": 0.14453962132564582,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": 0.0066281305995294915,
+      "ci95": 0.061187333300593304,
+      "n": 3
+     }
+    }
+   ],
+   "rows": [
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.014595,
+     "stateVisits": 59435,
+     "maxGainBb": 0.3221329404248916,
+     "sumGainBb": 0.6134587829650062
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.064011,
+     "stateVisits": 299469,
+     "maxGainBb": 0.16774438818630388,
+     "sumGainBb": 0.3032582807528681
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250135,
+     "deals": 69952,
+     "maxGainBb": 0.08650282024241296,
+     "sumGainBb": 0.15537949446195798
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.007614,
+     "stateVisits": 59087,
+     "maxGainBb": 0.8516529927852243,
+     "sumGainBb": 1.2686479712951666
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.046807,
+     "stateVisits": 297432,
+     "maxGainBb": 0.14534457068022189,
+     "sumGainBb": 0.25697147135317966
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250274,
+     "deals": 71808,
+     "maxGainBb": 0.1042210226540039,
+     "sumGainBb": 0.1954226358493263
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.008888,
+     "stateVisits": 59334,
+     "maxGainBb": 0.37178237887950205,
+     "sumGainBb": 0.7379256078927354
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.042292,
+     "stateVisits": 297692,
+     "maxGainBb": 0.17892025497401143,
+     "sumGainBb": 0.30966376106121096
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250332,
+     "deals": 68672,
+     "maxGainBb": 0.22511733292843594,
+     "sumGainBb": 0.3164471354175218
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.012756,
+     "stateVisits": 59435,
+     "maxGainBb": 0.3221329404248916,
+     "sumGainBb": 0.6134587829650062
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.063797,
+     "stateVisits": 299469,
+     "maxGainBb": 0.16774438818630388,
+     "sumGainBb": 0.3032582807528681
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250081,
+     "deals": 84160,
+     "maxGainBb": 0.13816492052896923,
+     "sumGainBb": 0.20036746400930783
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.008965,
+     "stateVisits": 59087,
+     "maxGainBb": 0.8516529927852243,
+     "sumGainBb": 1.2686479712951666
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.070048,
+     "stateVisits": 297432,
+     "maxGainBb": 0.14534457068022189,
+     "sumGainBb": 0.25697147135317966
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250158,
+     "deals": 69248,
+     "maxGainBb": 0.09933778989887587,
+     "sumGainBb": 0.19231804647533357
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.0084,
+     "stateVisits": 59334,
+     "maxGainBb": 0.37178237887950205,
+     "sumGainBb": 0.7379256078927354
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.062451,
+     "stateVisits": 297692,
+     "maxGainBb": 0.17892025497401143,
+     "sumGainBb": 0.30966376106121096
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250083,
+     "deals": 105984,
+     "maxGainBb": 0.0999276180076345,
+     "sumGainBb": 0.16575542518116437
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.007425,
+     "stateVisits": 59739,
+     "maxGainBb": 1.2249858664101239,
+     "sumGainBb": 2.1398978051383337
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.044035,
+     "stateVisits": 297105,
+     "maxGainBb": 0.638693334564358,
+     "sumGainBb": 1.1240111221821105
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250153,
+     "deals": 97536,
+     "maxGainBb": 0.3304786198379519,
+     "sumGainBb": 0.5710276116076907
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.010622,
+     "stateVisits": 59854,
+     "maxGainBb": 1.3088191479375273,
+     "sumGainBb": 2.1021065320493864
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.043064,
+     "stateVisits": 295362,
+     "maxGainBb": 0.6310808708606421,
+     "sumGainBb": 1.1099089475578587
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.256111,
+     "deals": 104512,
+     "maxGainBb": 0.3192263684537404,
+     "sumGainBb": 0.5466222132347798
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.009329,
+     "stateVisits": 59202,
+     "maxGainBb": 1.0563890343911462,
+     "sumGainBb": 1.8784019304734185
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.166108,
+     "stateVisits": 294256,
+     "maxGainBb": 0.5669055935442047,
+     "sumGainBb": 1.0305175410909153
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250065,
+     "deals": 108480,
+     "maxGainBb": 0.30535106718646254,
+     "sumGainBb": 0.5102945297885233
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.008389,
+     "stateVisits": 59319,
+     "maxGainBb": 0.9488383808339282,
+     "sumGainBb": 1.5575721934198157
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.06309000000000001,
+     "stateVisits": 295148,
+     "maxGainBb": 0.409289088427895,
+     "sumGainBb": 0.7706413804137875
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250464,
+     "deals": 66368,
+     "maxGainBb": 0.24624678461663363,
+     "sumGainBb": 0.39776296708466896
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.018413,
+     "stateVisits": 59401,
+     "maxGainBb": 0.79580740889857,
+     "sumGainBb": 1.32041927786155
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.054934,
+     "stateVisits": 293868,
+     "maxGainBb": 0.4211702416831842,
+     "sumGainBb": 0.7463948771130915
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250751,
+     "deals": 89280,
+     "maxGainBb": 0.21036563636916172,
+     "sumGainBb": 0.36130418623562255
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.032699,
+     "stateVisits": 57879,
+     "maxGainBb": 0.8452743319632292,
+     "sumGainBb": 1.5677461423749595
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.07481299999999999,
+     "stateVisits": 292865,
+     "maxGainBb": 0.39726400613189083,
+     "sumGainBb": 0.662302812128877
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250315,
+     "deals": 95616,
+     "maxGainBb": 0.19362590346858255,
+     "sumGainBb": 0.3775256939501377
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.014963,
+     "stateVisits": 59597,
+     "maxGainBb": 0.5042204664726495,
+     "sumGainBb": 1.000681733999477
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.048607,
+     "stateVisits": 300095,
+     "maxGainBb": 0.2064480161168527,
+     "sumGainBb": 0.41116761152026715
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250242,
+     "deals": 108160,
+     "maxGainBb": 0.1031549885524603,
+     "sumGainBb": 0.15633502106922137
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.009245,
+     "stateVisits": 59816,
+     "maxGainBb": 0.9073136322328246,
+     "sumGainBb": 1.335425644846211
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.064023,
+     "stateVisits": 299312,
+     "maxGainBb": 0.24377568579802844,
+     "sumGainBb": 0.438714565121904
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250181,
+     "deals": 111360,
+     "maxGainBb": 0.10533406472711926,
+     "sumGainBb": 0.17128176421044872
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.013881,
+     "stateVisits": 59308,
+     "maxGainBb": 0.32910685926475036,
+     "sumGainBb": 0.5766136256103573
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.053415,
+     "stateVisits": 297747,
+     "maxGainBb": 0.16100454439823242,
+     "sumGainBb": 0.3045890633693418
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250412,
+     "deals": 101120,
+     "maxGainBb": 0.10905688335731156,
+     "sumGainBb": 0.2128358111339974
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.01301,
+     "stateVisits": 60393,
+     "maxGainBb": 0.8325888228585239,
+     "sumGainBb": 1.4976288031896838
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.06422800000000001,
+     "stateVisits": 299741,
+     "maxGainBb": 0.4243113389760933,
+     "sumGainBb": 0.7527943174039131
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.252896,
+     "deals": 87040,
+     "maxGainBb": 0.19026419060011657,
+     "sumGainBb": 0.3579260832686013
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.008873,
+     "stateVisits": 59748,
+     "maxGainBb": 0.8479724542703395,
+     "sumGainBb": 1.3468519498813962
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.046415,
+     "stateVisits": 296896,
+     "maxGainBb": 0.39152390531401515,
+     "sumGainBb": 0.7155840917879965
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250652,
+     "deals": 142336,
+     "maxGainBb": 0.15065705334804536,
+     "sumGainBb": 0.2715040147862413
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.007473,
+     "stateVisits": 59517,
+     "maxGainBb": 0.9734386158652741,
+     "sumGainBb": 1.7153079682011954
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.037690999999999995,
+     "stateVisits": 295751,
+     "maxGainBb": 0.4361848083356974,
+     "sumGainBb": 0.7518739308492157
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.251373,
+     "deals": 138240,
+     "maxGainBb": 0.1520474424109648,
+     "sumGainBb": 0.2698145364185529
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.006654,
+     "stateVisits": 84000,
+     "maxGainBb": 0.44656044841232934,
+     "sumGainBb": 0.8470161764537201
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.031018,
+     "stateVisits": 420000,
+     "maxGainBb": 0.20858065460774267,
+     "sumGainBb": 0.3852401606829483
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250317,
+     "deals": 238848,
+     "maxGainBb": 0.07233753030950263,
+     "sumGainBb": 0.11449790102725599
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.005225,
+     "stateVisits": 84000,
+     "maxGainBb": 0.5216687906402226,
+     "sumGainBb": 0.9032877985980687
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.028036000000000002,
+     "stateVisits": 420000,
+     "maxGainBb": 0.16786226611153765,
+     "sumGainBb": 0.29631979731755465
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250062,
+     "deals": 160000,
+     "maxGainBb": 0.07126393467307279,
+     "sumGainBb": 0.11078432744982569
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.005057,
+     "stateVisits": 84000,
+     "maxGainBb": 0.5320047284431046,
+     "sumGainBb": 0.8615130181197053
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.024848,
+     "stateVisits": 420000,
+     "maxGainBb": 0.21915101108500235,
+     "sumGainBb": 0.3341618798741379
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250118,
+     "deals": 184576,
+     "maxGainBb": 0.08100755312641406,
+     "sumGainBb": 0.12935234600454093
+    }
+   ]
+  },
+  "three-player river": {
+   "config": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "evaluationDeals": 128
+   },
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "byDeals": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.1244030010212225,
+      "ci95": 1.6482446296739204,
+      "n": 3
+     },
+     "seconds": 0.03210333333333334
+    },
+    {
+     "engine": "3.3 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.2524570549631431,
+      "ci95": 0.11163711664376348,
+      "n": 3
+     },
+     "seconds": 0.13374066666666665
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.1244030010212225,
+      "ci95": 1.6482446296739204,
+      "n": 3
+     },
+     "seconds": 0.03165233333333333
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.2524570549631431,
+      "ci95": 0.11163711664376348,
+      "n": 3
+     },
+     "seconds": 0.11990466666666666
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 4000,
+     "gain": {
+      "mean": 2.0402577175442205,
+      "ci95": 0.38960709249444464,
+      "n": 3
+     },
+     "seconds": 0.029686333333333332
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.9494727966811304,
+      "ci95": 0.11583587320294185,
+      "n": 3
+     },
+     "seconds": 0.12181166666666667
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.2082989792679448,
+      "ci95": 0.10567131565660276,
+      "n": 3
+     },
+     "seconds": 0.030771333333333335
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.5428486669283837,
+      "ci95": 0.01661608374897205,
+      "n": 3
+     },
+     "seconds": 0.1560716666666667
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.5780400289117812,
+      "ci95": 0.2392454477040743,
+      "n": 3
+     },
+     "seconds": 0.034419333333333336
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.2308396447683417,
+      "ci95": 0.021184770324939702,
+      "n": 3
+     },
+     "seconds": 0.161134
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.3386391877964343,
+      "ci95": 0.1300132919640017,
+      "n": 3
+     },
+     "seconds": 0.033418333333333335
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.5055842668956555,
+      "ci95": 0.12228528811780763,
+      "n": 3
+     },
+     "seconds": 0.11731200000000001
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.38615679660753993,
+      "ci95": 0.10150453925704936,
+      "n": 3
+     },
+     "seconds": 0.024347666666666667
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.20032087063668413,
+      "ci95": 0.10482334524110193,
+      "n": 3
+     },
+     "seconds": 0.11464533333333334
+    }
+   ],
+   "byTime": [
+    {
+     "engine": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.2573744602048202,
+      "ci95": 0.10903959363528679,
+      "n": 3
+     },
+     "deals": 40213.333333333336,
+     "seconds": 0.250525
+    },
+    {
+     "engine": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.313221981352038,
+      "ci95": 0.3862165372397549,
+      "n": 3
+     },
+     "deals": 42474.666666666664,
+     "seconds": 0.25042933333333334
+    },
+    {
+     "engine": "3.4 external sampling, CFR+ linear",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.7718548506930608,
+      "ci95": 0.23539449589608039,
+      "n": 3
+     },
+     "deals": 31936,
+     "seconds": 0.25023766666666664
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.3936435744043716,
+      "ci95": 0.1977841301383156,
+      "n": 3
+     },
+     "deals": 38144,
+     "seconds": 0.25035633333333335
+    },
+    {
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.19230113863037435,
+      "ci95": 0.10743855578455859,
+      "n": 3
+     },
+     "deals": 35434.666666666664,
+     "seconds": 0.25016066666666664
+    },
+    {
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.35432581268625185,
+      "ci95": 0.02800748276284104,
+      "n": 3
+     },
+     "deals": 46080,
+     "seconds": 0.25374566666666665
+    },
+    {
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.1146184857884176,
+      "ci95": 0.03585054829390185,
+      "n": 3
+     },
+     "deals": 43093.333333333336,
+     "seconds": 0.25093133333333334
+    }
+   ],
+   "paired": [
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.08389597824672235,
+      "ci95": 1.7033931538969882,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.2903916119652407,
+      "ci95": 0.0969893985448341,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.08042159305233361,
+      "ci95": 0.5712947205550447,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, linear",
+     "than": "3.3 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.055847521147217805,
+      "ci95": 0.4432319656085343,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": -0.9158547165229979,
+      "ci95": 1.8239123989769512,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": -0.6970157417179873,
+      "ci95": 0.19542355121113386,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, CFR+ linear",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": -0.4586328693410229,
+      "ci95": 0.2681246743777748,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 4000,
+     "reductionBb": {
+      "mean": 0.5463629721094414,
+      "ci95": 1.4261244213994615,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "deals": 20000,
+     "reductionBb": {
+      "mean": 0.021617410194801383,
+      "ci95": 0.11857178580348275,
+      "n": 3
+     }
+    },
+    {
+     "better": "3.4 external sampling, DCFR (2, 1, 1)",
+     "than": "3.4 external sampling, linear",
+     "budgetMs": 250,
+     "reductionBb": {
+      "mean": 0.12092084272166363,
+      "ci95": 0.31380257408312306,
+      "n": 3
+     }
+    }
+   ],
+   "rows": [
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.021577,
+     "stateVisits": 140298,
+     "maxGainBb": 0.8448195767700373,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.099216,
+     "stateVisits": 679971,
+     "maxGainBb": 0.2732153208962833,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250494,
+     "deals": 43328,
+     "maxGainBb": 0.25747027596165495,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.037206,
+     "stateVisits": 143018,
+     "maxGainBb": 1.881889065647668,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.17845100000000003,
+     "stateVisits": 683749,
+     "maxGainBb": 0.20089422052821782,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250401,
+     "deals": 28032,
+     "maxGainBb": 0.30121727477352955,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.037527,
+     "stateVisits": 141640,
+     "maxGainBb": 0.6465003606459625,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.123555,
+     "stateVisits": 680397,
+     "maxGainBb": 0.2832616234649281,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.3 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.25068,
+     "deals": 49280,
+     "maxGainBb": 0.213435829879276,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.021736,
+     "stateVisits": 140298,
+     "maxGainBb": 0.8448195767700373,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.10633300000000001,
+     "stateVisits": 679971,
+     "maxGainBb": 0.2732153208962833,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250414,
+     "deals": 46848,
+     "maxGainBb": 0.15019619053097433,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.023884,
+     "stateVisits": 143018,
+     "maxGainBb": 1.881889065647668,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.112718,
+     "stateVisits": 683749,
+     "maxGainBb": 0.20089422052821782,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250743,
+     "deals": 47488,
+     "maxGainBb": 0.3296586109816344,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.049337,
+     "stateVisits": 141640,
+     "maxGainBb": 0.6465003606459625,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.140663,
+     "stateVisits": 680397,
+     "maxGainBb": 0.2832616234649281,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250131,
+     "deals": 33088,
+     "maxGainBb": 0.4598111425435052,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.025775,
+     "stateVisits": 151717,
+     "maxGainBb": 2.221336937519098,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.121723,
+     "stateVisits": 726608,
+     "maxGainBb": 0.9826174878833457,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250131,
+     "deals": 42240,
+     "maxGainBb": 0.6680330404621273,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.043106,
+     "stateVisits": 151446,
+     "maxGainBb": 1.951101132773148,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.133346,
+     "stateVisits": 724466,
+     "maxGainBb": 0.9696441307625367,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250139,
+     "deals": 25152,
+     "maxGainBb": 0.8536588904881419,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.020178,
+     "stateVisits": 152321,
+     "maxGainBb": 1.9483350823404155,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.110366,
+     "stateVisits": 725004,
+     "maxGainBb": 0.8961567713975085,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, CFR+ linear",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250443,
+     "deals": 28416,
+     "maxGainBb": 0.7938726211289133,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.035233,
+     "stateVisits": 149606,
+     "maxGainBb": 1.1775963160681882,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.18038300000000002,
+     "stateVisits": 711301,
+     "maxGainBb": 0.5425110764275067,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250681,
+     "deals": 27776,
+     "maxGainBb": 0.48556741493286215,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.03493,
+     "stateVisits": 150587,
+     "maxGainBb": 1.1904503750888475,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.151226,
+     "stateVisits": 707621,
+     "maxGainBb": 0.5363355211123351,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250192,
+     "deals": 45312,
+     "maxGainBb": 0.34688160384802025,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.022151,
+     "stateVisits": 148548,
+     "maxGainBb": 1.256850246646799,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.136606,
+     "stateVisits": 710258,
+     "maxGainBb": 0.5496994032453095,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (1.5, 0, 2)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250196,
+     "deals": 41344,
+     "maxGainBb": 0.34848170443223236,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.039096,
+     "stateVisits": 142617,
+     "maxGainBb": 0.5041922168965627,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.177836,
+     "stateVisits": 681973,
+     "maxGainBb": 0.23863847121025294,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.25017,
+     "deals": 31872,
+     "maxGainBb": 0.17212076456784953,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.034425,
+     "stateVisits": 142977,
+     "maxGainBb": 0.6869628977998323,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.144645,
+     "stateVisits": 684146,
+     "maxGainBb": 0.23214590891471687,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250185,
+     "deals": 42176,
+     "maxGainBb": 0.16283363323802824,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.029737,
+     "stateVisits": 144769,
+     "maxGainBb": 0.5429649720389484,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.16092099999999998,
+     "stateVisits": 681646,
+     "maxGainBb": 0.22173455418005528,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR (2, 1, 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250127,
+     "deals": 32256,
+     "maxGainBb": 0.24194901808524527,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.034461,
+     "stateVisits": 152320,
+     "maxGainBb": 1.2782968815507032,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.12106600000000001,
+     "stateVisits": 717206,
+     "maxGainBb": 0.49494152558582094,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.255738,
+     "deals": 45056,
+     "maxGainBb": 0.3415730701803126,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.030413,
+     "stateVisits": 148727,
+     "maxGainBb": 1.3716148306900608,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.120526,
+     "stateVisits": 714584,
+     "maxGainBb": 0.5592574895740068,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250994,
+     "deals": 45056,
+     "maxGainBb": 0.3584394074741153,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.035381,
+     "stateVisits": 151808,
+     "maxGainBb": 1.3660058511485387,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.110344,
+     "stateVisits": 717636,
+     "maxGainBb": 0.4625537855271389,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 external sampling, DCFR, per-deal streams, batch 16, 4 threads",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.254505,
+     "deals": 48128,
+     "maxGainBb": 0.3629649604043277,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.027121,
+     "stateVisits": 592000,
+     "maxGainBb": 0.3826258704588037,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.112288,
+     "stateVisits": 2960000,
+     "maxGainBb": 0.17545580748030076,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.251353,
+     "deals": 43776,
+     "maxGainBb": 0.12935077448381183,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.021202,
+     "stateVisits": 592000,
+     "maxGainBb": 0.34717907065361153,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.120998,
+     "stateVisits": 2960000,
+     "maxGainBb": 0.17646838850470647,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250875,
+     "deals": 45056,
+     "maxGainBb": 0.10050974291363346,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.02472,
+     "stateVisits": 592000,
+     "maxGainBb": 0.4286654487102046,
+     "sumGainBb": null
+    },
+    {
+     "kind": "deals",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.11065,
+     "stateVisits": 2960000,
+     "maxGainBb": 0.24903841592504516,
+     "sumGainBb": null
+    },
+    {
+     "kind": "time",
+     "engine": "3.4 full traversal, linear (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250566,
+     "deals": 40448,
+     "maxGainBb": 0.11399493996780752,
+     "sumGainBb": null
+    }
+   ]
+  }
+ }
+}

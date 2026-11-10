@@ -1,0 +1,1 @@
+PTX 45107 bytes; sm_75 34600 bytes, sm_80 34088 bytes, sm_86 34216 bytes, sm_89 34216 bytes

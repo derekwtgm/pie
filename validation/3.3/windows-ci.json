@@ -1,0 +1,22 @@
+{
+ "description": "GitHub Actions run of .github/workflows/windows.yml on a GitHub-hosted windows-latest runner (Windows Server, no NVIDIA GPU, no interactive desktop). Not the owner's PC.",
+ "run": "https://github.com/derekwtgm/pie/actions/runs/42439928099",
+ "commit": "d28c57d19e9f0532ca8dd02a068e0b084c8b70a1",
+ "conclusion": "success",
+ "steps": {
+  "Engine regressions (node --test, Windows)": "success",
+  "Build the UI": "success",
+  "Compile a fresh native host from the current source (MSYS2 UCRT64 gcc)": "success",
+  "Test the fresh host on Windows (test_windows.ps1, test_native_host.js, test_native_mw.js)": "success",
+  "Assemble the release around the fresh host": "success",
+  "Verify the assembled release (verify_build, package/mtt/checkpoint smoke, test_windows.ps1 on the release, accuracy_report, regression)": "success",
+  "Parse every PowerShell script": "success",
+  "validate_hardware.ps1 on the runner (CPU paths)": "success"
+ },
+ "hardwareScriptExcerpt": ["CUDA unavailable: NVIDIA driver library not found. GPU checks are reported as not run.",
+  "heads-up preflop AA vs KK: 1712304 boards, CPU 0.606 s (run 8)",
+  "External sampling, 4 threads: 25,920 deals/s",
+  "cpu / auto / gpu / hybrid scoring modes: all four states match; GPU modes report CPU (CUDA unavailable)",
+  "Completed available checks (failures list empty: negative ante rejected, DCFR and grouped fixtures identical across thread counts and after resume)"],
+ "notMeasured": "Physical RTX 4060 Ti, Core i7-13xxx, desktop browser session."
+}

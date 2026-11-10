@@ -1,0 +1,85 @@
+{
+  "kind": "Genuinely trained eight-seat linked external-sampling checkpoints, each compared to the next uninterrupted update.",
+  "runs": [
+    {
+      "targetMiB": 128,
+      "rawBytes": 156386787,
+      "archiveBytes": 156411463,
+      "completedUpdates": 24000,
+      "sampledDeals": 96000,
+      "httpRestoreSeconds": 4.520904504999862,
+      "hostPeakRestoreMiB": 519.21484375,
+      "cliRestoreTrainAndSaveSeconds": 5.833862510000017,
+      "cliProcessPeakMiB": 513.5,
+      "fullResumedAndUninterruptedSHA256": "78de38f2ba82163e92e652f18bdf6ad9c9b452cfedca354e28c61a98d39a1f34",
+      "resumedCounters": {
+        "iterations": 24001,
+        "trainingDeals": 96004,
+        "stateVisits": 35904438,
+        "rng": 1052122792,
+        "actionRng": 1899539333,
+        "rows": 3000101
+      }
+    },
+    {
+      "targetMiB": 256,
+      "rawBytes": 284570559,
+      "archiveBytes": 284614795,
+      "completedUpdates": 48001,
+      "sampledDeals": 192004,
+      "httpRestoreSeconds": 6.799390187999961,
+      "hostPeakRestoreMiB": 871.33203125,
+      "cliRestoreTrainAndSaveSeconds": 9.208279943999969,
+      "cliProcessPeakMiB": 866.4,
+      "fullResumedAndUninterruptedSHA256": "a6e321e7cc6e4e1d9378fabad95bb61e8d55c5c940ee7c9130fc7566c72fc124",
+      "resumedCounters": {
+        "iterations": 48002,
+        "trainingDeals": 192008,
+        "stateVisits": 70058345,
+        "rng": 2650704400,
+        "actionRng": 1899539333,
+        "rows": 5697492
+      }
+    },
+    {
+      "targetMiB": 512,
+      "rawBytes": 544240488,
+      "archiveBytes": 544324365,
+      "completedUpdates": 100002,
+      "sampledDeals": 400008,
+      "httpRestoreSeconds": 12.70100211099998,
+      "hostPeakRestoreMiB": 1589.046875,
+      "cliRestoreTrainAndSaveSeconds": 16.390829422000024,
+      "cliProcessPeakMiB": 1585.3,
+      "fullResumedAndUninterruptedSHA256": "61ccea1e94b325dc99a6a744700a3315934a2496311ea3c6691a8026344780e6",
+      "resumedCounters": {
+        "iterations": 100003,
+        "trainingDeals": 400012,
+        "stateVisits": 142401881,
+        "rng": 2583650454,
+        "actionRng": 1899539333,
+        "rows": 11263092
+      }
+    },
+    {
+      "targetMiB": 1024,
+      "rawBytes": 1082483966,
+      "archiveBytes": 1082649963,
+      "completedUpdates": 212003,
+      "sampledDeals": 848012,
+      "httpRestoreSeconds": 20.428670183999884,
+      "hostPeakRestoreMiB": 3194.84765625,
+      "cliRestoreTrainAndSaveSeconds": 31.214908508000008,
+      "cliProcessPeakMiB": 3191.3,
+      "fullResumedAndUninterruptedSHA256": "6a9c2b67a1ccbaf54fda521858bad2303d5ee4067dc9c49f722127b963aa33d4",
+      "resumedCounters": {
+        "iterations": 212004,
+        "trainingDeals": 848016,
+        "stateVisits": 296589384,
+        "rng": 2897562413,
+        "actionRng": 1899539333,
+        "rows": 22939730
+      }
+    }
+  ]
+}

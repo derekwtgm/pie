@@ -63,8 +63,18 @@ function PostflopGame(cfg) {
   const nb = board.length;
   if (nb < 3 || nb > 5) throw new Error('Board needs 3, 4 or 5 cards');
   const P0 = +cfg.pot, S = +cfg.stack;
-  if (!(P0 > 0)) throw new Error('Pot must be above 0');
-  if (!(S >= 0)) throw new Error('Stack must be 0 or more');
+  if (!(P0 > 0) || !Number.isFinite(P0)) throw new Error('Pot must be above 0');
+  if (!(S >= 0) || !Number.isFinite(S)) throw new Error('Stack must be 0 or more');
+  // 3.3: the same strict checks as the native host (cfg.c): whole, distinct card
+  // identifiers and finite, nonnegative weights for all 1326 combinations.
+  if (board.some(c => !Number.isInteger(c) || c < 0 || c > 51) || new Set(board).size !== nb) throw new Error('Bad or duplicate board card');
+  if (!Array.isArray(cfg.ranges) && !ArrayBuffer.isView(cfg.ranges) || cfg.ranges.length !== 2) throw new Error('Missing ranges');
+  for (let p = 0; p < 2; p++) {
+    const r = cfg.ranges[p];
+    if (!r || r.length !== 1326) throw new Error('Range needs 1326 weights');
+    for (let i = 0; i < 1326; i++) if (typeof r[i] !== 'number' || !Number.isFinite(r[i]) || r[i] < 0)
+      throw new Error('Range weights must be finite and nonnegative (' + (p ? 'IP' : 'OOP') + ', combo ' + i + ')');
+  }
   const startStreet = nb - 3;
   // ICM: u[p][i] is player p's tournament equity when OOP finishes the hand with x0 + i*dx chips
   // (the two players' chips are conserved, so OOP's final stack fixes IP's too)

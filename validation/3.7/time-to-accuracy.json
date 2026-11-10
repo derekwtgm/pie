@@ -1,0 +1,225 @@
+{
+  "method": "First sampled checkpoint crossing each exact-exploitability target. Six spaced checkpoints per seed, censor at 500000. Process times include CLI loading and serialization. Offline strategy evaluation is outside the timer.",
+  "targets": [
+    {
+      "targetBB": 0.1,
+      "version": "3.6",
+      "observations": [
+        {
+          "seed": 11,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.145314,
+          "endToEndProcessSeconds": 0.16084972300000003
+        },
+        {
+          "seed": 29,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.33609900000000004,
+          "endToEndProcessSeconds": 0.3582967729999991
+        },
+        {
+          "seed": 43,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.137565,
+          "endToEndProcessSeconds": 0.15476865400000134
+        },
+        {
+          "seed": 67,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.13219799999999998,
+          "endToEndProcessSeconds": 0.1458764080000001
+        },
+        {
+          "seed": 89,
+          "reached": true,
+          "firstMeasuredDeals": 50000,
+          "cumulativeTrainingSeconds": 0.072609,
+          "endToEndProcessSeconds": 0.08265465299999414
+        },
+        {
+          "seed": 131,
+          "reached": true,
+          "firstMeasuredDeals": 50000,
+          "cumulativeTrainingSeconds": 0.066509,
+          "endToEndProcessSeconds": 0.07702656800000113
+        },
+        {
+          "seed": 157,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.139063,
+          "endToEndProcessSeconds": 0.1538494350000001
+        }
+      ]
+    },
+    {
+      "targetBB": 0.1,
+      "version": "3.7",
+      "observations": [
+        {
+          "seed": 11,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.156394,
+          "endToEndProcessSeconds": 0.17123204899999972
+        },
+        {
+          "seed": 29,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.195255,
+          "endToEndProcessSeconds": 0.20944687199999953
+        },
+        {
+          "seed": 43,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.39578499999999994,
+          "endToEndProcessSeconds": 0.41474317900000096
+        },
+        {
+          "seed": 67,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.16320099999999998,
+          "endToEndProcessSeconds": 0.17862579500000175
+        },
+        {
+          "seed": 89,
+          "reached": true,
+          "firstMeasuredDeals": 100000,
+          "cumulativeTrainingSeconds": 0.19207200000000002,
+          "endToEndProcessSeconds": 0.20761271799999667
+        },
+        {
+          "seed": 131,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.371628,
+          "endToEndProcessSeconds": 0.3926865749999997
+        },
+        {
+          "seed": 157,
+          "reached": true,
+          "firstMeasuredDeals": 50000,
+          "cumulativeTrainingSeconds": 0.10891300000000001,
+          "endToEndProcessSeconds": 0.12300685500000327
+        }
+      ]
+    },
+    {
+      "targetBB": 0.05,
+      "version": "3.6",
+      "observations": [
+        {
+          "seed": 11,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.7316910000000001,
+          "endToEndProcessSeconds": 0.757340732
+        },
+        {
+          "seed": 29,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.661845,
+          "endToEndProcessSeconds": 0.6885015909999993
+        },
+        {
+          "seed": 43,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.387781,
+          "endToEndProcessSeconds": 0.40915857700000013
+        },
+        {
+          "seed": 67,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.727997,
+          "endToEndProcessSeconds": 0.7490467590000007
+        },
+        {
+          "seed": 89,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.361628,
+          "endToEndProcessSeconds": 0.3801441889999915
+        },
+        {
+          "seed": 131,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.737074,
+          "endToEndProcessSeconds": 0.7588584510000037
+        },
+        {
+          "seed": 157,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.340472,
+          "endToEndProcessSeconds": 0.35887954900000113
+        }
+      ]
+    },
+    {
+      "targetBB": 0.05,
+      "version": "3.7",
+      "observations": [
+        {
+          "seed": 11,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.41743700000000006,
+          "endToEndProcessSeconds": 0.43685296599999945
+        },
+        {
+          "seed": 29,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.8110660000000001,
+          "endToEndProcessSeconds": 0.8329154789999984
+        },
+        {
+          "seed": 43,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.39578499999999994,
+          "endToEndProcessSeconds": 0.41474317900000096
+        },
+        {
+          "seed": 67,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.388289,
+          "endToEndProcessSeconds": 0.4077288300000018
+        },
+        {
+          "seed": 89,
+          "reached": true,
+          "firstMeasuredDeals": 500000,
+          "cumulativeTrainingSeconds": 0.8471839999999999,
+          "endToEndProcessSeconds": 0.8713546439999991
+        },
+        {
+          "seed": 131,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.371628,
+          "endToEndProcessSeconds": 0.3926865749999997
+        },
+        {
+          "seed": 157,
+          "reached": true,
+          "firstMeasuredDeals": 250000,
+          "cumulativeTrainingSeconds": 0.484628,
+          "endToEndProcessSeconds": 0.5105982120000044
+        }
+      ]
+    }
+  ]
+}
