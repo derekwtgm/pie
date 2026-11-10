@@ -1147,20 +1147,53 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
     JB body; jb_init(&body); JB *o = &body;
     struct FreeB { JB *b; ~FreeB() { jb_free(b); } } freeB{&body};
     const char *mode = method == "exact" ? "exactBestResponse" : method == "restricted" ? "restrictedBestResponse" : "sampledOneDecisionDeviation";
-    jb_printf(o, "{\"engine\":\"native response gain\",\"version\":\"4.0\",\"method\":\"%s\",\"mode\":\"%s\",\"policy\":\"%s\",\"missing\":\"%s\",\"fallback\":\"%s\",\"players\":%d,\"updates\":%lld,\"sampledDeals\":%lld,\"seed\":%lld", method.c_str(), mode, policyName(P.pol), P.refuse ? "refuse" : "uniform", fallbackName(P.fallback), n, m->iterations, m->trainingDeals, P.seed);
+    const int seatThreads = std::max(1, std::min<int>(effectiveThreads(P.threads), (int)std::max<size_t>(1, seats.size())));
+    jb_printf(o, "{\"engine\":\"native response gain\",\"version\":\"4.1\",\"threads\":%d,\"method\":\"%s\",\"mode\":\"%s\",\"policy\":\"%s\",\"missing\":\"%s\",\"fallback\":\"%s\",\"players\":%d,\"updates\":%lld,\"sampledDeals\":%lld,\"seed\":%lld", seatThreads, method.c_str(), mode, policyName(P.pol), P.refuse ? "refuse" : "uniform", fallbackName(P.fallback), n, m->iterations, m->trainingDeals, P.seed);
     utilityJson(o, *m);
     jb_printf(o, ",\"abstraction\":{\"startStreet\":\"%s\",\"bettingAbstraction\":\"the study's solved action menu; unsolved bet sizes are never synthesized\"}", streetName(m->startLen));
     std::vector<double> gains;
+    // 4.1: seats are evaluated concurrently (threads, default as for action EVs).
+    // Every per-seat random stream is derived from (seed, seat, purpose), each
+    // seat gets its own control block (child of S: memory and board budgets stay
+    // request totals, cancellation and the deadline are shared) and writes its
+    // JSON to its own buffer; buffers and gains are merged in seat order, so the
+    // result is bit-identical for every thread count (unless the memory budget
+    // forces per-board enumeration for a seat, which changes only summation order).
+    auto runSeats = [&](auto &&body) {
+      const size_t ns = seats.size();
+      std::vector<JB> outs(ns); std::vector<std::vector<double>> gs(ns); std::vector<std::unique_ptr<EvShared>> kids(ns);
+      for (size_t i = 0; i < ns; i++) {
+        jb_init(&outs[i]); kids[i] = std::make_unique<EvShared>(); EvShared &K = *kids[i];
+        K.ctl.parent = &S.ctl; K.ctl.cancel = S.ctl.cancel; K.ctl.deadline = S.ctl.deadline; K.ctl.maxVisits = S.ctl.maxVisits; K.ctl.maxBoards = S.ctl.maxBoards;
+        K.device = S.device; K.gpuBudget = S.gpuBudget; K.memoryBudget = S.memoryBudget; K.fallback = S.fallback; K.forceChip = S.forceChip;
+      }
+      auto merge = [&](EvShared &K) {
+        EvControl &c = S.ctl, &d = K.ctl;
+        c.visits += d.visits.load(); c.samples += d.samples.load(); c.unitsDone += d.unitsDone.load() + 1; c.tables += d.tables.load(); c.boards += d.boards.load(); c.checks += d.checks.load();
+        c.maxGapNs.store(std::max(c.maxGapNs.load(), d.maxGapNs.load()));
+        for (int st = 0; st < SITE_COUNT; st++) c.work[st] += d.work[st].load();
+        ShowdownStats &a = S.show, &b = K.show;
+        a.tables += b.tables.load(); a.boards += b.boards.load(); a.cpuBoards += b.cpuBoards.load(); a.gpuBoards += b.gpuBoards.load(); a.gpuTables += b.gpuTables.load(); a.hybridTables += b.hybridTables.load();
+        a.patternSets += b.patternSets.load(); a.directTerminals += b.directTerminals.load(); a.gpuFailures += b.gpuFailures.load(); a.reused += b.reused.load();
+        if (a.gpuNote.empty() && !b.gpuNote.empty()) a.gpuNote = b.gpuNote;
+      };
+      S.ctl.unitsTotal += (long long)ns;
+      try { parallelFor(S.ctl, seatThreads, ns, [&](int, size_t i) { body(i, &outs[i], *kids[i], gs[i]); }); }
+      catch (...) { for (auto &b : outs) jb_free(&b); throw; }
+      bool oom = false;
+      for (size_t i = 0; i < ns; i++) { oom |= outs[i].failed; jb_putn(o, outs[i].s, outs[i].n); jb_free(&outs[i]); gains.insert(gains.end(), gs[i].begin(), gs[i].end()); merge(*kids[i]); }
+      if (oom) throw std::bad_alloc();
+    };
     if (method == "exact") {
       jb_puts(o, ",\"responseClass\":\"full best response of one seat over exact private hands and boards inside the study's betting abstraction, all other seats fixed\",\"seats\":[");
-      for (size_t i = 0; i < seats.size(); i++) {
+      runSeats([&](size_t i, JB *o, EvShared &S, std::vector<double> &gains) {
         const int seat = seats[i]; const double ts = nowSec(); Evaluator E(*m, g, P.pol, P.refuse, seat, &S); E.exact = true; S.ctl.unitVisits = 0;
         BrOut r; try { r = exactBestResponse(E, seat); } catch (const EvBudget &) { throw QueryError{422, "Exact best response exceeds maxVisits (" + std::to_string(P.maxVisits) + ") or its memory budget; use method restricted or sampled"}; }
         if (!(r.z > 0)) throw QueryError{422, "Seat " + std::to_string(seat) + " has no possible deal"};
         const double gain = (r.br - r.pv) / r.z; gains.push_back(gain);
         jb_printf(o, "%s{\"seat\":%d,\"policyValue\":", i ? "," : "", seat); jnumOrNull(o, r.pv / r.z); jb_puts(o, ",\"bestResponseValue\":"); jnumOrNull(o, r.br / r.z);
         jb_puts(o, ",\"gain\":"); jnumOrNull(o, gain); jb_printf(o, ",\"stdErr\":0,\"visits\":%lld,\"elapsedMs\":%.1f,\"fallbackLookups\":%lld,\"policyLookups\":%lld}", E.visits, (nowSec() - ts) * 1000, E.cov.missing, E.cov.lookups);
-      }
+      });
       jb_putc(o, ']');
       if (seats.size() == (size_t)n) {
         double sum = 0; for (double x : gains) sum += x;
@@ -1170,7 +1203,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
       }
     } else if (method == "restricted") {
       jb_puts(o, ",\"responseClass\":\"best response restricted to the seat's decisions on the study's first street (later streets follow the evaluated policy), by backward induction over those decision nodes; unvisited betting states keep the fallback policy. A lower bound on the full best-response gain, not exploitability.\",\"seats\":[");
-      for (size_t si = 0; si < seats.size(); si++) {
+      runSeats([&](size_t si, JB *o, EvShared &S, std::vector<double> &gains) {
         const int seat = seats[si]; const double ts = nowSec(); if (si) jb_putc(o, ',');
         S.ctl.maxVisits = P.maxVisits; S.ctl.unitVisits = 0;
         EvalPool pool(*m, g, P.pol, P.refuse, seat, &S, 1); Evaluator &E = pool.main();
@@ -1257,14 +1290,14 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
           gains.push_back(gain);
         }
         jb_printf(o, ",\"elapsedMs\":%.1f,\"fallbackLookups\":%lld,\"policyLookups\":%lld}", (nowSec() - ts) * 1000, E.cov.missing, E.cov.lookups);
-      }
+      });
       jb_putc(o, ']');
     } else {
       jb_puts(o, ",\"responseClass\":\"one-shot deviation at one decision node per seat (continuation unchanged); best action per hand selected on an independent sample stream, gain evaluated on another; a lower bound on the seat's best-response gain, not exploitability\",\"seats\":[");
-      for (size_t si = 0; si < seats.size(); si++) {
+      runSeats([&](size_t si, JB *o, EvShared &S, std::vector<double> &gains) {
         const int seat = seats[si]; std::vector<int> path = cpath; const double ts = nowSec();
         if (si) jb_putc(o, ',');
-        if (!customNode && !defaultPath(g, seat, path)) { jb_printf(o, "{\"seat\":%d,\"available\":false,\"reason\":\"The seat has no decision on the study's first street\"}", seat); continue; }
+        if (!customNode && !defaultPath(g, seat, path)) { jb_printf(o, "{\"seat\":%d,\"available\":false,\"reason\":\"The seat has no decision on the study's first street\"}", seat); return; }
         Resolved R = resolvePath(*m, g, path, cboard, cancel);
         const BS &t = R.node();
         if (t.kind != 0 || t.actor != seat) throw QueryError{400, "The path does not end at a decision of seat " + std::to_string(seat)};
@@ -1327,7 +1360,7 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
           gains.push_back(gu);
         }
         jb_printf(o, ",\"elapsedMs\":%.1f,\"fallbackLookups\":%lld,\"policyLookups\":%lld}", (nowSec() - ts) * 1000, E.cov.missing, E.cov.lookups);
-      }
+      });
       jb_putc(o, ']');
     }
     if (!gains.empty()) {

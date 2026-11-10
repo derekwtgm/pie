@@ -86,7 +86,10 @@ struct EvControl {
   std::atomic<long long> memoryBytes{0}, peakMemoryBytes{0};
   std::atomic<long long> work[SITE_COUNT] = {};   // 4.1: units of work per site
   std::atomic<long long> boardEvals{0}; long long maxBoards = LLONG_MAX;
-  bool chargeBoards(long long n) { return boardEvals.fetch_add(n, std::memory_order_relaxed) + n <= maxBoards; }
+  // 4.1: a per-seat child control (parallel response gains) forwards memory and
+  // board-budget charges to the request's control, so request budgets stay totals.
+  EvControl *parent = nullptr;
+  bool chargeBoards(long long n) { if (parent) return parent->chargeBoards(n); return boardEvals.fetch_add(n, std::memory_order_relaxed) + n <= maxBoards; }
   long long maxVisits = LLONG_MAX;       // budget of the current exact unit (hand)
   std::atomic<long long> unitVisits{0};
   // measured deadline behaviour
@@ -104,11 +107,12 @@ struct EvControl {
   void setDeadline(long long ms) { const auto now = Clock::now(); startTicks.store(now.time_since_epoch().count(), std::memory_order_release); deadline = now + std::chrono::milliseconds(ms); }
   double elapsedMs() const { return std::chrono::duration<double, std::milli>(Clock::now() - start()).count(); }
   void raise(int code, int site) { int z = 0; if (stop.compare_exchange_strong(z, code)) stopSite.store(site); }
-  void charge(long long bytes) { const long long now = memoryBytes.fetch_add(bytes) + bytes; long long p = peakMemoryBytes.load(); while (now > p && !peakMemoryBytes.compare_exchange_weak(p, now)) {} }
-  void release(long long bytes) { memoryBytes.fetch_sub(bytes); }
+  void charge(long long bytes) { if (parent) { parent->charge(bytes); return; } const long long now = memoryBytes.fetch_add(bytes) + bytes; long long p = peakMemoryBytes.load(); while (now > p && !peakMemoryBytes.compare_exchange_weak(p, now)) {} }
+  void release(long long bytes) { if (parent) { parent->release(bytes); return; } memoryBytes.fetch_sub(bytes); }
   // Reserves `bytes` only if the total stays within `budget` (atomic: concurrent
   // workers cannot both pass the check and overshoot the budget together).
   bool tryCharge(long long bytes, long long budget) {
+    if (parent) return parent->tryCharge(bytes, budget);
     long long cur = memoryBytes.load();
     do { if (cur + bytes > budget) return false; } while (!memoryBytes.compare_exchange_weak(cur, cur + bytes));
     long long p = peakMemoryBytes.load(); while (cur + bytes > p && !peakMemoryBytes.compare_exchange_weak(p, cur + bytes)) {}
@@ -141,6 +145,7 @@ struct Poller {
   void slow(int site, long long visits) {
     EvControl &c = *ctl; const auto now = EvControl::Clock::now();
     if (!flushWork()) c.raise(6, site);
+    if (c.parent) { const int ps = c.parent->stop.load(std::memory_order_relaxed); if (ps) c.raise(ps, site); }   // another seat failed or the request stopped
     const long long gap = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last).count(); last = now;
     if (gap > 1000000 && interval > 1) interval >>= 1; else if (gap < 125000 && interval < 65536) interval <<= 1;
     countdown = interval;

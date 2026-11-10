@@ -1,6 +1,6 @@
 {
  "version": "4.1",
- "build": "ec20ffd946d0067e",
+ "build": "142215657656ae32",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",

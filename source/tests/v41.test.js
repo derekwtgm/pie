@@ -320,3 +320,34 @@ test('4.1 work budgets: response gains report work and honour maxBoardEvaluation
   const cut = P.gain({ method: 'exact', seats: [0], maxBoardEvaluations: 100000 });
   assert.equal(cut.json, null); assert.match(cut.error, /422.*maxBoardEvaluations/);
 });
+
+// ============================== parallel response gains ==============================
+test('4.1 response gains: seats run in parallel with results bit-identical for 1, 2 and 4 threads (exact, restricted, sampled)', { skip: cliSkip }, t => {
+  const S = cliStudy(t, 'push8', 40);
+  for (const q of [{ method: 'exact', seats: [0, 3, 6] }, { method: 'restricted', selection: 'sampled', samples: 2000 }, { method: 'sampled', samples: 1500, seats: [1, 2, 5, 7] }]) {
+    const runs = [1, 2, 4].map(threads => S.gain({ ...q, threads }).json);
+    for (const r of runs) assert.ok(r, JSON.stringify(q));
+    const strip = r => r.seats.map(({ elapsedMs, ...rest }) => rest);
+    assert.deepEqual(strip(runs[1]), strip(runs[0]), q.method + ' 2 threads'); assert.deepEqual(strip(runs[2]), strip(runs[0]), q.method + ' 4 threads');
+    assert.equal(runs[2].threads, Math.min(4, runs[2].seats.length));
+    assert.equal(runs[0].work.boardEvaluations, runs[2].work.boardEvaluations, 'work accounting is thread-independent');
+    for (const s of runs[0].seats) if (s.available !== false) assert.ok(typeof s.seat === 'number');
+  }
+});
+test('4.1 response gains: a parallel response-gain job is cancelled promptly and leaves no reader or worker behind', { skip }, async t => {
+  await withHost(home(t), {}, async api => {
+    await trained(api, 'push8', 40);
+    await api('mw/jobs/config', { workers: 1, threadsPerJob: 2 });
+    for (let i = 0; i < 3; i++) {
+      const j = await json(await api('mw/jobs/response-gain', { method: 'exact', threads: 2 }));
+      assert.equal(j.http, 202, j.error);
+      await until(async () => (await json(await api('mw/jobs/' + j.jobId))).status === 'running');
+      await new Promise(r => setTimeout(r, 50 + 100 * i));
+      const t0 = Date.now(); await api('mw/jobs/' + j.jobId + '/cancel', {});
+      const done = await until(async () => { const x = await json(await api('mw/jobs/' + j.jobId)); return x.status !== 'running' && x; });
+      assert.equal(done.status, 'cancelled'); assert.ok(Date.now() - t0 < 1500, 'cancelled in ' + (Date.now() - t0) + ' ms');
+    }
+    const cfg = (await json(await api('mw/jobs'))).config; assert.equal(cfg.running, 0); assert.equal(cfg.runningMiB, 0);
+    assert.equal((await api('mw/train', { iterations: 2, threads: 1 })).status, 200);
+  });
+});
