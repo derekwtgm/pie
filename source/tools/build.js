@@ -59,7 +59,7 @@ function compactDeepCharts() {
   return source.replace(match[0],()=> 'EM.DEEP_LIB = '+JSON.stringify(charts)+';\n'+unpack);
 }
 const files=['lib_cards','lib_eval','lib_pots','lib_icm','lib_information','lib_checkpoint','lib_archive','lib_eqdata','lib_pushfold','lib_fgs','lib_charts',
-  'lib_postflop','lib_wasm','lib_deep','lib_deeplib','lib_flops','lib_runouts','lib_wide','lib_river','lib_select','lib_quality','worker'];
+  'lib_postflop','lib_wasm','lib_deep','lib_deeplib','lib_flops','lib_runouts','lib_wide','lib_river','lib_select','lib_quality','lib_explorer','worker'];
 const libParts=files.map(x => x==='lib_charts'?compactCharts():x==='lib_deeplib'?compactDeepCharts():read(x+'.js')).join('\n;\n');
 const lib=libParts+'\n;\n'+buildInfo;
 const app=read('lib_river_ui.js')+'\n;\n'+read('app.js'), css=read('app.css');

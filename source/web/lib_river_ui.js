@@ -214,8 +214,56 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
     const hand=rootPolicy?.hands[index];if(!hand)return;
     el('desktop-mix').textContent=(hand.observed?'Saved average':'Unvisited hand, uniform default')+' · '+rootPolicy.actions.map((a,i)=>a.name+(['Bet to','Raise to','Call'].includes(a.name)?' '+a.to+' BB':'')+' '+(hand.probabilities[i]*100).toFixed(1)+'%').join(' · ');
   }
+  // 3.8: native strategy explorer. Each request asks the host for one node.
+  const explorer={open:false,path:[],board:[],boardInput:[],kind:'average',rangeSeat:null,selectedCell:null,response:null,error:'',busy:false};
+  function explorerNames(n){
+    if(spot&&spot.seats&&spot.seats.length===n)return spot.seats.map(x=>x.name);
+    return n>=2&&EM.pfPositions?EM.pfPositions(n):null;
+  }
+  function drawExplorer(){
+    const box=root.querySelector('#rv-desktop-explorer');if(!box)return;
+    box.hidden=!explorer.open;if(!explorer.open)return;
+    box.innerHTML=EM.renderExplorer(explorer.response,{kind:explorer.kind,names:explorer.response?explorerNames(explorer.response.study.players):null,selectedCell:explorer.selectedCell,boardInput:explorer.boardInput,error:explorer.error});
+  }
+  async function exploreNode(path,board){
+    if(explorer.busy)return;explorer.busy=true;explorer.error='';
+    try{
+      const body={path,board,limit:1326};if(explorer.rangeSeat!=null)body.rangeSeat=explorer.rangeSeat;
+      const response=await desktopRequest('mw/node',JSON.stringify(body));
+      explorer.response=response;explorer.path=path;explorer.board=board;explorer.boardInput=[];
+      if(explorer.rangeSeat!=null&&explorer.rangeSeat===response.node.actor)explorer.rangeSeat=null;
+    }catch(e){explorer.error=e.message;}
+    finally{explorer.busy=false;drawExplorer();}
+  }
+  // Board cards for the path prefix with k actions: every chance card dealt
+  // before the (k+1)-th action, so the node shown is the next decision.
+  function boardBefore(k){
+    const out=[];let seen=0;
+    for(const step of explorer.response?.history||[]){if(step.chance){out.push(...step.cards);continue;}if(++seen>k)break;}
+    return out;
+  }
+  function explorerBack(){
+    const r=explorer.response;if(!r)return;
+    const last=r.history[r.history.length-1];
+    if(last&&last.chance){exploreNode(explorer.path,explorer.board.slice(0,explorer.board.length-last.cards.length));return;}
+    if(explorer.path.length)exploreNode(explorer.path.slice(0,-1),boardBefore(explorer.path.length-1));
+  }
+  function explorerClick(d){
+    if(d.exAction!==undefined){exploreNode([...explorer.path,Number(d.exAction)],explorer.board);explorer.selectedCell=null;return true;}
+    if(d.exGo!==undefined){const k=Number(d.exGo);exploreNode(explorer.path.slice(0,k),boardBefore(k));return true;}
+    if(d.exBack!==undefined){explorerBack();return true;}
+    if(d.exCell!==undefined){const c=Number(d.exCell);explorer.selectedCell=explorer.selectedCell===c?null:c;drawExplorer();return true;}
+    if(d.exCard!==undefined){
+      const c=Number(d.exCard),need=explorer.response?.node.needsCards||0,i=explorer.boardInput.indexOf(c);
+      if(i>=0)explorer.boardInput.splice(i,1);else explorer.boardInput.push(c);
+      if(explorer.boardInput.length>=need)exploreNode(explorer.path,[...explorer.board,...explorer.boardInput]);else drawExplorer();
+      return true;
+    }
+    return false;
+  }
   async function desktopAction(action,file){
     if(desktopOperation)return;
+    if(action==='explore'){explorer.open=!explorer.open;if(explorer.open&&!explorer.response)await exploreNode([],[]);else drawExplorer();return;}
     if(action==='policy'){
       try{
         rootPolicy=await desktopRequest('mw/desktop-policy');
@@ -225,6 +273,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
       }catch(e){desktopNotice=e.message;await updateDesktop();}return;
     }
     rootPolicy=null;if(el('desktop-policy'))el('desktop-policy').hidden=true;
+    if(action!=='stop'){explorer.open=false;explorer.response=null;explorer.path=[];explorer.board=[];drawExplorer();}
     desktopNotice='';const saving=action==='save',releasing=action==='release',training=action==='train';
     const input=el('desktop-updates'),updates=Number(input?.value);
     if(training&&(!Number.isSafeInteger(updates)||updates<1)){desktopNotice='Enter a positive whole number of updates.';await updateDesktop();return;}
@@ -244,7 +293,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   }
   function desktopPanel(){
     return '<div class="card"><h3>Native checkpoint recovery</h3><button type="button" class="btn sm" data-native-action="latest">Open latest on desktop</button> <button type="button" class="btn sm" data-native-action="previous">Open previous on desktop</button> <label>Open external-sampling archive <input id="rv-desktop-file" type="file" accept=".emstudy"></label>'+
-      '<div id="rv-desktop-tools" hidden><label>Additional updates <input id="rv-desktop-updates" type="number" min="1" max="10000000" value="1000"></label> <button type="button" class="btn sm" data-native-action="train">Continue training</button> <button type="button" class="btn sm" data-native-action="stop">Stop training</button> <button type="button" class="btn sm" data-native-action="policy">View starting-hand strategy</button> <button type="button" class="btn sm" data-native-action="save">Save native checkpoint</button> <button type="button" class="btn sm" data-native-action="release">Close desktop study</button></div>'+
+      '<div id="rv-desktop-tools" hidden><label>Additional updates <input id="rv-desktop-updates" type="number" min="1" max="10000000" value="1000"></label> <button type="button" class="btn sm" data-native-action="train">Continue training</button> <button type="button" class="btn sm" data-native-action="stop">Stop training</button> <button type="button" class="btn sm" data-native-action="policy">View starting-hand strategy</button> <button type="button" class="btn sm" data-native-action="explore">Explore strategy (preflop to river)</button> <button type="button" class="btn sm" data-native-action="save">Save native checkpoint</button> <button type="button" class="btn sm" data-native-action="release">Close desktop study</button></div>'+
+      '<div id="rv-desktop-explorer" hidden></div>'+
       '<div id="rv-desktop-policy" hidden><label>Root hand <select id="rv-desktop-hand"></select></label><div id="rv-desktop-mix"></div></div>'+
       '<button type="button" class="btn sm" data-native-action="cancel">Cancel checkpoint operation</button><div id="rv-desktop-status" role="status"></div></div>';
   }
@@ -566,6 +616,8 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   });
   root.addEventListener('change',e=>{
     if(e.target.id==='rv-desktop-hand'){showNativeHand(Number(e.target.value));return;}
+    if(e.target.id==='ex-kind'){explorer.kind=e.target.value==='current'?'current':'average';drawExplorer();return;}
+    if(e.target.id==='ex-seat'){explorer.rangeSeat=Number(e.target.value);exploreNode(explorer.path,explorer.board);return;}
     if(e.target.id==='rv-desktop-file' && !busy){if(e.target.files?.[0])desktopAction('upload',e.target.files[0]);return;}
     if(e.target.id==='rv-load' && !busy){loadTraining(e.target.files?.[0]);return;}
     if(e.target.id==='rv-count' && !busy){
@@ -584,6 +636,7 @@ EM.multiwayPanel = function(root, call, esc, pct, fmt) {
   });
   root.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+    if(b.closest('#rv-desktop-explorer')&&explorerClick(d))return;
     if(d.rvStorage&&!busy)showStorage();
     if(d.rvAdopt!==undefined&&!busy)showStorage(d.rvAdopt);
     if(d.nativeAction){
