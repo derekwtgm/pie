@@ -254,5 +254,10 @@ VRAM was not measured (no GPU).
 - Training algorithms unchanged; the convergence study found no better
   existing variant.
 - Browser full-traversal checkpoint memory limits from 3.9 are unchanged.
+- The pre-existing 3.4 test "solve startup failure rolls back and supports
+  concurrent retry/cancel" (legacy postflop solve path, unchanged) failed once
+  on each of two Windows-runner runs of the final commit and passed on re-run
+  and 10/10 locally: an intermittent test, documented in
+  `validation/4.0/windows-runner.md`.
 - The Windows self-test and hardware scripts were parsed and executed on the
   Windows runner, not on your PC; please run them.

@@ -14,3 +14,13 @@ The native host was compiled on Windows with MSYS2 UCRT64 GCC from this source.
 - PowerShell parse check of every script: passed. Release package verified (SHA-256 manifest, ZIP CRC).
 
 Later commits (visit accounting, documentation) are re-checked by the run on the final commit; see the branch's Actions history.
+
+## Final commit
+
+Runs 19 and 20 (final release commit 517fe6c and 60e3a59, identical source) each had one failure on the first
+attempt: the 3.4 test "solve startup failure rolls back and supports concurrent retry/cancel" (legacy
+postflop solve path, not changed in 4.0; it compares two status snapshots around concurrent restarts).
+Totals on those attempts: 348 passed, 1 failed, 9 skipped. The same test passed in run 18, 10 of 10 local
+Linux repetitions, and on the re-run of run 20 (attempt 2:
+https://github.com/derekwtgm/pie/actions/runs/42892283975), where every step succeeded. It is recorded as an
+intermittent Windows-runner failure of a pre-existing test, not removed or skipped.
