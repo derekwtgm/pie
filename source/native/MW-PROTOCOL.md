@@ -307,8 +307,11 @@ The node-cancel endpoint also cancels EV and response-gain calculations.
   with `"status":"partial"` / `stoppedEarly:true`, but only when at least
   `minSamples` (default 100) samples were completed; otherwise the hand is
   reported unavailable.
-* `maxVisits` remains an independent work budget for exact evaluations
-  (deterministic: checked against the exact visit total after the workers join).
+* `maxVisits` remains an independent work budget for exact evaluations: it
+  counts game-tree nodes and terminal evaluations (not showdown-table boards,
+  which every worker may build for itself and which are reported as
+  `execution.boardsScored`), so `visits` and the budget decision are identical
+  for every thread count (checked against the exact total after the workers join).
 * All worker threads are joined before the request returns; temporary showdown
   tables and caches are released; the engine state is never modified.
 

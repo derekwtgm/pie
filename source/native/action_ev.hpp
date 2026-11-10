@@ -236,7 +236,7 @@ struct Evaluator {
       for (int r = 0; r < need; r++) b[T.len + r] = T.deck[x[r]];
       int32_t *row = T.scores.data() + (size_t)(i * (unsigned long long)T.n);
       for (int p = 0; p < T.n; p++) row[p] = evalSeven(b, T.holes[2 * p], T.holes[2 * p + 1]);
-      visits++; poll(SITE_TABLE);
+      poll(SITE_TABLE);   // table work is reported as boards, not visits (each worker may build its own table)
       if (i + 1 < end) nextColex(x, need, T.deckCount);
     }
   }
@@ -264,7 +264,7 @@ struct Evaluator {
       if (!G.dev.boardsBegin(spec, binom, a, b, T.n, sh->gpuBudget)) { sh->show.gpuFailures++; G.disable("CUDA allocation, VRAM reserve or launch failed during an EV table"); sh->show.note(G.reason); return false; }
       if (hybrid) cpuScores(T, cpuFrom, end);
       if (!G.dev.boardsFinish(T.scores.data() + (size_t)(a * (unsigned long long)T.n))) { sh->show.gpuFailures++; G.disable("CUDA download failed during an EV table"); sh->show.note(G.reason); return false; }
-      sh->show.gpuBoards += (long long)(b - a); visits += (long long)(b - a);
+      sh->show.gpuBoards += (long long)(b - a);
     }
     if (hybrid) { sh->show.hybridTables++; sh->show.cpuBoards += (long long)(end - cpuFrom); } else sh->show.gpuTables++;
     return true;
@@ -326,7 +326,7 @@ struct Evaluator {
     for (auto &h : T.hist) if (h.mask == mask) return h.patterns;
     int seats[8], c = 0; for (uint32_t x = mask; x; x &= x - 1) seats[c++] = std::countr_zero(x);
     std::unordered_map<uint32_t, uint32_t> count; count.reserve(256);
-    for (unsigned long long b = 0; b < T.boards; b++) { count[rankPattern(T.scores.data() + (size_t)(b * (unsigned long long)T.n), seats, c)]++; visits++; poll(SITE_PATTERN); }
+    for (unsigned long long b = 0; b < T.boards; b++) { count[rankPattern(T.scores.data() + (size_t)(b * (unsigned long long)T.n), seats, c)]++; poll(SITE_PATTERN); }
     ShowTable::Hist H; H.mask = mask; H.patterns.assign(count.begin(), count.end()); std::sort(H.patterns.begin(), H.patterns.end());
     const long long bytes = (long long)(H.patterns.size() * 8 + 64); T.charged += bytes; sh->ctl.charge(bytes);
     sh->show.patternSets++;

@@ -124,7 +124,7 @@ test('4.0 exact EVs from showdown tables equal the 3.9 per-board enumeration, fo
     for (let i = 0; i < ref.hands.length; i++) {
       if (!ref.hands[i].available) { assert.equal(one.hands[i].available, false); continue; }
       ref.hands[i].ev.forEach((v, a) => assert.ok(rel(one.hands[i].ev[a], v) < 1e-9, 'table vs per-board ' + v + ' ' + one.hands[i].ev[a]));
-      assert.deepEqual(many.hands[i].ev, one.hands[i].ev, 'thread count must not change exact EVs');
+      assert.deepEqual(many.hands[i], one.hands[i], 'thread count must not change exact EVs, visits or labels');
     }
     if (q.range) assert.deepEqual(many.range.ev, one.range.ev);
   }

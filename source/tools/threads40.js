@@ -36,7 +36,7 @@ for (const [label, n, q] of cases) {
   for (const t of counts) {
     const r = call(n, { ...q, threads: t, timeLimitMs: 600000, maxVisits: 2000000000 });
     const c = call(n, { ...q, threads: t, timeLimitMs: 600000, maxVisits: 2000000000 }, { EM_CANCEL_AFTER_MS: '100' });
-    const body = r.json && JSON.stringify(r.json.hands);
+    const body = r.json && JSON.stringify({ hands: r.json.hands, range: r.json.range });
     if (!ref) ref = body;
     const samples = r.json ? r.json.hands.reduce((a, h) => a + (h.samples || 0), 0) : 0;
     rows.push({ threads: t, wallSeconds: +r.wall.toFixed(4), queryMs: r.queryMs, cpuUtilization: r.cpu != null ? +(r.cpu / r.wall).toFixed(2) : null, peakRssMiB: r.rss && +r.rss.toFixed(1), samplesPerSecond: samples && r.queryMs ? Math.round(samples / (r.queryMs / 1000)) : null,
