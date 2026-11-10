@@ -277,8 +277,8 @@ function cliStudy(t, name, iterations) {
   const spec = path.join(dir, 'spec.json'), state = path.join(dir, 'state'); let n = 0;
   fs.writeFileSync(spec, JSON.stringify(E.MultiwayGame(studies[name]).nativeSpec()));
   cp.execFileSync(cli, [spec, String(iterations), '2', state, '512']);
-  const run = (mode, query) => { const q = path.join(dir, 'q' + (n++) + '.json'); fs.writeFileSync(q, JSON.stringify(query)); const r = cp.spawnSync(cli, [mode, spec, state, q], { encoding: 'utf8', maxBuffer: 1 << 26 }); return { json: r.status === 0 ? JSON.parse(r.stdout) : null, error: r.stderr }; };
-  return { ev: q => run('--ev', q), gain: q => run('--gain', q) };
+  const run = (mode, query, env = {}) => { const q = path.join(dir, 'q' + (n++) + '.json'); fs.writeFileSync(q, JSON.stringify(query)); const r = cp.spawnSync(cli, [mode, spec, state, q], { encoding: 'utf8', maxBuffer: 1 << 26, env: { ...process.env, ...env } }); return { json: r.status === 0 ? JSON.parse(r.stdout) : null, error: r.stderr }; };
+  return { ev: (q, env) => run('--ev', q, env), gain: (q, env) => run('--gain', q, env) };
 }
 const cliSkip = !(process.env.EM_TEST_MWCLI || build.cli().cli) && 'no native CLI';
 test('4.1 work budgets: board enumeration is counted and maxBoardEvaluations is enforced (exact: no result; sampled: labelled partial)', { skip: cliSkip }, t => {
@@ -350,4 +350,23 @@ test('4.1 response gains: a parallel response-gain job is cancelled promptly and
     const cfg = (await json(await api('mw/jobs'))).config; assert.equal(cfg.running, 0); assert.equal(cfg.runningMiB, 0);
     assert.equal((await api('mw/train', { iterations: 2, threads: 1 })).status, 200);
   });
+});
+
+// ============================== CPU/GPU scheduling (CUDA driver test double) ==============================
+test('4.1 CUDA scheduling: decisions and peak VRAM are reported; CPU, GPU, hybrid and auto agree bit for bit (Linux CUDA test double)', { skip: cliSkip }, t => {
+  const c = build.cli(); if (!(c.fixtureDir && process.platform === 'linux')) return t.skip('needs the Linux CUDA driver test double (no physical GPU is assumed)');
+  const S = cliStudy(t, 'push8', 40), env = { LD_LIBRARY_PATH: c.fixtureDir };
+  const q = { path: [1, 1], hands: [0], method: 'exact', maxVisits: 2000000000, gpuMiB: 256 };
+  const r = Object.fromEntries(['cpu', 'gpu', 'hybrid', 'auto'].map(d => [d, S.ev({ ...q, device: d }, env).json]));
+  for (const d of ['gpu', 'hybrid', 'auto']) assert.deepEqual(r[d].hands[0].ev, r.cpu.hands[0].ev, d + ' EVs identical to the CPU');
+  const x = d => r[d].execution, sch = d => x(d).scheduling;
+  assert.equal(sch('cpu').cpuForced, x('cpu').showdownTables); assert.equal(x('cpu').gpuBoards, 0); assert.equal(x('cpu').gpuPeakMiB, 0);
+  assert.ok(x('gpu').gpuBoards > 0 && x('gpu').gpuPeakMiB > 0 && x('gpu').gpuPeakMiB <= 256, JSON.stringify(x('gpu')));
+  assert.ok(x('hybrid').gpuBoards > 0 && x('hybrid').cpuBoards > 0, 'hybrid splits a table');
+  // auto: every table is accounted for by exactly one decision
+  const a = x('auto'), s = a.scheduling, decided = s.cpuForced + s.cpuSmallTable + s.cpuGpuSlower + s.cpuGpuUnavailable + s.cpuGpuBusy + s.cpuAfterGpuFailure + a.gpuTables + a.hybridTables;
+  assert.equal(decided, a.showdownTables, JSON.stringify(a)); assert.match(s.rule, /measured at least 10% faster/);
+  // small tables stay on the CPU in auto mode
+  const small = S.ev({ path: [1, 1], board: [0, 13, 26], hands: [0], method: 'exact', maxVisits: 2000000000, device: 'auto' }, env);
+  if (small.json) assert.equal(small.json.execution.gpuBoards, 0);
 });

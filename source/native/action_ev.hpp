@@ -267,6 +267,7 @@ struct Evaluator {
       if (hybrid) cpuScores(T, cpuFrom, end);
       if (!G.dev.boardsFinish(T.scores.data() + (size_t)(a * (unsigned long long)T.n))) { sh->show.gpuFailures++; G.disable("CUDA download failed during an EV table"); sh->show.note(G.reason); return false; }
       sh->show.gpuBoards += (long long)(b - a);
+      const long long peak = (long long)G.dev.allocated(); long long cur = sh->show.gpuPeakBytes.load(); while (peak > cur && !sh->show.gpuPeakBytes.compare_exchange_weak(cur, peak)) {}
     }
     if (hybrid) { sh->show.hybridTables++; sh->show.cpuBoards += (long long)(end - cpuFrom); } else sh->show.gpuTables++;
     return true;
@@ -281,6 +282,7 @@ struct Evaluator {
     const double t0 = nowSec(); cpuScores(T, 0, prefix); const double cpu = nowSec() - t0;
     std::vector<int32_t> ref(T.scores.begin(), T.scores.begin() + (long)(prefix * (unsigned long long)T.n));
     const double t1 = nowSec(); const bool ok = gpuScores(T, 0, prefix, true, false); const double gpu = nowSec() - t1;
+    if (ok) { sh->show.gpuTables--; sh->show.verificationBoards += (long long)prefix; }   // 4.1: verification is not a scheduling decision
     std::lock_guard<std::mutex> lk(G.mu);
     if (!ok) return 0;
     if (!std::equal(ref.begin(), ref.end(), T.scores.begin())) { G.disable("CUDA showdown scores differed from the CPU reference; GPU disabled for EV tables"); sh->show.note(G.reason); std::copy(ref.begin(), ref.end(), T.scores.begin()); sh->show.gpuBoards -= (long long)prefix; return prefix; }
@@ -310,15 +312,21 @@ struct Evaluator {
     // between the GPU and this CPU thread in proportion to measured speed.
     // Any device failure falls back to the CPU for the unscored boards.
     const double evals = (double)boards * m.n; Device d = sh->device; unsigned long long from = 0;
-    if (d != Device::Cpu && boards >= 2 && (d != Device::Auto || evals >= 262144)) {
+    ShowdownStats &st = sh->show;
+    if (d == Device::Cpu) st.cpuForced++;
+    else if (boards < 2 || (d == Device::Auto && evals < 262144)) st.cpuSmall++;   // launch and transfer overhead dominate small tables
+    else {
       EvGpu &G = EvGpu::get(); bool verified; { std::lock_guard<std::mutex> lk(G.mu); verified = G.verified; }
       if (!verified) from = verifyGpu(*T);
       double gns, cns; { std::lock_guard<std::mutex> lk(G.mu); verified = G.verified; gns = G.gpuNsPerEval; cns = G.cpuNsPerEval; }
-      if (verified && from < boards) {
-        bool ok = false;
+      if (!verified) st.cpuUnavailable++;
+      else if (from < boards) {
+        bool ok = false; const long long failures = st.gpuFailures.load();
         if (d == Device::Gpu) ok = gpuScores(*T, from, boards, true, false);
         else if (d == Device::Hybrid) ok = boards - from >= 2 && gpuScores(*T, from, boards, false, true);
         else if (gns < 0.9 * cns) ok = gpuScores(*T, from, boards, false, false);
+        else st.cpuSlower++;   // measured end to end (upload, kernel, download) on the verification table
+        if (!ok && (d != Device::Auto || gns < 0.9 * cns)) (st.gpuFailures.load() > failures ? st.cpuAfterFailure : st.cpuBusy)++;
         if (ok) from = boards;
       }
     }
@@ -731,7 +739,9 @@ inline void showdownJson(JB *o, EvShared &S) {
   ShowdownStats &s = S.show;
   jb_printf(o, ",\"execution\":{\"device\":\"%s\",\"showdownTables\":%lld,\"tablesReused\":%lld,\"boardsScored\":%lld,\"cpuBoards\":%lld,\"gpuBoards\":%lld,\"gpuTables\":%lld,\"hybridTables\":%lld,\"patternSets\":%lld,\"perBoardTerminals\":%lld,\"gpuFailures\":%lld",
             deviceName(S.device), s.tables.load(), s.reused.load(), s.boards.load(), s.cpuBoards.load(), s.gpuBoards.load(), s.gpuTables.load(), s.hybridTables.load(), s.patternSets.load(), s.directTerminals.load(), s.gpuFailures.load());
-  jb_printf(o, ",\"peakEvaluationMiB\":%.3f", S.ctl.peakMemoryBytes.load() / 1048576.0);
+  jb_printf(o, ",\"peakEvaluationMiB\":%.3f,\"gpuPeakMiB\":%.3f", S.ctl.peakMemoryBytes.load() / 1048576.0, s.gpuPeakBytes.load() / 1048576.0);
+  jb_printf(o, ",\"scheduling\":{\"cpuForced\":%lld,\"cpuSmallTable\":%lld,\"cpuGpuSlower\":%lld,\"cpuGpuUnavailable\":%lld,\"cpuGpuBusy\":%lld,\"cpuAfterGpuFailure\":%lld,\"gpuVerificationBoards\":%lld,\"rule\":\"auto: GPU only for tables of at least 262,144 seat-board evaluations, after the device matched the CPU bit for bit on 65,536 boards and was measured at least 10%% faster end to end (upload, kernel, download); a busy device leaves the table to the CPU. gpu: always when it works. hybrid: split by measured speed.\"}",
+            s.cpuForced.load(), s.cpuSmall.load(), s.cpuSlower.load(), s.cpuUnavailable.load(), s.cpuBusy.load(), s.cpuAfterFailure.load(), s.verificationBoards.load());
   if (!s.gpuNote.empty()) { jb_puts(o, ",\"gpuNote\":"); jb_str(o, s.gpuNote.c_str()); }
   jb_putc(o, '}');
 }
@@ -1175,6 +1185,8 @@ static int responseGainImpl(MW *m, const char *json, size_t len, JB *out, char *
         ShowdownStats &a = S.show, &b = K.show;
         a.tables += b.tables.load(); a.boards += b.boards.load(); a.cpuBoards += b.cpuBoards.load(); a.gpuBoards += b.gpuBoards.load(); a.gpuTables += b.gpuTables.load(); a.hybridTables += b.hybridTables.load();
         a.patternSets += b.patternSets.load(); a.directTerminals += b.directTerminals.load(); a.gpuFailures += b.gpuFailures.load(); a.reused += b.reused.load();
+        a.cpuForced += b.cpuForced.load(); a.cpuSmall += b.cpuSmall.load(); a.cpuSlower += b.cpuSlower.load(); a.cpuUnavailable += b.cpuUnavailable.load(); a.cpuBusy += b.cpuBusy.load(); a.cpuAfterFailure += b.cpuAfterFailure.load(); a.verificationBoards += b.verificationBoards.load();
+        a.gpuPeakBytes.store(std::max(a.gpuPeakBytes.load(), b.gpuPeakBytes.load()));
         if (a.gpuNote.empty() && !b.gpuNote.empty()) a.gpuNote = b.gpuNote;
       };
       S.ctl.unitsTotal += (long long)ns;

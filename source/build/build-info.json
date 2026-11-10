@@ -1,6 +1,6 @@
 {
  "version": "4.1",
- "build": "142215657656ae32",
+ "build": "ff935f972f137d4a",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",
@@ -88,6 +88,7 @@
   "tools/compare27.js",
   "tools/convergence39.js",
   "tools/convergence40.js",
+  "tools/convergence41.js",
   "tools/cpu_benchmark.js",
   "tools/desktop_recovery.js",
   "tools/device_benchmark.js",

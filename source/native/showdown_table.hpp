@@ -46,6 +46,9 @@ enum class Device { Auto, Cpu, Gpu, Hybrid };
 inline const char *deviceName(Device d) { return d == Device::Cpu ? "cpu" : d == Device::Gpu ? "gpu" : d == Device::Hybrid ? "hybrid" : "auto"; }
 struct ShowdownStats {
   std::atomic<long long> tables{0}, boards{0}, cpuBoards{0}, gpuBoards{0}, gpuTables{0}, hybridTables{0}, patternSets{0}, directTerminals{0}, gpuFailures{0}, reused{0};
+  // 4.1: why each new table was scored where it was (auto/hybrid scheduling transparency)
+  std::atomic<long long> cpuForced{0}, cpuSmall{0}, cpuSlower{0}, cpuUnavailable{0}, cpuBusy{0}, cpuAfterFailure{0}, verificationBoards{0};
+  std::atomic<long long> gpuPeakBytes{0};   // largest device allocation observed during the request
   std::mutex mu; std::string gpuNote;
   void note(const std::string &s) { std::lock_guard<std::mutex> g(mu); if (gpuNote.empty()) gpuNote = s; }
 };
