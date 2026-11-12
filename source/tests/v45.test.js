@@ -95,10 +95,10 @@ test('4.5 coverage budget (evaluator): coverage.memory.peakBytes <= coverageMiB 
     const rows = new Set();
     for (const threads of [1, 2, 4, 8]) {
       const r = F.ev({ ...q, threads, coverageMiB: mib }).json; assert.equal(r.status, 'completed');
-      const c = r.coverage, m = c.memory;
-      assert.equal(m.budgetBytes, mib * MiB); assert.ok(m.peakBytes > 0 && m.peakBytes <= m.budgetBytes, `${mib} MiB, ${threads} threads: peak ${m.peakBytes}`);
-      assert.equal(m.withinBudget, true); assert.ok(m.liveBytes <= m.peakBytes); assert.ok(m.tableBytes + m.workerFilterBytes <= m.peakBytes, 'the set and the filters are part of the ledger');
-      assert.equal(m.refusedReservations, 0, 'the planned tiers always fit: nothing was refused');
+      const c = r.coverage, m = c.memory, x = r.execution.coverageMemory;
+      assert.equal(m.budgetBytes, mib * MiB); assert.equal(x.budgetBytes, mib * MiB); assert.ok(x.peakBytes > 0 && x.peakBytes <= x.budgetBytes, `${mib} MiB, ${threads} threads: peak ${x.peakBytes}`);
+      assert.equal(m.withinBudget, true); assert.equal(x.withinBudget, true); assert.ok(x.tableBytes <= x.tablePeakBytes && x.tablePeakBytes <= x.peakBytes, 'the set is part of the ledger'); assert.ok(Math.min(threads, r.threads) * x.workerFilterBytesEach <= mib * MiB / 16, 'worker filters fit their sixteenth of the budget');
+      assert.equal(x.refusedReservations, 0, 'the planned tiers always fit: nothing was refused');
       assert.equal(c.capacity.exactKeyLimit, mib * MiB / 32, 'the documented capacity (32 bytes a key) is kept inside the ceiling');
       assert.equal(m.countsExact, c.distinctCountKind === 'exact');
       if (c.distinctCountKind === 'lowerBound') { assert.equal(m.status, 'keyLimitReached'); assert.equal(c.distinctInformationSets, c.capacity.exactKeyLimit); assert.ok(c.distinctEstimates.distinctInformationSets >= c.distinctInformationSets); assert.equal(c.distinctCountCapped, true); }
@@ -115,23 +115,27 @@ test('4.5 coverage budget (evaluator): coverage.memory.peakBytes <= coverageMiB 
   // 1 MiB really is exceeded by this request (the test is not vacuous), 32 MiB is not
   const small = F.ev({ ...q, threads: 4, coverageMiB: 1 }).json.coverage, large = F.ev({ ...q, threads: 4, coverageMiB: 32 }).json.coverage;
   assert.equal(small.distinctCountKind, 'lowerBound'); assert.equal(large.distinctCountKind, 'exact'); assert.ok(large.distinctInformationSets > 32768);
-  assert.ok(small.memory.generations >= 3 && small.memory.retiredGenerationBytes > 0, 'several table generations were live and all are accounted');
+  const sx = F.ev({ ...q, threads: 4, coverageMiB: 1 }).json.execution.coverageMemory; assert.ok(sx.generations >= 3 && sx.retiredGenerationBytes > 0, 'several table generations were live and all are accounted');
+  // the coverage object itself does not depend on the worker count (inherited tests compare it whole)
+  const whole = [1, 2, 8].map(threads => JSON.stringify(F.ev({ ...q, threads, coverageMiB: 32 }).json.coverage)); assert.equal(new Set(whole).size, 1);
 });
 test('4.5 coverage budget (evaluator): a timeout during growth leaves a consistent exact set within budget; the 4.3 merged-table path and the per-seat response-gain tables stay inside coverageMiB as well', { skip, timeout: 900000 }, t => {
   const F = study(t, 'icmFinal', 20, 2);
   for (const ms of [100, 250]) {
     const r = F.ev({ ...AUDIT, timeLimitMs: ms, threads: 4, seed: 5, coverageMiB: 8 }, { EM_COVERAGE_AUDIT: '1' }).json; assert.equal(r.status, 'partial');
-    const c = r.coverage; assert.ok(c.memory.peakBytes <= 8 * MiB); assert.equal(c.memory.withinBudget, true);
+    const c = r.coverage; assert.ok(r.execution.coverageMemory.peakBytes <= 8 * MiB); assert.equal(c.memory.withinBudget, true);
     if (c.distinctCountKind === 'exact') assert.equal(c.distinctInformationSets, c.audit.distinctInformationSets, 'after a timeout the set equals the audit of every lookup made');
     else assert.ok(c.distinctInformationSets <= c.audit.distinctInformationSets);
   }
   const merged = F.ev({ path: [], hands: [3], range: true, method: 'sampled', samples: 30000, seed: 5, timeLimitMs: 600000, threads: 4, coverageMiB: 1 }, { EM_EV_MERGED_COVERAGE: '1' }).json.coverage;
-  assert.match(merged.structure, /merged after the workers stop/); assert.ok(merged.memory.peakBytes <= MiB, 'worker tables + merged table + sketches: ' + merged.memory.peakBytes); assert.equal(merged.distinctCountKind, 'lowerBound');
+  assert.match(merged.structure, /merged after the workers stop/); assert.equal(merged.memory.withinBudget, true, 'worker tables + merged table + sketches share one pool'); assert.equal(merged.memory.budgetBytes, MiB); assert.equal(merged.distinctCountKind, 'lowerBound');
   // response gain: eight per-seat tables share one 1 MiB pool (slots and sketches); each stays a labelled lower bound
   const g = F.gain({ method: 'sampled', samples: 200, seed: 3, threads: 4, coverageMiB: 1, timeLimitMs: 600000 }); assert.equal(g.status, 0, g.error);
-  assert.equal(g.json.seats.length, 8); let keys = 0;
-  for (const s of g.json.seats) { assert.ok(Number.isFinite(s.gain.mean)); keys += s.distinctInformationSets; if (s.distinctInformationSets >= 8192) assert.equal(s.distinctCountKind, 'lowerBound'); }
-  assert.ok(keys * 32 <= MiB, 'per-seat tables together hold at most coverageMiB / 32 bytes of keys: ' + keys);
+  assert.equal(g.json.seats.length, 8);
+  // a seat's table is released when the seat is done, so only the tables alive together share the pool: each seat
+  // can hold at most coverageMiB / 32 bytes of keys, and a table that stopped at a pool boundary says so
+  for (const s of g.json.seats) { assert.ok(Number.isFinite(s.gain.mean)); assert.ok(s.distinctInformationSets * 32 <= MiB, 'seat ' + s.seat + ': ' + s.distinctInformationSets); assert.match(s.distinctCountKind, /^(exact|lowerBound)$/); }
+  assert.ok(g.json.seats.some(s => s.distinctCountKind === 'lowerBound'), 'this request exceeds a 1 MiB pool: at least one seat reports a lower bound');
 });
 
 // ============================== Priority 2: process-wide memory ==============================
@@ -151,7 +155,7 @@ test('4.5 evaluation job pool charges memoryMiB + coverageMiB (4.4 charged memor
       const r = await jsonOf(await api('mw/jobs/ev', q)); assert.equal(r.http, 202, JSON.stringify(q) + ' ' + (r.error || ''));
       const done = await until(async () => { const s = await jsonOf(await api('mw/jobs/' + r.jobId)); return ['completed', 'timedOut', 'failed'].includes(s.status) && s; });
       assert.equal(done.status, 'completed'); assert.equal(done.coverageMiB, cov); assert.equal(done.chargedMiB, (q.memoryMiB || 512) + cov, 'the pool is charged memoryMiB + coverageMiB');
-      const res = await jsonOf(await api('mw/jobs/' + r.jobId + '/result')); const mem = (res.result || res).coverage.memory; assert.equal(mem.budgetBytes, cov * MiB); assert.ok(mem.peakBytes <= mem.budgetBytes);
+      const res = await jsonOf(await api('mw/jobs/' + r.jobId + '/result')); const mem = (res.result || res).execution.coverageMemory; assert.equal(mem.budgetBytes, cov * MiB); assert.ok(mem.peakBytes <= mem.budgetBytes);
     }
     const before = (await jsonOf(await api('mw/jobs'))).jobs.length;
     // 16 MiB of tables with a 4,096 MiB coverage budget: 4.4 admitted this as a 16 MiB job

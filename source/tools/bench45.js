@@ -57,9 +57,9 @@ const report = { tool: 'bench45', generated: new Date().toISOString(), cpu: os.c
     for (let r = 0; r < reps; r++) for (let k = 0; k < builds.length; k++) {
       const b = builds[(k + r) % builds.length];
       fs.writeFileSync(q, JSON.stringify({ path: [], hands: [3], range: true, method: 'sampled', samples: 30000, seed: 5, timeLimitMs: 600000, threads, coverageMiB: mib }));
-      const x = run(b.cli, ['--ev', spec, state, q]), c = x.json && x.json.coverage, m = c && c.memory;
+      const x = run(b.cli, ['--ev', spec, state, q]), c = x.json && x.json.coverage, m = x.json && x.json.execution.coverageMemory && c.memory ? { ...x.json.execution.coverageMemory, status: c.memory.status } : null;
       rows[b.label].push({ queryMs: x.timing && x.timing.queryMs, peakRssMiB: x.peakRssMiB, status: x.json && x.json.status, kind: c && c.distinctCountKind, distinct: c && c.distinctInformationSets, exactKeyLimit: c && c.capacity.exactKeyLimit,
-        coverageSetBytes: x.json && x.json.execution.coverageSetBytes, ledger: m ? { budgetBytes: m.budgetBytes, peakBytes: m.peakBytes, tableBytes: m.tableBytes, retiredGenerationBytes: m.retiredGenerationBytes, workerFilterBytes: m.workerFilterBytes, generations: m.generations, status: m.status, withinBudget: m.withinBudget } : null,
+        coverageSetBytes: x.json && x.json.execution.coverageSetBytes, ledger: m ? { budgetBytes: m.budgetBytes, peakBytes: m.peakBytes, tableBytes: m.tableBytes, retiredGenerationBytes: m.retiredGenerationBytes, workerFilterBytesEach: m.workerFilterBytesEach, generations: m.generations, status: m.status, withinBudget: m.withinBudget } : null,
         evBits: x.json && JSON.stringify(x.json.range.evBits) });
     }
     const entry = { coverageMiB: mib, budgetBytes: mib << 20, threads, builds: {} };

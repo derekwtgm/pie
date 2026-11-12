@@ -484,8 +484,8 @@ try {
       $ex = $last.execution; $gpuPeak = [double]$ex.gpuPeakMiB
       $row = [ordered]@{ workload = $w.name; requestedDevice = $dev; observedDevice = $ex.observedDevice; medianQueryMs = $median; minQueryMs = $sorted[0]; maxQueryMs = $sorted[$sorted.Count - 1];
         cpuBoards = $ex.cpuBoards; gpuBoards = $ex.gpuBoards; gpuPeakMiB = $gpuPeak; gpuBudgetMiB = 512; gpuFailures = $ex.gpuFailures; gpuErrors = $ex.gpuErrors; peakEvaluationMiB = $ex.peakEvaluationMiB }
-      if ($last.coverage -and $last.coverage.memory) { $row.coveragePeakBytes = [long]$last.coverage.memory.peakBytes; $row.coverageBudgetBytes = [long]$last.coverage.memory.budgetBytes
-        if ([long]$last.coverage.memory.peakBytes -gt [long]$last.coverage.memory.budgetBytes) { $failures += "4.5 $($w.name) ($dev): coverage peak above its budget" } }
+      if ($ex.coverageMemory) { $row.coveragePeakBytes = [long]$ex.coverageMemory.peakBytes; $row.coverageBudgetBytes = [long]$ex.coverageMemory.budgetBytes
+        if ([long]$ex.coverageMemory.peakBytes -gt [long]$ex.coverageMemory.budgetBytes) { $failures += "4.5 $($w.name) ($dev): coverage peak above its budget" } }
       if ($gpuPeak -gt 512) { $failures += "4.5 $($w.name) ($dev): GPU peak $gpuPeak MiB above the 512 MiB budget" }
       $v45.runs += $row
       Write-Host ("4.5 {0,-44} {1,-6} -> {2,-8} median {3,8:N1} ms  cpu boards {4}  gpu boards {5}  VRAM peak {6:N1} MiB" -f $w.name, $dev, $ex.observedDevice, $median, $ex.cpuBoards, $ex.gpuBoards, $gpuPeak)

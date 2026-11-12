@@ -456,10 +456,10 @@ try {
     $ErrorActionPreference = 'Continue'; $raw = ((& $cli --ev $spec45 $st45 $q 2>$null) | Out-String).Trim(); $ErrorActionPreference = 'Stop'
     $r = $null; try { $r = $raw | ConvertFrom-Json } catch {}
     if ($null -eq $r) { $covBad++; continue }
-    $m = $r.coverage.memory
-    $row = [ordered]@{ coverageMiB = $mib; threads = $t; budgetBytes = [long]$m.budgetBytes; peakBytes = [long]$m.peakBytes; tableBytes = [long]$m.tableBytes; retiredGenerationBytes = [long]$m.retiredGenerationBytes; workerFilterBytes = [long]$m.workerFilterBytes; status = $m.status; kind = $r.coverage.distinctCountKind; distinct = $r.coverage.distinctInformationSets }
+    $m = $r.coverage.memory; $x = $r.execution.coverageMemory
+    $row = [ordered]@{ coverageMiB = $mib; threads = $t; budgetBytes = [long]$x.budgetBytes; peakBytes = [long]$x.peakBytes; tableBytes = [long]$x.tableBytes; retiredGenerationBytes = [long]$x.retiredGenerationBytes; workerFilterBytesEach = [long]$x.workerFilterBytesEach; status = $m.status; kind = $r.coverage.distinctCountKind; distinct = $r.coverage.distinctInformationSets }
     $covRows45 += $row
-    if ([long]$m.peakBytes -gt [long]$m.budgetBytes -or [long]$m.budgetBytes -ne ($mib * 1048576) -or $m.withinBudget -ne $true) { $covBad++ }
+    if ($null -eq $x -or [long]$x.peakBytes -gt [long]$x.budgetBytes -or [long]$x.budgetBytes -ne ($mib * 1048576) -or $m.withinBudget -ne $true -or $x.withinBudget -ne $true) { $covBad++ }
     if (($r.coverage.distinctCountKind -eq 'exact') -ne ($m.status -eq 'ok')) { $covBad++ }
     $mm = [regex]::Match($raw, '"range":\{.*?"evBits":\[([^\]]*)\]'); if ($mm.Success) { $evSet[$mm.Groups[1].Value] = 1 }
   } }

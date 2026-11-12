@@ -630,23 +630,24 @@ up to 1.36x the budget: 1,425,408 bytes for 1 MiB).
 Not covered by `coverageMiB`: showdown tables and memo (`memoryMiB`), GPU buffers
 (`gpuMiB` / `gpuBudgetBytes`), three visit counters per worker.
 
-Action-EV answers carry the ledger:
+Action-EV answers carry the budget outcome in `coverage` (values that do not
+depend on the worker count) and the byte figures in `execution`:
 
 ```
-"coverage": { ..., "memory": {
-  "budgetBytes", "peakBytes", "liveBytes",        // peakBytes <= budgetBytes always
-  "tableBytes", "retiredGenerationBytes", "generations", "workerFilterBytes",
-  "refusedReservations", "withinBudget",
-  "status": "ok" | "keyLimitReached" | "budgetExhausted" | "allocationFailed",
-  "countsExact": true|false } }
+"coverage":  { ..., "memory": { "semantics", "budgetBytes", "withinBudget",
+               "status": "ok" | "keyLimitReached" | "budgetExhausted" | "allocationFailed",
+               "countsExact": true|false } }
+"execution": { ..., "coverageMemory": { "budgetBytes",
+               "peakBytes",                       // set + parked replacement + all worker filters; <= budgetBytes always
+               "tablePeakBytes", "tableBytes", "retiredGenerationBytes", "parkedReplacementBytes",
+               "generations", "workerFilterEntries", "workerFilterBytesEach",
+               "refusedReservations", "withinBudget" } }
 ```
 
 `status` other than `ok` means exact counting stopped: `distinctCountKind` is
 `lowerBound`, the `distinct*` fields are exact lower bounds and
 `distinctEstimates` are labelled approximations, exactly as in 4.3/4.4. EVs,
-gains, samples and statistics never depend on the coverage budget. `peakBytes`
-and `workerFilterBytes` depend on the worker count; the counts do not (while
-exact).
+gains, samples and statistics never depend on the coverage budget.
 
 Response-gain seats keep one private table per seat; all seats of a request draw
 slot **and sketch** bytes from one pool of `coverageMiB` (4.4: sketches outside

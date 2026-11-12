@@ -88,8 +88,8 @@ try {
   report.coverageBudgets = []; let covOk = true; const evBits = new Set();
   for (const mib of [1, 2, 8]) for (const threads of [1, 4, 8]) {
     const body = { path: [], hands: [3], range: true, method: 'sampled', samples: 30000, seed: 5, timeLimitMs: 600000, threads, coverageMiB: mib };
-    const r = parse(wine(['--ev', spec, state, q('cov', body)])), m = r.json && r.json.coverage.memory;
-    report.coverageBudgets.push({ coverageMiB: mib, threads, memory: m && { budgetBytes: m.budgetBytes, peakBytes: m.peakBytes, tableBytes: m.tableBytes, retiredGenerationBytes: m.retiredGenerationBytes, workerFilterBytes: m.workerFilterBytes, status: m.status }, kind: r.json && r.json.coverage.distinctCountKind, distinct: r.json && r.json.coverage.distinctInformationSets });
+    const r = parse(wine(['--ev', spec, state, q('cov', body)])), m = r.json && { ...r.json.execution.coverageMemory, status: r.json.coverage.memory.status };
+    report.coverageBudgets.push({ coverageMiB: mib, threads, memory: m && { budgetBytes: m.budgetBytes, peakBytes: m.peakBytes, tableBytes: m.tableBytes, retiredGenerationBytes: m.retiredGenerationBytes, workerFilterBytesEach: m.workerFilterBytesEach, status: m.status }, kind: r.json && r.json.coverage.distinctCountKind, distinct: r.json && r.json.coverage.distinctInformationSets });
     covOk = covOk && !!m && m.budgetBytes === mib << 20 && m.peakBytes <= m.budgetBytes && m.withinBudget === true && (m.status === 'ok') === (r.json.coverage.distinctCountKind === 'exact');
     if (r.json) evBits.add(JSON.stringify(r.json.range.evBits));
   }
