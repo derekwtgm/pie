@@ -54,6 +54,7 @@
 #include <cstdint>
 #include <memory>
 #include <vector>
+#include <cstdint>
 namespace emcov {
 struct Key {
   uint64_t id = 0, ns = 0;
@@ -112,7 +113,7 @@ struct Coverage {
   // Set union with another worker's table; visit counts add; sketches merge.
   void merge(const Coverage &o) {
     lookups += o.lookups; stored += o.stored; missing += o.missing;
-    if (o.capped) { capOut(); hAll.merge(o.hAll); hStored.merge(o.hStored); hFallback.merge(o.hFallback); }
+    if (o.capped) { capOut(); if (sketchOk()) { hAll.merge(o.hAll); hStored.merge(o.hStored); hFallback.merge(o.hFallback); } }
     for (size_t i = 0; i < o.slot.size(); i++) if (o.slot[i].nsf) mark(Key{o.slot[i].id, o.slot[i].nsf & NS_MASK}, flagsOf(o.slot[i].nsf));
   }
   size_t slots() const { return slot.size(); }
@@ -125,13 +126,24 @@ struct Coverage {
   double estimateFallback() const { return std::max((double)distinctMissing, hFallback.estimate()); }
   Coverage() = default;
   Coverage(const Coverage &o) : lookups(o.lookups), stored(o.stored), missing(o.missing), distinct(o.distinct), distinctStored(o.distinctStored), distinctMissing(o.distinctMissing),
-    capped(o.capped), limit(o.limit), pool(nullptr), sketch(o.sketch), hAll(o.hAll), hStored(o.hStored), hFallback(o.hFallback), hash(o.hash), slot(o.slot) {}
+    capped(o.capped), limit(o.limit), pool(nullptr), sketch(o.sketch || o.sketchHeld), hAll(o.hAll), hStored(o.hStored), hFallback(o.hFallback), hash(o.hash), slot(o.slot) {}
   Coverage &operator=(const Coverage &) = delete;
-  ~Coverage() { if (pool) pool->fetch_add((long long)(slot.size() * SLOT_BYTES)); }
+  ~Coverage() { if (pool) pool->fetch_add((long long)(slot.size() * SLOT_BYTES + (sketchHeld ? SKETCH_BYTES : 0))); }
+  // 4.5: with a pool, the three sketches (49,152 bytes) are part of the pooled bytes: they are
+  // reserved together with the first table and, if the pool cannot grant them, no sketch is built
+  // (the estimates then equal the lower bounds). 4.3/4.4 allocated them outside the pool.
+  static constexpr size_t SKETCH_BYTES = 3 * Hll::M;
 
  private:
   struct Slot { uint64_t id, nsf; };   // nsf == 0: empty
-  std::vector<Slot> slot;
+  std::vector<Slot> slot; bool sketchHeld = false;
+  bool sketchOk() {
+    if (!sketch) return false;
+    if (!pool || sketchHeld) return true;
+    long long cur = pool->load(); const long long need = (long long)SKETCH_BYTES;
+    do { if (cur < need) { sketch = false; return false; } } while (!pool->compare_exchange_weak(cur, cur - need));
+    return sketchHeld = true;
+  }
   static uint8_t flagsOf(uint64_t nsf) { return (uint8_t)(((nsf & F_STORED) ? STORED : 0) | ((nsf & F_FALLBACK) ? FALLBACK : 0)); }
   size_t find(const Key &k, bool &found) const {
     const size_t mask = slot.size() - 1;
@@ -141,7 +153,9 @@ struct Coverage {
     }
   }
   bool grow() {
+    if (slot.size() > SIZE_MAX / (2 * SLOT_BYTES)) return false;
     const size_t n = slot.empty() ? MIN_SLOTS : slot.size() * 2;
+    if (slot.empty()) sketchOk();   // 4.5: sketch bytes first, so that a capped table can always estimate
     if (pool) {   // reserve the new table before releasing the old one
       const long long need = (long long)(n * SLOT_BYTES);
       long long cur = pool->load(); do { if (cur < need) return false; } while (!pool->compare_exchange_weak(cur, cur - need));
@@ -153,7 +167,7 @@ struct Coverage {
     return true;
   }
   void sketchAdd(const Key &k, uint8_t what) {
-    if (!sketch) return;
+    if (!sketchOk()) return;
     const uint64_t h = mix64(hashOf(k) + 0x632be59bd9b4e019ULL);
     hAll.add(h); if (what & STORED) hStored.add(h); if (what & FALLBACK) hFallback.add(h);
   }
@@ -214,6 +228,8 @@ struct Coverage {
 //    added with fetch_or; a key is counted in distinctStored / distinctFallback
 //    by the thread whose fetch_or first set that flag, so every count is exact
 //    whatever the interleaving.
+//  * 4.5: all of this memory is under a strict byte ledger (Budget, below); the
+//    tier sizes are planned so that every tier, retired ones included, fits.
 //  * Promotion: one thread allocates and touches the larger tier while the
 //    others keep inserting; then, under the EXCLUSIVE hold (no insert in
 //    progress), every key is copied with its flags and the tier pointer is
@@ -270,13 +286,19 @@ inline void freePages(void *p, size_t bytes) {
 }
 // HyperLogLog with atomic registers (register = maximum rank seen): concurrent adds need no lock.
 struct AtomicHll {
-  std::unique_ptr<std::atomic<uint8_t>[]> r{new std::atomic<uint8_t>[Hll::M]()};
+  std::unique_ptr<std::atomic<uint8_t>[]> r;
+  AtomicHll() : r(new std::atomic<uint8_t>[Hll::M]()) {}
+  // 4.5: registers allocated later by init(), after their bytes were reserved in the budget.
+  explicit AtomicHll(std::nullptr_t) {}
+  bool init() { r.reset(new (std::nothrow) std::atomic<uint8_t>[Hll::M]()); return r != nullptr; }
   void add(uint64_t h) {
+    if (!r) return;
     const size_t idx = (size_t)(h >> (64 - Hll::P)); const uint64_t w = (h << Hll::P) | (uint64_t(1) << (Hll::P - 1));
     const uint8_t rank = (uint8_t)(__builtin_clzll(w) + 1); uint8_t cur = r[idx].load(std::memory_order_relaxed);
     while (rank > cur && !r[idx].compare_exchange_weak(cur, rank, std::memory_order_relaxed)) {}
   }
   double estimate() const {
+    if (!r) return 0;
     double sum = 0; size_t zeros = 0; for (size_t i = 0; i < Hll::M; i++) { const uint8_t x = r[i].load(std::memory_order_relaxed); sum += std::ldexp(1.0, -(int)x); zeros += x == 0; }
     const double m = (double)Hll::M, alpha = 0.7213 / (1 + 1.079 / m), e = alpha * m * m / sum;
     if (e <= 2.5 * m && zeros) return m * std::log(m / (double)zeros);
@@ -313,14 +335,77 @@ struct SlotLock {
   size_t stored() const { size_t n = 0; for (const Cell &c : cell) n += c.stored.load(std::memory_order_relaxed); return n; }
   size_t missing() const { size_t n = 0; for (const Cell &c : cell) n += c.missing.load(std::memory_order_relaxed); return n; }
 };
+// ============================================================================
+// 4.5: STRICT MEMORY BUDGET (Budget) - repair of the 4.4 overrun.
+//
+// 4.4 defect (independent audit, reproduced by tests/coverage45.cpp against the
+// archived 4.4 header): the key limit was derived as coverageMiB / 32 bytes and
+// the LARGEST tier alone was sized to the whole allowance (2 slots a key, 16
+// bytes a slot). The smaller tiers stay allocated until the set is destroyed
+// (lock-free readers may still hold them), the three sketches were allocated
+// unconditionally, and neither was counted against the allowance. For
+// coverageMiB = 1 and 32,768 keys: 65,536 + 262,144 + 1,048,576 bytes of tiers
+// + 49,152 bytes of sketches = 1,425,408 bytes live for a 1,048,576-byte
+// allowance (+35.9%). A promotion abandoned for a pending stop left its
+// half-built tier allocated as well, and every worker's 512 KiB WorkerFilter
+// was outside any allowance.
+//
+// 4.5 semantics. coverageMiB is a HARD CEILING ON LIVE ALLOCATED BYTES of the
+// coverage component of one request - not a reserved capacity and not a logical
+// content size. The ledger (Budget) counts, while they are allocated:
+//   * every tier (slot array, rounded up to whole 4 KiB pages): the current
+//     one, the replacement being built during a promotion, and every retired
+//     tier (retired tiers are kept until the set is destroyed so that lock-free
+//     readers always read valid memory; they are budgeted, not hidden);
+//   * the tier descriptors and the tier list (hash-table metadata);
+//   * the three sketches (49,152 bytes);
+//   * the set object itself, which contains the synchronisation state (the
+//     64-cell SlotLock, mutexes, counters);
+//   * every worker's WorkerFilter.
+// Every allocation is preceded by Budget::reserve(), which checks
+// `live + bytes <= limit` without overflow and refuses otherwise: nothing is
+// allocated first and checked afterwards. The tier sizes are PLANNED when the
+// set is created so that the whole sequence, including all retired tiers, fits
+// (planFor); a refusal can therefore only come from a failed operating-system
+// allocation or from a caller that shares the ledger and overdraws it, and is
+// then handled like a failed allocation: the present tier becomes the last one,
+// nothing half-built is published, the set is marked capped, the counts become
+// exact lower bounds and `status` names the reason.
+// Not covered by coverageMiB (separate budgets, reported separately): the
+// evaluator's showdown tables and memo (memoryMiB), GPU buffers (gpuMiB), and
+// the per-worker visit counters (three integers).
+// ============================================================================
+struct Budget {
+  const size_t limit;                              // bytes; SIZE_MAX = unlimited (accounting only)
+  std::atomic<size_t> live{0}, peak{0}, refusals{0};
+  explicit Budget(size_t bytes) : limit(bytes) {}
+  // Reserves `bytes` if the ceiling allows it. Never computes live + bytes unless it fits.
+  bool reserve(size_t bytes) noexcept {
+    size_t cur = live.load(std::memory_order_relaxed);
+    for (;;) {
+      if (bytes > limit || cur > limit - bytes) { refusals.fetch_add(1, std::memory_order_relaxed); return false; }
+      if (live.compare_exchange_weak(cur, cur + bytes)) break;
+    }
+    const size_t now = cur + bytes; size_t p = peak.load(std::memory_order_relaxed);
+    while (now > p && !peak.compare_exchange_weak(p, now)) {}
+    return true;
+  }
+  void release(size_t bytes) noexcept { live.fetch_sub(bytes); }
+};
+inline size_t pageRound(size_t bytes) { return bytes > SIZE_MAX - 4095 ? SIZE_MAX : (bytes + 4095) & ~size_t(4095); }
+enum : int { COV_OK = 0, COV_KEY_LIMIT = 1, COV_BUDGET_EXHAUSTED = 2, COV_ALLOCATION_FAILED = 3 };
+inline const char *statusName(int s) { return s == COV_OK ? "ok" : s == COV_KEY_LIMIT ? "keyLimitReached" : s == COV_BUDGET_EXHAUSTED ? "budgetExhausted" : "allocationFailed"; }
 struct SharedCoverage {
   static constexpr uint64_t F_STORED = Coverage::F_STORED, F_FALLBACK = Coverage::F_FALLBACK, NS_MASK = Coverage::NS_MASK, BUSY = uint64_t(1) << 63;
-  static constexpr size_t FIRST_SLOTS = 4096, GROWTH = 4;
+  static constexpr size_t FIRST_SLOTS = 4096, GROWTH = 4, MAX_TIERS = 32, PAGE_SLOTS = 256, PLAN_FIRST = 1024;
   struct Slot { std::atomic<uint64_t> id, nsf; };
   static_assert(sizeof(Slot) == 16, "16-byte slots");
   // One tier: a slot array that never moves. Tiers are only added (the newest is `cur`) and all are
   // freed together by the destructor, so a reader holding an older tier always reads valid memory.
-  struct Table { Slot *slot; size_t slots; };
+  // 4.5: a tier may have any number of slots (the last tier of a byte budget takes what is left), so
+  // the probe start is the multiply-shift reduction of the hash instead of a power-of-two mask.
+  struct Table { Slot *slot; size_t slots; size_t start(uint64_t h) const { return (size_t)(((unsigned __int128)h * slots) >> 64); } size_t next(size_t i) const { return ++i == slots ? 0 : i; } };
+  static size_t tierBytes(size_t slots) { return pageRound(slots * sizeof(Slot)) + sizeof(Table); }
   size_t limit = 0, maxSlots = 0;
   // Written by inserting threads; each on its own cache line, away from the read-mostly fields, so
   // lookups of keys already present (the common case) touch no line that another thread writes.
@@ -338,26 +423,82 @@ struct SharedCoverage {
   // is non-zero no tier is promoted, so that a stop is never delayed by preparing a large tier.
   const std::atomic<int> *stop = nullptr;
   bool stopPending() const { return stop && stop->load(std::memory_order_relaxed) != 0; }
+  // 4.5: why exact counting stopped (COV_OK while exact) and the ledger this set draws from.
+  std::atomic<int> status{COV_OK};
+  std::shared_ptr<Budget> budget;
+  // Fault injection (tests): the next `failAllocations` tier allocations fail as if the operating
+  // system had refused them; -1 = fail every one.
+  std::atomic<int> failAllocations{0};
+  // Promotions completed / abandoned for a stop (their half-built tier is released at once).
+  std::atomic<size_t> promotions{0}, abandoned{0};
+
+  // Bytes that do not depend on the number of keys: the object (with its lock cells), the tier
+  // list and plan, and the sketches.
+  static size_t fixedBytes(bool withSketch = true) { return sizeof(SharedCoverage) + 64 /* shared_ptr control block, allocator header */ + MAX_TIERS * (sizeof(Table *) + sizeof(size_t)) + (withSketch ? 3 * Hll::M : 0); }
+  // Smallest allowance that gives an exact table at all (one page of slots).
+  static size_t minimumBytes() { return fixedBytes() + tierBytes(PAGE_SLOTS); }
+  // The tier sizes (slots) for a byte allowance: 1,024 slots, then four times larger each, and a
+  // LAST tier that takes everything the allowance leaves after all earlier tiers (they stay
+  // allocated) and the fixed bytes. A further power-of-four tier is inserted only while the last
+  // tier stays at least four times larger than it, so the retired tiers cost at most a third of
+  // the last one and at least ~3/4 of the slot memory is the final table.
+  static std::vector<size_t> planFor(size_t allowanceBytes) {
+    std::vector<size_t> plan; plan.reserve(MAX_TIERS);
+    const size_t fixed = fixedBytes() + MAX_TIERS * sizeof(Table);
+    if (allowanceBytes < fixed + PAGE_SLOTS * sizeof(Slot)) return plan;
+    const size_t avail = (allowanceBytes - fixed) / sizeof(Slot) / PAGE_SLOTS * PAGE_SLOTS;   // whole pages
+    size_t sum = 0, e = PLAN_FIRST;
+    while (plan.size() + 1 < MAX_TIERS && avail > sum + e && (avail - sum - e) / GROWTH >= e) { plan.push_back(e); sum += e; if (e > SIZE_MAX / GROWTH) break; e *= GROWTH; }
+    plan.push_back(avail - sum);
+    return plan;
+  }
+  static size_t planBytes(const std::vector<size_t> &plan) { size_t b = 0; for (size_t s : plan) b += tierBytes(s); return b; }
+
+  // 4.4 interface: a KEY limit (2 slots a key in the largest tier, powers of two). The implied
+  // byte ceiling - every tier of the sequence, the sketches and the fixed bytes - is enforced by a
+  // private ledger, so this path cannot exceed its documented bound (ceilingBytes()) either.
   explicit SharedCoverage(size_t keyLimit) {
     limit = std::max<size_t>(1, keyLimit);
-    maxSlots = Coverage::MIN_SLOTS; while (maxSlots < 2 * limit) maxSlots <<= 1;
-    Table *t = makeTable(std::min(FIRST_SLOTS, maxSlots));
-    if (!t) { maxSlots = 0; limit = 0; }
-    cur.store(t);
+    size_t top = Coverage::MIN_SLOTS; while (top < 2 * limit) top <<= 1;
+    plan.reserve(MAX_TIERS);
+    for (size_t s = std::min(FIRST_SLOTS, top);; s = std::min(top, s * GROWTH)) { plan.push_back(s); if (s == top) break; }
+    budget = std::make_shared<Budget>(fixedBytes() + planBytes(plan));
+    open();
+  }
+  // 4.5 interface: a hard ceiling on live bytes. `ledger` may be shared with the worker filters of
+  // the same request; `tableAllowance` is the part of it this set may use (fixed bytes and every
+  // tier); keyCap additionally bounds the exact key count (the evaluator passes coverageMiB / 32
+  // bytes, the documented 4.3 capacity). The last tier is filled to at most 3/4.
+  SharedCoverage(std::shared_ptr<Budget> ledger, size_t tableAllowance, size_t keyCap = SIZE_MAX) : budget(std::move(ledger)) {
+    plan = planFor(tableAllowance);
+    limit = plan.empty() ? 0 : std::min(keyCap, plan.back() / 4 * 3);
+    if (limit == 0) plan.clear();
+    open();
   }
   SharedCoverage(const SharedCoverage &) = delete; SharedCoverage &operator=(const SharedCoverage &) = delete;
-  ~SharedCoverage() { for (Table *t : tiers) { freePages(t->slot, t->slots * sizeof(Slot)); delete t; } }
-  // Slot memory of every tier plus the sketches. At most about 4/3 of the largest tier
-  // (16 bytes a slot, 2 slots a key at the key limit).
-  size_t bytes() const { std::lock_guard<std::mutex> g(lock.writers); size_t b = 3 * Hll::M; for (const Table *t : tiers) b += t->slots * sizeof(Slot); return b; }
+  ~SharedCoverage() {
+    for (Table *t : tiers) { freePages(t->slot, t->slots * sizeof(Slot)); delete t; }
+    if (budget) budget->release(accounted.load());
+  }
+  // Slot memory of every live tier plus the sketches (the 4.4 figure, kept for comparison).
+  size_t bytes() const { std::lock_guard<std::mutex> g(lock.writers); size_t b = sketchBytes(); for (const Table *t : tiers) b += t->slots * sizeof(Slot); return b; }
+  // 4.5: every byte this set holds in the ledger right now (tiers incl. retired, descriptors, sketches, object).
+  size_t liveBytes() const { return accounted.load(); }
+  size_t peakBytes() const { return peakAccounted.load(); }
+  size_t retiredBytes() const { std::lock_guard<std::mutex> g(lock.writers); const Table *c = cur.load(); size_t b = 0; for (const Table *t : tiers) if (t != c) b += tierBytes(t->slots); return b; }
+  size_t sketchBytes() const { return hAll.r ? 3 * Hll::M : 0; }
+  // The most this set can ever hold: fixed bytes and every planned tier.
+  size_t ceilingBytes() const { return fixedBytes(sketch) + planBytes(plan); }
+  size_t tierCount() const { std::lock_guard<std::mutex> g(lock.writers); return tiers.size(); }
+  const std::vector<size_t> &tierPlan() const { return plan; }
   size_t slotsNow() const { const Table *t = cur.load(); return t ? t->slots : 0; }
   // Slot and sketch memory the growth rule needs for `keys` keys (tiers up to the first that is less
   // than half full). A pure function of the key count, so reports do not depend on the number of
   // threads; bytes() can be one tier ahead of it because threads reserve the key limit in blocks.
   size_t nominalBytes(size_t keys) const {
-    if (!maxSlots) return 3 * Hll::M;
-    size_t slots = std::min(FIRST_SLOTS, maxSlots), total = slots;
-    while (slots < maxSlots && 2 * keys >= slots) { slots = std::min(maxSlots, slots * GROWTH); total += slots; }
+    if (plan.empty()) return sketchBytes();
+    size_t total = plan[0];
+    for (size_t i = 0; i + 1 < plan.size() && 2 * keys >= plan[i]; i++) total += plan[i + 1];
     return total * sizeof(Slot) + 3 * Hll::M;
   }
   // Records one observation of `k` (what = Coverage::STORED or Coverage::FALLBACK). Thread-safe.
@@ -369,8 +510,7 @@ struct SharedCoverage {
     // (keys and flags are never removed; they were copied to the newer tier); anything else,
     // including a slot being written, goes to the locked path.
     if (const Table *t = cur.load(std::memory_order_acquire)) {
-      const size_t mask = t->slots - 1;
-      for (size_t i = (size_t)h & mask;; i = (i + 1) & mask) {
+      for (size_t i = t->start(h);; i = t->next(i)) {
         const uint64_t nsf = t->slot[i].nsf.load(std::memory_order_acquire);
         if (nsf == BUSY) break;
         if (nsf == 0) {
@@ -388,7 +528,7 @@ struct SharedCoverage {
         SlotLock::Cell &c = lock.enter();   // inserts and flag updates: shared; promotion: exclusive
         struct Leave { SlotLock::Cell &c; ~Leave() { SlotLock::leave(c); } } leave{c};
         Table *t = cur.load();
-        if (!t) { capOut(nullptr); overflow(k, what); return; }
+        if (!t) { capOut(nullptr, COV_BUDGET_EXHAUSTED); overflow(k, what); return; }
         // Half full: promote. If another thread is already preparing the larger tier this thread
         // keeps inserting into the present one (it is at most 7/8 full: otherwise wait for the tier).
         // While a stop is pending (deadline, cancellation) nothing is promoted: the few observations
@@ -412,13 +552,42 @@ struct SharedCoverage {
   }
  private:
   mutable SlotLock lock; std::vector<Table *> tiers;   // tiers: guarded by lock.writers
+  std::vector<size_t> plan; size_t planned = 0;         // plan[planned] is the next tier to create (guarded by lock.writers)
+  std::atomic<size_t> accounted{0}, peakAccounted{0};   // this set's share of the ledger
   alignas(64) std::atomic<bool> growing{false};
-  std::mutex hmu; AtomicHll hAll, hStored, hFallback; bool backfilled = false;
+  std::mutex hmu; AtomicHll hAll{nullptr}, hStored{nullptr}, hFallback{nullptr}; bool backfilled = false;
   static uint8_t flagsOf(uint64_t nsf) { return (uint8_t)(((nsf & F_STORED) ? Coverage::STORED : 0) | ((nsf & F_FALLBACK) ? Coverage::FALLBACK : 0)); }
+  bool take(size_t bytes) {
+    if (!budget->reserve(bytes)) return false;
+    const size_t now = accounted.fetch_add(bytes) + bytes; size_t p = peakAccounted.load();
+    while (now > p && !peakAccounted.compare_exchange_weak(p, now)) {}
+    return true;
+  }
+  void give(size_t bytes) { accounted.fetch_sub(bytes); budget->release(bytes); }
+  // Constructor tail: reserve the fixed bytes, then the sketches, then the first tier - each one
+  // reserved in the ledger BEFORE it is allocated. Whatever cannot be reserved is not allocated.
+  void open() {
+    if (!budget) budget = std::make_shared<Budget>(SIZE_MAX);
+    try { tiers.reserve(MAX_TIERS); } catch (...) { plan.clear(); }
+    if (!take(fixedBytes(false))) { plan.clear(); sketch = false; }   // not even the object fits: nothing more is allocated
+    else if (take(3 * Hll::M)) {
+      if (!hAll.init() || !hStored.init() || !hFallback.init()) { hAll.r.reset(); hStored.r.reset(); hFallback.r.reset(); give(3 * Hll::M); sketch = false; }
+    } else sketch = false;
+    maxSlots = plan.empty() ? 0 : plan.back();
+    bool failed = false; int why = COV_ALLOCATION_FAILED;
+    Table *t = plan.empty() ? nullptr : makeTable(plan[0], false, &failed, &why);
+    if (!t) { maxSlots = 0; limit = 0; status.store(plan.empty() ? COV_BUDGET_EXHAUSTED : why); } else planned = 1;
+    cur.store(t);
+  }
   // Caller holds lock.writers (or is the constructor). abortable: gives up (returns null, *failed
-  // stays false) when a stop becomes pending while the pages are being touched.
-  Table *makeTable(size_t n, bool abortable = false, bool *failed = nullptr) {
-    Slot *s = static_cast<Slot *>(zeroPages(n * sizeof(Slot))); if (!s) { if (failed) *failed = true; return nullptr; }
+  // stays false) when a stop becomes pending while the pages are being touched. The tier's bytes
+  // are reserved in the ledger first; on any failure they are returned and nothing stays allocated.
+  Table *makeTable(size_t n, bool abortable = false, bool *failed = nullptr, int *why = nullptr) {
+    const size_t bytes = tierBytes(n);
+    if (n > SIZE_MAX / sizeof(Slot) || !take(bytes)) { if (failed) *failed = true; if (why) *why = COV_BUDGET_EXHAUSTED; return nullptr; }
+    int inject = failAllocations.load(); while (inject > 0 && !failAllocations.compare_exchange_weak(inject, inject - 1)) {}
+    Slot *s = inject != 0 ? nullptr : static_cast<Slot *>(zeroPages(n * sizeof(Slot)));
+    if (!s) { give(bytes); if (failed) *failed = true; if (why) *why = COV_ALLOCATION_FAILED; return nullptr; }
     // Touch every page now, from this one thread, before the tier is visible. Otherwise the workers
     // first-touch the pages concurrently (and a lookup that reads an untouched page maps the shared
     // zero page, which the next insert must replace): measured 0.09 s of kernel time for an 82,000-key
@@ -427,26 +596,33 @@ struct SharedCoverage {
       volatile char *page = reinterpret_cast<volatile char *>(s);
       for (size_t off = 0; off < n * sizeof(Slot); off += 4096) {
         page[off] = 0;
-        if (abortable && (off & 0x3ffff) == 0 && stopPending()) { freePages(s, n * sizeof(Slot)); return nullptr; }   // checked every 64 pages
+        if (abortable && (off & 0x3ffff) == 0 && stopPending()) { freePages(s, n * sizeof(Slot)); give(bytes); return nullptr; }   // checked every 64 pages
       }
     }
-    Table *t = new (std::nothrow) Table{s, n}; if (!t) { freePages(s, n * sizeof(Slot)); if (failed) *failed = true; return nullptr; }
-    try { tiers.push_back(t); } catch (...) { freePages(s, n * sizeof(Slot)); delete t; if (failed) *failed = true; return nullptr; }
+    Table *t = new (std::nothrow) Table{s, n};
+    if (!t) { freePages(s, n * sizeof(Slot)); give(bytes); if (failed) *failed = true; if (why) *why = COV_ALLOCATION_FAILED; return nullptr; }
+    tiers.push_back(t);   // capacity reserved by open(): cannot allocate
     return t;
+  }
+  // 4.5: a tier that was prepared but never published (abandoned promotion). No reader can hold it,
+  // so it is released at once instead of staying allocated until the set is destroyed. Caller holds lock.writers.
+  void discard(Table *t) {
+    tiers.pop_back();   // it is the newest
+    freePages(t->slot, t->slots * sizeof(Slot)); give(tierBytes(t->slots)); delete t; abandoned.fetch_add(1);
   }
   // Called inside lock.enter()/leave(): `t` is the current tier and cannot be replaced meanwhile. Every
   // thread that inserts or adds a flag does it here, on the same tier, so the claim protocol
   // (compare-and-swap to BUSY, publish) makes concurrent inserts of one key find each other.
   void insertOrFlag(Table &t, SlotLock::Cell &c, const Key &k, uint8_t what, uint64_t add, uint64_t h) {
-    const size_t mask = t.slots - 1; Slot *slot = t.slot;
-    for (size_t i = (size_t)h & mask;;) {
+    Slot *slot = t.slot;
+    for (size_t i = t.start(h);;) {
       uint64_t nsf = slot[i].nsf.load(std::memory_order_acquire);
       if (nsf == BUSY) { std::this_thread::yield(); continue; }   // another thread is writing this slot
       if (nsf == 0) {
         if (capped.load()) { overflow(k, what); return; }
         uint64_t expect = 0;
         if (!slot[i].nsf.compare_exchange_strong(expect, BUSY)) continue;   // lost the race: look at the slot again
-        if (!takeUnit(c)) { slot[i].nsf.store(0); capOut(&t); overflow(k, what); return; }   // the key limit: release the claim
+        if (!takeUnit(c)) { slot[i].nsf.store(0); capOut(&t, COV_KEY_LIMIT); overflow(k, what); return; }   // the key limit: release the claim
         c.used.fetch_add(1, std::memory_order_relaxed);
         slot[i].id.store(k.id, std::memory_order_relaxed);
         slot[i].nsf.store((k.ns & NS_MASK) | add);   // publish (sequentially consistent with the capped flag below)
@@ -467,21 +643,23 @@ struct SharedCoverage {
         }
         return;
       }
-      i = (i + 1) & mask;
+      i = t.next(i);
     }
   }
-  // Promotion to a tier GROWTH times larger, by one thread at a time.
-  //  1. The new tier is allocated and its pages touched WITHOUT excluding anybody: other threads
-  //     keep inserting into the present tier meanwhile (allocating and touching 64 MiB takes tens
-  //     of milliseconds; when that was inside the exclusive section every worker was stalled and
-  //     a deadline falling into it was noticed up to 30 ms late).
+  // Promotion to the next planned tier, by one thread at a time.
+  //  1. The new tier is reserved in the ledger, allocated and its pages touched WITHOUT excluding
+  //     anybody: other threads keep inserting into the present tier meanwhile (allocating and
+  //     touching 64 MiB takes tens of milliseconds; when that was inside the exclusive section every
+  //     worker was stalled and a deadline falling into it was noticed up to 30 ms late).
   //  2. Exclusive section (no insert or flag update in progress, no slot BUSY): every key is copied
   //     with its flags and `cur` is switched. This is the only stall: a copy of the keys held.
-  // If the larger tier cannot be allocated the present tier becomes the last one and the exact key
-  // limit shrinks to its half (counts beyond it are then lower bounds, labelled as such).
+  // If the larger tier cannot be reserved or allocated the present tier becomes the last one and the
+  // exact key limit shrinks to its half (counts beyond it are then lower bounds, labelled as such,
+  // and `status` records whether the ledger or the operating system refused).
   // Returns false if another thread is promoting (the caller then inserts into the present tier or,
   // if that is nearly full, tries again). A promotion is abandoned when a stop becomes pending while
-  // the new tier is being prepared; the prepared memory is released with the set.
+  // the new tier is being prepared; 4.5 releases the prepared memory immediately (4.4 kept it until
+  // the set was destroyed, and a later promotion then allocated the tier a second time).
   bool grow() {
     std::unique_lock<std::mutex> g(lock.writers, std::try_to_lock); if (!g.owns_lock()) return false;
     Table *t = cur.load(); if (!t || !needsGrowth(*t)) return true;
@@ -489,21 +667,21 @@ struct SharedCoverage {
     // A promotion may be abandoned for a pending stop only while the present tier still has room
     // (below 15/16, where inserts continue into it); a nearly full tier is always promoted.
     const bool mayAbandon = 16 * std::min(reserved.load(), limit) < 15 * t->slots;
-    bool failed = false;
-    Table *n = makeTable(std::min(maxSlots, t->slots * GROWTH), mayAbandon, &failed);
-    if (!n) { if (failed) { lock.beginExclusive(); maxSlots = t->slots; limit = std::min(limit, t->slots / 2); lock.endExclusive(); } return true; }
-    if (mayAbandon && stopPending()) return true;
+    bool failed = false; int why = COV_ALLOCATION_FAILED;
+    Table *n = planned < plan.size() ? makeTable(plan[planned], mayAbandon, &failed, &why) : (failed = true, why = COV_BUDGET_EXHAUSTED, nullptr);
+    if (!n) { if (failed) { lock.beginExclusive(); maxSlots = t->slots; limit = std::min(limit, t->slots / 2); status.store(why); lock.endExclusive(); } return true; }
+    if (mayAbandon && stopPending()) { discard(n); return true; }
     lock.beginExclusive(); struct End { SlotLock &l; ~End() { l.endExclusive(); } } end{lock};
-    const size_t mask = n->slots - 1;
     for (size_t i = 0; i < t->slots; i++) {
       // A stop that arrives during the copy abandons the promotion (the present tier is intact and
-      // still current; the half-filled new tier is never published and is released with the set).
-      if (mayAbandon && (i & 0xfff) == 0 && stopPending()) return true;
+      // still current; the half-filled new tier was never published and is released here).
+      if (mayAbandon && (i & 0xfff) == 0 && stopPending()) { discard(n); return true; }
       const uint64_t nsf = t->slot[i].nsf.load(std::memory_order_relaxed); if (!nsf) continue;
       const uint64_t id = t->slot[i].id.load(std::memory_order_relaxed);
-      size_t j = (size_t)hash(Key{id, nsf & NS_MASK}) & mask; while (n->slot[j].nsf.load(std::memory_order_relaxed)) j = (j + 1) & mask;
+      size_t j = n->start(hash(Key{id, nsf & NS_MASK})); while (n->slot[j].nsf.load(std::memory_order_relaxed)) j = n->next(j);
       n->slot[j].id.store(id, std::memory_order_relaxed); n->slot[j].nsf.store(nsf, std::memory_order_relaxed);
     }
+    planned++; promotions.fetch_add(1);
     cur.store(n);
     return true;
   }
@@ -548,8 +726,9 @@ struct SharedCoverage {
   // lock while the scan runs; keys and flags published during the scan add themselves (see
   // insertOrFlag), so the sketches cover every key and flag whatever the interleaving. Called by an
   // inserting thread (the tier cannot change); the limit is only reached on the last tier.
-  void capOut(Table *t) {
+  void capOut(Table *t, int why) {
     bool was = false; if (!capped.compare_exchange_strong(was, true)) return;
+    int ok = COV_OK; status.compare_exchange_strong(ok, why);   // keep an earlier, more specific reason
     std::lock_guard<std::mutex> g(hmu); backfill(t);
   }
   void backfill(const Table *t) {   // hmu held
@@ -559,14 +738,34 @@ struct SharedCoverage {
   }
 };
 // Per-worker cache of observations already reported to the SharedCoverage.
+// 4.5: the filter is part of the coverage budget. configure() names the ledger and the
+// number of entries (a power of two, at most SIZE; 0 = no filter); the bytes are reserved before
+// the array is allocated and returned by the destructor. Without a filter every observation is
+// reported to the set, which is slower but gives the identical result (the filter is a cache).
+// A default-constructed filter (tests, 4.4 behaviour) holds SIZE entries and is not budgeted.
 struct WorkerFilter {
   static constexpr size_t SIZE = size_t(1) << 15;   // 32,768 entries, 512 KiB a worker
   struct Entry { uint64_t id, nsf; };
-  std::vector<Entry> e;
+  std::vector<Entry> e; size_t entries = SIZE; std::shared_ptr<Budget> budget; size_t held = 0; bool off = false;
+  WorkerFilter() = default; WorkerFilter(const WorkerFilter &) = delete; WorkerFilter &operator=(const WorkerFilter &) = delete;
+  ~WorkerFilter() { if (budget && held) budget->release(held); }
+  void configure(std::shared_ptr<Budget> ledger, size_t n) { budget = std::move(ledger); entries = n; off = n == 0; }
+  // Largest power-of-two entry count (<= SIZE) such that `workers` filters fit in `bytes`; 0 if fewer than 256.
+  static size_t entriesFor(size_t bytes, size_t workers) {
+    const size_t each = bytes / std::max<size_t>(1, workers) / sizeof(Entry); size_t n = SIZE;
+    while (n > each) n >>= 1;
+    return n < 256 ? 0 : n;
+  }
+  size_t bytes() const { return e.capacity() * sizeof(Entry); }
+  bool start() {
+    if (budget) { if (!budget->reserve(entries * sizeof(Entry))) { off = true; return false; } held = entries * sizeof(Entry); }
+    try { e.assign(entries, Entry{0, 0}); } catch (...) { if (budget) { budget->release(held); held = 0; } off = true; return false; }
+    return true;
+  }
   // True if (k, what) must be reported; remembers it.
   bool miss(const Key &k, uint8_t what, uint64_t h) {
-    if (e.empty()) e.assign(SIZE, Entry{0, 0});
-    Entry &x = e[(size_t)(h >> 17) & (SIZE - 1)];
+    if (e.empty()) { if (off || !start()) return true; }
+    Entry &x = e[(size_t)(h >> 17) & (entries - 1)];
     const uint64_t bit = (what & Coverage::STORED) ? Coverage::F_STORED : Coverage::F_FALLBACK;
     if (x.id == k.id && (x.nsf & Coverage::NS_MASK) == k.ns) { if (x.nsf & bit) return false; x.nsf |= bit; return true; }
     x.id = k.id; x.nsf = k.ns | bit; return true;

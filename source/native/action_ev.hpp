@@ -148,7 +148,19 @@ struct EvShared {
   // requests create it; response-gain seats keep one private table per seat evaluator.
   // EM_EV_MERGED_COVERAGE=1 restores the 4.3 per-worker tables and final merge (A/B tests).
   std::shared_ptr<emcov::SharedCoverage> covSet;
-  void shareCoverage() { if (!std::getenv("EM_EV_MERGED_COVERAGE")) { covSet = std::make_shared<emcov::SharedCoverage>(coverageKeys); covSet->stop = &ctl.stop; } }
+  // 4.5: coverageMiB is a hard ceiling on the LIVE bytes of the request's coverage component
+  // (coverage.hpp, Budget): every tier including retired ones, the tier descriptors, the sketches,
+  // the set object with its lock cells and every worker's filter are reserved in covLedger before
+  // they are allocated. 1/16 of the budget is set aside for the worker filters (their size follows
+  // from the worker count); the table plan uses the rest and does not depend on the worker count.
+  std::shared_ptr<emcov::Budget> covLedger; size_t covFilterEntries = 0;
+  void shareCoverage(int workers = 1) {
+    if (std::getenv("EM_EV_MERGED_COVERAGE")) return;
+    const size_t budget = (size_t)coverageBytes, filterBytes = budget / 16;
+    covLedger = std::make_shared<emcov::Budget>(budget);
+    covSet = std::make_shared<emcov::SharedCoverage>(covLedger, budget - filterBytes, coverageKeys); covSet->stop = &ctl.stop;
+    covFilterEntries = emcov::WorkerFilter::entriesFor(filterBytes, (size_t)std::max(1, workers));
+  }
   // Sets the request's thread budget and the number of top-level workers about to run.
   void plan(int budget, int workers) { cache->threadBudget = std::max(1, budget); cache->workers = std::max(1, workers); }
 };
@@ -196,6 +208,7 @@ struct Evaluator {
     if (tour) m.tournament.prepare(icm, std::min(m.budgetBytes, 64.0 * 1048576));
     memoCap = (size_t)std::clamp<long long>(sh->memoryBudget / 16 / 96, 4096, 262144);
     cov.limit = sh->coverageKeys; cov.pool = sh->coveragePool;   // 4.3
+    if (sh->covSet) covFilter.configure(sh->covLedger, sh->covFilterEntries);   // 4.5: the filter is inside the coverage budget
   }
   ~Evaluator() { poller.flushWork(); }
   Evaluator(const Evaluator &) = delete; Evaluator &operator=(const Evaluator &) = delete;
@@ -757,17 +770,26 @@ struct EvalPool {
   Evaluator &main() { return *ev[0]; }
   // 4.4: the request's coverage. With the shared set (default) this only adds the workers'
   // visit counters; with EM_EV_MERGED_COVERAGE=1 it merges the per-worker tables as 4.3 did.
-  struct CovSummary { long long lookups = 0, stored = 0, missing = 0; size_t distinct = 0, distinctStored = 0, distinctMissing = 0, tableBytes = 0, keyLimit = 0; bool capped = false, shared = false; double estDistinct = 0, estStored = 0, estFallback = 0; };
+  struct CovSummary { long long lookups = 0, stored = 0, missing = 0; size_t distinct = 0, distinctStored = 0, distinctMissing = 0, tableBytes = 0, keyLimit = 0; bool capped = false, shared = false; double estDistinct = 0, estStored = 0, estFallback = 0;
+    // 4.5 memory ledger of the coverage component (bytes): budget, peak and live totals; the set's own share and its retired tiers; worker filters.
+    size_t budgetBytes = 0, peakBytes = 0, liveBytes = 0, setBytes = 0, retiredBytes = 0, filterBytes = 0, refusals = 0, tiers = 0; int status = 0; };
   CovSummary coverage() const {
     CovSummary r;
     if (emcov::SharedCoverage *cs = sh->covSet.get()) {
       for (auto &e : ev) if (e) { r.lookups += e->cov.lookups; r.stored += e->cov.stored; r.missing += e->cov.missing; }
       cs->finalize();
       r.distinct = cs->distinct.load(); r.distinctStored = cs->distinctStored.load(); r.distinctMissing = cs->distinctMissing.load(); r.capped = cs->capped.load(); r.tableBytes = cs->nominalBytes(r.distinct); r.keyLimit = cs->limit; r.shared = true;   // nominal: independent of the thread count
+      r.status = cs->status.load(); r.setBytes = cs->liveBytes(); r.retiredBytes = cs->retiredBytes(); r.tiers = cs->tierCount();
+      if (const emcov::Budget *b = sh->covLedger.get()) { r.budgetBytes = b->limit; r.peakBytes = b->peak.load(); r.liveBytes = b->live.load(); r.refusals = b->refusals.load(); }
+      for (auto &e : ev) if (e) r.filterBytes += e->covFilter.bytes();
       if (r.capped) { r.estDistinct = cs->estimateDistinct(); r.estStored = cs->estimateStored(); r.estFallback = cs->estimateFallback(); }
       return r;
     }
-    Coverage c; c.limit = sh->coverageKeys; for (auto &e : ev) if (e) c.merge(e->cov);   // 4.3: the merged table has its own allowance (no pool)
+    // 4.5: the merged table draws from the SAME pool as the worker tables (which are still alive
+    // here), so worker tables + merged table + sketches stay within coverageMiB; 4.3/4.4 gave it a
+    // second, unpooled allowance (peak up to twice the budget).
+    Coverage c; c.limit = sh->coverageKeys; c.pool = sh->coveragePool; for (auto &e : ev) if (e) c.merge(e->cov);
+    r.budgetBytes = (size_t)sh->coverageBytes; r.liveBytes = r.peakBytes = (size_t)(sh->coverageBytes - std::max(0LL, sh->coveragePool->load())); r.status = c.capped ? emcov::COV_KEY_LIMIT : emcov::COV_OK;
     r.lookups = c.lookups; r.stored = c.stored; r.missing = c.missing; r.distinct = c.distinct; r.distinctStored = c.distinctStored; r.distinctMissing = c.distinctMissing; r.capped = c.capped; r.tableBytes = c.bytes(); r.keyLimit = c.limit;
     if (r.capped) { r.estDistinct = c.estimateDistinct(); r.estStored = c.estimateStored(); r.estFallback = c.estimateFallback(); }
     return r;
@@ -1090,7 +1112,11 @@ inline void sampleValues(Evaluator &E, const Resolved &R, double *v, double *fbs
 // labelled HyperLogLog estimate once the coverage table hit its key limit or byte budget.
 inline void coverageCapacityJson(JB *o, const EvalPool::CovSummary &cov, const EvShared &S) {
   jb_printf(o, ",\"distinctCountKind\":\"%s\",\"capacity\":{\"exactKeyLimit\":%zu,\"coverageMiB\":%lld,\"tableBytes\":%zu,\"bytesPerKey\":32,\"note\":\"exact while distinctCountKind is exact; once capped the distinct* fields are exact LOWER BOUNDS (keys counted before the limit) and estimates are HyperLogLog approximations (2^14 registers), never exact counts. Raise coverageMiB (1-4096) for larger exact counts.\"}",
-            cov.capped ? "lowerBound" : "exact", S.coverageKeys, S.coverageBytes >> 20, cov.tableBytes);
+            cov.capped ? "lowerBound" : "exact", cov.shared ? cov.keyLimit : S.coverageKeys, S.coverageBytes >> 20, cov.tableBytes);
+  // 4.5: the ledger. peakBytes is the maximum of live bytes over the request and is <= budgetBytes by construction
+  // (reservations are refused, never granted and checked afterwards); it depends on the worker count (filters).
+  jb_printf(o, ",\"memory\":{\"semantics\":\"coverageMiB is a hard ceiling on LIVE allocated bytes of the coverage component: every table generation (current, replacement being built, retired ones kept for lock-free readers), table metadata, the three sketches, the synchronisation state and all worker-local filters. Showdown tables/memo (memoryMiB) and GPU buffers (gpuMiB) have their own budgets.\",\"budgetBytes\":%zu,\"peakBytes\":%zu,\"liveBytes\":%zu,\"tableBytes\":%zu,\"retiredGenerationBytes\":%zu,\"generations\":%zu,\"workerFilterBytes\":%zu,\"refusedReservations\":%zu,\"withinBudget\":%s,\"status\":\"%s\",\"countsExact\":%s}",
+            cov.budgetBytes, cov.peakBytes, cov.liveBytes, cov.setBytes, cov.retiredBytes, cov.tiers, cov.filterBytes, cov.refusals, cov.peakBytes <= cov.budgetBytes ? "true" : "false", emcov::statusName(cov.status), cov.capped ? "false" : "true");
   jb_printf(o, ",\"structure\":\"%s\"", cov.shared ? "request-wide concurrent set (4.4): filled while the workers run, nothing is merged after they stop" : "per-worker tables merged after the workers stop (EM_EV_MERGED_COVERAGE)");
   if (cov.capped) {
     jb_printf(o, ",\"distinctEstimates\":{\"method\":\"HyperLogLog (approximate)\",\"relativeStdError\":%.4f,\"distinctInformationSets\":%.0f,\"distinctStoredInformationSets\":%.0f,\"distinctFallbackInformationSets\":%.0f}",
@@ -1213,7 +1239,7 @@ static int actionEvImpl(MW *m, const char *json, size_t len, JB *out, char *err,
       auto it = m->evCache.find(key);
       if (it != m->evCache.end()) { jb_putn(out, it->second.data(), it->second.size() - 1); jb_puts(out, ",\"cache\":{\"hit\":true}}"); return 200; }
     }
-    S.shareCoverage();   // 4.4
+    S.shareCoverage(threads);   // 4.4; 4.5: strict byte ledger
     EvalPool pool(*m, g, P.pol, P.refuse, actor, &S, threads); Evaluator &E = pool.main();
     S.ctl.stage = SITE_REACH;
     std::vector<std::vector<double>> reach((size_t)n); std::vector<size_t> reachFb((size_t)n, 0); std::vector<double> reachFbW((size_t)n, 0), reachAllW((size_t)n, 0);
