@@ -4,6 +4,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+// 4.5: the decimal parser behind every JSON number (see json.c); the engine installs em_parse_double.
+extern double (*json_number_parser)(const char *, char **);
 // growable output buffer
 typedef struct JB { char *s; size_t n, cap; int failed; } JB;
 void jb_init(JB *b);

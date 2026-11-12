@@ -365,6 +365,7 @@ struct Game {
   BS rootState{};
   Rng actionRng{0};
   uint32_t actionSeed = 0;
+  double exploreKeep = 0.9, exploreMix = 0.1;   // opponent sampling q = keep * sigma + mix / k (4.5: configurable for experiments)
   bool perDealStreams = false, terminalExpectation = false, terminalBaseline = false;
   double secTraverse = 0, secMerge = 0, secDeal = 0, secScore = 0, secProfiled = 0;   // 3.3: scoring time and total time of profiled updates (1 in 16)
   std::atomic<size_t> scratchPeak{0};

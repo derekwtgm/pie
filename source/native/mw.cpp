@@ -232,7 +232,53 @@ struct MW {
   }
 
   // ---- deals ----
+  // 4.5 (experimental, opt-in: spec "chanceSampling":"latin"; external sampling only). Latin-hypercube
+  // private-hand sampling, reshuffled every epoch: deal number i (= committed deals + position in the
+  // batch) of an epoch of S deals takes, for every seat, stratum perm_seat[i mod S] of S equal-probability
+  // strata of that seat's range weights, with an independent permutation per seat and epoch. Each
+  // candidate tuple is therefore still uniformly distributed over the product of the range weights
+  // (a uniformly random stratum, a uniform point inside it), so a compatible candidate is distributed
+  // exactly like an independent draw conditioned on compatibility; an incompatible candidate (shared
+  // card) is replaced by the ordinary independent rejection sampler, which has that same conditional
+  // distribution. The marginal distribution of every training deal is thus exactly the default one;
+  // only the dependence BETWEEN deals changes (each seat's hands are visited evenly within an epoch).
+  // The permutations are a pure function of (seed, epoch, seat), so a resumed study continues
+  // identically and a rolled-back update needs no extra state.
+  bool latin=false; uint32_t latinSeed=0; int latinS=0; long long latinEpoch=-1; std::vector<std::vector<uint16_t>> latinPerm;
+  long long latinTried=0, latinAccepted=0;
+  void latinPrepare(long long epoch){
+    latinPerm.assign((size_t)n,std::vector<uint16_t>((size_t)latinS));
+    for(int p=0;p<n;p++){
+      Rng r{latinSeed ^ (uint32_t)((uint32_t)(epoch+1)*0x9e3779b1u) ^ (uint32_t)((uint32_t)(p+1)*0xc2b2ae35u)};
+      auto &v=latinPerm[(size_t)p]; for(int i=0;i<latinS;i++)v[(size_t)i]=(uint16_t)i;
+      for(int i=latinS-1;i>0;i--){ const int j=std::min(i,(int)std::floor(r.next()*(i+1))); std::swap(v[(size_t)i],v[(size_t)j]); }
+    }
+    latinEpoch=epoch;
+  }
+  bool dealLatin(World &w,int position){
+    const long long index=trainingDeals+position, epoch=index/latinS; const int pos=(int)(index%latinS);
+    if(epoch!=latinEpoch)latinPrepare(epoch);
+    uint8_t used[52]; std::memset(used,0,sizeof used);
+    for(int i=0;i<startLen;i++)used[board[i]]=1;
+    latinTried++;
+    for(int p=0;p<n;p++){
+      const std::vector<Hand> &hs=hands[p];
+      const double x=((double)latinPerm[(size_t)p][(size_t)pos]+rng.next())/latinS*total[p];
+      int lo=0,hi=(int)hs.size()-1;
+      while(lo<hi){int mid=(lo+hi)>>1;if(x<hs[mid].cum)hi=mid;else lo=mid+1;}
+      const Hand &h=hs[lo];
+      if(used[h.a]||used[h.b])return false;
+      w.seat[p]=lo;used[h.a]=used[h.b]=1;
+    }
+    for(int i=0;i<startLen;i++)w.cards[i]=board[i];
+    int len=startLen;
+    while(len<5){int c=(int)std::floor(rng.next()*52);if(!used[c]){used[c]=1;w.cards[len++]=c;}}
+    if(!startLen)std::sort(w.cards,w.cards+3);
+    latinAccepted++;
+    return true;
+  }
   bool deal(World &w,int stratum=0) {
+    if(latin && dealLatin(w,stratum))return true;
     if(!joint.empty()){
       double x=(stratum+rng.next())*cumulative.back()/batchDeals;
       auto idx=std::min(joint.size()-1,(size_t)(std::upper_bound(cumulative.begin(),cumulative.end(),x)-cumulative.begin()));
@@ -456,9 +502,22 @@ static const char *parseRules(MW *m, JV *spec) {
   if (streams && strcmp(streams, "shared") && strcmp(streams, "deal")) return "Unknown action stream mode";
   if(JV *v=jget(spec,"terminalBaseline")){if(v->type!=J_BOOL)return "Invalid terminal baseline flag";g->terminalBaseline=v->num!=0;}
   if(JV *v=jget(spec,"terminalExpectation")){if(v->type!=J_BOOL)return "Invalid terminal expectation flag";g->terminalExpectation=v->num!=0;}
+  // 4.5 experimental options (opt-in; absent = the validated 4.4 trainer, bit for bit).
+  if(JV *v=jget(spec,"chanceSampling")){
+    const char *cs=jstr(v); if(!cs||(strcmp(cs,"independent")&&strcmp(cs,"latin")))return "Unknown chance sampling mode";
+    if(!strcmp(cs,"latin")){
+      if(!m->joint.empty())return "Latin chance sampling cannot be combined with river stratification";
+      size_t S=2; for(const auto &r:m->hands)S=std::max(S,r.size());
+      m->latin=true; m->latinS=(int)std::min<size_t>(S,4096); m->latinEpoch=-1;
+    }
+  }
+  if(JV *v=jget(spec,"opponentExploration")){
+    if(v->type!=J_NUM||!std::isfinite(v->num)||v->num<0||v->num>0.5)return "Opponent exploration must be 0 to 0.5";
+    if(v->num!=0.1){g->exploreMix=v->num;g->exploreKeep=1.0-v->num;}
+  }
   g->perDealStreams = streams && !strcmp(streams, "deal");
   JV *seed = jget(spec, "actionSeed"); if (!isInt(seed) || seed->num < 0 || seed->num > 4294967295.0) return "Invalid action seed";
-  g->actionSeed = (uint32_t)seed->num;
+  g->actionSeed = (uint32_t)seed->num; m->latinSeed = g->actionSeed ^ 0x51ed270bu;
   R.root(g->rootState);
   if (g->rootState.kind != 0) return "The betting rules have no decision";
   m->es = g;
@@ -955,6 +1014,15 @@ extern "C" void mw_root_policy(MW *m,JB *out){
 #include "explorer.hpp"
 #include "ev_control.hpp"
 #include "showdown_table.hpp"
+#include <charconv>
+extern "C" double em_parse_double(const char *s, char **end) {
+  const char *p = s; while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == '\f' || *p == '\v') p++;
+  if (*p == '+' && p[1] != '-' && p[1] != '+') p++;   // strtod accepts a leading plus sign; from_chars does not
+  double v = 0; const std::from_chars_result r = std::from_chars(p, p + std::strlen(p), v);
+  if (r.ec == std::errc()) { if (end) *end = const_cast<char *>(r.ptr); return v; }
+  return std::strtod(s, end);   // not a number, or out of range: the C runtime's result (infinity, zero) and end pointer
+}
+namespace { struct InstallNumberParser { InstallNumberParser() { json_number_parser = em_parse_double; } } installNumberParser; }
 #include "ieee_probe.hpp"
 #include "action_ev.hpp"
 // ---- 4.0: evaluation tasks for the desktop job API (server.c) ----

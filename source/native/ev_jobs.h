@@ -18,7 +18,7 @@
  *
  * Resources: at most EVJ_SLOTS jobs are retained, at most EVJ_QUEUE_LIMIT are
  * pending, at most `workers` run at once (default 2), each with at most
- * `threadsPerJob` evaluation threads, and the memory budgets (memoryMiB) of
+ * `threadsPerJob` evaluation threads, and the memory budgets (memoryMiB + coverageMiB since 4.5) of
  * running jobs never exceed the evaluation memory pool (default: a quarter of
  * available RAM, at most 2,048 MiB - conservative for a 16 GB PC). A job that
  * does not fit waits; one larger than the pool is refused (413). Workers are
@@ -33,7 +33,7 @@ typedef struct {
   int used, kind, status, http, partial, cancelRequested;
   unsigned long long seq, gen; char id[40], study[96];
   char *body; size_t blen;
-  double created, started, finished; long long createdUnix, memoryMiB, timeLimitMs;
+  double created, started, finished; long long createdUnix, memoryMiB, coverageMiB, chargedMiB, timeLimitMs;
   MwEvalTask *task; JB result; int hasResult; char error[512];
 } EvJob;
 static EvJob EVJ[EVJ_SLOTS];
@@ -66,7 +66,7 @@ static EvJob *evj_next(void) {
   if (EVJ_RUNNING >= EVJ_WORKERS) return NULL;
   EvJob *best = NULL;
   for (int i = 0; i < EVJ_SLOTS; i++) if (EVJ[i].used && EVJ[i].status == EVJ_PENDING && (!best || EVJ[i].seq < best->seq)) best = &EVJ[i];
-  if (best && EVJ_RUNNING_MIB + best->memoryMiB > EVJ_POOL_MIB) return NULL;
+  if (best && EVJ_RUNNING_MIB + best->chargedMiB > EVJ_POOL_MIB) return NULL;
   return best;
 }
 static void *evj_worker(void *arg) {
@@ -75,7 +75,7 @@ static void *evj_worker(void *arg) {
   for (;;) {
     EvJob *j;
     while (!(j = evj_next())) pthread_cond_wait(&EVJ_CV, &EVJ_MU);
-    j->status = EVJ_RUN; j->started = now_s(); EVJ_RUNNING++; EVJ_RUNNING_MIB += j->memoryMiB;
+    j->status = EVJ_RUN; j->started = now_s(); EVJ_RUNNING++; EVJ_RUNNING_MIB += j->chargedMiB;
     const int kind = j->kind; const char *body = j->body; const size_t blen = j->blen; const unsigned long long gen = j->gen; MwEvalTask *task = j->task;
     pthread_mutex_unlock(&EVJ_MU);
     /* Attach to the study as a reader. A checkpoint SAVE (MW_RESTORING without a
@@ -89,7 +89,7 @@ static void *evj_worker(void *arg) {
     else { m = MWG; MW_READERS++; }
     pthread_mutex_unlock(&MW_MU);
     if (requeue) {
-      pthread_mutex_lock(&EVJ_MU); EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->memoryMiB;
+      pthread_mutex_lock(&EVJ_MU); EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->chargedMiB;
       /* 4.1: a cancel that arrived while the job was briefly "running" here
          finishes it as cancelled now (4.0 put it back in the queue and only
          noticed the cancellation after it was picked up and started again). */
@@ -104,7 +104,7 @@ static void *evj_worker(void *arg) {
       pthread_mutex_lock(&MW_MU); MW_READERS--; pthread_mutex_unlock(&MW_MU);
     } else { rc = 409; snprintf(err, sizeof err, "%s", why); }
     pthread_mutex_lock(&EVJ_MU);
-    j->finished = now_s(); j->http = rc; EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->memoryMiB;
+    j->finished = now_s(); j->http = rc; EVJ_RUNNING--; EVJ_RUNNING_MIB -= j->chargedMiB;
     if (rc == 200 && !out.failed) {
       j->status = EVJ_COMPLETED; j->result = out; j->hasResult = 1;
       j->partial = strstr(out.s, "\"status\":\"partial\"") != NULL;
@@ -123,7 +123,7 @@ static void evj_json(JB *b, EvJob *j, int withProgress) {
   jb_str(b, j->study);
   jb_printf(b, ",\"createdUnix\":%lld,\"queuedMs\":%.1f,\"runningMs\":", j->createdUnix, ((j->started ? j->started : (evj_finished(j) ? j->finished : now)) - j->created) * 1000);
   if (j->started) jb_printf(b, "%.1f", ((evj_finished(j) ? j->finished : now) - j->started) * 1000); else jb_puts(b, "null");
-  jb_printf(b, ",\"memoryMiB\":%lld,\"timeLimitMs\":%lld,\"cancelRequested\":%s", j->memoryMiB, j->timeLimitMs, j->cancelRequested ? "true" : "false");
+  jb_printf(b, ",\"memoryMiB\":%lld,\"coverageMiB\":%lld,\"chargedMiB\":%lld,\"timeLimitMs\":%lld,\"cancelRequested\":%s", j->memoryMiB, j->coverageMiB, j->chargedMiB, j->timeLimitMs, j->cancelRequested ? "true" : "false");
   /* Cooperative cancellation normally stops a job within milliseconds of its
      limit; a job far past it is flagged (it cannot be killed safely). */
   jb_printf(b, ",\"overdue\":%s", j->status == EVJ_RUN && (now - j->started) * 1000 > j->timeLimitMs + 5000 ? "true" : "false");
@@ -222,17 +222,22 @@ static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *
     JB info; jb_init(&info); mw_info(m, &info);
     pthread_mutex_lock(&MW_MU); MW_READERS--; pthread_mutex_unlock(&MW_MU);
     if (rc != 200) { jb_free(&info); respond_err(s, rc, err[0] ? err : "Invalid request"); return 1; }
-    long long mem = 0, lim = 0; char nmsg[200];
+    long long mem = 0, lim = 0, cov = 0; char nmsg[200];
     /* Same ranges and defaults as evParams() / the response-gain parser in action_ev.hpp. */
     if (evj_field(body, blen, "memoryMiB", 16, 4096, 512, &mem, nmsg, sizeof nmsg) ||
         evj_field(body, blen, "timeLimitMs", 100, 3600000, kind ? 120000 : 60000, &lim, nmsg, sizeof nmsg)) {
       jb_free(&info); respond_err(s, 400, nmsg); return 1;
     }
+    /* 4.5: the coverage budget is memory too. 4.0-4.4 charged only memoryMiB to the pool, so two jobs
+     * with coverageMiB 4096 could hold 8 GiB that the pool never saw. The job is now charged
+     * memoryMiB + coverageMiB (coverageMiB defaults to clamp(memoryMiB / 4, 4, 64), as in action_ev.hpp). */
+    { const long long dcov = mem / 4 < 4 ? 4 : mem / 4 > 64 ? 64 : mem / 4;
+      if (evj_field(body, blen, "coverageMiB", 1, 4096, dcov, &cov, nmsg, sizeof nmsg)) { jb_free(&info); respond_err(s, 400, nmsg); return 1; } }
     char study[96] = "";
     { char e[64]; JV *iv = info.failed ? NULL : json_parse(info.s, info.n, e, sizeof e); if (iv) { const char *sid = jstr(jget(iv, "studyId")); if (sid) snprintf(study, sizeof study, "%s", sid); json_free(iv); } }
     jb_free(&info);
     pthread_mutex_lock(&EVJ_MU);
-    if (mem > EVJ_POOL_MIB) { pthread_mutex_unlock(&EVJ_MU); char msg[160]; snprintf(msg, sizeof msg, "memoryMiB %lld exceeds the evaluation memory pool (%lld MiB)", mem, EVJ_POOL_MIB); respond_err(s, 413, msg); return 1; }
+    if (mem + cov > EVJ_POOL_MIB) { pthread_mutex_unlock(&EVJ_MU); char msg[200]; snprintf(msg, sizeof msg, "memoryMiB %lld + coverageMiB %lld exceeds the evaluation memory pool (%lld MiB)", mem, cov, EVJ_POOL_MIB); respond_err(s, 413, msg); return 1; }
     int pending = 0, slot = -1; for (int i = 0; i < EVJ_SLOTS; i++) { pending += EVJ[i].used && EVJ[i].status == EVJ_PENDING; if (!EVJ[i].used && slot < 0) slot = i; }
     if (pending >= EVJ_QUEUE_LIMIT) { pthread_mutex_unlock(&EVJ_MU); respond_err(s, 503, "The evaluation queue is full; wait for jobs to finish or cancel some"); return 1; }
     if (slot < 0) {   /* evict the oldest finished job */
@@ -244,7 +249,7 @@ static int ev_jobs_api(sock_t s, const char *method, const char *r, const char *
     j->body = (char *)malloc(blen + 1); j->task = mw_eval_task_new();
     if (!j->body || !j->task) { free(j->body); if (j->task) mw_eval_task_free(j->task); memset(j, 0, sizeof *j); pthread_mutex_unlock(&EVJ_MU); respond_err(s, 503, "Out of memory"); return 1; }
     memcpy(j->body, body, blen); j->body[blen] = 0; j->blen = blen;
-    j->used = 1; j->kind = kind; j->status = EVJ_PENDING; j->seq = ++EVJ_SEQ; j->gen = gen; j->memoryMiB = mem; j->timeLimitMs = lim;
+    j->used = 1; j->kind = kind; j->status = EVJ_PENDING; j->seq = ++EVJ_SEQ; j->gen = gen; j->memoryMiB = mem; j->coverageMiB = cov; j->chargedMiB = mem + cov; j->timeLimitMs = lim;
     snprintf(j->id, sizeof j->id, "%s-%08x-%llu", kind ? "rg" : "ev", EVJ_BOOT, j->seq); snprintf(j->study, sizeof j->study, "%s", study);
     j->created = now_s(); j->createdUnix = (long long)time(NULL);
     evj_grow();

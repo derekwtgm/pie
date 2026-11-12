@@ -87,6 +87,12 @@ void mw_ev_cache_clear(MW *m);
 // number from its stated bit pattern (200, or 400 for a malformed document).
 void mw_ieee_probe(JB *out);
 int mw_ieee_verify(const char *json, size_t len, JB *out, char *err, int errlen);
+// 4.5: deterministic print/parse sweep over `count` doubles (ieee_probe.hpp). 1 = all round trips exact,
+// -1 = at least one mismatch (details in the document), 0 = bad arguments.
+int mw_ieee_sweep(JB *out, long long count, unsigned long long seed);
+// 4.5: strtod replacement, correctly rounded on every platform (std::from_chars); out-of-range or
+// unparsable input falls back to the C runtime's strtod semantics (HUGE_VAL / 0, *end).
+double em_parse_double(const char *s, char **end);
 // 3.1: exact multiway all-in equity by complete board enumeration on the CPU,
 // the GPU, or both (with an exact integer comparison). See MW-PROTOCOL.md.
 int mw_equity(const char *json, size_t len, JB *out, char *err, int errlen);

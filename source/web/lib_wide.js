@@ -132,6 +132,11 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   if(!Number.isInteger(holdout)||holdout<128||holdout>8192)throw Error('Evaluation deals must be between 128 and 8192');
   if(cfg.terminalBaseline!==undefined && typeof cfg.terminalBaseline!=='boolean')throw Error('Invalid terminal baseline setting');
   if(cfg.terminalExpectation!==undefined && typeof cfg.terminalExpectation!=='boolean')throw Error('Invalid terminal expectation setting');
+  // 4.5 experimental trainer options, implemented by the native engine only (the JavaScript trainer refuses them).
+  if(cfg.chanceSampling!==undefined && !['independent','latin'].includes(cfg.chanceSampling))throw Error('Choose independent or latin chance sampling');
+  if(cfg.opponentExploration!==undefined && !(typeof cfg.opponentExploration==='number' && cfg.opponentExploration>=0 && cfg.opponentExploration<=0.5))throw Error('Opponent exploration must be 0 to 0.5');
+  const nativeOnly=cfg.chanceSampling==='latin' || (cfg.opponentExploration!==undefined && cfg.opponentExploration!==0.1);
+  if(nativeOnly && cfg.traversal!=='external')throw Error('Latin chance sampling and opponent exploration require external sampling');
   const abstraction=cfg.abstraction || 'detailed';
   if(!['compact','detailed','exact'].includes(abstraction))throw Error('Choose Compact, Detailed or Exact cards grouping');
   const budget=cfg.strategyBudgetMiB??112;
@@ -548,6 +553,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   let nativeContinuation=null;
   function iterate(count=1){
     if(!Number.isSafeInteger(count)||count<0||count>10000000||iterations+count>10000000)throw Error('Iteration count must fit the 10 million iteration limit');
+    if(nativeOnly&&count>0)throw Error('This study uses a native-only trainer option (chanceSampling or opponentExploration); train it with the native engine');
     for(let i=0;i<count && !limitReached;i++){
       const dealBefore=dealRandom.state(),actionBefore=actionRandom.state(),visitsBefore=stateVisits,dealsBefore=trainingDeals;
       if(external)journal={insertions:[],saved:new Map()};
@@ -925,7 +931,7 @@ EM.wideGame=function({cfg,board,hands,tree,n,streetName,nodes,external,advance,n
   let studyId;
   function nativeSpec(){
     const why=nativeSupport();if(why)throw Error(why);
-    if(external)return withStudyId({protocol:4,...(cfg.terminalBaseline?{terminalBaseline:true}:{}),...(cfg.terminalExpectation?{terminalExpectation:true}:{}),...(stratify?{stratified:true}:{}),...(groupedKeys?{abstraction,groupKeys:{abstraction,small:hands.map(r=>r.length<=12)}}:{}),...(groupedTurn?{abstraction,turnGroups:turnGroups().map(g=>g.reps)}:{}),...(groupedRiver?{abstraction,riverGroups:riverGroups().map(g=>g.representatives)}:{}),algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
+    if(external)return withStudyId({protocol:4,...(cfg.terminalBaseline?{terminalBaseline:true}:{}),...(cfg.chanceSampling==='latin'?{chanceSampling:'latin'}:{}),...(cfg.opponentExploration!==undefined&&cfg.opponentExploration!==0.1?{opponentExploration:cfg.opponentExploration}:{}),...(cfg.terminalExpectation?{terminalExpectation:true}:{}),...(stratify?{stratified:true}:{}),...(groupedKeys?{abstraction,groupKeys:{abstraction,small:hands.map(r=>r.length<=12)}}:{}),...(groupedTurn?{abstraction,turnGroups:turnGroups().map(g=>g.reps)}:{}),...(groupedRiver?{abstraction,riverGroups:riverGroups().map(g=>g.representatives)}:{}),algorithm:'external',engine:'EightMax multiway',n,board:board.slice(),anteOf:anteOf.slice(),...(icm?{icm:icm.native}:{}),
       device:cfg.processingMode||'cpu',gpuMiB:cfg.gpuMiB??512,hands:hands.map(r=>r.map(h=>[h.id,h.a,h.b,h.w])),rules,batchDeals,weighting,...(dcfr?{dcfrAlpha:dcfr.alpha,dcfrBeta:dcfr.beta,dcfrGamma:dcfr.gamma}:{}),regretMatching,
       actionStreams,actionSeed,state:{rng:dealRandom.state(),actionRng:actionRandom.state(),iterations,trainingDeals,stateVisits}});
     const {list,ids}=nativeTree();

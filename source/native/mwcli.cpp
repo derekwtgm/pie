@@ -55,7 +55,7 @@ static bool wholeArg(const char *s, long long lo, long long hi, long long &out) 
 static bool numberArg(const char *s, double &out) {
   if (!s || !*s) return false;
   char *end = nullptr; errno = 0;
-  const double v = std::strtod(s, &end);
+  const double v = em_parse_double(s, &end);   // 4.5: correctly rounded on every platform
   if (errno || *end || !std::isfinite(v) || !(v > 0) || v > 65536) return false;
   out = v; return true;
 }
@@ -167,6 +167,12 @@ int main(int argc, char **argv) {
   // 4.4: mwcli --ieee            prints the IEEE 754 probe table (bits, %.17g value, digit text)
   //      mwcli --ieee-verify f   parses a probe document with the engine's JSON reader; exit 1 on any mismatch
   if (argc == 2 && !std::strcmp(argv[1], "--ieee")) { JB j; jb_init(&j); mw_ieee_probe(&j); std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return 0; }
+  // 4.5: mwcli --ieee-sweep [count] [seed]   print/parse round trip of `count` generated doubles (default 200000, seed 45); exit 1 on any mismatch
+  if (argc >= 2 && argc <= 4 && !std::strcmp(argv[1], "--ieee-sweep")) {
+    JB j; jb_init(&j); const int st = mw_ieee_sweep(&j, argc > 2 ? std::atoll(argv[2]) : 200000, argc > 3 ? std::strtoull(argv[3], nullptr, 10) : 45ULL);
+    if (!st) { std::fprintf(stderr, "usage: mwcli --ieee-sweep [count 1..50000000] [seed]\n"); jb_free(&j); return 2; }
+    std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); return st == 1 ? 0 : 1;
+  }
   if (argc == 3 && !std::strcmp(argv[1], "--ieee-verify")) {
     std::vector<unsigned char> doc = slurp(argv[2]); char err[512] = ""; JB j; jb_init(&j);
     // a UTF-8 byte-order mark (Windows PowerShell 5.1 "Set-Content -Encoding UTF8") is not JSON

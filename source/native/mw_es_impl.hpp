@@ -190,7 +190,7 @@ struct Walker {
     }
     policy(ref, k, hand, code, s);
     if (t.actor != player) {
-      for (int b = 0; b < k; b++) q[b] = 0.9 * s[b] + 0.1 / k;
+      for (int b = 0; b < k; b++) q[b] = g.exploreKeep * s[b] + g.exploreMix / k;   // defaults 0.9 and 0.1: the 4.4 expression, bit for bit
       const int a = choose(q, k, *rng);
       // Condition on terminal siblings. Only the sampled unresolved action carries
       // a residual. The importance weight and descendant reach are unchanged.
