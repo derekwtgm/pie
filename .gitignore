@@ -1,2 +1,3 @@
 source/build/
 release/
+__pycache__/
