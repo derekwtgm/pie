@@ -478,6 +478,7 @@ struct SharedCoverage {
   SharedCoverage(const SharedCoverage &) = delete; SharedCoverage &operator=(const SharedCoverage &) = delete;
   ~SharedCoverage() {
     for (Table *t : tiers) { freePages(t->slot, t->slots * sizeof(Slot)); delete t; }
+    if (spare) { freePages(spare->slot, spare->slots * sizeof(Slot)); delete spare; }
     if (budget) budget->release(accounted.load());
   }
   // Slot memory of every live tier plus the sketches (the 4.4 figure, kept for comparison).
@@ -486,6 +487,8 @@ struct SharedCoverage {
   size_t liveBytes() const { return accounted.load(); }
   size_t peakBytes() const { return peakAccounted.load(); }
   size_t retiredBytes() const { std::lock_guard<std::mutex> g(lock.writers); const Table *c = cur.load(); size_t b = 0; for (const Table *t : tiers) if (t != c) b += tierBytes(t->slots); return b; }
+  // A replacement prepared for a promotion that a stop abandoned: parked (and still in the ledger) for the next promotion.
+  size_t spareBytes() const { std::lock_guard<std::mutex> g(lock.writers); return spare ? tierBytes(spare->slots) : 0; }
   size_t sketchBytes() const { return hAll.r ? 3 * Hll::M : 0; }
   // The most this set can ever hold: fixed bytes and every planned tier.
   size_t ceilingBytes() const { return fixedBytes(sketch) + planBytes(plan); }
@@ -553,6 +556,7 @@ struct SharedCoverage {
  private:
   mutable SlotLock lock; std::vector<Table *> tiers;   // tiers: guarded by lock.writers
   std::vector<size_t> plan; size_t planned = 0;         // plan[planned] is the next tier to create (guarded by lock.writers)
+  Table *spare = nullptr; bool spareDirty = false;      // parked replacement of an abandoned promotion (guarded by lock.writers)
   std::atomic<size_t> accounted{0}, peakAccounted{0};   // this set's share of the ledger
   alignas(64) std::atomic<bool> growing{false};
   std::mutex hmu; AtomicHll hAll{nullptr}, hStored{nullptr}, hFallback{nullptr}; bool backfilled = false;
@@ -584,6 +588,13 @@ struct SharedCoverage {
   // are reserved in the ledger first; on any failure they are returned and nothing stays allocated.
   Table *makeTable(size_t n, bool abortable = false, bool *failed = nullptr, int *why = nullptr) {
     const size_t bytes = tierBytes(n);
+    // 4.5: reuse the replacement a stop made us abandon (already reserved, allocated and touched).
+    // A half-copied one is cleared here, when work resumes, not in the stop path.
+    if (spare && spare->slots == n) {
+      Table *t = spare; spare = nullptr;
+      if (spareDirty) { for (size_t i = 0; i < n; i++) { t->slot[i].nsf.store(0, std::memory_order_relaxed); t->slot[i].id.store(0, std::memory_order_relaxed); } spareDirty = false; }
+      tiers.push_back(t); return t;
+    }
     if (n > SIZE_MAX / sizeof(Slot) || !take(bytes)) { if (failed) *failed = true; if (why) *why = COV_BUDGET_EXHAUSTED; return nullptr; }
     int inject = failAllocations.load(); while (inject > 0 && !failAllocations.compare_exchange_weak(inject, inject - 1)) {}
     Slot *s = inject != 0 ? nullptr : static_cast<Slot *>(zeroPages(n * sizeof(Slot)));
@@ -596,7 +607,8 @@ struct SharedCoverage {
       volatile char *page = reinterpret_cast<volatile char *>(s);
       for (size_t off = 0; off < n * sizeof(Slot); off += 4096) {
         page[off] = 0;
-        if (abortable && (off & 0x3ffff) == 0 && stopPending()) { freePages(s, n * sizeof(Slot)); give(bytes); return nullptr; }   // checked every 64 pages
+        // a stop while the pages are being touched: park what exists (clean; the rest is touched on reuse by its first writes)
+        if (abortable && (off & 0x3ffff) == 0 && stopPending()) { Table *t = new (std::nothrow) Table{s, n}; if (t) { spare = t; spareDirty = false; abandoned.fetch_add(1); } else { freePages(s, n * sizeof(Slot)); give(bytes); } return nullptr; }   // checked every 64 pages
       }
     }
     Table *t = new (std::nothrow) Table{s, n};
@@ -604,11 +616,15 @@ struct SharedCoverage {
     tiers.push_back(t);   // capacity reserved by open(): cannot allocate
     return t;
   }
-  // 4.5: a tier that was prepared but never published (abandoned promotion). No reader can hold it,
-  // so it is released at once instead of staying allocated until the set is destroyed. Caller holds lock.writers.
-  void discard(Table *t) {
+  // 4.5: a tier that was prepared but never published (abandoned promotion). No reader can hold it.
+  // It is PARKED, not freed: unmapping tens of MiB of touched pages takes milliseconds and this
+  // runs while a stop is pending (measured: cancellation latency 2.2 -> 4.1 ms when it was freed
+  // here). The parked tier stays in the ledger (it is the next planned generation, so the plan's
+  // ceiling still holds), is never allocated a second time (4.4 allocated the generation again
+  // on the next promotion and kept both), and is released with the set. Caller holds lock.writers.
+  void discard(Table *t, bool dirty) {
     tiers.pop_back();   // it is the newest
-    freePages(t->slot, t->slots * sizeof(Slot)); give(tierBytes(t->slots)); delete t; abandoned.fetch_add(1);
+    spare = t; spareDirty = dirty; abandoned.fetch_add(1);
   }
   // Called inside lock.enter()/leave(): `t` is the current tier and cannot be replaced meanwhile. Every
   // thread that inserts or adds a flag does it here, on the same tier, so the claim protocol
@@ -658,8 +674,8 @@ struct SharedCoverage {
   // and `status` records whether the ledger or the operating system refused).
   // Returns false if another thread is promoting (the caller then inserts into the present tier or,
   // if that is nearly full, tries again). A promotion is abandoned when a stop becomes pending while
-  // the new tier is being prepared; 4.5 releases the prepared memory immediately (4.4 kept it until
-  // the set was destroyed, and a later promotion then allocated the tier a second time).
+  // the new tier is being prepared; 4.5 parks the prepared tier and reuses it for the next promotion
+  // (4.4 kept it until the set was destroyed and a later promotion allocated the tier a second time).
   bool grow() {
     std::unique_lock<std::mutex> g(lock.writers, std::try_to_lock); if (!g.owns_lock()) return false;
     Table *t = cur.load(); if (!t || !needsGrowth(*t)) return true;
@@ -670,12 +686,12 @@ struct SharedCoverage {
     bool failed = false; int why = COV_ALLOCATION_FAILED;
     Table *n = planned < plan.size() ? makeTable(plan[planned], mayAbandon, &failed, &why) : (failed = true, why = COV_BUDGET_EXHAUSTED, nullptr);
     if (!n) { if (failed) { lock.beginExclusive(); maxSlots = t->slots; limit = std::min(limit, t->slots / 2); status.store(why); lock.endExclusive(); } return true; }
-    if (mayAbandon && stopPending()) { discard(n); return true; }
+    if (mayAbandon && stopPending()) { discard(n, false); return true; }
     lock.beginExclusive(); struct End { SlotLock &l; ~End() { l.endExclusive(); } } end{lock};
     for (size_t i = 0; i < t->slots; i++) {
       // A stop that arrives during the copy abandons the promotion (the present tier is intact and
-      // still current; the half-filled new tier was never published and is released here).
-      if (mayAbandon && (i & 0xfff) == 0 && stopPending()) { discard(n); return true; }
+      // still current; the half-filled new tier was never published and is parked for reuse).
+      if (mayAbandon && (i & 0xfff) == 0 && stopPending()) { discard(n, i != 0); return true; }
       const uint64_t nsf = t->slot[i].nsf.load(std::memory_order_relaxed); if (!nsf) continue;
       const uint64_t id = t->slot[i].id.load(std::memory_order_relaxed);
       size_t j = n->start(hash(Key{id, nsf & NS_MASK})); while (n->slot[j].nsf.load(std::memory_order_relaxed)) j = n->next(j);

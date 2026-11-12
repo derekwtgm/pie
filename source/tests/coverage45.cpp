@@ -184,9 +184,9 @@ int main(int argc, char **argv) {
       abandonedTotal += j.set->abandoned.load(); worstPeak = std::max(worstPeak, j.ledger->peak.load());
       size_t tierSum = 0; for (size_t i = 0; i < j.set->tierCount(); i++) tierSum += SharedCoverage::tierBytes(j.set->tierPlan()[i]);
       ok = ok && j.ledger->peak.load() <= B && !j.set->capped.load() && j.set->distinct.load() == ref.distinct && subsetOf(*j.set, ref.m, true) &&
-           j.set->liveBytes() == SharedCoverage::fixedBytes() + tierSum;   // exactly the published tiers remain: no abandoned tier is still allocated
+           j.set->liveBytes() == SharedCoverage::fixedBytes() + tierSum + j.set->spareBytes() && j.set->liveBytes() <= j.set->ceilingBytes();   // published tiers plus at most the ONE parked replacement (a planned generation): nothing is allocated twice
     }
-    check("a stop raised and cleared continuously while 8 workers promote the set: peak within budget, abandoned replacement tiers released at once (ledger == fixed bytes + published tiers), exact, nothing lost or duplicated", ok, kv("budgetBytes", B) + "," + kv("worstPeakBytes", worstPeak) + "," + kv("abandonedPromotions", abandonedTotal));
+    check("a stop raised and cleared continuously while 8 workers promote the set: peak within budget, an abandoned replacement is parked and reused, never allocated twice (ledger == fixed bytes + published tiers + at most one parked planned tier <= ceiling), exact, nothing lost or duplicated", ok, kv("budgetBytes", B) + "," + kv("worstPeakBytes", worstPeak) + "," + kv("abandonedPromotions", abandonedTotal));
     // 4.4 reference under the same pattern: abandoned tiers accumulate until destruction.
     emcov44::SharedCoverage old(B / 32); std::atomic<int> stop44{0}; old.stop = &stop44; std::atomic<bool> done{false}; size_t peak44 = 0;
     std::thread toggler([&] { while (!done.load()) { stop44.store(1); std::this_thread::sleep_for(std::chrono::microseconds(150)); stop44.store(0); std::this_thread::sleep_for(std::chrono::microseconds(120)); } });
