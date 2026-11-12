@@ -1,3 +1,27 @@
+EightMax Windows 4.5 source
+
+Read ../RELEASE-4.5.md and ../validation/4.5/README.md for 4.5. 4.5 additions and changes:
+  native/coverage.hpp        emcov::Budget (strict live-byte ledger: reserve before allocate, overflow-
+                             checked); SharedCoverage planned generations (planFor), retired generations
+                             and abandoned replacements accounted / released, status codes, fault
+                             injection hook (failAllocations); WorkerFilter inside the budget;
+                             Coverage (per-seat tables): sketches drawn from the pool
+  native/action_ev.hpp       EvShared::shareCoverage(workers) builds the ledger; coverage.memory JSON;
+                             merged-table path shares the worker pool
+  native/ev_jobs.h           jobs charged memoryMiB + coverageMiB; coverageMiB validated at submission
+  native/ieee_probe.hpp      mw_ieee_sweep (deterministic print/parse sweep with digest)
+  native/mw.cpp              em_parse_double (std::from_chars) installed as the JSON number parser;
+                             experimental chanceSampling "latin" (dealLatin) and opponentExploration
+  native/json.c, json.h      json_number_parser hook (default strtod; the engine replaces it)
+  native/icm.hpp             two-lane SSE2 kernel for five or more live players (bit-identical)
+  native/mwcli.cpp           --ieee-sweep [count] [seed]
+  web/lib_wide.js            passes the experimental options to the native specification; the
+                             JavaScript trainer refuses them
+  tests/v45.test.js tests/coverage45.cpp tests/icm45.cpp
+  tests/fixtures/coverage44_reference.hpp, icm44_reference.hpp   archived 4.4 code (regression references)
+  tools/bench45.js tools/icm_bench45.cpp tools/stability45.js tools/wine45.js tools/sanitize45.sh
+  tools/test_windows.ps1 (section v45; [math]::Abs fix)  tools/validate_hardware.ps1 (section 11)
+
 EightMax Windows 4.4 source
 
 Read ../RELEASE-4.4.md, ../validation/4.4/README.md and ../validation/4.4/NUMERIC-POLICY.md.

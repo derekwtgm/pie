@@ -1,0 +1,996 @@
+{
+ "tool": "bench45",
+ "generated": "2026-11-12T22:23:44.111Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "reps": 5,
+ "builds": [
+  "4.4",
+  "4.5"
+ ],
+ "coverage": [
+  {
+   "coverageMiB": 1,
+   "budgetBytes": 1048576,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 1586.579,
+      "min": 1484.761,
+      "max": 1637.057,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      32768
+     ],
+     "exactKeyLimit": 32768,
+     "coverageSetBytes": 1425408,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 1425.927,
+      "min": 1356.541,
+      "max": 1587.528,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      32768
+     ],
+     "exactKeyLimit": 32768,
+     "coverageSetBytes": 974848,
+     "ledgerPeakBytes": 1045744,
+     "ledger": {
+      "budgetBytes": 1048576,
+      "peakBytes": 1045744,
+      "tableBytes": 980208,
+      "retiredGenerationBytes": 81952,
+      "workerFilterBytes": 65536,
+      "generations": 3,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 1,
+   "budgetBytes": 1048576,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 466.618,
+      "min": 427.719,
+      "max": 487.629,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      32768
+     ],
+     "exactKeyLimit": 32768,
+     "coverageSetBytes": 1425408,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 411.205,
+      "min": 374.391,
+      "max": 448.293,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      32768
+     ],
+     "exactKeyLimit": 32768,
+     "coverageSetBytes": 974848,
+     "ledgerPeakBytes": 1045744,
+     "ledger": {
+      "budgetBytes": 1048576,
+      "peakBytes": 1045744,
+      "tableBytes": 980208,
+      "retiredGenerationBytes": 81952,
+      "workerFilterBytes": 65536,
+      "generations": 3,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 2,
+   "budgetBytes": 2097152,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 1673.393,
+      "min": 1559.353,
+      "max": 1681.545,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      65536
+     ],
+     "exactKeyLimit": 65536,
+     "coverageSetBytes": 3522560,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 1434.34,
+      "min": 1385.852,
+      "max": 1557.035,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      65536
+     ],
+     "exactKeyLimit": 65536,
+     "coverageSetBytes": 1957888,
+     "ledgerPeakBytes": 2094336,
+     "ledger": {
+      "budgetBytes": 2097152,
+      "peakBytes": 2094336,
+      "tableBytes": 1963264,
+      "retiredGenerationBytes": 344112,
+      "workerFilterBytes": 131072,
+      "generations": 4,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 2,
+   "budgetBytes": 2097152,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 452.476,
+      "min": 419.755,
+      "max": 496.656,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      65536
+     ],
+     "exactKeyLimit": 65536,
+     "coverageSetBytes": 3522560,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 414.529,
+      "min": 371.817,
+      "max": 447.282,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      65536
+     ],
+     "exactKeyLimit": 65536,
+     "coverageSetBytes": 1957888,
+     "ledgerPeakBytes": 2094336,
+     "ledger": {
+      "budgetBytes": 2097152,
+      "peakBytes": 2094336,
+      "tableBytes": 1963264,
+      "retiredGenerationBytes": 344112,
+      "workerFilterBytes": 131072,
+      "generations": 4,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 8,
+   "budgetBytes": 8388608,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 1682.384,
+      "min": 1657.24,
+      "max": 1738.298,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      262144
+     ],
+     "exactKeyLimit": 262144,
+     "coverageSetBytes": 14008320,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 1512.714,
+      "min": 1426.198,
+      "max": 1645.35,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      262144
+     ],
+     "exactKeyLimit": 262144,
+     "coverageSetBytes": 7856128,
+     "ledgerPeakBytes": 8385808,
+     "ledger": {
+      "budgetBytes": 8388608,
+      "peakBytes": 8385808,
+      "tableBytes": 7861520,
+      "retiredGenerationBytes": 1392704,
+      "workerFilterBytes": 524288,
+      "generations": 5,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 8,
+   "budgetBytes": 8388608,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 436.452,
+      "min": 426.721,
+      "max": 453.613,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      262144
+     ],
+     "exactKeyLimit": 262144,
+     "coverageSetBytes": 14008320,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 388,
+      "min": 375.715,
+      "max": 409.591,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "lowerBound",
+     "distinct": [
+      262144
+     ],
+     "exactKeyLimit": 262144,
+     "coverageSetBytes": 7856128,
+     "ledgerPeakBytes": 8385808,
+     "ledger": {
+      "budgetBytes": 8388608,
+      "peakBytes": 8385808,
+      "tableBytes": 7861520,
+      "retiredGenerationBytes": 1392704,
+      "workerFilterBytes": 524288,
+      "generations": 5,
+      "status": "keyLimitReached",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 32,
+   "budgetBytes": 33554432,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 1759.205,
+      "min": 1711.244,
+      "max": 1884.487,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 1048576,
+     "coverageSetBytes": 55951360,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 1624.393,
+      "min": 1524.017,
+      "max": 1664.615,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 1048576,
+     "coverageSetBytes": 31449088,
+     "ledgerPeakBytes": 31978784,
+     "ledger": {
+      "budgetBytes": 33554432,
+      "peakBytes": 31978784,
+      "tableBytes": 31454496,
+      "retiredGenerationBytes": 5587024,
+      "workerFilterBytes": 524288,
+      "generations": 6,
+      "status": "ok",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 32,
+   "budgetBytes": 33554432,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 465.096,
+      "min": 458.306,
+      "max": 509.642,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 1048576,
+     "coverageSetBytes": 55951360,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 409.311,
+      "min": 403.523,
+      "max": 443.384,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 1048576,
+     "coverageSetBytes": 31449088,
+     "ledgerPeakBytes": 33551648,
+     "ledger": {
+      "budgetBytes": 33554432,
+      "peakBytes": 33551648,
+      "tableBytes": 31454496,
+      "retiredGenerationBytes": 5587024,
+      "workerFilterBytes": 2097152,
+      "generations": 6,
+      "status": "ok",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 64,
+   "budgetBytes": 67108864,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 1802.567,
+      "min": 1773.127,
+      "max": 2001.603,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 2097152,
+     "coverageSetBytes": 89505792,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 1542.332,
+      "min": 1510.418,
+      "max": 1616.877,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 2097152,
+     "coverageSetBytes": 62906368,
+     "ledgerPeakBytes": 63436064,
+     "ledger": {
+      "budgetBytes": 67108864,
+      "peakBytes": 63436064,
+      "tableBytes": 62911776,
+      "retiredGenerationBytes": 5587024,
+      "workerFilterBytes": 524288,
+      "generations": 6,
+      "status": "ok",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  },
+  {
+   "coverageMiB": 64,
+   "budgetBytes": 67108864,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "queryMs": {
+      "median": 481.82,
+      "min": 456.343,
+      "max": 489.19,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 2097152,
+     "coverageSetBytes": 89505792,
+     "ledgerPeakBytes": null,
+     "ledger": null,
+     "withinBudget": null
+    },
+    "4.5": {
+     "queryMs": {
+      "median": 412.016,
+      "min": 400.136,
+      "max": 436.759,
+      "n": 5
+     },
+     "peakRssMiB": null,
+     "kind": "exact",
+     "distinct": [
+      759069
+     ],
+     "exactKeyLimit": 2097152,
+     "coverageSetBytes": 62906368,
+     "ledgerPeakBytes": 65008928,
+     "ledger": {
+      "budgetBytes": 67108864,
+      "peakBytes": 65008928,
+      "tableBytes": 62911776,
+      "retiredGenerationBytes": 5587024,
+      "workerFilterBytes": 2097152,
+      "generations": 6,
+      "status": "ok",
+      "withinBudget": true
+     },
+     "withinBudget": true
+    }
+   },
+   "evBitsIdenticalAcrossBuilds": true
+  }
+ ],
+ "exhaustion": [
+  {
+   "build": "4.4",
+   "cappedMs": {
+    "median": 404.284,
+    "min": 403.223,
+    "max": 427.333,
+    "n": 5
+   },
+   "uncappedMs": {
+    "median": 466.313,
+    "min": 452.815,
+    "max": 505.059,
+    "n": 5
+   },
+   "cappedOverUncapped": 0.8669799040558595,
+   "kind": "lowerBound",
+   "status": "(not reported by this build)",
+   "lowerBound": 32768,
+   "estimate": 764225
+  },
+  {
+   "build": "4.5",
+   "cappedMs": {
+    "median": 376.363,
+    "min": 368.932,
+    "max": 383.125,
+    "n": 5
+   },
+   "uncappedMs": {
+    "median": 411.187,
+    "min": 400.09,
+    "max": 465.597,
+    "n": 5
+   },
+   "cappedOverUncapped": 0.9153086065464132,
+   "kind": "lowerBound",
+   "status": "keyLimitReached",
+   "lowerBound": 32768,
+   "estimate": 764225
+  }
+ ],
+ "training": [
+  {
+   "game": "push8",
+   "description": "Eight-player final-table ICM push/fold (fixed hands)",
+   "updates": 100000,
+   "sampledDeals": 400000,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 3.721364,
+      "min": 3.682596,
+      "max": 4.010702,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 3.4654,
+      "min": 3.4286,
+      "max": 3.7389,
+      "n": 5
+     },
+     "dealsPerSecond": 107487.46964822576,
+     "peakRssMiB": null,
+     "tableMiB": 0.097,
+     "sha256": [
+      "514e5f391f4dc79d5485c36c81e5fe18f8322b12115af98b38ee4e0ca78df680"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 3.722851,
+      "min": 3.612242,
+      "max": 3.746016,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 3.4643,
+      "min": 3.3566,
+      "max": 3.4804,
+      "n": 5
+     },
+     "dealsPerSecond": 107444.53645875164,
+     "peakRssMiB": null,
+     "tableMiB": 0.097,
+     "sha256": [
+      "514e5f391f4dc79d5485c36c81e5fe18f8322b12115af98b38ee4e0ca78df680"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 0.9996005749357146
+  },
+  {
+   "game": "push8",
+   "description": "Eight-player final-table ICM push/fold (fixed hands)",
+   "updates": 100000,
+   "sampledDeals": 400000,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 3.869244,
+      "min": 3.789004,
+      "max": 3.922928,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 3.6004,
+      "min": 3.5267,
+      "max": 3.6548,
+      "n": 5
+     },
+     "dealsPerSecond": 103379.36816597763,
+     "peakRssMiB": null,
+     "tableMiB": 0.097,
+     "sha256": [
+      "514e5f391f4dc79d5485c36c81e5fe18f8322b12115af98b38ee4e0ca78df680"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 3.790453,
+      "min": 3.685947,
+      "max": 4.027809,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 3.5246,
+      "min": 3.4279,
+      "max": 3.7506,
+      "n": 5
+     },
+     "dealsPerSecond": 105528.28382254047,
+     "peakRssMiB": null,
+     "tableMiB": 0.097,
+     "sha256": [
+      "514e5f391f4dc79d5485c36c81e5fe18f8322b12115af98b38ee4e0ca78df680"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.0207866975266546
+  },
+  {
+   "game": "bubble4",
+   "description": "Four-player ICM bubble push/fold (weighted ranges)",
+   "updates": 100000,
+   "sampledDeals": 400000,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 0.822258,
+      "min": 0.780022,
+      "max": 0.959337,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.6362,
+      "min": 0.6082,
+      "max": 0.753,
+      "n": 5
+     },
+     "dealsPerSecond": 486465.3186712686,
+     "peakRssMiB": null,
+     "tableMiB": 0.061,
+     "sha256": [
+      "8e7a9caff3efd8dd78fe657b8f98ca0683458f749a89b1df517d16621f7c000f"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 0.774576,
+      "min": 0.761336,
+      "max": 0.861455,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.6043,
+      "min": 0.592,
+      "max": 0.6722,
+      "n": 5
+     },
+     "dealsPerSecond": 516411.55935634463,
+     "peakRssMiB": null,
+     "tableMiB": 0.061,
+     "sha256": [
+      "8e7a9caff3efd8dd78fe657b8f98ca0683458f749a89b1df517d16621f7c000f"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.061558839933073
+  },
+  {
+   "game": "bubble4",
+   "description": "Four-player ICM bubble push/fold (weighted ranges)",
+   "updates": 100000,
+   "sampledDeals": 400000,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 0.838461,
+      "min": 0.740175,
+      "max": 0.8456,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.6546,
+      "min": 0.5749,
+      "max": 0.6595,
+      "n": 5
+     },
+     "dealsPerSecond": 477064.5265552005,
+     "peakRssMiB": null,
+     "tableMiB": 0.061,
+     "sha256": [
+      "8e7a9caff3efd8dd78fe657b8f98ca0683458f749a89b1df517d16621f7c000f"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 0.794764,
+      "min": 0.759748,
+      "max": 0.90313,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.6195,
+      "min": 0.5895,
+      "max": 0.7048,
+      "n": 5
+     },
+     "dealsPerSecond": 503294.0596202143,
+     "peakRssMiB": null,
+     "tableMiB": 0.061,
+     "sha256": [
+      "8e7a9caff3efd8dd78fe657b8f98ca0683458f749a89b1df517d16621f7c000f"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.0549811013080612
+  },
+  {
+   "game": "linked8",
+   "description": "Eight-player linked preflop-to-river, ICM, random ranges",
+   "updates": 3000,
+   "sampledDeals": 12000,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 1.915723,
+      "min": 1.880058,
+      "max": 2.079034,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 1.705,
+      "min": 1.6713,
+      "max": 1.8574,
+      "n": 5
+     },
+     "dealsPerSecond": 6263.95360915957,
+     "peakRssMiB": null,
+     "tableMiB": 45.216,
+     "sha256": [
+      "a4bc844d91f37de89373313cc35c74d0ca13f97b02e04d97fecc45c7080e6db9"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 1.691034,
+      "min": 1.590271,
+      "max": 1.757543,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 1.4706,
+      "min": 1.3818,
+      "max": 1.5329,
+      "n": 5
+     },
+     "dealsPerSecond": 7096.249986694532,
+     "peakRssMiB": null,
+     "tableMiB": 45.216,
+     "sha256": [
+      "a4bc844d91f37de89373313cc35c74d0ca13f97b02e04d97fecc45c7080e6db9"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.132870776105034
+  },
+  {
+   "game": "linked8",
+   "description": "Eight-player linked preflop-to-river, ICM, random ranges",
+   "updates": 3000,
+   "sampledDeals": 12000,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 1.958584,
+      "min": 1.825771,
+      "max": 2.025659,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 1.7396,
+      "min": 1.6207,
+      "max": 1.796,
+      "n": 5
+     },
+     "dealsPerSecond": 6126.875334425278,
+     "peakRssMiB": null,
+     "tableMiB": 45.216,
+     "sha256": [
+      "a4bc844d91f37de89373313cc35c74d0ca13f97b02e04d97fecc45c7080e6db9"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 1.641361,
+      "min": 1.523723,
+      "max": 1.659388,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 1.4036,
+      "min": 1.3225,
+      "max": 1.4473,
+      "n": 5
+     },
+     "dealsPerSecond": 7311.005927398055,
+     "peakRssMiB": null,
+     "tableMiB": 45.216,
+     "sha256": [
+      "a4bc844d91f37de89373313cc35c74d0ca13f97b02e04d97fecc45c7080e6db9"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.1932682694422494
+  },
+  {
+   "game": "linked8chip",
+   "description": "The same study with chip EV (no ICM evaluation: control)",
+   "updates": 3000,
+   "sampledDeals": 12000,
+   "threads": 1,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 1.003362,
+      "min": 0.917501,
+      "max": 1.099091,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.8083,
+      "min": 0.7381,
+      "max": 0.8875,
+      "n": 5
+     },
+     "dealsPerSecond": 11959.791182045961,
+     "peakRssMiB": null,
+     "tableMiB": 43.534,
+     "sha256": [
+      "a965064838ea49f5997b229db49949f26cea1957c606b4a5350b4a096c01f0fd"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 0.995224,
+      "min": 0.916264,
+      "max": 1.105705,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.7981,
+      "min": 0.7342,
+      "max": 0.8916,
+      "n": 5
+     },
+     "dealsPerSecond": 12057.58703568242,
+     "peakRssMiB": null,
+     "tableMiB": 43.534,
+     "sha256": [
+      "a965064838ea49f5997b229db49949f26cea1957c606b4a5350b4a096c01f0fd"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 1.0081770536080321
+  },
+  {
+   "game": "linked8chip",
+   "description": "The same study with chip EV (no ICM evaluation: control)",
+   "updates": 3000,
+   "sampledDeals": 12000,
+   "threads": 4,
+   "builds": {
+    "4.4": {
+     "wallSeconds": {
+      "median": 1.011939,
+      "min": 0.972437,
+      "max": 1.043309,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.8159,
+      "min": 0.7814,
+      "max": 0.8363,
+      "n": 5
+     },
+     "dealsPerSecond": 11858.422296205603,
+     "peakRssMiB": null,
+     "tableMiB": 43.534,
+     "sha256": [
+      "a965064838ea49f5997b229db49949f26cea1957c606b4a5350b4a096c01f0fd"
+     ]
+    },
+    "4.5": {
+     "wallSeconds": {
+      "median": 1.018242,
+      "min": 0.987977,
+      "max": 1.042053,
+      "n": 5
+     },
+     "traverseSeconds": {
+      "median": 0.8175,
+      "min": 0.7932,
+      "max": 0.8372,
+      "n": 5
+     },
+     "dealsPerSecond": 11785.017706989103,
+     "peakRssMiB": null,
+     "tableMiB": 43.534,
+     "sha256": [
+      "a965064838ea49f5997b229db49949f26cea1957c606b4a5350b4a096c01f0fd"
+     ]
+    }
+   },
+   "stateIdenticalAcrossBuilds": true,
+   "speedup": 0.9938099194494038
+  }
+ ],
+ "note": "Linux host, CPU only. peakRssMiB is the whole process (study, showdown tables, coverage). 4.4 does not report a coverage ledger: its coverageSetBytes is the nominal slot memory, not the bytes allocated (tests/coverage45.cpp measures those against the archived 4.4 header)."
+}

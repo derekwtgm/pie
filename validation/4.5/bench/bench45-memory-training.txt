@@ -14,3 +14,8 @@ train push8       1 thr  4.4: 3.721 s (3.683-4.011) | 4.5: 3.723 s (3.612-3.746)
 train push8       4 thr  4.4: 3.869 s (3.789-3.923) | 4.5: 3.790 s (3.686-4.028)  speed-up 1.021x  state identical: true
 train bubble4     1 thr  4.4: 0.822 s (0.780-0.959) | 4.5: 0.775 s (0.761-0.861)  speed-up 1.062x  state identical: true
 train bubble4     4 thr  4.4: 0.838 s (0.740-0.846) | 4.5: 0.795 s (0.760-0.903)  speed-up 1.055x  state identical: true
+train linked8     1 thr  4.4: 1.916 s (1.880-2.079) | 4.5: 1.691 s (1.590-1.758)  speed-up 1.133x  state identical: true
+train linked8     4 thr  4.4: 1.959 s (1.826-2.026) | 4.5: 1.641 s (1.524-1.659)  speed-up 1.193x  state identical: true
+train linked8chip 1 thr  4.4: 1.003 s (0.918-1.099) | 4.5: 0.995 s (0.916-1.106)  speed-up 1.008x  state identical: true
+train linked8chip 4 thr  4.4: 1.012 s (0.972-1.043) | 4.5: 1.018 s (0.988-1.042)  speed-up 0.994x  state identical: true
+wrote ../validation/4.5/bench/bench45-memory-training.json

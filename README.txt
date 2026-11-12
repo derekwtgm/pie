@@ -1,3 +1,35 @@
+EightMax 4.5 - 8-max MTT solver for Windows
+============================================
+
+NEW IN 4.5: MEMORY LIMITS THAT HOLD, ONE MORE WINDOWS NUMBER FIX, FASTER ICM
+  - The audit was right: the strategy-coverage table used more memory than
+    its limit (1.43 MB for a 1 MB limit; about 90 MB for the default 64 MB).
+    4.5 counts every byte of it before allocating - including the old table
+    copies that stay alive while it grows - and refuses to go over. The
+    limit "coverageMiB" is now a true ceiling. If the limit is too small for
+    an evaluation, counts are reported as "at least N" with an estimate, as
+    before; EVs never change. Each result shows budget and peak bytes.
+  - Background evaluations now reserve their coverage memory in the shared
+    memory pool as well (before, only the table memory was reserved).
+  - A new 200,000-number check found that the Windows C library misreads a
+    few extremely large or small numbers in their last digit. EightMax now
+    reads numbers with its own exact routine. Printing was already exact.
+  - The 4.4 "Run self-tests.bat" could not finish on Windows: one line of
+    the test script used a function that Windows PowerShell 5.1 does not
+    have. Found by running the tests on a Windows machine in the cloud
+    (no GPU) and fixed.
+  - ICM (tournament payout) calculations for 5-8 players are about 1.4x
+    faster with bit-identical results; eight-handed ICM training is 13-19%
+    faster. Strategies are byte-for-byte the same as 4.4.
+  - Strategy quality is the same as 4.4. Two new training options were
+    tested on six games with ten seeds each; neither was better, so they
+    stay off. No better-converging trainer exists yet.
+  - STILL NOT DONE: nothing has run on your RTX 4060 Ti. GPU scheduling is
+    unchanged. Please run "Run self-tests.bat" and "Validate CUDA
+    hardware.bat" and keep Windows-self-test.json, hardware-validation.json
+    and device-results.json.
+Read RELEASE-4.5.md.
+
 EightMax 4.4 - 8-max MTT solver for Windows
 ============================================
 

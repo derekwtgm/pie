@@ -1,3 +1,14 @@
+# Remaining validation after 4.5
+
+- Run `Run self-tests.bat` and `Validate CUDA hardware.bat` on the RTX 4060 Ti PC and keep the three JSON reports. 4.5 has run on a GitHub-hosted Windows virtual machine (real Windows and PowerShell 5.1, no GPU) and under Wine, never on the target PC and never on a physical NVIDIA GPU. `v45` in `hardware-validation.json` gives small / medium / large evaluations per processing mode in cold processes with VRAM and coverage peaks; `v44` gives the warm Automatic comparison.
+- Automatic CPU/GPU scheduling is unchanged in 4.5: no change is justified without the measurements above. If cold Automatic is more than 15% behind the best fixed mode on the RTX 4060 Ti (finding in `v45.findings`), consider persisting the measured arm times per GPU, driver and thread count between runs.
+- Training convergence: Latin-hypercube chance sampling and other opponent-exploration values did not improve exact NashConv (ten seeds, six games). Untested ideas that need more trainer code: stratification that survives card-conflict rejection in eight-handed deals (the 4.5 sampler falls back to independent draws for about 91% of eight-seat random-range deals), per-street weighting schedules, and a predictive regret update. Use the exact-NashConv protocol of `tools/convergence44.js` before enabling anything.
+- Training does not scale with threads on the eight-seat linked study at 4 deals per update (1 and 4 threads take the same time in `bench45`): larger batches or a finer split of one deal's traversals would be needed.
+- The ICM kernel is division-bound (1,024 divisions for eight players). 4.5 pairs them with SSE2 (1.4-1.5x); AVX2 would not help on the measured CPUs. A larger exact cache did not reduce time.
+- Response-gain answers do not yet print a coverage ledger (the per-seat tables are pool-bounded and unit-tested; the action-EV answer prints `coverage.memory`).
+- JavaScript full-traversal checkpoint restoration keeps its 2 GiB decoded ceiling in the browser (unchanged); the native engine streams large states.
+- Exact best responses with several hands per seat in eight-player games and six-player flop exact EVs still take minutes.
+
 # Remaining validation after 4.3
 
 - Run Run self-tests.bat and Validate CUDA hardware.bat on the RTX 4060 Ti PC. v43 in hardware-validation.json reports cold vs warm GPU times per mode and thread count, opens/verifications per process (must be 1), idle release, cancellation and refusal recovery. Shared tables, lifecycle and scheduling were verified only with the Linux driver test double.
