@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12T22:41:38.151Z",
+ "generated": "2026-11-12T23:15:40.910Z",
  "node": "v22.23.4",
  "platform": "linux x64",
  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
@@ -20,7 +20,7 @@
   },
   {
    "file": "fgs.test.js",
-   "seconds": 7.62,
+   "seconds": 7.02,
    "passed": 5,
    "failed": 0,
    "skipped": 0,
@@ -33,7 +33,7 @@
   },
   {
    "file": "fingerprint.test.js",
-   "seconds": 0.15,
+   "seconds": 0.12,
    "passed": 1,
    "failed": 0,
    "skipped": 0,
@@ -51,7 +51,7 @@
   },
   {
    "file": "information.test.js",
-   "seconds": 0.21,
+   "seconds": 0.16,
    "passed": 5,
    "failed": 0,
    "skipped": 0,
@@ -64,7 +64,7 @@
   },
   {
    "file": "mtt.test.js",
-   "seconds": 3.38,
+   "seconds": 2.93,
    "passed": 13,
    "failed": 0,
    "skipped": 0,
@@ -77,7 +77,7 @@
   },
   {
    "file": "multiway.test.js",
-   "seconds": 1.58,
+   "seconds": 1.53,
    "passed": 11,
    "failed": 0,
    "skipped": 0,
@@ -90,7 +90,7 @@
   },
   {
    "file": "oracle.test.js",
-   "seconds": 22.86,
+   "seconds": 20.34,
    "passed": 3,
    "failed": 0,
    "skipped": 0,
@@ -103,7 +103,7 @@
   },
   {
    "file": "quality.test.js",
-   "seconds": 2,
+   "seconds": 2.22,
    "passed": 9,
    "failed": 0,
    "skipped": 0,
@@ -116,7 +116,7 @@
   },
   {
    "file": "solver.test.js",
-   "seconds": 2.45,
+   "seconds": 2.75,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -129,7 +129,7 @@
   },
   {
    "file": "upgrades.test.js",
-   "seconds": 3.4,
+   "seconds": 3.38,
    "passed": 6,
    "failed": 0,
    "skipped": 0,
@@ -142,7 +142,7 @@
   },
   {
    "file": "v26.test.js",
-   "seconds": 9.4,
+   "seconds": 9.54,
    "passed": 42,
    "failed": 0,
    "skipped": 0,
@@ -155,7 +155,7 @@
   },
   {
    "file": "v27.test.js",
-   "seconds": 0.93,
+   "seconds": 0.89,
    "passed": 9,
    "failed": 0,
    "skipped": 0,
@@ -168,7 +168,7 @@
   },
   {
    "file": "v28.test.js",
-   "seconds": 0.3,
+   "seconds": 0.29,
    "passed": 4,
    "failed": 0,
    "skipped": 0,
@@ -181,7 +181,7 @@
   },
   {
    "file": "v29.test.js",
-   "seconds": 35.87,
+   "seconds": 11.46,
    "passed": 31,
    "failed": 0,
    "skipped": 0,
@@ -203,7 +203,7 @@
   },
   {
    "file": "v31.test.js",
-   "seconds": 81.6,
+   "seconds": 25.61,
    "passed": 42,
    "failed": 0,
    "skipped": 0,
@@ -233,7 +233,7 @@
   },
   {
    "file": "v33.test.js",
-   "seconds": 61.62,
+   "seconds": 55.73,
    "passed": 34,
    "failed": 0,
    "skipped": 0,
@@ -251,7 +251,7 @@
   },
   {
    "file": "v34.test.js",
-   "seconds": 10.21,
+   "seconds": 9.76,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -269,7 +269,7 @@
   },
   {
    "file": "v35.test.js",
-   "seconds": 11.17,
+   "seconds": 10.23,
    "passed": 24,
    "failed": 0,
    "skipped": 0,
@@ -287,7 +287,7 @@
   },
   {
    "file": "v36.test.js",
-   "seconds": 17.63,
+   "seconds": 16.23,
    "passed": 22,
    "failed": 0,
    "skipped": 0,
@@ -305,7 +305,7 @@
   },
   {
    "file": "v37.test.js",
-   "seconds": 4.84,
+   "seconds": 4.39,
    "passed": 11,
    "failed": 0,
    "skipped": 0,
@@ -318,7 +318,7 @@
   },
   {
    "file": "v38.test.js",
-   "seconds": 3.09,
+   "seconds": 2.85,
    "passed": 8,
    "failed": 0,
    "skipped": 0,
@@ -336,7 +336,7 @@
   },
   {
    "file": "v39.test.js",
-   "seconds": 20.92,
+   "seconds": 21.41,
    "passed": 14,
    "failed": 0,
    "skipped": 0,
@@ -354,7 +354,7 @@
   },
   {
    "file": "v40.test.js",
-   "seconds": 25.95,
+   "seconds": 26.8,
    "passed": 17,
    "failed": 0,
    "skipped": 0,
@@ -372,7 +372,7 @@
   },
   {
    "file": "v41.test.js",
-   "seconds": 42.96,
+   "seconds": 47.61,
    "passed": 15,
    "failed": 0,
    "skipped": 0,
@@ -398,15 +398,13 @@
   },
   {
    "file": "v42.test.js",
-   "seconds": 280.61,
-   "passed": 15,
-   "failed": 1,
+   "seconds": 295.83,
+   "passed": 16,
+   "failed": 0,
    "skipped": 0,
    "timedOut": 0,
    "todo": 0,
-   "failures": [
-    "4.2 coverage: engine counts equal the independent audit and are identical for 1, 2, 4 and 8 threads (exact and sampled EVs)"
-   ],
+   "failures": [],
    "timeouts": [],
    "skippedTests": [],
    "hardware": [
@@ -450,7 +448,7 @@
   },
   {
    "file": "v43.test.js",
-   "seconds": 259.15,
+   "seconds": 270.87,
    "passed": 15,
    "failed": 0,
    "skipped": 0,
@@ -492,7 +490,7 @@
   },
   {
    "file": "v44.test.js",
-   "seconds": 65.49,
+   "seconds": 65.78,
    "passed": 15,
    "failed": 0,
    "skipped": 0,
@@ -534,7 +532,7 @@
   },
   {
    "file": "v44_postflop.test.js",
-   "seconds": 54.57,
+   "seconds": 55.41,
    "passed": 5,
    "failed": 0,
    "skipped": 0,
@@ -547,15 +545,13 @@
   },
   {
    "file": "v45.test.js",
-   "seconds": 332.49,
-   "passed": 9,
-   "failed": 1,
+   "seconds": 315.34,
+   "passed": 10,
+   "failed": 0,
    "skipped": 0,
    "timedOut": 0,
    "todo": 0,
-   "failures": [
-    "4.5 coverage budget (evaluator): a timeout during growth leaves a consistent exact set within budget; the 4.3 merged-table path and the per-seat response-gain tables stay inside coverageMiB as well"
-   ],
+   "failures": [],
    "timeouts": [],
    "skippedTests": [],
    "hardware": [
@@ -579,7 +575,7 @@
   },
   {
    "file": "wide.test.js",
-   "seconds": 0.71,
+   "seconds": 0.74,
    "passed": 7,
    "failed": 0,
    "skipped": 0,
@@ -592,8 +588,8 @@
   }
  ],
  "totals": {
-  "passed": 432,
-  "failed": 2,
+  "passed": 434,
+  "failed": 0,
   "skipped": 0,
   "timedOut": 0,
   "todo": 0,
