@@ -7,7 +7,7 @@
 //      with coverageMiB 1, 2, 8, 32 and 64 and 1 / 4 threads. Recorded per build: the engine's
 //      own figures (4.5: coverage.memory budget / peak / table / retired generations / filters;
 //      4.4 reports only execution.coverageSetBytes, the nominal slot bytes), the process peak
-//      RSS (/usr/bin/time), time, counts, and the EV bit patterns (must be identical between
+//      RSS (tools/peak_rss.c, wait4), time, counts, and the EV bit patterns (must be identical between
 //      builds: the coverage budget never changes a value).
 //   B. BUDGET EXHAUSTION. The same request with a budget far below the keys visited: status,
 //      lower-bound label, time against the uncapped run (no extra wait from the budget code).
@@ -33,14 +33,15 @@ const games = {
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'em45-bench-'));
 const specOf = name => { const f = path.join(dir, name + '.spec.json'); if (!fs.existsSync(f)) fs.writeFileSync(f, JSON.stringify(E.MultiwayGame({ ...base, ...games[name], privateSeed: 4 }).nativeSpec())); return f; };
 const sha = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
-const hasTime = fs.existsSync('/usr/bin/time');
+// Peak RSS of each child process: tools/peak_rss.c (wait4), compiled once; null if no C compiler.
+const rssTool = (() => { const exe = path.join(dir, 'peak_rss'); const r = cp.spawnSync('gcc', ['-O2', path.join(__dirname, 'peak_rss.c'), '-o', exe]); return r.status === 0 ? exe : null; })();
 // Runs one process; returns stdout JSON, the engine's query timing (stderr line 1) and the peak RSS in MiB.
 function run(cli, argv, env = {}) {
-  const rssFile = path.join(dir, 'rss.txt'), cmd = hasTime ? '/usr/bin/time' : cli, a = hasTime ? ['-f', '%M', '-o', rssFile, cli, ...argv] : argv;
+  const cmd = rssTool || cli, a = rssTool ? [cli, ...argv] : argv;
   const t0 = process.hrtime.bigint(), p = cp.spawnSync(cmd, a.map(String), { encoding: 'utf8', maxBuffer: 1 << 28, env: { ...process.env, EM_QUERY_TIMING: '1', ...env } }), wallMs = Number(process.hrtime.bigint() - t0) / 1e6;
   let json = null, timing = null; try { json = JSON.parse(p.stdout); } catch { } try { timing = JSON.parse((p.stderr || '').trim().split('\n')[0]); } catch { }
-  const rss = hasTime && fs.existsSync(rssFile) ? +fs.readFileSync(rssFile, 'utf8').trim().split('\n').pop() / 1024 : null;
-  return { json, timing, wallMs, peakRssMiB: rss, status: p.status };
+  const m = /peakRssKiB=(\d+)/.exec(p.stderr || '');
+  return { json, timing, wallMs, peakRssMiB: m ? +m[1] / 1024 : null, status: p.status };
 }
 const med = v => { const s = v.filter(x => x != null).sort((a, b) => a - b); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
 const spread = v => { const s = v.filter(x => x != null).sort((a, b) => a - b); return s.length ? { median: med(s), min: s[0], max: s[s.length - 1], n: s.length } : null; };

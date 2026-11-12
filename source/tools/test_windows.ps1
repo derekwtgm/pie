@@ -41,7 +41,7 @@ function UlpDistance([string]$hexA, [string]$hexB) {
   $a = [Convert]::ToInt64($hexA, 16); $b = [Convert]::ToInt64($hexB, 16)
   if ($a -lt 0) { $a = -($a -band [Int64]::MaxValue) }
   if ($b -lt 0) { $b = -($b -band [Int64]::MaxValue) }
-  return [decimal]::Abs(([decimal]$a) - ([decimal]$b))
+  return [math]::Abs(([decimal]$a) - ([decimal]$b))   # 4.5: System.Decimal has no Abs method in .NET Framework (the 4.4 line stopped the self-test on Windows PowerShell 5.1)
 }
 function EvBits($result) { return (@($result.hands[0].evBits) -join ',') }
 function GainBits($result) { return (@($result.seats | ForEach-Object { $_.gainBits }) -join ',') }

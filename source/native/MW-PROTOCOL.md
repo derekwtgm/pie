@@ -602,3 +602,85 @@ measurements, times chosen and the mean nanoseconds per evaluation of whole
 tables. `EM_GPU_AUTO_MODEL=4.3` selects the 4.3 rule. `EM_GPU_INIT_ESTIMATE_S`
 now defaults to 0.1 (4.3: 0.3). `device: "cpu" | "gpu" | "hybrid"` behave as in
 4.3.
+
+## 4.5: coverage memory ledger, job-pool charge, number parsing, experimental trainer options
+
+### `coverageMiB` is a hard ceiling on live bytes
+
+`coverageMiB` (1..4096, default `clamp(memoryMiB / 4, 4, 64)`) bounds the **live
+allocated bytes** of the request's strategy-coverage component. It is not a
+reserved capacity and not a logical content size. Counted, while allocated:
+
+* every table generation: the current one, the replacement being built during
+  growth, and every retired generation (retired generations stay allocated until
+  the request ends so that lock-free readers always read valid memory);
+* table descriptors and the generation list;
+* the three HyperLogLog sketches (49,152 bytes);
+* the set object, which contains the synchronisation state (64 lock cells);
+* every worker's observation filter (1/16 of the budget is set aside for them;
+  their size follows from the worker count, at most 512 KiB a worker).
+
+Every allocation is preceded by a reservation that is refused if
+`live + bytes > budget` (checked without overflow); nothing is allocated first
+and checked afterwards. The generation sizes are planned when the request starts
+so that the whole sequence fits. The exact key capacity is unchanged:
+`coverageMiB * 2^20 / 32` keys (4.4 documented the same capacity but allocated
+up to 1.36x the budget: 1,425,408 bytes for 1 MiB).
+
+Not covered by `coverageMiB`: showdown tables and memo (`memoryMiB`), GPU buffers
+(`gpuMiB` / `gpuBudgetBytes`), three visit counters per worker.
+
+Action-EV answers carry the ledger:
+
+```
+"coverage": { ..., "memory": {
+  "budgetBytes", "peakBytes", "liveBytes",        // peakBytes <= budgetBytes always
+  "tableBytes", "retiredGenerationBytes", "generations", "workerFilterBytes",
+  "refusedReservations", "withinBudget",
+  "status": "ok" | "keyLimitReached" | "budgetExhausted" | "allocationFailed",
+  "countsExact": true|false } }
+```
+
+`status` other than `ok` means exact counting stopped: `distinctCountKind` is
+`lowerBound`, the `distinct*` fields are exact lower bounds and
+`distinctEstimates` are labelled approximations, exactly as in 4.3/4.4. EVs,
+gains, samples and statistics never depend on the coverage budget. `peakBytes`
+and `workerFilterBytes` depend on the worker count; the counts do not (while
+exact).
+
+Response-gain seats keep one private table per seat; all seats of a request draw
+slot **and sketch** bytes from one pool of `coverageMiB` (4.4: sketches outside
+the pool). `EM_EV_MERGED_COVERAGE=1` (the 4.3 structure, for A/B runs): worker
+tables, the merged table and sketches share the one pool (4.4: the merged table
+had a second, unpooled allowance).
+
+### Evaluation jobs: the pool is charged `memoryMiB + coverageMiB`
+
+`POST /api/mw/jobs/ev` and `/jobs/response-gain` validate `coverageMiB`
+(integer 1..4096; otherwise 400) and charge `memoryMiB + coverageMiB` to the
+evaluation memory pool. A job above the pool is refused with 413; one that does
+not fit next to the running jobs waits. Job status adds `coverageMiB` and
+`chargedMiB`. (4.0-4.4 charged `memoryMiB` only.)
+
+### Numbers
+
+JSON numbers are parsed by a correctly rounded parser that does not depend on
+the C runtime (`std::from_chars`); the MinGW-w64 runtime's `strtod` was measured
+one ULP off for some values just below a power of two (|x| < 1e-150 or > 1e195).
+`mwcli --ieee-sweep [count] [seed]` prints and re-parses `count` generated
+doubles (default 200,000, seed 45) and reports `parserMismatches`,
+`jsonReaderMismatches`, `neighbourTextCollisions`, `neighbourMismatches`
+(all must be 0; exit status 1 otherwise), `crtStrtodMismatches` (informational)
+and `digest`, a hash of every printed character: equal digests on two builds
+mean identical decimal output. Reference for `200000 45`: `94fc3f6ed8426909`.
+
+### Experimental trainer options (spec protocol 4, native engine only, opt-in)
+
+| Field | Values | Default | Meaning |
+|---|---|---|---|
+| `chanceSampling` | `"independent"`, `"latin"` | `independent` | `latin`: Latin-hypercube private-hand sampling reshuffled every epoch; every deal keeps exactly the default marginal distribution (an incompatible candidate falls back to the independent sampler) |
+| `opponentExploration` | 0..0.5 | 0.1 | opponents are sampled from `(1-e) * sigma + e / k` with importance weights |
+
+Absent fields give the 4.4 trainer bit for bit. Neither option improved exact
+NashConv in the ten-seed study (`validation/4.5/convergence/`); they are kept
+for experiments only. The JavaScript trainer refuses a study that sets them.
