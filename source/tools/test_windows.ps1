@@ -352,6 +352,7 @@ try {
   # 4.4: IEEE 754 value preservation: native print/parse, CLI, desktop API, and what
   # this PowerShell does to JSON numbers. Bit patterns are the reference throughout.
   $v44 = [ordered]@{}
+  $v45 = [ordered]@{}
   $probeText = ((& $cli --ieee) | Out-String).Trim()
   $probeFile = Join-Path $work 'ieee-probe.json'
   [IO.File]::WriteAllText($probeFile, $probeText)
@@ -430,6 +431,59 @@ try {
   $badDl = @($dl | Where-Object { $_.status -ne 200 -or ($_.overrunMs -ge 0 -and -not $_.partial) }).Count
   $reached = @($dl | Where-Object { $_.partial }).Count
   Assert-Check ($badDl -eq 0 -and $worstOver -lt 50) ('4.4 sampled EV honours 100, 250, 600 and 1000 ms limits within 50 ms; runs that reached the limit are labelled partial (worst overrun of {0} runs: {1:N1} ms, {2} reached the limit)' -f $dl.Count, $worstOver, $reached)
+  # ======================= 4.5 =======================
+  # Every check below runs the Windows executables of this package on THIS computer.
+  $fx45 = Join-Path (Split-Path $fx) '..\4.5\fixtures'; $spec45 = Join-Path $fx45 'icm-final8.spec.json'
+  # (a) IEEE 754 sweep: 200,000 generated doubles printed with 17 digits and parsed back by the engine parser
+  #     and the JSON reader; the digest of all printed characters must equal the Linux build's.
+  $ErrorActionPreference = 'Continue'; $sweepText = ((& $cli --ieee-sweep 200000 45 2>&1) | Out-String).Trim(); $sweepCode = $LASTEXITCODE; $ErrorActionPreference = 'Stop'
+  $sweep = $null; try { $sweep = $sweepText | ConvertFrom-Json } catch {}
+  $v45.ieeeSweep = [ordered]@{ exitCode = $sweepCode; raw = $sweepText }
+  Assert-Check ($sweepCode -eq 0 -and $null -ne $sweep -and [int]$sweep.parserMismatches -eq 0 -and [int]$sweep.jsonReaderMismatches -eq 0 -and [int]$sweep.neighbourTextCollisions -eq 0 -and [int]$sweep.neighbourMismatches -eq 0) '4.5 IEEE 754 sweep: 200,000 doubles round-trip through print and parse with identical bit patterns (engine parser and JSON reader); one-ULP neighbours print differently'
+  Assert-Check ($sweepText -match '"digest":"94fc3f6ed8426909"') '4.5 IEEE 754 sweep digest equals the Linux build (the same characters were printed for all 200,000 values)'
+  $crtOff = -1; if ($sweepText -match '"crtStrtodMismatches":(\d+)') { $crtOff = [int]$Matches[1] }
+  $v45.crtStrtodMismatches = $crtOff
+  Write-Host ("  note: this computer's C runtime strtod differs from the correctly rounded result for {0} of 200,000 values (informational; the engine uses its own parser since 4.5)" -f $crtOff)
+  # (b) coverage memory budgets: peak live bytes of the coverage component never exceed coverageMiB
+  $st45 = Join-Path $work 'icm45.state'
+  $ErrorActionPreference = 'Continue'; $trainText = ((& $cli $spec45 300 4 $st45 512 2>&1) | Out-String).Trim(); $ErrorActionPreference = 'Stop'
+  $hash45 = (Get-FileHash -Algorithm SHA256 -LiteralPath $st45).Hash.ToLower()
+  $v45.trainingStateSha256 = $hash45
+  Assert-Check ($hash45 -eq 'aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8') '4.5 eight-seat linked ICM study (300 updates, 4 threads): the trained state file is byte-identical to the Linux build and to 4.4 (deterministic training, bit-identical ICM kernel)'
+  $covRows45 = @(); $covBad = 0; $evSet = @{}
+  foreach ($mib in @(1, 2, 8, 32)) { foreach ($t in @(1, 4, 8)) {
+    [IO.File]::WriteAllText($q, ('{"path":[],"hands":[3],"range":true,"method":"sampled","samples":30000,"seed":5,"timeLimitMs":600000,"threads":' + $t + ',"coverageMiB":' + $mib + '}'))
+    $ErrorActionPreference = 'Continue'; $raw = ((& $cli --ev $spec45 $st45 $q 2>$null) | Out-String).Trim(); $ErrorActionPreference = 'Stop'
+    $r = $null; try { $r = $raw | ConvertFrom-Json } catch {}
+    if ($null -eq $r) { $covBad++; continue }
+    $m = $r.coverage.memory
+    $row = [ordered]@{ coverageMiB = $mib; threads = $t; budgetBytes = [long]$m.budgetBytes; peakBytes = [long]$m.peakBytes; tableBytes = [long]$m.tableBytes; retiredGenerationBytes = [long]$m.retiredGenerationBytes; workerFilterBytes = [long]$m.workerFilterBytes; status = $m.status; kind = $r.coverage.distinctCountKind; distinct = $r.coverage.distinctInformationSets }
+    $covRows45 += $row
+    if ([long]$m.peakBytes -gt [long]$m.budgetBytes -or [long]$m.budgetBytes -ne ($mib * 1048576) -or $m.withinBudget -ne $true) { $covBad++ }
+    if (($r.coverage.distinctCountKind -eq 'exact') -ne ($m.status -eq 'ok')) { $covBad++ }
+    $mm = [regex]::Match($raw, '"range":\{.*?"evBits":\[([^\]]*)\]'); if ($mm.Success) { $evSet[$mm.Groups[1].Value] = 1 }
+  } }
+  $v45.coverageBudgets = $covRows45
+  Assert-Check ($covBad -eq 0 -and $covRows45.Count -eq 12) ('4.5 coverage memory budget: peak live bytes <= coverageMiB for 1, 2, 8 and 32 MiB with 1, 4 and 8 threads ({0} runs); capped counts are labelled lower bounds' -f $covRows45.Count)
+  Assert-Check ($evSet.Count -eq 1) '4.5 sampled range EVs are bit-identical for every coverage budget and thread count'
+  $cap1 = @($covRows45 | Where-Object { $_.coverageMiB -eq 1 -and $_.kind -eq 'lowerBound' -and $_.distinct -eq 32768 }).Count
+  Assert-Check ($cap1 -eq 3) '4.5 a 1 MiB coverage budget holds exactly 32,768 information sets and reports the count as a lower bound'
+  # (c) deterministic continuation after evaluations: 150 + 150 updates == 300 updates, byte for byte
+  $a45 = Join-Path $work 'icm45a.state'; $b45 = Join-Path $work 'icm45b.state'
+  $ErrorActionPreference = 'Continue'
+  $null = (& $cli $spec45 150 4 $a45 512 2>&1)
+  [IO.File]::WriteAllText($q, '{"path":[],"hands":[3],"range":true,"method":"sampled","samples":2000000,"timeLimitMs":250,"threads":4,"coverageMiB":1}')
+  $null = (& $cli --ev $spec45 $a45 $q 2>&1)
+  $hashA = (Get-FileHash -Algorithm SHA256 -LiteralPath $a45).Hash
+  $null = (& $cli $spec45 150 4 $b45 512 $a45 2>&1)
+  $ErrorActionPreference = 'Stop'
+  $hashB = (Get-FileHash -Algorithm SHA256 -LiteralPath $b45).Hash.ToLower()
+  $v45.continuationSha256 = $hashB
+  Assert-Check ($hashB -eq $hash45) '4.5 checkpoint continuation: 150 updates, an evaluation that ran into its deadline with a capped coverage table, then 150 more updates give the same state bytes as 300 uninterrupted updates'
+  # (d) the evaluation job pool charges memoryMiB + coverageMiB
+  $refused = $false
+  try { $null = Api 'mw/jobs/ev' @{ hands = @(0); method = 'exact'; path = @(); memoryMiB = 16; coverageMiB = 4096 } } catch { $refused = ($_.Exception.Response -and [int]$_.Exception.Response.StatusCode -eq 413) }
+  Assert-Check $refused '4.5 a background job whose coverage budget exceeds the evaluation memory pool is refused (HTTP 413); 4.4 charged only memoryMiB'
   $passed = ($failures.Count -eq 0)
   if (-not $passed) { $failure = $failures[0] }
 } catch {
@@ -440,7 +494,7 @@ try {
   $env:USERPROFILE=$oldProfile
   if ($engineProcess -and -not $engineProcess.HasExited) { Stop-Process -Id $engineProcess.Id -Force -ErrorAction SilentlyContinue }
   $env:EIGHTMAX_GPU = $oldGpu; $env:EIGHTMAX_THREADS = $oldThreads
-  $reportData = [ordered]@{ version=$ExpectedVersion; build=$info.build; largeCheckpoint=$large; v40=$v40; v41=$v41; v42=$v42; v43=$v43; v44=$v44; passed=$passed; checks=$checks.ToArray(); error=$failure; failures=$failures.ToArray(); os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
+  $reportData = [ordered]@{ version=$ExpectedVersion; build=$info.build; largeCheckpoint=$large; v40=$v40; v41=$v41; v42=$v42; v43=$v43; v44=$v44; v45=$v45; passed=$passed; checks=$checks.ToArray(); error=$failure; failures=$failures.ToArray(); os=[Environment]::OSVersion.VersionString; powershell=$PSVersionTable.PSVersion.ToString(); gpuTested=$false; freshChecks=[bool]$Fresh }
   $reportData | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Report -Encoding UTF8
   Write-Host "Report: $Report"
   Remove-Item -LiteralPath $work -Recurse -Force -ErrorAction SilentlyContinue

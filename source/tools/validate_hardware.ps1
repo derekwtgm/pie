@@ -1,4 +1,4 @@
-# EightMax 4.4 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
+# EightMax 4.5 hardware validation (Windows PowerShell 5.1+, no Node, Python or CUDA Toolkit needed).
 # Produces hardware-validation.json next to the executables. Every number in it is
 # measured on the machine that runs this script.
 #   1. CUDA probe: driver, GPU name, compute capability, VRAM, loaded image (SASS or PTX).
@@ -48,6 +48,11 @@
 #      4.4 also compares every "identical" result of sections 2-9 as bit patterns or
 #      exact integers instead of re-formatted numbers (validation/4.4/NUMERIC-POLICY.md).
 #      Eight-seat response gains in sessions (GPU preferred, automatic).
+#  11. 4.5: SMALL / MEDIUM / LARGE evaluations per processing mode in fresh processes (cold
+#      device): requested and observed device, CPU and GPU boards, time (median of 3), peak
+#      VRAM against gpuMiB, coverage peak bytes against coverageMiB; exact results compared as
+#      bit patterns between modes; whether cold Automatic is within 15% of the best fixed mode
+#      (a finding, not a failure).
 #      End-to-end times (queryMs) are reported, never kernel time alone.
 param([string]$Exe = '', [string]$Report = '', [switch]$Quick)
 $ErrorActionPreference = 'Stop'
@@ -68,7 +73,7 @@ function Body-Hash($path) {
   try { return [BitConverter]::ToString($sha.ComputeHash($state, $at, $state.Length - $at)).Replace('-', '') } finally { $sha.Dispose() }
 }
 try {
-  Write-Host 'EightMax 4.4 hardware validation'
+  Write-Host 'EightMax 4.5 hardware validation'
   $build = (& $Exe --build-id)
   $cuda = (& $Exe --cuda-info) | ConvertFrom-Json
   if ($cuda.available) { Write-Host ("CUDA: {0}, compute capability {1}, {2} MiB total, {3} MiB free, image {4}" -f $cuda.name, $cuda.computeCapability, $cuda.totalMiB, $cuda.freeMiB, $cuda.image) }
@@ -447,15 +452,63 @@ try {
     }
   } else { $v44.note = 'CUDA unavailable: the Automatic arm measurement needs a device' }
   $v44.physicalNvidiaExecution = [bool]($cuda.available -and -not $wine -and ($v44.autoSessions | Where-Object { -not $_.error -and ($_.autoObserved -contains 'gpu' -or $_.autoObserved -contains 'cpu+gpu') }))
+  # 11. (4.5) Small / medium / large evaluations per processing mode, each in a fresh process (cold
+  #     device), with the 4.5 memory ledgers: GPU peak against gpuMiB, coverage peak against
+  #     coverageMiB. Results are compared as IEEE 754 bit patterns (a difference is a failure);
+  #     times and the Automatic verdict are findings. Nothing here was run by the developers on a
+  #     physical NVIDIA GPU: these numbers exist only once this script has run on your PC.
+  $v45 = [ordered]@{ runs = @(); findings = @() }
+  $q45 = Join-Path $tmp 'q45.json'
+  $work45 = @(
+    [ordered]@{ name = 'small (sampled EV, 4,000 samples)'; mode = '--ev'; body = '"path":[],"hands":[0],"method":"sampled","samples":4000,"seed":7' },
+    [ordered]@{ name = 'medium (exact root EV, 376,992 boards)'; mode = '--ev'; body = '"path":[],"hands":[0],"method":"exact","maxVisits":2000000000' },
+    [ordered]@{ name = 'large (exact response gains, eight seats)'; mode = '--gain'; body = '"method":"exact","seats":[0,1,2,3,4,5,6,7]' })
+  foreach ($w in $work45) {
+    $bitsSeen = @{}; $byDevice = @{}
+    foreach ($dev in @('cpu', 'gpu', 'hybrid', 'auto')) {
+      $times = @(); $last = $null; $raw = ''
+      for ($rep = 0; $rep -lt 3; $rep++) {
+        [IO.File]::WriteAllText($q45, ('{' + $w.body + ',"device":"' + $dev + '","timeLimitMs":600000,"coverageMiB":8' + $(if ($w.mode -eq '--ev') { ',"gpuMiB":512' } else { '' }) + '}'))
+        $env:EM_QUERY_TIMING = '1'; $ErrorActionPreference = 'Continue'
+        $lines = & $Exe $w.mode $fxSpec $fxState $q45 2>&1 | ForEach-Object { "$_" }
+        $ErrorActionPreference = 'Stop'; Remove-Item Env:EM_QUERY_TIMING
+        $timing = $lines | Where-Object { $_ -match '^\{"queryMs"' } | Select-Object -First 1
+        $raw = [string]($lines | Where-Object { $_ -match '^\{"engine"' } | Select-Object -First 1)
+        if ($timing) { $times += [double](($timing | ConvertFrom-Json).queryMs) }
+        if ($raw) { try { $last = $raw | ConvertFrom-Json } catch { $last = $null } }
+      }
+      if ($null -eq $last -or $times.Count -eq 0) { $failures += "4.5 $($w.name) with device $dev returned no result"; continue }
+      $sorted = @($times | Sort-Object); $median = $sorted[[int][math]::Floor($sorted.Count / 2)]
+      $bits = (([regex]::Matches($raw, '"(?:evBits|gainBits)":(\[[^\]]*\]|"[0-9a-f]{16}")') | ForEach-Object { $_.Groups[1].Value }) -join ';')
+      $bitsSeen[$bits] = 1; $byDevice[$dev] = $median
+      $ex = $last.execution; $gpuPeak = [double]$ex.gpuPeakMiB
+      $row = [ordered]@{ workload = $w.name; requestedDevice = $dev; observedDevice = $ex.observedDevice; medianQueryMs = $median; minQueryMs = $sorted[0]; maxQueryMs = $sorted[$sorted.Count - 1];
+        cpuBoards = $ex.cpuBoards; gpuBoards = $ex.gpuBoards; gpuPeakMiB = $gpuPeak; gpuBudgetMiB = 512; gpuFailures = $ex.gpuFailures; gpuErrors = $ex.gpuErrors; peakEvaluationMiB = $ex.peakEvaluationMiB }
+      if ($last.coverage -and $last.coverage.memory) { $row.coveragePeakBytes = [long]$last.coverage.memory.peakBytes; $row.coverageBudgetBytes = [long]$last.coverage.memory.budgetBytes
+        if ([long]$last.coverage.memory.peakBytes -gt [long]$last.coverage.memory.budgetBytes) { $failures += "4.5 $($w.name) ($dev): coverage peak above its budget" } }
+      if ($gpuPeak -gt 512) { $failures += "4.5 $($w.name) ($dev): GPU peak $gpuPeak MiB above the 512 MiB budget" }
+      $v45.runs += $row
+      Write-Host ("4.5 {0,-44} {1,-6} -> {2,-8} median {3,8:N1} ms  cpu boards {4}  gpu boards {5}  VRAM peak {6:N1} MiB" -f $w.name, $dev, $ex.observedDevice, $median, $ex.cpuBoards, $ex.gpuBoards, $gpuPeak)
+    }
+    if ($w.mode -eq '--ev' -and $w.body -match 'sampled') { } elseif ($bitsSeen.Count -ne 1) { $failures += "4.5 $($w.name): results differ between processing modes (IEEE 754 bit patterns)" }
+    if ($byDevice.ContainsKey('auto') -and $byDevice.ContainsKey('cpu')) {
+      $best = ($byDevice.GetEnumerator() | Where-Object { $_.Key -ne 'auto' } | Sort-Object Value | Select-Object -First 1)
+      $ratio = $byDevice['auto'] / $best.Value
+      $v45.findings += [ordered]@{ workload = $w.name; bestFixedMode = $best.Key; bestFixedMs = $best.Value; automaticMs = $byDevice['auto']; automaticOverBest = $ratio;
+        verdict = $(if ($ratio -le 1.15) { 'Automatic within 15% of the best fixed mode (cold process)' } else { 'Automatic slower than the best fixed mode by more than 15% in a cold process (it learns on a warm device: see section 10)' }) }
+    }
+  }
+  $v45.physicalNvidiaExecution = [bool]($cuda.available -and -not $wine -and ($v45.runs | Where-Object { [long]$_.gpuBoards -gt 0 }))
+  $v45.note = 'Cold processes (one request each). Warm-device behaviour of Automatic is section 10 (v44). gpuBoards > 0 on a physical NVIDIA GPU is the only evidence of real CUDA execution.'
   $devices = $null
   try { & (Join-Path $PSScriptRoot 'test_devices.ps1'); $devices = Get-Content (Join-Path $root 'device-results.json') -Raw | ConvertFrom-Json }
   catch { $failures += "Scoring-mode comparison failed: $($_.Exception.Message)" }
 
-  $out = [ordered]@{ tool = 'EightMax 4.4 hardware validation'; build = $build; date = (Get-Date).ToString('s');
+  $out = [ordered]@{ tool = 'EightMax 4.5 hardware validation'; build = $build; date = (Get-Date).ToString('s');
     os = [Environment]::OSVersion.VersionString; cpu = $env:PROCESSOR_IDENTIFIER; logicalProcessors = $logical;
     memoryGiB = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1);
     graphics = @(Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, AdapterRAM);
-    cuda = $cuda; equity = $equity; v39 = $v39; v40 = $v40; v41 = $v41; v42 = $v42; v43 = $v43; v44 = $v44; physicalNvidiaExecution = [bool]($v41.physicalNvidiaExecution -or $v42.physicalNvidiaExecution -or $v43.physicalNvidiaExecution);
+    cuda = $cuda; equity = $equity; v39 = $v39; v40 = $v40; v41 = $v41; v42 = $v42; v43 = $v43; v44 = $v44; v45 = $v45; physicalNvidiaExecution = [bool]($v41.physicalNvidiaExecution -or $v42.physicalNvidiaExecution -or $v43.physicalNvidiaExecution);
     gpuBudget = [ordered]@{ ok = $capOk; requestedBytes = $need; belowBudget = $(if ($cap) { [ordered]@{ budgetBytes = $cap.gpuBudgetBytes; gpuUsed = $cap.gpuUsed; error = $cap.gpuError; reason = $cap.gpuFallbackReason } } else { $null }); atBudget = $(if ($atCap) { [ordered]@{ budgetBytes = $atCap.gpuBudgetBytes; gpuUsed = $atCap.gpuUsed; peakBytes = $atCap.gpuBufferPeakBytes } } else { $null }) };
     gpuExecutionVerified = [bool]($cuda.available -and ($equity | Where-Object { $_.gpuUsed -and $_.gpuMatchesCpu }))
     checkpointRecovery = @{ identical = $same; stopped = $stopped; resumed = $continued; uninterrupted = $referenceRun }
@@ -465,7 +518,7 @@ try {
   if ($failures.Count) { $failures | ForEach-Object { Write-Host "FAILED: $_" }; exit 1 }
   Write-Host 'Completed available checks. See physicalNvidiaExecution and gpuExecutionVerified for physical CUDA status.'
 } catch {
-  [ordered]@{tool='EightMax 4.4 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;physicalNvidiaExecution=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
+  [ordered]@{tool='EightMax 4.5 hardware validation';completed=$false;passed=$false;gpuExecutionVerified=$false;physicalNvidiaExecution=$false;error=$_.Exception.Message} | ConvertTo-Json | Set-Content -Encoding UTF8 $Report
   Write-Host ('Hardware check stopped: '+$_.Exception.Message)
   exit 1
 } finally { Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue }
