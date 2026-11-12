@@ -7,6 +7,9 @@
 #include <memory>
 #include <cstdlib>
 #include <new>
+#if defined(__SSE2__)
+#include <emmintrin.h>
+#endif
 struct Tournament {
   std::vector<double> start, others, payout;
   struct Entry { std::array<double,8> key, value; };
@@ -48,6 +51,11 @@ struct Tournament {
       else busted[dead++]=i;
     }
     const unsigned states=1u<<alive;
+    // 4.5: five or more live players use the paired kernel below (measured with
+    // tools/icm_bench45.cpp: 1.4x for eight players, 1.2x for six and seven); with four or fewer
+    // pairing costs more than it saves, so those run the unchanged 4.4 loop.
+    const bool paired=alive>=5; double liveStack[16];
+    if(paired) for(int j=0;j<alive;++j) liveStack[j]=stack[live[j]];
     auto &prob=ws.probability;
     // 3.8: removed-chip sums and finishing places are built incrementally from
     // the mask without its lowest set bit. The sum is still accumulated from the
@@ -68,6 +76,36 @@ struct Tournament {
       const int place=placeOf[mask];
       if(prob[mask]==0 || place>=paid || place>=alive) continue;
       const double removed=removedOf[mask],pm=prob[mask],pay=payout[place];
+      // 4.5: the profile of eight-player ICM training showed 45% of all instructions here, and the
+      // loop is bound by the divisions (one per unfinished player and mask: 1,024 for eight
+      // players). With five or more live players the unfinished players are visited through the
+      // set bits of ~mask (no data-dependent branch per player) and two at a time: the two products and the two
+      // quotients are computed in one SSE2 multiply and one SSE2 divide. Each lane performs
+      // exactly the scalar operations (pm * stack) / (total - removed) in IEEE double precision,
+      // and for one mask every player writes its own accumulators, so every stored value has the
+      // same bit pattern as in the 4.4 loop (tests/icm45.cpp compares them with the archived 4.4
+      // routine on random stack vectors; trained states are byte-identical).
+#if defined(__SSE2__)
+      if(paired){
+        const double denominator=total-removed;
+        unsigned open=(states-1)&~mask;
+        const __m128d vpm=_mm_set1_pd(pm),vden=_mm_set1_pd(denominator);
+        while(open&(open-1)){
+          const int j0=std::countr_zero(open);open&=open-1;
+          const int j1=std::countr_zero(open);open&=open-1;
+          const __m128d p=_mm_div_pd(_mm_mul_pd(vpm,_mm_set_pd(liveStack[j1],liveStack[j0])),vden);
+          const double p0=_mm_cvtsd_f64(p),p1=_mm_cvtsd_f64(_mm_unpackhi_pd(p,p));
+          result[live[j0]]+=p0*pay; prob[mask|(1u<<j0)]+=p0;
+          result[live[j1]]+=p1*pay; prob[mask|(1u<<j1)]+=p1;
+        }
+        if(open){
+          const int j=std::countr_zero(open);
+          const double p=pm*liveStack[j]/denominator;
+          result[live[j]]+=p*pay; prob[mask|(1u<<j)]+=p;
+        }
+        continue;
+      }
+#endif
       for(int j=0;j<alive;++j) if(!(mask&(1u<<j))) {
         double p=pm*stack[live[j]]/(total-removed);
         result[live[j]]+=p*pay; prob[mask|(1u<<j)]+=p;
