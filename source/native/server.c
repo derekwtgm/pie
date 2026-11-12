@@ -28,6 +28,8 @@ typedef int sock_t;
 #define PATHSEP "/"
 #endif
 #include <pthread.h>
+#include <errno.h>
+#include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,6 +38,7 @@ typedef int sock_t;
 #include <math.h>
 #include <sys/stat.h>
 #include "json.h"
+#include "num_safe.h"
 #include "solver.h"
 #include "gpu.h"
 #include "ui_html.h"
@@ -96,7 +99,7 @@ static Game *G = NULL;
 static char *G_CFG = NULL;
 static double LAST_EX = -1;
 
-static volatile int JOB_RUNNING = 0, JOB_STOP = 0;
+static _Atomic int JOB_RUNNING = 0, JOB_STOP = 0;
 static int G_BUSY = 0;   // a request is replacing or editing G; no job may start meanwhile (guarded by STATE_MU)
 static int JOB_KIND = 0;                   // 1 solve, 2 report
 static int P_IT = 0, P_DONE = 0, P_STOPPED = 0;
@@ -140,7 +143,7 @@ static int send_all(sock_t s, const char *b, size_t n) {
 }
 static void respond(sock_t s, int code, const char *type, const char *body, size_t n) {
   char h[512];
-  const char *msg = code == 200 ? "OK" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 409 ? "Conflict" : "Error";
+  const char *msg = code == 200 ? "OK" : code == 202 ? "Accepted" : code == 400 ? "Bad Request" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 408 ? "Request Timeout" : code == 409 ? "Conflict" : code == 413 ? "Payload Too Large" : code == 422 ? "Unprocessable Entity" : code == 503 ? "Service Unavailable" : "Error";
   int k = snprintf(h, sizeof h, "HTTP/1.1 %d %s\r\nContent-Type: %s\r\nContent-Length: %zu\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nConnection: close\r\n\r\n", code, msg, type, n);
   send_all(s, h, (size_t)k);
   if (n) send_all(s, body, n);
@@ -155,6 +158,7 @@ static const char *find_header(const char *hdr, const char *name) {
   size_t n = strlen(name);
   for (const char *p = hdr; *p; ) {
     const char *e = strstr(p, "\r\n"); if (!e) break;
+    if(e==p)break;
     if ((size_t)(e - p) > n && !strncasecmp(p, name, n) && p[n] == ':') { p += n + 1; while (*p == ' ') p++; return p; }
     p = e + 2;
   }
@@ -165,7 +169,10 @@ static const char *find_header(const char *hdr, const char *name) {
 static int path_from(JV *v, int *path, int max) {
   JV *a = jget(v, "path"); int n = 0;
   if (!a || a->type != J_ARR) return 0;
-  for (int i = 0; i < a->n && n < max; i++) path[n++] = (int)jnum(a->items[i], -1);
+  /* 4.1: each step must be an integer action index (0-255); 4.0 cast any
+     double to int. An invalid entry makes the whole path invalid (-1). */
+  if (a->n > max) return -1;
+  for (int i = 0; i < a->n; i++) { int x; if (em_jv_int(a->items[i], 0, 255, &x) != EM_NUM_OK) return -1; path[n++] = x; }
   return n;
 }
 static void game_meta(JB *b, Game *g) {
@@ -204,16 +211,18 @@ static void ensure_dir(const char *d) {
   mkdir(d, 0755);
 #endif
 }
-static void init_save_dir(void) {
+static int init_save_dir(void) {
 #ifdef _WIN32
   const char *home = getenv("USERPROFILE");
+  if (home && strlen(home)>880)return 0;
   if (home) { char docs[900]; snprintf(docs, sizeof docs, "%s\\Documents", home); ensure_dir(docs); snprintf(SAVE_DIR, sizeof SAVE_DIR, "%s\\EightMax", docs); }
   else snprintf(SAVE_DIR, sizeof SAVE_DIR, "EightMax solutions");
 #else
   const char *home = getenv("HOME");
+  if(home && strlen(home)+10>=sizeof SAVE_DIR)return 0;
   snprintf(SAVE_DIR, sizeof SAVE_DIR, "%s/EightMax", home ? home : ".");
 #endif
-  ensure_dir(SAVE_DIR);
+  ensure_dir(SAVE_DIR);return 1;
 }
 
 /* ---------------- solve job ---------------- */
@@ -282,6 +291,7 @@ static int allocate_for_job(Game *g,char *err,int len){
   return VT->alloc(g,err,len);
 }
 static void *solve_job(void *a) {
+  pthread_mutex_lock(&STATE_MU);pthread_mutex_unlock(&STATE_MU);
   SolveArgs A = *(SolveArgs *)a; free(a);
   char err[512] = "";
   double t0 = now_s();
@@ -302,6 +312,7 @@ static void *solve_job(void *a) {
 }
 typedef struct { GameCfg base; int n; int (*flops)[4]; double target; int maxIter; } ReportArgs;
 static void *report_job(void *a) {
+  pthread_mutex_lock(&STATE_MU);pthread_mutex_unlock(&STATE_MU);
   ReportArgs *A = (ReportArgs *)a;
   for (int i = 0; i < A->n && !JOB_STOP; i++) {
     GameCfg cfg = A->base; cfg.nb = 3;
@@ -342,15 +353,35 @@ static void *report_job(void *a) {
   free(A->flops); free(A);
   return NULL;
 }
-static int start_job(void *(*fn)(void *), void *arg, int kind) {
+// The parent holds the job mutex until successful creation and publication.
+static int launch_thread(void *(*fn)(void *),void *arg,int stack){
+  pthread_attr_t at;pthread_t th;
+  int rc=pthread_attr_init(&at);if(rc)return rc;
+  rc=pthread_attr_setdetachstate(&at,PTHREAD_CREATE_DETACHED);
+  if(!rc)rc=pthread_attr_setstacksize(&at,stack);
+  if(!rc)rc=pthread_create(&th,&at,fn,arg);
+  pthread_attr_destroy(&at);return rc;
+}
+static int launch_job_thread(void *(*fn)(void *),void *arg){
+  static int injected=0;
+  if(getenv("EIGHTMAX_TEST_FAIL_JOB_ONCE") && !__atomic_exchange_n(&injected,1,__ATOMIC_RELAXED))return EAGAIN;
+  return launch_thread(fn,arg,16<<20);
+}
+static int start_job(void *(*fn)(void *), void *arg, int kind,int power) {
   pthread_mutex_lock(&STATE_MU);
-  if (JOB_RUNNING || G_BUSY) { pthread_mutex_unlock(&STATE_MU); return 0; }
-  JOB_RUNNING = 1; JOB_STOP = 0; JOB_KIND = kind; P_DONE = 0; P_STOPPED = 0; P_ERR[0] = 0; P_IT = 0; P_EX = -1; P_ELAPSED = 0; P_GPU[0] = 0;
-  pthread_mutex_unlock(&STATE_MU);
-  pthread_t th; pthread_attr_t at; pthread_attr_init(&at); pthread_attr_setdetachstate(&at, PTHREAD_CREATE_DETACHED);
-  pthread_attr_setstacksize(&at, 16 << 20);
-  pthread_create(&th, &at, fn, arg); pthread_attr_destroy(&at);
-  return 1;
+  int rc=409;
+  if(!JOB_RUNNING && !G_BUSY){
+    // Preserve prior diagnostics and report contents on a failed launch.
+    int count=kind==2?((ReportArgs*)arg)->n:0;
+    rc=launch_job_thread(fn,arg)?503:200;
+    if(rc==200){
+      if(power>=0)apply_power(power);
+      JOB_RUNNING=1;JOB_STOP=0;JOB_KIND=kind;P_DONE=P_STOPPED=P_IT=0;
+      P_ERR[0]=P_GPU[0]=0;P_EX=-1;P_ELAPSED=0;
+      if(kind==2){jb_free(&R_RESULTS);jb_init(&R_RESULTS);R_DONE=0;R_TOTAL=count;R_CUR_IT=0;R_CUR_EX=-1;}
+    }
+  }
+  pthread_mutex_unlock(&STATE_MU);return rc;
 }
 
 // check "no job running" and block new jobs in one step, so a solve cannot start while G is being replaced
@@ -363,67 +394,18 @@ static int claim_game(void) {
 static void release_game(void) { pthread_mutex_lock(&STATE_MU); G_BUSY = 0; pthread_mutex_unlock(&STATE_MU); }
 
 /* ---------------- routes ---------------- */
-static pthread_mutex_t checkpoint_mu=PTHREAD_MUTEX_INITIALIZER;
-static int move_checkpoint(const char *src,const char *dest){
-#ifdef _WIN32
-  return MoveFileExA(src,dest,MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)!=0;
-#else
-  return rename(src,dest)==0;
-#endif
-}
-static void checkpoint_api(sock_t s,const char *method,const char *part,const char *body,size_t n){
-  char latest[1200],previous[1200],tmp[1200];
-  snprintf(latest,sizeof latest,"%s%sautosave.emstudy",SAVE_DIR,PATHSEP);
-  snprintf(previous,sizeof previous,"%s%sautosave.previous.emstudy",SAVE_DIR,PATHSEP);
-#ifdef _WIN32
-  long pid=(long)GetCurrentProcessId();
-#else
-  long pid=(long)getpid();
-#endif
-  snprintf(tmp,sizeof tmp,"%s%sautosave.%ld.tmp",SAVE_DIR,PATHSEP,pid);
-  if(!strcmp(method,"POST")&&!strcmp(part,"write")){
-    if(!body||n<90||strncmp(body,"{\"sha256\":\"",11)||body[n-1]!='}'){
-      respond_err(s,400,"Invalid checkpoint envelope");return;
-    }
-    pthread_mutex_lock(&checkpoint_mu);
-    FILE *f=fopen(tmp,"wb");int ok=0;
-    if(f){
-      ok=fwrite(body,1,n,f)==n && fflush(f)==0;
-#ifdef _WIN32
-      if(ok)ok=_commit(_fileno(f))==0;
-#else
-      if(ok)ok=fsync(fileno(f))==0;
-#endif
-      if(fclose(f))ok=0;
-    }
-    if(ok){
-      FILE *old=fopen(latest,"rb");
-      if(old){fclose(old);ok=move_checkpoint(latest,previous);}
-      if(ok)ok=move_checkpoint(tmp,latest);
-#ifndef _WIN32
-      if(ok){int fd=open(SAVE_DIR,O_RDONLY);if(fd>=0){ok=fsync(fd)==0;close(fd);}else ok=0;}
-#endif
-    }
-    if(!ok)remove(tmp);
-    pthread_mutex_unlock(&checkpoint_mu);
-    if(ok)respond_ok(s);else respond_err(s,500,"Checkpoint write failed; recover previous save");return;
-  }
-  if(strcmp(method,"GET")||(strcmp(part,"latest")&&strcmp(part,"previous"))){respond_err(s,404,"Unknown checkpoint");return;}
-  pthread_mutex_lock(&checkpoint_mu);
-  FILE *f=fopen(!strcmp(part,"latest")?latest:previous,"rb");
-  if(!f){pthread_mutex_unlock(&checkpoint_mu);respond_err(s,404,"No saved checkpoint");return;}
-  long bytes=-1;if(fseek(f,0,SEEK_END)==0)bytes=ftell(f);
-  char *data=NULL;
-  if(bytes>0 && bytes<=(64L<<20) && fseek(f,0,SEEK_SET)==0)data=malloc((size_t)bytes);
-  int ok=data && fread(data,1,(size_t)bytes,f)==(size_t)bytes;
-  fclose(f);pthread_mutex_unlock(&checkpoint_mu);
-  if(ok)respond(s,200,"application/json",data,(size_t)bytes);else respond_err(s,500,"Cannot read checkpoint");
-  free(data);
-}
+
 /* ---------------- native multiway engine (protocol MW_PROTOCOL, see MW-PROTOCOL.md) ---------------- */
 static pthread_mutex_t MW_MU = PTHREAD_MUTEX_INITIALIZER;   // guards MWG and the fields below
 static MW *MWG = NULL;
-static volatile int MW_RUNNING = 0, MW_STOP = 0;
+static volatile int MW_RUNNING = 0, MW_STOP = 0, MW_QUERY_CANCEL = 0;
+// 4.0: evaluations (background jobs, synchronous EV/response-gain requests and
+// explorer queries) read MWG without holding MW_MU. MW_READERS counts them;
+// every operation that mutates or replaces MWG (train, import, init, free,
+// restore, desktop release) is refused while it is non-zero, and MW_GEN
+// changes whenever the study changes, so a queued job never evaluates a
+// different study than the one it was submitted for.
+static int MW_READERS = 0; static unsigned long long MW_GEN = 1; static volatile int MW_NODE_CANCEL = 0;
 static long long MW_IT = 0, MW_DEALS = 0, MW_TARGET = 0;
 static double MW_T0 = 0, MW_ELAPSED = 0, MW_TABLE_MIB = 0;
 static int MW_THREADS = 1;
@@ -431,18 +413,50 @@ static char MW_ERR[512];
 static double BROWSER_MIB = 0;          // last memory figure reported by the interface (if any)
 // One application budget for the native host: process threshold minus what is already
 // resident; the multiway tables get what is left after a safety margin.
+static double available_memory_mib(void) {
+#ifdef _WIN32
+  MEMORYSTATUSEX ms={0};ms.dwLength=sizeof ms;
+  return GlobalMemoryStatusEx(&ms)?ms.ullAvailPhys/1048576.0:-1;
+#else
+#ifdef __linux__
+  FILE *mem=fopen("/proc/meminfo","r");
+  if(mem){char line[160];unsigned long long kib;
+    while(fgets(line,sizeof line,mem))if(sscanf(line,"MemAvailable: %llu kB",&kib)==1){fclose(mem);return kib/1024.0;}
+    fclose(mem);
+  }
+#endif
+  long pages=sysconf(_SC_AVPHYS_PAGES);
+  return pages>0?pages*(double)sysconf(_SC_PAGESIZE)/1048576.0:-1;
+#endif
+}
 static double mw_budget_mib(void) {
   double resident = resident_mib(); if (resident < 0) resident = 0;
   double room = (double)PROCESS_LIMIT_MIB - resident - 256.0;
   double app = (double)APP_LIMIT_MIB - resident - BROWSER_MIB - 256.0;   // leave a margin for transient allocations
   if (app < room) room = app;
-  return room < 32 ? 32 : room;
+  double available=available_memory_mib();
+  if(available>=0 && available/2<room)room=available/2;
+  // Tables, sampled workspace, vector capacity, and a checkpoint export can
+  // coexist. Leave three shares of the detected room for these other costs.
+  return room < 0 ? 0 : room/4;
 }
+// A restored study stays in the host. Only status and commands cross the UI boundary.
+static int MW_RESTORING;
+static char *MW_ARCHIVE_META;
+static double restore_budget_mib(void){
+  double resident=fmax(0,resident_mib());
+  double room=fmin(PROCESS_LIMIT_MIB-resident,APP_LIMIT_MIB-resident-BROWSER_MIB)-256;
+  double available=available_memory_mib();
+  if(available>=0)room=fmin(room,available-512);
+  return fmax(0,room*.85);
+}
+#include "checkpoint_store.h"
 static void mw_progress(void *ctx, long long it, long long deals) {
   (void)ctx; pthread_mutex_lock(&MW_MU); MW_IT = it; MW_DEALS = deals; MW_ELAPSED = now_s() - MW_T0; pthread_mutex_unlock(&MW_MU);
 }
 typedef struct { long long iterations; int threads; } MwArgs;
 static void *mw_job(void *a) {
+  pthread_mutex_lock(&MW_MU);pthread_mutex_unlock(&MW_MU);
   MwArgs A = *(MwArgs *)a; free(a);
   char err[512] = "";
   int ok = mw_train(MWG, A.iterations, A.threads, &MW_STOP, mw_progress, NULL, err, sizeof err);
@@ -457,6 +471,7 @@ static void mw_status_json(JB *b) {
   jb_printf(b, "{\"protocol\":%d,\"loaded\":%s,\"running\":%s,\"iterations\":%lld,\"trainingDeals\":%lld,\"target\":%lld,\"elapsed\":", MW_PROTOCOL, MWG ? "true" : "false", MW_RUNNING ? "true" : "false", MW_IT, MW_DEALS, MW_TARGET);
   jb_num(b, MW_ELAPSED, 3); jb_printf(b, ",\"threads\":%d,\"error\":", MW_THREADS);
   if (MW_ERR[0]) jb_str(b, MW_ERR); else jb_puts(b, "null");
+  jb_printf(b,",\"desktopStudy\":%s,\"restoring\":%s",MW_ARCHIVE_META?"true":"false",MW_RESTORING?"true":"false");
   jb_puts(b, ",\"engine\":");
   if (MWG && !MW_RUNNING) mw_info(MWG, b); else jb_puts(b, "null");
   pthread_mutex_unlock(&MW_MU);
@@ -469,8 +484,10 @@ static void memory_json(JB *b) {
   jb_puts(b, ",\"multiwayTablesMiB\":"); jb_num(b, table, 1);
   jb_puts(b, ",\"browserReportedMiB\":"); jb_num(b, browser, 1);
   jb_puts(b, ",\"availableForTablesMiB\":"); jb_num(b, mw_budget_mib(), 1);
+  jb_puts(b,",\"availableSystemMiB\":");jb_num(b,available_memory_mib(),1);
   jb_printf(b, ",\"systemRamMiB\":%.0f}", RAM_MB);
 }
+#include "ev_jobs.h"
 // Returns 1 when the route was handled.
 static int mw_api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   char err[512] = "";
@@ -485,10 +502,53 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     JB b; jb_init(&b); memory_json(&b); respond_json(s, 200, &b); jb_free(&b); return 1;
   }
   if (strncmp(path, "/api/mw/", 8)) return 0;
+  /* 4.3: CUDA lifecycle of the evaluation tables (open, verified, uses, idle releases, device bytes); no engine lock. */
+  /* 4.4: IEEE 754 probe table (bits + %.17g digits) for the Windows numerical round-trip checks; no engine lock. */
+  if (!strcmp(path, "/api/mw/ieee-probe")) { JB b; jb_init(&b); mw_ieee_probe(&b); respond_json(s, 200, &b); jb_free(&b); return 1; }
+  if (!strcmp(path, "/api/mw/gpu-status")) { JB b; jb_init(&b); mw_gpu_status(&b); respond_json(s, 200, &b); jb_free(&b); return 1; }
   const char *r = path + 8;
   if (!strcmp(r, "status")) { JB b; jb_init(&b); mw_status_json(&b); respond_json(s, 200, &b); jb_free(&b); return 1; }
+  if(!strcmp(r,"desktop-policy")&&!strcmp(method,"GET")){
+    pthread_mutex_lock(&MW_MU);
+    if(!MW_ARCHIVE_META||!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,"Open an idle desktop study first");return 1;}
+    JB b;jb_init(&b);mw_root_policy(MWG,&b);pthread_mutex_unlock(&MW_MU);respond_json(s,200,&b);jb_free(&b);return 1;
+  }
+  // 3.8: native strategy explorer. Reads one node of the open (desktop or
+  // live) native study under the engine lock; the response is bounded by the
+  // acting range (at most 1,326 hands) and the requested page.
+  if(!strcmp(r,"node-cancel")&&!strcmp(method,"POST")){__atomic_store_n(&MW_QUERY_CANCEL,1,__ATOMIC_RELAXED);__atomic_store_n(&MW_NODE_CANCEL,1,__ATOMIC_RELAXED);respond_ok(s);return 1;}
+  if(ev_jobs_api(s,method,r,body,blen))return 1;
+  if(!strcmp(r,"node")&&!strcmp(method,"POST")){
+    pthread_mutex_lock(&MW_MU);
+    if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before exploring the study":"Open a native study first");return 1;}
+    // 4.0: explorer queries read the engine as readers, so they keep working while evaluation jobs run.
+    MW *m=MWG;MW_READERS++;pthread_mutex_unlock(&MW_MU);
+    __atomic_store_n(&MW_NODE_CANCEL,0,__ATOMIC_RELAXED);
+    JB b;jb_init(&b);int status=mw_node_query(m,body,blen,&b,err,sizeof err,&MW_NODE_CANCEL);
+    pthread_mutex_lock(&MW_MU);MW_READERS--;pthread_mutex_unlock(&MW_MU);
+    if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Query failed");
+    jb_free(&b);return 1;
+  }
+  // 3.9: action-specific EVs and response gains for the open native study.
+  // Both are bounded by the request's own limits (hands <= 64, samples,
+  // maxVisits, timeLimitMs <= 1 h) and run under the engine lock; POST
+  // node-cancel stops them. Malformed requests return 400 (see explorer.hpp).
+  // 4.0: the synchronous form remains for small queries; it runs as a reader
+  // (other explorer requests and status keep working) and node-cancel stops it.
+  // Large evaluations should use the background job API (/api/mw/jobs).
+  if((!strcmp(r,"ev")||!strcmp(r,"response-gain"))&&!strcmp(method,"POST")){
+    pthread_mutex_lock(&MW_MU);
+    if(!MWG||MW_RUNNING||MW_RESTORING){pthread_mutex_unlock(&MW_MU);respond_err(s,409,MWG?"Stop training before evaluating the study":"Open a native study first");return 1;}
+    __atomic_store_n(&MW_QUERY_CANCEL,0,__ATOMIC_RELAXED);
+    MW *m=MWG;MW_READERS++;pthread_mutex_unlock(&MW_MU);
+    JB b;jb_init(&b);int status=(!strcmp(r,"ev")?mw_action_ev:mw_response_gain)(m,body,blen,&b,err,sizeof err,&MW_QUERY_CANCEL);
+    pthread_mutex_lock(&MW_MU);MW_READERS--;pthread_mutex_unlock(&MW_MU);
+    if(status==200)respond_json(s,200,&b);else respond_err(s,status,err[0]?err:"Evaluation failed");
+    jb_free(&b);return 1;
+  }
   if (!strcmp(r, "state") && !strcmp(method, "GET")) {
     pthread_mutex_lock(&MW_MU);
+    if (MW_ARCHIVE_META || MW_RESTORING) { pthread_mutex_unlock(&MW_MU); respond_err(s,409,"Use Save native checkpoint to export this desktop study");return 1; }
     if (!MWG || MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, MWG ? "Training is running" : "No native multiway study"); return 1; }
     unsigned char *buf = NULL; size_t n = mw_export(MWG, &buf);
     pthread_mutex_unlock(&MW_MU);
@@ -496,26 +556,42 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
     respond(s, 200, "application/octet-stream", (const char *)buf, n); free(buf); return 1;
   }
   if (strcmp(method, "POST")) { respond_err(s, 404, "Not found"); return 1; }
-  if (!strcmp(r, "stop")) { MW_STOP = 1; respond_ok(s); return 1; }
+  if (!strcmp(r, "stop")) { __atomic_store_n(&MW_STOP,1,__ATOMIC_RELAXED); respond_ok(s); return 1; }
   pthread_mutex_lock(&MW_MU);
-  if (MW_RUNNING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
-  if (!strcmp(r, "free")) { mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
+  if (MW_RUNNING || MW_RESTORING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Native multiway training is running; stop it first"); return 1; }
+  if (MW_READERS) { pthread_mutex_unlock(&MW_MU); respond_err(s, 409, "Evaluations are reading this study; cancel them or wait for them to finish first"); return 1; }
+  if(MW_ARCHIVE_META && strcmp(r,"desktop-release") && strcmp(r,"desktop-train")){
+    pthread_mutex_unlock(&MW_MU);respond_err(s,409,"A restored desktop study is open. Close it first.");return 1;
+  }
+  if(!strncmp(r,"desktop-",8)&&!MW_ARCHIVE_META){
+    pthread_mutex_unlock(&MW_MU);respond_err(s,409,"No restored desktop study");return 1;
+  }
+  if (!strcmp(r,"desktop-release")){free(MW_ARCHIVE_META);MW_ARCHIVE_META=NULL;r="free";}
+  if (!strcmp(r,"desktop-train"))r="train";
+  if (!strcmp(r, "free")) { MW_GEN++; mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0; MW_ERR[0] = 0; pthread_mutex_unlock(&MW_MU); respond_ok(s); return 1; }
   if (!strcmp(r, "init")) {
     if (!body || !blen) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Empty native spec"); return 1; }
-    mw_free(MWG); MWG = NULL; MW_TABLE_MIB = 0;
     double budget = mw_budget_mib();
+    JV *request=json_parse(body,blen,err,sizeof err);
+    if(request){
+      /* 4.1: tableLimitMiB must be a finite positive number when present (4.0 ignored invalid values silently). */
+      const JV *tl=jget(request,"tableLimitMiB"); double requested=budget; int rc1=em_jv_dbl(tl,1e-6,1048576.0,&requested);
+      json_free(request);
+      if(rc1<0){pthread_mutex_unlock(&MW_MU);char nm[160];em_num_msg(nm,sizeof nm,"tableLimitMiB",rc1,1e-6,1048576,0);respond_err(s,400,nm);return 1;}
+      if(requested<budget)budget=requested;}
+    if(budget<1){pthread_mutex_unlock(&MW_MU);respond_err(s,503,"Insufficient process or application RAM budget");return 1;}
     MW *m = mw_create(body, blen, budget, err, sizeof err);
     if (!m) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
-    MWG = m; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
+    mw_free(MWG);MWG=m;MW_GEN++;MW_TABLE_MIB=0; MW_ERR[0] = 0; MW_IT = MW_DEALS = MW_TARGET = 0; MW_ELAPSED = 0;
     JB b; jb_init(&b); mw_info(m, &b);
-    { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); MW_IT = (long long)jnum(jget(iv, "iterations"), 0); MW_DEALS = (long long)jnum(jget(iv, "trainingDeals"), 0); json_free(iv); } }
-    pthread_mutex_unlock(&MW_MU);
+    { JV *iv = json_parse(b.s, b.n, err, sizeof err); if (iv) { MW_TABLE_MIB = jnum(jget(iv, "tableMiB"), 0); long long x = 0; MW_IT = em_jv_i64(jget(iv, "iterations"), 0, LLONG_MAX, &x) == EM_NUM_OK ? x : 0; x = 0; MW_DEALS = em_jv_i64(jget(iv, "trainingDeals"), 0, LLONG_MAX, &x) == EM_NUM_OK ? x : 0; json_free(iv); } }
     jb_free(&b); jb_init(&b); jb_puts(&b, "{\"ok\":true,\"budgetMiB\":"); jb_num(&b, budget, 1); jb_puts(&b, ",\"engine\":"); mw_info(m, &b); jb_putc(&b, '}');
+    pthread_mutex_unlock(&MW_MU);
     respond_json(s, 200, &b); jb_free(&b); return 1;
   }
   if (!strcmp(r, "import")) {
     if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
-    int ok = body && mw_import(MWG, (const unsigned char *)body, blen, err, sizeof err);
+    MW_GEN++; int ok = body && mw_import(MWG, (const unsigned char *)body, blen, err, sizeof err);
     pthread_mutex_unlock(&MW_MU);
     if (!ok) { respond_err(s, 400, err[0] ? err : "Empty state"); return 1; }
     respond_ok(s); return 1;
@@ -523,17 +599,18 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   if (!strcmp(r, "train")) {
     JV *v = json_parse(body ? body : "{}", body ? blen : 2, err, sizeof err);
     if (!v) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, err); return 1; }
-    double it = jnum(jget(v, "iterations"), -1), th = jnum(jget(v, "threads"), THREADS); json_free(v);
+    /* 4.1: typed, checked conversions (4.0 accepted true/false as 1/0 via jnum). */
+    long long iti = 0, thi = THREADS; const int ri = em_jv_i64(jget(v, "iterations"), 1, 10000000, &iti), rth = em_jv_i64(jget(v, "threads"), 1, 256, &thi); json_free(v);
     if (!MWG) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "Initialize the native study first"); return 1; }
-    if (!(it >= 1 && it <= 10000000) || floor(it) != it) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "iterations must be an integer from 1 to 10,000,000"); return 1; }
-    if (!(th >= 1 && th <= 256) || floor(th) != th) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "threads must be an integer from 1 to 256"); return 1; }
+    if (ri != EM_NUM_OK) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "iterations must be an integer from 1 to 10,000,000"); return 1; }
+    if (rth != EM_NUM_OK && rth != EM_NUM_MISSING) { pthread_mutex_unlock(&MW_MU); respond_err(s, 400, "threads must be an integer from 1 to 256"); return 1; }
+    const double it = (double)iti, th = (double)thi;
     MwArgs *A = (MwArgs *)malloc(sizeof *A);
     if (!A) { pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Out of memory"); return 1; }
+    if(MW_IT+(long long)it>10000000){free(A);pthread_mutex_unlock(&MW_MU);respond_err(s,400,"Checkpoint update count limit would be exceeded");return 1;}
     A->iterations = (long long)it; A->threads = (int)th > LOGICAL_CPUS ? LOGICAL_CPUS : (int)th;
-    MW_THREADS = A->threads; MW_STOP = 0; MW_RUNNING = 1; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
-    pthread_t t;
-    if (pthread_create(&t, NULL, mw_job, A)) { MW_RUNNING = 0; free(A); pthread_mutex_unlock(&MW_MU); respond_err(s, 503, "Could not start a training thread"); return 1; }
-    pthread_detach(t);
+    if (launch_job_thread(mw_job,A)) { free(A); pthread_mutex_unlock(&MW_MU); respond_err(s,503,"Could not start a training thread"); return 1; }
+    MW_THREADS = A->threads; __atomic_store_n(&MW_STOP,0,__ATOMIC_RELAXED); MW_RUNNING = 1; MW_GEN++; MW_ERR[0] = 0; MW_T0 = now_s(); MW_ELAPSED = 0; MW_TARGET = MW_IT + A->iterations;
     pthread_mutex_unlock(&MW_MU);
     respond_ok(s); return 1;
   }
@@ -541,17 +618,31 @@ static int mw_api(sock_t s, const char *method, const char *path, const char *bo
   respond_err(s, 404, "Not found"); return 1;
 }
 
+static pthread_mutex_t CUDA_MU = PTHREAD_MUTEX_INITIALIZER; static JB CUDA_INFO;
 static void api(sock_t s, const char *method, const char *path, const char *body, size_t blen) {
   if (mw_api(s, method, path, body, blen)) return;
   char err[512] = "";
-  if(!strncmp(path,"/api/checkpoint/",16)){checkpoint_api(s,method,path+16,body,blen);return;}
+  if(!strncmp(path,"/api/checkpoint/",16)){checkpoint_api(s,method,path+16,NULL);return;}
   if (!strcmp(path, "/api/info")) {
     JB b; jb_init(&b);
     jb_printf(&b, "{\"native\":true,\"build\":\"%s\",\"version\":\"%s\",\"threads\":%d,\"power\":%d,\"ramMB\":%.0f,\"engine\":\"%s\",\"saveDir\":", EM_BUILD_ID, VERSION, THREADS, POWER, RAM_MB, VT->name);
     jb_str(&b, SAVE_DIR);
     jb_printf(&b,",\"physicalCores\":%d,\"performanceCores\":%d,\"efficiencyCores\":%d",PHYSICAL_CORES,PERFORMANCE_CORES,EFFICIENCY_CORES);
     jb_printf(&b,",\"multiwayProtocol\":%d",MW_PROTOCOL); jb_printf(&b,",\"logicalCPUs\":%d,\"processLimitMiB\":%ld,\"residentMiB\":%.2f",LOGICAL_CPUS,PROCESS_LIMIT_MIB,resident_mib()); jb_puts(&b, ",\"hasGame\":"); jb_puts(&b, G ? "true" : "false");
-    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b); jb_putc(&b, '}');
+    jb_puts(&b, ",\"gpu\":"); VT->gpu_info(NULL, &b);
+    jb_printf(&b, ",\"multiwaySpecProtocols\":[1,3,4]");
+    /* 3.1: CUDA probe for the multiway engine, cached after the first request. */
+    pthread_mutex_lock(&CUDA_MU);
+    if (!CUDA_INFO.s) { jb_init(&CUDA_INFO); mw_cuda_info(&CUDA_INFO); }
+    jb_puts(&b, ",\"cuda\":"); jb_puts(&b, CUDA_INFO.s ? CUDA_INFO.s : "null");
+    pthread_mutex_unlock(&CUDA_MU);
+    jb_putc(&b, '}');
+    respond_json(s, 200, &b); jb_free(&b); return;
+  }
+  if (!strcmp(path, "/api/equity") && !strcmp(method, "POST")) {
+    /* Exact multiway all-in equity (CPU, GPU or both with an exact comparison). */
+    char err[256] = ""; JB b; jb_init(&b);
+    if (!body || !mw_equity(body, blen, &b, err, sizeof err)) { jb_free(&b); respond_err(s, 400, err[0] ? err : "Invalid equity request"); return; }
     respond_json(s, 200, &b); jb_free(&b); return;
   }
   if (!strcmp(path, "/api/status")) {
@@ -646,16 +737,27 @@ static void api(sock_t s, const char *method, const char *path, const char *body
     if (!G) { json_free(v); respond_err(s, 400, "Set up the spot first"); return; }
     SolveArgs *A = (SolveArgs *)malloc(sizeof *A);
     if (!A) { json_free(v); respond_err(s, 503, "Out of memory"); return; }
-    A->target = jnum(jget(v, "target"), 0.5); A->maxIter = (int)jnum(jget(v, "maxIter"), 1000); A->reset = (int)jnum(jget(v, "reset"), 0);
-    if (jget(v, "power")) apply_power((int)jnum(jget(v, "power"), 1));
-    if (A->maxIter < 1) A->maxIter = 1;
+    /* 4.1: checked. maxIter accepts 1 to 1e9; values above 49,000 are capped
+       at 49,000 (documented in MW-PROTOCOL.md, unchanged since 2.x) and the
+       capped value is reported by /api/progress. Non-integers, non-numbers
+       and out-of-range values are refused. */
+    char nm[200]; int power = -1, rc1;
+    A->target = 0.5; A->maxIter = 1000; A->reset = 0;
+    if ((rc1 = em_jv_dbl(jget(v, "target"), 0.0, 1e6, &A->target)) < 0) { em_num_msg(nm, sizeof nm, "target", rc1, 0, 1e6, 0); goto solve_bad; }
+    if ((rc1 = em_jv_int(jget(v, "maxIter"), 1, 1000000000, &A->maxIter)) < 0) { em_num_msg(nm, sizeof nm, "maxIter", rc1, 1, 1e9, 1); goto solve_bad; }
+    { const JV *rv = jget(v, "reset"); if (rv && rv->type == J_BOOL) A->reset = rv->num != 0;
+      else if ((rc1 = em_jv_int(rv, 0, 1, &A->reset)) < 0) { em_num_msg(nm, sizeof nm, "reset", rc1, 0, 1, 1); goto solve_bad; } }
+    if ((rc1 = em_jv_int(jget(v, "power"), 0, 2, &power)) < 0) { em_num_msg(nm, sizeof nm, "power", rc1, 0, 2, 1); goto solve_bad; }
     if (A->maxIter > 49000) A->maxIter = 49000;
     json_free(v);
-    if (!start_job(solve_job, A, 1)) { free(A); respond_err(s, 409, "A solve is already running"); return; }
+    if (0) { solve_bad: json_free(v); free(A); respond_err(s, 400, nm); return; }
+    int rc=start_job(solve_job,A,1,power);
+    if (rc!=200) { free(A); respond_err(s, rc, rc==503?"Could not start solve thread":"A solve is already running"); return; }
     respond_ok(s); return;
   }
   if (!strcmp(path, "/api/node")) {
     int pth[64]; int n = path_from(v, pth, 64); json_free(v);
+    if (n < 0) { respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     if (!G) { respond_err(s, 400, "No solution loaded"); return; }
     JB b; jb_init(&b);
     pthread_mutex_lock(&GAME_MU);
@@ -666,6 +768,7 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   }
   if (!strcmp(path, "/api/runouts")) {
     int pth[64]; int n = path_from(v, pth, 64); json_free(v);
+    if (n < 0) { respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     if (!G) { respond_err(s, 400, "No solution loaded"); return; }
     JB b; jb_init(&b);
     pthread_mutex_lock(&GAME_MU);
@@ -676,9 +779,19 @@ static void api(sock_t s, const char *method, const char *path, const char *body
   }
   if (!strcmp(path, "/api/lock")) {
     int pth[64]; int n = path_from(v, pth, 64);
+    if (n < 0) { json_free(v); respond_err(s, 400, "path must be an array of at most 64 integer action indices (0-255)"); return; }
     JV *st = jget(v, "strategy");
     float *arr = NULL; int na = 0;
-    if (st && st->type == J_ARR) { na = st->n; arr = (float *)malloc(sizeof(float) * (size_t)(na ? na : 1)); for (int i = 0; i < na; i++) arr[i] = (float)jnum(st->items[i], 0); }
+    if (st && st->type != J_ARR && st->type != J_NULL) { json_free(v); respond_err(s, 400, "strategy must be an array of probabilities or null"); return; }
+    if (st && st->type == J_ARR) {
+      na = st->n; arr = (float *)malloc(sizeof(float) * (size_t)(na ? na : 1));
+      if (!arr) { json_free(v); respond_err(s, 503, "Out of memory"); return; }
+      /* 4.1: (float) of an out-of-range double is undefined; entries are probabilities. */
+      for (int i = 0; i < na; i++) {
+        double x; if (em_jv_dbl(st->items[i], 0.0, 1.0, &x) != EM_NUM_OK) { free(arr); json_free(v); respond_err(s, 400, "strategy entries must be numbers from 0 to 1"); return; }
+        arr[i] = (float)x;
+      }
+    }
     json_free(v);
     if (!G) { free(arr); respond_err(s, 400, "No solution loaded"); return; }
     if (!claim_game()) { free(arr); respond_err(s, 409, "Stop the current solve first"); return; }
@@ -738,23 +851,37 @@ static void api(sock_t s, const char *method, const char *path, const char *body
       if (raw) jb_puts(&cj, raw);
     }
     ReportArgs *A = (ReportArgs *)calloc(1, sizeof *A);
+    if(!A){jb_free(&cj);json_free(v);respond_err(s,503,"Out of memory");return;}
     if (!cj.n || !solver_parse_cfg(cj.s, &A->base, err, sizeof err)) { jb_free(&cj); json_free(v); free(A); respond_err(s, 400, err[0] ? err : "Bad spot"); return; }
     jb_free(&cj);
     A->n = fl->n; A->flops = (int (*)[4])malloc(sizeof(int[4]) * (size_t)fl->n);
-    for (int i = 0; i < fl->n; i++) for (int k = 0; k < 4; k++) A->flops[i][k] = (int)jnum(fl->items[i]->type == J_ARR && k < fl->items[i]->n ? fl->items[i]->items[k] : NULL, 1);
-    A->target = jnum(jget(v, "target"), 1); A->maxIter = (int)jnum(jget(v, "maxIter"), 300);
-    if (A->maxIter < 1) A->maxIter = 1;
+    if(!A->flops){free(A);json_free(v);respond_err(s,503,"Out of memory");return;}
+    /* 4.1: each flop is [card, card, card, weight?]: cards 0-51, weight an
+       integer 0 to 1e9 (default 1 when omitted). */
+    char nm[200]; int power = -1, rc1;
+    for (int i = 0; i < fl->n; i++) {
+      const JV *f = fl->items[i];
+      if (f->type != J_ARR || f->n < 3 || f->n > 4) { snprintf(nm, sizeof nm, "flops[%d] must be [card, card, card, weight]", i); goto report_bad; }
+      for (int k = 0; k < 3; k++) if (em_jv_int(f->items[k], 0, 51, &A->flops[i][k]) != EM_NUM_OK) { snprintf(nm, sizeof nm, "flops[%d] cards must be integers 0-51", i); goto report_bad; }
+      A->flops[i][3] = 1;
+      if (f->n == 4 && em_jv_int(f->items[3], 0, 1000000000, &A->flops[i][3]) != EM_NUM_OK) { snprintf(nm, sizeof nm, "flops[%d] weight must be an integer 0 to 1e9", i); goto report_bad; }
+    }
+    A->target = 1; A->maxIter = 300;
+    if ((rc1 = em_jv_dbl(jget(v, "target"), 0.0, 1e6, &A->target)) < 0) { em_num_msg(nm, sizeof nm, "target", rc1, 0, 1e6, 0); goto report_bad; }
+    if ((rc1 = em_jv_int(jget(v, "maxIter"), 1, 1000000000, &A->maxIter)) < 0) { em_num_msg(nm, sizeof nm, "maxIter", rc1, 1, 1e9, 1); goto report_bad; }
+    if ((rc1 = em_jv_int(jget(v, "power"), 0, 2, &power)) < 0) { em_num_msg(nm, sizeof nm, "power", rc1, 0, 2, 1); goto report_bad; }
     if (A->maxIter > 49000) A->maxIter = 49000;
-    if (jget(v, "power")) apply_power((int)jnum(jget(v, "power"), 1));
     json_free(v);
-    pthread_mutex_lock(&STATE_MU); jb_free(&R_RESULTS); jb_init(&R_RESULTS); R_DONE = 0; R_TOTAL = A->n; R_CUR_IT = 0; R_CUR_EX = -1; pthread_mutex_unlock(&STATE_MU);
-    if (!start_job(report_job, A, 2)) { free(A->flops); free(A); respond_err(s, 409, "Another job is running"); return; }
+    if (0) { report_bad: json_free(v); free(A->flops); free(A); respond_err(s, 400, nm); return; }
+    int rc=start_job(report_job,A,2,power);
+    if (rc!=200) { free(A->flops); free(A); respond_err(s, rc, rc==503?"Could not start report thread":"Another job is running"); return; }
     respond_ok(s); return;
   }
   json_free(v);
   respond_err(s, 404, "Not found");
 }
 
+static pthread_mutex_t checkpoint_body_mu=PTHREAD_MUTEX_INITIALIZER;
 static void handle(sock_t s) {
   size_t cap = 65536, n = 0; char *buf = (char *)malloc(cap + 1);
   if(!buf){respond_err(s,503,"Out of memory");return;}
@@ -769,12 +896,7 @@ static void handle(sock_t s) {
   size_t hlen = (size_t)(hend - buf) + 4;
   char method[8] = "", path[256] = "";
   if (sscanf(buf, "%7s %255s", method, path) != 2) { free(buf); return; }
-  const char *cl = find_header(buf, "Content-Length");
-  size_t blen = cl ? (size_t)strtoul(cl, NULL, 10) : 0;
-  if (blen > (64u << 20)) { respond_err(s, 400, "Request too large"); free(buf); return; }
-  if (hlen + blen > cap) { cap = hlen + blen; char *grown = (char *)realloc(buf, cap + 1); if (!grown) { respond_err(s, 503, "Out of memory"); free(buf); return; } buf = grown; }
-  while (n < hlen + blen) { int k = recv(s, buf + n, (int)(hlen + blen - n), 0); if (k <= 0) { free(buf); return; } n += (size_t)k; }
-  buf[hlen + blen] = 0;
+  int checkpoint=0; size_t blen=0;
   // only same-machine pages may talk to us: check Host, and require a custom header on POST
   const char *host = find_header(buf, "Host");
   char want1[64], want2[64];
@@ -782,30 +904,64 @@ static void handle(sock_t s) {
   // exact match only: a prefix test would also accept hosts such as "127.0.0.1:8708.example"
   size_t hostLen = 0; if (host) while (host[hostLen] && host[hostLen] != '\r' && host[hostLen] != '\n') hostLen++;
   while (hostLen && (host[hostLen - 1] == ' ' || host[hostLen - 1] == '\t')) hostLen--;
-  if (!host || !((hostLen == strlen(want1) && !strncmp(host, want1, hostLen)) || (hostLen == strlen(want2) && !strncasecmp(host, want2, hostLen)))) { respond_err(s, 403, "Forbidden host"); free(buf); return; }
+  if (!host || !((hostLen == strlen(want1) && !strncmp(host, want1, hostLen)) || (hostLen == strlen(want2) && !strncasecmp(host, want2, hostLen)))) { respond_err(s, 403, "Forbidden host"); goto finish_request; }
   char *q = strchr(path, '?'); if (q) *q = 0;
+  int post=!strcmp(method,"POST");
+  if(post){const char *token=find_header(buf,"X-EightMax");if(!token||strncmp(token,"1\r\n",3)){respond_err(s,403,"Missing app header");goto finish_request;}}
+  const char *cl=find_header(buf,"Content-Length"),*te=find_header(buf,"Transfer-Encoding");
+  if(cl){size_t d=strspn(cl,"0123456789");errno=0;unsigned long long value=strtoull(cl,NULL,10);
+    if(!d||errno||value>SIZE_MAX||strncmp(cl+d,"\r\n",2)||find_header(cl+d+2,"Content-Length")){respond_err(s,400,"Invalid Content-Length");goto finish_request;}blen=(size_t)value;
+  }
+  if(!strcmp(path,"/api/checkpoint/progress") && !post){
+    char report[224];int k=snprintf(report,sizeof report,"{\"phase\":\"%s\",\"active\":%s,\"receivedBytes\":%llu,\"expectedBytes\":%llu}",cp_phases[atomic_load(&cp_phase)],atomic_load(&cp_active)?"true":"false",atomic_load(&cp_progress),atomic_load(&cp_expected));respond(s,200,"application/json",report,k);goto finish_request;
+  }
+  if(!strcmp(path,"/api/checkpoint/cancel") && post){if(atomic_load(&cp_active))atomic_store(&cp_cancel,1);respond_ok(s);goto finish_request;}
+  int nativeUpload=!strcmp(path,"/api/checkpoint/native-upload");
+  if(post && !strncmp(path,"/api/checkpoint/native-",23) && !nativeUpload){
+    if(te||blen||n!=hlen){respond_err(s,400,"Native checkpoint command requires an empty body");goto finish_request;}
+    if(pthread_mutex_trylock(&checkpoint_body_mu)){respond_err(s,409,"Another checkpoint operation is active");goto finish_request;}
+    checkpoint=1;cp_begin(0);checkpoint_api(s,method,path+16,NULL);goto finish_request;
+  }
+  if(post && (!strcmp(path,"/api/checkpoint/write")||nativeUpload)){
+    if((!!cl==!!te)||(cl&&n-hlen>blen)||(te&&(strncasecmp(te,"chunked\r\n",9)||find_header(te+9,"Transfer-Encoding")))){respond_err(s,400,"Invalid checkpoint transfer framing");goto finish_request;}
+    if(blen>cp_limit()){respond_err(s,413,"Checkpoint exceeds configured storage limit");goto finish_request;}
+    if(pthread_mutex_trylock(&checkpoint_body_mu)){respond_err(s,503,"Another checkpoint write is in progress");goto finish_request;}
+    checkpoint=1;cp_begin(blen);
+    CpRequest request={.socket=s,.initial=buf+hlen,.available=n-hlen,.length=blen,.chunked=te!=NULL};
+    checkpoint_api(s,method,nativeUpload?"native-upload":"write",&request);goto finish_request;
+  }
+  size_t limit=64u<<20;
+  if(!strcmp(path,"/api/mw/import")){double mib=fmin(2048,APP_LIMIT_MIB/2.0);if(mib>64)limit=(size_t)(mib*1048576);}
+  if(te||blen>limit||n-hlen>blen){respond_err(s,400,"Invalid request length or transfer framing");goto finish_request;}
+  if(hlen+blen>cap){char *grown=realloc(buf,hlen+blen+1);if(!grown){respond_err(s,503,"Out of memory");goto finish_request;}buf=grown;}
+  while(n<hlen+blen){int k=recv(s,buf+n,(int)fmin(hlen+blen-n,1048576),0);if(k<=0){respond_err(s,400,"Incomplete request body");goto finish_request;}n+=k;}
+  buf[hlen+blen]=0;
   if (!strcmp(method, "GET") && (!strcmp(path, "/") || !strcmp(path, "/index.html"))) {
     respond(s, 200, "text/html; charset=utf-8", (const char *)UI_HTML, UI_HTML_LEN);
   } else if (!strncmp(path, "/api/", 5)) {
     if (!strcmp(method, "POST")) {
       const char *x = find_header(buf, "X-EightMax");
-      if (!x || x[0] != '1') { respond_err(s, 403, "Missing app header"); free(buf); return; }
+      if (!x || x[0] != '1') { respond_err(s, 403, "Missing app header"); goto finish_request; }
     }
     api(s, method, path, blen ? buf + hlen : NULL, blen);
   } else if (!strcmp(path, "/favicon.ico")) {
     respond(s, 404, "text/plain", "", 0);
   } else respond_err(s, 404, "Not found");
+finish_request:
+  if(checkpoint){atomic_store(&cp_active,0);pthread_mutex_unlock(&checkpoint_body_mu);}
   free(buf);
 }
+static _Atomic int http_connections=0;
 static void *conn_main(void *a) {
   sock_t s = (sock_t)(intptr_t)a;
+  cp_socket_timeout(s,SO_RCVTIMEO,15);
   handle(s);
 #ifdef _WIN32
   shutdown(s, SD_SEND);
 #else
   shutdown(s, SHUT_WR);
 #endif
-  CLOSESOCK(s);
+  CLOSESOCK(s);atomic_fetch_sub(&http_connections,1);
   return NULL;
 }
 
@@ -820,8 +976,13 @@ static int cpu_has_avx2(void) {
 
 int gpu_selftest(const SolverVT *VT);
 int main(int argc, char **argv) {
+    if(argc==2 && !strcmp(argv[1],"--build-id")) { puts("EightMaxBuild=" EM_BUILD_ID); return 0; }
   int noBrowser = 0, wantPort = 8708, gpuTest = 0;
-  for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) wantPort = atoi(argv[i] + 7); else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
+  for (int i = 1; i < argc; i++) { if (!strcmp(argv[i], "--no-browser")) noBrowser = 1; else if (!strncmp(argv[i], "--port=", 7)) {
+      /* 4.1: strtol with checks (atoi is undefined on overflow). */
+      char *end = NULL; errno = 0; long pv = strtol(argv[i] + 7, &end, 10);
+      if (errno || end == argv[i] + 7 || *end || pv < 1 || pv > 65535) { fprintf(stderr, "--port must be an integer from 1 to 65535\n"); return 2; }
+      wantPort = (int)pv; } else if (!strcmp(argv[i], "--gpu-test")) gpuTest = 1; }
 #ifdef _WIN32
   WSADATA wsa; WSAStartup(MAKEWORD(2, 2), &wsa);
   SYSTEM_INFO si; GetSystemInfo(&si); THREADS = (int)si.dwNumberOfProcessors;
@@ -861,6 +1022,9 @@ int main(int argc, char **argv) {
   VT->init(THREADS);
   THREADS=VT->threads();
   gpu_init();
+  /* 4.3: EM_GPU_PREWARM=1 opens the CUDA device for evaluation tables on a background
+     thread at start-up, so the first GPU evaluation does not pay CUDA start-up. */
+  { const char *pw=getenv("EM_GPU_PREWARM"); if(pw && !strcmp(pw,"1")) mw_gpu_prewarm(); }
   apply_power(gpuTest ? 0 : 1);
   if (gpuTest) {
     const int rc = gpu_selftest(VT);
@@ -870,7 +1034,7 @@ int main(int argc, char **argv) {
 #endif
     return rc;
   }
-  init_save_dir();
+  if(!init_save_dir()){fprintf(stderr,"Save directory path too long\n");return 2;}
   jb_init(&R_RESULTS);
   sock_t ls = INVALID_SOCKET;
   for (int p = wantPort; p < wantPort + 20; p++) {
@@ -898,10 +1062,10 @@ int main(int argc, char **argv) {
     struct sockaddr_in ca; socklen_t cl = sizeof ca;
     sock_t c = accept(ls, (struct sockaddr *)&ca, &cl);
     if (c == INVALID_SOCKET) continue;
-    pthread_t th; pthread_attr_t at; pthread_attr_init(&at); pthread_attr_setdetachstate(&at, PTHREAD_CREATE_DETACHED);
-    pthread_attr_setstacksize(&at, 8 << 20);
-    if (pthread_create(&th, &at, conn_main, (void *)(intptr_t)c)) CLOSESOCK(c);
-    pthread_attr_destroy(&at);
+    if(atomic_fetch_add(&http_connections,1)>=32){
+      atomic_fetch_sub(&http_connections,1);respond_err(c,503,"Desktop connection limit reached");CLOSESOCK(c);continue;
+    }
+    if(launch_thread(conn_main,(void *)(intptr_t)c,8<<20)){atomic_fetch_sub(&http_connections,1);CLOSESOCK(c);}
   }
   return 0;
 }

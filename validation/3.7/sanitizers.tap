@@ -1,0 +1,403 @@
+EightMax-Offline.html 922452 bytes
+native.html 922476 bytes
+EightMax 3.7 build 2ffd4dd33b73c8b0
+embedded 922476 bytes
+embedded 155352 bytes
+In file included from mw.cpp:1442:
+checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument ‘int (*)(FILE*)’ [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+checkpoint_native.hpp:66:10: warning: ‘cp36::States::Cache’ has a field ‘{anonymous}::es::BS cp36::States::Cache::value’ whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+TAP version 13
+# Subtest: host handles native and JavaScript row archives from real training
+ok 1 - host handles native and JavaScript row archives from real training
+  ---
+  duration_ms: 406.073548
+  type: 'test'
+  ...
+# Subtest: block SHA, final SHA, truncation and trailing data retain acknowledged generations
+ok 2 - block SHA, final SHA, truncation and trailing data retain acknowledged generations
+  ---
+  duration_ms: 328.102495
+  type: 'test'
+  ...
+# Subtest: valid hashes around forged native counters and duplicate rows do not pass semantic verification
+ok 3 - valid hashes around forged native counters and duplicate rows do not pass semantic verification
+  ---
+  duration_ms: 140.389777
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses bad hexadecimal
+ok 4 - HTTP streaming refuses bad hexadecimal
+  ---
+  duration_ms: 105.970555
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses truncated chunk
+ok 5 - HTTP streaming refuses truncated chunk
+  ---
+  duration_ms: 89.654147
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses ambiguous framing
+ok 6 - HTTP streaming refuses ambiguous framing
+  ---
+  duration_ms: 82.202504
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses duplicate lengths
+ok 7 - HTTP streaming refuses duplicate lengths
+  ---
+  duration_ms: 100.443898
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses oversized chunk
+ok 8 - HTTP streaming refuses oversized chunk
+  ---
+  duration_ms: 93.808347
+  type: 'test'
+  ...
+# Subtest: HTTP streaming refuses missing declared bytes
+ok 9 - HTTP streaming refuses missing declared bytes
+  ---
+  duration_ms: 88.060686
+  type: 'test'
+  ...
+# Subtest: disk reserve returns 507 and preserves the previous save
+ok 10 - disk reserve returns 507 and preserves the previous save
+  ---
+  duration_ms: 171.770916
+  type: 'test'
+  ...
+# Subtest: cancel and concurrent uploader leave the first committed pair intact
+ok 11 - cancel and concurrent uploader leave the first committed pair intact
+  ---
+  duration_ms: 148.842809
+  type: 'test'
+  ...
+# Subtest: ingress timeout releases writer and restart discards abandoned scratch
+ok 12 - ingress timeout releases writer and restart discards abandoned scratch
+  ---
+  duration_ms: 1171.748729
+  type: 'test'
+  ...
+# Subtest: process death during streaming preserves two prior generations
+ok 13 - process death during streaming preserves two prior generations
+  ---
+  duration_ms: 272.6218
+  type: 'test'
+  ...
+# Subtest: cold scan rejects a forged slot with a matching outer hash
+ok 14 - cold scan rejects a forged slot with a matching outer hash
+  ---
+  duration_ms: 321.601923
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3631.619453
+TAP version 13
+# Subtest: Default eight-handed structure: 0.5/1 blinds, 0.1 individual antes, 0.8 total, 2.3 initial pot
+ok 1 - Default eight-handed structure: 0.5/1 blinds, 0.1 individual antes, 0.8 total, 2.3 initial pot
+  ---
+  duration_ms: 55.847035
+  type: 'test'
+  ...
+# Subtest: Short stacks never contribute more chips than they possess
+ok 2 - Short stacks never contribute more chips than they possess
+  ---
+  duration_ms: 48.707271
+  type: 'test'
+  ...
+# Subtest: JavaScript rejects negative, non-finite and out-of-range antes and malformed arrays; zero antes are valid
+ok 3 - JavaScript rejects negative, non-finite and out-of-range antes and malformed arrays; zero antes are valid
+  ---
+  duration_ms: 96.006867
+  type: 'test'
+  ...
+# Subtest: Native engine rejects negative, non-finite and malformed antes (3.2 accepted anteOf -0.1)
+ok 4 - Native engine rejects negative, non-finite and malformed antes (3.2 accepted anteOf -0.1)
+  ---
+  duration_ms: 454.231201
+  type: 'test'
+  ...
+# Subtest: Native preflop specs: valid zero, nonuniform and short-stack antes train; mismatched ante lists are refused
+ok 5 - Native preflop specs: valid zero, nonuniform and short-stack antes train; mismatched ante lists are refused
+  ---
+  duration_ms: 341.316883
+  type: 'test'
+  ...
+# Subtest: Native and JavaScript validation agree on ante configurations
+ok 6 - Native and JavaScript validation agree on ante configurations
+  ---
+  duration_ms: 346.001802
+  type: 'test'
+  ...
+# Subtest: Invalid configuration files and arguments never crash the native CLI
+ok 7 - Invalid configuration files and arguments never crash the native CLI
+  ---
+  duration_ms: 130.098116
+  type: 'test'
+  ...
+# In file included from /workspace/scratch/898a717b236e/v37/EightMax/source/native/mw.cpp:1442:
+# /workspace/scratch/898a717b236e/v37/EightMax/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument ‘int (*)(FILE*)’ [-Wignored-attributes]
+#    23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+#       |                                                  ^
+# /workspace/scratch/898a717b236e/v37/EightMax/source/native/checkpoint_native.hpp:66:10: warning: ‘cp36::States::Cache’ has a field ‘{anonymous}::es::BS cp36::States::Cache::value’ whose type uses the anonymous namespace [-Wsubobject-linkage]
+#    66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+#       |          ^~~~~
+# Subtest: Checkpoint imports reject invalid tournament state
+ok 8 - Checkpoint imports reject invalid tournament state
+  ---
+  duration_ms: 102.357275
+  type: 'test'
+  ...
+# Subtest: Chip conservation: every terminal pot layer sums to the chips committed plus the starting pot
+ok 9 - Chip conservation: every terminal pot layer sums to the chips committed plus the starting pot
+  ---
+  duration_ms: 21641.176342
+  type: 'test'
+  ...
+# Subtest: Heads-up native configuration rejects negative weights, fractional cards and non-finite pots
+ok 10 - Heads-up native configuration rejects negative weights, fractional cards and non-finite pots
+  ---
+  duration_ms: 273.303285
+  type: 'test'
+  ...
+# Subtest: Heads-up JavaScript configuration applies the same checks as the native host
+ok 11 - Heads-up JavaScript configuration applies the same checks as the native host
+  ---
+  duration_ms: 594.268472
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, one deal per update
+ok 12 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, one deal per update
+  ---
+  duration_ms: 57.274993
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, CFR+ clipping
+ok 13 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, CFR+ clipping
+  ---
+  duration_ms: 40.555831
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat flop, frozen batches of 8, shared stream
+ok 14 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat flop, frozen batches of 8, shared stream
+  ---
+  duration_ms: 225.101624
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 6-seat flop, per-deal streams, 4 deals, 2 threads
+ok 15 - native external-sampling DCFR matches the JavaScript reference bit for bit: 6-seat flop, per-deal streams, 4 deals, 2 threads
+  ---
+  duration_ms: 283.778713
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 8-seat linked preflop, per-deal streams
+ok 16 - native external-sampling DCFR matches the JavaScript reference bit for bit: 8-seat linked preflop, per-deal streams
+  ---
+  duration_ms: 154.116025
+  type: 'test'
+  ...
+# Subtest: native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, alpha 2, beta 0.5, gamma 3
+ok 17 - native external-sampling DCFR matches the JavaScript reference bit for bit: 3-seat river, alpha 2, beta 0.5, gamma 3
+  ---
+  duration_ms: 36.731742
+  type: 'test'
+  ...
+# Subtest: DCFR with non-integer exponents (std::pow) agrees with JavaScript to 1e-12
+ok 18 - DCFR with non-integer exponents (std::pow) agrees with JavaScript to 1e-12
+  ---
+  duration_ms: 23.865123
+  type: 'test'
+  ...
+# Subtest: Lazy per-row DCFR equals textbook eager DCFR (independent reference) on sparse rows
+ok 19 - Lazy per-row DCFR equals textbook eager DCFR (independent reference) on sparse rows
+  ---
+  duration_ms: 283.360161
+  type: 'test'
+  ...
+# Subtest: DCFR checkpoints continue bit for bit across native, JavaScript and native again
+ok 20 - DCFR checkpoints continue bit for bit across native, JavaScript and native again
+  ---
+  duration_ms: 444.155977
+  type: 'test'
+  ...
+# Subtest: DCFR state files are refused by studies with other weightings and vice versa
+ok 21 - DCFR state files are refused by studies with other weightings and vice versa
+  ---
+  duration_ms: 45.130479
+  type: 'test'
+  ...
+# Subtest: DCFR memory stops leave the committed state unchanged and resume to the uninterrupted result
+ok 22 - DCFR memory stops leave the committed state unchanged and resume to the uninterrupted result
+  ---
+  duration_ms: 1295.039455
+  type: 'test'
+  ...
+# Subtest: Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes
+ok 23 - Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes
+  ---
+  duration_ms: 8289.609776
+  type: 'test'
+  ...
+# Subtest: DCFR with alpha = beta = gamma = 1 reproduces linear MCCFR (independent identity)
+ok 24 - DCFR with alpha = beta = gamma = 1 reproduces linear MCCFR (independent identity)
+  ---
+  duration_ms: 477.494387
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 3-seat flop
+ok 25 - native grouped hands match JavaScript bit for bit: Compact 3-seat flop
+  ---
+  duration_ms: 98.702064
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 3-seat flop
+ok 26 - native grouped hands match JavaScript bit for bit: Detailed 3-seat flop
+  ---
+  duration_ms: 90.198047
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 6-seat flop, weighted ranges, all-ins, per-deal streams, 2 threads
+ok 27 - native grouped hands match JavaScript bit for bit: Detailed 6-seat flop, weighted ranges, all-ins, per-deal streams, 2 threads
+  ---
+  duration_ms: 226.059927
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 8-seat linked preflop (169 classes) to river
+ok 28 - native grouped hands match JavaScript bit for bit: Compact 8-seat linked preflop (169 classes) to river
+  ---
+  duration_ms: 157.472572
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 8-seat shove/call with ICM
+ok 29 - native grouped hands match JavaScript bit for bit: Detailed 8-seat shove/call with ICM
+  ---
+  duration_ms: 166.290644
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Compact 3-seat turn above the 3.2 representative limit
+ok 30 - native grouped hands match JavaScript bit for bit: Compact 3-seat turn above the 3.2 representative limit
+  ---
+  duration_ms: 40.268589
+  type: 'test'
+  ...
+# Subtest: native grouped hands match JavaScript bit for bit: Detailed 3-seat flop with DCFR
+ok 31 - native grouped hands match JavaScript bit for bit: Detailed 3-seat flop with DCFR
+  ---
+  duration_ms: 90.450663
+  type: 'test'
+  ...
+# Subtest: grouped native checkpoints resume bit for bit, and memory stops on the key dictionary roll back
+ok 32 - grouped native checkpoints resume bit for bit, and memory stops on the key dictionary roll back
+  ---
+  duration_ms: 1158.085097
+  type: 'test'
+  ...
+# Subtest: grouped specs are validated (abstraction, range-size flags, combo identifiers)
+ok 33 - grouped specs are validated (abstraction, range-size flags, combo identifiers)
+  ---
+  duration_ms: 50.700713
+  type: 'test'
+  ...
+# Subtest: automatic traversal uses the calibrated cost model and records its reasoning; manual choices are kept
+ok 34 - automatic traversal uses the calibrated cost model and records its reasoning; manual choices are kept
+  ---
+  duration_ms: 23.465269
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37982.742066
+TAP version 13
+# Subtest: trained 3.6 file resumes, publishes and survives a deleted generation index
+ok 1 - trained 3.6 file resumes, publishes and survives a deleted generation index
+  ---
+  duration_ms: 1146.532539
+  type: 'test'
+  ...
+# Subtest: corrupt native restoration preserves the open study and previous save
+ok 2 - corrupt native restoration preserves the open study and previous save
+  ---
+  duration_ms: 706.613366
+  type: 'test'
+  ...
+# Subtest: two-generation retention keeps the previous valid generation
+ok 3 - two-generation retention keeps the previous valid generation
+  ---
+  duration_ms: 1146.269193
+  type: 'test'
+  ...
+# Subtest: insufficient live table RAM leaves the generation available
+ok 4 - insufficient live table RAM leaves the generation available
+  ---
+  duration_ms: 1709.215937
+  type: 'test'
+  ...
+# Subtest: disk forecast with compressed expansion preserves predecessor
+ok 5 - disk forecast with compressed expansion preserves predecessor
+  ---
+  duration_ms: 268.50301
+  type: 'test'
+  ...
+# Subtest: restoring a truncated native file keeps the open engine
+ok 6 - restoring a truncated native file keeps the open engine
+  ---
+  duration_ms: 414.523371
+  type: 'test'
+  ...
+# Subtest: long DCFR discounts include binary64 subnormals
+ok 7 - long DCFR discounts include binary64 subnormals
+  ---
+  duration_ms: 1.433915
+  type: 'test'
+  ...
+# Subtest: optional fold baseline agrees across engines and resumes byte-exactly
+ok 8 - optional fold baseline agrees across engines and resumes byte-exactly
+  ---
+  duration_ms: 60.037342
+  type: 'test'
+  ...
+# Subtest: the selector skips short studies and fully constrained manual choices
+ok 9 - the selector skips short studies and fully constrained manual choices
+  ---
+  duration_ms: 2.077226
+  type: 'test'
+  ...
+# Subtest: measured calibration is reused only for matching configurations
+ok 10 - measured calibration is reused only for matching configurations
+  ---
+  duration_ms: 20.264428
+  type: 'test'
+  ...
+# Subtest: desktop root hand probabilities correspond to the native checkpoint average tables
+ok 11 - desktop root hand probabilities correspond to the native checkpoint average tables
+  ---
+  duration_ms: 302.924269
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5894.514315

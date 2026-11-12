@@ -1,0 +1,12 @@
+{
+ "passed": true,
+ "runtime": "linux",
+ "checks": [
+  "Worker trained 20,000 updates (80000 deals) in the native engine (4 threads, 0.42 s native); EVs equal page-side JavaScript training exactly; 39 progress messages, 20 diagnostics checkpoints",
+  "Stop from the interface ends native training after 75362 updates and returns the trained strategy (120 ms)",
+  "Detailed grouped river study used native C++",
+  "Unavailable native route reported the reason and reproduced JavaScript EVs"
+ ],
+ "error": null,
+ "generated": "2026-11-08T23:23:09.000Z"
+}

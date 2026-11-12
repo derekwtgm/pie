@@ -1,0 +1,120 @@
+run 1 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 1 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 1 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 1 v40: # pass 3
+run 1 v40: # fail 0
+run 1 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 1 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 1 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 1 v44: # pass 3
+run 1 v44: # fail 0
+run 2 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 2 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 2 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 2 v40: # pass 3
+run 2 v40: # fail 0
+run 2 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 2 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 2 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 2 v44: # pass 3
+run 2 v44: # fail 0
+run 3 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 3 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 3 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 3 v40: # pass 3
+run 3 v40: # fail 0
+run 3 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 3 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 3 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 3 v44: # pass 3
+run 3 v44: # fail 0
+run 4 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 4 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 4 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 4 v40: # pass 3
+run 4 v40: # fail 0
+run 4 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 4 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 4 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 4 v44: # pass 3
+run 4 v44: # fail 0
+run 5 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 5 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 5 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 5 v40: # pass 3
+run 5 v40: # fail 0
+run 5 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 5 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 5 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 5 v44: # pass 3
+run 5 v44: # fail 0
+run 6 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 6 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 6 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 6 v40: # pass 3
+run 6 v40: # fail 0
+run 6 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 6 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 6 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 6 v44: # pass 3
+run 6 v44: # fail 0
+run 7 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 7 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 7 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 7 v40: # pass 3
+run 7 v40: # fail 0
+run 7 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 7 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 7 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 7 v44: # pass 3
+run 7 v44: # fail 0
+run 8 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 8 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 8 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 8 v40: # pass 3
+run 8 v40: # fail 0
+run 8 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 8 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 8 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 8 v44: # pass 3
+run 8 v44: # fail 0
+run 9 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 9 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 9 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 9 v40: # pass 3
+run 9 v40: # fail 0
+run 9 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 9 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 9 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 9 v44: # pass 3
+run 9 v44: # fail 0
+run 10 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 10 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 10 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 10 v40: # pass 3
+run 10 v40: # fail 0
+run 10 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 10 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 10 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 10 v44: # pass 3
+run 10 v44: # fail 0
+run 11 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 11 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 11 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 11 v40: # pass 3
+run 11 v40: # fail 0
+run 11 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 11 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 11 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 11 v44: # pass 3
+run 11 v44: # fail 0
+run 12 v40: ok 1 - 4.0 reproduced 3.9 defect: 8-player preflop ICM exact EV with fixed hands honours a 100 ms deadline (3.9: 10.2 s)
+run 12 v40: ok 2 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 12 v40: ok 3 - 4.0 external cancellation stops exact, sampled and response-gain evaluations promptly
+run 12 v40: # pass 3
+run 12 v40: # fail 0
+run 12 v44: ok 1 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+run 12 v44: ok 2 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+run 12 v44: ok 3 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+run 12 v44: # pass 3
+run 12 v44: # fail 0

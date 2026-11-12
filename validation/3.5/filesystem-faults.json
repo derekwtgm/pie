@@ -1,0 +1,12 @@
+[
+  {
+    "case": "file-size limit",
+    "http": 500,
+    "latestAndPreviousIntact": true
+  },
+  {
+    "case": "directory permission denied",
+    "http": 500,
+    "latestAndPreviousIntact": true
+  }
+]

@@ -1,0 +1,65 @@
+{
+ "note": "Share of external-sampling training time spent scoring hands (engine profile of 1 update in 16, single thread). This is the most any GPU offload of hand scoring could save before transfer and synchronization costs (Amdahl bound). Measured on the Linux build, CPU only.",
+ "studies": [
+  {
+   "scenario": "Eight-player final-table",
+   "scoringShare": 0.0022,
+   "trainSeconds": 2.701298,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Eight-player linked",
+   "scoringShare": 0.0027,
+   "trainSeconds": 2.052907,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Eight-player preflop",
+   "scoringShare": 0.0086,
+   "trainSeconds": 0.430125,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Four-player flop",
+   "scoringShare": 0.0041,
+   "trainSeconds": 0.512285,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Heads-up river",
+   "scoringShare": 0.0209,
+   "trainSeconds": 0.032974,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Heads-up turn",
+   "scoringShare": 0.0362,
+   "trainSeconds": 0.062667,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Short-stack",
+   "scoringShare": 0.0063,
+   "trainSeconds": 0.163517,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Six-player flop",
+   "scoringShare": 0.0022,
+   "trainSeconds": 1.518279,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Three-player river",
+   "scoringShare": 0.0105,
+   "trainSeconds": 0.080991,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  },
+  {
+   "scenario": "Tournament bubble",
+   "scoringShare": 0.0382,
+   "trainSeconds": 0.051942,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+  }
+ ]
+}

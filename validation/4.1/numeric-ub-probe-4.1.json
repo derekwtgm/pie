@@ -1,0 +1,139 @@
+{
+ "host": "/tmp/claude-0/-home-user-pie/401e737e-54f4-584a-827e-18562d250853/scratchpad/ubsan41/eightmax",
+ "sanitizers": "undefined,float-cast-overflow (no recover)",
+ "cases": [
+  {
+   "name": "jobs/ev memoryMiB",
+   "route": "mw/jobs/ev",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "jobs/ev timeLimitMs",
+   "route": "mw/jobs/ev",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "jobs/response-gain memoryMiB",
+   "route": "mw/jobs/response-gain",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "jobs/config workers",
+   "route": "mw/jobs/config",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/node offset",
+   "route": "mw/node",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/train iterations",
+   "route": "mw/train",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/init tableLimitMiB",
+   "route": "mw/init",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "equity threads",
+   "route": "equity",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "equity card",
+   "route": "equity",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "build iso",
+   "route": "build",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "build ICM utility (float)",
+   "route": "build",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "solve maxIter",
+   "route": "solve",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "solve power",
+   "route": "solve",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "node path",
+   "route": "node",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "lock strategy (float)",
+   "route": "lock",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "report flop weight",
+   "route": "report",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  }
+ ],
+ "totals": {
+  "cases": 16,
+  "undefinedBehaviour": 0,
+  "refused4xx": 16
+ }
+}

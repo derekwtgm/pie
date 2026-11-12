@@ -1,0 +1,161 @@
+{
+  "threads": [
+    1,
+    2,
+    4,
+    8,
+    9
+  ],
+  "rows": [
+    {
+      "repeat": 0,
+      "threads": 4,
+      "trainSeconds": 0.230196,
+      "processSeconds": 0.2641083769999568,
+      "peakRssMiB": 18.76171875,
+      "cpuPercent": 288.73222752799114,
+      "dealsPerSecond": 4448.383116995951,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 0,
+      "threads": 2,
+      "trainSeconds": 0.364026,
+      "processSeconds": 0.4032474389998697,
+      "peakRssMiB": 16.890625,
+      "cpuPercent": 173.15224660366053,
+      "dealsPerSecond": 2812.985885623554,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 0,
+      "threads": 1,
+      "trainSeconds": 0.42057,
+      "processSeconds": 0.45595250299993495,
+      "peakRssMiB": 15.19921875,
+      "cpuPercent": 99.95010379404914,
+      "dealsPerSecond": 2434.7908790451056,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 0,
+      "threads": 9,
+      "trainSeconds": 0.283662,
+      "processSeconds": 0.33685641299985036,
+      "peakRssMiB": 20.88671875,
+      "cpuPercent": 394.15607028998136,
+      "dealsPerSecond": 3609.9301281102153,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 0,
+      "threads": 8,
+      "trainSeconds": 0.254312,
+      "processSeconds": 0.2900513009999486,
+      "peakRssMiB": 20.51953125,
+      "cpuPercent": 439.1371442254713,
+      "dealsPerSecond": 4026.550064487716,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 1,
+      "threads": 4,
+      "trainSeconds": 0.304752,
+      "processSeconds": 0.3417527290000635,
+      "peakRssMiB": 18.640625,
+      "cpuPercent": 273.01142634030776,
+      "dealsPerSecond": 3360.109203549115,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 1,
+      "threads": 8,
+      "trainSeconds": 0.295881,
+      "processSeconds": 0.33404281200000696,
+      "peakRssMiB": 20.265625,
+      "cpuPercent": 398.89168457843425,
+      "dealsPerSecond": 3460.8508150236075,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 1,
+      "threads": 9,
+      "trainSeconds": 0.294426,
+      "processSeconds": 0.348347356999966,
+      "peakRssMiB": 20.890625,
+      "cpuPercent": 367.7516060499707,
+      "dealsPerSecond": 3477.9537133269478,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 1,
+      "threads": 1,
+      "trainSeconds": 0.371524,
+      "processSeconds": 0.4036555950001457,
+      "peakRssMiB": 15.26171875,
+      "cpuPercent": 99.94138691422185,
+      "dealsPerSecond": 2756.214941699594,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 1,
+      "threads": 2,
+      "trainSeconds": 0.288528,
+      "processSeconds": 0.3198120669999298,
+      "peakRssMiB": 16.88671875,
+      "cpuPercent": 176.39015478428578,
+      "dealsPerSecond": 3549.04896578495,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 2,
+      "threads": 4,
+      "trainSeconds": 0.26637,
+      "processSeconds": 0.3133901909998258,
+      "peakRssMiB": 19.390625,
+      "cpuPercent": 282.9370623155505,
+      "dealsPerSecond": 3844.276757893156,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 2,
+      "threads": 2,
+      "trainSeconds": 0.328358,
+      "processSeconds": 0.36130056799993326,
+      "peakRssMiB": 17.515625,
+      "cpuPercent": 184.6335320458514,
+      "dealsPerSecond": 3118.547439075643,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 2,
+      "threads": 8,
+      "trainSeconds": 0.245859,
+      "processSeconds": 0.28222418999985166,
+      "peakRssMiB": 20.1484375,
+      "cpuPercent": 426.72068613276303,
+      "dealsPerSecond": 4164.988875737719,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 2,
+      "threads": 9,
+      "trainSeconds": 0.2297,
+      "processSeconds": 0.2633300610000333,
+      "peakRssMiB": 20.890625,
+      "cpuPercent": 488.3794866093306,
+      "dealsPerSecond": 4457.988680888116,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    },
+    {
+      "repeat": 2,
+      "threads": 1,
+      "trainSeconds": 0.424044,
+      "processSeconds": 0.46935792199997195,
+      "peakRssMiB": 15.265625,
+      "cpuPercent": 99.14587102676575,
+      "dealsPerSecond": 2414.8437426304818,
+      "strategySHA256": "db5c59eec62d56210a1aaa94b9900f941cada8e0e3625487a0fddb51f3c51af4"
+    }
+  ]
+}

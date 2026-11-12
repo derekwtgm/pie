@@ -1,0 +1,7893 @@
+{
+ "tool": "bench44",
+ "generated": "2026-11-12T14:12:45.163Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "platform": "linux x64",
+ "builds": [
+  {
+   "label": "v4.3",
+   "cli": "/home/user/em43/EightMax/source/build/linux/mwcli"
+  },
+  {
+   "label": "v4.4",
+   "cli": "/home/user/w44/EightMax/source/build/linux/mwcli"
+  }
+ ],
+ "repetitions": 7,
+ "order": "interleaved, rotating with the repetition",
+ "summary": [
+  {
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 84.251,
+     "minMs": 75.04,
+     "maxMs": 121.448,
+     "iqrMs": 30.545,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 83.749,
+     "minMs": 73.552,
+     "maxMs": 108.524,
+     "iqrMs": 16.176000000000002,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 0.994,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 46.486,
+     "minMs": 42.576,
+     "maxMs": 61.096,
+     "iqrMs": 10.738000000000007,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 47.199,
+     "minMs": 44.306,
+     "maxMs": 60.428,
+     "iqrMs": 9.464000000000006,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 1.015,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 33.621,
+     "minMs": 31.367,
+     "maxMs": 40.426,
+     "iqrMs": 7.259,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 35.617,
+     "minMs": 32.155,
+     "maxMs": 41.013,
+     "iqrMs": 4.169000000000004,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 1.059,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 55.242,
+     "minMs": 50.673,
+     "maxMs": 57.326,
+     "iqrMs": 2.8810000000000002,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 56.102,
+     "minMs": 53.098,
+     "maxMs": 64.936,
+     "iqrMs": 3.7989999999999995,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 1.016,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 2937.774,
+     "minMs": 1768.67,
+     "maxMs": 4477.953,
+     "iqrMs": 1803.1190000000001,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 4451.851,
+     "minMs": 2544.011,
+     "maxMs": 5291.947,
+     "iqrMs": 1199.1439999999998,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 1.515,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 3899.531,
+     "minMs": 3740.772,
+     "maxMs": 4061.273,
+     "iqrMs": 56.72700000000032,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 3845.372,
+     "minMs": 3602.782,
+     "maxMs": 4051.906,
+     "iqrMs": 226.0250000000001,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 0.986,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 46.499,
+     "minMs": 40.816,
+     "maxMs": 53.036,
+     "iqrMs": 9.844000000000001,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 47.618,
+     "minMs": 38.66,
+     "maxMs": 51.545,
+     "iqrMs": 4.236000000000004,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 1.024,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 1.49,
+     "minMs": 1.19,
+     "maxMs": 1.807,
+     "iqrMs": 0.35199999999999987,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 1.742,
+     "minMs": 1.535,
+     "maxMs": 2.291,
+     "iqrMs": 0.5740000000000001,
+     "medianSamples": null,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 1.169,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 0.315,
+     "minMs": 0.222,
+     "maxMs": 0.492,
+     "iqrMs": 0.10500000000000004,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 0.31,
+     "minMs": 0.223,
+     "maxMs": 0.432,
+     "iqrMs": 0.04799999999999999,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 0.984,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 41.407,
+     "minMs": 38.69,
+     "maxMs": 51.831,
+     "iqrMs": 6.138999999999996,
+     "medianSamples": 3000,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 35.775,
+     "minMs": 30.611,
+     "maxMs": 40.716,
+     "iqrMs": 6.893000000000001,
+     "medianSamples": 3000,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 0.864,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 34.272,
+     "minMs": 32.782,
+     "maxMs": 42.531,
+     "iqrMs": 3.3260000000000005,
+     "medianSamples": 1000,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 33.252,
+     "minMs": 30.553,
+     "maxMs": 50.82,
+     "iqrMs": 10.427999999999997,
+     "medianSamples": 1000,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 0.97,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 1189.907,
+     "minMs": 1104.456,
+     "maxMs": 1258.548,
+     "iqrMs": 49.156000000000176,
+     "medianSamples": 20000,
+     "status": [
+      "completed"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 1031.391,
+     "minMs": 996.355,
+     "maxMs": 1116.033,
+     "iqrMs": 56.13099999999997,
+     "medianSamples": 20000,
+     "status": [
+      "completed"
+     ]
+    }
+   },
+   "ratio": 0.867,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 8477.123,
+     "minMs": 7794.294,
+     "maxMs": 8661.455,
+     "iqrMs": 228.17799999999988,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 8048.566,
+     "minMs": 7454.729,
+     "maxMs": 8295.715,
+     "iqrMs": 191.67899999999918,
+     "medianSamples": null,
+     "status": [
+      200
+     ]
+    }
+   },
+   "ratio": 0.949,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "printed values of every run of both builds"
+  },
+  {
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 313.197,
+     "minMs": 309.188,
+     "maxMs": 328.403,
+     "iqrMs": 15.19599999999997,
+     "medianSamples": 33058,
+     "status": [
+      "partial"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 256.175,
+     "minMs": 255.434,
+     "maxMs": 258.69,
+     "iqrMs": 2.497000000000014,
+     "medianSamples": 30958,
+     "status": [
+      "partial"
+     ]
+    }
+   },
+   "ratio": 0.818,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": null,
+   "identicalNote": "time-stopped runs are not comparable value for value"
+  },
+  {
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 3199.243,
+     "minMs": 3190.756,
+     "maxMs": 3217.049,
+     "iqrMs": 18.49900000000025,
+     "medianSamples": 383784,
+     "status": [
+      "partial"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 3010.262,
+     "minMs": 3009.91,
+     "maxMs": 3014.832,
+     "iqrMs": 0.6480000000001382,
+     "medianSamples": 389127,
+     "status": [
+      "partial"
+     ]
+    }
+   },
+   "ratio": 0.941,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": null,
+   "identicalNote": "time-stopped runs are not comparable value for value"
+  },
+  {
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 3091.951,
+     "minMs": 3090.386,
+     "maxMs": 3106.761,
+     "iqrMs": 8.460000000000036,
+     "medianSamples": 103162,
+     "status": [
+      "partial"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 3008.257,
+     "minMs": 3007.237,
+     "maxMs": 3008.524,
+     "iqrMs": 0.7849999999998545,
+     "medianSamples": 94749,
+     "status": [
+      "partial"
+     ]
+    }
+   },
+   "ratio": 0.973,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": null,
+   "identicalNote": "time-stopped runs are not comparable value for value"
+  },
+  {
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "kind": "query",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 3.57,
+     "minMs": 3.102,
+     "maxMs": 3.885,
+     "iqrMs": 0.28800000000000026,
+     "medianSamples": null,
+     "status": [
+      409
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 2.381,
+     "minMs": 1.832,
+     "maxMs": 3.094,
+     "iqrMs": 0.7470000000000003,
+     "medianSamples": null,
+     "status": [
+      409
+     ]
+    }
+   },
+   "ratio": 0.667,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": null,
+   "identicalNote": "time-stopped runs are not comparable value for value"
+  },
+  {
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "kind": "training",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 905.871,
+     "minMs": 847.823,
+     "maxMs": 1001.668,
+     "iqrMs": 109.30700000000013,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 869.2180000000001,
+     "minMs": 789.852,
+     "maxMs": 973.827,
+     "iqrMs": 87.30099999999993,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    }
+   },
+   "ratio": 0.96,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "SHA-256 of the saved state over all runs of both builds"
+  },
+  {
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "kind": "training",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 157.10299999999998,
+     "minMs": 140.36100000000002,
+     "maxMs": 178.964,
+     "iqrMs": 14.058999999999997,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 152.639,
+     "minMs": 144.481,
+     "maxMs": 187.29299999999998,
+     "iqrMs": 16.729000000000042,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    }
+   },
+   "ratio": 0.972,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "SHA-256 of the saved state over all runs of both builds"
+  },
+  {
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "kind": "training",
+   "builds": {
+    "v4.3": {
+     "n": 7,
+     "medianMs": 173.422,
+     "minMs": 168.266,
+     "maxMs": 186.31900000000002,
+     "iqrMs": 9.394999999999982,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    },
+    "v4.4": {
+     "n": 7,
+     "medianMs": 196.268,
+     "minMs": 171.367,
+     "maxMs": 231.01,
+     "iqrMs": 16.98400000000001,
+     "medianSamples": null,
+     "status": [
+      "ok"
+     ]
+    }
+   },
+   "ratio": 1.132,
+   "ratioMeaning": "v4.4 median / v4.3 median (below 1 = faster)",
+   "identicalResults": true,
+   "identicalNote": "SHA-256 of the saved state over all runs of both builds"
+  }
+ ],
+ "rows": [
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 113.434,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 108.524,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 55.779,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 47.199,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 40.426,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 35.739,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 53.673,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 56.002,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 2474.985,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 90138664,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 5291.947,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 188965392,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 4061.273,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 3907.575,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 53.036,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 51.545,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 1.807,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 2.291,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 0.222,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 0.432,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 51.831,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 40.716,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 34.005,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 43.434,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 1189.907,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 1116.033,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 8661.455,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 8218.729,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 328.403,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.023418888901386,
+     14.205963254850014,
+     14.143622343667094,
+     12.508410320400891
+    ]
+   ],
+   "stdErr": [
+    0.005287291581846266,
+    0.025408781653307858,
+    0.023152825418228034,
+    0.03407572325871994
+   ],
+   "samples": 32877,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 256.618,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.02603191252492,
+     14.20258993077545,
+     14.145587980270292,
+     12.495634639434176
+    ]
+   ],
+   "stdErr": [
+    0.005894707626984977,
+    0.028045885571314468,
+    0.025725842811676187,
+    0.0377064073693854
+   ],
+   "samples": 26771,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 3196.901,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017911032700475,
+     14.23133362117756,
+     14.156435559798386,
+     12.510965034569185
+    ]
+   ],
+   "stdErr": [
+    0.0015646701232242218,
+    0.007551067500734698,
+    0.006885107270707127,
+    0.010173807236302087
+   ],
+   "samples": 372704,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 3010.262,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01765923247915,
+     14.23293216447296,
+     14.155477346563133,
+     12.512395065864544
+    ]
+   ],
+   "stdErr": [
+    0.0015307619625297864,
+    0.007392476805207765,
+    0.006739262574222999,
+    0.009960243704559878
+   ],
+   "samples": 389127,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 3100.219,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01693467647851,
+     14.214234091844874,
+     14.157470380600083,
+     12.511495904412856
+    ]
+   ],
+   "stdErr": [
+    0.0030309049095620273,
+    0.01464422560877707,
+    0.013338495563306548,
+    0.01970714175632819
+   ],
+   "samples": 98992,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 3008.469,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01689976454207,
+     14.216500887331728,
+     14.157141150053395,
+     12.516630674784631
+    ]
+   ],
+   "stdErr": [
+    0.0030985717442279723,
+    0.014980399424263213,
+    0.013632720171110094,
+    0.020139469114309784
+   ],
+   "samples": 94749,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 3.57,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 2.274,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 1001.668,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 7.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 874.992,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 146.40800000000002,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 7.6,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 144.481,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 7.6,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 0,
+   "ms": 178.367,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 0,
+   "ms": 231.01,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.9,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 98.508,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 82.876,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 46.465,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 61.096,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 41.013,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 40.254,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 64.936,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 53.921,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 4451.851,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 195481440,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 4477.953,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 195481440,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 3707.124,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 3867.899,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 44.373,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 40.816,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 1.648,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 1.385,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 0.31,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 0.392,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 30.869,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 39.347,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 34.439,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 33.645,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 1031.391,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 1221.496,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 8027.05,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 8477.123,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 258.625,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.025006084404517,
+     14.20292464276395,
+     14.144021617883714,
+     12.50282696645275
+    ]
+   ],
+   "stdErr": [
+    0.005646704424179804,
+    0.027022183068732285,
+    0.024722417850650463,
+    0.03625156116799258
+   ],
+   "samples": 29015,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 309.285,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.022522533403976,
+     14.205214437765557,
+     14.14186833983838,
+     12.508347779083806
+    ]
+   ],
+   "stdErr": [
+    0.005269131169601032,
+    0.025345567397876967,
+    0.02309970430563282,
+    0.03398033188253212
+   ],
+   "samples": 33058,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 3010.017,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01793754218021,
+     14.231133926630154,
+     14.156412737462535,
+     12.510820422740919
+    ]
+   ],
+   "stdErr": [
+    0.0015647264319857876,
+    0.007551057413927081,
+    0.006885081101492694,
+    0.010173477004747819
+   ],
+   "samples": 372706,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 3195.846,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01775720218437,
+     14.233336162308504,
+     14.154998107460786,
+     12.51452437925429
+    ]
+   ],
+   "stdErr": [
+    0.0015416402553569547,
+    0.007442634800924499,
+    0.006786336827107688,
+    0.01003036549543562
+   ],
+   "samples": 383784,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 3008.336,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01731573628803,
+     14.219069818901897,
+     14.157973356417745,
+     12.520451690498541
+    ]
+   ],
+   "stdErr": [
+    0.0031129679189590602,
+    0.015047647819336726,
+    0.013690788357015064,
+    0.020232164592002024
+   ],
+   "samples": 93968,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 3091.759,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017005838086938,
+     14.218588273894783,
+     14.157816232527377,
+     12.518469394163214
+    ]
+   ],
+   "stdErr": [
+    0.0031029377496317647,
+    0.015001800925182655,
+    0.013652015294829433,
+    0.02017169685807771
+   ],
+   "samples": 94487,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 2.381,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 3.45,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 941.333,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 9.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 946.018,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 9.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 165.14100000000002,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 9.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 178.964,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 9.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 1,
+   "ms": 196.268,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.9,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 1,
+   "ms": 186.31900000000002,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 121.448,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 83.749,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 46.486,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 46.928,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 33.621,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 38.399,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 56.802,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 55.707,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 2937.774,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 73848544,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 5278.106,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 177019304,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 3899.531,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 4051.906,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 51.661,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 48.938,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 1.49,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 2.222,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 0.492,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 0.267,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 45.536,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 39.316,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 42.531,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 33.252,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 1258.548,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 1065.549,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 8549.351,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 8112.254,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 313.197,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.023771105112598,
+     14.214809495964975,
+     14.148707677872503,
+     12.509471616318942
+    ]
+   ],
+   "stdErr": [
+    0.005434303238987206,
+    0.026028710277468066,
+    0.023766581683262143,
+    0.03496480652400877
+   ],
+   "samples": 31261,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 258.69,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.024022100982272,
+     14.208862004839302,
+     14.144491031976315,
+     12.502894649942675
+    ]
+   ],
+   "stdErr": [
+    0.0055776222234799975,
+    0.02670011622663049,
+    0.024413295531287897,
+    0.035825733515386884
+   ],
+   "samples": 29711,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 3215.4,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017780508648393,
+     14.23161581355534,
+     14.15534441152839,
+     12.512995607029458
+    ]
+   ],
+   "stdErr": [
+    0.0015511591195218647,
+    0.007486659500989662,
+    0.006826300508195799,
+    0.010089870437244745
+   ],
+   "samples": 379142,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 3010.132,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01741355216676,
+     14.230716551562512,
+     14.156306127921143,
+     12.508553611257778
+    ]
+   ],
+   "stdErr": [
+    0.0015752039678383404,
+    0.007604796809143664,
+    0.006934502040270692,
+    0.010244856535594307
+   ],
+   "samples": 367386,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 3106.761,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.016061042856883,
+     14.218118224843286,
+     14.161257503552564,
+     12.519480465299527
+    ]
+   ],
+   "stdErr": [
+    0.002966387496834299,
+    0.014336422056384947,
+    0.013064250331110935,
+    0.019285315241120968
+   ],
+   "samples": 103425,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 3008.257,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01645714055251,
+     14.215319170889309,
+     14.159267259436925,
+     12.514120974668245
+    ]
+   ],
+   "stdErr": [
+    0.003005093293908035,
+    0.014527031668987977,
+    0.013231638820851894,
+    0.019538473833835928
+   ],
+   "samples": 100725,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 3.748,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 1.832,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 873.7439999999999,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 9.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 816.102,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 10.2,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 157.10299999999998,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 10.2,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 152.639,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 10.2,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 2,
+   "ms": 180.55599999999998,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 2,
+   "ms": 190.008,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 19,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 82.332,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 84.251,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 56.392,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 54.957,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 34.23,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 32.281,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 56.102,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 50.673,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 4078.962,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 185707368,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 2155.26,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 68418504,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 3638.69,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.253,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 3740.772,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 47.978,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 41.817,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 1.742,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 1.431,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 0.305,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 0.228,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 32.423,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 39.712,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 33.006,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 37.331,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 996.355,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 1104.456,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 7938.52,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 8358.824,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 256.128,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.024005623826103,
+     14.210928922805193,
+     14.149061322448444,
+     12.504000146275619
+    ]
+   ],
+   "stdErr": [
+    0.005462730612461186,
+    0.026157646402357727,
+    0.023894172008264544,
+    0.03511254566191751
+   ],
+   "samples": 30958,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 315.376,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.021676947784815,
+     14.201731723971019,
+     14.141628368345435,
+     12.5090507417409
+    ]
+   ],
+   "stdErr": [
+    0.005178273819355135,
+    0.02489975957229319,
+    0.022721448742492486,
+    0.03341322278935765
+   ],
+   "samples": 34207,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 3010.78,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017719043518856,
+     14.232629050140542,
+     14.157358546340449,
+     12.512646087870493
+    ]
+   ],
+   "stdErr": [
+    0.0014986479084688274,
+    0.007237379952721326,
+    0.0065977237694163785,
+    0.009751012903297577
+   ],
+   "samples": 405870,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 3199.243,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017492787264377,
+     14.233000031168524,
+     14.156588747296409,
+     12.51150563573058
+    ]
+   ],
+   "stdErr": [
+    0.0015093215214526045,
+    0.0072892814502929755,
+    0.006645365001263453,
+    0.009821739761452999
+   ],
+   "samples": 400198,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 3008.524,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.016998179560424,
+     14.219035591194917,
+     14.157836804976787,
+     12.519129838923464
+    ]
+   ],
+   "stdErr": [
+    0.003103763064428409,
+    0.015003854811834215,
+    0.013655846023485053,
+    0.02017653963847916
+   ],
+   "samples": 94451,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 3091.417,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01610483698317,
+     14.218353962411308,
+     14.16401499916009,
+     12.518433181467394
+    ]
+   ],
+   "stdErr": [
+    0.0029540705378648707,
+    0.01426829891916404,
+    0.01300858174002374,
+    0.019195668508813334
+   ],
+   "samples": 104355,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 3.094,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 3.664,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 869.2180000000001,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 905.871,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 187.29299999999998,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 156.368,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 3,
+   "ms": 202.38600000000002,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.9,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 3,
+   "ms": 173.422,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 82.889,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 80.381,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 45.041,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 52.179,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 37.747,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 35.617,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 55.242,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 59.801,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 4278.104,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 198739464,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 3360.341,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 108600800,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 3924.626,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 3845.372,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 47.182,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 44.702,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 1.52,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 1.963,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 0.326,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 0.319,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 41.407,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 30.611,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 35.964,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 50.82,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 1221.872,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 1064.672,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 8587.002,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 8048.566,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 310.704,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.022555002541992,
+     14.20327427630145,
+     14.140736435857558,
+     12.505191510125028
+    ]
+   ],
+   "stdErr": [
+    0.005224402218310394,
+    0.025124810158152898,
+    0.02291057385111912,
+    0.03371331322393436
+   ],
+   "samples": 33605,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 256.175,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.02396458055638,
+     14.213394986066643,
+     14.147265501023004,
+     12.504560712456835
+    ]
+   ],
+   "stdErr": [
+    0.005451041198386675,
+    0.026115326623921777,
+    0.023827942387447145,
+    0.03505790474708077
+   ],
+   "samples": 31086,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 3217.049,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01788765837927,
+     14.231598091178391,
+     14.155143700899588,
+     12.511532369569844
+    ]
+   ],
+   "stdErr": [
+    0.0015564847903972972,
+    0.007512073156447008,
+    0.00684842829154423,
+    0.010120466265999358
+   ],
+   "samples": 376651,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 3009.91,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017895830787722,
+     14.23170856492845,
+     14.156362335135215,
+     12.511183860547511
+    ]
+   ],
+   "stdErr": [
+    0.001562840573171573,
+    0.007542761117823766,
+    0.006877149316474914,
+    0.010162899102525746
+   ],
+   "samples": 373561,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 3091.951,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.016109473036714,
+     14.218722296945405,
+     14.162047726232908,
+     12.51738178422397
+    ]
+   ],
+   "stdErr": [
+    0.002941554704427876,
+    0.014198929247586378,
+    0.01295447976944929,
+    0.01911170028080191
+   ],
+   "samples": 105294,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 3007.684,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.016178978634382,
+     14.218485049624814,
+     14.163688415290588,
+     12.51833318378509
+    ]
+   ],
+   "stdErr": [
+    0.0029534835070640516,
+    0.014264771154461897,
+    0.013006486530785821,
+    0.019192599108671635
+   ],
+   "samples": 104398,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 3.46,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 2.827,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 847.823,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 789.852,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 140.36100000000002,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 156.89600000000002,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 4,
+   "ms": 171.161,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 4,
+   "ms": 171.367,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.9,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 90.542,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 85.548,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 60.428,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 44.087,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 32.212,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 31.367,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 58.79,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 57.326,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 2544.011,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 95568704,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 1768.67,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 61902456,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 3602.782,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 3773.939,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 38.66,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 41.052,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 1.535,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 1.19,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 0.223,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 0.287,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 35.775,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 38.69,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 30.553,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 32.782,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 1009.418,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 1131.358,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 7454.729,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 7794.294,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 255.434,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.024380779231674,
+     14.21458700357688,
+     14.150139691823203,
+     12.505228477672675
+    ]
+   ],
+   "stdErr": [
+    0.005444514324531667,
+    0.026059981915800327,
+    0.02379487696276877,
+    0.034991152329545125
+   ],
+   "samples": 31187,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 309.188,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.019222139543906,
+     14.207049300969505,
+     14.148879658588207,
+     12.517918027953742
+    ]
+   ],
+   "stdErr": [
+    0.004983623352202705,
+    0.024092225612883822,
+    0.021976240695848078,
+    0.032366392870773725
+   ],
+   "samples": 36580,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 3010.573,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017970177262782,
+     14.230899613362162,
+     14.159413494948513,
+     12.513011846155152
+    ]
+   ],
+   "stdErr": [
+    0.0014551830164824396,
+    0.007026769797342217,
+    0.006406931388380521,
+    0.00947172734434134
+   ],
+   "samples": 430257,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 3190.756,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017815208728635,
+     14.23174109279906,
+     14.157650359329786,
+     12.51311584135156
+    ]
+   ],
+   "stdErr": [
+    0.0014752361823992663,
+    0.007123301823532859,
+    0.0064934559193821784,
+    0.009600214121394819
+   ],
+   "samples": 418870,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 3007.603,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01653840963634,
+     14.21593981340689,
+     14.158961204948662,
+     12.515375791993115
+    ]
+   ],
+   "stdErr": [
+    0.0029942999646686975,
+    0.014470779874137741,
+    0.013181545782171834,
+    0.019461657901840904
+   ],
+   "samples": 101495,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 3092.983,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01612465726932,
+     14.217970630240783,
+     14.160463739942578,
+     12.518671027864633
+    ]
+   ],
+   "stdErr": [
+    0.0029702722831144493,
+    0.014358256795075111,
+    0.01307908998853234,
+    0.01930888996035978
+   ],
+   "samples": 103162,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 3.083,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 3.102,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 854.032,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 869.621,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 144.60799999999998,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 170.427,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 5,
+   "ms": 176.877,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 5,
+   "ms": 168.266,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 75.04,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-1t",
+   "description": "Exact action EV, eight-player final-table ICM (4.0 fixture), 1 thread",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 73.552,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 1,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 42.576,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-2t",
+   "description": "same, 2 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 44.306,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 32.995,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-final8-4t",
+   "description": "same, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 32.155,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     15.020151348500445,
+     15.670177585564113
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 55.298,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-final8-4t",
+   "description": "Exact response gains, all eight seats, final-table ICM, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 53.098,
+   "httpStatus": 200,
+   "values": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 4267.896,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 203083496,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.87,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-bubble4-4t",
+   "description": "Exact response gains, four-player bubble ICM, weighted ranges, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 4923.904,
+   "httpStatus": 200,
+   "values": [
+    0.0472064003640717,
+    0.1439110340270237,
+    0.05225588125251797,
+    0.03287040365809649
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 180277328,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 198.871,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 3906.092,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-flop6-4t",
+   "description": "Exact response gains, six-player flop, multiway all-ins, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 3933.149,
+   "httpStatus": 200,
+   "values": [
+    2.969627603580353,
+    1.2060611780614943,
+    0.35676394792988875,
+    1.0562426714772102,
+    3.284996996917242,
+    0.5719681347290746
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 25830144,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0.252,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 46.499,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-shortallin8-4t",
+   "description": "Exact response gains, eight-player short-stack all-ins (3-12 bb), chip EV, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 47.618,
+   "httpStatus": 200,
+   "values": [
+    0.0000641544749604428,
+    0.002866737447664691,
+    0.014895530518428401
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "cpu",
+   "cpuBoards": 376992,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 11.658,
+   "threads": 4,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 1.783,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-ev-river3-2t",
+   "description": "Exact range EV, three-player river with side pots, 2 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 1.592,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     -0.07936110927146947,
+     -0.8498551013773974
+    ],
+    [
+     2.6673013250830198,
+     2.640482586585142
+    ]
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 0.315,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "exact-gain-huriver-2t",
+   "description": "Exact best response, heads-up river, 2 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 0.353,
+   "httpStatus": 200,
+   "values": [
+    0.6463094370459508,
+    0.8873381672646278
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 2,
+   "method": "exact",
+   "seed": null
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 45.851,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-4t",
+   "description": "Sampled range EV, eight-player linked preflop-to-river ICM, 3,000 samples (complete), 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 38.378,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.010647353736697,
+     15.11048647027696,
+     14.813800421736055,
+     14.088509740358129
+    ]
+   ],
+   "stdErr": [
+    0.017307664935089347,
+    0.08569584971343512,
+    0.07897226309815962,
+    0.11971901417419485
+   ],
+   "samples": 3000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 34.272,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-linked8-1t",
+   "description": "same, 1 thread, 1,000 samples",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 32.72,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     16.032634062364476,
+     15.045956490070262,
+     14.853047266916867,
+     14.045196637208141
+    ]
+   ],
+   "stdErr": [
+    0.0302287749247569,
+    0.14831020231849049,
+    0.134785071549937,
+    0.20656826200449882
+   ],
+   "samples": 1000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 1172.716,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-ev-wide3-4t",
+   "description": "Sampled range EV, three-player flop with wide weighted ranges (about 150 combos a seat), 20,000 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 1001.4,
+   "httpStatus": 200,
+   "status": "completed",
+   "values": [
+    [
+     2.2396715184994926,
+     2.149061765038936,
+     4.197418211021521
+    ]
+   ],
+   "stdErr": [
+    0.07066369853872594,
+    0.06112270627253619,
+    0.13561820398596575
+   ],
+   "samples": 20000,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 8303.023,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "sampled-gain-linked8-4t",
+   "description": "Sampled one-decision response gains, eight-player linked ICM, seats 0 and 3, 256 samples, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 8295.715,
+   "httpStatus": 200,
+   "values": [
+    1.418679497748257,
+    0.008446289557744693
+   ],
+   "stdErr": null,
+   "samples": null,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 325.9,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.025283671964097,
+     14.20564045630778,
+     14.14497664199634,
+     12.497532958563355
+    ]
+   ],
+   "stdErr": [
+    0.00568096767882145,
+    0.02717351105913675,
+    0.02484284787780133,
+    0.03643770004335655
+   ],
+   "samples": 28696,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "deadline-250-linked8-4t",
+   "description": "Sampled EV stopped by a 250 ms limit (hand, then range), 4 threads: time is the response time",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 255.945,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.0239265227048,
+     14.208150586412323,
+     14.152126821385497,
+     12.50561798868933
+    ]
+   ],
+   "stdErr": [
+    0.00538100233252467,
+    0.02579175966543897,
+    0.023543260047343664,
+    0.03461312413769297
+   ],
+   "samples": 31857,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 3210.058,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.017474428784375,
+     14.232897547014533,
+     14.156695713830437,
+     12.511630272711182
+    ]
+   ],
+   "stdErr": [
+    0.001519760125205157,
+    0.007341378402847785,
+    0.006692077032834111,
+    0.00989051941631244
+   ],
+   "samples": 394659,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-4t",
+   "description": "Sampled EV for 3 s, 4 threads: time is the response time, medianSamples the samples completed (more = faster)",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 3014.832,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01745956795033,
+     14.23327404999978,
+     14.156469937628573,
+     12.511729407852973
+    ]
+   ],
+   "stdErr": [
+    0.0015032597571659101,
+    0.007261131574360313,
+    0.006619969573541815,
+    0.009781630224796401
+   ],
+   "samples": 403267,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 3090.386,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.016443539196743,
+     14.214561123465275,
+     14.159244364246618,
+     12.513336232553913
+    ]
+   ],
+   "stdErr": [
+    0.0029974393739690373,
+    0.014486820366270602,
+    0.013198398841209519,
+    0.01948474926293916
+   ],
+   "samples": 101220,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "throughput-3000-linked8-1t",
+   "description": "same, 1 thread",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 3007.237,
+   "httpStatus": 200,
+   "status": "partial",
+   "values": [
+    [
+     16.01779339276151,
+     14.219346374537569,
+     14.15463786776601,
+     12.517549676325636
+    ]
+   ],
+   "stdErr": [
+    0.0031569427502044483,
+    0.015263936367422001,
+    0.013869216977965145,
+    0.02051641110788476
+   ],
+   "samples": 91360,
+   "observedDevice": "no showdown tables",
+   "cpuBoards": 0,
+   "gpuBoards": 0,
+   "peakEvaluationMiB": 0,
+   "threads": 1,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 3.885,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "query",
+   "workload": "cancel-150-linked8-4t",
+   "description": "Sampled EV cancelled after 150 ms, 4 threads: time is the cancellation latency",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 2.336,
+   "httpStatus": 409,
+   "status": null,
+   "values": null,
+   "stdErr": null,
+   "samples": null,
+   "threads": 4,
+   "method": "sampled",
+   "seed": 5
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 983.051,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.5,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-final8",
+   "description": "Training, eight-player final-table ICM push/fold, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 973.827,
+   "updates": 20000,
+   "sampledDeals": 80000,
+   "stateVisits": 8666659,
+   "rng": 2256653868,
+   "rows": 283,
+   "peakRssMiB": 11.6,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "e4a5459406b85070cc415d53b31b0e5910bee7e63be8381769cea5574b2c0407",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 159.842,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-flop6",
+   "description": "Training, six-player flop, 20,000 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 148.41199999999998,
+   "updates": 20000,
+   "sampledDeals": 20000,
+   "stateVisits": 1833901,
+   "rng": 3258011117,
+   "rows": 361,
+   "peakRssMiB": 11.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "4dc4388a7d81338b3b4aa597582d6abc22f7de06ff2255c69d91d408d8550f79",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.3",
+   "rep": 6,
+   "ms": 170.734,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 18.8,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  },
+  {
+   "kind": "training",
+   "workload": "train-linked8",
+   "description": "Training, eight-player linked preflop-to-river ICM, 300 updates, 4 threads",
+   "build": "v4.4",
+   "rep": 6,
+   "ms": 206.99200000000002,
+   "updates": 300,
+   "sampledDeals": 1200,
+   "stateVisits": 316778,
+   "rng": 619010947,
+   "rows": 25900,
+   "peakRssMiB": 19,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "stateSha256": "86ba4ffff2f5a24593f9b37c175dfc99fd1eab029c5853e8a1a92d3fde8ff020",
+   "threads": 4,
+   "seed": 9,
+   "algorithm": "external",
+   "weighting": "linear"
+  }
+ ]
+}

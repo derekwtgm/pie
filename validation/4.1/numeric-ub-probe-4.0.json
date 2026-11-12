@@ -1,0 +1,139 @@
+{
+ "host": "/tmp/claude-0/-home-user-pie/401e737e-54f4-584a-827e-18562d250853/scratchpad/ubsan40/eightmax",
+ "sanitizers": "undefined,float-cast-overflow (no recover)",
+ "cases": [
+  {
+   "name": "jobs/ev memoryMiB",
+   "route": "mw/jobs/ev",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "ev_jobs.h:153:84: runtime error: 1e+300 is outside the range of representable values of type 'long long int'",
+   "hostAlive": false
+  },
+  {
+   "name": "jobs/ev timeLimitMs",
+   "route": "mw/jobs/ev",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "ev_jobs.h:153:84: runtime error: -1e+300 is outside the range of representable values of type 'long long int'",
+   "hostAlive": false
+  },
+  {
+   "name": "jobs/response-gain memoryMiB",
+   "route": "mw/jobs/response-gain",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "ev_jobs.h:153:84: runtime error: 1e+19 is outside the range of representable values of type 'long long int'",
+   "hostAlive": false
+  },
+  {
+   "name": "jobs/config workers",
+   "route": "mw/jobs/config",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/node offset",
+   "route": "mw/node",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/train iterations",
+   "route": "mw/train",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "mw/init tableLimitMiB",
+   "route": "mw/init",
+   "status": 200,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "equity threads",
+   "route": "equity",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "mw.cpp:1424:26: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "equity card",
+   "route": "equity",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "mw.cpp:1418:52: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "build iso",
+   "route": "build",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "cfg.c:61:19: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "build ICM utility (float)",
+   "route": "build",
+   "status": 200,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "solve maxIter",
+   "route": "solve",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "server.c:725:65: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "solve power",
+   "route": "solve",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "server.c:726:36: runtime error: -1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "node path",
+   "route": "node",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "server.c:171:62: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  },
+  {
+   "name": "lock strategy (float)",
+   "route": "lock",
+   "status": 400,
+   "undefinedBehaviour": false,
+   "report": null,
+   "hostAlive": true
+  },
+  {
+   "name": "report flop weight",
+   "route": "report",
+   "status": "connection lost",
+   "undefinedBehaviour": true,
+   "report": "server.c:823:87: runtime error: 1e+300 is outside the range of representable values of type 'int'",
+   "hostAlive": false
+  }
+ ],
+ "totals": {
+  "cases": 16,
+  "undefinedBehaviour": 10,
+  "refused4xx": 4
+ }
+}

@@ -1,0 +1,28 @@
+EightMax 4.2 regression suite (linux x64, Intel(R) Xeon(R) Processor @ 2.10GHz, node v22.23.4), generated 2026-11-11T03:04:32.923Z
+checkpoint.test.js           1.59 s  pass  12  fail 0  skip 0  timeout 0
+fgs.test.js                   5.8 s  pass   5  fail 0  skip 0  timeout 0
+fingerprint.test.js          0.11 s  pass   1  fail 0  skip 0  timeout 0
+information.test.js          0.17 s  pass   5  fail 0  skip 0  timeout 0
+mtt.test.js                  2.65 s  pass  13  fail 0  skip 0  timeout 0
+multiway.test.js             1.27 s  pass  11  fail 0  skip 0  timeout 0
+oracle.test.js              18.14 s  pass   3  fail 0  skip 0  timeout 0
+quality.test.js              1.56 s  pass   9  fail 0  skip 0  timeout 0
+solver.test.js               2.18 s  pass  14  fail 0  skip 0  timeout 0
+upgrades.test.js             2.62 s  pass   6  fail 0  skip 0  timeout 0
+v26.test.js                  7.04 s  pass  42  fail 0  skip 0  timeout 0
+v27.test.js                  0.77 s  pass   9  fail 0  skip 0  timeout 0
+v28.test.js                  0.23 s  pass   4  fail 0  skip 0  timeout 0
+v29.test.js                 28.07 s  pass  31  fail 0  skip 0  timeout 0
+v31.test.js                 67.93 s  pass  42  fail 0  skip 0  timeout 0
+v33.test.js                 46.19 s  pass  34  fail 0  skip 0  timeout 0
+v34.test.js                  8.35 s  pass  14  fail 0  skip 0  timeout 0
+v35.test.js                  9.38 s  pass  24  fail 0  skip 0  timeout 0
+v36.test.js                 14.44 s  pass  22  fail 0  skip 0  timeout 0
+v37.test.js                  3.77 s  pass  11  fail 0  skip 0  timeout 0
+v38.test.js                   2.5 s  pass   8  fail 0  skip 0  timeout 0
+v39.test.js                 17.62 s  pass  14  fail 0  skip 0  timeout 0
+v40.test.js                 25.62 s  pass  17  fail 0  skip 0  timeout 0
+v41.test.js                 44.88 s  pass  15  fail 0  skip 0  timeout 0
+v42.test.js                254.67 s  pass  16  fail 0  skip 0  timeout 0
+wide.test.js                 0.61 s  pass   7  fail 0  skip 0  timeout 0
+Totals: passed 389 failed 0 skipped 0 timed out 0 | hardware-dependent run 26 skipped 0 (hardware-dependent = Linux CUDA driver test double or native host; none is physical GPU)

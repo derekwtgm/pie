@@ -1,0 +1,4 @@
+Four-player bubble exact response gains (bench workload exact-gain-bubble4-4t), 12 runs per build, interleaved, request time in ms, sorted.
+The workload varies about 2.5x from run to run in BOTH builds; the benchmark ratio for it (0.65, 1.03 and 1.52 in three benchmark runs during development) is noise.
+v4.3: 2445 2598 2712 3605 4080 4227 4403 4522 4555 4609 4681 5257  (median 4315)
+v4.4: 1853 2325 3374 4072 4299 4527 4567 4780 4940 5028 5030 5669  (median 4547)

@@ -1,0 +1,378 @@
+{
+ "generated": "2026-11-10T15:14:05.212Z",
+ "node": "v22.23.4",
+ "platform": "linux x64",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "limitSecondsPerFile": 600,
+ "files": [
+  {
+   "file": "checkpoint.test.js",
+   "seconds": 2.09,
+   "passed": 12,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "fgs.test.js",
+   "seconds": 7.22,
+   "passed": 5,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "fingerprint.test.js",
+   "seconds": 0.13,
+   "passed": 1,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "native sources and compiler options alter the deterministic build ID",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "information.test.js",
+   "seconds": 0.14,
+   "passed": 5,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "mtt.test.js",
+   "seconds": 3.19,
+   "passed": 13,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "multiway.test.js",
+   "seconds": 1.64,
+   "passed": 11,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "oracle.test.js",
+   "seconds": 22.56,
+   "passed": 3,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "quality.test.js",
+   "seconds": 2.06,
+   "passed": 9,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "solver.test.js",
+   "seconds": 2.58,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "upgrades.test.js",
+   "seconds": 3.21,
+   "passed": 6,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v26.test.js",
+   "seconds": 9.18,
+   "passed": 42,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v27.test.js",
+   "seconds": 0.95,
+   "passed": 9,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v28.test.js",
+   "seconds": 0.26,
+   "passed": 4,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v29.test.js",
+   "seconds": 9.77,
+   "passed": 31,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "native host: /api/mw init, train, status, stop, state, import, memory and errors",
+     "status": "passed"
+    },
+    {
+     "name": "3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v31.test.js",
+   "seconds": 77.72,
+   "passed": 42,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "CUDA test double: probe reports device, SASS image and VRAM reserve; equity kernel matches CPU exactly",
+     "status": "passed"
+    },
+    {
+     "name": "CUDA test double: GPU equity equals CPU; failures fall back to CPU with a stated reason",
+     "status": "passed"
+    },
+    {
+     "name": "CUDA routing: river starts and external sampling stay on CPU and say why; turn studies keep CPU-identical results",
+     "status": "passed"
+    },
+    {
+     "name": "native host: protocol 4 init/train/stop/state/import, CUDA probe in /api/info, /api/equity",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v33.test.js",
+   "seconds": 55.15,
+   "passed": 34,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "Heads-up JavaScript configuration applies the same checks as the native host",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v34.test.js",
+   "seconds": 10.88,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "external sampled hybrid scoring and CUDA failure reproduce CPU strategy, RNG and counters",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v35.test.js",
+   "seconds": 10.64,
+   "passed": 24,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "CUDA driver fixture enforces reduced VRAM budgets on reused batches",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v36.test.js",
+   "seconds": 16.24,
+   "passed": 22,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "slow simulated CUDA scoring selects CPU and preserves complete state",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v37.test.js",
+   "seconds": 5.66,
+   "passed": 11,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v38.test.js",
+   "seconds": 3.12,
+   "passed": 8,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "3.8 native host serves explorer nodes and refuses them while training",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v39.test.js",
+   "seconds": 25.06,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "3.9 native host: /api/mw/ev and /api/mw/response-gain, HTTP 400 for malformed input, cache invalidated by training",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "wide.test.js",
+   "seconds": 0.69,
+   "passed": 7,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  }
+ ],
+ "totals": {
+  "passed": 341,
+  "failed": 0,
+  "skipped": 0,
+  "timedOut": 0,
+  "todo": 0,
+  "hardwareDependentRun": 13,
+  "hardwareDependentSkipped": 0
+ }
+}

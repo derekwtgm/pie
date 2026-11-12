@@ -1,0 +1,26 @@
+{
+ "description": "Eight-player push/fold final table (stacks 30/22/15/40/9/18/25/12 BB, payouts 30/20/14/11/9/7/5/4), fixed hands AA..77, 50 training updates. Exact action EVs of hand 0 at two nodes, computed by the Linux build of EightMax 4.0 (CPU, 1 thread). The scenario of the reproduced 3.9 deadline defect.",
+ "nodes": [
+  {
+   "path": [
+    1,
+    1
+   ],
+   "ev": [
+    12.656010507743623,
+    7.871458025102644
+   ]
+  },
+  {
+   "path": [
+    1,
+    1,
+    1
+   ],
+   "ev": [
+    19.15328556721412,
+    16.085082110588402
+   ]
+  }
+ ]
+}

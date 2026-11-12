@@ -1,0 +1,9 @@
+PASS  Host 3.0 build 8ff0e71cd306a4f9 advertises multiway protocol 1 (9 logical CPUs)
+PASS  3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.13 s) are bit-identical to JavaScript
+PASS  3-player river, own-hand enumeration: 40 updates on the host (4 threads, 0.16 s) are bit-identical to JavaScript
+PASS  6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.55 s) are bit-identical to JavaScript
+PASS  Cancellation stops training in 7 ms after 13860 updates; the stopped state is complete and resumable (matches 13860 JavaScript updates); concurrent jobs are refused
+PASS  A malformed native state is refused
+PASS  Memory: application limit 4983 MiB, native process limit 4983 MiB, resident 15.6 MiB, tables 0.1 MiB, available 4511.4 MiB
+PASS  An oversized 8-player full-range river is refused before allocation: Native strategy tables need about 7132 MiB, more than the 4505 MiB native budget. Use fewer bet sizes, narrowe
+PASS  Tables released

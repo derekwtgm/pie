@@ -1,0 +1,1055 @@
+TAP version 13
+# Subtest: Wide full/compact checkpoint resumes bit-for-bit
+ok 1 - Wide full/compact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 109.208726
+  type: 'test'
+  ...
+# Subtest: Wide full/detailed checkpoint resumes bit-for-bit
+ok 2 - Wide full/detailed checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 45.322719
+  type: 'test'
+  ...
+# Subtest: Wide full/exact checkpoint resumes bit-for-bit
+ok 3 - Wide full/exact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 23.800048
+  type: 'test'
+  ...
+# Subtest: Wide external/compact checkpoint resumes bit-for-bit
+ok 4 - Wide external/compact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 53.311805
+  type: 'test'
+  ...
+# Subtest: Wide external/detailed checkpoint resumes bit-for-bit
+ok 5 - Wide external/detailed checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 46.017486
+  type: 'test'
+  ...
+# Subtest: Wide external/exact checkpoint resumes bit-for-bit
+ok 6 - Wide external/exact checkpoint resumes bit-for-bit
+  ---
+  duration_ms: 26.02557
+  type: 'test'
+  ...
+# Subtest: Enumerated seeded-turn ICM checkpoints restore regrets, averages and iteration weights
+ok 7 - Enumerated seeded-turn ICM checkpoints restore regrets, averages and iteration weights
+  ---
+  duration_ms: 61.019582
+  type: 'test'
+  ...
+# Subtest: Six-player linked preflop ICM preserves both independent random streams
+ok 8 - Six-player linked preflop ICM preserves both independent random streams
+  ---
+  duration_ms: 996.694212
+  type: 'test'
+  ...
+# Subtest: Eight-player linked preflop-to-river resumes exactly from a checkpoint
+ok 9 - Eight-player linked preflop-to-river resumes exactly from a checkpoint
+  ---
+  duration_ms: 1913.594729
+  type: 'test'
+  ...
+# Subtest: Corrupt, incompatible and non-finite checkpoints are rejected
+ok 10 - Corrupt, incompatible and non-finite checkpoints are rejected
+  ---
+  duration_ms: 6.624199
+  type: 'test'
+  ...
+# Subtest: A saved memory stop can continue after increasing the budget
+ok 11 - A saved memory stop can continue after increasing the budget
+  ---
+  duration_ms: 326.98899
+  type: 'test'
+  ...
+# Subtest: Worker export, failed load, successful load and resume preserve the active study
+ok 12 - Worker export, failed load, successful load and resume preserve the active study
+  ---
+  duration_ms: 38.565209
+  type: 'test'
+  ...
+# Subtest: FGS barely changes heads-up play, where ICM is linear in chips
+ok 13 - FGS barely changes heads-up play, where ICM is linear in chips
+  ---
+  duration_ms: 404.555973
+  type: 'test'
+  ...
+# Subtest: FGS conserves the prize pool and makes the next big blind jam wider
+ok 14 - FGS conserves the prize pool and makes the next big blind jam wider
+  ---
+  duration_ms: 4277.096062
+  type: 'test'
+  ...
+# Subtest: FGS falls back to ICM when a survivor cannot post the next hand
+ok 15 - FGS falls back to ICM when a survivor cannot post the next hand
+  ---
+  duration_ms: 706.660742
+  type: 'test'
+  ...
+# Subtest: two-hand FGS is limited to small tables and stays consistent
+ok 16 - two-hand FGS is limited to small tables and stays consistent
+  ---
+  duration_ms: 5866.340157
+  type: 'test'
+  ...
+# Subtest: deep model uses the fitted realization constants and still accepts the 2.4 values
+ok 17 - deep model uses the fitted realization constants and still accepts the 2.4 values
+  ---
+  duration_ms: 1515.730944
+  type: 'test'
+  ...
+# Subtest: native sources and compiler options alter the deterministic build ID
+ok 18 - native sources and compiler options alter the deterministic build ID
+  ---
+  duration_ms: 17.833715
+  type: 'test'
+  ...
+# Subtest: Detailed groups distinguish nut and weak flush draws and one-card draws
+ok 19 - Detailed groups distinguish nut and weak flush draws and one-card draws
+  ---
+  duration_ms: 23.002964
+  type: 'test'
+  ...
+# Subtest: Straight features separate open ends, inside draws, double gutters and backdoors
+ok 20 - Straight features separate open ends, inside draws, double gutters and backdoors
+  ---
+  duration_ms: 10.663396
+  type: 'test'
+  ...
+# Subtest: Detailed information is invariant under suit renaming and hole-card order
+ok 21 - Detailed information is invariant under suit renaming and hole-card order
+  ---
+  duration_ms: 1.10111
+  type: 'test'
+  ...
+# Subtest: Exact-card keys retain suits and turn/river order while canonicalizing the flop
+ok 22 - Exact-card keys retain suits and turn/river order while canonicalizing the flop
+  ---
+  duration_ms: 1.431321
+  type: 'test'
+  ...
+# Subtest: Detailed root signals use only current cards and retain histories on later streets
+ok 23 - Detailed root signals use only current cards and retain histories on later streets
+  ---
+  duration_ms: 142.958838
+  type: 'test'
+  ...
+# Subtest: ICM integrates joint side-pot outcomes before averaging and includes folded seats
+ok 24 - ICM integrates joint side-pot outcomes before averaging and includes folded seats
+  ---
+  duration_ms: 141.236682
+  type: 'test'
+  ...
+# Subtest: Six-player ICM agrees with independent tied-pot and simultaneous-bust calculations
+ok 25 - Six-player ICM agrees with independent tied-pot and simultaneous-bust calculations
+  ---
+  duration_ms: 19.008865
+  type: 'test'
+  ...
+# Subtest: Wide ICM uses the same settlements and payout scaling preserves strategy
+ok 26 - Wide ICM uses the same settlements and payout scaling preserves strategy
+  ---
+  duration_ms: 61.857411
+  type: 'test'
+  ...
+# Subtest: ICM rejects inconsistent payouts, omitted remaining seats and invalid stacks
+ok 27 - ICM rejects inconsistent payouts, omitted remaining seats and invalid stacks
+  ---
+  duration_ms: 1.610365
+  type: 'test'
+  ...
+# Subtest: Four, five and six live preflop players continue through all postflop streets
+ok 28 - Four, five and six live preflop players continue through all postflop streets
+  ---
+  duration_ms: 3012.455015
+  type: 'test'
+  ...
+# Subtest: Heads-up preflop starts with SB and postflop starts with BB
+ok 29 - Heads-up preflop starts with SB and postflop starts with BB
+  ---
+  duration_ms: 41.886349
+  type: 'test'
+  ...
+# Subtest: Eight-way shove/call retains every overcaller and conserves all chips and antes
+ok 30 - Eight-way shove/call retains every overcaller and conserves all chips and antes
+  ---
+  duration_ms: 320.266593
+  type: 'test'
+  ...
+# Subtest: Unequal preflop all-ins form three correct side pots without ending at the first call
+ok 31 - Unequal preflop all-ins form three correct side pots without ending at the first call
+  ---
+  duration_ms: 34.652288
+  type: 'test'
+  ...
+# Subtest: Short blind all-ins return excess and do not force a sole live player to fold
+ok 32 - Short blind all-ins return excess and do not force a sole live player to fold
+  ---
+  duration_ms: 44.155188
+  type: 'test'
+  ...
+# Subtest: Short preflop raises do not reopen a previous raiser
+ok 33 - Short preflop raises do not reopen a previous raiser
+  ---
+  duration_ms: 122.518423
+  type: 'test'
+  ...
+# Subtest: Preflop decisions use postflop continuation values and keep future cards hidden
+ok 34 - Preflop decisions use postflop continuation values and keep future cards hidden
+  ---
+  duration_ms: 3929.939766
+  type: 'test'
+  ...
+# Subtest: Preflop ICM supports eight seats and checks do not alter the configured action model
+ok 35 - Preflop ICM supports eight seats and checks do not alter the configured action model
+  ---
+  duration_ms: 56.488291
+  type: 'test'
+  ...
+# Subtest: ICM profile EV and unilateral gains match independent exhaustive three-player policies
+ok 36 - ICM profile EV and unilateral gains match independent exhaustive three-player policies
+  ---
+  duration_ms: 22.33842
+  type: 'test'
+  ...
+# Subtest: Exact three-, five- and six-player flop all-ins match independent runouts and side pots
+ok 37 - Exact three-, five- and six-player flop all-ins match independent runouts and side pots
+  ---
+  duration_ms: 889.00602
+  type: 'test'
+  ...
+# Subtest: Contributions, stacks, acting order, folds and per-street sizes carry through the river
+ok 38 - Contributions, stacks, acting order, folds and per-street sizes carry through the river
+  ---
+  duration_ms: 266.149183
+  type: 'test'
+  ...
+# Subtest: Range weights, observed actions and folded hole cards determine the next-card odds
+ok 39 - Range weights, observed actions and folded hole cards determine the next-card odds
+  ---
+  duration_ms: 676.033763
+  type: 'test'
+  ...
+# Subtest: Seeded subsets repeat, normalize for each private deal, and agree between all-in and checkdown
+ok 40 - Seeded subsets repeat, normalize for each private deal, and agree between all-in and checkdown
+  ---
+  duration_ms: 31.20372
+  type: 'test'
+  ...
+# Subtest: All-in seat remains in the main pot while covering seats bet a separate turn and river
+ok 41 - All-in seat remains in the main pot while covering seats bet a separate turn and river
+  ---
+  duration_ms: 31.272606
+  type: 'test'
+  ...
+# Subtest: Action EVs use the current decision as baseline and the weighted mix gives the root EV
+ok 42 - Action EVs use the current decision as baseline and the weighted mix gives the root EV
+  ---
+  duration_ms: 36.01158
+  type: 'test'
+  ...
+# Subtest: Exact turn-through-river EVs and best responses match an independent whole-strategy oracle for all three seats
+ok 43 - Exact turn-through-river EVs and best responses match an independent whole-strategy oracle for all three seats
+  ---
+  duration_ms: 250.807284
+  type: 'test'
+  ...
+# Subtest: Sampled flop-through-river EVs and best responses match the independent oracle across both public-card reveals
+ok 44 - Sampled flop-through-river EVs and best responses match the independent oracle across both public-card reveals
+  ---
+  duration_ms: 63.871416
+  type: 'test'
+  ...
+# Subtest: Worker returns a connected flop solve, explains an oversized exact tree, and can solve again
+ok 45 - Worker returns a connected flop solve, explains an oversized exact tree, and can solve again
+  ---
+  duration_ms: 905.495443
+  type: 'test'
+  ...
+# Subtest: Exact flop with betting on all three streets keeps full ordered turn/river branches
+ok 46 - Exact flop with betting on all three streets keeps full ordered turn/river branches
+  ---
+  duration_ms: 280.534969
+  type: 'test'
+  ...
+# Subtest: A three-way preflop node transfers its live ranges, pot and action order into the flop solver
+ok 47 - A three-way preflop node transfers its live ranges, pot and action order into the flop solver
+  ---
+  duration_ms: 227.643375
+  type: 'test'
+  ...
+# Subtest: oracle ICM agrees with the solver ICM, including busted players
+ok 48 - oracle ICM agrees with the solver ICM, including busted players
+  ---
+  duration_ms: 22.034531
+  type: 'test'
+  ...
+# Subtest: push/fold equilibrium checked by the independent oracle: chip
+ok 49 - push/fold equilibrium checked by the independent oracle: chip
+  ---
+  duration_ms: 23190.708999
+  type: 'test'
+  ...
+# Subtest: push/fold equilibrium checked by the independent oracle: icm
+ok 50 - push/fold equilibrium checked by the independent oracle: icm
+  ---
+  duration_ms: 12232.61292
+  type: 'test'
+  ...
+# Subtest: External sampling reproduces the known river bluff equilibrium
+ok 51 - External sampling reproduces the known river bluff equilibrium
+  ---
+  duration_ms: 657.275085
+  type: 'test'
+  ...
+# Subtest: Six-player small bets and raises train beyond the previous full-tree limit
+ok 52 - Six-player small bets and raises train beyond the previous full-tree limit
+  ---
+  duration_ms: 1642.814081
+  type: 'test'
+  ...
+# Subtest: A memory stop leaves a finite, inspectable profile and terminates further training
+ok 53 - A memory stop leaves a finite, inspectable profile and terminates further training
+  ---
+  duration_ms: 228.779285
+  type: 'test'
+  ...
+# Subtest: Response training finds the analytic uniform-policy leak without altering the original strategy
+ok 54 - Response training finds the analytic uniform-policy leak without altering the original strategy
+  ---
+  duration_ms: 131.381084
+  type: 'test'
+  ...
+# Subtest: Seed planning validates extra sizes, handles card arrays, and expands raise caps explicitly
+ok 55 - Seed planning validates extra sizes, handles card arrays, and expands raise caps explicitly
+  ---
+  duration_ms: 1.757289
+  type: 'test'
+  ...
+# Subtest: Worker completes paired seed and bet-size checks and preserves the original explorer
+ok 56 - Worker completes paired seed and bet-size checks and preserves the original explorer
+  ---
+  duration_ms: 91.056546
+  type: 'test'
+  ...
+# Subtest: Invalid and cancelled accuracy checks retain the solved profile and permit a retry
+ok 57 - Invalid and cancelled accuracy checks retain the solved profile and permit a retry
+  ---
+  duration_ms: 25.643405
+  type: 'test'
+  ...
+# Subtest: An expanded exact tree that exceeds limits is reported without losing the original solve
+ok 58 - An expanded exact tree that exceeds limits is reported without losing the original solve
+  ---
+  duration_ms: 954.935341
+  type: 'test'
+  ...
+# Subtest: External multiplayer profile and trained response agree with an independent exhaustive oracle
+ok 59 - External multiplayer profile and trained response agree with an independent exhaustive oracle
+  ---
+  duration_ms: 837.998525
+  type: 'test'
+  ...
+# Subtest: Preflop skips all-in seats and retains two covering stacks
+ok 60 - Preflop skips all-in seats and retains two covering stacks
+  ---
+  duration_ms: 195.199379
+  type: 'test'
+  ...
+# Subtest: Each ICM side pot has its own eligible winner; equal starting busts share prizes
+ok 61 - Each ICM side pot has its own eligible winner; equal starting busts share prizes
+  ---
+  duration_ms: 210.900631
+  type: 'test'
+  ...
+# Subtest: Deeper preflop prices AA against AA with a separate ICM tie outcome
+ok 62 - Deeper preflop prices AA against AA with a separate ICM tie outcome
+  ---
+  duration_ms: 71.245161
+  type: 'test'
+  ...
+# Subtest: Two-seat and full-table postflop orders and chip/ICM handoff
+ok 63 - Two-seat and full-table postflop orders and chip/ICM handoff
+  ---
+  duration_ms: 18.541843
+  type: 'test'
+  ...
+# Subtest: Every freshly trained chart decodes, evaluates, and matches its published local metric
+ok 64 - Every freshly trained chart decodes, evaluates, and matches its published local metric
+  ---
+  duration_ms: 3757.138669
+  type: 'test'
+  ...
+# Subtest: River awards main, side, folded contributions and tied layers for 3 to 5 seats
+ok 65 - River awards main, side, folded contributions and tied layers for 3 to 5 seats
+  ---
+  duration_ms: 118.56442
+  type: 'test'
+  ...
+# Subtest: A single short raise closes rights, cumulative short raises reopen them
+ok 66 - A single short raise closes rights, cumulative short raises reopen them
+  ---
+  duration_ms: 89.828318
+  type: 'test'
+  ...
+# Subtest: Three-seat river reproduces a known hidden-card bluff equilibrium
+ok 67 - Three-seat river reproduces a known hidden-card bluff equilibrium
+  ---
+  duration_ms: 24.870874
+  type: 'test'
+  ...
+# Subtest: Reject impossible inputs or excessive trees without truncating ranges
+ok 68 - Reject impossible inputs or excessive trees without truncating ranges
+  ---
+  duration_ms: 13.236326
+  type: 'test'
+  ...
+# Subtest: Complete unilateral best responses match exhaustive pure policies in a genuine three-player game
+ok 69 - Complete unilateral best responses match exhaustive pure policies in a genuine three-player game
+  ---
+  duration_ms: 11.197555
+  type: 'test'
+  ...
+# Subtest: Worker accepts a river solve, can stop it, and returns a navigable strategy
+ok 70 - Worker accepts a river solve, can stop it, and returns a navigable strategy
+  ---
+  duration_ms: 41.258519
+  type: 'test'
+  ...
+# Subtest: Five-seat example with mixed hands and the default sizing tree fits the desktop budget
+ok 71 - Five-seat example with mixed hands and the default sizing tree fits the desktop budget
+  ---
+  duration_ms: 426.61516
+  type: 'test'
+  ...
+# Subtest: Every dealt player pays 0.1 bb separately from the blinds and other tables
+ok 72 - Every dealt player pays 0.1 bb separately from the blinds and other tables
+  ---
+  duration_ms: 269.216845
+  type: 'test'
+  ...
+# Subtest: Six-way pot accounting keeps every ante live on a tied board and validates dealt seats
+ok 73 - Six-way pot accounting keeps every ante live on a tied board and validates dealt seats
+  ---
+  duration_ms: 3.929106
+  type: 'test'
+  ...
+# Subtest: Big blind ante posts once from the BB; no-ante posts only blinds
+ok 74 - Big blind ante posts once from the BB; no-ante posts only blinds
+  ---
+  duration_ms: 1901.000099
+  type: 'test'
+  ...
+# Subtest: Chip EV sums to the dead antes of folded dealt seats
+ok 75 - Chip EV sums to the dead antes of folded dealt seats
+  ---
+  duration_ms: 997.055045
+  type: 'test'
+  ...
+# Subtest: Push/fold accepts a big blind ante
+ok 76 - Push/fold accepts a big blind ante
+  ---
+  duration_ms: 381.177527
+  type: 'test'
+  ...
+# Subtest: Geometric bets reach all-in on the river at a constant pot fraction
+ok 77 - Geometric bets reach all-in on the river at a constant pot fraction
+  ---
+  duration_ms: 6.145489
+  type: 'test'
+  ...
+# Subtest: Linear weighting is the default and 2.3 checkpoints resume uniformly
+ok 78 - Linear weighting is the default and 2.3 checkpoints resume uniformly
+  ---
+  duration_ms: 79.557509
+  type: 'test'
+  ...
+# Subtest: Locks after a suit-twin turn card are refused unless isomorphism is off
+ok 79 - Locks after a suit-twin turn card are refused unless isomorphism is off
+  ---
+  duration_ms: 3552.769814
+  type: 'test'
+  ...
+# Subtest: 2-player Flop preset initializes and trains without a tree-limit error
+ok 80 - 2-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 170.083012
+  type: 'test'
+  ...
+# Subtest: 2-player Turn preset initializes and trains without a tree-limit error
+ok 81 - 2-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 55.106023
+  type: 'test'
+  ...
+# Subtest: 2-player River preset initializes and trains without a tree-limit error
+ok 82 - 2-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 2.571842
+  type: 'test'
+  ...
+# Subtest: 3-player Flop preset initializes and trains without a tree-limit error
+ok 83 - 3-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 263.007712
+  type: 'test'
+  ...
+# Subtest: 3-player Turn preset initializes and trains without a tree-limit error
+ok 84 - 3-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 172.516237
+  type: 'test'
+  ...
+# Subtest: 3-player River preset initializes and trains without a tree-limit error
+ok 85 - 3-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 16.847936
+  type: 'test'
+  ...
+# Subtest: 4-player Flop preset initializes and trains without a tree-limit error
+ok 86 - 4-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 57.649327
+  type: 'test'
+  ...
+# Subtest: 4-player Turn preset initializes and trains without a tree-limit error
+ok 87 - 4-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 123.237182
+  type: 'test'
+  ...
+# Subtest: 4-player River preset initializes and trains without a tree-limit error
+ok 88 - 4-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 101.483349
+  type: 'test'
+  ...
+# Subtest: 5-player Flop preset initializes and trains without a tree-limit error
+ok 89 - 5-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 283.363946
+  type: 'test'
+  ...
+# Subtest: 5-player Turn preset initializes and trains without a tree-limit error
+ok 90 - 5-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 581.85767
+  type: 'test'
+  ...
+# Subtest: 5-player River preset initializes and trains without a tree-limit error
+ok 91 - 5-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 307.761817
+  type: 'test'
+  ...
+# Subtest: 6-player Flop preset initializes and trains without a tree-limit error
+ok 92 - 6-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 2654.458681
+  type: 'test'
+  ...
+# Subtest: 6-player Turn preset initializes and trains without a tree-limit error
+ok 93 - 6-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 880.952289
+  type: 'test'
+  ...
+# Subtest: 6-player River preset initializes and trains without a tree-limit error
+ok 94 - 6-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 161.52144
+  type: 'test'
+  ...
+# Subtest: 7-player Flop preset initializes and trains without a tree-limit error
+ok 95 - 7-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 1431.173245
+  type: 'test'
+  ...
+# Subtest: 7-player Turn preset initializes and trains without a tree-limit error
+ok 96 - 7-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 1262.888646
+  type: 'test'
+  ...
+# Subtest: 7-player River preset initializes and trains without a tree-limit error
+ok 97 - 7-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 194.013524
+  type: 'test'
+  ...
+# Subtest: 8-player Flop preset initializes and trains without a tree-limit error
+ok 98 - 8-player Flop preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 2042.380455
+  type: 'test'
+  ...
+# Subtest: 8-player Turn preset initializes and trains without a tree-limit error
+ok 99 - 8-player Turn preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 1908.860902
+  type: 'test'
+  ...
+# Subtest: 8-player River preset initializes and trains without a tree-limit error
+ok 100 - 8-player River preset initializes and trains without a tree-limit error
+  ---
+  duration_ms: 464.774123
+  type: 'test'
+  ...
+# Subtest: automatic mode keeps exact enumeration for small spots and reports why
+ok 101 - automatic mode keeps exact enumeration for small spots and reports why
+  ---
+  duration_ms: 2.874276
+  type: 'test'
+  ...
+# Subtest: seven- and eight-player presets with exact enumeration forced still report the budget error
+ok 102 - seven- and eight-player presets with exact enumeration forced still report the budget error
+  ---
+  duration_ms: 44.783088
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 2 dealt players put 0.2 bb in
+ok 103 - classic 0.1 bb antes: 2 dealt players put 0.2 bb in
+  ---
+  duration_ms: 34.928034
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 3 dealt players put 0.3 bb in
+ok 104 - classic 0.1 bb antes: 3 dealt players put 0.3 bb in
+  ---
+  duration_ms: 23.155226
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 4 dealt players put 0.4 bb in
+ok 105 - classic 0.1 bb antes: 4 dealt players put 0.4 bb in
+  ---
+  duration_ms: 24.317512
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 5 dealt players put 0.5 bb in
+ok 106 - classic 0.1 bb antes: 5 dealt players put 0.5 bb in
+  ---
+  duration_ms: 19.20593
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 6 dealt players put 0.6 bb in
+ok 107 - classic 0.1 bb antes: 6 dealt players put 0.6 bb in
+  ---
+  duration_ms: 29.252422
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 7 dealt players put 0.7 bb in
+ok 108 - classic 0.1 bb antes: 7 dealt players put 0.7 bb in
+  ---
+  duration_ms: 24.134374
+  type: 'test'
+  ...
+# Subtest: classic 0.1 bb antes: 8 dealt players put 0.8 bb in
+ok 109 - classic 0.1 bb antes: 8 dealt players put 0.8 bb in
+  ---
+  duration_ms: 19.327679
+  type: 'test'
+  ...
+# Subtest: big blind ante is separate: posted once by the big blind, blind first when short
+ok 110 - big blind ante is separate: posted once by the big blind, blind first when short
+  ---
+  duration_ms: 29.749131
+  type: 'test'
+  ...
+# Subtest: short stacks post a partial ante all-in and can win only what they matched
+ok 111 - short stacks post a partial ante all-in and can win only what they matched
+  ---
+  duration_ms: 12.805976
+  type: 'test'
+  ...
+# Subtest: side pots: three unequal all-ins split into main and side layers
+ok 112 - side pots: three unequal all-ins split into main and side layers
+  ---
+  duration_ms: 0.271708
+  type: 'test'
+  ...
+# Subtest: exact cross-check measures sampled strategies in the enumerated game and improves with training
+ok 113 - exact cross-check measures sampled strategies in the enumerated game and improves with training
+  ---
+  duration_ms: 274.67845
+  type: 'test'
+  ...
+# Subtest: response probe on a full-traversal tree tracks the exact best-response gain
+ok 114 - response probe on a full-traversal tree tracks the exact best-response gain
+  ---
+  duration_ms: 283.392699
+  type: 'test'
+  ...
+# Subtest: strategy normalization: every exact and sampled average strategy row sums to one
+ok 115 - strategy normalization: every exact and sampled average strategy row sums to one
+  ---
+  duration_ms: 100.815652
+  type: 'test'
+  ...
+# Subtest: legal betting actions: no raise is offered once the cap is reached, all-ins are capped by stacks
+ok 116 - legal betting actions: no raise is offered once the cap is reached, all-ins are capped by stacks
+  ---
+  duration_ms: 2.114501
+  type: 'test'
+  ...
+# Subtest: training saved by 2.5 (wide) loads in 2.6 and continues with the same results
+ok 117 - training saved by 2.5 (wide) loads in 2.6 and continues with the same results
+  ---
+  duration_ms: 41.184291
+  type: 'test'
+  ...
+# Subtest: training saved by 2.5 (exact) loads in 2.6 and continues with the same results
+ok 118 - training saved by 2.5 (exact) loads in 2.6 and continues with the same results
+  ---
+  duration_ms: 4.824096
+  type: 'test'
+  ...
+# Subtest: training saved by 2.5 (linked) loads in 2.6 and continues with the same results
+ok 119 - training saved by 2.5 (linked) loads in 2.6 and continues with the same results
+  ---
+  duration_ms: 76.245629
+  type: 'test'
+  ...
+# Subtest: automatic-mode studies save the resolved mode and resume bit-for-bit
+ok 120 - automatic-mode studies save the resolved mode and resume bit-for-bit
+  ---
+  duration_ms: 453.281114
+  type: 'test'
+  ...
+# Subtest: a damaged checkpoint is rejected
+ok 121 - a damaged checkpoint is rejected
+  ---
+  duration_ms: 1.165239
+  type: 'test'
+  ...
+# Subtest: batch full/standard: deterministic, normalized, resumable
+ok 122 - batch full/standard: deterministic, normalized, resumable
+  ---
+  duration_ms: 403.979675
+  type: 'test'
+  ...
+# Subtest: batch full/plus: deterministic, normalized, resumable
+ok 123 - batch full/plus: deterministic, normalized, resumable
+  ---
+  duration_ms: 191.738655
+  type: 'test'
+  ...
+# Subtest: batch external/standard: deterministic, normalized, resumable
+ok 124 - batch external/standard: deterministic, normalized, resumable
+  ---
+  duration_ms: 230.562254
+  type: 'test'
+  ...
+# Subtest: batch external/plus: deterministic, normalized, resumable
+ok 125 - batch external/plus: deterministic, normalized, resumable
+  ---
+  duration_ms: 166.564374
+  type: 'test'
+  ...
+# Subtest: batch and update limits reject invalid inputs without starting work
+ok 126 - batch and update limits reject invalid inputs without starting work
+  ---
+  duration_ms: 13.702733
+  type: 'test'
+  ...
+# Subtest: one deterministic deal: frozen batch matches single-deal CFR
+ok 127 - one deterministic deal: frozen batch matches single-deal CFR
+  ---
+  duration_ms: 51.829776
+  type: 'test'
+  ...
+# Subtest: batch scratch allocation is accounted for and bounded
+ok 128 - batch scratch allocation is accounted for and bounded
+  ---
+  duration_ms: 35.771239
+  type: 'test'
+  ...
+# Subtest: Balanced preset transfers explicit batch and budget settings
+ok 129 - Balanced preset transfers explicit batch and budget settings
+  ---
+  duration_ms: 1.237476
+  type: 'test'
+  ...
+# Subtest: batched eight-player memory stop is recoverable and budgeted
+ok 130 - batched eight-player memory stop is recoverable and budgeted
+  ---
+  duration_ms: 1459.198201
+  type: 'test'
+  ...
+# Subtest: stratified weighted river preserves RNG and regret state across checkpoint
+ok 131 - stratified weighted river preserves RNG and regret state across checkpoint
+  ---
+  duration_ms: 320.888491
+  type: 'test'
+  ...
+# Subtest: actual private deal counter includes seat-specific alternate traversals
+ok 132 - actual private deal counter includes seat-specific alternate traversals
+  ---
+  duration_ms: 52.177793
+  type: 'test'
+  ...
+# Subtest: intermediate root diagnostics normalize without changing training state
+ok 133 - intermediate root diagnostics normalize without changing training state
+  ---
+  duration_ms: 29.452877
+  type: 'test'
+  ...
+# Subtest: large ranges and external traversal report independent sampling
+ok 134 - large ranges and external traversal report independent sampling
+  ---
+  duration_ms: 11.690622
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: stratified weighted river
+ok 135 - native training matches JavaScript bit for bit: stratified weighted river
+  ---
+  duration_ms: 223.374507
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: ICM multiway all-in with off-table stacks
+ok 136 - native training matches JavaScript bit for bit: ICM multiway all-in with off-table stacks
+  ---
+  duration_ms: 156.5007
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, one deal per update
+ok 137 - native training matches JavaScript bit for bit: 3-player river, one deal per update
+  ---
+  duration_ms: 174.415013
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, frozen batches of 4, 4 threads
+ok 138 - native training matches JavaScript bit for bit: 3-player river, frozen batches of 4, 4 threads
+  ---
+  duration_ms: 171.781426
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, batches of 16, CFR+ clipping
+ok 139 - native training matches JavaScript bit for bit: 3-player river, batches of 16, CFR+ clipping
+  ---
+  duration_ms: 174.213202
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, uniform weighting, batches of 8
+ok 140 - native training matches JavaScript bit for bit: 3-player river, uniform weighting, batches of 8
+  ---
+  duration_ms: 105.042073
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, alternating seats
+ok 141 - native training matches JavaScript bit for bit: 3-player river, alternating seats
+  ---
+  duration_ms: 151.359201
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player river, own-hand enumeration, batches of 4
+ok 142 - native training matches JavaScript bit for bit: 3-player river, own-hand enumeration, batches of 4
+  ---
+  duration_ms: 310.220172
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player turn start (hashed rows), batches of 4
+ok 143 - native training matches JavaScript bit for bit: 3-player turn start (hashed rows), batches of 4
+  ---
+  duration_ms: 1722.9882
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player turn start, own-hand enumeration
+ok 144 - native training matches JavaScript bit for bit: 3-player turn start, own-hand enumeration
+  ---
+  duration_ms: 542.049181
+  type: 'test'
+  ...
+# Subtest: native training matches JavaScript bit for bit: 3-player flop start, batches of 2
+ok 145 - native training matches JavaScript bit for bit: 3-player flop start, batches of 2
+  ---
+  duration_ms: 408.468883
+  type: 'test'
+  ...
+# Subtest: native multithreaded merge path (large tree) matches one thread and JavaScript
+ok 146 - native multithreaded merge path (large tree) matches one thread and JavaScript
+  ---
+  duration_ms: 845.153857
+  type: 'test'
+  ...
+# Subtest: native results do not depend on the thread count
+ok 147 - native results do not depend on the thread count
+  ---
+  duration_ms: 544.09703
+  type: 'test'
+  ...
+# error: Native strategy tables need about 12 MiB, more than the 1 MiB native budget. Use fewer bet sizes, narrower ranges or a larger budget.
+# error: Unsupported native protocol version
+# error: Native engine needs 2 to 8 seats
+# error: Duplicate board card
+# error: Tree children must follow their parent
+# error: Batch deals must be 1 to 64
+# error: Unknown weighting
+# error: Truncated state
+# error: State has invalid values (row checksum failed)
+# error: Not an EMMW1 state
+# error: State has invalid values (row checksum failed)
+# Subtest: JavaScript continues a native-trained study exactly, and native continues a JavaScript study
+ok 148 - JavaScript continues a native-trained study exactly, and native continues a JavaScript study
+  ---
+  duration_ms: 106.212616
+  type: 'test'
+  ...
+# Subtest: native engine refuses tables over its memory budget and stops cleanly when hashed rows reach it
+ok 149 - native engine refuses tables over its memory budget and stops cleanly when hashed rows reach it
+  ---
+  duration_ms: 1961.346149
+  type: 'test'
+  ...
+# Subtest: malformed specs and native states are rejected
+ok 150 - malformed specs and native states are rejected
+  ---
+  duration_ms: 76.220177
+  type: 'test'
+  ...
+# Subtest: studies outside native support say why and keep JavaScript training
+ok 151 - studies outside native support say why and keep JavaScript training
+  ---
+  duration_ms: 11.808122
+  type: 'test'
+  ...
+# error: State belongs to a different study
+# error: State has invalid values (row checksum failed)
+# Subtest: native host: /api/mw init, train, status, stop, state, import, memory and errors
+ok 152 - native host: /api/mw init, train, status, stop, state, import, memory and errors
+  ---
+  duration_ms: 19436.084415
+  type: 'test'
+  ...
+# Subtest: eight-handed positions, 0.1 bb antes and the 2.3 bb starting pot
+ok 153 - eight-handed positions, 0.1 bb antes and the 2.3 bb starting pot
+  ---
+  duration_ms: 100.591688
+  type: 'test'
+  ...
+# Subtest: eight-handed preflop-to-river transitions: folds, a flop, a turn and a river reach a showdown
+ok 154 - eight-handed preflop-to-river transitions: folds, a flop, a turn and a river reach a showdown
+  ---
+  duration_ms: 1060.060784
+  type: 'test'
+  ...
+# Subtest: eight-way all-ins with unequal stacks: layered side pots conserve chips and pay only eligible seats
+ok 155 - eight-way all-ins with unequal stacks: layered side pots conserve chips and pay only eligible seats
+  ---
+  duration_ms: 0.443443
+  type: 'test'
+  ...
+# Subtest: minimum raises: a short all-in that is not a full raise does not reopen the betting
+ok 156 - minimum raises: a short all-in that is not a full raise does not reopen the betting
+  ---
+  duration_ms: 3.360612
+  type: 'test'
+  ...
+# Subtest: weighted ranges and blockers: sampled deals follow weights and never share cards
+ok 157 - weighted ranges and blockers: sampled deals follow weights and never share cards
+  ---
+  duration_ms: 2.867962
+  type: 'test'
+  ...
+# Subtest: chip EV and ICM: ICM equities sum to the prize pool and match the reference DP for 8 and 16 players
+ok 158 - chip EV and ICM: ICM equities sum to the prize pool and match the reference DP for 8 and 16 players
+  ---
+  duration_ms: 7.130552
+  type: 'test'
+  ...
+# Subtest: 3.0 linked full-tree chip EV and ICM preserve every street and resume across engines
+ok 159 - 3.0 linked full-tree chip EV and ICM preserve every street and resume across engines
+  ---
+  duration_ms: 168.882531
+  type: 'test'
+  ...
+# Subtest: 3.0 exact-card sampled flops agree for every table size from two to eight
+ok 160 - 3.0 exact-card sampled flops agree for every table size from two to eight
+  ---
+  duration_ms: 211.928076
+  type: 'test'
+  ...
+# Subtest: 3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures
+ok 161 - 3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures
+  ---
+  duration_ms: 685.043944
+  type: 'test'
+  ...
+# Subtest: 3.0 prevents same-shape state imports across chip EV and ICM
+ok 162 - 3.0 prevents same-shape state imports across chip EV and ICM
+  ---
+  duration_ms: 18.896806
+  type: 'test'
+  ...
+# Subtest: 3.0 native ICM terminal regrets agree with independent finishing-order enumeration
+ok 163 - 3.0 native ICM terminal regrets agree with independent finishing-order enumeration
+  ---
+  duration_ms: 7.334865
+  type: 'test'
+  ...
+# Subtest: 3.0 native memory stop resumes from the last complete immediate update
+ok 164 - 3.0 native memory stop resumes from the last complete immediate update
+  ---
+  duration_ms: 173.386347
+  type: 'test'
+  ...
+# Subtest: 3.0 finite single-bit state damage fails integrity validation in both readers
+ok 165 - 3.0 finite single-bit state damage fails integrity validation in both readers
+  ---
+  duration_ms: 19.46568
+  type: 'test'
+  ...
+# Subtest: Fresh-deal training approximates the independently known pot-size bluff game
+ok 166 - Fresh-deal training approximates the independently known pot-size bluff game
+  ---
+  duration_ms: 412.554773
+  type: 'test'
+  ...
+# Subtest: Whole-tuple resampling preserves weighted blocker-conditioned marginals
+ok 167 - Whole-tuple resampling preserves weighted blocker-conditioned marginals
+  ---
+  duration_ms: 144.485967
+  type: 'test'
+  ...
+# Subtest: Sampled full-deck flop runouts reproduce exact equity including unequal side pots
+ok 168 - Sampled full-deck flop runouts reproduce exact equity including unequal side pots
+  ---
+  duration_ms: 328.873162
+  type: 'test'
+  ...
+# Subtest: Inspection uses an independent random stream and leaves training deterministic
+ok 169 - Inspection uses an independent random stream and leaves training deterministic
+  ---
+  duration_ms: 74.223459
+  type: 'test'
+  ...
+# Subtest: 25bb chart reaches a button open and two blind calls with all three full ranges
+ok 170 - 25bb chart reaches a button open and two blind calls with all three full ranges
+  ---
+  duration_ms: 285.529912
+  type: 'test'
+  ...
+# Subtest: Wide explorer preserves folded card removal and supports a five-way side-pot line
+ok 171 - Wide explorer preserves folded card removal and supports a five-way side-pot line
+  ---
+  duration_ms: 28.752305
+  type: 'test'
+  ...
+# Subtest: Wide six-way play retains folded cards and gives seat six the contested side pot
+ok 172 - Wide six-way play retains folded cards and gives seat six the contested side pot
+  ---
+  duration_ms: 112.502129
+  type: 'test'
+  ...
+1..172
+# tests 172
+# suites 0
+# pass 172
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 44520.375277

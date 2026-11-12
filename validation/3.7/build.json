@@ -1,0 +1,66 @@
+{
+  "build": "d802f79f8736854f",
+  "target": "Windows x64, cross-compiled on Linux, two separate links",
+  "sourceVerification": "Verified both executables, interface and source: d802f79f8736854f",
+  "cudaSourceSHA256": "66e82b05af26a1706ef0ba33f08ad399b727a14599f0fef31731cb03758cf21f",
+  "cudaImagesMatch36": true,
+  "binaries": {
+    "EightMax.exe": {
+      "bytes": 3977728,
+      "sha256": "d3e71b72ca4851db06560f069073770cd54a17a3e23fb9a72a731a6d43baca61",
+      "PE": "x86-64",
+      "repeatIdentical": true,
+      "imports": [
+        "bcrypt.dll",
+        "KERNEL32.dll",
+        "msvcrt.dll",
+        "SHELL32.dll",
+        "WINMM.dll",
+        "WS2_32.dll"
+      ]
+    },
+    "mwcli.exe": {
+      "bytes": 1557504,
+      "sha256": "203382d33165404b5d8e513632fadc7769f5276a86c4fc4f82cc7fc6a2982aa4",
+      "PE": "x86-64",
+      "repeatIdentical": true,
+      "imports": [
+        "KERNEL32.dll",
+        "msvcrt.dll"
+      ]
+    }
+  },
+  "images": [
+    {
+      "name": "PTX",
+      "bytes": 45107,
+      "sha256": "73f8f1d05cb0b11f49a4a73fd8743c194c0f1f5182a93c0307b0e69c9c8a8580",
+      "presentInBothBinaries": true
+    },
+    {
+      "name": "sm_75",
+      "bytes": 34600,
+      "sha256": "2b7c4b73d91258818adb16b015313185bc92ff6cb6650457a71bfcd4bbe08ff9",
+      "presentInBothBinaries": true
+    },
+    {
+      "name": "sm_80",
+      "bytes": 34088,
+      "sha256": "ee818abe3c0fc2c77273026dafade9e33a526e943b563f46ad1ca2d3621695ac",
+      "presentInBothBinaries": true
+    },
+    {
+      "name": "sm_86",
+      "bytes": 34216,
+      "sha256": "32da64812fab30fe645fb5ed1d9ac9c9b5b4f4a976f9e68c759e2933931e1dec",
+      "presentInBothBinaries": true
+    },
+    {
+      "name": "sm_89",
+      "bytes": 34216,
+      "sha256": "c011f7f3e7bfde343ce00099249693d34ae9e38aed3805017b7771fddbfd06a3",
+      "presentInBothBinaries": true
+    }
+  ],
+  "offlineHTML_SHA256": "1f7b52cb3ff1f3ff9c654f9b6b6b6d397d77d334177d8cff39ee32539b3d1f34"
+}

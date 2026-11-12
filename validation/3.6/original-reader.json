@@ -1,0 +1,12 @@
+{
+  "release": "3.5",
+  "node": "v24.22.1",
+  "heapLimitMiB": 4096,
+  "inputBytes": 178556850,
+  "completed": false,
+  "returnCode": -6,
+  "elapsedSeconds": 5.697818729000005,
+  "fatalOutput": [
+    "FATAL ERROR: invalid array length Allocation failed - JavaScript heap out of memory"
+  ]
+}

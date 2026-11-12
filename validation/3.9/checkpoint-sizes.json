@@ -1,0 +1,75 @@
+{
+  "kind": "Synthetic legal physical river rows on a betting state reached by an eight-seat linked study. Retains the trained seed topology. Absolute values exercise persistence, not convergence. Raw wire blocks force the requested disk and network sizes.",
+  "runs": [
+    {
+      "nominalMiB": 16,
+      "rows": 380372,
+      "storedBytes": 16780559,
+      "sha256": "bb13e901c778d42d31fca6b436619164c62a13c537858aa8e6ec2d3a5370cffe",
+      "fixtureSeconds": 0.2508204159998968,
+      "saveSeconds": 0.6164411449999534,
+      "loadSeconds": 0.05241841500037481,
+      "coldIndexRebuildPlusLoadSeconds": 0.7038012459997844,
+      "hostPeakBeforeLargeBytes": 17100800,
+      "saveHostHighWaterBytes": 18436096,
+      "recoveryHostHighWaterBytes": 17907712,
+      "chunkedHTTP": false
+    },
+    {
+      "nominalMiB": 64,
+      "rows": 1524273,
+      "storedBytes": 67119883,
+      "sha256": "36b3ea0c9bc5fb922d3b3477a214435e8db493592a8c04119fb71ff1375ca1be",
+      "fixtureSeconds": 0.7251882089999526,
+      "saveSeconds": 2.2226255189998483,
+      "loadSeconds": 0.21461744599992016,
+      "coldIndexRebuildPlusLoadSeconds": 2.182563396000205,
+      "hostPeakBeforeLargeBytes": 16748544,
+      "saveHostHighWaterBytes": 17985536,
+      "recoveryHostHighWaterBytes": 17809408,
+      "chunkedHTTP": false
+    },
+    {
+      "nominalMiB": 128,
+      "rows": 3049474,
+      "storedBytes": 134238967,
+      "sha256": "114f5d3ba28384f8b547489fe516f473478ce3dc0f7457aaa731d466d4f78396",
+      "fixtureSeconds": 1.4100695500001166,
+      "saveSeconds": 4.814295745999971,
+      "loadSeconds": 0.39148019899994324,
+      "coldIndexRebuildPlusLoadSeconds": 4.2710358660001475,
+      "hostPeakBeforeLargeBytes": 17256448,
+      "saveHostHighWaterBytes": 18624512,
+      "recoveryHostHighWaterBytes": 17936384,
+      "chunkedHTTP": true
+    },
+    {
+      "nominalMiB": 256,
+      "rows": 6099877,
+      "storedBytes": 268477179,
+      "sha256": "9c47221b055d0c027bec7736b1ce7379493bf1387090c9376eff86da904c3f7e",
+      "fixtureSeconds": 2.839004959000249,
+      "saveSeconds": 9.17539813700023,
+      "loadSeconds": 0.7765552820001176,
+      "coldIndexRebuildPlusLoadSeconds": 10.883973735000382,
+      "hostPeakBeforeLargeBytes": 17100800,
+      "saveHostHighWaterBytes": 18423808,
+      "recoveryHostHighWaterBytes": 17915904,
+      "chunkedHTTP": false
+    },
+    {
+      "nominalMiB": 512,
+      "rows": 12200683,
+      "storedBytes": 536953603,
+      "sha256": "3bf81c467fabf0f6ecd3f4d275ee4a46df7385b78c42a132eee51a33d23ad315",
+      "fixtureSeconds": 5.625038131999645,
+      "saveSeconds": 19.915037569000106,
+      "loadSeconds": 1.569595636000031,
+      "coldIndexRebuildPlusLoadSeconds": 20.109389890999864,
+      "hostPeakBeforeLargeBytes": 17145856,
+      "saveHostHighWaterBytes": 18481152,
+      "recoveryHostHighWaterBytes": 18345984,
+      "chunkedHTTP": false
+    }
+  ]
+}

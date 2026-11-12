@@ -1,0 +1,19 @@
+# Final Windows x64 release executables (build 80797f6402bc38b6) under Wine 9.0 on Linux. No NVIDIA driver: CUDA unavailable, CPU fallback. Not a physical Windows test.
+e3dace19b0eb714be0402e6688866651e023577f1e32e12d4d895a57b946d745  EightMax.exe
+ed0bcae04a572549cc94b605b00ebe04d390494aff34d651d92909cdc9bb41fc  mwcli.exe
+c73a264c8a31bef7f908cf3db8c3dd3375f7841ce8dacdd4ffe9ecb631546950  gpustress.exe
+## mwcli.exe --build-id
+EightMaxBuild=80797f6402bc38b6
+## gpustress.exe --build-id
+EightMaxBuild=80797f6402bc38b6
+## mwcli.exe --cuda-info
+{"available":false,"reason":"NVIDIA driver library not found","name":"","computeCapability":"0.0","driverVersion":0,"image":"","totalMiB":0,"freeMiB":0,"reserveMiB":1024,"defaultBufferCapMiB":512}
+## exact EV, device gpu, 4 threads
+{"ev": [15.020151348500445, 15.670177585564113], "requested": "gpu", "observed": "cpu", "gpuNote": "CUDA unavailable: NVIDIA driver library not found", "distinct": 371}
+## Linux 4.2 reference
+[15.020151348500445, 15.670177585564113]
+## exact response gains, 8 seats, 4 threads: Windows then Linux
+[0.5426326263515246, 0.05855764838526234, 0.007465246631827682, 0.03621427267257005, 0.13927187905377458, 0.056570785543963, 0.10626431827068394, 0.13421150102554513]
+[0.5426326263515246, 0.05855764838526234, 0.007465246631827682, 0.03621427267257005, 0.13927187905377458, 0.056570785543963, 0.10626431827068394, 0.13421150102554513]
+## gpustress.exe (2 rounds, 4 threads)
+{"tool": "gpustress 4.2", "build": "80797f6402bc38b6", "rounds": 2, "maxThreads": 4, "referenceCpuSeconds": 0.0876, "cancelledJobs": 2, "cudaReinitialisations": 6, "failures": 0} allIdentical True

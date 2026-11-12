@@ -1,0 +1,33 @@
+{
+ "note": "interleaved 2 s timed runs, 1 thread, 6 repetitions per version",
+ "rows": [
+  {
+   "scenario": "Heads-up turn",
+   "deals32": 632426.6666666666,
+   "deals33": 645440,
+   "ratio": 1.0228170103198897,
+   "ci95": 0.05441515310199709
+  },
+  {
+   "scenario": "Heads-up river",
+   "deals32": 1078965.3333333333,
+   "deals33": 1073130.6666666667,
+   "ratio": 0.9952908206254828,
+   "ci95": 0.03646611940831366
+  },
+  {
+   "scenario": "Three-player river",
+   "deals32": 430389.3333333333,
+   "deals33": 417781.3333333333,
+   "ratio": 0.970894597092746,
+   "ci95": 0.0939139597730462
+  },
+  {
+   "scenario": "Eight-player linked preflop to river",
+   "deals32": 17578.666666666668,
+   "deals33": 17920,
+   "ratio": 1.0224780701754386,
+   "ci95": 0.06515976415754324
+  }
+ ]
+}

@@ -1,0 +1,341 @@
+{
+ "note": "ARITHMETIC MODEL of Windows PowerShell 5.1 (ConvertFrom-Json -> System.Decimal -> [double]); not a PowerShell run. selfTestReferences: the ten reference values of the 4.3 self-test; probeTable: mwcli --ieee.",
+ "selfTestReferences": {
+  "tool": "ps_number_model (arithmetic model; not a PowerShell run)",
+  "values": 10,
+  "changedByModelledCast": 1,
+  "rows": [
+   {
+    "text": "15.670177585564113",
+    "engineBits": "402f57218439052d",
+    "correctlyRoundedBits": "402f57218439052d",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402f57218439052c",
+    "modelledDigits": "15.670177585564112",
+    "ulpDistance": 1
+   },
+   {
+    "text": "15.020151348500445",
+    "engineBits": "402e0a51470d8f36",
+    "correctlyRoundedBits": "402e0a51470d8f36",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402e0a51470d8f36",
+    "modelledDigits": "15.020151348500445",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.54263262635152465",
+    "engineBits": "3fe15d3f18fd8430",
+    "correctlyRoundedBits": "3fe15d3f18fd8430",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fe15d3f18fd8430",
+    "modelledDigits": "0.5426326263515246",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.05855764838526234",
+    "engineBits": "3fadfb44a17da100",
+    "correctlyRoundedBits": "3fadfb44a17da100",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fadfb44a17da100",
+    "modelledDigits": "0.05855764838526234",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.0074652466318276814",
+    "engineBits": "3f7e93e0e23e8fff",
+    "correctlyRoundedBits": "3f7e93e0e23e8fff",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3f7e93e0e23e8fff",
+    "modelledDigits": "0.007465246631827681",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.036214272672570047",
+    "engineBits": "3fa28aad598de200",
+    "correctlyRoundedBits": "3fa28aad598de200",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fa28aad598de200",
+    "modelledDigits": "0.03621427267257005",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.13927187905377458",
+    "engineBits": "3fc1d3a932e4eb40",
+    "correctlyRoundedBits": "3fc1d3a932e4eb40",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fc1d3a932e4eb40",
+    "modelledDigits": "0.13927187905377458",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.056570785543963",
+    "engineBits": "3facf6d893a40500",
+    "correctlyRoundedBits": "3facf6d893a40500",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3facf6d893a40500",
+    "modelledDigits": "0.056570785543963",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.10626431827068394",
+    "engineBits": "3fbb34236bb44e80",
+    "correctlyRoundedBits": "3fbb34236bb44e80",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fbb34236bb44e80",
+    "modelledDigits": "0.10626431827068394",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.13421150102554513",
+    "engineBits": "3fc12dd7abd36dc0",
+    "correctlyRoundedBits": "3fc12dd7abd36dc0",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fc12dd7abd36dc0",
+    "modelledDigits": "0.13421150102554513",
+    "ulpDistance": 0
+   }
+  ]
+ },
+ "probeTable": {
+  "tool": "ps_number_model (arithmetic model; not a PowerShell run)",
+  "values": 26,
+  "changedByModelledCast": 3,
+  "rows": [
+   {
+    "text": "15.670177585564113",
+    "engineBits": "402f57218439052d",
+    "correctlyRoundedBits": "402f57218439052d",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402f57218439052c",
+    "modelledDigits": "15.670177585564112",
+    "ulpDistance": 1
+   },
+   {
+    "text": "15.670177585564112",
+    "engineBits": "402f57218439052c",
+    "correctlyRoundedBits": "402f57218439052c",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402f57218439052c",
+    "modelledDigits": "15.670177585564112",
+    "ulpDistance": 0
+   },
+   {
+    "text": "15.670177585564115",
+    "engineBits": "402f57218439052e",
+    "correctlyRoundedBits": "402f57218439052e",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402f57218439052e",
+    "modelledDigits": "15.670177585564115",
+    "ulpDistance": 0
+   },
+   {
+    "text": "15.020151348500445",
+    "engineBits": "402e0a51470d8f36",
+    "correctlyRoundedBits": "402e0a51470d8f36",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "402e0a51470d8f36",
+    "modelledDigits": "15.020151348500445",
+    "ulpDistance": 0
+   },
+   {
+    "text": "-15.670177585564113",
+    "engineBits": "c02f57218439052d",
+    "correctlyRoundedBits": "c02f57218439052d",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "c02f57218439052c",
+    "modelledDigits": "-15.670177585564112",
+    "ulpDistance": 1
+   },
+   {
+    "text": "-15.670177585564112",
+    "engineBits": "c02f57218439052c",
+    "correctlyRoundedBits": "c02f57218439052c",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "c02f57218439052c",
+    "modelledDigits": "-15.670177585564112",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.10000000000000001",
+    "engineBits": "3fb999999999999a",
+    "correctlyRoundedBits": "3fb999999999999a",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fb999999999999a",
+    "modelledDigits": "0.1",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.099999999999999992",
+    "engineBits": "3fb9999999999999",
+    "correctlyRoundedBits": "3fb9999999999999",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fb999999999999a",
+    "modelledDigits": "0.1",
+    "ulpDistance": 1
+   },
+   {
+    "text": "0.33333333333333331",
+    "engineBits": "3fd5555555555555",
+    "correctlyRoundedBits": "3fd5555555555555",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fd5555555555555",
+    "modelledDigits": "0.3333333333333333",
+    "ulpDistance": 0
+   },
+   {
+    "text": "1.0000000000000002",
+    "engineBits": "3ff0000000000001",
+    "correctlyRoundedBits": "3ff0000000000001",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3ff0000000000001",
+    "modelledDigits": "1.0000000000000002",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.99999999999999989",
+    "engineBits": "3fefffffffffffff",
+    "correctlyRoundedBits": "3fefffffffffffff",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fefffffffffffff",
+    "modelledDigits": "0.9999999999999999",
+    "ulpDistance": 0
+   },
+   {
+    "text": "9007199254740994",
+    "engineBits": "4340000000000001",
+    "correctlyRoundedBits": "4340000000000001",
+    "modelledType": "Int",
+    "modelledPowerShell51Bits": "4340000000000001",
+    "modelledDigits": "9007199254740994.0",
+    "ulpDistance": 0
+   },
+   {
+    "text": "9007199254740992",
+    "engineBits": "4340000000000000",
+    "correctlyRoundedBits": "4340000000000000",
+    "modelledType": "Int",
+    "modelledPowerShell51Bits": "4340000000000000",
+    "modelledDigits": "9007199254740992.0",
+    "ulpDistance": 0
+   },
+   {
+    "text": "4.9406564584124654e-324",
+    "engineBits": "0000000000000001",
+    "correctlyRoundedBits": "0000000000000001",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "0000000000000001",
+    "modelledDigits": "5e-324",
+    "ulpDistance": 0
+   },
+   {
+    "text": "2.2250738585072009e-308",
+    "engineBits": "000fffffffffffff",
+    "correctlyRoundedBits": "000fffffffffffff",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "000fffffffffffff",
+    "modelledDigits": "2.225073858507201e-308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "2.2250738585072014e-308",
+    "engineBits": "0010000000000000",
+    "correctlyRoundedBits": "0010000000000000",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "0010000000000000",
+    "modelledDigits": "2.2250738585072014e-308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "-2.2250738585072014e-308",
+    "engineBits": "8010000000000000",
+    "correctlyRoundedBits": "8010000000000000",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "8010000000000000",
+    "modelledDigits": "-2.2250738585072014e-308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "1e-300",
+    "engineBits": "01a56e1fc2f8f359",
+    "correctlyRoundedBits": "01a56e1fc2f8f359",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "01a56e1fc2f8f359",
+    "modelledDigits": "1e-300",
+    "ulpDistance": 0
+   },
+   {
+    "text": "1.0000000000000001e+300",
+    "engineBits": "7e37e43c8800759c",
+    "correctlyRoundedBits": "7e37e43c8800759c",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "7e37e43c8800759c",
+    "modelledDigits": "1e+300",
+    "ulpDistance": 0
+   },
+   {
+    "text": "1.7976931348623157e+308",
+    "engineBits": "7fefffffffffffff",
+    "correctlyRoundedBits": "7fefffffffffffff",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "7fefffffffffffff",
+    "modelledDigits": "1.7976931348623157e+308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "1.7976931348623155e+308",
+    "engineBits": "7feffffffffffffe",
+    "correctlyRoundedBits": "7feffffffffffffe",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "7feffffffffffffe",
+    "modelledDigits": "1.7976931348623155e+308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "-1.7976931348623157e+308",
+    "engineBits": "ffefffffffffffff",
+    "correctlyRoundedBits": "ffefffffffffffff",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "ffefffffffffffff",
+    "modelledDigits": "-1.7976931348623157e+308",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.54263262635152465",
+    "engineBits": "3fe15d3f18fd8430",
+    "correctlyRoundedBits": "3fe15d3f18fd8430",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fe15d3f18fd8430",
+    "modelledDigits": "0.5426326263515246",
+    "ulpDistance": 0
+   },
+   {
+    "text": "0.30000000000000004",
+    "engineBits": "3fd3333333333334",
+    "correctlyRoundedBits": "3fd3333333333334",
+    "modelledType": "Decimal",
+    "modelledPowerShell51Bits": "3fd3333333333334",
+    "modelledDigits": "0.30000000000000004",
+    "ulpDistance": 0
+   },
+   {
+    "text": "9.8813129168249309e-324",
+    "engineBits": "0000000000000002",
+    "correctlyRoundedBits": "0000000000000002",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "0000000000000002",
+    "modelledDigits": "1e-323",
+    "ulpDistance": 0
+   },
+   {
+    "text": "-1e-300",
+    "engineBits": "81a56e1fc2f8f359",
+    "correctlyRoundedBits": "81a56e1fc2f8f359",
+    "modelledType": "Double",
+    "modelledPowerShell51Bits": "81a56e1fc2f8f359",
+    "modelledDigits": "-1e-300",
+    "ulpDistance": 0
+   }
+  ]
+ }
+}

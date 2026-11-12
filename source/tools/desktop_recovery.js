@@ -13,7 +13,7 @@ async function startHost(){
  throw Error('Host failed to start');
 }
 function makeWorker(){
- worker=new Worker("const {parentPort,workerData}=require('node:worker_threads');const E=require(workerData+'/tools/loadlib');for(const l of ['lib_runouts','lib_wide','lib_river','worker'])require(workerData+'/web/'+l);const self={postMessage:m=>parentPort.postMessage(m)};E.workerMain(self);parentPort.on('message',data=>self.onmessage({data}));",{eval:true,workerData:source});
+ worker=new Worker("const {parentPort,workerData}=require('node:worker_threads');const E=require(workerData+'/tools/loadlib');for(const l of ['lib_runouts','lib_wide','lib_river','lib_archive','lib_select','worker'])require(workerData+'/web/'+l);const self={postMessage:m=>parentPort.postMessage(m)};E.workerMain(self);parentPort.on('message',data=>self.onmessage({data}));",{eval:true,workerData:source});
 }
 async function job(type,args,interrupt=false){
  return await new Promise((resolve,reject)=>{
@@ -40,7 +40,8 @@ async function killHost(){if(proc&&proc.exitCode===null){await new Promise(r=>{p
  const exported=await job('multi-export',{}),E=require('../tools/loadlib');for(const l of ['lib_runouts','lib_wide','lib_river'])require('../web/'+l);
  const reference=E.MultiwayGame(config);reference.iterate(it+11);assert.deepEqual(reference.snapshot().state,JSON.parse(exported.text).payload.state);
  const info=await(await fetch(origin+'/api/info')).json();
- fs.writeFileSync(path.join(info.saveDir,'autosave.emstudy'),'corrupt');
+ const slot=Number(fs.readFileSync(path.join(info.saveDir,'autosave.index'),'utf8')[0]);
+ fs.writeFileSync(path.join(info.saveDir,'autosave.'+slot+'.em35'),'corrupt');
  assert.equal((await job('multi-recover',{})).metrics.iterations,it);
  const bad=await fetch(origin+'/api/checkpoint/write',{method:'POST',body:'bad',headers:{'X-EightMax':'1'}});assert.equal(bad.status,400);
  fs.writeFileSync(result,JSON.stringify({passed:true,runtime:process.platform,periodicSaveAt:it,hostAndWorkerKilled:true,resumeEquivalent:true,corruptLatestRecoveredPrevious:true},null,2));

@@ -1,0 +1,4809 @@
+{
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "threadsAvailable": 4,
+ "node": "v22.23.4",
+ "metric": "largest exact unilateral response gain, BB",
+ "games": {
+  "three-player river": {
+   "config": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "evaluationDeals": 128
+   },
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "byDeals": [
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.0040722009301262,
+      "ci95": 0.639864666845881,
+      "n": 5
+     },
+     "seconds": 0.05921705640000045
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.2856928969587081,
+      "ci95": 0.06900535973103791,
+      "n": 5
+     },
+     "seconds": 0.2365595492000006
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.19314314452454226,
+      "ci95": 0.05795615104113725,
+      "n": 5
+     },
+     "seconds": 0.5847647286000008
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.1507881439901071,
+      "ci95": 0.05912790951851234,
+      "n": 5
+     },
+     "seconds": 1.1996466464000013
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.39205037898710043,
+      "ci95": 0.043249365450114936,
+      "n": 5
+     },
+     "seconds": 0.0278534
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.18335924431710762,
+      "ci95": 0.04707981008803169,
+      "n": 5
+     },
+     "seconds": 0.11970879999999999
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.10850902979568708,
+      "ci95": 0.018187666142195236,
+      "n": 5
+     },
+     "seconds": 0.2855924
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.08092102065729616,
+      "ci95": 0.01178930311427948,
+      "n": 5
+     },
+     "seconds": 0.5871932
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.049050081799606814,
+      "ci95": 0.0099507774089255,
+      "n": 5
+     },
+     "seconds": 1.4365843999999999
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.0381999387246422,
+      "ci95": 0.005435939056925399,
+      "n": 5
+     },
+     "seconds": 2.9362262
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.39205037898710043,
+      "ci95": 0.043249365450114936,
+      "n": 5
+     },
+     "seconds": 0.0258542
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.18335924431710762,
+      "ci95": 0.04707981008803169,
+      "n": 5
+     },
+     "seconds": 0.1327604
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.10850902979568708,
+      "ci95": 0.018187666142195236,
+      "n": 5
+     },
+     "seconds": 0.3287542
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.08092102065729616,
+      "ci95": 0.01178930311427948,
+      "n": 5
+     },
+     "seconds": 0.6573945999999999
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.049050081799606814,
+      "ci95": 0.0099507774089255,
+      "n": 5
+     },
+     "seconds": 1.6659834
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.0381999387246422,
+      "ci95": 0.005435939056925399,
+      "n": 5
+     },
+     "seconds": 3.0842888000000004
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 1.0040722009301262,
+      "ci95": 0.639864666845881,
+      "n": 5
+     },
+     "seconds": 0.0220078
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.2856928969587081,
+      "ci95": 0.06900535973103791,
+      "n": 5
+     },
+     "seconds": 0.1046492
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.19314314452454226,
+      "ci95": 0.05795615104113725,
+      "n": 5
+     },
+     "seconds": 0.25987459999999996
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.1507881439901071,
+      "ci95": 0.05912790951851234,
+      "n": 5
+     },
+     "seconds": 0.5461022
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.07532963136273647,
+      "ci95": 0.02296252403704698,
+      "n": 5
+     },
+     "seconds": 1.2758648000000001
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.0614270484421187,
+      "ci95": 0.02813579908860131,
+      "n": 5
+     },
+     "seconds": 2.4997834000000005
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 4000,
+     "gain": {
+      "mean": 0.771153073187617,
+      "ci95": 0.036848776340313374,
+      "n": 5
+     },
+     "seconds": 0.0262158
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 20000,
+     "gain": {
+      "mean": 0.3207699947006798,
+      "ci95": 0.05943858014213024,
+      "n": 5
+     },
+     "seconds": 0.10248300000000002
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.2646939567993842,
+      "ci95": 0.27470235692372574,
+      "n": 5
+     },
+     "seconds": 0.2596218
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.19136706005981113,
+      "ci95": 0.06993098226860522,
+      "n": 5
+     },
+     "seconds": 0.5053742
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.1150462978653298,
+      "ci95": 0.0649416582803334,
+      "n": 5
+     },
+     "seconds": 1.2039338
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.07926332877929898,
+      "ci95": 0.023438920172608912,
+      "n": 5
+     },
+     "seconds": 2.3949234000000006
+    }
+   ],
+   "byTime": [
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.2913586020061084,
+      "ci95": 0.056036550713149766,
+      "n": 5
+     },
+     "deals": 16819.2,
+     "seconds": 0.25053175799999927
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.20396961529503582,
+      "ci95": 0.05418551098516149,
+      "n": 5
+     },
+     "deals": 78067.2,
+     "seconds": 1.0004254239999992
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.08443616687508282,
+      "ci95": 0.0224925083380981,
+      "n": 5
+     },
+     "deals": 349504,
+     "seconds": 4.000313362199999
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.11142099269326682,
+      "ci95": 0.015513562883576203,
+      "n": 5
+     },
+     "deals": 41830.4,
+     "seconds": 0.2502834
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.06158135724017573,
+      "ci95": 0.01278515241251409,
+      "n": 5
+     },
+     "deals": 154163.2,
+     "seconds": 1.0008536
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.030418113029671547,
+      "ci95": 0.005180896739193739,
+      "n": 5
+     },
+     "deals": 671027.2,
+     "seconds": 4.00087
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.13846327010750964,
+      "ci95": 0.04714800838763107,
+      "n": 5
+     },
+     "deals": 36044.8,
+     "seconds": 0.25016120000000003
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.06268368960077098,
+      "ci95": 0.00788082131066338,
+      "n": 5
+     },
+     "deals": 144076.8,
+     "seconds": 1.0009998
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.034676604175948,
+      "ci95": 0.00940414405336151,
+      "n": 5
+     },
+     "deals": 630630.4,
+     "seconds": 4.000647600000001
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.22850100012656255,
+      "ci95": 0.06188946807639697,
+      "n": 5
+     },
+     "deals": 44979.2,
+     "seconds": 0.25027720000000003
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.08062572014618023,
+      "ci95": 0.019487994620616986,
+      "n": 5
+     },
+     "deals": 184755.2,
+     "seconds": 1.0002524000000002
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.059742445258755474,
+      "ci95": 0.03506333486449919,
+      "n": 5
+     },
+     "deals": 804236.8,
+     "seconds": 4.0001618
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.262116339563425,
+      "ci95": 0.2853443963790187,
+      "n": 5
+     },
+     "deals": 49971.2,
+     "seconds": 0.25281000000000003
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.12448846211788656,
+      "ci95": 0.08712869478737434,
+      "n": 5
+     },
+     "deals": 217497.6,
+     "seconds": 1.0035197999999999
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.09116508879688841,
+      "ci95": 0.05943265460206753,
+      "n": 5
+     },
+     "deals": 884531.2,
+     "seconds": 4.002211399999999
+    }
+   ],
+   "rows": [
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.08062913599999999,
+     "maxGainBb": 0.8448195767700373
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.24399648899999998,
+     "maxGainBb": 0.2732153208962833
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.566355775,
+     "maxGainBb": 0.15687984504777042
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 1.088724128,
+     "maxGainBb": 0.1302317118358669
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.2504203479999999,
+     "deals": 20224,
+     "maxGainBb": 0.26545878875204565
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.0004067939999997,
+     "deals": 73728,
+     "maxGainBb": 0.24356479677723097
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000463233,
+     "deals": 356544,
+     "maxGainBb": 0.11415776966722646
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.05084452299999975,
+     "maxGainBb": 1.881889065647668
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.24099842399999943,
+     "maxGainBb": 0.20089422052821782
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.5618726529999994,
+     "maxGainBb": 0.2557168546051569
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 1.0936169449999997,
+     "maxGainBb": 0.11988000664054077
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.2503895479999992,
+     "deals": 21056,
+     "maxGainBb": 0.22617863563509477
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000207746,
+     "deals": 76992,
+     "maxGainBb": 0.17152539515085863
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000097900999999,
+     "deals": 321472,
+     "maxGainBb": 0.06451151853342907
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.04702795900000092,
+     "maxGainBb": 0.6465003606459625
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.2138911300000018,
+     "maxGainBb": 0.2832616234649281
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.602854889000002,
+     "maxGainBb": 0.18970927134814008
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 1.1843895280000032,
+     "maxGainBb": 0.15219171867690284
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.25071876800000065,
+     "deals": 15296,
+     "maxGainBb": 0.33712460385633314
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.0004920809999984,
+     "deals": 83520,
+     "maxGainBb": 0.22670345061078256
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000075071000001,
+     "deals": 384128,
+     "maxGainBb": 0.08075626455302842
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.06867740100000083,
+     "maxGainBb": 1.0154805418580688
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.261676069000001,
+     "maxGainBb": 0.33136151785151835
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.6144717469999996,
+     "maxGainBb": 0.14162053932641872
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 1.3781061130000016,
+     "maxGainBb": 0.23256643967482127
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.2501765149999992,
+     "deals": 14144,
+     "maxGainBb": 0.3066286825038045
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.00044326,
+     "deals": 74240,
+     "maxGainBb": 0.23395081498641446
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000504916999998,
+     "deals": 326848,
+     "maxGainBb": 0.081819398611791
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.04890626300000076,
+     "maxGainBb": 0.6316714597288939
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.22223563400000057,
+     "maxGainBb": 0.3397318020525928
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.5782685790000033,
+     "maxGainBb": 0.2217892122952252
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 1.2533965180000015,
+     "maxGainBb": 0.11907084312240368
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.2509536109999972,
+     "deals": 13376,
+     "maxGainBb": 0.3214022992832639
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.0005772389999983,
+     "deals": 81856,
+     "maxGainBb": 0.14410361894989254
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000425689,
+     "deals": 358528,
+     "maxGainBb": 0.08093588300993915
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.033616,
+     "maxGainBb": 0.3826258704588037,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.141102,
+     "maxGainBb": 0.17545580748030076,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.293346,
+     "maxGainBb": 0.12699832941601752,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.542631,
+     "maxGainBb": 0.08022791041848265,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 1.383821,
+     "maxGainBb": 0.047358049906443433,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 2.920718,
+     "maxGainBb": 0.037166903124742134,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250027,
+     "deals": 47872,
+     "maxGainBb": 0.12077399247592258
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.0009,
+     "deals": 144640,
+     "maxGainBb": 0.07357630994718534
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.00106,
+     "deals": 622336,
+     "maxGainBb": 0.03207240123470623
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.028432,
+     "maxGainBb": 0.34717907065361153,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.111633,
+     "maxGainBb": 0.17646838850470647,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.289679,
+     "maxGainBb": 0.10087916673528419,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.5460290000000001,
+     "maxGainBb": 0.0958605537385564,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 1.296738,
+     "maxGainBb": 0.04585005657166885,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 2.840655,
+     "maxGainBb": 0.031438562262181335,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.25042,
+     "deals": 41472,
+     "maxGainBb": 0.09418232070831234
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000107,
+     "deals": 158976,
+     "maxGainBb": 0.07030015962247571
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000124,
+     "deals": 721920,
+     "maxGainBb": 0.023752097094767777
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.034224,
+     "maxGainBb": 0.4286654487102046,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.125385,
+     "maxGainBb": 0.24903841592504516,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.29144000000000003,
+     "maxGainBb": 0.09988341673495249,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.6342570000000001,
+     "maxGainBb": 0.08068326899237022,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 1.546289,
+     "maxGainBb": 0.03835242051918186,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 3.008941,
+     "maxGainBb": 0.04277265706600364,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250405,
+     "deals": 41216,
+     "maxGainBb": 0.10296471832441334
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.001777,
+     "deals": 154368,
+     "maxGainBb": 0.059652688236091045
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000738,
+     "deals": 647424,
+     "maxGainBb": 0.0328204544146784
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.020962,
+     "maxGainBb": 0.37583736780620214,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.10216700000000001,
+     "maxGainBb": 0.16205285025535776,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.261135,
+     "maxGainBb": 0.09358009185942961,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.602155,
+     "maxGainBb": 0.06950819351177717,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 1.472037,
+     "maxGainBb": 0.054854882675365424,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 2.867985,
+     "maxGainBb": 0.03843102453445013,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.250423,
+     "deals": 38400,
+     "maxGainBb": 0.12377101697275883
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.001166,
+     "deals": 151552,
+     "maxGainBb": 0.05566556412621715
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000551,
+     "deals": 637952,
+     "maxGainBb": 0.03430298762937145
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.022033,
+     "maxGainBb": 0.4259441373066801,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.118257,
+     "maxGainBb": 0.15378075942012792,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.292362,
+     "maxGainBb": 0.12120414423275161,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.610894,
+     "maxGainBb": 0.07832517662529437,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 1.484037,
+     "maxGainBb": 0.058834999325374504,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 3.0428319999999998,
+     "maxGainBb": 0.04119054663583377,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250142,
+     "deals": 40192,
+     "maxGainBb": 0.115412914984927
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.000318,
+     "deals": 161280,
+     "maxGainBb": 0.048712064268909394
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.001877,
+     "deals": 725504,
+     "maxGainBb": 0.02914262477483387
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.0317,
+     "maxGainBb": 0.3826258704588037,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.15698900000000002,
+     "maxGainBb": 0.17545580748030076,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.341264,
+     "maxGainBb": 0.12699832941601752,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.629114,
+     "maxGainBb": 0.08022791041848265,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 1.6208939999999998,
+     "maxGainBb": 0.047358049906443433,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 2.8599509999999997,
+     "maxGainBb": 0.037166903124742134,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250029,
+     "deals": 47872,
+     "maxGainBb": 0.12077399247592258
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.000651,
+     "deals": 154880,
+     "maxGainBb": 0.07278608694925204
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000039,
+     "deals": 690944,
+     "maxGainBb": 0.029919332729713588
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.021457,
+     "maxGainBb": 0.34717907065361153,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.10373500000000001,
+     "maxGainBb": 0.17646838850470647,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.25419400000000003,
+     "maxGainBb": 0.10087916673528419,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.506575,
+     "maxGainBb": 0.0958605537385564,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 1.3140640000000001,
+     "maxGainBb": 0.04585005657166885,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 2.705582,
+     "maxGainBb": 0.031438562262181335,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250076,
+     "deals": 31488,
+     "maxGainBb": 0.1145609007267856
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.00099,
+     "deals": 148736,
+     "maxGainBb": 0.058011322011517485
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000735,
+     "deals": 648448,
+     "maxGainBb": 0.025393687372264218
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.024824,
+     "maxGainBb": 0.4286654487102046,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.15278399999999998,
+     "maxGainBb": 0.24903841592504516,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.40324899999999997,
+     "maxGainBb": 0.09988341673495249,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.7862039999999999,
+     "maxGainBb": 0.08068326899237022,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 1.900005,
+     "maxGainBb": 0.03835242051918186,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 3.399692,
+     "maxGainBb": 0.04277265706600364,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.2503,
+     "deals": 27392,
+     "maxGainBb": 0.20588112987166696
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.00163,
+     "deals": 150016,
+     "maxGainBb": 0.05684125133980178
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000987,
+     "deals": 584448,
+     "maxGainBb": 0.03382651451201202
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.028103,
+     "maxGainBb": 0.37583736780620214,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.136108,
+     "maxGainBb": 0.16205285025535776,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.35115,
+     "maxGainBb": 0.09358009185942961,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.737075,
+     "maxGainBb": 0.06950819351177717,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 1.8687040000000001,
+     "maxGainBb": 0.054854882675365424,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 3.386483,
+     "maxGainBb": 0.03843102453445013,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.25008,
+     "deals": 38400,
+     "maxGainBb": 0.12377101697275883
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000142,
+     "deals": 134400,
+     "maxGainBb": 0.0641308442889148
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000639,
+     "deals": 612352,
+     "maxGainBb": 0.044259239764063985
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.023187,
+     "maxGainBb": 0.4259441373066801,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.114186,
+     "maxGainBb": 0.15378075942012792,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.293914,
+     "maxGainBb": 0.12120414423275161,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.628005,
+     "maxGainBb": 0.07832517662529437,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 1.6262500000000002,
+     "maxGainBb": 0.058834999325374504,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 3.0697360000000002,
+     "maxGainBb": 0.04119054663583377,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250321,
+     "deals": 35072,
+     "maxGainBb": 0.1273293104904143
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.001586,
+     "deals": 132352,
+     "maxGainBb": 0.06164894341436877
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000838,
+     "deals": 616960,
+     "maxGainBb": 0.039984246501686194
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.021616,
+     "maxGainBb": 0.8448195767700373,
+     "unvisited": 4
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.10493,
+     "maxGainBb": 0.2732153208962833,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.23210899999999998,
+     "maxGainBb": 0.15687984504777042,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.465655,
+     "maxGainBb": 0.1302317118358669,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 1.248089,
+     "maxGainBb": 0.05189292420994196,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 2.546804,
+     "maxGainBb": 0.05365156392754589,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250236,
+     "deals": 44864,
+     "maxGainBb": 0.18792020172019086
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.000259,
+     "deals": 151680,
+     "maxGainBb": 0.0942309135714039
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000065,
+     "deals": 854592,
+     "maxGainBb": 0.0330577573258557
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.027784,
+     "maxGainBb": 1.881889065647668,
+     "unvisited": 2
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.135487,
+     "maxGainBb": 0.20089422052821782,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.264826,
+     "maxGainBb": 0.2557168546051569,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.592679,
+     "maxGainBb": 0.11988000664054077,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 1.503291,
+     "maxGainBb": 0.09801225086353416,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 2.793114,
+     "maxGainBb": 0.0398291903240473,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250075,
+     "deals": 42304,
+     "maxGainBb": 0.312887121396761
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000262,
+     "deals": 147520,
+     "maxGainBb": 0.07929090080704349
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000102,
+     "deals": 736960,
+     "maxGainBb": 0.10731564963281492
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.019723,
+     "maxGainBb": 0.6465003606459625,
+     "unvisited": 2
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.08742,
+     "maxGainBb": 0.2832616234649281,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.217171,
+     "maxGainBb": 0.18970927134814008,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.454284,
+     "maxGainBb": 0.15219171867690284,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 1.06189,
+     "maxGainBb": 0.07857676578028538,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 2.189782,
+     "maxGainBb": 0.04249884517156843,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250289,
+     "deals": 49344,
+     "maxGainBb": 0.21325214693952255
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.000512,
+     "deals": 214464,
+     "maxGainBb": 0.06242835666915436
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000232,
+     "deals": 833792,
+     "maxGainBb": 0.05249324239209474
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.018887,
+     "maxGainBb": 1.0154805418580688,
+     "unvisited": 4
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.085934,
+     "maxGainBb": 0.33136151785151835,
+     "unvisited": 1
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.328635,
+     "maxGainBb": 0.14162053932641872,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.7030540000000001,
+     "maxGainBb": 0.23256643967482127,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 1.365085,
+     "maxGainBb": 0.08614590978526593,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 2.676139,
+     "maxGainBb": 0.0843958597676071,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.25029,
+     "deals": 56256,
+     "maxGainBb": 0.19790112468840615
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000137,
+     "deals": 235264,
+     "maxGainBb": 0.0985902871336295
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000117,
+     "deals": 772864,
+     "maxGainBb": 0.04700941174602136
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.022029,
+     "maxGainBb": 0.6316714597288939,
+     "unvisited": 3
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.10947499999999999,
+     "maxGainBb": 0.3397318020525928,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.25663199999999997,
+     "maxGainBb": 0.2217892122952252,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.514839,
+     "maxGainBb": 0.11907084312240368,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 1.2009690000000002,
+     "maxGainBb": 0.06202030617465493,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 2.2930780000000004,
+     "maxGainBb": 0.08675978301982479,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250496,
+     "deals": 32128,
+     "maxGainBb": 0.23054440588793224
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.000092,
+     "deals": 174848,
+     "maxGainBb": 0.06858814254966994
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000293,
+     "deals": 822976,
+     "maxGainBb": 0.05883616519699064
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.031823,
+     "maxGainBb": 0.7803382869094901,
+     "unvisited": 6
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.144696,
+     "maxGainBb": 0.3577690065065102,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.35183299999999995,
+     "maxGainBb": 0.1683745233187377,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.6089959999999999,
+     "maxGainBb": 0.1487350152067881,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 1.2078449999999998,
+     "maxGainBb": 0.20152132164715386,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 2.647019,
+     "maxGainBb": 0.07582324931685758,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.252591,
+     "deals": 36864,
+     "maxGainBb": 0.2344851701378099
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.003596,
+     "deals": 184320,
+     "maxGainBb": 0.2444058772511335
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000608,
+     "deals": 986112,
+     "maxGainBb": 0.14686151412502735
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.028576,
+     "maxGainBb": 0.7272423388349472,
+     "unvisited": 1
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.092127,
+     "maxGainBb": 0.24781409072603378,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.283782,
+     "maxGainBb": 0.22157685249433623,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.526978,
+     "maxGainBb": 0.20193719897885742,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 1.134256,
+     "maxGainBb": 0.0838664117753174,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 2.269083,
+     "maxGainBb": 0.10405976638087466,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.252321,
+     "deals": 61440,
+     "maxGainBb": 0.13486293676133876
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.002769,
+     "deals": 248832,
+     "maxGainBb": 0.08120925451706729
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.001441,
+     "deals": 923648,
+     "maxGainBb": 0.11914607980694214
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.019512,
+     "maxGainBb": 0.8095886600096298,
+     "unvisited": 4
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.08622200000000001,
+     "maxGainBb": 0.3192127865526908,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.20777600000000002,
+     "maxGainBb": 0.6548008859019578,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.431263,
+     "maxGainBb": 0.23792853034923933,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 1.201788,
+     "maxGainBb": 0.09824673348269553,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 2.404484,
+     "maxGainBb": 0.09291087287201094,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.253707,
+     "deals": 51200,
+     "maxGainBb": 0.6656558933763783
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.003461,
+     "deals": 223232,
+     "maxGainBb": 0.08453979479848606
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.002395,
+     "deals": 780288,
+     "maxGainBb": 0.10711492017471613
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.019816,
+     "maxGainBb": 0.7729935296034087,
+     "unvisited": 5
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.084656,
+     "maxGainBb": 0.3097650211287375,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.22746,
+     "maxGainBb": 0.11581352433761705,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.5330360000000001,
+     "maxGainBb": 0.11896476649573273,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 1.4462450000000002,
+     "maxGainBb": 0.12293023475102594,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 2.514219,
+     "maxGainBb": 0.062104629357118135,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.251108,
+     "deals": 56320,
+     "maxGainBb": 0.12048282026959001
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.00259,
+     "deals": 208896,
+     "maxGainBb": 0.13043268662476049
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.002497,
+     "deals": 830464,
+     "maxGainBb": 0.047055786611820416
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.031352,
+     "maxGainBb": 0.765602550580609,
+     "unvisited": 7
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.104714,
+     "maxGainBb": 0.3692890685894268,
+     "unvisited": 1
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.22725800000000002,
+     "maxGainBb": 0.16290399794427213,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.42659800000000003,
+     "maxGainBb": 0.24926978926843812,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 1.029535,
+     "maxGainBb": 0.06866678767045631,
+     "unvisited": 0
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 2.139812,
+     "maxGainBb": 0.061418125969633586,
+     "unvisited": 0
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.254323,
+     "deals": 44032,
+     "maxGainBb": 0.155094877272008
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.005183,
+     "deals": 222208,
+     "maxGainBb": 0.08185469739798545
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.004116,
+     "deals": 902144,
+     "maxGainBb": 0.03564714326593599
+    }
+   ]
+  },
+  "heads-up turn": {
+   "config": {
+    "board": "Qs9h4d2c",
+    "common": 10,
+    "stacks": [
+     40,
+     40
+    ],
+    "ranges": [
+     "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "streets": {
+     "turn": {
+      "bets": "60",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "75,a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "evaluationDeals": 128
+   },
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "byDeals": [
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.361805553559864,
+      "ci95": 0.23652436678994765,
+      "n": 5
+     },
+     "seconds": 0.0804567180000071
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.1305616362103605,
+      "ci95": 0.1871576527526245,
+      "n": 5
+     },
+     "seconds": 0.37920180379999796
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 50000,
+     "gain": {
+      "mean": 1.2345561645793042,
+      "ci95": 0.11413384554985952,
+      "n": 5
+     },
+     "seconds": 0.8239417629999982
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.832381308159637,
+      "ci95": 0.11050404343439299,
+      "n": 5
+     },
+     "seconds": 1.576092870800005
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 3.2846159218613273,
+      "ci95": 0.12095966396162681,
+      "n": 5
+     },
+     "seconds": 0.014166999999999999
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 1.300721667761625,
+      "ci95": 0.13415556694633976,
+      "n": 5
+     },
+     "seconds": 0.0697942
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.7549553600216201,
+      "ci95": 0.051001694154142366,
+      "n": 5
+     },
+     "seconds": 0.15585200000000002
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.5239971567743522,
+      "ci95": 0.04943544060472898,
+      "n": 5
+     },
+     "seconds": 0.3226046
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.3033017981536634,
+      "ci95": 0.011782134636729134,
+      "n": 5
+     },
+     "seconds": 0.8160894000000001
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.19833415879590874,
+      "ci95": 0.01911812591637543,
+      "n": 5
+     },
+     "seconds": 1.5509584
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 4000,
+     "gain": {
+      "mean": 3.2846159218613273,
+      "ci95": 0.12095966396162681,
+      "n": 5
+     },
+     "seconds": 0.0124688
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 20000,
+     "gain": {
+      "mean": 1.300721667761625,
+      "ci95": 0.13415556694633976,
+      "n": 5
+     },
+     "seconds": 0.06998960000000001
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 50000,
+     "gain": {
+      "mean": 0.7549553600216201,
+      "ci95": 0.051001694154142366,
+      "n": 5
+     },
+     "seconds": 0.1543326
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.5239971567743522,
+      "ci95": 0.04943544060472898,
+      "n": 5
+     },
+     "seconds": 0.29987259999999993
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.3033017981536634,
+      "ci95": 0.011782134636729134,
+      "n": 5
+     },
+     "seconds": 0.7347822
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.19833415879590874,
+      "ci95": 0.01911812591637543,
+      "n": 5
+     },
+     "seconds": 1.5153273999999999
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.361805553559864,
+      "ci95": 0.23652436678994765,
+      "n": 5
+     },
+     "seconds": 0.0163592
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.1305616362103605,
+      "ci95": 0.1871576527526245,
+      "n": 5
+     },
+     "seconds": 0.0741294
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 50000,
+     "gain": {
+      "mean": 1.2345561645793042,
+      "ci95": 0.11413384554985952,
+      "n": 5
+     },
+     "seconds": 0.18479900000000002
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.832381308159637,
+      "ci95": 0.11050404343439299,
+      "n": 5
+     },
+     "seconds": 0.39170340000000003
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.4771766489795648,
+      "ci95": 0.02648863428896194,
+      "n": 5
+     },
+     "seconds": 0.9567855999999999
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.2977217037797916,
+      "ci95": 0.03779926239233758,
+      "n": 5
+     },
+     "seconds": 1.8536953999999999
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 4000,
+     "gain": {
+      "mean": 5.546065618759117,
+      "ci95": 0.7745112912343565,
+      "n": 5
+     },
+     "seconds": 0.015046599999999999
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 20000,
+     "gain": {
+      "mean": 2.163461080325563,
+      "ci95": 0.17006663302997682,
+      "n": 5
+     },
+     "seconds": 0.0656284
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 50000,
+     "gain": {
+      "mean": 1.2452474686517392,
+      "ci95": 0.09615419672517099,
+      "n": 5
+     },
+     "seconds": 0.16494560000000003
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 100000,
+     "gain": {
+      "mean": 0.7980972722030825,
+      "ci95": 0.08318163727804864,
+      "n": 5
+     },
+     "seconds": 0.33715579999999995
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 250000,
+     "gain": {
+      "mean": 0.4741482177072762,
+      "ci95": 0.034952451721807186,
+      "n": 5
+     },
+     "seconds": 0.776999
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "deals": 500000,
+     "gain": {
+      "mean": 0.29591549000524375,
+      "ci95": 0.04588646745481726,
+      "n": 5
+     },
+     "seconds": 1.5123526
+    }
+   ],
+   "byTime": [
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 2.548966984545266,
+      "ci95": 0.36825135418284827,
+      "n": 5
+     },
+     "deals": 15372.8,
+     "seconds": 0.2505181797999947
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 1.0172996182304528,
+      "ci95": 0.08500497356077089,
+      "n": 5
+     },
+     "deals": 68736,
+     "seconds": 1.0003963702000096
+    },
+    {
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.45809807839839706,
+      "ci95": 0.047770077459199485,
+      "n": 5
+     },
+     "deals": 277145.6,
+     "seconds": 4.0002621641999925
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.5618996102292355,
+      "ci95": 0.10626371724821879,
+      "n": 5
+     },
+     "deals": 84889.6,
+     "seconds": 0.250524
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.26765115177336257,
+      "ci95": 0.04800919727905741,
+      "n": 5
+     },
+     "deals": 326451.2,
+     "seconds": 1.0005140000000001
+    },
+    {
+     "engine": "3.0 native full traversal (batch 4)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.10723193361899779,
+      "ci95": 0.017597543967792912,
+      "n": 5
+     },
+     "deals": 1414963.2,
+     "seconds": 4.0002493999999995
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.6551392636773973,
+      "ci95": 0.06322315900790046,
+      "n": 5
+     },
+     "deals": 70553.6,
+     "seconds": 0.25045280000000003
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.274626518621047,
+      "ci95": 0.03457557827184066,
+      "n": 5
+     },
+     "deals": 301107.2,
+     "seconds": 1.0004442
+    },
+    {
+     "engine": "3.1 native full traversal (batch 4)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.1128478203679311,
+      "ci95": 0.006400335912655313,
+      "n": 5
+     },
+     "deals": 1256652.8,
+     "seconds": 4.0006088
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 1.0742265441618752,
+      "ci95": 0.20274887851773676,
+      "n": 5
+     },
+     "deals": 69145.6,
+     "seconds": 0.25020960000000003
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.438531479251249,
+      "ci95": 0.041203696539562906,
+      "n": 5
+     },
+     "deals": 285875.2,
+     "seconds": 1.0001828
+    },
+    {
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.2077247495344105,
+      "ci95": 0.03232876923448567,
+      "n": 5
+     },
+     "deals": 1124083.2,
+     "seconds": 4.0002432
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 250,
+     "gain": {
+      "mean": 0.9802231688832164,
+      "ci95": 0.2316661821909976,
+      "n": 5
+     },
+     "deals": 80691.2,
+     "seconds": 0.2516628
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 1000,
+     "gain": {
+      "mean": 0.41137142978374347,
+      "ci95": 0.022854606455765723,
+      "n": 5
+     },
+     "deals": 291430.4,
+     "seconds": 1.0018514
+    },
+    {
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "budgetMs": 4000,
+     "gain": {
+      "mean": 0.18029994019307713,
+      "ci95": 0.03201370131798455,
+      "n": 5
+     },
+     "deals": 1354956.8,
+     "seconds": 4.002438199999999
+    }
+   ],
+   "rows": [
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.11044989499999792,
+     "maxGainBb": 5.191325159753887
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.41008667600000626,
+     "maxGainBb": 2.290003129619008
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.8770467370000261,
+     "maxGainBb": 1.2456513917973044
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 1.372961871000036,
+     "maxGainBb": 0.8476484532198674
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250378246999986,
+     "deals": 20160,
+     "maxGainBb": 2.302424835522939
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.0004583630000126,
+     "deals": 79616,
+     "maxGainBb": 0.929679610930813
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000073868999985,
+     "deals": 331776,
+     "maxGainBb": 0.4287608996567592
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.04942582400000538,
+     "maxGainBb": 5.273656940712501
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.2236335609999951,
+     "maxGainBb": 2.1867502527117866
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.5818785939999798,
+     "maxGainBb": 1.1771677692401512
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 1.1793998389999905,
+     "maxGainBb": 0.7185200212958229
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.2504717839999939,
+     "deals": 19776,
+     "maxGainBb": 2.1675451876678995
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.0005643789999885,
+     "deals": 64576,
+     "maxGainBb": 0.9756471620443916
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000646444999991,
+     "deals": 313664,
+     "maxGainBb": 0.4326342093936826
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.08595943099999567,
+     "maxGainBb": 5.556207804489973
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.37813861499997437,
+     "maxGainBb": 1.9068243070009445
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.9214914439999847,
+     "maxGainBb": 1.297122641760771
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 1.86271932199999,
+     "maxGainBb": 0.9042466947903892
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.25057274800000595,
+     "deals": 12480,
+     "maxGainBb": 2.6926002052628863
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.0000174210000259,
+     "deals": 66112,
+     "maxGainBb": 1.0322853188251213
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000207205999992,
+     "deals": 260672,
+     "maxGainBb": 0.42867239778147137
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.0657718880000175,
+     "maxGainBb": 5.208846596764833
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.4655533630000136,
+     "maxGainBb": 2.0563884539387973
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.9530379020000109,
+     "maxGainBb": 1.3411900028518473
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 1.8931469930000313,
+     "maxGainBb": 0.926282979853927
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.25066082299998377,
+     "deals": 12800,
+     "maxGainBb": 2.7288234889923384
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000287868000014,
+     "deals": 77376,
+     "maxGainBb": 1.0384854401394648
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.0002694349999945,
+     "deals": 229504,
+     "maxGainBb": 0.5006863266754176
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.090676552000019,
+     "maxGainBb": 5.578991266078128
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.4185968040000007,
+     "maxGainBb": 2.2128420377812668
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.7862541379999893,
+     "maxGainBb": 1.1116490172464468
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 1.5722363289999777,
+     "maxGainBb": 0.7652083916381783
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.25050729700000374,
+     "deals": 11648,
+     "maxGainBb": 2.853441205280264
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.0006538200000068,
+     "deals": 56000,
+     "maxGainBb": 1.1104005592124733
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 JavaScript external sampling (batch 1)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.0001138659999995,
+     "deals": 250112,
+     "maxGainBb": 0.49973655848465465
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.015045,
+     "maxGainBb": 3.2065924257138745,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.075901,
+     "maxGainBb": 1.3573430408484277,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.153901,
+     "maxGainBb": 0.6835081208271486,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.285671,
+     "maxGainBb": 0.5347713196576749,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 0.843653,
+     "maxGainBb": 0.31124384549958195,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 1.497331,
+     "maxGainBb": 0.17553127275085265,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.25033,
+     "deals": 103424,
+     "maxGainBb": 0.5125583769413415
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.000736,
+     "deals": 279296,
+     "maxGainBb": 0.321676144961368
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000069,
+     "deals": 1409280,
+     "maxGainBb": 0.09697364537763312
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.014859,
+     "maxGainBb": 3.3581349182782567,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.064156,
+     "maxGainBb": 1.457336469866478,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.13581300000000002,
+     "maxGainBb": 0.781000042761479,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.29943000000000003,
+     "maxGainBb": 0.5183911215501781,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 0.734874,
+     "maxGainBb": 0.3120096281248358,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 1.3685930000000002,
+     "maxGainBb": 0.197829750517233,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250728,
+     "deals": 83456,
+     "maxGainBb": 0.5193708541269524
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000633,
+     "deals": 328448,
+     "maxGainBb": 0.2680129601216827
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000231,
+     "deals": 1466624,
+     "maxGainBb": 0.09877833365676442
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.011009,
+     "maxGainBb": 3.3726182567531935,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.072308,
+     "maxGainBb": 1.1898288209611128,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.162281,
+     "maxGainBb": 0.7635467401049013,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.334548,
+     "maxGainBb": 0.5222929149488027,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 0.832492,
+     "maxGainBb": 0.3050853499060252,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 1.650725,
+     "maxGainBb": 0.21392339237508326,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250262,
+     "deals": 93952,
+     "maxGainBb": 0.4721952238195988
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.000494,
+     "deals": 346368,
+     "maxGainBb": 0.2522881362286755
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000514,
+     "deals": 1271552,
+     "maxGainBb": 0.12804362559089583
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.017138,
+     "maxGainBb": 3.3301873927569483,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.066567,
+     "maxGainBb": 1.2763955961648217,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.183759,
+     "maxGainBb": 0.7629565832211154,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.39081699999999997,
+     "maxGainBb": 0.5778808338626589,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 0.91845,
+     "maxGainBb": 0.28917082162507557,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 1.712529,
+     "maxGainBb": 0.21101255535084398,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.250838,
+     "deals": 68352,
+     "maxGainBb": 0.6689894007315065
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000688,
+     "deals": 312064,
+     "maxGainBb": 0.2802766996783337
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000185,
+     "deals": 1354752,
+     "maxGainBb": 0.1159717028287485
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.012784,
+     "maxGainBb": 3.155546615804365,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.070039,
+     "maxGainBb": 1.222704410967284,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.14350600000000002,
+     "maxGainBb": 0.783765313193456,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.302557,
+     "maxGainBb": 0.46664959385244664,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 0.750978,
+     "maxGainBb": 0.29899934561279873,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 1.525614,
+     "maxGainBb": 0.19337382298553085,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250462,
+     "deals": 75264,
+     "maxGainBb": 0.6363841955267785
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.000019,
+     "deals": 366080,
+     "maxGainBb": 0.21600181787675302
+    },
+    {
+     "kind": "time",
+     "engine": "3.0 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000248,
+     "deals": 1572608,
+     "maxGainBb": 0.09639236064094714
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.01544,
+     "maxGainBb": 3.2065924257138745,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.071147,
+     "maxGainBb": 1.3573430408484277,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.146119,
+     "maxGainBb": 0.6835081208271486,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.311874,
+     "maxGainBb": 0.5347713196576749,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 0.707839,
+     "maxGainBb": 0.31124384549958195,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 1.4138579999999998,
+     "maxGainBb": 0.17553127275085265,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250623,
+     "deals": 62464,
+     "maxGainBb": 0.681701425496305
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.000907,
+     "deals": 341504,
+     "maxGainBb": 0.2644555413621758
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000649,
+     "deals": 1142784,
+     "maxGainBb": 0.11815322614594398
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.010954,
+     "maxGainBb": 3.3581349182782567,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.073187,
+     "maxGainBb": 1.457336469866478,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.154312,
+     "maxGainBb": 0.781000042761479,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.279974,
+     "maxGainBb": 0.5183911215501781,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 0.709597,
+     "maxGainBb": 0.3120096281248358,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 1.509083,
+     "maxGainBb": 0.197829750517233,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.25053,
+     "deals": 75776,
+     "maxGainBb": 0.5925629199208048
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000037,
+     "deals": 265216,
+     "maxGainBb": 0.296559083086525
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000549,
+     "deals": 1327104,
+     "maxGainBb": 0.10956452416467705
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.0119,
+     "maxGainBb": 3.3726182567531935,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.062775,
+     "maxGainBb": 1.1898288209611128,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.13444099999999998,
+     "maxGainBb": 0.7635467401049013,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.266306,
+     "maxGainBb": 0.5222929149488027,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 0.680132,
+     "maxGainBb": 0.3050853499060252,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 1.585705,
+     "maxGainBb": 0.21392339237508326,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250215,
+     "deals": 78848,
+     "maxGainBb": 0.6436517186288664
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.000079,
+     "deals": 274432,
+     "maxGainBb": 0.30901845420449064
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000171,
+     "deals": 1238016,
+     "maxGainBb": 0.11046621786548183
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.012323,
+     "maxGainBb": 3.3301873927569483,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.076126,
+     "maxGainBb": 1.2763955961648217,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.15060800000000002,
+     "maxGainBb": 0.7629565832211154,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.307566,
+     "maxGainBb": 0.5778808338626589,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 0.8696200000000001,
+     "maxGainBb": 0.28917082162507557,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 1.649272,
+     "maxGainBb": 0.21101255535084398,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.250679,
+     "deals": 62976,
+     "maxGainBb": 0.7262843011307658
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000968,
+     "deals": 287744,
+     "maxGainBb": 0.26317440120663455
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.001401,
+     "deals": 1232896,
+     "maxGainBb": 0.11857966071059134
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.011727,
+     "maxGainBb": 3.155546615804365,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.066713,
+     "maxGainBb": 1.222704410967284,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.186183,
+     "maxGainBb": 0.783765313193456,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.333643,
+     "maxGainBb": 0.46664959385244664,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 0.706723,
+     "maxGainBb": 0.29899934561279873,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 1.4187189999999998,
+     "maxGainBb": 0.19337382298553085,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250217,
+     "deals": 72704,
+     "maxGainBb": 0.6314959532102445
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.00023,
+     "deals": 336640,
+     "maxGainBb": 0.23992511324540883
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native full traversal (batch 4)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000274,
+     "deals": 1342464,
+     "maxGainBb": 0.10747547295296131
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.018677,
+     "maxGainBb": 5.191325159753887,
+     "unvisited": 1007
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.07389699999999999,
+     "maxGainBb": 2.290003129619008,
+     "unvisited": 358
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.173119,
+     "maxGainBb": 1.2456513917973044,
+     "unvisited": 271
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.37741800000000003,
+     "maxGainBb": 0.8476484532198674,
+     "unvisited": 234
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 0.931867,
+     "maxGainBb": 0.48651928991291604,
+     "unvisited": 218
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 1.7944529999999999,
+     "maxGainBb": 0.26709056081786187,
+     "unvisited": 218
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250107,
+     "deals": 86848,
+     "maxGainBb": 0.9208737520927115
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.000174,
+     "deals": 340544,
+     "maxGainBb": 0.4060809616985843
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.000315,
+     "deals": 1091264,
+     "maxGainBb": 0.19257449828275497
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.014162,
+     "maxGainBb": 5.273656940712501,
+     "unvisited": 1017
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.058995,
+     "maxGainBb": 2.1867502527117866,
+     "unvisited": 409
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.140332,
+     "maxGainBb": 1.1771677692401512,
+     "unvisited": 254
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.367618,
+     "maxGainBb": 0.7185200212958229,
+     "unvisited": 231
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 1.04873,
+     "maxGainBb": 0.44982150649629515,
+     "unvisited": 221
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 2.024859,
+     "maxGainBb": 0.28919361281903844,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.250346,
+     "deals": 55232,
+     "maxGainBb": 1.0851459148665503
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000333,
+     "deals": 269120,
+     "maxGainBb": 0.42616073231448726
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000143,
+     "deals": 1033984,
+     "maxGainBb": 0.18516476657836198
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.015173,
+     "maxGainBb": 5.556207804489973,
+     "unvisited": 923
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.08876,
+     "maxGainBb": 1.9068243070009445,
+     "unvisited": 397
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.19268600000000002,
+     "maxGainBb": 1.297122641760771,
+     "unvisited": 255
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.372649,
+     "maxGainBb": 0.9042466947903892,
+     "unvisited": 228
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 0.83466,
+     "maxGainBb": 0.4596341230722799,
+     "unvisited": 218
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 1.476213,
+     "maxGainBb": 0.34837603940269346,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.250102,
+     "deals": 92544,
+     "maxGainBb": 0.9318501211711747
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.000062,
+     "deals": 279424,
+     "maxGainBb": 0.4273581838431889
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.000361,
+     "deals": 1027840,
+     "maxGainBb": 0.2518330722180459
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.019192,
+     "maxGainBb": 5.208846596764833,
+     "unvisited": 901
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.09184,
+     "maxGainBb": 2.0563884539387973,
+     "unvisited": 376
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.22823000000000002,
+     "maxGainBb": 1.3411900028518473,
+     "unvisited": 259
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.42321600000000004,
+     "maxGainBb": 0.926282979853927,
+     "unvisited": 228
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 0.9540430000000001,
+     "maxGainBb": 0.4901796401878652,
+     "unvisited": 219
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 1.9883250000000001,
+     "maxGainBb": 0.28626328576068116,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.250177,
+     "deals": 61248,
+     "maxGainBb": 1.3220365344907017
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.000145,
+     "deals": 248448,
+     "maxGainBb": 0.4939840207897569
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.000095,
+     "deals": 1386176,
+     "maxGainBb": 0.20252532004563178
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.014592,
+     "maxGainBb": 5.578991266078128,
+     "unvisited": 901
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.057155,
+     "maxGainBb": 2.2128420377812668,
+     "unvisited": 353
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.18962800000000002,
+     "maxGainBb": 1.1116490172464468,
+     "unvisited": 263
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.417616,
+     "maxGainBb": 0.7652083916381783,
+     "unvisited": 229
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 1.014628,
+     "maxGainBb": 0.4997286852284675,
+     "unvisited": 219
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 1.9846270000000001,
+     "maxGainBb": 0.29768502009868303,
+     "unvisited": 218
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.250316,
+     "deals": 49856,
+     "maxGainBb": 1.1112263981882382
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.0002,
+     "deals": 291840,
+     "maxGainBb": 0.4390734976102275
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (shared stream, batch 1)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.000302,
+     "deals": 1081152,
+     "maxGainBb": 0.2065260905472578
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 4000,
+     "seconds": 0.014126,
+     "maxGainBb": 5.596007941234621,
+     "unvisited": 822
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 20000,
+     "seconds": 0.069,
+     "maxGainBb": 2.2190161331938825,
+     "unvisited": 334
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 50000,
+     "seconds": 0.18544500000000003,
+     "maxGainBb": 1.2750721847643054,
+     "unvisited": 264
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 100000,
+     "seconds": 0.39632,
+     "maxGainBb": 0.7809188875257962,
+     "unvisited": 229
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 250000,
+     "seconds": 0.8303579999999999,
+     "maxGainBb": 0.4499875109196546,
+     "unvisited": 218
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "deals": 500000,
+     "seconds": 1.51805,
+     "maxGainBb": 0.25200217576782125,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 250,
+     "seconds": 0.250858,
+     "deals": 58368,
+     "maxGainBb": 1.1291651645300806
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 1000,
+     "seconds": 1.001319,
+     "deals": 263168,
+     "maxGainBb": 0.4246214729430853
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 1,
+     "budgetMs": 4000,
+     "seconds": 4.003089,
+     "deals": 1371136,
+     "maxGainBb": 0.16064857428293763
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 4000,
+     "seconds": 0.016799,
+     "maxGainBb": 5.179356911975452,
+     "unvisited": 880
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 20000,
+     "seconds": 0.06309000000000001,
+     "maxGainBb": 2.0642195988429597,
+     "unvisited": 323
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 50000,
+     "seconds": 0.149789,
+     "maxGainBb": 1.1844814252178324,
+     "unvisited": 257
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 100000,
+     "seconds": 0.35881399999999997,
+     "maxGainBb": 0.7287913924587126,
+     "unvisited": 230
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 250000,
+     "seconds": 0.7721389999999999,
+     "maxGainBb": 0.4380434982931993,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "deals": 500000,
+     "seconds": 1.524716,
+     "maxGainBb": 0.34728535697344576,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 250,
+     "seconds": 0.253438,
+     "deals": 81920,
+     "maxGainBb": 0.8855059125590056
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 1000,
+     "seconds": 1.000819,
+     "deals": 278528,
+     "maxGainBb": 0.4128953801561107
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 2,
+     "budgetMs": 4000,
+     "seconds": 4.000957,
+     "deals": 1265664,
+     "maxGainBb": 0.20909112086702475
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 4000,
+     "seconds": 0.016249,
+     "maxGainBb": 6.606667692137425,
+     "unvisited": 916
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 20000,
+     "seconds": 0.061186,
+     "maxGainBb": 2.2115929689244584,
+     "unvisited": 311
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 50000,
+     "seconds": 0.157607,
+     "maxGainBb": 1.3099283925404075,
+     "unvisited": 249
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 100000,
+     "seconds": 0.29829,
+     "maxGainBb": 0.7511982063324723,
+     "unvisited": 226
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 250000,
+     "seconds": 0.880441,
+     "maxGainBb": 0.5011912280801285,
+     "unvisited": 217
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "deals": 500000,
+     "seconds": 1.729556,
+     "maxGainBb": 0.27898081569800054,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 250,
+     "seconds": 0.251166,
+     "deals": 66560,
+     "maxGainBb": 1.2289757661629856
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 1000,
+     "seconds": 1.002013,
+     "deals": 289792,
+     "maxGainBb": 0.4080236781982839
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 3,
+     "budgetMs": 4000,
+     "seconds": 4.001709,
+     "deals": 1345536,
+     "maxGainBb": 0.17053578383937382
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 4000,
+     "seconds": 0.014131,
+     "maxGainBb": 5.269952984766129,
+     "unvisited": 896
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 20000,
+     "seconds": 0.07919000000000001,
+     "maxGainBb": 2.3341571017799456,
+     "unvisited": 308
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 50000,
+     "seconds": 0.192978,
+     "maxGainBb": 1.3139946903224207,
+     "unvisited": 245
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 100000,
+     "seconds": 0.369034,
+     "maxGainBb": 0.8350902458379371,
+     "unvisited": 228
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 250000,
+     "seconds": 0.778842,
+     "maxGainBb": 0.49047975400612176,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "deals": 500000,
+     "seconds": 1.384803,
+     "maxGainBb": 0.2838366811565555,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 250,
+     "seconds": 0.250547,
+     "deals": 99328,
+     "maxGainBb": 0.8421189360843968
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 1000,
+     "seconds": 1.002643,
+     "deals": 271360,
+     "maxGainBb": 0.4291236967153547
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 4,
+     "budgetMs": 4000,
+     "seconds": 4.004,
+     "deals": 1357824,
+     "maxGainBb": 0.15463863397004987
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 4000,
+     "seconds": 0.013928,
+     "maxGainBb": 5.078342563681959,
+     "unvisited": 869
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 20000,
+     "seconds": 0.055676,
+     "maxGainBb": 1.988319598886568,
+     "unvisited": 348
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 50000,
+     "seconds": 0.138909,
+     "maxGainBb": 1.1427606504137298,
+     "unvisited": 240
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 100000,
+     "seconds": 0.263321,
+     "maxGainBb": 0.8944876288604942,
+     "unvisited": 223
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 250000,
+     "seconds": 0.6232150000000001,
+     "maxGainBb": 0.49103909723727723,
+     "unvisited": 216
+    },
+    {
+     "kind": "deals",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "deals": 500000,
+     "seconds": 1.404638,
+     "maxGainBb": 0.3174724204303956,
+     "unvisited": 216
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 250,
+     "seconds": 0.252305,
+     "deals": 97280,
+     "maxGainBb": 0.815350065079613
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 1000,
+     "seconds": 1.002463,
+     "deals": 354304,
+     "maxGainBb": 0.3821929209058826
+    },
+    {
+     "kind": "time",
+     "engine": "3.1 native external sampling (per-deal streams, batch 16, 4 threads)",
+     "seed": 5,
+     "budgetMs": 4000,
+     "seconds": 4.002436,
+     "deals": 1434624,
+     "maxGainBb": 0.2065855880059996
+    }
+   ]
+  }
+ }
+}

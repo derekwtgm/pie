@@ -1,0 +1,70 @@
+{
+ "mode": "gain",
+ "request": {
+  "method": "exact",
+  "seats": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "device": "gpu",
+  "threads": 8,
+  "timeLimitMs": 600000
+ },
+ "steps": [
+  {
+   "label": "cold: first evaluation after start-up"
+  },
+  {
+   "label": "warm: second evaluation"
+  },
+  {
+   "label": "ten sequential",
+   "repeat": 10
+  },
+  {
+   "label": "four concurrent",
+   "concurrent": 4,
+   "repeat": 2
+  },
+  {
+   "label": "after 1.5 s idle",
+   "idleMs": 1500
+  },
+  {
+   "label": "cancelled after 5 ms",
+   "cancelAfterMs": 5
+  },
+  {
+   "label": "after cancellation"
+  },
+  {
+   "label": "recoverable refusal (gpuBudgetBytes 4096)",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "device": "gpu",
+    "threads": 8,
+    "timeLimitMs": 600000,
+    "gpuBudgetBytes": 4096
+   }
+  },
+  {
+   "label": "after the refusal"
+  }
+ ]
+}

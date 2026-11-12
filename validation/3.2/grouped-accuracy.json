@@ -1,0 +1,348 @@
+{
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "trainingBudgetMs": 400,
+  "rows": [
+    {
+      "mode": "js31",
+      "seed": 1,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 1
+      },
+      "seconds": 0.400266765,
+      "deals": 101888,
+      "maxGainBb": 0.5019114473928368
+    },
+    {
+      "mode": "native32",
+      "seed": 1,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 1
+      },
+      "seconds": 0.40293,
+      "deals": 249088,
+      "maxGainBb": 0.4945700664911028
+    },
+    {
+      "mode": "native32",
+      "seed": 2,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 2
+      },
+      "seconds": 0.402822,
+      "deals": 313344,
+      "maxGainBb": 0.4660148005154898
+    },
+    {
+      "mode": "js31",
+      "seed": 2,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 2
+      },
+      "seconds": 0.400644977,
+      "deals": 90752,
+      "maxGainBb": 0.5193969526350086
+    },
+    {
+      "mode": "js31",
+      "seed": 3,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 3
+      },
+      "seconds": 0.400251596,
+      "deals": 118528,
+      "maxGainBb": 0.42974468716836967
+    },
+    {
+      "mode": "native32",
+      "seed": 3,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 3
+      },
+      "seconds": 0.400433,
+      "deals": 295936,
+      "maxGainBb": 0.544362033124639
+    },
+    {
+      "mode": "native32",
+      "seed": 4,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 4
+      },
+      "seconds": 0.401381,
+      "deals": 241664,
+      "maxGainBb": 0.362489338021442
+    },
+    {
+      "mode": "js31",
+      "seed": 4,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 4
+      },
+      "seconds": 0.400202383,
+      "deals": 91392,
+      "maxGainBb": 0.4320621283046102
+    },
+    {
+      "mode": "js31",
+      "seed": 5,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 5
+      },
+      "seconds": 0.400256994,
+      "deals": 99584,
+      "maxGainBb": 0.4959277580548722
+    },
+    {
+      "mode": "native32",
+      "seed": 5,
+      "cfg": {
+        "board": "Ks8d5h2c2s",
+        "common": 12,
+        "stacks": [
+          30,
+          30
+        ],
+        "ranges": [
+          "QQ+,AKs:0.7",
+          "JJ+,AQs:0.8"
+        ],
+        "streets": {
+          "river": {
+            "bets": "50,125",
+            "raises": "2.5x",
+            "maxBets": 2
+          }
+        },
+        "privateMode": "sampled",
+        "abstraction": "compact",
+        "traversal": "external",
+        "batchDeals": 4,
+        "actionStreams": "deal",
+        "evaluationDeals": 128,
+        "privateSeed": 5
+      },
+      "seconds": 0.400443,
+      "deals": 250368,
+      "maxGainBb": 0.48089435739523845
+    }
+  ],
+  "differences": [
+    0.007341380901733974,
+    0.0533821521195188,
+    -0.11461734595626938,
+    0.0695727902831682,
+    0.015033400659633767
+  ],
+  "meanGainReductionBb": 0.006142475601557074,
+  "paired95CI": [
+    -0.08363529633956618,
+    0.09592024754268033
+  ]
+}

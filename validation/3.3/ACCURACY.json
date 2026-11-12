@@ -1,0 +1,678 @@
+{
+ "version": "3.3",
+ "generated": "2026-11-08T03:14:41.336Z",
+ "quick": false,
+ "environment": {
+  "node": "v22.23.4",
+  "platform": "linux 6.18.44-fc-v310 x64",
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cores": 4,
+  "memoryGiB": 15.7
+ },
+ "sections": {
+  "pushfoldOracle": {
+   "note": "The solver models card removal pairwise; the oracle removes all three hands exactly. The oracle gain is each seat's exact best-response gain in the full push/fold game.",
+   "rows": [
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       10,
+       10,
+       10
+      ],
+      "anteType": "classic",
+      "ante": 0.1,
+      "model": "chip"
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "bb",
+     "solverEV": [
+      10.23986230807973,
+      9.947462916178475,
+      9.81267477574179
+     ],
+     "oracleEV": [
+      10.236528247678553,
+      9.946966424761058,
+      9.816505327598891
+     ],
+     "solverReportedGain": [
+      1.1276563090708195e-8,
+      1.3297967850479777e-7,
+      1.4996771078904151e-7
+     ],
+     "exactGain": [
+      0.0001990488807307282,
+      0.00025546278779392355,
+      0.00014156793883867043
+     ],
+     "solveSeconds": 1.000517512,
+     "oracleSeconds": 5.072166708
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       6,
+       14,
+       9
+      ],
+      "anteType": "bba",
+      "ante": 1,
+      "model": "icm",
+      "payouts": [
+       50,
+       30,
+       20
+      ]
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      30.424591252571453,
+      38.21442662883503,
+      31.360982118593526
+     ],
+     "oracleEV": [
+      30.431467546632074,
+      38.20484392916854,
+      31.363688524009106
+     ],
+     "solverReportedGain": [
+      8.212979336337912e-8,
+      5.126710645502891e-8,
+      1.7822974806977568e-8
+     ],
+     "exactGain": [
+      0.00010616766041765535,
+      0.000026414076225254185,
+      1.627362709866187e-8
+     ],
+     "solveSeconds": 0.300386583,
+     "oracleSeconds": 4.867920962
+    },
+    {
+     "cfg": {
+      "n": 3,
+      "stacks": [
+       20,
+       4,
+       12
+      ],
+      "anteType": "none",
+      "model": "icm",
+      "payouts": [
+       65,
+       35
+      ]
+     },
+     "params": {
+      "maxIter": 3000,
+      "tol": 1e-9
+     },
+     "unit": "prize units of 100",
+     "solverEV": [
+      49.03016388347373,
+      13.789873922703489,
+      37.17996219382282
+     ],
+     "oracleEV": [
+      49.03287515765725,
+      13.788163671115315,
+      37.17896117131376
+     ],
+     "solverReportedGain": [
+      3.370221530429273e-7,
+      2.0254693425185613e-7,
+      7.558166164993729e-9
+     ],
+     "exactGain": [
+      0.00002292972820058803,
+      0.0004020567259815904,
+      0.00006230489260404884
+     ],
+     "solveSeconds": 0.976693441,
+     "oracleSeconds": 5.222014118
+    }
+   ]
+  },
+  "headsUp": {
+   "rangeSeed": 3,
+   "rangeDensity": 0.25,
+   "js": {
+    "engine": "js",
+    "rows": [
+     {
+      "iterations": 100,
+      "exploitPctPot": 0.15552554675079822,
+      "seconds": 0.051345978
+     },
+     {
+      "iterations": 500,
+      "exploitPctPot": 0.013355320478523615,
+      "seconds": 0.113844641
+     },
+     {
+      "iterations": 2000,
+      "exploitPctPot": 0.0011533333304353244,
+      "seconds": 0.395014325
+     }
+    ]
+   },
+   "wasm": {
+    "engine": "wasm-simd",
+    "rows": [
+     {
+      "iterations": 100,
+      "exploitPctPot": 0.15552984647450752,
+      "seconds": 0.023184054
+     },
+     {
+      "iterations": 500,
+      "exploitPctPot": 0.013356124962697889,
+      "seconds": 0.032507714
+     },
+     {
+      "iterations": 2000,
+      "exploitPctPot": 0.0011533253699719248,
+      "seconds": 0.10489964
+     }
+    ]
+   }
+  },
+  "reference": {
+   "iterations": 3000,
+   "valueBet": 0.9999998889259136,
+   "bluffBet": 0.5003636881033282,
+   "call": 0.49985072087061944,
+   "oopEV": 2.4999997346918765,
+   "theory": {
+    "valueBet": 1,
+    "bluffBet": 0.5,
+    "call": 0.5,
+    "oopEV": 2.5
+   },
+   "maxGain": 0.0018192611951968196
+  },
+  "multiwayExact": {
+   "pot": 12,
+   "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "deals": 404,
+   "rows": [
+    {
+     "iterations": 100,
+     "gain": [
+      0.033681587442282,
+      0.02837972356739371,
+      0.021835936042131632
+     ],
+     "maxGainBb": 0.033681587442282,
+     "seconds": 0.157287479
+    },
+    {
+     "iterations": 500,
+     "gain": [
+      0.00393242832922347,
+      0.0014121787482928028,
+      0.0013109945860261263
+     ],
+     "maxGainBb": 0.00393242832922347,
+     "seconds": 0.953221509
+    },
+    {
+     "iterations": 1000,
+     "gain": [
+      0.0015849895452184626,
+      0.0005672819627902115,
+      0.0005548616039270371
+     ],
+     "maxGainBb": 0.0015849895452184626,
+     "seconds": 1.935673322
+    },
+    {
+     "iterations": 2000,
+     "gain": [
+      0.0006005038950043229,
+      0.0003783684694864675,
+      0.00022591570554286733
+     ],
+     "maxGainBb": 0.0006005038950043229,
+     "seconds": 3.65809459
+    },
+    {
+     "iterations": 5000,
+     "gain": [
+      0.00029153327255038164,
+      0.00023759794257216527,
+      0.00011068717653106575
+     ],
+     "maxGainBb": 0.00029153327255038164,
+     "seconds": 8.261724300000001
+    }
+   ]
+  },
+  "sampled": {
+   "note": "Sampled training evaluated exactly in the enumerated game. Earlier releases reported only tested responses, which understated the gain.",
+   "cfg": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "rows": [
+    {
+     "traversal": "external",
+     "updates": "simultaneous",
+     "iterations": 3000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      1.104402886255616,
+      0.8892473859469234,
+      0.8654966991697783,
+      0.881592403446569,
+      0.784080259774619
+     ],
+     "mean": 0.9049639269187011,
+     "ci95": 0.1478590208432677,
+     "meanSeconds": 0.054246573
+    },
+    {
+     "traversal": "external",
+     "updates": "simultaneous",
+     "iterations": 12000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.29723198458087197,
+      0.2893036442292862,
+      0.4537565868141771,
+      0.36643326401174114,
+      0.31920395242507316
+     ],
+     "mean": 0.3451858864122299,
+     "ci95": 0.08405485652665189,
+     "meanSeconds": 0.177735941
+    },
+    {
+     "traversal": "external",
+     "updates": "simultaneous",
+     "iterations": 48000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.14505509545785422,
+      0.2900634263994437,
+      0.2814700094788094,
+      0.15321633060752493,
+      0.2238474816492637
+     ],
+     "mean": 0.2187304687185792,
+     "ci95": 0.08504485107020868,
+     "meanSeconds": 0.6665645198
+    },
+    {
+     "traversal": "full",
+     "updates": "simultaneous",
+     "iterations": 3000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.5151913221838365,
+      0.5860922017745329,
+      0.5678349073685727,
+      0.4064227789982402,
+      0.31977399890079017
+     ],
+     "mean": 0.47906304184519455,
+     "ci95": 0.140579864394091,
+     "meanSeconds": 0.12863725980000001
+    },
+    {
+     "traversal": "full",
+     "updates": "simultaneous",
+     "iterations": 12000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.23926055372376176,
+      0.1959272343587184,
+      0.2699722796889734,
+      0.22801975210816217,
+      0.18849071548855267
+     ],
+     "mean": 0.2243341070736337,
+     "ci95": 0.04122581852674694,
+     "meanSeconds": 0.44166714999999995
+    },
+    {
+     "traversal": "full",
+     "updates": "simultaneous",
+     "iterations": 48000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.11599735129154176,
+      0.11282799860464099,
+      0.10645508886364397,
+      0.08660302262438879,
+      0.07208940922768914
+     ],
+     "mean": 0.09879457412238093,
+     "ci95": 0.02333620414392261,
+     "meanSeconds": 1.7892547394
+    },
+    {
+     "traversal": "full",
+     "updates": "alternating",
+     "iterations": 3000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.48014137447331606,
+      0.49428562793169917,
+      0.5386137244126465,
+      0.3623089557239094,
+      0.3452478438387647
+     ],
+     "mean": 0.4441195052760672,
+     "ci95": 0.10609250219226297,
+     "meanSeconds": 0.2636358426
+    },
+    {
+     "traversal": "full",
+     "updates": "alternating",
+     "iterations": 12000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.26535028807634564,
+      0.17611384859685764,
+      0.16057021154897821,
+      0.24041164048372377,
+      0.17736334613675453
+     ],
+     "mean": 0.20396186696853197,
+     "ci95": 0.05710385654032035,
+     "meanSeconds": 1.1097031117999998
+    },
+    {
+     "traversal": "full",
+     "updates": "alternating",
+     "iterations": 48000,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "maxGainBySeed": [
+      0.13301286946483337,
+      0.08510393198462651,
+      0.09932957057526348,
+      0.1058253970111469,
+      0.11593095210756221
+     ],
+     "mean": 0.1078405442286865,
+     "ci95": 0.02231662023105414,
+     "meanSeconds": 4.500814136400001
+    }
+   ],
+   "probeVsExact": {
+    "iterations": 12000,
+    "seed": 1,
+    "exactGain": [
+     0.23926055372376176,
+     0.1781536154855745,
+     0.13250688680849132
+    ],
+    "probe": [
+     {
+      "gain": 0.23403109475696057,
+      "se": 0.03728254357202432,
+      "trainingDeals": 4000
+     },
+     {
+      "gain": 0.13865796710011702,
+      "se": 0.03472678517051996,
+      "trainingDeals": 4000
+     },
+     {
+      "gain": -0.019214562305515295,
+      "se": 0.05202374156718734,
+      "trainingDeals": 4000
+     }
+    ]
+   }
+  },
+  "eightPlayer": {
+   "modeSelection": {
+    "requested": "auto",
+    "chosen": "sampled",
+    "reason": "Exact enumeration exceeds the desktop limit: This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode."
+   },
+   "rows": [
+    {
+     "seed": 17,
+     "iterations": 2000,
+     "trainSeconds": 3.009265951,
+     "evSE": [
+      0.5801222629133924,
+      0,
+      0.5835137063025446,
+      0,
+      0,
+      0.03161099416281954,
+      0,
+      0.022363281249999974
+     ],
+     "probes": [
+      {
+       "seat": 0,
+       "gain": -1.0992187500000004,
+       "se": 0.514762294613415,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 3,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 7,
+       "gain": -0.041015625,
+       "se": 0.041015624999999986,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      }
+     ],
+     "strategyMiB": 4.260019302368164,
+     "algorithm": "external"
+    },
+    {
+     "seed": 17,
+     "iterations": 8000,
+     "trainSeconds": 13.851666371,
+     "evSE": [
+      0.5641610088764286,
+      0,
+      0.5641610088764286,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "probes": [
+      {
+       "seat": 0,
+       "gain": -0.8367187500000006,
+       "se": 0.5610246442883973,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 3,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 7,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      }
+     ],
+     "strategyMiB": 6.920171737670898,
+     "algorithm": "external"
+    },
+    {
+     "seed": 23,
+     "iterations": 8000,
+     "trainSeconds": 12.279058577,
+     "evSE": [
+      0.5749305979907111,
+      0,
+      0.5749305979907111,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "probes": [
+      {
+       "seat": 0,
+       "gain": 0.9675781249999995,
+       "se": 0.5942534519193439,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 3,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      },
+      {
+       "seat": 7,
+       "gain": 0,
+       "se": 0,
+       "trainingDeals": 1500,
+       "evaluationDeals": 1024,
+       "limitReached": false
+      }
+     ],
+     "strategyMiB": 6.330474853515625,
+     "algorithm": "external"
+    }
+   ],
+   "note": "Exact enumeration is not available for this spot (Exact enumeration exceeds the desktop limit: This betting tree exceeds the desktop budget. Use fewer bet sizes or raises, narrower ranges, sampled public cards, or Automatic / Wide ranges private-card mode.). Tested gains are lower bounds."
+  },
+  "fgs": {
+   "headsUpValueShift": 0.018720833243584423,
+   "fourHandedPoolError": 8.526512829121202e-14
+  },
+  "notRegenerated": {
+   "deepChartCalibration": "The 15-100 bb chart realization fit (80 heads-up flop solves) is not recomputed by this report; its 2.5 figures are historical and are not repeated here as measured results. Regenerate with tools/gen_deep.js."
+  }
+ }
+}
