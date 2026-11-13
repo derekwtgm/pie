@@ -57,7 +57,7 @@ for (const [key, group, description, cfg, budgets, zeroSum] of scenarios) {
       const info = run([spec, Math.round((target - deals) / batch), 4, st + '.next', 512, ...(deals ? [st] : [])]); fs.renameSync(st + '.next', st); deals = target;
       fs.writeFileSync(q, JSON.stringify({ method: 'exact', timeLimitMs: 3600000, maxVisits: 2000000000 }));
       const g = run(['--gain', spec, st, q]);
-      fs.writeFileSync(nq, JSON.stringify({ path: [], limit: 2000 }));
+      fs.writeFileSync(nq, JSON.stringify({ path: [], limit: 1326 }));
       const node = run(['--node', spec, st, nq]);
       perBudget[b].nash.push(g.nashConv); perBudget[b].seconds.push(info.wallSeconds);
       perBudget[b].roots.push(node.hands.items.filter(h => !h.blocked && h.row).map(h => h.average));

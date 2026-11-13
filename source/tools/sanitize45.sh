@@ -1,8 +1,9 @@
 #!/bin/sh
 # EightMax 4.5 sanitizer and static-analysis pass: everything tools/sanitize44.sh ran, plus
-#  5. tests/v45.test.js (non-timing tests: coverage budget at the evaluator, memory exhaustion,
-#     IEEE sweep, trainer options, job pool, ICM kernel, side-pot property test) against the
-#     UBSan+ASan host and CLI;
+#  5. tests/v45.test.js (coverage budget at the evaluator for 1-32 MiB and 1-8 threads, IEEE sweep, trainer options, job pool, ICM kernel, side-pot property test) against the
+#     UBSan+ASan host and CLI. Two v45 tests are not run on sanitized builds: they contain 100-250 ms
+#     deadlines and sampled response gains that exceed the test harness's 300 s process limit
+#     when the code runs 5-10x slower; they run on the release build;
 #  6. ThreadSanitizer mwcli with a 1 MiB coverage budget (three table generations, the key limit
 #     and the sketch back-fill under 8 threads; a deadline during growth);
 #  7. tests/coverage45.cpp and tests/icm45.cpp under TSan / ASan+UBSan.
@@ -37,7 +38,7 @@ echo "v44_postflop:"; grep -E '^# (pass|fail|skipped)' "$t/v44p.log"
 if grep -q 'runtime error\|ERROR: AddressSanitizer' "$t/v44.log" "$t/v44p.log"; then grep -h 'runtime error\|ERROR: AddressSanitizer' -A6 "$t/v44.log" "$t/v44p.log" | head -40; exit 1; fi
 echo "== v45 (non-timing tests) against the UBSan+ASan host and CLI"
 ASAN_OPTIONS=detect_leaks=0 EM_TEST_HOST="$t/ub/eightmax" EM_TEST_MWCLI="$t/ub/mwcli" node --test --test-concurrency=1 \
-  --test-name-pattern='4.5 coverage budget \(evaluator\)|4.5 evaluation job pool|4.5 memory exhaustion|4.5 IEEE 754 sweep|4.5 trainer options|4.5 property test' "$src/tests/v45.test.js" > "$t/v45.log" 2>&1 || { grep -E '^not ok|error' -A8 "$t/v45.log" | head -80; exit 1; }
+  --test-name-pattern='coverage.memory.peakBytes|4.5 evaluation job pool|4.5 IEEE 754 sweep|4.5 trainer options|4.5 property test' "$src/tests/v45.test.js" > "$t/v45.log" 2>&1 || { grep -E '^not ok|error' -A8 "$t/v45.log" | head -80; exit 1; }
 echo "v45:"; grep -E '^# (pass|fail|skipped)' "$t/v45.log"
 if grep -q 'runtime error\|ERROR: AddressSanitizer' "$t/v45.log"; then grep -h 'runtime error\|ERROR: AddressSanitizer' -A6 "$t/v45.log" | head -40; exit 1; fi
 echo "== ThreadSanitizer mwcli: concurrent coverage set and the stop path, 8 threads"

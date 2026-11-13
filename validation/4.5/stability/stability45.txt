@@ -1,0 +1,27 @@
+error 400: limit must be from 1 to 1326
+node:child_process:955
+    throw err;
+    ^
+
+Error: Command failed: source/build/linux/mwcli --node /tmp/em45-stab-ElY3v9/spec.json /tmp/em45-stab-ElY3v9/state /tmp/em45-stab-ElY3v9/n.json
+error 400: limit must be from 1 to 1326
+
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:916:11)
+    at Object.execFileSync (node:child_process:952:15)
+    at run (/home/user/pie/source/tools/stability45.js:46:32)
+    at /home/user/pie/source/tools/stability45.js:61:20
+    at Array.forEach (<anonymous>)
+    at Object.<anonymous> (/home/user/pie/source/tools/stability45.js:56:13)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10) {
+  status: 1,
+  signal: null,
+  output: [ null, '', 'error 400: limit must be from 1 to 1326\n' ],
+  pid: 13746,
+  stdout: '',
+  stderr: 'error 400: limit must be from 1 to 1326\n'
+}
+
+Node.js v22.23.4

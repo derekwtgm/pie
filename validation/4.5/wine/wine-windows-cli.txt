@@ -1,0 +1,3 @@
+FAIL  build identifier 
+FAIL  stopped by an error: Unexpected end of JSON input
+wine45: 2 FAILED

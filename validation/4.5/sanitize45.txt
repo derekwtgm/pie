@@ -1,0 +1,49 @@
+== build (UBSan+ASan host and CLI, TSan host and CLI)
+embedded 971218 bytes
+embedded 156428 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ub/eightmax, /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ub/mwcli
+embedded 971218 bytes
+embedded 156428 bytes
+sanitized (thread) host: /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ts/eightmax, /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ts/mwcli
+== v44 (non-timing tests) and v44_postflop against the UBSan+ASan host and CLI
+v44:
+# pass 8
+# fail 0
+# skipped 0
+v44_postflop:
+# pass 5
+# fail 0
+# skipped 0
+== v45 (non-timing tests) against the UBSan+ASan host and CLI
+not ok 2 - 4.5 coverage budget (evaluator): a timeout during growth leaves a consistent exact set within budget; the 4.3 merged-table path and the per-seat response-gain tables stay inside coverageMiB as well
+  ---
+  duration_ms: 302607.517867
+  type: 'test'
+  location: '/home/user/pie/source/tests/v45.test.js:122:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    null !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: ~
+--
+not ok 4 - 4.5 memory exhaustion leaves the study untouched: evaluations with a 1 MiB coverage budget (capped), a 16 MiB table budget and a timeout do not change one byte of the trained state, and training then continues bit-identically to an uninterrupted run
+  ---
+  duration_ms: 302465.988533
+  type: 'test'
+  location: '/home/user/pie/source/tests/v45.test.js:173:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    null !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: ~
+exit status 1

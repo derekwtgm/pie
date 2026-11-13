@@ -1,0 +1,23 @@
+{
+ "tool": "wine45",
+ "runtime": "wine (not Windows)",
+ "wineVersion": "wine-9.0 (Ubuntu 9.0~repack-4build3)",
+ "executable": "mwcli.exe",
+ "generated": "2026-11-13T00:04:48.614Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "checks": [
+  {
+   "check": "build identifier ",
+   "passed": false,
+   "reported": "",
+   "expected": "e081b4411b33df7e"
+  },
+  {
+   "check": "stopped by an error: Unexpected end of JSON input",
+   "passed": false
+  }
+ ],
+ "passed": false,
+ "failed": 2
+}
