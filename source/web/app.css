@@ -296,3 +296,23 @@ details[open] summary { margin-bottom: 8px; }
 .ex .ex-ev td.best { outline: 1px solid var(--gold); }
 .ex .ex-ev td { white-space: nowrap; }
 @media (max-width: 560px) { .ex .ex-cell { font-size: 8px; } }
+
+/* 4.7 convergence dashboard (lib_dashboard.js). Series colours are the validated dark categorical steps. */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.qd-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.qd-tile { background: var(--bg); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; display: grid; gap: 2px; min-width: 0; }
+.qd-tile b { font-size: 18px; font-family: var(--font-display); overflow-wrap: anywhere; }
+.qd-tile small { color: var(--muted); font-size: 12px; }
+.qd-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 14px; }
+.qd-chart { margin: 0; min-width: 0; }
+.qd-chart figcaption { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.qd-chart svg { width: 100%; height: auto; display: block; }
+.qd-grid { stroke: var(--line); stroke-width: 1; opacity: .6; }
+.qd-axis { stroke: var(--muted); stroke-width: 1; }
+.qd-tick, .qd-label { fill: var(--muted); font-size: 11px; }
+.qd-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
+.qd-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.qd-table { overflow-x: auto; }
+.qd-table table { border-collapse: collapse; font-size: 13px; width: 100%; }
+.qd-table th, .qd-table td { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: right; white-space: nowrap; }
+.qd-table th { color: var(--muted); font-weight: 600; }

@@ -35,7 +35,7 @@ inline bool unknownKeys(const Args &a, std::initializer_list<const char *> allow
 inline double num(const Args &a, const char *k, double d) { auto it = a.find(k); if (it == a.end()) return d; char *e = nullptr; const double v = em_parse_double(it->second.c_str(), &e); return (e && !*e && std::isfinite(v)) ? v : NAN; }
 inline std::string str(const Args &a, const char *k, const std::string &d) { auto it = a.find(k); return it == a.end() ? d : it->second; }
 inline std::string jsonEsc(const std::string &s) { JB b; jb_init(&b); jb_str(&b, s.c_str()); std::string r(b.s ? b.s : "", b.n); jb_free(&b); return r; }
-inline std::string fmt(double v) { if (!std::isfinite(v)) return "null"; char b[40]; std::snprintf(b, sizeof b, "%.10g", v); return b; }
+inline std::string fmt(double v) { if (!std::isfinite(v)) return "null"; char b[40]; std::snprintf(b, sizeof b, "%.17g", v); return b; }   // round-trips every double
 inline double nowSeconds() { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); }
 inline double currentRssMiB() {
 #ifdef _WIN32
@@ -51,9 +51,10 @@ struct Opened { MW *m = nullptr; std::string specText, error; int status = 0; };
 inline Opened open(const std::string &specPath, const std::string &statePath, double mib) {
   Opened o; auto spec = slurp(specPath.c_str()); if (spec.empty()) { o.error = "cannot read " + specPath; return o; }
   o.specText.assign((const char *)spec.data(), spec.size());
-  FILE *f = std::fopen(statePath.c_str(), "rb"); std::error_code ec; auto size = std::filesystem::file_size(statePath, ec);
+  uint64_t size = 0; std::string why; FILE *f = openCheckpoint(statePath.c_str(), size, why);
   char err[512] = "";
-  o.status = f && !ec ? mw_load_stream(f, size, o.specText.c_str(), mib, -1, &o.m, err, sizeof err, nullptr, nullptr) : 404;
+  if (!f) { o.status = 404; o.error = statePath + ": " + why; return o; }
+  o.status = f ? mw_load_stream(f, size, o.specText.c_str(), mib, -1, &o.m, err, sizeof err, nullptr, nullptr) : 404;
   if (f) std::fclose(f);
   if (o.status != 200) o.error = err[0] ? err : ("cannot read " + statePath);
   return o;
@@ -160,7 +161,7 @@ inline int verify(int argc, char **argv) {
   const double samples = num(a, "samples", 20000), seed = num(a, "seed", 1), timeMs = num(a, "timeMs", 120000), maxVisits = num(a, "maxVisits", 2e8), threads = num(a, "threads", 0), mib = num(a, "memory", 4096);
   if (!(samples >= 64 && samples <= 2e6) || !(seed >= 0 && seed <= 4294967295.0) || !(timeMs >= 100 && timeMs <= 3.6e6) || !(maxVisits >= 1000 && maxVisits <= 2e9) || !(threads >= 0 && threads <= 64) || !(mib > 0 && mib <= 65536)) { std::fprintf(stderr, "error: an option is out of range\n"); return 2; }
   Opened st = open(argv[2], argv[3], mib); if (!st.m) { std::fprintf(stderr, "error: %s\n", st.error.c_str()); return 1; }
-  Json spec(st.specText); auto bytes = slurp(argv[3]); emana::Study study = emana::parse(bytes.data(), bytes.size());
+  Json spec(st.specText); auto bytes = slurpCheckpoint(argv[3]); emana::Study study = emana::parse(bytes.data(), bytes.size());
   const int n = (int)jnum(jget(spec.v, "n"), 0); const JV *rules = jget(spec.v, "rules"); const bool pre = jget(rules, "pre") && jget(rules, "pre")->num != 0;
   const double t0 = nowSeconds();
   Eval e = evaluate(st.m, method, (long long)samples, (unsigned long long)seed, (long long)timeMs, maxVisits, (int)threads);
@@ -198,7 +199,7 @@ inline int compare(int argc, char **argv) {
   Json ja(std::string((const char *)ta.data(), ta.size())), jbv(std::string((const char *)tb.data(), tb.size()));
   if (!ja.v || !jbv.v) { std::fprintf(stderr, "error: unreadable spec JSON\n"); return 2; }
   const auto c = emana::compatibility(ja.v, jbv.v);
-  auto ba = slurp(argv[3]), bb = slurp(argv[4]);
+  auto ba = slurpCheckpoint(argv[3]), bb = slurpCheckpoint(argv[4]);
   emana::Study A = emana::parse(ba.data(), ba.size()), B = emana::parse(bb.data(), bb.size());
   std::ostringstream o; o << "{\"tool\":\"mwcli compare 4.7\",\"build\":\"" << EM_BUILD_ID << "\",\"compatible\":" << (c.compatible ? "true" : "false");
   o << ",\"differingGameFields\":["; for (size_t i = 0; i < c.differing.size(); i++) o << (i ? "," : "") << jsonEsc(c.differing[i]); o << "]";

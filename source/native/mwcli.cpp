@@ -8,6 +8,8 @@
 //        mwcli --verify spec.json state [key=value ...]          (4.7) strategy-quality report (modes A-D)
 //        mwcli --compare specA.json stateA stateB [key=value ...] (4.7) checkpoint comparison
 //        mwcli --monitor spec.json out-dir [key=value ...]       (4.7) training with adaptive quality monitoring
+//        mwcli --compress in.state out.emz [level] | --decompress in.emz out.state   (4.7) lossless EMZ1
+//        (4.7) every command that reads a checkpoint also accepts an EMZ1 file)
 //        mwcli --continuation-suite spec.json work-dir [quick|standard|full] [threads]   (4.6)
 //        exit codes of training: 0 ok, 1 engine/refused input, 2 usage, 3 input checkpoint unreadable, 4 save failed
 //        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
@@ -82,6 +84,24 @@ static void jvWrite(JB *o, const JV *v) {
 }
 static std::string jvText(const JV *v) { JB b; jb_init(&b); jvWrite(&b, v); std::string s(b.s ? b.s : "", b.n); jb_free(&b); return s; }
 static const JV *jpath(const JV *v, std::initializer_list<const char *> keys) { for (const char *k : keys) { if (!v || v->type != J_OBJ) return nullptr; v = jget(v, k); } return v; }
+#include "emz.hpp"   // 4.7: optional lossless compressed checkpoints (EMZ1)
+// 4.7: opens a checkpoint for reading. An EMZ1 file is decompressed and fully verified into an
+// anonymous temporary file first (bounded memory); `size` is the EMMW4 size. Returns nullptr
+// and sets `why` on failure.
+static FILE *openCheckpoint(const char *path, uint64_t &size, std::string &why) {
+  FILE *f = std::fopen(path, "rb"); if (!f) { why = std::strerror(errno); return nullptr; }
+  unsigned char magic[8] = {}; const size_t got = std::fread(magic, 1, 8, f); std::rewind(f);
+  std::error_code ec; size = std::filesystem::file_size(path, ec); if (ec) { why = ec.message(); std::fclose(f); return nullptr; }
+  if (got < 8 || !emz::isEMZ(magic, 8)) return f;
+  FILE *t = std::tmpfile(); if (!t) { why = "cannot create a temporary file for decompression"; std::fclose(f); return nullptr; }
+  const emz::Result r = emz::decompress(f, t); std::fclose(f);
+  if (!r.ok) { why = "compressed checkpoint: " + r.error; std::fclose(t); return nullptr; }
+  std::fflush(t); std::rewind(t); size = r.rawBytes; return t;
+}
+static std::vector<unsigned char> slurpCheckpoint(const char *path) {
+  uint64_t size = 0; std::string why; FILE *f = openCheckpoint(path, size, why); std::vector<unsigned char> b; if (!f) return b;
+  b.resize((size_t)size); if (size && std::fread(b.data(), 1, (size_t)size, f) != size) b.clear(); std::fclose(f); return b;
+}
 #include "mwcli_analytics.hpp"   // 4.7: --verify, --compare, --monitor
 static int runSession(MW *m, const JV *plan) {
   const JV *base = jget(plan, "request"), *steps = jget(plan, "steps"); const char *mode = jstr(jget(plan, "mode"));
@@ -166,11 +186,11 @@ int main(int argc, char **argv) {
   if ((argc == 5 || argc == 6) && !std::strcmp(argv[1], "--session")) {
     std::vector<unsigned char> spec = slurp(argv[2]), plan = slurp(argv[4]); char err[512] = ""; double mib = 4096;
     if (argc == 6 && !numberArg(argv[5], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
-    FILE *f = std::fopen(argv[3], "rb"); std::error_code ec; auto size = std::filesystem::file_size(argv[3], ec);
+    uint64_t size = 0; std::string openWhy; FILE *f = openCheckpoint(argv[3], size, openWhy); std::error_code ec;
     std::string text((const char *)spec.data(), spec.size()); MW *m = nullptr;
     const bool ok = !spec.empty() && f && !ec && mw_load_stream(f, size, text.c_str(), mib, -1, &m, err, sizeof err, nullptr, nullptr) == 200;
     if (f) std::fclose(f);
-    if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : "Unable to open state"); return 1; }
+    if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : !openWhy.empty() ? openWhy.c_str() : "Unable to open state"); return 1; }
     JV *p = json_parse((const char *)plan.data(), plan.size(), err, sizeof err);
     if (!p) { std::fprintf(stderr, "error: plan: %s\n", err); mw_free(m); return 2; }
     const int rc = runSession(m, p); json_free(p); mw_free(m); return rc;
@@ -197,11 +217,11 @@ int main(int argc, char **argv) {
     std::vector<unsigned char> spec = slurp(argv[2]), req = slurp(argv[4]); char err[512] = ""; double mib = 4096;
     if (argc == 6 && !numberArg(argv[5], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
     if (spec.empty()) { std::fprintf(stderr, "cannot read %s\n", argv[2]); return 2; }
-    FILE *f = std::fopen(argv[3], "rb"); std::error_code ec; auto size = std::filesystem::file_size(argv[3], ec);
+    uint64_t size = 0; std::string openWhy; FILE *f = openCheckpoint(argv[3], size, openWhy); std::error_code ec;
     std::string text((const char *)spec.data(), spec.size()); MW *m = nullptr;
     const bool ok = f && !ec && mw_load_stream(f, size, text.c_str(), mib, -1, &m, err, sizeof err, nullptr, nullptr) == 200;
     if (f) std::fclose(f);
-    if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : "Unable to open state"); return 1; }
+    if (!ok) { std::fprintf(stderr, "error: %s\n", err[0] ? err : !openWhy.empty() ? openWhy.c_str() : "Unable to open state"); return 1; }
     JB j; jb_init(&j); req.push_back(0);
     auto *query = !std::strcmp(argv[1], "--ev") ? mw_action_ev : !std::strcmp(argv[1], "--gain") ? mw_response_gain : mw_node_query;
     // 4.0: EM_CANCEL_AFTER_MS=N raises the cancellation flag N ms after the
@@ -233,7 +253,7 @@ int main(int argc, char **argv) {
     std::vector<unsigned char> spec = slurp(argv[2]); char err[512] = ""; double mib = 4096;
     if (argc == 5 && !numberArg(argv[4], mib)) { std::fprintf(stderr, "error: bad memoryMiB\n"); return 2; }
     const double before = peakRssMiB();
-    FILE *f = std::fopen(argv[3], "rb"); std::error_code ec; auto size = std::filesystem::file_size(argv[3], ec);
+    uint64_t size = 0; std::string openWhy; FILE *f = openCheckpoint(argv[3], size, openWhy); std::error_code ec;
     std::string text((const char *)spec.data(), spec.size()); MW *m = nullptr;
     auto t0 = std::chrono::steady_clock::now();
     const int status = f && !ec ? mw_load_stream(f, size, text.c_str(), mib, -1, &m, err, sizeof err, nullptr, nullptr) : 404;
@@ -245,6 +265,22 @@ int main(int argc, char **argv) {
     jb_free(&j); mw_free(m); return 0;
   }
   // 4.6: checkpoint diagnostics (see ckpt_suite.hpp)
+  // 4.7: lossless compressed checkpoints. --compress in.state out.emz [level 1-9]; --decompress in.emz out.state
+  if ((argc == 4 || argc == 5) && (!std::strcmp(argv[1], "--compress") || !std::strcmp(argv[1], "--decompress"))) {
+    const bool pack = !std::strcmp(argv[1], "--compress"); long long level = 6;
+    if (argc == 5 && (!pack || !wholeArg(argv[4], 1, 9, level))) { std::fprintf(stderr, "usage: mwcli --compress in.state out.emz [level 1-9] | --decompress in.emz out.state\n"); return 2; }
+    FILE *in = std::fopen(argv[2], "rb"); if (!in) { std::fprintf(stderr, "error: cannot read '%s': %s\n", argv[2], std::strerror(errno)); return 3; }
+    std::error_code ec; const uint64_t inSize = std::filesystem::file_size(argv[2], ec);
+    emz::Result r; const auto t0 = std::chrono::steady_clock::now(); SaveReport rep;
+    saveWithReport(argv[3], [&](FILE *out) { r = pack ? emz::compress(in, inSize, out, (int)level) : emz::decompress(in, out); return r.ok; }, rep);
+    std::fclose(in);
+    const double secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    if (!r.ok) { std::fprintf(stderr, "error: %s (nothing was written to '%s')\n", r.error.c_str(), argv[3]); return 1; }
+    if (!rep.ok) { std::fprintf(stderr, "error: cannot write '%s': %s\n", argv[3], rep.text().c_str()); return 4; }
+    std::printf("{\"operation\":\"%s\",\"format\":\"EMZ1 (deflate per block, row values optionally byte-shuffled; lossless)\",\"stateBytes\":%llu,\"compressedBytes\":%llu,\"ratio\":%.4f,\"blocks\":%llu,\"rowBlocksPlain\":%llu,\"rowBlocksShuffled\":%llu,\"stateSha256\":\"%s\",\"seconds\":%.4f,\"processPeakRssMiB\":%.1f}\n",
+      pack ? "compress" : "decompress", (unsigned long long)r.rawBytes, (unsigned long long)(pack ? r.packedBytes : inSize), r.rawBytes ? (double)(pack ? r.packedBytes : inSize) / (double)r.rawBytes : 0.0, (unsigned long long)r.blocks, (unsigned long long)r.plainRowBlocks, (unsigned long long)r.shuffledRowBlocks, r.rawSha256.c_str(), secs, peakRssMiB());
+    return 0;
+  }
   if (argc >= 2 && !std::strcmp(argv[1], "--verify")) return mwa::verify(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--compare")) return mwa::compare(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--monitor")) return mwa::monitor(argc, argv);
@@ -279,8 +315,8 @@ int main(int argc, char **argv) {
     std::error_code ec; const bool present = std::filesystem::exists(argv[6], ec);
     if (!present) { std::fprintf(stderr, "error: input checkpoint '%s' does not exist%s%s\n", argv[6], ec ? ": " : "", ec ? ec.message().c_str() : ""); mw_free(m); return 3; }
     if(mw_is_external(m)){
-      errno = 0; FILE *f=fopen(argv[6],"rb"); const int openErr = errno; auto size=std::filesystem::file_size(argv[6],ec);
-      if (!f || ec) { std::fprintf(stderr, "error: cannot read input checkpoint '%s': %s\n", argv[6], !f ? std::strerror(openErr) : ec.message().c_str()); if (f) fclose(f); mw_free(m); return 3; }
+      uint64_t size = 0; std::string why; FILE *f = openCheckpoint(argv[6], size, why);
+      if (!f) { std::fprintf(stderr, "error: cannot read input checkpoint '%s': %s\n", argv[6], why.c_str()); mw_free(m); return 3; }
       mw_free(m);m=nullptr;std::string text((const char*)spec.data(),spec.size());
       const int st=mw_load_stream(f,size,text.c_str(),memoryMiB,-1,&m,err,sizeof err,nullptr,nullptr);
       fclose(f);if(st!=200){std::fprintf(stderr,"error: input checkpoint '%s' was refused (status %d): %s\n",argv[6],st,err[0]?err:"Unable to open checkpoint");return 1;}

@@ -110,6 +110,7 @@ static int selftest() {
 
 // ---------------------------------------------------------------- unbiasedness
 static int unbiased(long long N) {
+  const long long MIN_NONZERO = 100;
   std::vector<Game> games = {kuhn(2), kuhn(3), leduc(), pushfold3(true), weightedRiver()};
   struct V { std::string name; Options o; };
   std::vector<V> vars;
@@ -123,19 +124,19 @@ static int unbiased(long long N) {
   for (const Game &g : games) {
     Profile s = randomProfile(g, 42); double baseVar = 0;
     for (const V &v : vars) {
-      double maxZ = 0, totalVar = 0; int comps = 0; double secs = 0;
+      double maxZ = 0, totalVar = 0; int comps = 0, sparse = 0; long long worstNz = 0; double secs = 0;
       std::vector<double> sum, sq;
       for (int p = 0; p < g.n; p++) {
         Profile R, A; exactIncrements(g, s, p, R, A);
         Solver sv(g, v.o); sv.o.seed = 1000 + (uint64_t)p; sv.rng = Rng(sv.o.seed);
         // regret matching of reg must reproduce s: set regrets proportional to s
         for (size_t I = 0; I < g.sets.size(); I++) for (int a = 0; a < g.sets[I].k; a++) sv.reg[I][(size_t)a] = s[I][(size_t)a];
-        const size_t m = g.sets.size() * 16; sum.assign(2 * m, 0); sq.assign(2 * m, 0); std::vector<double> one(2 * m, 0);
+        const size_t m = g.sets.size() * 16; sum.assign(2 * m, 0); sq.assign(2 * m, 0); std::vector<double> one(2 * m, 0); std::vector<long long> nz(2 * m, 0);
         const double t0 = now();
         for (long long it = 0; it < N; it++) {
           sv.buf.clear(); sv.es(0, p, 1, 1, 1, 1);
           for (const auto &x : sv.buf) for (int a = 0; a < g.sets[(size_t)x.I].k; a++) { one[(size_t)x.I * 16 + (size_t)a] += x.r[a]; one[m + (size_t)x.I * 16 + (size_t)a] += x.a[a]; }
-          for (const auto &x : sv.buf) for (int a = 0; a < g.sets[(size_t)x.I].k; a++) for (size_t off : {(size_t)x.I * 16 + (size_t)a, m + (size_t)x.I * 16 + (size_t)a}) if (one[off] != 0) { sum[off] += one[off]; sq[off] += one[off] * one[off]; one[off] = 0; }
+          for (const auto &x : sv.buf) for (int a = 0; a < g.sets[(size_t)x.I].k; a++) for (size_t off : {(size_t)x.I * 16 + (size_t)a, m + (size_t)x.I * 16 + (size_t)a}) if (one[off] != 0) { sum[off] += one[off]; sq[off] += one[off] * one[off]; nz[off]++; one[off] = 0; }
         }
         secs += now() - t0;
         for (size_t I = 0; I < g.sets.size(); I++) if (g.sets[I].player == p) for (int a = 0; a < g.sets[I].k; a++) for (int kind = 0; kind < 2; kind++) {
@@ -144,16 +145,19 @@ static int unbiased(long long N) {
           if (!kind) totalVar += var;
           comps++;
           const double se = std::sqrt(var / (double)N);
+          // The normal approximation needs enough non-zero observations; sparser components are
+          // counted (sparse) and checked only for a zero expectation when never observed.
+          if (nz[off] < MIN_NONZERO) { sparse++; if (nz[off] == 0 && std::fabs(exact) > 1e-12 && N >= 100000) maxZ = std::max(maxZ, 1e9); continue; }
           const double z = se > 0 ? (mean - exact) / se : (std::fabs(mean - exact) < 1e-12 ? 0 : 1e9);
-          maxZ = std::max(maxZ, std::fabs(z));
+          if (std::fabs(z) > maxZ) { maxZ = std::fabs(z); worstNz = nz[off]; }
         }
       }
       const double crit = normalQuantile(1 - 0.001 / (2.0 * comps));
       if (v.name == "es-eps0.1") baseVar = totalVar;
       const bool ok = maxZ < crit; failed += !ok;
-      std::printf("%s {\"game\":\"%s\",\"estimator\":\"%s\",\"components\":%d,\"maxAbsZ\":%s,\"bonferroniCritical\":%s,\"unbiasedConsistent\":%s,\"totalRegretVariance\":%s,\"varianceRatio\":%s,\"seconds\":%s}", first ? "" : ",\n", g.name.c_str(), v.name.c_str(), comps, num(maxZ).c_str(), num(crit).c_str(), ok ? "true" : "false", num(totalVar).c_str(), num(baseVar > 0 ? totalVar / baseVar : NAN).c_str(), num(secs).c_str());
+      std::printf("%s {\"game\":\"%s\",\"estimator\":\"%s\",\"components\":%d,\"maxAbsZ\":%s,\"bonferroniCritical\":%s,\"unbiasedConsistent\":%s,\"totalRegretVariance\":%s,\"varianceRatio\":%s,\"seconds\":%s,\"sparseComponents\":%d,\"worstComponentNonzero\":%lld}", first ? "" : ",\n", g.name.c_str(), v.name.c_str(), comps, num(maxZ).c_str(), num(crit).c_str(), ok ? "true" : "false", num(totalVar).c_str(), num(baseVar > 0 ? totalVar / baseVar : NAN).c_str(), num(secs).c_str(), sparse, worstNz);
       first = false;
-      std::fprintf(stderr, "%-8s %-28s max|z| %.2f crit %.2f var ratio %.3f %.1fs\n", g.name.c_str(), v.name.c_str(), maxZ, crit, baseVar > 0 ? totalVar / baseVar : NAN, secs);
+      std::fprintf(stderr, "%-8s %-28s max|z| %.2f crit %.2f var ratio %.3f %.1fs sparse %d worst-nz %lld\n", g.name.c_str(), v.name.c_str(), maxZ, crit, baseVar > 0 ? totalVar / baseVar : NAN, secs, sparse, worstNz);
     }
   }
   std::printf("\n],\"failed\":%d}\n", failed);

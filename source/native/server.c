@@ -482,6 +482,7 @@ static void memory_json(JB *b) {
   pthread_mutex_lock(&MW_MU); double table = MW_TABLE_MIB, browser = BROWSER_MIB; pthread_mutex_unlock(&MW_MU);
   double resident = resident_mib();
   jb_printf(b, "{\"appLimitMiB\":%ld,\"processLimitMiB\":%ld,\"residentMiB\":", APP_LIMIT_MIB, PROCESS_LIMIT_MIB); jb_num(b, resident, 1);
+  jb_puts(b, ",\"peakResidentMiB\":"); jb_num(b, peak_resident_mib(), 1);
   jb_puts(b, ",\"multiwayTablesMiB\":"); jb_num(b, table, 1);
   jb_puts(b, ",\"browserReportedMiB\":"); jb_num(b, browser, 1);
   jb_puts(b, ",\"availableForTablesMiB\":"); jb_num(b, mw_budget_mib(), 1);
