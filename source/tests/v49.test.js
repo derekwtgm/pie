@@ -55,7 +55,9 @@ test('4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves
   json(cli([spec45, 50, 2, a, 512])); const before = sha(a); fs.chmodSync(ro, 0o555);
   const r = cli([spec45, 50, 2, path.join(ro, 'b.state'), 512, a]); assert.equal(r.status, 4, r.stderr); assert.equal(sha(a), before);
 });
-test('4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)', { skip: !has('clang++') && !has('g++') && 'no compiler', timeout: 900000 }, t => {
+// Windows hosts: the toolchains on PATH there (for example LLVM clang++ targeting MSVC, without zlib) are not
+// the release toolchain; the MSYS2 MinGW-w64 GCC build of the release is the CI build step itself.
+test('4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)', { skip: (process.platform === 'win32' && 'Windows: the release toolchain (MSYS2 GCC) is exercised by the CI build step; other compilers on PATH target MSVC') || (!has('clang++') && !has('g++') && 'no compiler'), timeout: 900000 }, t => {
   const dir = tmp(t), bi = path.join(dir, 'bi.h'); fs.writeFileSync(bi, '#define EM_VERSION "4.9"\n#define EM_BUILD_ID "test"\n');
   // Only compilers with C++20 support are used (GCC >= 11, Clang >= 14). Hosted Windows runners also
   // carry older MinGW toolchains on PATH; the release compiler itself is exercised by the build step.
