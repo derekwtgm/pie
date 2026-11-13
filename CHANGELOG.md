@@ -1,3 +1,17 @@
+# EightMax Windows 4.8
+
+- Windows test harness: `End-Section([string]$errorText)` turned `$null` into `''`, so every completed section was recorded as failed (all 4.7 Windows CI runs; `Run self-tests.bat` on a PC). Fixed; real Windows runner now 126 passed, 0 failed, 8/8 sections. `validate_hardware.ps1` did not parse in Windows PowerShell 5.1 (piped `for` statement); fixed.
+- Continuation suite: evaluation hand indices come from the spec's root actor (4.7 used indices of the 4.5 eight-player study; four-player bubble 24/25 -> 25/25); the 4.5 sequence is unchanged byte for byte; choices recorded in `evaluationHands`.
+- Exact/restricted/sampled response evaluation: per-board rank cache, pot layout once per terminal, chip-only utility path, table-cache caps (1,024 small / 64 shared) with a key index; results bit-identical to 4.7 (switches `EM_EV_NO_RANK_CACHE`, `EM_BR_NO_HOIST`, `EM_EV_SMALL_TABLE_CAP=4`, `EM_EV_TABLE_CAP=0` restore the 4.7 path). Exact gains 0.18x time on the six-player flop, 0.15x weighted six-player flop, 0.22x five-player flop, 0.11x four-player bubble.
+- Evaluation memory: table histograms reserved/checked against `memoryMiB` (16.0 MiB peak at a 16 MiB budget).
+- `tools/independent_br48.py`: independent multi-street best response; agrees with the engine to <= 7.1e-15 up to the six-player flop.
+- `--compare`: `qualityChange` classes (improvement / regression / no change / inconclusive / not comparable).
+- Dashboard: charts 1b (quality vs time), 7 (algorithm comparison at equal time), 8 (efficiency); trainer labels.
+- `mwcli --selftest48`, `Run 4.8 checks.bat`; CI runs selftest47/48 on Windows; CI time limit 180 min.
+- Tests: `tests/v48.test.js` (21). Tools: games48, brbench48, convergence48, checkpoint48, sanitize48.
+- Unchanged: tournament rules/defaults, training code and state bytes (golden hash), checkpoint formats, CUDA.
+- Not done: ten-seed convergence study (no trainer change), training benchmarks, EMZ1 level study, sanitizer pass, physical Windows PC / GPU validation.
+
 # EightMax Windows 4.7
 
 - Mathematical audit: the external-sampling estimator (opponent importance ratios, chance sampling with card removal, stochastically weighted averaging, linear and DCFR weights, RM+, buffered and transactional merges) re-derived; no engine defect found. New independent reference suite `source/reference` (explicit trees, no shared code): Kuhn 2/3, Leduc, three-player push/fold with side pots in chip EV and ICM, weighted ranges; CFR, CFR+, LCFR, DCFR, ES-MCCFR; exact best responses; 28/28 self-checks (Kuhn -1/18, Leduc -0.0856, ICM closed form, side-pot and ICM properties) and z-tests of estimator unbiasedness. A buffering bug in the reference CFR during development was caught by its own known-value checks and fixed.

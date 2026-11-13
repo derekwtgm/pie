@@ -1,0 +1,269 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-13T20:49:08.994Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "method": "exact",
+ "rounds": 5,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v4.7",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/bin47/mwcli",
+   "env": {}
+  },
+  {
+   "name": "v4.8",
+   "exe": "/home/user/pie/build/linux/mwcli",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "hu-river",
+   "description": "Heads-up river, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.27102624388952923,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 0.003906016,
+     "minSec": 0.003620558,
+     "seconds": [
+      0.005868094,
+      0.003935104,
+      0.003906016,
+      0.003769935,
+      0.003620558
+     ],
+     "peakRssMiB": 5.15234375
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.004026073,
+     "minSec": 0.003585815,
+     "seconds": [
+      0.007407115,
+      0.004026073,
+      0.003598963,
+      0.004233412,
+      0.003585815
+     ],
+     "peakRssMiB": 5.18359375,
+     "timeRatioToFirst": 1.0576402566069287,
+     "ratio95": [
+      0.9092564767075291,
+      1.2302391470953242
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  },
+  {
+   "key": "river3-chip",
+   "description": "Three-player river, unequal stacks, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.10192301229828167,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 0.004248996,
+     "minSec": 0.004031731,
+     "seconds": [
+      0.004558463,
+      0.004248996,
+      0.004031731,
+      0.004603562,
+      0.004113854
+     ],
+     "peakRssMiB": 5.11328125
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.003965637,
+     "minSec": 0.003729859,
+     "seconds": [
+      0.003905765,
+      0.003965637,
+      0.003729859,
+      0.00399779,
+      0.003989189
+     ],
+     "peakRssMiB": 5.17578125,
+     "timeRatioToFirst": 0.9096941026784784,
+     "ratio95": [
+      0.8529584977518654,
+      0.9702035475690204
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "turn4",
+   "description": "Four-player turn and river, unequal stacks, all-in or check/fold on the turn, half-pot river bet, two hands a seat, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.06875452635681677,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 0.018046972,
+     "minSec": 0.015782318,
+     "seconds": [
+      0.015949532,
+      0.018088553,
+      0.019651313,
+      0.015782318,
+      0.018046972
+     ],
+     "peakRssMiB": 7.10546875
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.010003992,
+     "minSec": 0.009916549,
+     "seconds": [
+      0.010386726,
+      0.010097514,
+      0.009951278,
+      0.009916549,
+      0.010003992
+     ],
+     "peakRssMiB": 7.28515625,
+     "timeRatioToFirst": 0.5772945845771182,
+     "ratio95": [
+      0.508608722336704,
+      0.6552562367608004
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "bubble4",
+   "description": "Four-player bubble push/fold, weighted two-hand ranges, short stack (ICM: 3 paid)",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.000004604457410370367,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 3.316053689,
+     "minSec": 2.339365561,
+     "seconds": [
+      3.420520299,
+      2.339365561,
+      3.316053689,
+      3.688933321,
+      2.98943308
+     ],
+     "peakRssMiB": 403.296875
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.32093265,
+     "minSec": 0.312838378,
+     "seconds": [
+      0.312838378,
+      0.32093265,
+      0.313302885,
+      0.341639155,
+      0.358407043
+     ],
+     "peakRssMiB": 271.11328125,
+     "timeRatioToFirst": 0.10564968522381123,
+     "ratio95": [
+      0.0841138751396166,
+      0.13269934323395952
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "flop5",
+   "description": "Five-player flop, unequal stacks (4 to 40 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.24434707676160783,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 0.572359281,
+     "minSec": 0.550928919,
+     "seconds": [
+      0.575057562,
+      0.550928919,
+      0.561861917,
+      0.589957353,
+      0.572359281
+     ],
+     "peakRssMiB": 5.59765625
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.123511497,
+     "minSec": 0.120037612,
+     "seconds": [
+      0.123511497,
+      0.120037612,
+      0.1221228,
+      0.123561827,
+      0.128017913
+     ],
+     "peakRssMiB": 7.66015625,
+     "timeRatioToFirst": 0.2165759077620027,
+     "ratio95": [
+      0.21025347565881103,
+      0.22308845870900526
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "flop6",
+   "description": "Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.47493659278170663,
+   "arms": [
+    {
+     "name": "v4.7",
+     "medianSec": 3.068223818,
+     "minSec": 3.03518317,
+     "seconds": [
+      3.068223818,
+      3.03518317,
+      3.11520668,
+      3.058945364,
+      3.07181092
+     ],
+     "peakRssMiB": 5.6015625
+    },
+    {
+     "name": "v4.8",
+     "medianSec": 0.539729387,
+     "minSec": 0.527523877,
+     "seconds": [
+      0.539729387,
+      0.535700495,
+      0.547182522,
+      0.568796711,
+      0.527523877
+     ],
+     "peakRssMiB": 11.85546875,
+     "timeRatioToFirst": 0.17708464450193276,
+     "ratio95": [
+      0.1707461743799295,
+      0.18365841244910502
+     ],
+     "supported": "faster"
+    }
+   ]
+  }
+ ]
+}

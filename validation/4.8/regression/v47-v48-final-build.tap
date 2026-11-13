@@ -1,0 +1,214 @@
+TAP version 13
+# Subtest: 4.7 independent reference suite: known values, best responses, ICM, side pots, CFR family, determinism (28 checks)
+ok 1 - 4.7 independent reference suite: known values, best responses, ICM, side pots, CFR family, determinism (28 checks)
+  ---
+  duration_ms: 10901.107646
+  type: 'test'
+  ...
+# Subtest: 4.7 default trainer still writes the 4.4-4.6 golden state (300 updates, 4 threads)
+ok 2 - 4.7 default trainer still writes the 4.4-4.6 golden state (300 updates, 4 threads)
+  ---
+  duration_ms: 151.76129
+  type: 'test'
+  ...
+# Subtest: 4.7 own-hand enumeration: validation, refused combinations, metadata, distinct study identity
+ok 3 - 4.7 own-hand enumeration: validation, refused combinations, metadata, distinct study identity
+  ---
+  duration_ms: 31.023802
+  type: 'test'
+  ...
+# Subtest: 4.7 own-hand enumeration: deterministic continuation 150+150 = 300 and thread independence
+ok 4 - 4.7 own-hand enumeration: deterministic continuation 150+150 = 300 and thread independence
+  ---
+  duration_ms: 50.061141
+  type: 'test'
+  ...
+# Subtest: 4.7 own-hand enumeration with one hand per seat reproduces the default trainer
+ok 5 - 4.7 own-hand enumeration with one hand per seat reproduces the default trainer
+  ---
+  duration_ms: 139.602733
+  type: 'test'
+  ...
+# Subtest: 4.7 engine unbiasedness: own-hand enumeration matches the default estimator in expectation
+ok 6 - 4.7 engine unbiasedness: own-hand enumeration matches the default estimator in expectation
+  ---
+  duration_ms: 8038.686547
+  type: 'test'
+  ...
+# Subtest: 4.7 mwcli --verify: exact, restricted and sampled classes, positions, Mode D local deviations
+ok 7 - 4.7 mwcli --verify: exact, restricted and sampled classes, positions, Mode D local deviations
+  ---
+  duration_ms: 114.08656
+  type: 'test'
+  ...
+# Subtest: 4.7 mwcli --compare: identity, distances, exact gain differences, incompatible games refused
+ok 8 - 4.7 mwcli --compare: identity, distances, exact gain differences, incompatible games refused
+  ---
+  duration_ms: 67.458789
+  type: 'test'
+  ...
+# Subtest: 4.7 mwcli --monitor: analytics schema, adaptive schedule, continuation identity, stopping rules
+ok 9 - 4.7 mwcli --monitor: analytics schema, adaptive schedule, continuation identity, stopping rules
+  ---
+  duration_ms: 710.20026
+  type: 'test'
+  ...
+# Subtest: 4.7 JavaScript analytics agree with the native analytics (parse, strategy hash, distance, game hash, %.17g)
+ok 10 - 4.7 JavaScript analytics agree with the native analytics (parse, strategy hash, distance, game hash, %.17g)
+  ---
+  duration_ms: 187.712562
+  type: 'test'
+  ...
+# Subtest: 4.7 dashboard live monitor against the native host: real measurements, continuation identity, stop rules
+ok 11 - 4.7 dashboard live monitor against the native host: real measurements, continuation identity, stop rules
+  ---
+  duration_ms: 490.025482
+  type: 'test'
+  ...
+# Subtest: 4.7 independent best-response cross-check (Python, no engine code): heads-up and three-player river agree to 1e-9
+ok 12 - 4.7 independent best-response cross-check (Python, no engine code): heads-up and three-player river agree to 1e-9
+  ---
+  duration_ms: 348.443502
+  type: 'test'
+  ...
+# Subtest: 4.7 compressed checkpoints (EMZ1): lossless round trip, resume = uninterrupted, corruption and truncation refused
+ok 13 - 4.7 compressed checkpoints (EMZ1): lossless round trip, resume = uninterrupted, corruption and truncation refused
+  ---
+  duration_ms: 472.201517
+  type: 'test'
+  ...
+# Subtest: 4.8 exact response gains are bit-identical to the 4.7 code path on heads-up to six-player games (rank cache, hoisted pots, table caps)
+ok 14 - 4.8 exact response gains are bit-identical to the 4.7 code path on heads-up to six-player games (rank cache, hoisted pots, table caps)
+  ---
+  duration_ms: 66414.478909
+  type: 'test'
+  ...
+# Subtest: 4.8 restricted and sampled response gains are bit-identical to the 4.7 code path (multiway, side pots, ICM)
+ok 15 - 4.8 restricted and sampled response gains are bit-identical to the 4.7 code path (multiway, side pots, ICM)
+  ---
+  duration_ms: 51996.301252
+  type: 'test'
+  ...
+# Subtest: 4.8 exact action EVs are bit-identical to the 4.7 code path (six-player flop, every root hand)
+ok 16 - 4.8 exact action EVs are bit-identical to the 4.7 code path (six-player flop, every root hand)
+  ---
+  duration_ms: 1777.149593
+  type: 'test'
+  ...
+# Subtest: 4.8 response evaluation under a tight memory budget (16 MiB) gives the same exact gains as 512 MiB (tables evicted, never approximated)
+ok 17 - 4.8 response evaluation under a tight memory budget (16 MiB) gives the same exact gains as 512 MiB (tables evicted, never approximated)
+  ---
+  duration_ms: 28755.135375
+  type: 'test'
+  ...
+# Subtest: 4.8 a long exact evaluation stops promptly at its deadline with a clear error (weighted six-player flop, 300 ms)
+ok 18 - 4.8 a long exact evaluation stops promptly at its deadline with a clear error (weighted six-player flop, 300 ms)
+  ---
+  duration_ms: 447.659339
+  type: 'test'
+  ...
+# Subtest: 4.8 the shared table cache builds each preflop all-in table once per request (four-player bubble: 16 tables, 4.7 rule: hundreds)
+ok 19 - 4.8 the shared table cache builds each preflop all-in table once per request (four-player bubble: 16 tables, 4.7 rule: hundreds)
+  ---
+  duration_ms: 18022.381477
+  type: 'test'
+  ...
+# Subtest: 4.8 exact best responses agree with the independent multi-street implementation (heads-up turn, three-player river, four-player turn) and chips are conserved
+ok 20 - 4.8 exact best responses agree with the independent multi-street implementation (heads-up turn, three-player river, four-player turn) and chips are conserved
+  ---
+  duration_ms: 1681.886841
+  type: 'test'
+  ...
+# Subtest: 4.8 best response >= policy value for every seat, and gains sum to NashConv (five- and six-player flops)
+ok 21 - 4.8 best response >= policy value for every seat, and gains sum to NashConv (five- and six-player flops)
+  ---
+  duration_ms: 1045.616945
+  type: 'test'
+  ...
+# Subtest: 4.8 sampled action-EV intervals cover the exact action EVs at the nominal rate (40 seeds, three-player river)
+ok 22 - 4.8 sampled action-EV intervals cover the exact action EVs at the nominal rate (40 seeds, three-player river)
+  ---
+  duration_ms: 686.174103
+  type: 'test'
+  ...
+# Subtest: 4.8 continuation suite on the four-player bubble study (own-hand enumeration): 25/25 with valid, recorded evaluation hands
+ok 23 - 4.8 continuation suite on the four-player bubble study (own-hand enumeration): 25/25 with valid, recorded evaluation hands
+  ---
+  duration_ms: 1069.462502
+  type: 'test'
+  ...
+# Subtest: 4.8 continuation suite keeps the 4.5 eight-player sequence byte for byte (hands [3] and [0], no substitution)
+ok 24 - 4.8 continuation suite keeps the 4.5 eight-player sequence byte for byte (hands [3] and [0], no substitution)
+  ---
+  duration_ms: 6805.963064
+  type: 'test'
+  ...
+# Subtest: 4.8 an evaluation request naming a hand outside the root actor's range is still refused (incompatible fixture), and the suite fails clearly on a missing spec
+ok 25 - 4.8 an evaluation request naming a hand outside the root actor's range is still refused (incompatible fixture), and the suite fails clearly on a missing spec
+  ---
+  duration_ms: 19.450638
+  type: 'test'
+  ...
+# Subtest: 4.8 checkpoint continuation: four-player study 150 + 150 = 300 uninterrupted, with own hands and with the default trainer; restored state evaluates identically
+ok 26 - 4.8 checkpoint continuation: four-player study 150 + 150 = 300 uninterrupted, with own hands and with the default trainer; restored state evaluates identically
+  ---
+  duration_ms: 2333.99425
+  type: 'test'
+  ...
+# Subtest: 4.8 checkpoint comparison classifies quality changes (exact improvement / regression / no change; sampled with an interval; restricted not ordered)
+ok 27 - 4.8 checkpoint comparison classifies quality changes (exact improvement / regression / no change; sampled with an interval; restricted not ordered)
+  ---
+  duration_ms: 12349.676849
+  type: 'test'
+  ...
+# Subtest: 4.8 dashboard: charts 1b, 7 and 8 are drawn from a real monitor run; equal-time comparison and improvement factors are exact functions of the analytics rows
+ok 28 - 4.8 dashboard: charts 1b, 7 and 8 are drawn from a real monitor run; equal-time comparison and improvement factors are exact functions of the analytics rows
+  ---
+  duration_ms: 132.509041
+  type: 'test'
+  ...
+# Subtest: 4.8 EMZ1 at levels 1 and 9: byte-exact round trips and resumes equal to uninterrupted training
+ok 29 - 4.8 EMZ1 at levels 1 and 9: byte-exact round trips and resumes equal to uninterrupted training
+  ---
+  duration_ms: 139.95539
+  type: 'test'
+  ...
+# Subtest: 4.8 default trainer still writes the 4.4-4.7 golden state (300 updates, 4 threads) and reports itself as the validated default
+ok 30 - 4.8 default trainer still writes the 4.4-4.7 golden state (300 updates, 4 threads) and reports itself as the validated default
+  ---
+  duration_ms: 218.829697
+  type: 'test'
+  ...
+# Subtest: 4.8 a GPU request on a machine without a usable CUDA device falls back to the CPU with bit-identical exact gains
+ok 31 - 4.8 a GPU request on a machine without a usable CUDA device falls back to the CPU with bit-identical exact gains
+  ---
+  duration_ms: 1248.859907
+  type: 'test'
+  ...
+# Subtest: 4.8 tournament defaults are unchanged: 8 players, 0.5/1 blinds, 0.1 bb antes, 2.3 bb starting pot, UTG..BB
+ok 32 - 4.8 tournament defaults are unchanged: 8 players, 0.5/1 blinds, 0.1 bb antes, 2.3 bb starting pot, UTG..BB
+  ---
+  duration_ms: 49.083303
+  type: 'test'
+  ...
+# Subtest: 4.8 six-player flop: the default trainer lowers exact NashConv from 4,000 to 100,000 sampled deals for three seeds (sanity, not a study)
+ok 33 - 4.8 six-player flop: the default trainer lowers exact NashConv from 4,000 to 100,000 sampled deals for three seeds (sanity, not a study)
+  ---
+  duration_ms: 6555.539489
+  type: 'test'
+  ...
+# Subtest: 4.8 Windows harness: End-Section takes an untyped error so a completed section is not recorded as failed; Error-Text never returns an empty string
+ok 34 - 4.8 Windows harness: End-Section takes an untyped error so a completed section is not recorded as failed; Error-Text never returns an empty string
+  ---
+  duration_ms: 0.652235
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 201832.61948

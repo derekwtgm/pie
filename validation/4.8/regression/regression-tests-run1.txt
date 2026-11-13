@@ -1,0 +1,41 @@
+checkpoint.test.js          1.43 s pass 12 fail 0 skip 0 timeout 0
+fgs.test.js                 5.03 s pass 5 fail 0 skip 0 timeout 0
+fingerprint.test.js         0.08 s pass 1 fail 0 skip 0 timeout 0
+information.test.js          0.1 s pass 5 fail 0 skip 0 timeout 0
+mtt.test.js                 2.18 s pass 13 fail 0 skip 0 timeout 0
+multiway.test.js            1.17 s pass 11 fail 0 skip 0 timeout 0
+oracle.test.js             15.29 s pass 3 fail 0 skip 0 timeout 0
+quality.test.js             1.28 s pass 9 fail 0 skip 0 timeout 0
+solver.test.js              1.94 s pass 14 fail 0 skip 0 timeout 0
+upgrades.test.js            2.23 s pass 6 fail 0 skip 0 timeout 0
+v26.test.js                 6.23 s pass 42 fail 0 skip 0 timeout 0
+v27.test.js                 0.58 s pass 9 fail 0 skip 0 timeout 0
+v28.test.js                 0.19 s pass 4 fail 0 skip 0 timeout 0
+v29.test.js                84.94 s pass 31 fail 0 skip 0 timeout 0
+v31.test.js                 21.5 s pass 42 fail 0 skip 0 timeout 0
+v33.test.js                 40.9 s pass 34 fail 0 skip 0 timeout 0
+v34.test.js                 8.34 s pass 14 fail 0 skip 0 timeout 0
+v35.test.js                 8.08 s pass 24 fail 0 skip 0 timeout 0
+v36.test.js                12.16 s pass 22 fail 0 skip 0 timeout 0
+v37.test.js                 3.47 s pass 11 fail 0 skip 0 timeout 0
+v38.test.js                 2.16 s pass 8 fail 0 skip 0 timeout 0
+v39.test.js                16.59 s pass 14 fail 0 skip 0 timeout 0
+v40.test.js                 19.3 s pass 17 fail 0 skip 0 timeout 0
+v41.test.js                32.19 s pass 15 fail 0 skip 0 timeout 0
+v42.test.js               193.23 s pass 16 fail 0 skip 0 timeout 0
+v43.test.js               213.89 s pass 15 fail 0 skip 0 timeout 0
+v44.test.js                53.48 s pass 15 fail 0 skip 0 timeout 0
+v44_postflop.test.js       21.97 s pass 5 fail 0 skip 0 timeout 0
+v45.test.js               205.79 s pass 10 fail 0 skip 0 timeout 0
+v46.test.js                25.75 s pass 15 fail 0 skip 0 timeout 0
+v47.test.js                20.39 s pass 12 fail 1 skip 0 timeout 0
+   FAILED: 4.7 JavaScript analytics agree with the native analytics (parse, strategy hash, distance, game hash, %.17g)
+v48.test.js               204.76 s pass 21 fail 0 skip 0 timeout 0
+wide.test.js                0.53 s pass 7 fail 0 skip 0 timeout 0
+
+Totals: passed 482 failed 1 skipped 0 timed out 0 | hardware-dependent run 48 skipped 0
+
+real	20m27.199s
+user	27m23.865s
+sys	1m26.017s
+done

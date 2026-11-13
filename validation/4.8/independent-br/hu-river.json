@@ -1,0 +1,41 @@
+{
+ "tool": "independent_br48",
+ "spec": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/hu-river.json",
+ "state": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/hu-river.state",
+ "players": 2,
+ "startCards": 5,
+ "deals": 33,
+ "storedRowsUsed": 48,
+ "storedRows": 48,
+ "chipConservation": {
+  "sumOfPolicyValues": 10.0,
+  "deadMoney": 10,
+  "note": "net chips relative to the study root sum to the dead money (common pot + chips folded before the root) for every strategy profile"
+ },
+ "tolerance": 1e-09,
+ "agree": true,
+ "seats": [
+  {
+   "seat": 0,
+   "independentPolicyValue": 4.720055450850645,
+   "independentBestResponse": 4.871729507796511,
+   "independentGain": 0.15167405694586567,
+   "enginePolicyValue": 4.720055450850645,
+   "engineBestResponse": 4.871729507796511,
+   "engineGain": 0.15167405694586564,
+   "maxAbsDifference": 2.7755575615628914e-17,
+   "agree": true
+  },
+  {
+   "seat": 1,
+   "independentPolicyValue": 5.279944549149355,
+   "independentBestResponse": 5.399296736093018,
+   "independentGain": 0.11935218694366334,
+   "enginePolicyValue": 5.279944549149355,
+   "engineBestResponse": 5.399296736093018,
+   "engineGain": 0.1193521869436636,
+   "maxAbsDifference": 2.636779683484747e-16,
+   "agree": true
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+{
+ "tool": "independent_br48",
+ "spec": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/river3-chip.json",
+ "state": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/river3-chip.state",
+ "players": 3,
+ "startCards": 5,
+ "deals": 168,
+ "storedRowsUsed": 150,
+ "storedRows": 150,
+ "chipConservation": {
+  "sumOfPolicyValues": 6.0,
+  "deadMoney": 6,
+  "note": "net chips relative to the study root sum to the dead money (common pot + chips folded before the root) for every strategy profile"
+ },
+ "tolerance": 1e-09,
+ "agree": true,
+ "seats": [
+  {
+   "seat": 0,
+   "independentPolicyValue": 2.782191262747045,
+   "independentBestResponse": 2.8080990636629815,
+   "independentGain": 0.025907800915936363,
+   "enginePolicyValue": 2.782191262747045,
+   "engineBestResponse": 2.808099063662982,
+   "engineGain": 0.025907800915936786,
+   "maxAbsDifference": 4.440892098500626e-16,
+   "agree": true
+  },
+  {
+   "seat": 1,
+   "independentPolicyValue": 2.8282316327196564,
+   "independentBestResponse": 2.8580272335517094,
+   "independentGain": 0.029795600832053015,
+   "enginePolicyValue": 2.828231632719657,
+   "engineBestResponse": 2.8580272335517094,
+   "engineGain": 0.02979560083205257,
+   "maxAbsDifference": 4.440892098500626e-16,
+   "agree": true
+  },
+  {
+   "seat": 2,
+   "independentPolicyValue": 0.3895771045332984,
+   "independentBestResponse": 0.43579671508359086,
+   "independentGain": 0.046219610550292445,
+   "enginePolicyValue": 0.3895771045332984,
+   "engineBestResponse": 0.43579671508359075,
+   "engineGain": 0.04621961055029231,
+   "maxAbsDifference": 1.3183898417423734e-16,
+   "agree": true
+  }
+ ]
+}

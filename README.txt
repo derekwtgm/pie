@@ -1,5 +1,28 @@
-EightMax 4.7 - 8-max MTT solver for Windows
+EightMax 4.8 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 4.8: WORKING WINDOWS SELF-TESTS, FASTER STRATEGY-QUALITY CHECKS,
+THE FOUR-PLAYER TEST FIXED
+  - The Windows self-test script marked every passed section as failed
+    (a PowerShell detail); fixed and confirmed on a real Windows machine of
+    GitHub's build service: 126 checks passed, 8 of 8 sections.
+    "Validate CUDA hardware.bat" could not start in Windows PowerShell 5.1;
+    fixed.
+  - "Is this strategy good?" measurements (exact best responses) are 4 to 9
+    times faster on five- and six-player flop studies and on the four-player
+    bubble, with exactly the same numbers as 4.7 (bit for bit).
+  - A separate program written from scratch confirms the solver's exact
+    best-response numbers up to the six-player flop.
+  - Checkpoint comparison now says "improvement", "regression" or
+    "inconclusive"; three new charts in the Quality tab.
+  - The training engine and its results are unchanged. No claim of stronger
+    strategies is made for 4.8 (the six-player study was not run yet).
+  - Optional on your PC: "Run self-tests.bat" (now also runs
+    "Run 4.8 checks.bat"). Nothing on your PC is required.
+Read RELEASE-4.8.md.
+
+EightMax 4.7 - 8-max MTT solver for Windows
+--------------------------------------------
 
 NEW IN 4.7: MEASURING STRATEGY QUALITY, A FASTER-CONVERGING EXPERIMENTAL
 TRAINER, A CONVERGENCE DASHBOARD, CHECKPOINT COMPARISON AND COMPRESSION

@@ -1,0 +1,86 @@
+{
+ "tool": "independent_br48",
+ "spec": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/flop6.json",
+ "state": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/flop6.state",
+ "players": 6,
+ "startCards": 3,
+ "deals": 64,
+ "storedRowsUsed": 360,
+ "storedRows": 360,
+ "chipConservation": {
+  "sumOfPolicyValues": 20.799999999999997,
+  "pot0": 20.8,
+  "conserved": true,
+  "note": "net chips relative to the study root sum to the root pot (common pot + chips folded before the root + every seat's prior wager) for every strategy profile"
+ },
+ "tolerance": 1e-09,
+ "agree": true,
+ "seats": [
+  {
+   "seat": 0,
+   "independentPolicyValue": 14.450286017138325,
+   "independentBestResponse": 14.627326717722035,
+   "independentGain": 0.17704070058371002,
+   "enginePolicyValue": 14.450286017138325,
+   "engineBestResponse": 14.627326717722035,
+   "engineGain": 0.17704070058371002,
+   "maxAbsDifference": 0.0,
+   "agree": true
+  },
+  {
+   "seat": 1,
+   "independentPolicyValue": 1.4166876196073,
+   "independentBestResponse": 1.4926195836467928,
+   "independentGain": 0.07593196403949287,
+   "enginePolicyValue": 1.416687619607299,
+   "engineBestResponse": 1.492619583646792,
+   "engineGain": 0.07593196403949287,
+   "maxAbsDifference": 8.881784197001252e-16,
+   "agree": true
+  },
+  {
+   "seat": 2,
+   "independentPolicyValue": 0.9438232169864681,
+   "independentBestResponse": 1.0860218128636627,
+   "independentGain": 0.14219859587719463,
+   "enginePolicyValue": 0.9438232169864682,
+   "engineBestResponse": 1.0860218128636625,
+   "engineGain": 0.1421985958771943,
+   "maxAbsDifference": 3.3306690738754696e-16,
+   "agree": true
+  },
+  {
+   "seat": 3,
+   "independentPolicyValue": 0.05812755704216285,
+   "independentBestResponse": 0.06318152818033912,
+   "independentGain": 0.005053971138176266,
+   "enginePolicyValue": 0.05812755704216284,
+   "engineBestResponse": 0.0631815281803391,
+   "engineGain": 0.005053971138176266,
+   "maxAbsDifference": 1.3877787807814457e-17,
+   "agree": true
+  },
+  {
+   "seat": 4,
+   "independentPolicyValue": 3.524608144907922,
+   "independentBestResponse": 3.5593103843563045,
+   "independentGain": 0.03470223944838269,
+   "enginePolicyValue": 3.5246081449079245,
+   "engineBestResponse": 3.5593103843563063,
+   "engineGain": 0.0347022394483818,
+   "maxAbsDifference": 2.6645352591003757e-15,
+   "agree": true
+  },
+  {
+   "seat": 5,
+   "independentPolicyValue": 0.4064674443178193,
+   "independentBestResponse": 0.44647656601257074,
+   "independentGain": 0.04000912169475146,
+   "enginePolicyValue": 0.4064674443178192,
+   "engineBestResponse": 0.4464765660125706,
+   "engineGain": 0.04000912169475135,
+   "maxAbsDifference": 1.6653345369377348e-16,
+   "agree": true
+  }
+ ]
+}

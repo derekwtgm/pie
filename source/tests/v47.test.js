@@ -183,7 +183,7 @@ test('4.7 JavaScript analytics agree with the native analytics (parse, strategy 
   const doc = JSON.parse(JSON.stringify({ schema: 'eightmax-analytics/1', game: { players: 3 }, evaluations: [{ index: 0, updates: 1, trainingDeals: 1, evaluation: { mode: 'exactBestResponse', nashConv: 0.5, seats: [{ gain: 0.1 }, { gain: 0.2 }, { gain: 0.2 }] } }] }));
   assert.match(A.toCSV(A.validateDoc(doc)).split('\n')[1], /^0,1,1,/);
   assert.throws(() => A.validateDoc({ schema: 'x' }), /analytics file/);
-  const html = A.chartsHTML([doc]); assert.equal((html.match(/<figure/g) || []).length, 7);
+  const html = A.chartsHTML([doc]); assert.equal((html.match(/<figure/g) || []).length, 10);   // 4.8: 7 charts of 4.7 + 1b (time), 7 (algorithm comparison), 8 (efficiency)
 });
 test('4.7 dashboard live monitor against the native host: real measurements, continuation identity, stop rules', { skip: (skip || hostSkip) || false, timeout: 600000 }, async t => {
   const dir = tmp(t), s = spec('river3');
