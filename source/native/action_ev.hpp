@@ -255,6 +255,18 @@ struct Evaluator {
   // Utility of the actor at a terminal given every contesting seat's score.
   double utilityWithScores(const BS &t, int np, const int *score) {
     const int n = m.n; double util[8];
+    if (!tour && !rankCacheOff()) {
+      // 4.8: chip EV needs only the actor's entry: the same start value and the same additions in
+      // the same pot order as the loop below (so the same double); the other seats are skipped.
+      double u = -t.total[actor] - m.anteOf[(size_t)actor];
+      for (int q = 0; q < np; q++) {
+        const uint32_t mask = pots[q].mask; if (!(mask >> actor & 1)) continue;
+        int top = INT_MIN, count = 0;
+        for (uint32_t x = mask; x; x &= x - 1) { const int e = std::countr_zero(x); if (score[e] > top) { top = score[e]; count = 1; } else if (score[e] == top) count++; }
+        if (score[actor] == top) u += pots[q].amount / count;
+      }
+      return u;
+    }
     for (int p = 0; p < n; p++) util[p] = tour ? t.behind[p] : -t.total[p] - m.anteOf[(size_t)p];
     for (int q = 0; q < np; q++) {
       const uint32_t mask = pots[q].mask; int top = INT_MIN, count = 0;
@@ -267,9 +279,35 @@ struct Evaluator {
     return util[actor];
   }
   // Utility of the actor at a terminal with all five board cards known.
+  // 4.8: per-board rank cache. A seat's seven-card rank depends only on the five board cards
+  // and its hole cards, but exact traversals (best responses, exact EVs) reach the same river
+  // board through many betting sequences and opponent-hand tuples and re-evaluated every hand
+  // each time (36.8 million evalSeven calls for one seat of the six-player flop study). The
+  // cache stores evalSeven's own result per (seat, range index) for the current board and is
+  // invalidated by a generation stamp when the board changes, so every score - and therefore
+  // every utility and every printed bit - is the one evalSeven returns. Memory: one 8-byte
+  // entry per range hand per seat (at most 8 x 1326), allocated once per evaluator.
+  // EM_EV_NO_RANK_CACHE=1 restores the 4.7 path (used by the 4.8 bit-identity tests).
+  struct RankSlot { uint32_t gen; int score; };
+  std::vector<std::vector<RankSlot>> rankCache; uint64_t rankBoard = ~0ULL; uint32_t rankGen = 0; long long rankHits = 0, rankMisses = 0;
+  static bool rankCacheOff() { static const bool off = std::getenv("EM_EV_NO_RANK_CACHE") != nullptr; return off; }
+  int seatScore(int p) {
+    const Hand &h = m.hands[(size_t)p][(size_t)hand[p]];
+    if (rankCacheOff()) return evalSeven(cards, h.a, h.b);
+    if (rankCache.empty()) { rankCache.resize((size_t)m.n); for (int q = 0; q < m.n; q++) rankCache[(size_t)q].assign(m.hands[(size_t)q].size(), RankSlot{0, 0}); }
+    RankSlot &r = rankCache[(size_t)p][(size_t)hand[p]];
+    if (r.gen == rankGen && rankGen != 0) { rankHits++; return r.score; }
+    rankMisses++; r.score = evalSeven(cards, h.a, h.b); r.gen = rankGen; return r.score;
+  }
+  void rankBoardIs() {
+    if (rankCacheOff()) return;
+    const uint64_t b = (1ULL << cards[0]) | (1ULL << cards[1]) | (1ULL << cards[2]) | (1ULL << cards[3]) | (1ULL << cards[4]);
+    if (b != rankBoard || rankGen == 0) { rankBoard = b; if (++rankGen == 0) { for (auto &v : rankCache) for (auto &x : v) x.gen = 0; rankGen = 1; } }
+  }
   double scored(const BS &t, int np) {
-    int score[8];
-    for (int p = 0; p < m.n; p++) { const Hand &h = m.hands[(size_t)p][(size_t)hand[p]]; score[p] = evalSeven(cards, h.a, h.b); }
+    int score[8]; rankBoardIs();
+    if (rankCacheOff()) { for (int p = 0; p < m.n; p++) score[p] = seatScore(p); }
+    else { uint32_t inPot = 0; for (int q = 0; q < np; q++) inPot |= pots[q].mask; for (int p = 0; p < m.n; p++) score[p] = (inPot >> p & 1) ? seatScore(p) : 0; }   // a seat in no pot is never read
     // 4.1: one board evaluation (all seats scored on one board); checked every
     // 256 boards so the overshoot of maxBoardEvaluations is at most 256 per worker.
     if (++poller.boards - poller.boardsFlushed >= 256 && !poller.flushWork()) { sh->ctl.raise(6, SITE_RUNOUT); sh->ctl.rethrowStop(); }
@@ -584,6 +622,8 @@ struct Evaluator {
       std::lock_guard<std::mutex> h(T.histMu); T.hist.push_back(std::move(H)); }
     st.nsPatterns += nsSince(tp); st.patternSets++;
   }
+  // 4.8: count cap of the private small-table cache (default 1024; EM_EV_SMALL_TABLE_CAP=4 reproduces 4.7).
+  static size_t smallTableCap() { static const size_t c = [] { const char *e = std::getenv("EM_EV_SMALL_TABLE_CAP"); const long v = e ? std::strtol(e, nullptr, 10) : 1024; return (size_t)std::clamp<long>(v, 4, 65536); }(); return c; }
   std::array<std::shared_ptr<ShowTable>, 2> mru; long long mruStamp = 0;
   ShowTable *table(int len) {
     int holes[16]; for (int p = 0; p < m.n; p++) { const Hand &h = m.hands[(size_t)p][(size_t)hand[p]]; holes[2 * p] = h.a; holes[2 * p + 1] = h.b; }
@@ -592,14 +632,14 @@ struct Evaluator {
     // from sharing but would pay the shared-cache lock on every miss: they stay per worker (as in 4.2).
     int freeCards = 0; for (int x = 0; x < 52; x++) freeCards += !(used >> x & 1);
     const bool small = binom64(freeCards, 5 - len) < ShowTable::CHUNK;
-    if ((sh->privateTables || small) && !ownCache) { ownCache = std::make_shared<TableCache>(); ownCache->ctl = &sh->ctl; ownCache->threadBudget = 1; ownCache->workers = 1; }
+    if ((sh->privateTables || small) && !ownCache) { ownCache = std::make_shared<TableCache>(); ownCache->ctl = &sh->ctl; ownCache->threadBudget = 1; ownCache->workers = 1; ownCache->countCap = sh->privateTables ? 0 : smallTableCap(); }
     TableCache &C = (sh->privateTables || small) ? *ownCache : *sh->cache;
     for (int attempt = 0; attempt < 3; attempt++) {
       std::shared_ptr<ShowTable> T; bool owner = false;
       {
         std::lock_guard<std::mutex> g(C.mu);
         T = C.find(used, len, cards, holes, m.n);
-        if (T && T->failed.load()) { for (size_t i = 0; i < C.tables.size(); i++) if (C.tables[i] == T) { C.ctl->release(T->charged.load()); C.tables.erase(C.tables.begin() + (long)i); break; } T.reset(); }
+        if (T && T->failed.load()) { C.eraseTable(T); T.reset(); }
         if (!T) {
           int deckCount = 0; int deck[52]; for (int x = 0; x < 52; x++) if (!(used >> x & 1)) deck[deckCount++] = x;
           const unsigned long long boards = binom64(deckCount, 5 - len); const long long bytes = (long long)(boards * (unsigned long long)m.n * 4);
@@ -613,14 +653,14 @@ struct Evaluator {
           T->chunks = (boards + ShowTable::CHUNK - 1) / ShowTable::CHUNK;
           T->chunkState.reset(new std::atomic<uint8_t>[T->chunks]); for (unsigned long long c = 0; c < T->chunks; c++) T->chunkState[c] = ShowTable::C_FREE;
           T->cpuMayScore = false;   // until the owner has chosen the device
-          C.tables.push_back(T); owner = true; C.built++;
+          C.push(T); owner = true; C.built++;
         } else C.shared++;
       }
       if (owner) {
         try { build(*T); }
         catch (...) {
           T->failed = true; { std::lock_guard<std::mutex> g(T->buildMu); T->buildCv.notify_all(); }
-          { std::lock_guard<std::mutex> g(C.mu); for (size_t i = 0; i < C.tables.size(); i++) if (C.tables[i] == T) { C.ctl->release(T->charged.load()); C.tables.erase(C.tables.begin() + (long)i); break; } }
+          { std::lock_guard<std::mutex> g(C.mu); C.eraseTable(T); }
           throw;
         }
         T->ready.store(true, std::memory_order_release);
@@ -1478,10 +1518,33 @@ inline std::pair<double, double> brRec(Evaluator &E, int seat, int own, int stat
   BS c;
   if (t.kind == 2) {
     double s = 0; uint64_t pub = 0; for (int i = 0; i < len; i++) pub |= 1ULL << E.cards[i];
+    // 4.8: the pot layout depends only on the betting state, so it is computed once per terminal
+    // node instead of once per opponent-hand tuple (6.1 million Rules::pots calls, 28% of one
+    // six-player flop best response in 4.7). An uncontested pot pays the same for every tuple: its
+    // value is computed once and accumulated in the same order, so the sum is bit-identical.
+    // EM_BR_NO_HOIST=1 restores the 4.7 loop (bit-identity tests).
+    static const bool noHoist = std::getenv("EM_BR_NO_HOIST") != nullptr;
+    if (noHoist) {
+      for (size_t i = 0; i < T.size(); i++) if (w[i] > 0) {
+        for (int p = 0; p < n; p++) if (p != seat) E.hand[p] = T[i].hand[p];
+        E.hand[seat] = own; E.used = pub | ownMask | T[i].mask; E.visits++;
+        s += w[i] * E.terminal(t, len, 0, false);
+      }
+      return {s, s};
+    }
+    const int np = E.g.rules.pots(t, E.pots);
+    if (!Evaluator::contested(E.pots, np)) {
+      bool any = false; for (size_t i = 0; i < T.size(); i++) if (w[i] > 0) { any = true; break; }
+      if (!any) return {0.0, 0.0};
+      for (size_t i = 0; i < T.size(); i++) if (w[i] > 0) { for (int p = 0; p < n; p++) if (p != seat) E.hand[p] = T[i].hand[p]; E.hand[seat] = own; E.used = pub | ownMask | T[i].mask; break; }
+      const double u = E.uncontested(t, np);
+      for (size_t i = 0; i < T.size(); i++) if (w[i] > 0) { E.visits++; s += w[i] * u; }
+      return {s, s};
+    }
     for (size_t i = 0; i < T.size(); i++) if (w[i] > 0) {
       for (int p = 0; p < n; p++) if (p != seat) E.hand[p] = T[i].hand[p];
       E.hand[seat] = own; E.used = pub | ownMask | T[i].mask; E.visits++;
-      s += w[i] * E.terminal(t, len, 0, false);
+      s += w[i] * ((!E.exact || len == 5) ? E.scored(t, np) : E.runout(t, np, len));
     }
     return {s, s};
   }

@@ -211,6 +211,47 @@ struct Suite {
           "exit "+std::to_string(r.exitCode)+", sha before "+before.sha256+", after "+after.sha256+(r.err.empty()?"":"; stderr: "+clip(r.err,600)));
     return r;
   }
+  // 4.8: the evaluation requests name range indices of the seat that acts at the root of THIS
+  // spec. 4.6/4.7 hard-coded indices of the 4.5 eight-player study (hands [3] and [0]); on a spec
+  // whose root actor holds fewer hands (the 4.7 four-player bubble study: 2 hands) the engine
+  // correctly refused the request with HTTP 400 and the suite reported 24/25. The actor comes from
+  // the engine itself (--node, path []), the range size from the spec's hands[actor]. The preferred
+  // index is kept when it is valid (so the 4.5 sequence is unchanged: [3] and [0]); otherwise the
+  // last index of the range is used and the substitution is recorded. A spec whose root cannot be
+  // queried or whose acting range is empty fails the check - it is never skipped.
+  struct RootRange{bool ok=false;int actor=-1;long long size=0;std::string error;};
+  RootRange rootRange(const std::string &state){
+    RootRange R;const std::string q=p("continuation-node-request.json");
+    FILE *f=std::fopen(q.c_str(),"wb");if(!f){R.error="cannot write "+q;return R;}std::fputs("{\"path\":[]}",f);std::fclose(f);
+    Run r=spawn({self,"--node",spec,state,q},dir,timeoutS);
+    if(r.exitCode!=0){R.error="mwcli --node exit "+std::to_string(r.exitCode)+": "+clip(r.err,400);return R;}
+    char e[160];JV *n=json_parse(r.out.data(),r.out.size(),e,sizeof e);
+    if(!n){R.error=std::string("--node output is not JSON: ")+e;return R;}
+    const JV *node=jget(n,"node");const JV *a=node?jget(node,"actor"):nullptr;const JV *kind=node?jget(node,"kind"):nullptr;
+    if(!a||a->type!=J_NUM||!kind||!jstr(kind)||std::strcmp(jstr(kind),"decision")){json_free(n);R.error="the root of the spec is not a decision node";return R;}
+    R.actor=(int)a->num;json_free(n);
+    std::string text;{FILE *g=std::fopen(spec.c_str(),"rb");if(!g){R.error="cannot read "+spec;return R;}char b[65536];size_t k;while((k=std::fread(b,1,sizeof b,g))>0)text.append(b,k);std::fclose(g);}
+    JV *sp=json_parse(text.data(),text.size(),e,sizeof e);if(!sp){R.error=std::string("spec is not JSON: ")+e;return R;}
+    const JV *h=jget(sp,"hands");
+    if(!h||h->type!=J_ARR||R.actor<0||R.actor>=h->n||h->items[R.actor]->type!=J_ARR){json_free(sp);R.error="spec hands[] has no entry for root actor "+std::to_string(R.actor);return R;}
+    R.size=h->items[R.actor]->n;json_free(sp);
+    if(R.size<=0){R.error="the root actor's range is empty";return R;}
+    R.ok=true;return R;
+  }
+  std::vector<std::string> handPicks;
+  // the request with "hands":[<index>] filled in, or "" (and a failed check) when no valid index exists
+  std::string withHand(const std::string &label,const std::string &state,int preferred,const std::string &rest){
+    RootRange R=rootRange(state);
+    if(!R.ok){check(label+": legal hand index for the root actor",false,R.error);return "";}
+    const long long idx=preferred<R.size?preferred:R.size-1;
+    handPicks.push_back("{\"label\":"+jsonStr(label)+",\"rootActor\":"+std::to_string(R.actor)+",\"rangeSize\":"+std::to_string(R.size)+",\"preferredIndex\":"+std::to_string(preferred)+",\"usedIndex\":"+std::to_string(idx)+",\"substituted\":"+(idx!=preferred?"true":"false")+"}");
+    return "{\"path\":[],\"hands\":["+std::to_string(idx)+"],"+rest+"}";
+  }
+  Run evAt(const std::string &label,const std::string &state,int preferred,const std::string &rest){
+    const std::string req=withHand(label,state,preferred,rest);
+    if(req.empty()){Run r;r.exitCode=-1;return r;}
+    return ev(label,state,req);
+  }
   void check(const std::string &name,bool ok,const std::string &detail=""){
     checks.push_back("{\"name\":"+jsonStr(name)+",\"passed\":"+(ok?"true":"false")+(detail.empty()?"":",\"detail\":"+jsonStr(detail))+"}");
     ok?passedChecks++:failed++;
@@ -231,7 +272,7 @@ struct Suite {
   void segments(const std::string &tag,long long first,long long second,bool evaluate){
     const std::string A=p(tag+"-a.state"),B=p(tag+"-b.state"),R=p(tag+"-direct.state");
     train(tag+": first segment ("+std::to_string(first)+" updates)",first,A);
-    if(evaluate)ev(tag+": deadline-limited sampled evaluation between segments",A,"{\"path\":[],\"hands\":[3],\"range\":true,\"method\":\"sampled\",\"samples\":2000000,\"timeLimitMs\":250,\"threads\":4,\"coverageMiB\":1}");
+    if(evaluate)evAt(tag+": deadline-limited sampled evaluation between segments",A,3,"\"range\":true,\"method\":\"sampled\",\"samples\":2000000,\"timeLimitMs\":250,\"threads\":4,\"coverageMiB\":1");
     train(tag+": resumed segment (+"+std::to_string(second)+" updates, new process)",second,B,A);
     train(tag+": uninterrupted reference ("+std::to_string(first+second)+" updates)",first+second,R);
     same(tag+": "+std::to_string(first)+" + "+std::to_string(second)+" resumed updates == "+std::to_string(first+second)+" uninterrupted (byte-identical state: counters, RNG, regrets, averages)",B,R);
@@ -250,7 +291,7 @@ struct Suite {
       for(int k=1;k<=4;k++){
         const std::string cur=p("gen"+std::to_string(k)+".state");
         train("generation "+std::to_string(k)+" (+"+std::to_string(g)+" updates)",g,cur,prev);
-        if(k==2)ev("generation 2: evaluation before the next generation",cur,"{\"path\":[],\"hands\":[0],\"method\":\"sampled\",\"samples\":3000,\"seed\":7,\"threads\":2}");
+        if(k==2)evAt("generation 2: evaluation before the next generation",cur,0,"\"method\":\"sampled\",\"samples\":3000,\"seed\":7,\"threads\":2");
         prev=cur;
       }
       train("generations: uninterrupted reference ("+std::to_string(4*g)+" updates)",4*g,p("gen-direct.state"));
@@ -309,10 +350,11 @@ struct Suite {
       check("truncated input checkpoint: refused with a reason, no output written",t.exitCode!=0&&!t.err.empty()&&!inspect(p("from-truncated.state")).exists,"exit "+std::to_string(t.exitCode)+"; stderr: "+clip(t.err,400));
     }
     const double secs=std::chrono::duration<double>(std::chrono::steady_clock::now()-t0).count();
-    std::string o="{\"tool\":\"mwcli continuation-suite 4.6\",\"build\":\"" EM_BUILD_ID "\",\"level\":"+jsonStr(level)+",\"executable\":"+jsonStr(self)+",\"spec\":"+jsonStr(spec)+",\"workDirectory\":"+jsonStr(dir)+
+    std::string o="{\"tool\":\"mwcli continuation-suite 4.8\",\"build\":\"" EM_BUILD_ID "\",\"level\":"+jsonStr(level)+",\"executable\":"+jsonStr(self)+",\"spec\":"+jsonStr(spec)+",\"workDirectory\":"+jsonStr(dir)+
       ",\"threads\":"+std::to_string(threads)+",\"seconds\":"+std::to_string(secs)+",\"checksPassed\":"+std::to_string(passedChecks)+",\"checksFailed\":"+std::to_string(failed)+",\"passed\":"+(failed?"false":"true")+
       ",\"equivalence\":\"byte-identical EMMW4 state files: header counters (iterations, trainingDeals, stateVisits), both RNG states, row checksum, and the body with every betting state, regret and average-strategy value\",\"checks\":[";
     for(size_t i=0;i<checks.size();i++)o+=(i?",":"")+checks[i];
+    o+="],\"evaluationHands\":[";for(size_t i=0;i<handPicks.size();i++)o+=(i?",":"")+handPicks[i];
     o+="],\"steps\":[";for(size_t i=0;i<steps.size();i++)o+=(i?",\n":"")+steps[i];o+="]}";
     FILE *f=std::fopen(p("continuation-suite.json").c_str(),"wb");if(f){std::fputs(o.c_str(),f);std::fclose(f);}
     std::printf("%s\n",o.c_str());

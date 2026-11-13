@@ -47,13 +47,19 @@ function Skip-Check([string]$message, [string]$reason) {
 # the next section; the run passes only if every section completed and no check failed.
 $script:currentSection = 'startup'
 function Begin-Section([string]$name) { $script:currentSection = $name; $script:sectionClock = [Diagnostics.Stopwatch]::StartNew() }
-function End-Section([string]$errorText) {
-  $sectionLog.Add([ordered]@{ name = $script:currentSection; completed = ($null -eq $errorText); error = $errorText; seconds = [math]::Round($script:sectionClock.Elapsed.TotalSeconds, 2) })
-  if ($null -ne $errorText) { $failures.Add('section ' + $script:currentSection + ' stopped by an error: ' + $errorText); Write-Host ('FAIL  section ' + $script:currentSection + ': ' + $errorText) -ForegroundColor Red }
+# 4.8: the parameter is untyped. 4.6/4.7 declared [string]$errorText, and PowerShell converts a
+# $null argument of a [string] parameter to '' - so "$null -eq $errorText" was always false and every
+# section that ended with "End-Section $null" was recorded as FAILED with an empty message (the 4.7
+# Windows CI runs: 126 checks passed, "0 of 8 sections completed"). Error-Text never returns ''.
+function End-Section($errorText) {
+  $failed = -not [string]::IsNullOrEmpty([string]$errorText)
+  $sectionLog.Add([ordered]@{ name = $script:currentSection; completed = (-not $failed); error = $(if ($failed) { [string]$errorText } else { $null }); seconds = [math]::Round($script:sectionClock.Elapsed.TotalSeconds, 2) })
+  if ($failed) { $failures.Add('section ' + $script:currentSection + ' stopped by an error: ' + $errorText); Write-Host ('FAIL  section ' + $script:currentSection + ': ' + $errorText) -ForegroundColor Red }
 }
 function Clear-TestEnv { foreach ($n in @('EM_QUERY_TIMING', 'EM_EV_DIRECT_PATTERNS', 'EM_COVERAGE_AUDIT', 'EM_EV_PRIVATE_TABLES', 'EM_TEST_SAVE_FAULT', 'EM_TRAIN_CANCEL_AFTER_MS')) { Remove-Item -LiteralPath ('Env:' + $n) -ErrorAction SilentlyContinue } }
 function Error-Text($err) {
-  $t = $err.Exception.Message
+  $t = [string]$err.Exception.Message
+  if ([string]::IsNullOrWhiteSpace($t)) { $t = 'error without a message (' + $(if ($err.Exception) { $err.Exception.GetType().FullName } else { [string]$err }) + ')' }
   if ($err.InvocationInfo -and $err.InvocationInfo.ScriptLineNumber) { $t += ' (test_windows.ps1 line ' + $err.InvocationInfo.ScriptLineNumber + ': ' + $err.InvocationInfo.Line.Trim() + ')' }
   return $t
 }

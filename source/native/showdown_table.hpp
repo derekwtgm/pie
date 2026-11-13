@@ -355,11 +355,26 @@ struct TableCache {
   std::atomic<int> threadBudget{1};    // effective threads of the request
   std::atomic<int> workers{1};         // top-level workers currently running (parallelFor)
   std::atomic<long long> shared{0}, built{0}, helpersSpawned{0}, waitNs{0};
-  size_t maxTables() const { return (size_t)std::max(4, 3 * std::max(1, workers.load())); }
+  // 4.8: countCap (when nonzero) replaces the count cap. The private cache of small tables
+  // (fewer boards than one chunk: flop and turn all-in runouts) had the 4.3 cap of 4 tables, but
+  // an exact best response visits the tables of every opponent-hand tuple at every all-in node
+  // in turn (32 tuples in the six-player flop study, 243 in the weighted one), so the LRU evicted and rebuilt them over
+  // and over (35% of the run). Bytes stay governed by makeRoom/tryCharge (the request budget).
+  size_t countCap = 0;
+  size_t maxTables() const { return countCap ? countCap : (size_t)std::max(4, 3 * std::max(1, workers.load())); }
+  // 4.8: usedKeys[i] == tables[i]->used, kept in step by push()/eraseAt(); find() scans this
+  // contiguous array and dereferences a table only on a key hit (1,024 small tables are scanned
+  // in a few microseconds instead of 1,024 cache misses). Same table found as by 4.7's scan.
+  std::vector<uint64_t> usedKeys;
+  void syncKeys() { if (usedKeys.size() != tables.size()) { usedKeys.clear(); for (auto &t : tables) usedKeys.push_back(t->used); } }   // tables pushed directly (tests)
   std::shared_ptr<ShowTable> find(uint64_t u, int l, const int *cards, const int *h, int nn) {
-    for (auto &t : tables) if (t->matches(u, l, cards, h, nn)) { t->stamp = ++stamp; return t; }
+    syncKeys();
+    for (size_t i = 0; i < usedKeys.size(); i++) if (usedKeys[i] == u && tables[i]->matches(u, l, cards, h, nn)) { tables[i]->stamp = ++stamp; return tables[i]; }
     return nullptr;
   }
+  void push(const std::shared_ptr<ShowTable> &t) { syncKeys(); tables.push_back(t); usedKeys.push_back(t->used); }
+  void eraseAt(size_t i) { syncKeys(); tables.erase(tables.begin() + (long)i); usedKeys.erase(usedKeys.begin() + (long)i); }
+  bool eraseTable(const std::shared_ptr<ShowTable> &t) { for (size_t i = 0; i < tables.size(); i++) if (tables[i] == t) { ctl->release(t->charged.load()); eraseAt(i); return true; } return false; }
   // Drops idle tables (not referenced elsewhere, not building) oldest first until `need`
   // bytes fit `budget` and the count cap holds. Call with mu held.
   bool makeRoom(long long need, long long budget) {
@@ -369,7 +384,7 @@ struct TableCache {
       long long best = LLONG_MAX; size_t at = SIZE_MAX;
       for (size_t i = 0; i < tables.size(); i++) { auto &t = tables[i]; if (t.use_count() == 1 && (t->ready || t->failed) && t->stamp < best) { best = t->stamp; at = i; } }
       if (at == SIZE_MAX) { if (!countOk && ctl->tryCharge(need, budget)) return true; return false; }
-      ctl->release(tables[at]->charged.load()); tables.erase(tables.begin() + (long)at);
+      ctl->release(tables[at]->charged.load()); eraseAt(at);
     }
   }
   ~TableCache() { if (ctl) for (auto &t : tables) ctl->release(t->charged.load()); }
