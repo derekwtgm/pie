@@ -1,6 +1,6 @@
 {
- "version": "4.8",
- "build": "4c1bfe857f0941b1",
+ "version": "4.9",
+ "build": "278035e3bb5bcaa6",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",
@@ -48,6 +48,7 @@
   "native/mwcli_analytics.hpp",
   "native/mwcli_selftest47.hpp",
   "native/mwcli_selftest48.hpp",
+  "native/mwcli_selftest49.hpp",
   "native/num_safe.h",
   "native/quickjs/cutils.c",
   "native/quickjs/cutils.h",
@@ -74,6 +75,7 @@
   "native/solver.c",
   "native/solver.h",
   "native/state_file.hpp",
+  "native/temp_file.hpp",
   "native/test_gpu.c",
   "native/test_json28.c",
   "tools/accuracy_report.js",

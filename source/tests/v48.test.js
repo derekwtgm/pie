@@ -236,7 +236,7 @@ test('4.8 tournament defaults are unchanged: 8 players, 0.5/1 blinds, 0.1 bb ant
   const root = g.view([]);
   assert.ok(Math.abs(root.pot - 2.3) < 1e-12, 'eight-player starting pot ' + root.pot + ' (0.5 + 1 + 8 x 0.1)');
   assert.equal(root.seat, 0, 'UTG acts first');
-  assert.equal(fs.readFileSync(path.join(__dirname, '..', 'VERSION'), 'utf8').trim(), '4.8');
+  assert.ok(+fs.readFileSync(path.join(__dirname, '..', 'VERSION'), 'utf8').trim() >= 4.8, 'version 4.8 or later');   // 4.9: was an exact '4.8' check (not a tournament default)
   assert.equal(typeof EM.analytics.seatLabel, 'function');
   assert.deepEqual([0, 1, 2, 3, 4, 5, 6, 7].map(s => EM.analytics.seatLabel(s, 8, true)), ['UTG', 'UTG+1', 'MP', 'HJ', 'CO', 'BTN', 'SB', 'BB']);
 });

@@ -1,5 +1,26 @@
-EightMax 4.8 - 8-max MTT solver for Windows
+EightMax 4.9 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 4.9: COMPRESSED CHECKPOINTS WORK ON A NORMAL WINDOWS ACCOUNT
+  - Resuming training from a compressed (.emz) checkpoint failed on your PC
+    ("cannot create a temporary file for decompression"): the old code put
+    its temporary file in the root of drive C:, which normal accounts may not
+    write. 4.9 creates a private temporary file in your TEMP folder (or next
+    to the checkpoint if TEMP is unusable) and always cleans it up.
+    "Run 4.9 checks.bat" tests this (15 checks; also run by
+    "Run self-tests.bat").
+  - Automatic mode no longer spends ~0.1 s preparing the graphics card for
+    small training jobs the CPU finishes faster (results unchanged).
+    GPU Preferred and Hybrid still try the GPU and may fall back to the CPU.
+  - Exact "is this strategy good?" checks of large six-player studies use
+    about half the memory of 4.8, same speed and same numbers.
+  - A ten-seed study of eight training variants found none that trains
+    better six-player strategies per second; the training engine is
+    unchanged.
+Read RELEASE-4.9.md.
+
+EightMax 4.8 - 8-max MTT solver for Windows
+--------------------------------------------
 
 NEW IN 4.8: WORKING WINDOWS SELF-TESTS, FASTER STRATEGY-QUALITY CHECKS,
 THE FOUR-PLAYER TEST FIXED

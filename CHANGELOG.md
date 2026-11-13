@@ -1,3 +1,14 @@
+# EightMax Windows 4.9
+
+- **Windows compressed-checkpoint restoration repaired** (release blocker from the 4.8 field report: "150 + 150 resumed from EMZ1" failed with "cannot create a temporary file for decompression"). Cause: `std::tmpfile()` of msvcrt (MinGW) creates its file in the root of the drive, which a standard account may not write; CI ran elevated. New `native/temp_file.hpp`: exclusive creation (CREATE_NEW / mkstemp), unpredictable names (PID, counter, BCryptGenRandom), share mode 0, FILE_FLAG_DELETE_ON_CLOSE (unlink on POSIX), UTF-16 directories, `\\?\` long paths; candidates EM_TEMP_DIR, system temp (GetTempPathW / TMPDIR), the checkpoint folder; every failed attempt is named in the error. Total decompressed size limited (16 GiB, EM_EMZ_MAX_MIB). `mwcli --selftest49` + `Run 4.9 checks.bat` (15 checks); CI step with a write-denied TMP/TEMP folder.
+- Clang: `leave{T, {}}` copy-list-initialised a FlatHist through its explicit constructor; now `FlatHist()` (same 64-slot histogram). mw.cpp and mwcli.cpp compile with Clang 18 and GCC 13 (C++20, -Wall -Wextra), tested.
+- Automatic device mode no longer opens CUDA for training calls whose projected scoring work is below 0.5 s (EM_AUTO_MIN_SCORE_SECONDS); GPU Preferred and Hybrid unchanged (open, measure, may fall back to the CPU). Same strategy bytes in every mode. `automaticDeviceSkipped`, `automaticProjectedScoreSeconds` in the training report.
+- Exact best response: the private small-table cache is sized to the opponent-tuple working set (tuples + 16, 64-4096) instead of 1,024: weighted six-player flop 64.7 -> 28.9 MiB peak RSS, same table builds, time and result bits.
+- Dashboard: an empty chart shows its note (chart 7 explains that it needs a second, imported run).
+- Ten-seed convergence study (7 games, 8 trainer variants, 518 Holm-adjusted comparisons): no variant is supported as better on the six-player flop at equal time; DCFR and RM+ worse under sampling; opponent exploration 0.4 worse; own hands + baseline better at equal deals in small games only. **Default trainer unchanged.**
+- EMZ1 level study: default level 6 kept.
+- Tests: `tests/v49.test.js` (8). Unchanged: tournament rules, training code and state bytes (golden hash), checkpoint formats, CUDA kernels.
+
 # EightMax Windows 4.8
 
 - Windows test harness: `End-Section([string]$errorText)` turned `$null` into `''`, so every completed section was recorded as failed (all 4.7 Windows CI runs; `Run self-tests.bat` on a PC). Fixed; real Windows runner now 126 passed, 0 failed, 8/8 sections. `validate_hardware.ps1` did not parse in Windows PowerShell 5.1 (piped `for` statement); fixed.

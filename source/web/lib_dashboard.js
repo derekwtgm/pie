@@ -293,7 +293,8 @@ function ticks(lo, hi, log) {
 const fmtN = v => { if (!Number.isFinite(v)) return '–'; const a = Math.abs(v); return a !== 0 && (a < 1e-3 || a >= 1e6) ? v.toExponential(1) : +v.toPrecision(3) + ''; };
 A.lineChart = function (c) {
   const W = 560, H = 230, L = 58, R = 12, T = 12, B = 34, pts = c.series.flatMap(s => s.points).filter(p => Number.isFinite(p.x) && Number.isFinite(p.y) && (!c.yLog || p.y > 0) && (!c.xLog || p.x > 0));
-  if (!pts.length) return `<figure class="qd-chart"><figcaption>${escX(c.title)}</figcaption><p class="small muted">No data yet.</p></figure>`;
+  // 4.9: an empty chart still shows its note (chart 7 explains that it needs a second, imported run)
+  if (!pts.length) return `<figure class="qd-chart"><figcaption>${escX(c.title)}</figcaption><p class="small muted">No data yet.</p>${c.note ? `<p class="small muted">${escX(c.note)}</p>` : ''}</figure>`;
   let x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x)), y0 = Math.min(...pts.map(p => Number.isFinite(p.lo) && (!c.yLog || p.lo > 0) ? p.lo : p.y)), y1 = Math.max(...pts.map(p => Number.isFinite(p.hi) ? p.hi : p.y));
   if (!c.yLog && c.zero) y0 = Math.min(0, y0);
   if (x0 === x1) { x0 = c.xLog ? x0 / 2 : x0 - 1; x1 = c.xLog ? x1 * 2 : x1 + 1; } if (y0 === y1) { y0 = c.yLog ? y0 / 2 : y0 - 1; y1 = c.yLog ? y1 * 2 : y1 + 1; }

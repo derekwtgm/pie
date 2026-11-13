@@ -1,0 +1,42 @@
+checkpoint.test.js          1.51 s pass 12 fail 0 skip 0 timeout 0
+fgs.test.js                 4.63 s pass 5 fail 0 skip 0 timeout 0
+fingerprint.test.js         0.08 s pass 1 fail 0 skip 0 timeout 0
+information.test.js         0.12 s pass 5 fail 0 skip 0 timeout 0
+mtt.test.js                 2.02 s pass 13 fail 0 skip 0 timeout 0
+multiway.test.js            1.06 s pass 11 fail 0 skip 0 timeout 0
+oracle.test.js             15.04 s pass 3 fail 0 skip 0 timeout 0
+quality.test.js             1.24 s pass 9 fail 0 skip 0 timeout 0
+solver.test.js               1.8 s pass 14 fail 0 skip 0 timeout 0
+upgrades.test.js            2.18 s pass 6 fail 0 skip 0 timeout 0
+v26.test.js                 6.11 s pass 42 fail 0 skip 0 timeout 0
+v27.test.js                 0.57 s pass 9 fail 0 skip 0 timeout 0
+v28.test.js                 0.19 s pass 4 fail 0 skip 0 timeout 0
+v29.test.js                 7.83 s pass 31 fail 0 skip 0 timeout 0
+v31.test.js                72.78 s pass 42 fail 0 skip 0 timeout 0
+v33.test.js                35.96 s pass 34 fail 0 skip 0 timeout 0
+v34.test.js                 7.32 s pass 14 fail 0 skip 0 timeout 0
+v35.test.js                 7.71 s pass 24 fail 0 skip 0 timeout 0
+v36.test.js                 11.9 s pass 22 fail 0 skip 0 timeout 0
+v37.test.js                 3.06 s pass 11 fail 0 skip 0 timeout 0
+v38.test.js                 1.82 s pass 8 fail 0 skip 0 timeout 0
+v39.test.js                15.16 s pass 14 fail 0 skip 0 timeout 0
+v40.test.js                19.08 s pass 17 fail 0 skip 0 timeout 0
+v41.test.js                31.42 s pass 15 fail 0 skip 0 timeout 0
+v42.test.js                187.9 s pass 16 fail 0 skip 0 timeout 0
+v43.test.js               218.37 s pass 15 fail 0 skip 0 timeout 0
+v44.test.js                57.15 s pass 15 fail 0 skip 0 timeout 0
+v44_postflop.test.js       21.74 s pass 5 fail 0 skip 0 timeout 0
+v45.test.js               207.44 s pass 10 fail 0 skip 0 timeout 0
+v46.test.js                25.66 s pass 15 fail 0 skip 0 timeout 0
+v47.test.js                21.02 s pass 13 fail 0 skip 0 timeout 0
+v48.test.js               194.71 s pass 20 fail 1 skip 0 timeout 0
+   FAILED: 4.8 tournament defaults are unchanged: 8 players, 0.5/1 blinds, 0.1 bb antes, 2.3 bb starting pot, UTG..BB
+v49.test.js                88.61 s pass 7 fail 0 skip 1 timeout 0
+wide.test.js                 0.5 s pass 7 fail 0 skip 0 timeout 0
+
+Totals: passed 489 failed 1 skipped 1 timed out 0 | hardware-dependent run 49 skipped 0
+
+real	21m13.717s
+user	30m24.727s
+sys	1m25.684s
+done
