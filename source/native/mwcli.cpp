@@ -5,6 +5,9 @@
 //              process: cold vs warm CUDA, sequential, concurrent, idle, cancelled, budget-refused runs
 //        mwcli --cuda-info            CUDA device probe (JSON)
 //        mwcli --state-info state    (4.6) header fields, size, SHA-256 of file and body
+//        mwcli --verify spec.json state [key=value ...]          (4.7) strategy-quality report (modes A-D)
+//        mwcli --compare specA.json stateA stateB [key=value ...] (4.7) checkpoint comparison
+//        mwcli --monitor spec.json out-dir [key=value ...]       (4.7) training with adaptive quality monitoring
 //        mwcli --continuation-suite spec.json work-dir [quick|standard|full] [threads]   (4.6)
 //        exit codes of training: 0 ok, 1 engine/refused input, 2 usage, 3 input checkpoint unreadable, 4 save failed
 //        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
@@ -13,6 +16,9 @@
 #include <cstring>
 #ifndef EM_BUILD_ID
 #define EM_BUILD_ID "development"
+#endif
+#ifndef EM_VERSION
+#define EM_VERSION "development"
 #endif
 #include <chrono>
 #include <atomic>
@@ -76,6 +82,7 @@ static void jvWrite(JB *o, const JV *v) {
 }
 static std::string jvText(const JV *v) { JB b; jb_init(&b); jvWrite(&b, v); std::string s(b.s ? b.s : "", b.n); jb_free(&b); return s; }
 static const JV *jpath(const JV *v, std::initializer_list<const char *> keys) { for (const char *k : keys) { if (!v || v->type != J_OBJ) return nullptr; v = jget(v, k); } return v; }
+#include "mwcli_analytics.hpp"   // 4.7: --verify, --compare, --monitor
 static int runSession(MW *m, const JV *plan) {
   const JV *base = jget(plan, "request"), *steps = jget(plan, "steps"); const char *mode = jstr(jget(plan, "mode"));
   if (!base || base->type != J_OBJ || !steps || steps->type != J_ARR) { std::fprintf(stderr, "error: plan needs request (object) and steps (array)\n"); return 2; }
@@ -238,6 +245,9 @@ int main(int argc, char **argv) {
     jb_free(&j); mw_free(m); return 0;
   }
   // 4.6: checkpoint diagnostics (see ckpt_suite.hpp)
+  if (argc >= 2 && !std::strcmp(argv[1], "--verify")) return mwa::verify(argc, argv);
+  if (argc >= 2 && !std::strcmp(argv[1], "--compare")) return mwa::compare(argc, argv);
+  if (argc >= 2 && !std::strcmp(argv[1], "--monitor")) return mwa::monitor(argc, argv);
   if (argc == 3 && !std::strcmp(argv[1], "--state-info")) {
     const ckpt::StateInfo s = ckpt::inspect(argv[2]);
     std::printf("{\"path\":%s,\"state\":%s}\n", ckpt::jsonStr(argv[2]).c_str(), ckpt::infoJson(s).c_str());
