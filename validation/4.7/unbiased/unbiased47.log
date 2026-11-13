@@ -1,0 +1,10 @@
+default rows seen 24 23.5 s
+ownHandEnumeration rows seen 24 48.5 s
+ownHandEnumeration+terminalBaseline rows seen 24 46.3 s
+terminalBaseline rows seen 24 50.8 s
+ownHandEnumeration                     max|z| 2.58 crit 4.69 variance ratio 0.155
+ownHandEnumeration+terminalBaseline    max|z| 2.78 crit 4.69 variance ratio 0.099
+terminalBaseline                       max|z| 1.99 crit 4.69 variance ratio 0.675
+default rows seen 32 43.2 s
+ownHandEnumeration rows seen 32 43.1 s
+ownHandEnumeration+terminalBaseline rows seen 32 26.1 s

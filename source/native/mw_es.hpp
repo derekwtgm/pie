@@ -367,6 +367,12 @@ struct Game {
   uint32_t actionSeed = 0;
   double exploreKeep = 0.9, exploreMix = 0.1;   // opponent sampling q = keep * sigma + mix / k (4.5: configurable for experiments)
   bool perDealStreams = false, terminalExpectation = false, terminalBaseline = false;
+  // 4.7 (experimental, opt-in: spec "ownHandEnumeration":true). The updating seat's private hand is
+  // enumerated over every hand of its range compatible with the sampled opponents' hands and board,
+  // with conditional chance weight w(h) / sum w (Rao-Blackwellisation of the hand that external
+  // sampling would otherwise sample). The expected increments equal those of the default estimator;
+  // only their variance (and the cost per deal) changes. See mw_es_impl.hpp Walker::runVec.
+  bool ownHands = false;
   double secTraverse = 0, secMerge = 0, secDeal = 0, secScore = 0, secProfiled = 0;   // 3.3: scoring time and total time of profiled updates (1 in 16)
   std::atomic<size_t> scratchPeak{0};
   long long attempts = 0;

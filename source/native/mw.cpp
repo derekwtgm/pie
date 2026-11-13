@@ -511,6 +511,7 @@ static const char *parseRules(MW *m, JV *spec) {
       m->latin=true; m->latinS=(int)std::min<size_t>(S,4096); m->latinEpoch=-1;
     }
   }
+  if(JV *v=jget(spec,"ownHandEnumeration")){if(v->type!=J_BOOL)return "Invalid own-hand enumeration flag";g->ownHands=v->num!=0;}   // 4.7 experimental
   if(JV *v=jget(spec,"opponentExploration")){
     if(v->type!=J_NUM||!std::isfinite(v->num)||v->num<0||v->num>0.5)return "Opponent exploration must be 0 to 0.5";
     if(v->num!=0.1){g->exploreMix=v->num;g->exploreKeep=1.0-v->num;}
@@ -785,6 +786,8 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
         m->es->dcfrEager = eager->num != 0;
       }
       m->es->actionRng.state = actionRng;
+      if (m->es->ownHands && (m->es->groups.on || !m->turnGroups.empty() || jget(root, "riverGroups") || !m->joint.empty() || m->latin || m->es->terminalExpectation))
+        return bad("Own-hand enumeration (experimental) needs the exact abstraction and cannot be combined with grouped keys, turn or river groups, stratified or Latin sampling, or terminal expectation");
       const auto &r = m->es->rootState;
       if (m->es->states.add(0xffffffffu, 0, r.kind, r.actor, r.length, r.k, m->bytes, m->budgetBytes) != 0) return bad("Native budget is too small for the betting state table");
     }
@@ -1060,6 +1063,15 @@ extern "C" void mw_info(MW *m, JB *out) {
       st.slot.capacity()+st.kind.capacity()+st.actor.capacity()+st.length.capacity()+st.k.capacity()+
       st.keys.capacity()*8+st.ids.capacity()*4;
     jb_printf(out,",\"weighting\":\"%s\"",g.dcfr?"dcfr":m->linear?"linear":"uniform");
+    // 4.7: the complete trainer configuration (reproducibility metadata for analytics and comparisons).
+    {
+      const bool explore=g.exploreMix!=0.1, exp=m->latin||explore||g.ownHands;
+      jb_printf(out,",\"trainer\":{\"estimator\":\"external sampling MCCFR\",\"regretMatching\":\"%s\",\"weighting\":\"%s\",\"opponentExploration\":",m->plus?"plus":"standard",g.dcfr?"dcfr":m->linear?"linear":"uniform");
+      jb_num(out,g.exploreMix,6);
+      jb_printf(out,",\"terminalBaseline\":%s,\"terminalExpectation\":%s,\"chanceSampling\":\"%s\",\"ownHandEnumeration\":%s,\"experimental\":%s,\"validatedDefault\":%s}",
+        g.terminalBaseline?"true":"false",g.terminalExpectation?"true":"false",m->latin?"latin":m->joint.empty()?"independent":"stratified",g.ownHands?"true":"false",exp?"true":"false",
+        (!exp&&!m->plus&&!g.dcfr&&m->linear&&!g.terminalBaseline&&!g.terminalExpectation)?"true":"false");
+    }
     if(g.groups.on)jb_printf(out,",\"handGroups\":{\"abstraction\":\"%s\",\"keys\":%zu,\"dictionaryBytes\":%.0f,\"native\":true}",g.groups.detailed?"detailed":"compact",g.groups.text.size(),g.groups.bytes);
     else if(!m->turnGroups.empty())jb_puts(out,",\"handGroups\":{\"representatives\":\"turn\",\"native\":true}");
     if(g.dcfr){jb_puts(out,",\"dcfr\":{\"alpha\":");jb_num(out,g.schedule.alpha,6);jb_puts(out,",\"beta\":");jb_num(out,g.schedule.beta,6);

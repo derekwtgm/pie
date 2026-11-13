@@ -67,7 +67,7 @@ struct Walker {
     if(edgeKeys[i]==key){next=edges[i].state;return;}
     g.rules.nextStreet(t,next);edgeKeys[i]=key;edges[i].id=-1;edges[i].state=next;
   }
-  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget),edgeKeys(&budget),termKeys(&budget) {
+  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget),edgeKeys(&budget),termKeys(&budget),vhand(&budget),vcw(&budget),vone(&budget),vscore(&budget),vsh(&budget) {
     if(const size_t e=edgeEntries(mm.budgetBytes)){edgeKeys.assign(e,UINT64_MAX);termKeys.assign(e,UINT64_MAX);edges.init(&budget,e);terms.init(&budget,e);edgeMask=e-1;}
     st.resize(MAX_DEPTH + 2); sig.resize((MAX_DEPTH + 2) * 8); samp.resize((MAX_DEPTH + 2) * 8); val.resize((MAX_DEPTH + 2) * 8);
     if (!m.tournament.start.empty()) m.tournament.prepare(icm,m.budgetBytes);
@@ -232,9 +232,111 @@ struct Walker {
     return mean;
   }
   void run(Unit &unit, int seat, Rng &r, double stp, double avgStp) {
+    if (g.ownHands) { runVec(unit, seat, r, stp, avgStp); return; }
     u = &unit; rng = &r; player = seat; step = stp; avgStep = avgStp;
     st[0] = g.rootState;
     learn(0, 0, 1, 1, 1);
+  }
+  // ---- 4.7 experimental: own-hand enumeration (Game::ownHands) ----
+  // One traversal per (deal, updating seat) carries a vector over the updating seat's compatible
+  // hands. Opponent decisions are sampled once and shared by every hand (an opponent's information
+  // never depends on the updating seat's hand), so each hand's increments are exactly the default
+  // estimator's increments for that hand, and summing them with the conditional chance weights
+  // vcw[h] = w(h) / sum_{compatible} w gives the conditional expectation over the updating seat's
+  // hand given the sampled opponents' hands and board. Unbiasedness: E[increment | h_-p, board]
+  // = sum_h P(h | h_-p, board) * increment(h); the deal (h_-p, board) is drawn by the unchanged
+  // sampler, so its marginal is the default one. Memory: per-depth frames from the scratch budget.
+  std::pmr::vector<int> vhand; std::pmr::vector<double> vcw, vone; std::pmr::vector<int> vscore, vsh;
+  std::vector<std::pmr::vector<double>> frames; int vH = 0; std::pmr::memory_resource *vres = nullptr;
+  double *frame(int d, size_t need) {
+    if (frames.size() < (size_t)MAX_DEPTH + 2) { frames.reserve((size_t)MAX_DEPTH + 2); while (frames.size() < (size_t)MAX_DEPTH + 2) frames.emplace_back(vres); }
+    auto &f = frames[(size_t)d]; if (f.size() < need) f.resize(need); return f.data();
+  }
+  const double *learnVec(int d, int ref, const double *own, double opp, double sp) {
+    u->visits++;
+    BS &t = st[(size_t)d]; const int H = vH;
+    if (t.kind == 2) {
+      const uint64_t tkey = ref == TERMINAL_REF ? terminalKey : UINT64_MAX;
+      double *out = frame(d, (size_t)H); vecPayoff(t, tkey, out); return out;
+    }
+    if (d + 1 >= MAX_DEPTH || u->overflow) { u->overflow = true; double *out = frame(d, (size_t)H); std::fill_n(out, H, 0.0); return out; }
+    BS &c = st[(size_t)d + 1];
+    if (t.kind == 1) { const int r = descend(ref, t, CHANCE_SLOT, c); return learnVec(d + 1, r, own, opp, sp); }
+    const int k = t.k;
+    if (k == 1) { const int r = descend(ref, t, 0, c); return learnVec(d + 1, r, own, opp, sp); }
+    const uint32_t code = u->code[t.length];
+    if (t.actor != player) {
+      double *s = &sig[(size_t)d * 8], *q = &samp[(size_t)d * 8];
+      const int hand = m.hands[t.actor][u->w.seat[t.actor]].strategyHand;
+      policy(ref, k, hand, code, s);
+      for (int b = 0; b < k; b++) q[b] = g.exploreKeep * s[b] + g.exploreMix / k;
+      const int a = choose(q, k, *rng);
+      if (g.terminalBaseline && t.facing) {   // vector form of the scalar terminal-baseline estimator in learn()
+        advance(ref, t, 0, c);
+        if (c.kind == 2) {
+          double *f = frame(d, 3 * (size_t)H), *out = f, *base = f + H, *tmp = base + H;
+          vecPayoff(c, edgeKey(ref, 0), base); std::copy_n(base, H, out); bool terminal = a == 0;
+          u->visits++;
+          for (int i = 1; i < k; i++) {
+            advance(ref, t, i, c);
+            if (c.kind == 2) { vecPayoff(c, edgeKey(ref, i), tmp); for (int h = 0; h < H; h++) out[h] += s[i] * (tmp[h] - base[h]); u->visits++; if (a == i) terminal = true; }
+          }
+          if (terminal) return out;
+          const int r = descend(ref, t, a, c);
+          const double *v = learnVec(d + 1, r, own, opp * s[a], sp * q[a]);
+          const double ratio = s[a] / q[a];
+          for (int h = 0; h < H; h++) out[h] += ratio * (v[h] - base[h]);
+          return out;
+        }
+      }
+      const int r = descend(ref, t, a, c);
+      const double ratio = s[a] / q[a];
+      const double *v = learnVec(d + 1, r, own, opp * s[a], sp * q[a]);
+      double *out = frame(d, (size_t)H);
+      for (int h = 0; h < H; h++) out[h] = ratio * v[h];
+      return out;
+    }
+    double *f = frame(d, (size_t)H * (2 * (size_t)k + 2)), *out = f, *S = f + H, *V = S + (size_t)H * k, *CO = V + (size_t)H * k;
+    for (int h = 0; h < H; h++) policy(ref, k, vsh[(size_t)h], code, S + (size_t)h * k);
+    if (!u->room(0, (size_t)H, 2 * (size_t)k * H, g.unitLimitBytes)) { u->overflow = true; std::fill_n(out, H, 0.0); return out; }
+    for (int a = 0; a < k; a++) {
+      for (int h = 0; h < H; h++) CO[h] = own[h] * S[(size_t)h * k + a];
+      const int r = descend(ref, t, a, c);
+      const double *v = learnVec(d + 1, r, CO, opp, sp);
+      std::copy_n(v, H, V + (size_t)a * H);
+    }
+    for (int h = 0; h < H; h++) {
+      double mean = 0; for (int a = 0; a < k; a++) mean += S[(size_t)h * k + a] * V[(size_t)a * H + h];
+      out[h] = mean;
+      const size_t off = u->vals.size();
+      u->incs.push_back({ref, vsh[(size_t)h], code, k, off}); u->vals.resize(off + 2 * (size_t)k);
+      const double rw = step * vcw[(size_t)h] * opp / sp, aw = avgStep * vcw[(size_t)h] * own[h] / sp;
+      for (int a = 0; a < k; a++) { u->vals[off + (size_t)a] = rw * (V[(size_t)a * H + h] - mean); u->vals[off + (size_t)(k + a)] = aw * S[(size_t)h * k + a]; }
+    }
+    return out;
+  }
+  // Payoff of every enumerated hand of the updating seat at terminal state t.
+  void vecPayoff(const BS &t, uint64_t key, double *out) {
+    const int H = vH;
+    if (!t.live[player]) { const double v = seatPayoff(t, key); std::fill_n(out, H, v); return; }   // a folded seat's payoff does not depend on its hand
+    const int keep = u->w.score[player];
+    for (int h = 0; h < H; h++) { u->w.score[player] = vscore[(size_t)h]; out[h] = seatPayoff(t, key); }
+    u->w.score[player] = keep;
+  }
+  void runVec(Unit &unit, int seat, Rng &r, double stp, double avgStp) {
+    u = &unit; rng = &r; player = seat; step = stp; avgStep = avgStp;
+    if (!vres) vres = vhand.get_allocator().resource();
+    uint8_t used[52] = {0};
+    for (int i = 0; i < 5; i++) used[unit.w.cards[i]] = 1;
+    for (int j = 0; j < m.n; j++) if (j != seat) { const Hand &h = m.hands[(size_t)j][(size_t)unit.w.seat[j]]; used[h.a] = used[h.b] = 1; }
+    vhand.clear(); vcw.clear(); vscore.clear(); vsh.clear(); double tot = 0;
+    const auto &range = m.hands[(size_t)seat];
+    for (size_t i = 0; i < range.size(); i++) { const Hand &h = range[i]; if (used[h.a] || used[h.b] || !(h.w > 0)) continue; vhand.push_back((int)i); tot += h.w; }
+    vH = (int)vhand.size();
+    for (int i : vhand) { const Hand &h = range[(size_t)i]; vcw.push_back(h.w / tot); vsh.push_back(h.strategyHand); vscore.push_back(m.startLen == 5 ? h.riverScore : evalSeven(unit.w.cards, h.a, h.b)); }
+    vone.assign((size_t)vH, 1.0);
+    st[0] = g.rootState;
+    learnVec(0, 0, vone.data(), 1, 1);
   }
 };
 inline void codes(Unit &u, int n) {
