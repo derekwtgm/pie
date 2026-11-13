@@ -138,6 +138,7 @@ struct MW {
   std::string route="CPU scoring"; CudaInfo cuda;
   size_t gpuBudget=512ULL<<20,peakGpuBytes=0;
   size_t cpuScoreUnits=0;unsigned cpuScoreReuse=0,scoreCalibrations=0;
+  long long plannedUpdates=0; double autoProjectedScoreSeconds=-1; bool autoDeviceSkipped=false;   // 4.9: Automatic small-job rule (score_schedule.hpp)
   double scoreCalibrationSeconds=0,cpuScoreProbeSeconds=0,bestDeviceScoreSeconds=0;
   int n = 0, startLen = 5, kmax = 1, maxDepth = 1;
   int board[5] = {0, 0, 0, 0, 0};
@@ -1083,6 +1084,7 @@ extern "C" void mw_info(MW *m, JB *out) {
     jb_printf(out, ",\"attemptedDealsThisSession\":%lld,\"transientLimitPerDealBytes\":%zu", g.attempts, g.unitLimitBytes);
     jb_puts(out, ",\"budgetMiB\":"); jb_num(out, m->budgetBytes / 1048576.0, 1);
     jb_printf(out,",\"scoreCalibrations\":%u,\"scoreCalibrationSeconds\":%.7f,\"cpuScoreProbeSeconds\":%.7f,\"bestDeviceScoreSeconds\":%.7f",m->scoreCalibrations,m->scoreCalibrationSeconds,m->cpuScoreProbeSeconds,m->bestDeviceScoreSeconds);
+    jb_printf(out,",\"automaticDeviceSkipped\":%s,\"automaticProjectedScoreSeconds\":%.6f",m->autoDeviceSkipped?"true":"false",m->autoProjectedScoreSeconds);
     if (!m->studyId.empty()) jb_printf(out, ",\"studyId\":\"%s\"", m->studyId.c_str());
     // 3.3: external sampling scores hands on the CPU. The profile below bounds what any GPU
     // offload of hand scoring could save (Amdahl): at most scoringShare of the training time,

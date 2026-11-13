@@ -117,7 +117,8 @@ inline Result compress(FILE *in, uint64_t inSize, FILE *out, int level = 6) {
   r.ok = true; r.rawBytes = rd.pos; r.packedBytes = written; r.ratio = rd.pos ? (double)written / (double)rd.pos : 0; return r;
 }
 // Decompresses EMZ1 from `in` to `out` (EMMW4 bytes), verifying every check.
-inline Result decompress(FILE *in, FILE *out) {
+// 4.9: maxRaw bounds the total decompressed size (a crafted file cannot fill the disk).
+inline Result decompress(FILE *in, FILE *out, uint64_t maxRaw = UINT64_MAX) {
   Result r; Reader rd; rd.f = in; rd.hash = false; emsha::Sha256 raw; uint64_t produced = 0, dummy = 0;
   auto fail = [&](const char *e) { r.ok = false; r.error = e; return r; };
   unsigned char head[16]; if (!rd.read(head, 16) || !isEMZ(head, 16)) return fail("not an EMZ1 compressed checkpoint");
@@ -161,6 +162,7 @@ inline Result decompress(FILE *in, FILE *out) {
       if (vi != nv) return fail("invalid row block");
     }
     if ((uint32_t)crc32(0, original.data(), (uInt)original.size()) != h[3]) return fail("block checksum failed (corrupted file)");
+    if (produced + original.size() > maxRaw) return fail("decompressed size exceeds the restoration limit (EM_EMZ_MAX_MIB)");
     raw.add(original.data(), original.size()); produced += original.size(); r.blocks++;
     if (!put(out, original.data(), original.size(), dummy)) return fail("write failed");
     first = false;

@@ -18,8 +18,24 @@ public:
     if(m.cpuScoreReuse && m.cpuScoreUnits==units){
       --m.cpuScoreReuse;m.route="CPU scoring (measured faster than CUDA for this batch size, cached)";cpu(0);return;
     }
+    // 4.9: Automatic does not open CUDA for a job whose whole scoring work is too small for any
+    // device to repay the context creation and calibration (about 0.1 s on an RTX 4060 Ti in the 4.8
+    // field report: 2,400 deals took 168 ms in Automatic vs 64 ms CPU Only, same strategy bytes).
+    // The first batch is scored on the CPU and timed; projected = that time x the batches this
+    // training call will run. Below EM_AUTO_MIN_SCORE_SECONDS (default 0.5 s) the call stays on the
+    // CPU without touching the driver. GPU Preferred and Hybrid are explicit requests and keep their
+    // 4.8 behaviour (open, calibrate, fall back to the CPU when it measures faster). The CPU path
+    // computes the same scores, so results are identical in every mode.
+    if(!attempted && m.mode=="auto" && m.plannedUpdates>0){
+      static const double minSeconds=[]{const char *e=std::getenv("EM_AUTO_MIN_SCORE_SECONDS");const double v=e?std::atof(e):0.5;return v>=0?v:0.5;}();
+      const double t=now();cpu(0);const double one=now()-t;
+      const double projected=one*(double)m.plannedUpdates;m.autoProjectedScoreSeconds=projected;
+      if(projected<minSeconds){attempted=true;available=false;m.autoDeviceSkipped=true;
+        char b[200];std::snprintf(b,sizeof b,"CPU scoring (Automatic: projected scoring work %.3f s is below %.2f s, CUDA not opened)",projected,minSeconds);m.route=b;return;}
+      // large enough: continue to the measured calibration below, rescoring this batch (scores are deterministic)
+    }
     if(!attempted){available=device.open();attempted=true;m.cuda=device.info;}
-    if(!available){if(!device.info.available)m.route="CPU (CUDA unavailable: "+device.info.reason+")";cpu(0);return;}
+    if(!available){if(m.autoDeviceSkipped){cpu(0);return;}if(!device.info.available)m.route="CPU (CUDA unavailable: "+device.info.reason+")";cpu(0);return;}
     const size_t count=units*m.n;
     auto &trial=trials[std::bit_width(count)-1];
     auto evaluate=[&](int route){

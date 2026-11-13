@@ -11,6 +11,7 @@
 //        mwcli --compress in.state out.emz [level] | --decompress in.emz out.state   (4.7) lossless EMZ1
 //        (4.7) every command that reads a checkpoint also accepts an EMZ1 file)
 //        mwcli --continuation-suite spec.json work-dir [quick|standard|full] [threads]   (4.6)
+//        mwcli --selftest49 fixtures-dir work-dir   (4.9) compressed-checkpoint restoration checks ("Run 4.9 checks.bat")
 //        mwcli --selftest48 fixtures-dir work-dir   (4.8) recorded checks of the 4.8 changes ("Run 4.8 checks.bat")
 //        exit codes of training: 0 ok, 1 engine/refused input, 2 usage, 3 input checkpoint unreadable, 4 save failed
 //        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
@@ -86,6 +87,7 @@ static void jvWrite(JB *o, const JV *v) {
 static std::string jvText(const JV *v) { JB b; jb_init(&b); jvWrite(&b, v); std::string s(b.s ? b.s : "", b.n); jb_free(&b); return s; }
 static const JV *jpath(const JV *v, std::initializer_list<const char *> keys) { for (const char *k : keys) { if (!v || v->type != J_OBJ) return nullptr; v = jget(v, k); } return v; }
 #include "emz.hpp"   // 4.7: optional lossless compressed checkpoints (EMZ1)
+#include "temp_file.hpp"   // 4.9: secure anonymous temporary files
 // 4.7: opens a checkpoint for reading. An EMZ1 file is decompressed and fully verified into an
 // anonymous temporary file first (bounded memory); `size` is the EMMW4 size. Returns nullptr
 // and sets `why` on failure.
@@ -94,8 +96,12 @@ static FILE *openCheckpoint(const char *path, uint64_t &size, std::string &why) 
   unsigned char magic[8] = {}; const size_t got = std::fread(magic, 1, 8, f); std::rewind(f);
   std::error_code ec; size = std::filesystem::file_size(path, ec); if (ec) { why = ec.message(); std::fclose(f); return nullptr; }
   if (got < 8 || !emz::isEMZ(magic, 8)) return f;
-  FILE *t = std::tmpfile(); if (!t) { why = "cannot create a temporary file for decompression"; std::fclose(f); return nullptr; }
-  const emz::Result r = emz::decompress(f, t); std::fclose(f);
+  // 4.9: a secure anonymous temporary file (native/temp_file.hpp) instead of std::tmpfile(), which on
+  // Windows (msvcrt) is created in the root of the drive and failed for standard accounts.
+  std::string tmpWhy; const std::string hint = std::filesystem::path(path).parent_path().string();
+  FILE *t = emtmp::openAnonymous(hint, tmpWhy); if (!t) { why = "cannot create a temporary file for decompression (tried: " + tmpWhy + ")"; std::fclose(f); return nullptr; }
+  uint64_t maxRaw = 16ULL << 30; if (const char *e = std::getenv("EM_EMZ_MAX_MIB")) { const double v = std::atof(e); if (v > 0) maxRaw = (uint64_t)(v * 1048576.0); }
+  const emz::Result r = emz::decompress(f, t, maxRaw); std::fclose(f);
   if (!r.ok) { why = "compressed checkpoint: " + r.error; std::fclose(t); return nullptr; }
   std::fflush(t); std::rewind(t); size = r.rawBytes; return t;
 }
@@ -106,6 +112,7 @@ static std::vector<unsigned char> slurpCheckpoint(const char *path) {
 #include "mwcli_analytics.hpp"   // 4.7: --verify, --compare, --monitor
 #include "mwcli_selftest47.hpp"  // 4.7: --selftest47
 #include "mwcli_selftest48.hpp"  // 4.8: --selftest48
+#include "mwcli_selftest49.hpp"  // 4.9: --selftest49 (EMZ1 restoration)
 static int runSession(MW *m, const JV *plan) {
   const JV *base = jget(plan, "request"), *steps = jget(plan, "steps"); const char *mode = jstr(jget(plan, "mode"));
   if (!base || base->type != J_OBJ || !steps || steps->type != J_ARR) { std::fprintf(stderr, "error: plan needs request (object) and steps (array)\n"); return 2; }
@@ -286,6 +293,7 @@ int main(int argc, char **argv) {
   }
   if (argc >= 2 && !std::strcmp(argv[1], "--selftest47")) return st47::run(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--selftest48")) return st48::run(argc, argv);
+  if (argc >= 2 && !std::strcmp(argv[1], "--selftest49")) return st49::run(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--verify")) return mwa::verify(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--compare")) return mwa::compare(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--monitor")) return mwa::monitor(argc, argv);

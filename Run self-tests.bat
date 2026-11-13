@@ -14,5 +14,9 @@ rem 4.8: checks of the 4.8 changes (continuation fixture, evaluation identity, c
 call "%~dp0Run 4.8 checks.bat" /nopause
 set "eightmax_48_result=%errorlevel%"
 if not "%eightmax_48_result%"=="0" set "eightmax_test_result=%eightmax_48_result%"
+rem 4.9: compressed-checkpoint restoration checks
+call "%~dp0Run 4.9 checks.bat" /nopause
+set "eightmax_49_result=%errorlevel%"
+if not "%eightmax_49_result%"=="0" set "eightmax_test_result=%eightmax_49_result%"
 pause
 exit /b %eightmax_test_result%

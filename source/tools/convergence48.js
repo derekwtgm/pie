@@ -31,6 +31,7 @@ const VARIANTS = {
   'batch8': { batchDeals: 8 },
   'own-hands+baseline': { ownHandEnumeration: true, terminalBaseline: true },
   'rm-plus': { regretMatching: 'plus' },
+  'dcfr': { weighting: 'dcfr' },
 };
 const quick = args.includes('--quick');
 const nSeeds = +opt('seeds', quick ? 3 : 10), seedOffset = +opt('seed-offset', 300);

@@ -376,7 +376,7 @@ struct Evaluator {
   // independent of who did which chunk.
   static void participate(ShowTable &T, Poller &pl, long long visits, ShowdownStats &st) {
     T.participants++;
-    struct Leave { ShowTable &T; FlatHist local; ~Leave() { try { mergeLocal(T, local); } catch (...) { T.abort = true; } T.participants--; std::lock_guard<std::mutex> g(T.buildMu); T.buildCv.notify_all(); } } leave{T, {}};
+    struct Leave { ShowTable &T; FlatHist local; ~Leave() { try { mergeLocal(T, local); } catch (...) { T.abort = true; } T.participants--; std::lock_guard<std::mutex> g(T.buildMu); T.buildCv.notify_all(); } } leave{T, FlatHist()};   // 4.9: explicit construction (copy-list-initialisation from {} cannot use the explicit constructor; Clang rejected it)
     try {
       while (!T.abort.load()) {
         if (T.chunksDone.load() >= T.chunks) return;
@@ -629,6 +629,8 @@ struct Evaluator {
     st.nsPatterns += nsSince(tp); st.patternSets++;
   }
   // 4.8: count cap of the private small-table cache (default 1024; EM_EV_SMALL_TABLE_CAP=4 reproduces 4.7).
+  long long tupleHint = 0;   // 4.9: working-set hint for the private small-table cache (exactBestResponse)
+  static bool smallTableCapForced() { static const bool f = std::getenv("EM_EV_SMALL_TABLE_CAP") != nullptr; return f; }
   static size_t smallTableCap() { static const size_t c = [] { const char *e = std::getenv("EM_EV_SMALL_TABLE_CAP"); const long v = e ? std::strtol(e, nullptr, 10) : 1024; return (size_t)std::clamp<long>(v, 4, 65536); }(); return c; }
   std::array<std::shared_ptr<ShowTable>, 2> mru; long long mruStamp = 0;
   ShowTable *table(int len) {
@@ -639,6 +641,11 @@ struct Evaluator {
     int freeCards = 0; for (int x = 0; x < 52; x++) freeCards += !(used >> x & 1);
     const bool small = binom64(freeCards, 5 - len) < ShowTable::CHUNK;
     if ((sh->privateTables || small) && !ownCache) { ownCache = std::make_shared<TableCache>(); ownCache->ctl = &sh->ctl; ownCache->threadBudget = 1; ownCache->workers = 1; ownCache->countCap = sh->privateTables ? 0 : smallTableCap(); }
+    // 4.9: size the private small-table cache to the working set when the caller knows it (exact best
+    // response: one table per opponent-hand tuple of the current own hand). 4.8's fixed 1,024 kept
+    // stale tables of earlier own hands: the weighted six-player flop held 64.7 MiB where 36.8 MiB gave
+    // the same 3,456 table builds and time. Only reuse changes, never a value.
+    if (ownCache && !sh->privateTables && tupleHint > 0 && !smallTableCapForced()) ownCache->countCap = (size_t)std::clamp<long long>(tupleHint + 16, 64, 4096);
     TableCache &C = (sh->privateTables || small) ? *ownCache : *sh->cache;
     for (int attempt = 0; attempt < 3; attempt++) {
       std::shared_ptr<ShowTable> T; bool owner = false;
@@ -1632,7 +1639,7 @@ inline BrOut exactBestResponse(Evaluator &E, int seat, int maxLen = 99) {
     rec(0, board | om, 1.0);
     if (T.empty()) continue;
     std::vector<double> w(T.size()); double z = 0; for (size_t i = 0; i < T.size(); i++) { w[i] = T[i].w; z += w[i]; }
-    std::copy_n(m.board, 5, E.cards);
+    std::copy_n(m.board, 5, E.cards); E.tupleHint = (long long)T.size();
     const auto r = brRec(E, seat, (int)h, 0, E.g.rootState, m.startLen, T, w, maxLen);
     out.br += oh.w * r.first; out.pv += oh.w * r.second; out.z += oh.w * z;
   }
