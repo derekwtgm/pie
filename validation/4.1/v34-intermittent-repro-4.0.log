@@ -1,0 +1,84 @@
+TAP version 13
+# Subtest: solve startup failure rolls back and supports concurrent retry/cancel
+not ok 1 - solve startup failure rolls back and supports concurrent retry/cancel
+  ---
+  duration_ms: 153.517058
+  type: 'test'
+  location: '/home/user/pie/source/tests/v34.test.js:54:50'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    ... Skipped lines
+    
+      {
+        chips: 0,
+        done: false,
+        elapsed: 0,
+        engine: 'native-gen',
+    ...
+        kind: 0,
+    +   residentMiB: 6.66,
+    -   residentMiB: 6.63,
+        running: false,
+        stopped: false
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    running: false
+    kind: 0
+    it: 0
+    done: false
+    stopped: false
+    ex: ~
+    residentMiB: 6.63
+    chips: 0
+    elapsed: 0
+    error: ~
+    engine: 'native-gen'
+    gpu: ~
+  actual:
+    running: false
+    kind: 0
+    it: 0
+    done: false
+    stopped: false
+    ex: ~
+    residentMiB: 6.66
+    chips: 0
+    elapsed: 0
+    error: ~
+    engine: 'native-gen'
+    gpu: ~
+  operator: 'deepStrictEqual'
+  stack: |-
+    /home/user/pie/source/tests/v34.test.js:66:11
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async withHost (/home/user/pie/source/tests/checkpoint_host.js:13:5)
+    async TestContext.<anonymous> (/home/user/pie/source/tests/v34.test.js:55:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: report startup failure rolls back and supports concurrent retry/cancel
+ok 2 - report startup failure rolls back and supports concurrent retry/cancel
+  ---
+  duration_ms: 320.740879
+  type: 'test'
+  ...
+# Subtest: mw/train startup failure rolls back and supports concurrent retry/cancel
+ok 3 - mw/train startup failure rolls back and supports concurrent retry/cancel
+  ---
+  duration_ms: 229.459096
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 892.100462

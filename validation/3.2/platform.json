@@ -1,0 +1,19 @@
+{
+  "build": "2645746ef003d80d",
+  "windowsExecution": "unverified",
+  "physicalGPU": "unavailable",
+  "wine": "runtime initialization unsuccessful",
+  "browserIntegration": "Chromium launch denied socket; DOM and worker smoke tests passed",
+  "executables": {
+    "mwcli.exe": {
+      "arch": "x86_64",
+      "authenticode": false,
+      "sha256": "a681aaa1993025ae02703aac92ee0dd53118bef7a7e16a1921212d6c095c35ef"
+    },
+    "EightMax.exe": {
+      "arch": "x86_64",
+      "authenticode": false,
+      "sha256": "7f8de2b71ef77c1a5025101a7892c79385b43aa1617818d9236e852f7ccd2724"
+    }
+  }
+}

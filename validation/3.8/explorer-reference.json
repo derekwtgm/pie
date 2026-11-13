@@ -1,0 +1,110 @@
+{
+ "note": "Independent EMMW4 reader (validation/3.8/explorer-reference.py) versus mwcli --node of the final 3.8 build. Exact-card studies; grouped studies are covered by the root-policy consistency of the host tests only.",
+ "studies": [
+  {
+   "scenario": "Eight-player final-table",
+   "updates": 300,
+   "checked": 40,
+   "byStreet": {
+    "0": 10,
+    "3": 10,
+    "4": 10,
+    "5": 10
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Eight-player linked",
+   "updates": 300,
+   "checked": 40,
+   "byStreet": {
+    "0": 10,
+    "3": 10,
+    "4": 10,
+    "5": 10
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Eight-player preflop",
+   "updates": 300,
+   "checked": 40,
+   "byStreet": {
+    "0": 40
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Four-player flop",
+   "updates": 300,
+   "checked": 39,
+   "byStreet": {
+    "3": 13,
+    "4": 13,
+    "5": 13
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Heads-up river",
+   "updates": 3000,
+   "checked": 40,
+   "byStreet": {
+    "5": 40
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Heads-up turn",
+   "updates": 3000,
+   "checked": 40,
+   "byStreet": {
+    "4": 20,
+    "5": 20
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Short-stack",
+   "updates": 300,
+   "checked": 39,
+   "byStreet": {
+    "3": 13,
+    "4": 13,
+    "5": 13
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Six-player flop",
+   "updates": 300,
+   "checked": 39,
+   "byStreet": {
+    "3": 13,
+    "4": 13,
+    "5": 13
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Three-player river",
+   "updates": 3000,
+   "checked": 40,
+   "byStreet": {
+    "5": 40
+   },
+   "mismatches": 0
+  },
+  {
+   "scenario": "Tournament bubble",
+   "updates": 300,
+   "checked": 40,
+   "byStreet": {
+    "0": 40
+   },
+   "mismatches": 0
+  }
+ ],
+ "totalChecked": 397,
+ "totalMismatches": 0
+}

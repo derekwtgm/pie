@@ -1,0 +1,6 @@
+cppcheck 2.13.0, --enable=warning,portability
+server.c (desktop host, includes em_ledger.h, checkpoint_store.h, ev_jobs.h): 1 finding before the fix
+  checkpoint_io.h:94 ctunullpointer: checkpoint_api(...,NULL) could reach cp_receive(NULL).
+  Not reachable (POST write / native-upload are routed with a request at server.c:941-947);
+  a defensive guard was added in checkpoint_store.h. After the fix: no findings.
+mwcli.cpp (includes ckpt_suite.hpp, state_file.hpp, sha256_portable.hpp): no findings.

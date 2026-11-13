@@ -1,0 +1,524 @@
+{
+ "tool": "stability45",
+ "generated": "2026-11-13T04:40:33.665Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "seeds": 5,
+ "scenarios": [
+  {
+   "key": "hu-river-dry",
+   "group": "board texture",
+   "description": "Heads-up river, paired dry board Ks8d5h2c2s",
+   "twoPlayerZeroSum": true,
+   "metric": "NashConv / 2 = exact exploitability of this abstraction",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.2929398668251252,
+      "sd": 0.10703843805496178,
+      "min": 0.17225950991180233,
+      "max": 0.4350188109379327,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.1464699334125626,
+      "sd": 0.05351921902748089,
+      "min": 0.08612975495590117,
+      "max": 0.21750940546896635,
+      "n": 5
+     },
+     "rootSpread": 0.05740104423785876,
+     "rootMaxSpread": 0.13358335379439149,
+     "rootHands": 6,
+     "trainingSeconds": 0.0298066
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.127762031912308,
+      "sd": 0.014327483518612079,
+      "min": 0.10974341289185714,
+      "max": 0.14857975979304533,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.063881015956154,
+      "sd": 0.007163741759306039,
+      "min": 0.05487170644592857,
+      "max": 0.07428987989652266,
+      "n": 5
+     },
+     "rootSpread": 0.030464326545060587,
+     "rootMaxSpread": 0.10141820120189166,
+     "rootHands": 6,
+     "trainingSeconds": 0.112585
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "hu-river-wet",
+   "group": "board texture",
+   "description": "Heads-up river, four-straight board 9d8c7h6s2c",
+   "twoPlayerZeroSum": true,
+   "metric": "NashConv / 2 = exact exploitability of this abstraction",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.29535823388127425,
+      "sd": 0.1024904323890423,
+      "min": 0.16232603072786056,
+      "max": 0.42184872831731784,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.14767911694063712,
+      "sd": 0.05124521619452115,
+      "min": 0.08116301536393028,
+      "max": 0.21092436415865892,
+      "n": 5
+     },
+     "rootSpread": 0.028116734985132716,
+     "rootMaxSpread": 0.0795442434163452,
+     "rootHands": 5,
+     "trainingSeconds": 0.0291422
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.12327229645384188,
+      "sd": 0.0334929638182226,
+      "min": 0.09275677209615354,
+      "max": 0.17505586843783444,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.06163614822692094,
+      "sd": 0.0167464819091113,
+      "min": 0.04637838604807677,
+      "max": 0.08752793421891722,
+      "n": 5
+     },
+     "rootSpread": 0.011988601166732928,
+     "rootMaxSpread": 0.0365272720837863,
+     "rootHands": 5,
+     "trainingSeconds": 0.11552500000000002
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "hu-river-flush",
+   "group": "board texture",
+   "description": "Heads-up river, three-flush board Kh8h5h2c2s",
+   "twoPlayerZeroSum": true,
+   "metric": "NashConv / 2 = exact exploitability of this abstraction",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.2722125288751901,
+      "sd": 0.036998929916162646,
+      "min": 0.23111301565315046,
+      "max": 0.32007880752846984,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.13610626443759505,
+      "sd": 0.018499464958081323,
+      "min": 0.11555650782657523,
+      "max": 0.16003940376423492,
+      "n": 5
+     },
+     "rootSpread": 0.03217740888996335,
+     "rootMaxSpread": 0.09842794017985526,
+     "rootHands": 6,
+     "trainingSeconds": 0.030107000000000002
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.1367037703250707,
+      "sd": 0.03869944605019716,
+      "min": 0.10210446199051113,
+      "max": 0.19923854869292051,
+      "n": 5
+     },
+     "exploitability": {
+      "mean": 0.06835188516253535,
+      "sd": 0.01934972302509858,
+      "min": 0.05105223099525556,
+      "max": 0.09961927434646026,
+      "n": 5
+     },
+     "rootSpread": 0.014493539856143302,
+     "rootMaxSpread": 0.0382290685881616,
+     "rootHands": 6,
+     "trainingSeconds": 0.1189454
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "river3-shallow",
+   "group": "stack depth",
+   "description": "Three-player river, stacks 4 / 12 / 30 bb (side pots)",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.11468741734454586,
+      "sd": 0.03198992108946676,
+      "min": 0.09135237736382454,
+      "max": 0.16980644163380837,
+      "n": 5
+     },
+     "rootSpread": 0.04317494134799369,
+     "rootMaxSpread": 0.12861826517075378,
+     "rootHands": 6,
+     "trainingSeconds": 0.052278599999999995
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.054809850151584016,
+      "sd": 0.01730641786229701,
+      "min": 0.031218762942005793,
+      "max": 0.07624937613185945,
+      "n": 5
+     },
+     "rootSpread": 0.048263772916485516,
+     "rootMaxSpread": 0.14826199746882862,
+     "rootHands": 6,
+     "trainingSeconds": 0.1869308
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": false
+  },
+  {
+   "key": "river3-deep",
+   "group": "stack depth",
+   "description": "Three-player river, stacks 40 / 40 / 40 bb",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.8675902047487192,
+      "sd": 0.3067125702906151,
+      "min": 0.5788120167379683,
+      "max": 1.3228658291262443,
+      "n": 5
+     },
+     "rootSpread": 0.056632140811897096,
+     "rootMaxSpread": 0.1170702838974755,
+     "rootHands": 6,
+     "trainingSeconds": 0.0565136
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.31225122325662424,
+      "sd": 0.134923239315827,
+      "min": 0.14947196026631782,
+      "max": 0.5158492753779427,
+      "n": 5
+     },
+     "rootSpread": 0.02466078500356303,
+     "rootMaxSpread": 0.051927102979083616,
+     "rootHands": 6,
+     "trainingSeconds": 0.2167068
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "river3-jam",
+   "group": "betting abstraction",
+   "description": "Three-player river, all-in or fold only",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.10958970032159172,
+      "sd": 0.027451601774320114,
+      "min": 0.06694016891160977,
+      "max": 0.13913000347557064,
+      "n": 5
+     },
+     "rootSpread": 0.07581645942138189,
+     "rootMaxSpread": 0.22087316543069802,
+     "rootHands": 6,
+     "trainingSeconds": 0.0407814
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.05354582944590815,
+      "sd": 0.019169599727384516,
+      "min": 0.03533794220962127,
+      "max": 0.07447898391883755,
+      "n": 5
+     },
+     "rootSpread": 0.03703917760793605,
+     "rootMaxSpread": 0.1003257555091686,
+     "rootHands": 6,
+     "trainingSeconds": 0.16225879999999998
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "river3-three-sizes",
+   "group": "betting abstraction",
+   "description": "Three-player river, bets 33 / 75 / all-in, raises 2.5x / all-in, three bets",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.21975769361156328,
+      "sd": 0.04425694574036067,
+      "min": 0.16702765842595618,
+      "max": 0.2873496168885339,
+      "n": 5
+     },
+     "rootSpread": 0.05298607489459763,
+     "rootMaxSpread": 0.17041972647517695,
+     "rootHands": 6,
+     "trainingSeconds": 0.061000399999999996
+    },
+    {
+     "sampledDeals": 100000,
+     "nashConv": {
+      "mean": 0.07258622560703945,
+      "sd": 0.02349000523850623,
+      "min": 0.05036711176406698,
+      "max": 0.11211182295322616,
+      "n": 5
+     },
+     "rootSpread": 0.03648649031070664,
+     "rootMaxSpread": 0.17874561162906002,
+     "rootHands": 6,
+     "trainingSeconds": 0.25181239999999994
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "turn4",
+   "group": "multiway turn",
+   "description": "Four-player turn and river, two bet sizes, raises, unequal stacks",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 4.3957523117975565,
+      "sd": 0.12483967933228073,
+      "min": 4.2233317848286545,
+      "max": 4.549357261948313,
+      "n": 5
+     },
+     "rootSpread": 0.0639778709424857,
+     "rootMaxSpread": 0.08646714802992479,
+     "rootHands": 3,
+     "trainingSeconds": 0.21888139999999998
+    },
+    {
+     "sampledDeals": 60000,
+     "nashConv": {
+      "mean": 2.003017125816114,
+      "sd": 0.1157599841094648,
+      "min": 1.8818447994933234,
+      "max": 2.168021159867971,
+      "n": 5
+     },
+     "rootSpread": 0.03684421081587345,
+     "rootMaxSpread": 0.08010730231604192,
+     "rootHands": 3,
+     "trainingSeconds": 0.4213534
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "flop5",
+   "group": "multiway flop",
+   "description": "Five-player flop, weighted ranges, short stacks, all-in or fold",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.4317439899097715,
+      "sd": 0.16541142579482604,
+      "min": 0.3089843557704212,
+      "max": 0.6968150274624626,
+      "n": 5
+     },
+     "rootSpread": 0.14287967433707444,
+     "rootMaxSpread": 0.21530814496434236,
+     "rootHands": 2,
+     "trainingSeconds": 0.1175844
+    },
+    {
+     "sampledDeals": 60000,
+     "nashConv": {
+      "mean": 0.23113870692545654,
+      "sd": 0.01770783305893466,
+      "min": 0.21146247945544888,
+      "max": 0.25943775626973964,
+      "n": 5
+     },
+     "rootSpread": 0.048836387192061036,
+     "rootMaxSpread": 0.07049475660101538,
+     "rootHands": 2,
+     "trainingSeconds": 0.267079
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "flop6",
+   "group": "multiway flop",
+   "description": "Six-player flop, stacks 3 to 50 bb, multiway all-ins",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.3456130362872797,
+      "sd": 0.15546947789835797,
+      "min": 0.07504195968114086,
+      "max": 0.47493659278170663,
+      "n": 5
+     },
+     "rootSpread": 0.0922853598681771,
+     "rootMaxSpread": 0.1674745526096294,
+     "rootHands": 2,
+     "trainingSeconds": 0.152086
+    },
+    {
+     "sampledDeals": 60000,
+     "nashConv": {
+      "mean": 0.11024784798357705,
+      "sd": 0.045256058955742806,
+      "min": 0.060788074324223416,
+      "max": 0.17751641128394022,
+      "n": 5
+     },
+     "rootSpread": 0.0892597408885906,
+     "rootMaxSpread": 0.17522967481145102,
+     "rootHands": 2,
+     "trainingSeconds": 0.279772
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "bubble4",
+   "group": "tournament ICM",
+   "description": "Four-player bubble push/fold, weighted ranges, 4 bb stack (3 paid)",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.0014210009501524953,
+      "sd": 0.0024220636807084158,
+      "min": 0.00007377555135960954,
+      "max": 0.00574431449000359,
+      "n": 5
+     },
+     "rootSpread": 0.0012080950387985793,
+     "rootMaxSpread": 0.002210536525187495,
+     "rootHands": 2,
+     "trainingSeconds": 0.0396938
+    },
+    {
+     "sampledDeals": 60000,
+     "nashConv": {
+      "mean": 0.00015949792326258225,
+      "sd": 0.0002731601818899111,
+      "min": 0.000008111713138229485,
+      "max": 0.0006471113579967399,
+      "n": 5
+     },
+     "rootSpread": 0.00013632611380882872,
+     "rootMaxSpread": 0.00024999643537523987,
+     "rootHands": 2,
+     "trainingSeconds": 0.069722
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  },
+  {
+   "key": "final8",
+   "group": "tournament ICM",
+   "description": "Eight-player final table push/fold, fixed hands (8 paid)",
+   "twoPlayerZeroSum": false,
+   "metric": "NashConv = sum of exact unilateral gains inside this abstraction (NOT exploitability)",
+   "budgets": [
+    {
+     "sampledDeals": 20000,
+     "nashConv": {
+      "mean": 0.004417946417157381,
+      "sd": 0.004113205120121215,
+      "min": 0.00035498043622084197,
+      "max": 0.009935301746935465,
+      "n": 5
+     },
+     "rootSpread": 0.0077285915390285015,
+     "rootMaxSpread": 0.007728591539028525,
+     "rootHands": 1,
+     "trainingSeconds": 0.1969012
+    },
+    {
+     "sampledDeals": 60000,
+     "nashConv": {
+      "mean": 0.0004900774035618838,
+      "sd": 0.0004558049491135482,
+      "min": 0.00003939902264704642,
+      "max": 0.0010965289631368336,
+      "n": 5
+     },
+     "rootSpread": 0.0008588468832451525,
+     "rootMaxSpread": 0.0008588468832451563,
+     "rootHands": 1,
+     "trainingSeconds": 0.37266380000000005
+    }
+   ],
+   "nashConvFalls": true,
+   "rootSpreadFalls": true
+  }
+ ],
+ "method": "default trainer; exact best response of every seat after each budget; root average strategy per hand from the explorer; spread = standard deviation across seeds",
+ "summary": {
+  "scenarios": 12,
+  "nashConvFallsWithBudget": 12,
+  "rootSpreadFallsWithBudget": 11
+ }
+}

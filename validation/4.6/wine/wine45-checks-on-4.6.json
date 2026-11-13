@@ -1,0 +1,539 @@
+{
+ "tool": "wine45",
+ "runtime": "wine (not Windows)",
+ "wineVersion": "wine-9.0 (Ubuntu 9.0~repack-4build3)",
+ "executable": "mwcli.exe",
+ "generated": "2026-11-13T14:10:29.746Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "checks": [
+  {
+   "check": "build identifier EightMaxBuild=169a67d1905adb32",
+   "passed": true,
+   "reported": "EightMaxBuild=169a67d1905adb32",
+   "expected": "169a67d1905adb32"
+  },
+  {
+   "check": "IEEE 754 probe document identical to the Linux build (26 probes)",
+   "passed": true
+  },
+  {
+   "check": "print with 17 digits then parse: identical bit patterns for every probe (C runtime of the Windows build)",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 1 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 2 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 4 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 8 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact response gains, eight seats, 1 threads: bits equal the 4.2 reference",
+   "passed": true,
+   "queryMs": 156.92
+  },
+  {
+   "check": "exact response gains, eight seats, 8 threads: bits equal the 4.2 reference",
+   "passed": true,
+   "queryMs": 57.178
+  },
+  {
+   "check": "training 20 updates: the Windows build writes the same state bytes as the Linux build",
+   "passed": true
+  },
+  {
+   "check": "sampled EV under Wine: 12 runs at 100/250/600/1000 ms all partial, worst overrun 14.1 ms (documented tolerance 50 ms idle / 150 ms loaded; Wine adds its own process overhead)",
+   "passed": true
+  },
+  {
+   "check": "cancellation under Wine: HTTP 409, latency 4.007 ms",
+   "passed": true
+  },
+  {
+   "check": "completed sampled EV (seed 9, 1,500 samples, 3 threads): Windows build equals the Linux build bit for bit",
+   "passed": true,
+   "evBits": [
+    "40300a2f4e2096de",
+    "402c5e1ab56f0f50",
+    "402c23714416906c",
+    "40295289e8c45c1e"
+   ],
+   "distinctInformationSets": 42273
+  },
+  {
+   "check": "IEEE 754 sweep, 200,000 doubles: the Windows build parses every printed value back to identical bits (engine parser and JSON reader), neighbours distinct",
+   "passed": true
+  },
+  {
+   "check": "IEEE 754 sweep digest equal to the Linux build (94fc3f6ed8426909): both printed the same characters for all 200,000 doubles",
+   "passed": true
+  },
+  {
+   "check": "informational: C runtime strtod of the Windows build differs from the correctly rounded value for 12 of 200,000 swept doubles (Linux build: 0); the engine does not use it since 4.5",
+   "passed": true,
+   "windows": 12,
+   "linux": 0
+  },
+  {
+   "check": "coverage memory budget under the Windows build: peak live bytes <= coverageMiB for 1, 2, 8 MiB and 1, 4, 8 threads; capped sets labelled; EVs bit-identical for every budget",
+   "passed": true
+  },
+  {
+   "check": "the same sampled range EV from the Linux build: identical bits",
+   "passed": true
+  },
+  {
+   "check": "training 300 updates, 4 threads, Windows build: state SHA-256 equals the recorded hash of the 4.4 and 4.5 Linux builds",
+   "passed": true,
+   "sha256": "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8"
+  },
+  {
+   "check": "Windows build: 150 updates, a deadline-limited evaluation with a capped coverage table, 150 more updates == 300 uninterrupted updates (state bytes)",
+   "passed": true
+  },
+  {
+   "check": "tests/coverage45.cpp built for Windows (VirtualAlloc tiers) and run under Wine: 38 checks, 0 failures; the archived 4.4 table allocates 1,425,408 bytes for 1 MiB there as well",
+   "passed": true
+  },
+  {
+   "check": "tests/icm45.cpp built for Windows and run under Wine: two-lane ICM kernel bit-identical to the 4.4 routine (80000 evaluations)",
+   "passed": true
+  }
+ ],
+ "ieeeVerify": {
+  "probeCount": 26,
+  "mismatches": 0,
+  "textMismatches": 0,
+  "worstUlpDistance": 0
+ },
+ "exactEv": [
+  {
+   "threads": 1,
+   "queryMs": 61.35,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 2,
+   "queryMs": 39.36,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 4,
+   "queryMs": 30.183,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 8,
+   "queryMs": 32.053,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  }
+ ],
+ "deadline": [
+  {
+   "limitMs": 100,
+   "queryMs": 108.964,
+   "overrunMs": 8.96,
+   "status": "partial",
+   "samples": 12519,
+   "phasesMs": {
+    "workBegin": 0.5524,
+    "stopRaised": 100.0228,
+    "workEnd": 106.3208,
+    "statistics": 106.3216,
+    "coverageMerged": 106.3231,
+    "responseBuilt": 106.431
+   }
+  },
+  {
+   "limitMs": 100,
+   "queryMs": 110.565,
+   "overrunMs": 10.56,
+   "status": "partial",
+   "samples": 8801,
+   "phasesMs": {
+    "workBegin": 0.4555,
+    "stopRaised": 100.0521,
+    "workEnd": 107.0603,
+    "statistics": 107.0608,
+    "coverageMerged": 107.0622,
+    "responseBuilt": 107.178
+   }
+  },
+  {
+   "limitMs": 100,
+   "queryMs": 109.277,
+   "overrunMs": 9.28,
+   "status": "partial",
+   "samples": 12304,
+   "phasesMs": {
+    "workBegin": 0.4131,
+    "stopRaised": 100.0563,
+    "workEnd": 106.4056,
+    "statistics": 106.4062,
+    "coverageMerged": 106.4078,
+    "responseBuilt": 106.534
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 260.486,
+   "overrunMs": 10.49,
+   "status": "partial",
+   "samples": 35818,
+   "phasesMs": {
+    "workBegin": 0.4483,
+    "stopRaised": 250.0903,
+    "workEnd": 256.5802,
+    "statistics": 256.5804,
+    "coverageMerged": 256.582,
+    "responseBuilt": 256.69
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 258.741,
+   "overrunMs": 8.74,
+   "status": "partial",
+   "samples": 39793,
+   "phasesMs": {
+    "workBegin": 0.4081,
+    "stopRaised": 250.0204,
+    "workEnd": 256.0537,
+    "statistics": 256.0541,
+    "coverageMerged": 256.0552,
+    "responseBuilt": 256.161
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 260.141,
+   "overrunMs": 10.14,
+   "status": "partial",
+   "samples": 35484,
+   "phasesMs": {
+    "workBegin": 0.3931,
+    "stopRaised": 250.0009,
+    "workEnd": 256.0824,
+    "statistics": 256.0827,
+    "coverageMerged": 256.0841,
+    "responseBuilt": 256.187
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 608.82,
+   "overrunMs": 8.82,
+   "status": "partial",
+   "samples": 96544,
+   "phasesMs": {
+    "workBegin": 0.5232,
+    "stopRaised": 600.0062,
+    "workEnd": 606.0957,
+    "statistics": 606.096,
+    "coverageMerged": 606.097,
+    "responseBuilt": 606.217
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 610.486,
+   "overrunMs": 10.49,
+   "status": "partial",
+   "samples": 94127,
+   "phasesMs": {
+    "workBegin": 0.478,
+    "stopRaised": 600.0658,
+    "workEnd": 606.5636,
+    "statistics": 606.5642,
+    "coverageMerged": 606.5654,
+    "responseBuilt": 606.675
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 610.072,
+   "overrunMs": 10.07,
+   "status": "partial",
+   "samples": 94084,
+   "phasesMs": {
+    "workBegin": 0.3897,
+    "stopRaised": 600.0134,
+    "workEnd": 606.248,
+    "statistics": 606.2484,
+    "coverageMerged": 606.2495,
+    "responseBuilt": 606.358
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1014.136,
+   "overrunMs": 14.14,
+   "status": "partial",
+   "samples": 164067,
+   "phasesMs": {
+    "workBegin": 0.5032,
+    "stopRaised": 1000.0018,
+    "workEnd": 1007.4891,
+    "statistics": 1007.4894,
+    "coverageMerged": 1007.4905,
+    "responseBuilt": 1007.596
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1009.167,
+   "overrunMs": 9.17,
+   "status": "partial",
+   "samples": 161862,
+   "phasesMs": {
+    "workBegin": 0.4263,
+    "stopRaised": 1000.0165,
+    "workEnd": 1006.2998,
+    "statistics": 1006.3002,
+    "coverageMerged": 1006.3022,
+    "responseBuilt": 1006.414
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1012.215,
+   "overrunMs": 12.22,
+   "status": "partial",
+   "samples": 153919,
+   "phasesMs": {
+    "workBegin": 0.4396,
+    "stopRaised": 1000.0141,
+    "workEnd": 1006.9258,
+    "statistics": 1006.9261,
+    "coverageMerged": 1006.9278,
+    "responseBuilt": 1007.04
+   }
+  }
+ ],
+ "worstOverrunMs": 14.14,
+ "cancelLatencyMs": 4.007,
+ "ieeeSweep": {
+  "windowsBuild": {
+   "tool": "EightMax IEEE 754 sweep",
+   "format": "%.17g",
+   "count": 200000,
+   "seed": 45,
+   "classes": {
+    "anyFinite": 33334,
+    "evSized": 33334,
+    "subnormal": 33333,
+    "aroundPowersOfTwo": 33333,
+    "huge": 33333,
+    "around2pow53": 33333
+   },
+   "parserMismatches": 0,
+   "crtStrtodMismatches": 12,
+   "jsonReaderMismatches": 0,
+   "neighbourTextCollisions": 0,
+   "neighbourMismatches": 0,
+   "worstUlpDistance": 0,
+   "firstFailingBits": "",
+   "digest": "94fc3f6ed8426909",
+   "passed": true
+  },
+  "linuxBuild": {
+   "tool": "EightMax IEEE 754 sweep",
+   "format": "%.17g",
+   "count": 200000,
+   "seed": 45,
+   "classes": {
+    "anyFinite": 33334,
+    "evSized": 33334,
+    "subnormal": 33333,
+    "aroundPowersOfTwo": 33333,
+    "huge": 33333,
+    "around2pow53": 33333
+   },
+   "parserMismatches": 0,
+   "crtStrtodMismatches": 0,
+   "jsonReaderMismatches": 0,
+   "neighbourTextCollisions": 0,
+   "neighbourMismatches": 0,
+   "worstUlpDistance": 0,
+   "firstFailingBits": "",
+   "digest": "94fc3f6ed8426909",
+   "passed": true
+  }
+ },
+ "coverageBudgets": [
+  {
+   "coverageMiB": 1,
+   "threads": 1,
+   "memory": {
+    "budgetBytes": 1048576,
+    "peakBytes": 1045680,
+    "tableBytes": 980144,
+    "retiredGenerationBytes": 81952,
+    "workerFilterBytesEach": 65536,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 32768
+  },
+  {
+   "coverageMiB": 1,
+   "threads": 4,
+   "memory": {
+    "budgetBytes": 1048576,
+    "peakBytes": 1045680,
+    "tableBytes": 980144,
+    "retiredGenerationBytes": 81952,
+    "workerFilterBytesEach": 16384,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 32768
+  },
+  {
+   "coverageMiB": 1,
+   "threads": 8,
+   "memory": {
+    "budgetBytes": 1048576,
+    "peakBytes": 1045680,
+    "tableBytes": 980144,
+    "retiredGenerationBytes": 81952,
+    "workerFilterBytesEach": 16384,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 32768
+  },
+  {
+   "coverageMiB": 2,
+   "threads": 1,
+   "memory": {
+    "budgetBytes": 2097152,
+    "peakBytes": 2094272,
+    "tableBytes": 1963200,
+    "retiredGenerationBytes": 344112,
+    "workerFilterBytesEach": 131072,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 65536
+  },
+  {
+   "coverageMiB": 2,
+   "threads": 4,
+   "memory": {
+    "budgetBytes": 2097152,
+    "peakBytes": 2094272,
+    "tableBytes": 1963200,
+    "retiredGenerationBytes": 344112,
+    "workerFilterBytesEach": 32768,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 65536
+  },
+  {
+   "coverageMiB": 2,
+   "threads": 8,
+   "memory": {
+    "budgetBytes": 2097152,
+    "peakBytes": 2094272,
+    "tableBytes": 1963200,
+    "retiredGenerationBytes": 344112,
+    "workerFilterBytesEach": 32768,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 65536
+  },
+  {
+   "coverageMiB": 8,
+   "threads": 1,
+   "memory": {
+    "budgetBytes": 8388608,
+    "peakBytes": 8385744,
+    "tableBytes": 7861456,
+    "retiredGenerationBytes": 1392704,
+    "workerFilterBytesEach": 524288,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 262144
+  },
+  {
+   "coverageMiB": 8,
+   "threads": 4,
+   "memory": {
+    "budgetBytes": 8388608,
+    "peakBytes": 8385744,
+    "tableBytes": 7861456,
+    "retiredGenerationBytes": 1392704,
+    "workerFilterBytesEach": 131072,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 262144
+  },
+  {
+   "coverageMiB": 8,
+   "threads": 8,
+   "memory": {
+    "budgetBytes": 8388608,
+    "peakBytes": 8385744,
+    "tableBytes": 7861456,
+    "retiredGenerationBytes": 1392704,
+    "workerFilterBytesEach": 131072,
+    "status": "keyLimitReached"
+   },
+   "kind": "lowerBound",
+   "distinct": 262144
+  }
+ ],
+ "coverage45": {
+  "checks": 38,
+  "failures": 0,
+  "reference44Bytes": 1425408
+ },
+ "icm45": {
+  "suite": "icm45",
+  "evaluations": 80000,
+  "bitMismatchesAgainst44": 0,
+  "cacheHitMismatches": 0,
+  "prizeSumErrors": 0,
+  "worstRelativePrizeSumError": 3.68e-14,
+  "singleStackCheck": true,
+  "sse2": true,
+  "passed": true
+ },
+ "passed": true,
+ "failed": 0
+}

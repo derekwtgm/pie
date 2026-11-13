@@ -1,0 +1,46 @@
+EightMax 4.6 convergence study (tools/convergence46.js): opponentExploration 0.05 / 0.075 / 0.15 vs the default 0.1
+Seeds 101-110 (independent of 4.4/4.5), six games, exact best response of every seat at every checkpoint, 512 MiB table
+budget for every variant. Paired comparisons on natural-log NashConv at equal sampled deals and at equal training time;
+Holm-adjusted over all 216 comparisons (family-wise 5%). Two-player games: exploitability = NashConv/2 (exact for the
+abstraction). Other games: sum of exact unilateral gains inside the abstraction, NOT exploitability.
+Columns: geometric-mean NashConv ratio variant/default per checkpoint; letters B/W = supported better/worse, - = none.
+
+hu-river - Heads-up river, chip EV (two-player zero-sum: exploitability = NashConv / 2 is exact for this abstraction)
+  default mean NashConv: 4000:6.80e-01  20000:3.11e-01  50000:1.77e-01  100000:1.29e-01  250000:7.74e-02  500000:5.29e-02  1000000:4.17e-02
+  explore-0.05   deals -------  time -------  ratios 1.12 1.33 1.26 1.14 1.17 1.05 1.03
+  explore-0.075  deals -------  time -------  ratios 1.18 0.91 0.98 0.99 1.12 1.10 0.94
+  explore-0.15   deals -------  time -------  ratios 0.99 1.06 0.95 0.95 0.86 0.90 0.86
+
+hu-turn - Heads-up turn and river, chip EV (two-player zero-sum: exact exploitability)
+  default mean NashConv: 4000:8.54e-01  20000:3.61e-01  50000:2.25e-01  100000:1.65e-01  250000:1.17e-01  500000:7.38e-02  1000000:5.33e-02
+  explore-0.05   deals -------  time -------  ratios 1.00 0.97 0.97 0.99 0.91 1.08 1.10
+  explore-0.075  deals -------  time -------  ratios 0.99 0.94 0.95 0.95 0.90 0.96 1.02
+  explore-0.15   deals -------  time -------  ratios 1.01 0.96 1.02 1.03 0.90 0.90 0.92
+
+river3-chip - Three-player river, unequal stacks, side pots, chip EV
+  default mean NashConv: 4000:3.36e-01  20000:1.56e-01  50000:7.85e-02  100000:5.36e-02  250000:3.06e-02  500000:2.35e-02  1000000:2.06e-02
+  explore-0.05   deals -------  time -------  ratios 0.99 0.83 1.13 1.10 1.49 1.10 1.13
+  explore-0.075  deals -------  time -------  ratios 0.98 0.83 1.07 1.01 1.15 1.26 1.04
+  explore-0.15   deals -------  time -------  ratios 1.15 0.94 1.11 1.22 1.05 0.97 0.79
+
+bubble4 - Four-player bubble push/fold, weighted two-hand ranges, short stack (ICM: 3 paid)
+  default mean NashConv: 4000:9.44e-03  20000:3.83e-04  50000:6.15e-05  100000:1.54e-05  250000:2.47e-06
+  explore-0.05   deals -----    time -----    ratios 0.40 0.40 0.40 0.40 0.40
+  explore-0.075  deals -----    time -----    ratios 0.72 0.72 0.72 0.72 0.72
+  explore-0.15   deals -----    time -----    ratios 1.30 1.30 1.30 1.30 1.30
+
+flop6 - Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV
+  default mean NashConv: 4000:1.43e+00  20000:3.32e-01  50000:1.44e-01  100000:1.10e-01  250000:6.25e-02
+  explore-0.05   deals -----    time -----    ratios 0.95 1.23 1.18 0.76 0.64
+  explore-0.075  deals -----    time -----    ratios 1.03 1.08 1.18 0.91 0.95
+  explore-0.15   deals -----    time -----    ratios 0.95 1.30 1.12 0.97 0.99
+
+final8 - Eight-player final table push/fold, fixed hands (ICM: 8 paid)
+  default mean NashConv: 4000:3.81e-03  20000:1.51e-04  50000:2.42e-05  100000:6.05e-06  250000:9.69e-07
+  explore-0.05   deals -----    time -----    ratios 0.35 0.35 0.35 0.35 0.35
+  explore-0.075  deals -----    time -----    ratios 0.56 0.56 0.56 0.56 0.56
+  explore-0.15   deals -----    time -----    ratios 4.80 4.63 4.62 4.62 4.62
+
+Totals: every variant 0 supported better / 0 supported worse of 72 comparisons.
+Verdict: no candidate is supported better or worse on independent seeds; the 4.5 final-table equal-time result did not
+replicate. The default trainer is kept. Low-priority (nice 19) builds shared the machine during part of the run (equal-time noise only).

@@ -1,5 +1,313 @@
-EightMax 2.9 - 8-max MTT solver for Windows
+EightMax 4.6 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 4.6: THE FAILED 4.5 SELF-TEST, A MEMORY BUDGET FOR THE WHOLE PROGRAM
+  - Your 4.5 "Run self-tests.bat" stopped because a checkpoint file
+    (icm45b.state) was missing. The test script threw away the solver's
+    messages and never checked whether the solver succeeded, so the real
+    reason was lost. The same steps run correctly here, both natively and with
+    the Windows build of 4.5 (byte-for-byte the files you ran) under Wine.
+    What made them fail on your PC is still unknown and needs your next report.
+  - 4.6 makes that impossible to miss again. The self-test now records, for
+    every solver call: the command, folder, exit code, all output and error
+    text, and the time it took. It checks that a file exists before using it.
+    A failing section no longer stops the sections after it. A failed run
+    keeps its files in a "Windows-self-test-evidence-..." folder next to the
+    report.
+  - mwcli now says exactly why a checkpoint could not be read or written
+    (which step failed and the Windows error). A failed save always leaves
+    the previous checkpoint untouched. If another program (for example a
+    virus scanner) briefly holds a just-written file, saving retries for up
+    to 3 seconds instead of failing.
+  - New continuation test (25 checks, every step a separate run): 150+150,
+    500+500 and 1000+1000 updates equal uninterrupted training byte for byte;
+    so do four checkpoint generations, repeated save/restore, 1 or 8 threads,
+    saves interrupted at three different points, cancelled training, and
+    missing or damaged checkpoints. It runs inside "Run self-tests.bat".
+  - One memory budget for the whole program: the open study, a checkpoint
+    being restored, evaluations and background jobs now reserve from one
+    shared budget before allocating. Anything that does not fit is refused
+    (or a background job waits) and nothing already computed is changed.
+    The budget follows EIGHTMAX_PROCESS_MIB. See it at /api/mw/memory.
+  - Automatic GPU mode: the 4.5 report said Automatic was 21% slower than
+    CPU-only. That comparison used 3 runs per mode, and Automatic's fastest
+    run beat every CPU run. Automatic does not touch the GPU on such small
+    first requests, so it ran the same CPU code. "Validate CUDA hardware.bat"
+    now alternates the modes over 9 rounds and reports a 95% range.
+  - Strategy quality: training is unchanged (same strategy bytes as 4.4 and
+    4.5). Three exploration settings were tested on six games with ten new
+    seeds; none was better or worse beyond chance, so the default was kept.
+    No better-converging trainer exists yet.
+  - STILL NOT DONE ON YOUR PC: please run "Run self-tests.bat" and "Validate
+    CUDA hardware.bat" again and keep Windows-self-test.json,
+    hardware-validation.json and device-results.json.
+Read RELEASE-4.6.md.
+
+EightMax 4.5 - 8-max MTT solver for Windows
+============================================
+
+NEW IN 4.5: MEMORY LIMITS THAT HOLD, ONE MORE WINDOWS NUMBER FIX, FASTER ICM
+  - The audit was right: the strategy-coverage table used more memory than
+    its limit (1.43 MB for a 1 MB limit; about 90 MB for the default 64 MB).
+    4.5 counts every byte of it before allocating - including the old table
+    copies that stay alive while it grows - and refuses to go over. The
+    limit "coverageMiB" is now a true ceiling. If the limit is too small for
+    an evaluation, counts are reported as "at least N" with an estimate, as
+    before; EVs never change. Each result shows budget and peak bytes.
+  - Background evaluations now reserve their coverage memory in the shared
+    memory pool as well (before, only the table memory was reserved).
+  - A new 200,000-number check found that the Windows C library misreads a
+    few extremely large or small numbers in their last digit. EightMax now
+    reads numbers with its own exact routine. Printing was already exact.
+  - The 4.4 "Run self-tests.bat" could not finish on Windows: one line of
+    the test script used a function that Windows PowerShell 5.1 does not
+    have. Found by running the tests on a Windows machine in the cloud
+    (no GPU) and fixed.
+  - ICM (tournament payout) calculations for 5-8 players are about 1.4x
+    faster with bit-identical results; eight-handed ICM training is 13-19%
+    faster. Strategies are byte-for-byte the same as 4.4.
+  - Strategy quality is the same as 4.4. Two new training options were
+    tested on six games with ten seeds each; neither was better, so they
+    stay off. No better-converging trainer exists yet.
+  - STILL NOT DONE: nothing has run on your RTX 4060 Ti. GPU scheduling is
+    unchanged. Please run "Run self-tests.bat" and "Validate CUDA
+    hardware.bat" and keep Windows-self-test.json, hardware-validation.json
+    and device-results.json.
+Read RELEASE-4.5.md.
+
+EightMax 4.4 - 8-max MTT solver for Windows
+============================================
+
+NEW IN 4.4: THE TWO 4.3 TEST FAILURES EXPLAINED AND REPAIRED
+  - "Run self-tests.bat" failed in 4.3 on a last-digit difference
+    (15.670177585564112 instead of ...113). The solver was right. Windows
+    PowerShell 5.1 changed the number while the test converted it. The
+    solver now also prints each exact result as its exact bit pattern, and
+    the tests compare those, so no script can alter a digit. A failing
+    check no longer stops the checks after it.
+  - Sampled EV evaluations with a time limit came back late in 4.3 (up to
+    0.2 s late in our measurements). The time went into tidying up strategy
+    coverage data after the deadline. 4.4 does that work while it runs.
+    Measured here: at most about 0.02 s late, for every limit and thread
+    count tested. Partial results now say how many samples were completed.
+  - Automatic GPU mode: your 4.3 hardware report showed Automatic staying on
+    the CPU even when the warm GPU was faster. 4.4 Automatic times the
+    CPU and both ways of using the GPU on real tables and uses the fastest.
+    THIS HAS NOT BEEN MEASURED ON A GPU. Please run
+    "Validate CUDA hardware.bat"; it now reports exactly this comparison.
+  - Strategy quality is the same as 4.3. We tested nine alternative training settings on
+    six games with ten seeds each; none was better across the board, so
+    training is unchanged (4.3 and 4.4 produce identical study files).
+  - New accuracy checks for multiway spots (six players on the flop down to
+    heads-up, bubble and final-table ICM): betting rules, chip conservation,
+    prize-pool sums and two independent calculations agreeing. All pass.
+  - Nothing in 4.4 has been run on Windows or on an NVIDIA GPU yet. The
+    Windows programs were checked under Wine (a Windows compatibility layer on Linux) only.
+    Please run both .bat files and keep the three JSON reports.
+Read RELEASE-4.4.md.
+
+EightMax 4.3 - 8-max MTT solver for Windows
+============================================
+
+NEW IN 4.3: SHARED SHOWDOWN TABLES, WARM CUDA, LARGER EXACT COVERAGE
+  - Exact EVs and exact response gains no longer repeat work. Your 4.2
+    hardware report showed every worker (and every seat of a response-gain
+    request) building its own copy of the same showdown table. 4.3 builds
+    each table once per request, with all available threads helping, and
+    counts showdown patterns while scoring. Numbers are identical bit for
+    bit. Measured here (4 CPUs): eight-seat exact response gains 4-5x
+    faster, exact eight-player EVs 1.2-2.9x faster.
+    (Sampled one-decision response gains measured about 5% slower.)
+  - CUDA stays warm. The device is opened, verified and kept once per
+    program run; Automatic opens it in the background instead of making an
+    evaluation wait for start-up; set EM_GPU_PREWARM=1 to open it when the
+    desktop app starts. Unused GPU buffers are released after 60 s idle.
+  - GPU and CPU work on the same table together: the GPU takes batches,
+    CPU threads take the rest or count patterns of GPU-scored boards. The
+    long GPU "lock waits" in your 4.2 report came from duplicate tables and
+    are gone in the simulated tests.
+  - Strategy coverage counts are exact up to 2 million information sets by
+    default (coverageMiB to change it). Beyond the limit results say
+    "lowerBound" and add an approximate estimate, clearly labelled.
+  - Ten-seed convergence study: no training variant was better on every
+    game, so training is unchanged (identical states).
+  - Validate CUDA hardware.bat now measures cold vs warm GPU use in one
+    program run for every mode and 1-24 threads. GPU speed on your RTX 4060
+    Ti has NOT been measured for 4.3 yet - please run it.
+Read RELEASE-4.3.md.
+
+EARLIER (4.2): CORRECT COVERAGE, SAFE CUDA CONTEXTS, MUCH FASTER EXACT EVs
+  - Strategy coverage is counted correctly. 4.1 could count one information
+    set twice (observed, merged from a worker, observed again), could merge
+    two different ones, and mixed the seat into bits of the betting-state
+    number. 4.2 keeps every key unmodified and merges worker results as a set
+    union, so counts no longer depend on the number of threads. Results now
+    show distinct information sets (with a stored row / using the fallback)
+    separately from policy lookups (visits). Training, regrets and EVs were
+    never affected; only the reported counts were.
+  - CUDA works from every worker thread. The 4.1 message "CUDA allocation,
+    VRAM reserve or launch failed during an EV table" came from driver calls
+    made on EV worker threads on which the CUDA context was not current (the
+    driver keeps a current context per thread). 4.2 makes the context current
+    for exactly the duration of each call, on whichever thread calls, and
+    releases every buffer. This was reproduced and fixed with a driver test
+    double that enforces the real driver's rules; it has NOT yet been
+    confirmed on your RTX 4060 Ti - run Validate CUDA hardware.bat.
+  - CUDA problems are reported precisely: the driver call, its error name and
+    code, the thread, requested bytes, free VRAM, budget and reserve, and
+    whether the CPU took over. A table that does not fit the GPU budget goes
+    to the CPU without disabling the GPU; a genuine driver fault disables it
+    for the session. The results are identical either way.
+  - Exact EVs and exact response gains are about 5-24x faster (identical
+    numbers, bit for bit). Profiling showed that 96% of the time went into
+    counting showdown rank patterns, not into evaluating boards (3%), which is
+    why the GPU could never speed up complete EVs much. 4.2 counts them once
+    per table and derives every subset exactly.
+  - Automatic processing starts CUDA only after a run has already spent at
+    least the expected CUDA start-up time on CPU table work, so short
+    evaluations no longer pay for GPU start-up. Results show the requested
+    AND the actual device, and a time profile.
+  - The GPU memory check in the hardware validator was wrong in 4.1 (the
+    equity kernel needs only about 2.7 KB, so a 1 MiB budget is enough). 4.2
+    measures the real request and tests one byte below it and exactly at it.
+  - Validate CUDA hardware.bat re-runs the 4.1 failing configurations, the
+    budget checks, response gains with 1 to 24 workers and the new
+    gpustress.exe (concurrent GPU jobs, cancellation on the GPU, repeated
+    CUDA start-up), all compared bit for bit with the CPU.
+Training is unchanged (byte-identical states). Read RELEASE-4.2.md.
+
+EARLIER (4.1): SAFER INPUT, RELIABLE JOBS, HONEST STATISTICS, FASTER GAINS
+  - Malformed numbers are refused. Values such as 1e300, 2^64, fractions,
+    null or "512" in any request field are rejected with a clear message
+    BEFORE they are converted. In 4.0 such values could crash the desktop
+    host (undefined behaviour reproduced in 10 of 16 tested input paths).
+  - Background evaluation jobs: a job that waits in the queue now gets its
+    full time limit once it starts (4.0 subtracted the waiting time). The
+    intermittent Windows test failure of 4.0 was traced to the test comparing
+    a live memory measurement, not to the engine; the test was corrected and a
+    repeated concurrent-start stress test was added.
+  - Action comparisons account for the number of actions and for picking the
+    highest estimate. Labels: "best (supported)" only when an action beats
+    every other one with family-wise 95% confidence; "highest estimate (not
+    established)" when the top estimate is not clearly ahead; "lower
+    (supported)", "difference uncertain" (never evidence of equality) and
+    "equivalent within margin" (only with a margin you set). The tooltip shows
+    the simultaneous interval. In simulations the 4.0 labels made a false
+    claim in 20% (4 equal actions) to 50% (8 equal actions) of runs; 4.1 in
+    about 5%.
+  - Work budgets: the EV result reports the work done (board evaluations,
+    tree visits, samples, ICM evaluations, ...). A new "Board-evaluation
+    limit" and a "Memory (MiB)" field join the time limit, sample count and
+    visit budget. An exact result is never shown when a budget ran out.
+  - Strategy quality: "Measure response gains" (explorer) runs a background
+    job and lists every seat (UTG ... BB) with the evaluator used (exact,
+    restricted or sampled one-decision deviation), gain, 95% interval,
+    samples, seed, time and fallback share. Seats are evaluated in parallel:
+    eight-seat exact gains 19.1 s -> 4.7 s on 4 threads, identical numbers.
+    Restricted and sampled gains are lower bounds, never exploitability.
+  - Training is unchanged. A new convergence study (other DCFR settings, exact
+    measurements, five seeds, multiplicity-adjusted) found no setting better
+    than the default, so none was adopted.
+  - The GPU report shows why each showdown table ran on the CPU or GPU and the
+    peak VRAM used. The RTX 4060 Ti has still NOT been tested: run
+    Validate CUDA hardware.bat; its "physicalNvidiaExecution" field says
+    whether CUDA really ran on your PC and matched the CPU.
+Read RELEASE-4.1.md for measurements, test results and limitations.
+
+EARLIER (4.0): RESPONSIVE, CANCELLABLE AND CLEARER ACTION EVs
+Open a native study, choose Explore strategy, pick a decision and a hand
+class, then "Calculate EVs". 4.0 changes how that works:
+  - EVs run as BACKGROUND JOBS on the desktop host. While a large evaluation
+    runs you can keep navigating the explorer, change hands, look at results
+    and checkpoints, and press Cancel at any time. The status line shows the
+    job state, elapsed time, completed samples, runout boards scored (and how
+    many on the GPU), the current stage and evaluation memory. No completion
+    percentage is shown because the remaining work is not known in advance.
+  - Time limits are enforced. 3.9 could ignore a 100 ms limit for more than
+    ten seconds in an eight-player preflop ICM spot; 4.0 stops within a few
+    milliseconds of the limit (measured: 101-102 ms for a 100 ms limit on
+    Linux, under Wine and on a GitHub Windows runner). A timed-out EXACT
+    evaluation shows no numbers; a timed-out sampled evaluation shows its
+    completed samples marked PARTIAL, only if at least 100 were completed.
+  - New controls: Method (Automatic/Exact/Sampled), Utility (ICM or chip EV in
+    tournament studies), Time limit, Visit budget, Processing (Automatic, CPU
+    only, GPU preferred, Hybrid CPU/GPU), Equivalence margin, and how
+    untrained states are handled (uniform, fold/check or call/check fallback,
+    or refuse).
+  - Honest comparisons. Each action is labelled against the highest estimate:
+    "lower (supported)" when the 95% interval of the paired difference
+    excludes zero, "difference uncertain" when it does not - which is NOT
+    evidence that the actions are equal - and "equivalent within margin" only
+    if you set a margin and two one-sided tests support it. Overlapping
+    intervals are never presented as equality.
+  - Strategy coverage. Every result reports how many strategy lookups found a
+    trained row, which fallback policy replaced the missing ones and how much
+    probability passed through them. A red warning appears when the share is
+    notable (default 5%) or substantial (25%), because those EVs depend on the
+    fallback assumption rather than on a trained strategy.
+  - Exact evaluations are much faster in multiway all-in spots (showdown tables
+    shared by all terminals of a deal; e.g. 24.5 s -> 2.0-2.4 s single-threaded,
+    1.3 s with threads, for the eight-player push/fold root) and use several
+    CPU threads. Results do not depend on the thread count.
+  - Response gains have three clearly named modes: exact best response (small
+    games), restricted best response (best response on the study's first
+    street, exact or sampled) and the 3.9 sampled one-decision deviation.
+    None of them is a claim that an eight-player game is solved.
+Training is unchanged from 3.9 (byte-identical strategies). Read
+RELEASE-4.0.md for measurements, test results and limitations, and run
+Run self-tests.bat and Validate CUDA hardware.bat on your PC: the RTX 4060 Ti
+CUDA path for EV showdown tables has NOT been run on NVIDIA hardware yet.
+
+EARLIER (3.9): ACTION EVs, RESPONSE GAINS AND STRICT EXPLORER REQUESTS
+Open a native study and choose Explore strategy (preflop to river) as in 3.8.
+At a decision, click a hand class, then "Calculate EVs of the selected class"
+(or "Calculate EVs of every hand"). EightMax computes the expected value of
+every legal action (fold, check, call, bet/raise sizes, all-in) for each combo,
+the EV of the stored mixed strategy, and each action's difference from it.
+  - EVs are COMPUTED from the game model, not read from the checkpoint (it
+    does not store EVs) and not derived from strategy frequencies or regrets.
+  - Every later decision of every seat follows the named continuation policy
+    (Average = solver output, or Current regret matching). Opponent ranges are
+    weighted by their own strategy on the path and by card removal.
+  - Chip-EV studies report BB; ICM studies report tournament equity (payout
+    units). Small spots are enumerated exactly; larger ones are Monte Carlo
+    estimates with sample counts, a seed and 95% intervals (shown as +/-).
+  - "Matrix shows" switches the 13x13 matrix between strategy frequencies, the
+    EV of one action, EV minus mixed-strategy EV, and the EV standard error.
+    Classes without computed combos stay empty.
+Desktop API: POST /api/mw/ev and POST /api/mw/response-gain (see
+source/native/MW-PROTOCOL.md). Malformed explorer, EV and response-gain
+requests (for example "rangeSeat":"nonsense", negative offsets, fractional
+numbers, unknown fields) are now refused with HTTP 400 instead of being
+silently converted. Response gains are exact best responses for small studies
+(exact exploitability for heads-up chip EV) or clearly labelled sampled
+one-shot deviation gains per seat for large multiway studies; they are not
+claims that an eight-player game is solved.
+Read RELEASE-3.9.md for test results, measurements and limitations.
+
+EARLIER (3.8): STRATEGY EXPLORER FOR NATIVE STUDIES
+Extract the ZIP and double-click EightMax.exe. Open Multiway, then Native
+checkpoint recovery, and open a saved native study (Open latest on desktop or
+choose a portable .emstudy). Choose Explore strategy (preflop to river).
+Click actions to move through the solved betting tree, select flop, turn and
+river cards when a street ends, and click a hand in the 13x13 matrix to see
+each combo. Previous decision and the history buttons go back. Strategy
+switches between the average strategy (the solver output) and current regret
+matching. Range of shows another seat's reach distribution. The explorer reads
+one decision point at a time from the desktop host, so large studies are not
+copied into the browser. EVs are not shown: saved native studies do not store
+them. Branches outside the solved bet sizes are refused, not invented.
+Native restores are now checked against an up-front memory estimate and are
+refused with the required and available MiB when they cannot fit.
+Read RELEASE-3.8.md for measured speed, accuracy, memory and test results.
+
+CONTINUING A NATIVE STUDY
+After verification, enter Additional updates and choose Continue training.
+View starting-hand strategy shows root action probabilities. Use Save native
+checkpoint to commit and Close desktop study to release memory.
+The default storage cap is 2,048 MiB. See RELEASE-3.7.md for larger studies,
+generation retention, disk estimates and RAM limits.
+Use Run self-tests.bat and Validate CUDA hardware.bat for your Windows PC.
 
 QUICK START
 1. In Windows Explorer, right-click the ZIP, choose Extract All, and open the
@@ -16,7 +324,59 @@ version of Edge, Chrome or Firefox. It includes the same multiway postflop solve
 and preflop charts. EightMax.exe also enables native heads-up solving, GPU
 support and saved heads-up solutions. Both entry points work locally.
 
-NEW IN 2.9
+HISTORICAL CHANGES IN 3.6
+Open Multiway and use Save training for a portable .emstudy file. Enable the
+autosave interval to keep recoverable generations in Documents\EightMax.
+Checkpoint recovery details shows progress, generation, time, size, integrity
+and disk or storage policy errors. The default per-checkpoint cap is 2 GiB
+with 128 MiB of disk space reserved. Read RELEASE-3.6.md for storage policy,
+validation, memory requirements and measured accuracy and performance.
+
+Extract the ZIP completely before double-clicking EightMax.exe. Run self-tests.bat
+produces Windows-self-test.json. Validate CUDA hardware.bat produces
+hardware-validation.json for your Windows PC and RTX 4060 Ti.
+
+HISTORICAL CHANGES IN 3.5
+Open Multiway and choose Checkpoint recovery details to see generations,
+download a portable checkpoint, or adopt an older legacy save. See
+RELEASE-3.5.md for measured results and local hardware validation.
+
+NEW IN 3.4
+Desktop checkpoints are verified before commit. A failed background job can be
+retried. Native full betting traversal now supports Compact and Detailed groups.
+Eligible sampled batches can use CUDA for scoring. For tests, benchmark results,
+known limitations and instructions for your PC, read RELEASE-3.4.md.
+
+PREVIOUS RELEASE: NEW IN 3.2
+Read RELEASE-3.2.md for checkpoint recovery, memory caps, supported grouped games,
+accuracy measurements and Windows hardware validation. Results are in validation/3.2.
+
+PREVIOUS RELEASE 3.1
+Read RELEASE-3.1.md for the supported configuration matrix, measured accuracy per
+second, CUDA status and known limitations.
+- Large and preflop Multiway studies now train in native C++ too. Choose Wide
+  ranges, Exact cards and Training engine = Native C++ when eligible. Big trees
+  use native external sampling (sampled betting) instead of falling back to
+  JavaScript; small trees still use full traversal. Results are identical to the
+  JavaScript engine, only faster (about 8-9x on one thread, more with threads).
+- Sampled-betting action streams = Per deal lets frozen batches (Deals per update
+  above 1) use every CPU core. Shared keeps a single stream.
+- The progress line shows which engine, algorithm, device and memory are in use,
+  and why JavaScript was used if it was.
+- Validate CUDA hardware.bat checks your NVIDIA GPU (e.g. RTX 4060 Ti) against the
+  CPU with exact all-in equities and records speed. CUDA was not run on a physical
+  GPU while preparing this release.
+
+PREVIOUS RELEASE: NEW IN 3.0
+Read RELEASE-3.0.md for supported games, accuracy measurements and outstanding hardware checks.
+Balanced remains the accuracy preset. CPU Only is the initial multiway scoring device.
+For native training choose Wide ranges, Exact cards and Native C++ when eligible.
+The desktop interface offers CPU Only, Automatic, GPU Preferred and Hybrid CPU/GPU.
+Run Compare processing modes.bat on Windows to test an identical turn study on your machine.
+It records the observed device, wall time and a digest of the final strategy for each mode.
+The earlier GPU self-test exercises the separate OpenCL heads-up engine.
+
+ADDED IN 2.9
 Read RELEASE-2.9.md for everything measured in this release and what remains
 untested.
 - Native C++ multiway training: in EightMax.exe, sampled Multiway studies that
@@ -30,7 +390,7 @@ untested.
   within half of your RAM (at most 8 GB). EIGHTMAX_APP_MIB changes this. Studies
   too large for the budget are refused with an estimate.
 - Browser checkpoints were tested across browser restarts and crashes.
-- No CUDA support. The executables are unsigned and were tested under Wine on
+- Version 2.9 had no CUDA support. Its executables were unsigned and tested under Wine on
   Linux, not on Windows.
 
 PREVIOUS RELEASE: NEW IN 2.8
@@ -473,7 +833,7 @@ THE GPU ENGINE
   solves every river subgame at once, and the CPU finishes the iteration
   with the river results. Results match the CPU engine.
 - Requirements: a graphics card with OpenCL, which the normal NVIDIA, AMD and
-  Intel drivers include. An RTX 3060 Ti with an up-to-date NVIDIA driver is
+  Intel drivers include. An RTX 4060 Ti with an up-to-date NVIDIA driver is
   fine. Nothing else to install.
 - GPU self-test: double-click "GPU self-test.bat". It checks the GPU results
   against the CPU engine on a turn spot, in full precision and in 16-bit,

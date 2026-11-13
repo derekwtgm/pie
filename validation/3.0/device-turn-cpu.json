@@ -1,0 +1,1 @@
+{"protocol":1,"iterations":100,"trainingDeals":2400,"stateVisits":2835002,"rng":4225209845,"rows":26592,"tableMiB":3.185,"studyId":"c9b9a8fa6ae65954","devicePath":"CPU scoring","gpuBufferPeakBytes":0,"limitReached":false,"threads":4,"batchDeals":8,"seconds":{"deal":0.0017,"traverse":0.0869,"merge":0.0155},"wallSeconds":0.109695}

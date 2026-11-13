@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "engine": "native C++",
+  "iterations": 60,
+  "imported": 60,
+  "resumed": 68,
+  "generation": "1",
+  "size": 1540,
+  "magic": "EMCP36\r\n",
+  "orphanParts": [],
+  "reference": [
+    0.008159251215294816,
+    0.016280405747255908
+  ],
+  "resumedGains": [
+    0.008159251215294816,
+    0.016280405747255908
+  ]
+}

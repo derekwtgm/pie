@@ -1,0 +1,2411 @@
+{
+ "generated": "2026-11-11T14:44:31.806Z",
+ "cpu": "Intel(R) Xeon(R) Processor",
+ "logicalCPUs": 4,
+ "platform": "linux 6.18.44-fc-v378",
+ "runs": 5,
+ "versions": {
+  "old": "4.2",
+  "new": "4.3"
+ },
+ "gpu": "none assumed; rows report the observed device",
+ "training": [
+  {
+   "label": "Six-player flop solving (2 hands per seat, side pots)",
+   "spec": "flop6.json",
+   "iterations": 400,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.020466017,
+    "minSeconds": 0.019684605,
+    "maxSeconds": 0.033375054,
+    "iqrSeconds": [
+     0.020226337,
+     0.020470812
+    ],
+    "engineWallSeconds": 0.012502,
+    "trainingDeals": 400,
+    "peakRssMiB": 8.5,
+    "stateSha256": [
+     "79861c399dec424df6eebc3e4ea15026f7aa471fba7438dbed22719959f83671"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.019973133,
+    "minSeconds": 0.019741642,
+    "maxSeconds": 0.021232038,
+    "iqrSeconds": [
+     0.019910941,
+     0.020697421
+    ],
+    "engineWallSeconds": 0.012036,
+    "trainingDeals": 400,
+    "peakRssMiB": 10.2,
+    "stateSha256": [
+     "79861c399dec424df6eebc3e4ea15026f7aa471fba7438dbed22719959f83671"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0246773503185505
+  },
+  {
+   "label": "Four-player turn solving (side pots)",
+   "spec": "turn4.json",
+   "iterations": 1000,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.013238857,
+    "minSeconds": 0.013063595,
+    "maxSeconds": 0.016442846,
+    "iqrSeconds": [
+     0.013169973,
+     0.016340051
+    ],
+    "engineWallSeconds": 0.007613,
+    "trainingDeals": 1000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "7d276922f28edb91cf3ff5e6149054bd7ef74c72e94518223f8e4877a20b1176"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.013887279,
+    "minSeconds": 0.012852223,
+    "maxSeconds": 0.015566403,
+    "iqrSeconds": [
+     0.013258171,
+     0.014096264
+    ],
+    "engineWallSeconds": 0.008112,
+    "trainingDeals": 1000,
+    "peakRssMiB": 7.8,
+    "stateSha256": [
+     "7d276922f28edb91cf3ff5e6149054bd7ef74c72e94518223f8e4877a20b1176"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9533082038605258
+  },
+  {
+   "label": "Heads-up river",
+   "spec": "huRiver.json",
+   "iterations": 3000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.006389414,
+    "minSeconds": 0.006243282,
+    "maxSeconds": 0.006725781,
+    "iqrSeconds": [
+     0.006253155,
+     0.006725619
+    ],
+    "engineWallSeconds": 0.003697,
+    "trainingDeals": 3000,
+    "peakRssMiB": 8.1,
+    "stateSha256": [
+     "a139edc834c10ae3d48975558e0f6e48acd86db82b51adefe905bd20980d4091"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.006231412,
+    "minSeconds": 0.006108857,
+    "maxSeconds": 0.006957016,
+    "iqrSeconds": [
+     0.006211686,
+     0.006523123
+    ],
+    "engineWallSeconds": 0.003544,
+    "trainingDeals": 3000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "a139edc834c10ae3d48975558e0f6e48acd86db82b51adefe905bd20980d4091"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0253557299693874
+  },
+  {
+   "label": "Three-player river",
+   "spec": "threeRiver.json",
+   "iterations": 2000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.008720311,
+    "minSeconds": 0.008631804,
+    "maxSeconds": 0.011146529,
+    "iqrSeconds": [
+     0.008672106,
+     0.008727316
+    ],
+    "engineWallSeconds": 0.005657,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "c2503b87a076a01c2acda82dbe41beab65fb6b81d5c93b029685ebfe7c034cd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.009018669,
+    "minSeconds": 0.008677862,
+    "maxSeconds": 0.009205764,
+    "iqrSeconds": [
+     0.008894889,
+     0.009174182
+    ],
+    "engineWallSeconds": 0.005717,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "c2503b87a076a01c2acda82dbe41beab65fb6b81d5c93b029685ebfe7c034cd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9669177347566476
+  },
+  {
+   "label": "Six-player flop (grouped fixture)",
+   "spec": "es-grouped-six.json",
+   "iterations": 60,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.016976372,
+    "minSeconds": 0.016732848,
+    "maxSeconds": 0.017719652,
+    "iqrSeconds": [
+     0.016809946,
+     0.017000234
+    ],
+    "engineWallSeconds": 0.01002,
+    "trainingDeals": 240,
+    "peakRssMiB": 9.8,
+    "stateSha256": [
+     "71989fb0a99f8933047d6fabf360301c5dc84e9a8ca1513c69da3463c464adcc"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.017026325,
+    "minSeconds": 0.016434634,
+    "maxSeconds": 0.017180307,
+    "iqrSeconds": [
+     0.016848676,
+     0.017119188
+    ],
+    "engineWallSeconds": 0.010054,
+    "trainingDeals": 240,
+    "peakRssMiB": 13,
+    "stateSha256": [
+     "71989fb0a99f8933047d6fabf360301c5dc84e9a8ca1513c69da3463c464adcc"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9970661314170851
+  },
+  {
+   "label": "Eight-player preflop (fixture, full ranges)",
+   "spec": "es-preflop8.json",
+   "iterations": 200,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.160736565,
+    "minSeconds": 0.145753473,
+    "maxSeconds": 0.165055075,
+    "iqrSeconds": [
+     0.153433195,
+     0.162395984
+    ],
+    "engineWallSeconds": 0.11347,
+    "trainingDeals": 3200,
+    "peakRssMiB": 26.2,
+    "stateSha256": [
+     "57f15daa86d8c61118ad012f00e9862ff1a01557acf2a29d6ef9a64a032a33c6"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.150096429,
+    "minSeconds": 0.148109528,
+    "maxSeconds": 0.159702459,
+    "iqrSeconds": [
+     0.149898562,
+     0.155028911
+    ],
+    "engineWallSeconds": 0.105867,
+    "trainingDeals": 3200,
+    "peakRssMiB": 34.9,
+    "stateSha256": [
+     "57f15daa86d8c61118ad012f00e9862ff1a01557acf2a29d6ef9a64a032a33c6"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0708886685105612
+  },
+  {
+   "label": "Short-stack multiway all-ins (8 seats, ICM)",
+   "spec": "shortStack8.json",
+   "iterations": 400,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.023466128,
+    "minSeconds": 0.022189257,
+    "maxSeconds": 0.031413317,
+    "iqrSeconds": [
+     0.022659432,
+     0.023518152
+    ],
+    "engineWallSeconds": 0.018817,
+    "trainingDeals": 1600,
+    "peakRssMiB": 9.2,
+    "stateSha256": [
+     "9d9ec037b855433ec0e5d4d2c31217807bd1a46d68cd20ba9d98f0758a78af99"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.02230921,
+    "minSeconds": 0.021915594,
+    "maxSeconds": 0.022546371,
+    "iqrSeconds": [
+     0.022302964,
+     0.022442996
+    ],
+    "engineWallSeconds": 0.019153,
+    "trainingDeals": 1600,
+    "peakRssMiB": 9.2,
+    "stateSha256": [
+     "9d9ec037b855433ec0e5d4d2c31217807bd1a46d68cd20ba9d98f0758a78af99"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0518583132257933
+  },
+  {
+   "label": "Tournament bubble ICM (3 seats, side pots)",
+   "spec": "bubble3.json",
+   "iterations": 2000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.007394524,
+    "minSeconds": 0.007268743,
+    "maxSeconds": 0.007626083,
+    "iqrSeconds": [
+     0.007270005,
+     0.007569418
+    ],
+    "engineWallSeconds": 0.004542,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "7a6d2f309fe02f4a9df66d00b154efcc379f3214c92c45626f7b7a1874f73332"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.007539328,
+    "minSeconds": 0.007197337,
+    "maxSeconds": 0.00764525,
+    "iqrSeconds": [
+     0.007381439,
+     0.007628839
+    ],
+    "engineWallSeconds": 0.004473,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "7a6d2f309fe02f4a9df66d00b154efcc379f3214c92c45626f7b7a1874f73332"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9807935136924671
+  },
+  {
+   "label": "Eight-player final-table ICM (fixture spec)",
+   "spec": "push8-icm.spec.json",
+   "iterations": 400,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.3)",
+   "v42": {
+    "medianSeconds": 0.017810293,
+    "minSeconds": 0.017583074,
+    "maxSeconds": 0.018622055,
+    "iqrSeconds": [
+     0.01768447,
+     0.017953253
+    ],
+    "engineWallSeconds": 0.014471,
+    "trainingDeals": 1600,
+    "peakRssMiB": 8.7,
+    "stateSha256": [
+     "ffa155c321b81ffe3583a647dcacc8b00f27721288b569b3936de24e50af9fd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v43": {
+    "medianSeconds": 0.018856657,
+    "minSeconds": 0.018089094,
+    "maxSeconds": 0.026645759,
+    "iqrSeconds": [
+     0.0182574,
+     0.026458842
+    ],
+    "engineWallSeconds": 0.023076,
+    "trainingDeals": 1600,
+    "peakRssMiB": 8.8,
+    "stateSha256": [
+     "ffa155c321b81ffe3583a647dcacc8b00f27721288b569b3936de24e50af9fd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9445095702806707
+  }
+ ],
+ "evaluation": [
+  {
+   "label": "Heads-up equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v42": {
+    "medianSeconds": 0.54352143,
+    "minSeconds": 0.540289695,
+    "maxSeconds": 0.686111213,
+    "iqrSeconds": [
+     0.540354628,
+     0.550486908
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.548276884,
+    "minSeconds": 0.545102026,
+    "maxSeconds": 0.576917081,
+    "iqrSeconds": [
+     0.546765654,
+     0.554132671
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    1188591600,
+    249743760
+   ],
+   "speedup": 0.991326546606696
+  },
+  {
+   "label": "Three-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v42": {
+    "medianSeconds": 0.421246975,
+    "minSeconds": 0.414809233,
+    "maxSeconds": 0.436886982,
+    "iqrSeconds": [
+     0.417975236,
+     0.432927621
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.438205865,
+    "minSeconds": 0.418204703,
+    "maxSeconds": 0.45577654,
+    "iqrSeconds": [
+     0.422917501,
+     0.451075077
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    785223040,
+    186501280,
+    179709040
+   ],
+   "speedup": 0.9612992628476116
+  },
+  {
+   "label": "Six-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      9
+     ],
+     [
+      2,
+      30
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v42": {
+    "medianSeconds": 0.18622139,
+    "minSeconds": 0.183781569,
+    "maxSeconds": 0.205505164,
+    "iqrSeconds": [
+     0.184032473,
+     0.192062537
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.184342636,
+    "minSeconds": 0.181099901,
+    "maxSeconds": 0.19335937,
+    "iqrSeconds": [
+     0.182078158,
+     0.185801358
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    221427920,
+    84602840,
+    83594000,
+    30721880,
+    52526600,
+    79853480
+   ],
+   "speedup": 1.010191641178441
+  },
+  {
+   "label": "Eight-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      9
+     ],
+     [
+      2,
+      30
+     ],
+     [
+      3,
+      31
+     ],
+     [
+      20,
+      24
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v42": {
+    "medianSeconds": 0.100324434,
+    "minSeconds": 0.097530706,
+    "maxSeconds": 0.114471541,
+    "iqrSeconds": [
+     0.100209646,
+     0.100650101
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.0984555,
+    "minSeconds": 0.097713794,
+    "maxSeconds": 0.099712227,
+    "iqrSeconds": [
+     0.098447629,
+     0.098502754
+    ],
+    "boardsScored": null,
+    "peakEvaluationMiB": null,
+    "gpuPeakMiB": null,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    85148175,
+    44720655,
+    35592375,
+    7497735,
+    28332255,
+    38369415,
+    38369415,
+    38643255
+   ],
+   "speedup": 1.0189825251001723
+  },
+  {
+   "label": "Exact action EV, 8-player root (ICM), 1 thread(s)",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "cpu",
+    "threads": 1,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.076210682,
+    "minSeconds": 0.074738755,
+    "maxSeconds": 0.076726403,
+    "iqrSeconds": [
+     0.07542273,
+     0.076430513
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0385,
+     "patternCounting": 0.0372,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "v43": {
+    "medianSeconds": 0.064569323,
+    "minSeconds": 0.063509202,
+    "maxSeconds": 0.066561132,
+    "iqrSeconds": [
+     0.064099434,
+     0.06461775
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0438,
+     "patternCounting": 0.0061,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 1.1802924122342122
+  },
+  {
+   "label": "Exact action EV, 8-player root (ICM), 2 thread(s)",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "cpu",
+    "threads": 2,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.074534131,
+    "minSeconds": 0.069593149,
+    "maxSeconds": 0.082297741,
+    "iqrSeconds": [
+     0.070476966,
+     0.081666606
+    ],
+    "boardsScored": 753984,
+    "peakEvaluationMiB": 23.169,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0771,
+     "patternCounting": 0.0733,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "v43": {
+    "medianSeconds": 0.045087139,
+    "minSeconds": 0.039517676,
+    "maxSeconds": 0.047697729,
+    "iqrSeconds": [
+     0.039796272,
+     0.046273325
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0437,
+     "patternCounting": 0.0068,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0224
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 1.6531128976713294
+  },
+  {
+   "label": "Exact action EV, 8-player root (ICM), 4 thread(s)",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "cpu",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.07756843,
+    "minSeconds": 0.070273282,
+    "maxSeconds": 0.078198679,
+    "iqrSeconds": [
+     0.070893193,
+     0.078007593
+    ],
+    "boardsScored": 753984,
+    "peakEvaluationMiB": 23.169,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0805,
+     "patternCounting": 0.0746,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "v43": {
+    "medianSeconds": 0.028143443,
+    "minSeconds": 0.027730648,
+    "maxSeconds": 0.030778211,
+    "iqrSeconds": [
+     0.027925846,
+     0.029038483
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0426,
+     "patternCounting": 0.0064,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0115
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 2.756181253302945
+  },
+  {
+   "label": "Exact action EV, three-player flop with linked turn/river, two hands",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1
+    ],
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "flop3",
+   "v42": {
+    "medianSeconds": 0.216930215,
+    "minSeconds": 0.200082034,
+    "maxSeconds": 0.238587705,
+    "iqrSeconds": [
+     0.200990556,
+     0.217581391
+    ],
+    "boardsScored": 180600,
+    "peakEvaluationMiB": 0.029,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 180600,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0068,
+     "patternCounting": 0.0104,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 400813
+   },
+   "v43": {
+    "medianSeconds": 0.203819523,
+    "minSeconds": 0.180016079,
+    "maxSeconds": 0.255701418,
+    "iqrSeconds": [
+     0.197466215,
+     0.22630304
+    ],
+    "boardsScored": 180600,
+    "peakEvaluationMiB": 0.032,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 180600,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0086,
+     "patternCounting": 0.003,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": 400813
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      9.937312348387476,
+      7.43591173647485,
+      8.693389214256722
+     ],
+     [
+      3.8816692400912878,
+      2.8352056728413837,
+      0.365444022363246
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 1.0643250058042772
+  },
+  {
+   "label": "Exact action EV, four-player turn, three hands (side pots)",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1,
+     2
+    ],
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "turn4",
+   "v42": {
+    "medianSeconds": 0.175500378,
+    "minSeconds": 0.167961559,
+    "maxSeconds": 0.19718101,
+    "iqrSeconds": [
+     0.169694581,
+     0.190149485
+    ],
+    "boardsScored": 9720,
+    "peakEvaluationMiB": 0.018,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 9720,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0006,
+     "patternCounting": 0.0023,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 82129
+   },
+   "v43": {
+    "medianSeconds": 0.190963814,
+    "minSeconds": 0.166094582,
+    "maxSeconds": 0.232252694,
+    "iqrSeconds": [
+     0.17833134,
+     0.196760226
+    ],
+    "boardsScored": 9720,
+    "peakEvaluationMiB": 0.024,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 9720,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0007,
+     "patternCounting": 0.0012,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": 82129
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      14.13181723307,
+      12.96111889581176,
+      13.802968988208468
+     ],
+     [
+      0.17348198072182144,
+      -1.0161005539076378,
+      -1.147445358274104
+     ],
+     [
+      3.735866672297411,
+      2.371101491401687,
+      1.7967186996467643
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 0.919024260795294
+  },
+  {
+   "label": "Exact action EV, 8-player after two shoves (ICM)",
+   "mode": "--ev",
+   "request": {
+    "path": [
+     1,
+     1
+    ],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.065888555,
+    "minSeconds": 0.064488128,
+    "maxSeconds": 0.06639294,
+    "iqrSeconds": [
+     0.064874307,
+     0.066380369
+    ],
+    "boardsScored": 753984,
+    "peakEvaluationMiB": 23.086,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0773,
+     "patternCounting": 0.0642,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 62
+   },
+   "v43": {
+    "medianSeconds": 0.023539951,
+    "minSeconds": 0.02218752,
+    "maxSeconds": 0.023769663,
+    "iqrSeconds": [
+     0.022512282,
+     0.023686557
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.576,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0432,
+     "patternCounting": 0.0024,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0116
+    },
+    "distinctInformationSets": 62
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      12.656010507743623,
+      7.871458025102644
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 2.799009862000138
+  },
+  {
+   "label": "Exact action EV, 2 hands per seat, root range (ICM) [1 run]",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1
+    ],
+    "range": true,
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 3600000
+   },
+   "study": "shortStack8",
+   "v42": {
+    "medianSeconds": 22.314316323,
+    "minSeconds": 22.314316323,
+    "maxSeconds": 22.314316323,
+    "iqrSeconds": [
+     22.314316323,
+     22.314316323
+    ],
+    "boardsScored": 386039808,
+    "peakEvaluationMiB": 139.834,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 386039808,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 47.4439,
+     "patternCounting": 53.4768,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 768
+   },
+   "v43": {
+    "medianSeconds": 10.216297373,
+    "minSeconds": 10.216297373,
+    "maxSeconds": 10.216297373,
+    "iqrSeconds": [
+     10.216297373,
+     10.216297373
+    ],
+    "boardsScored": 193019904,
+    "peakEvaluationMiB": 141.245,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 193019904,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 26.1124,
+     "patternCounting": 6.5421,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 13.2029
+    },
+    "distinctInformationSets": 768
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.087722988843744,
+      14.766938849239502
+     ],
+     [
+      15.088582867347984,
+      15.754409834301065
+     ]
+    ],
+    "range": [
+     15.088152928095864,
+     15.260674341770283
+    ]
+   },
+   "speedup": 2.184188214995883
+  },
+  {
+   "label": "Sampled action EV, 8-player (seed 4)",
+   "mode": "--ev",
+   "request": {
+    "path": [
+     1
+    ],
+    "hands": [
+     0
+    ],
+    "method": "sampled",
+    "samples": 20000,
+    "seed": 4,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.411271759,
+    "minSeconds": 0.394421862,
+    "maxSeconds": 0.418995535,
+    "iqrSeconds": [
+     0.398035888,
+     0.416727787
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 123
+   },
+   "v43": {
+    "medianSeconds": 0.417885421,
+    "minSeconds": 0.415147154,
+    "maxSeconds": 0.439022123,
+    "iqrSeconds": [
+     0.417542812,
+     0.437610854
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": 123
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      13.117165201812709,
+      8.30490252799532
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 0.9841735038657882
+  },
+  {
+   "label": "Large weighted range, heads-up river exact",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "range": true,
+    "method": "exact",
+    "threads": 4
+   },
+   "study": "huRiver",
+   "v42": {
+    "medianSeconds": 0.004135066,
+    "minSeconds": 0.003857498,
+    "maxSeconds": 0.004793348,
+    "iqrSeconds": [
+     0.004130811,
+     0.004221171
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 48
+   },
+   "v43": {
+    "medianSeconds": 0.003951091,
+    "minSeconds": 0.003648435,
+    "maxSeconds": 0.004057412,
+    "iqrSeconds": [
+     0.003683754,
+     0.004011291
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": 48
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      -0.00044337233119744554,
+      -0.17108472025254415,
+      0.018765959917143842
+     ],
+     [
+      16.39874421245644,
+      16.391116171413092,
+      16.509163374155047
+     ],
+     [
+      0.4363699904145691,
+      -0.103542780448028,
+      0.018962903963650746
+     ],
+     [
+      1.4061921538234687,
+      1.4847220389314426,
+      0.7366465207317988
+     ],
+     [
+      6.649895750637064,
+      5.368742025052713,
+      4.367141252750541
+     ],
+     [
+      6.541832586198907,
+      6.9049378461800535,
+      6.441718975882974
+     ]
+    ],
+    "range": [
+     4.815060976165604,
+     4.609719492840662,
+     4.342756001356085
+    ]
+   },
+   "speedup": 1.0465630885241568
+  },
+  {
+   "label": "Exact response gains, 8 seats (ICM), 1 thread(s)",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "threads": 1,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.550596509,
+    "minSeconds": 0.546940478,
+    "maxSeconds": 0.564833064,
+    "iqrSeconds": [
+     0.549563206,
+     0.554367215
+    ],
+    "boardsScored": 3015936,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.3082,
+     "patternCounting": 0.2901,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.108035088,
+    "minSeconds": 0.107184011,
+    "maxSeconds": 0.108185406,
+    "iqrSeconds": [
+     0.107504015,
+     0.108149788
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0427,
+     "patternCounting": 0.0061,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "speedup": 5.096460040834141
+  },
+  {
+   "label": "Exact response gains, 8 seats (ICM), 2 thread(s)",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "threads": 2,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.301264087,
+    "minSeconds": 0.287376632,
+    "maxSeconds": 0.316426742,
+    "iqrSeconds": [
+     0.290145091,
+     0.312044307
+    ],
+    "boardsScored": 3015936,
+    "peakEvaluationMiB": 23.281,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.3342,
+     "patternCounting": 0.3075,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.063054516,
+    "minSeconds": 0.062523183,
+    "maxSeconds": 0.065608231,
+    "iqrSeconds": [
+     0.062715483,
+     0.064322417
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0427,
+     "patternCounting": 0.0127,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0223
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "speedup": 4.777835214848053
+  },
+  {
+   "label": "Exact response gains, 8 seats (ICM), 4 thread(s)",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.160180012,
+    "minSeconds": 0.149993502,
+    "maxSeconds": 0.178161462,
+    "iqrSeconds": [
+     0.15734872,
+     0.161577551
+    ],
+    "boardsScored": 3015936,
+    "peakEvaluationMiB": 46.561,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.3074,
+     "patternCounting": 0.2943,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.040691659,
+    "minSeconds": 0.04061813,
+    "maxSeconds": 0.043167591,
+    "iqrSeconds": [
+     0.040685286,
+     0.041559864
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0428,
+     "patternCounting": 0.0265,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0344
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "speedup": 3.9364335575504557
+  },
+  {
+   "label": "Exact response gains, three-player flop, all seats",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "flop3",
+   "v42": {
+    "medianSeconds": 0.416038061,
+    "minSeconds": 0.371988585,
+    "maxSeconds": 0.454924524,
+    "iqrSeconds": [
+     0.379133988,
+     0.423204753
+    ],
+    "boardsScored": 2092650,
+    "peakEvaluationMiB": 0.065,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 2092650,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0776,
+     "patternCounting": 0.0816,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.341213551,
+    "minSeconds": 0.326164602,
+    "maxSeconds": 0.360743492,
+    "iqrSeconds": [
+     0.337649437,
+     0.348919048
+    ],
+    "boardsScored": 541800,
+    "peakEvaluationMiB": 0.088,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 541800,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0253,
+     "patternCounting": 0.0077,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    3.257339332028164,
+    1.3694946907870706,
+    4.0218475730619
+   ],
+   "speedup": 1.2192893857254807
+  },
+  {
+   "label": "Exact response gains, four-player turn, all seats",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "turn4",
+   "v42": {
+    "medianSeconds": 0.428762579,
+    "minSeconds": 0.418203395,
+    "maxSeconds": 0.485834856,
+    "iqrSeconds": [
+     0.418381922,
+     0.430126217
+    ],
+    "boardsScored": 1748160,
+    "peakEvaluationMiB": 0.01,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 1748160,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0825,
+     "patternCounting": 0.1021,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.446722746,
+    "minSeconds": 0.429467345,
+    "maxSeconds": 0.491788462,
+    "iqrSeconds": [
+     0.441945759,
+     0.456100476
+    ],
+    "boardsScored": 1748160,
+    "peakEvaluationMiB": 0.013,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 1748160,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.1167,
+     "patternCounting": 0.025,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    2.0927032709041193,
+    2.4440295859574914,
+    3.2529710637416303,
+    2.4327205514805694
+   ],
+   "speedup": 0.9597957185730587
+  },
+  {
+   "label": "Restricted response gains, 8 seats (sampled selection)",
+   "mode": "--gain",
+   "request": {
+    "method": "restricted",
+    "selection": "sampled",
+    "samples": 2000,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.045500534,
+    "minSeconds": 0.044604386,
+    "maxSeconds": 0.061558862,
+    "iqrSeconds": [
+     0.04489791,
+     0.051661601
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.046783206,
+    "minSeconds": 0.046242313,
+    "maxSeconds": 0.046876217,
+    "iqrSeconds": [
+     0.046688613,
+     0.046839978
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    {
+     "mean": 0.5266514189522947,
+     "stdErr": 0.02758576457123994,
+     "ci95": [
+      0.47258332039266443,
+      0.580719517511925
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.06240308285893115,
+     "stdErr": 0.028684156718441187,
+     "ci95": [
+      0.0061821356907864194,
+      0.11862403002707587
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.012604081218287108,
+     "stdErr": 0.008935201619404224,
+     "ci95": [
+      -0.00490891395574517,
+      0.030117076392319385
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.029001207648928502,
+     "stdErr": 0.011001518363282033,
+     "ci95": [
+      0.007438231656895718,
+      0.05056418364096128
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.0936446481361993,
+     "stdErr": 0.024394262589474105,
+     "ci95": [
+      0.04583189346083005,
+      0.14145740281156854
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.07289214024487148,
+     "stdErr": 0.019595041296886103,
+     "ci95": [
+      0.034485859302974715,
+      0.11129842118676825
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.11518413583745025,
+     "stdErr": 0.026440234358992978,
+     "ci95": [
+      0.06336127649382402,
+      0.16700699518107648
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.14337140625357153,
+     "stdErr": 0.02682957861103832,
+     "ci95": [
+      0.09078543217593643,
+      0.19595738033120663
+     ],
+     "samples": 2000
+    }
+   ],
+   "speedup": 0.9725826400183006
+  },
+  {
+   "label": "Sampled one-decision gains, 8 seats",
+   "mode": "--gain",
+   "request": {
+    "method": "sampled",
+    "samples": 1500,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.519259125,
+    "minSeconds": 0.517047568,
+    "maxSeconds": 0.52052457,
+    "iqrSeconds": [
+     0.517511067,
+     0.519861664
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "v43": {
+    "medianSeconds": 0.556942733,
+    "minSeconds": 0.546419193,
+    "maxSeconds": 0.577391066,
+    "iqrSeconds": [
+     0.549939329,
+     0.568257457
+    ],
+    "boardsScored": 0,
+    "peakEvaluationMiB": 0,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    {
+     "mean": 0.5354690916193189,
+     "stdErr": 0.006701818776606504,
+     "ci95": [
+      0.5223335268171702,
+      0.5486046564214676
+     ]
+    },
+    {
+     "mean": 0.04793892316925187,
+     "stdErr": 0.007523381090009629,
+     "ci95": [
+      0.033193096232832994,
+      0.06268475010567075
+     ]
+    },
+    {
+     "mean": 0.00031900218645960045,
+     "stdErr": 0.00003781185471206902,
+     "ci95": [
+      0.0002448909512239452,
+      0.0003931134216952557
+     ]
+    },
+    {
+     "mean": 9.835844251040812e-8,
+     "stdErr": 3.853982736048042e-9,
+     "ci95": [
+      9.080463634775396e-8,
+      1.0591224867306228e-7
+     ]
+    },
+    {
+     "mean": 5.631870621744242e-8,
+     "stdErr": 2.719326637986803e-9,
+     "ci95": [
+      5.0988826006988285e-8,
+      6.164858642789655e-8
+     ]
+    },
+    {
+     "mean": 2.282171424362394e-8,
+     "stdErr": 1.1796919284388786e-9,
+     "ci95": [
+      2.0509518063883736e-8,
+      2.5133910423364143e-8
+     ]
+    },
+    {
+     "mean": 8.261736721132584e-9,
+     "stdErr": 2.6258072312807803e-10,
+     "ci95": [
+      7.74707850380155e-9,
+      8.776394938463618e-9
+     ]
+    },
+    {
+     "mean": 1.2370969429115756e-8,
+     "stdErr": 3.738592382468955e-10,
+     "ci95": [
+      1.163820532215184e-8,
+      1.3103733536079672e-8
+     ]
+    }
+   ],
+   "speedup": 0.9323384510342467
+  },
+  {
+   "label": "GPU requested, no usable GPU here: CPU fallback",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "gpu",
+    "gpuMiB": 16,
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v42": {
+    "medianSeconds": 0.074426106,
+    "minSeconds": 0.071341238,
+    "maxSeconds": 0.07695593,
+    "iqrSeconds": [
+     0.072951257,
+     0.075535144
+    ],
+    "boardsScored": 753984,
+    "peakEvaluationMiB": 23.169,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "gpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0793,
+     "patternCounting": 0.0704,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0.0011
+    },
+    "distinctInformationSets": 371
+   },
+   "v43": {
+    "medianSeconds": 0.039343518,
+    "minSeconds": 0.038035975,
+    "maxSeconds": 0.049342762,
+    "iqrSeconds": [
+     0.039320735,
+     0.03986653
+    ],
+    "boardsScored": 376992,
+    "peakEvaluationMiB": 11.658,
+    "gpuPeakMiB": 0,
+    "requestedDevice": "gpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0428,
+     "patternCounting": 0.0066,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0,
+     "sharedTableWait": 0.0226
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 1.8916993137217675
+  }
+ ],
+ "sessions": [
+  {
+   "label": "Exact EV session (cpu, 4 threads)",
+   "mismatches": 0,
+   "steps": [
+    {
+     "step": "first",
+     "medianQueryMs": 24.887,
+     "iqrQueryMs": [
+      24.887,
+      24.887
+     ],
+     "medianWallMs": 24.888,
+     "runs": 1
+    },
+    {
+     "step": "ten sequential",
+     "medianQueryMs": 20.159,
+     "iqrQueryMs": [
+      19.997,
+      22.391
+     ],
+     "medianWallMs": 20.159,
+     "runs": 10
+    },
+    {
+     "step": "four concurrent background evaluations",
+     "medianQueryMs": 60.759,
+     "iqrQueryMs": [
+      57.441,
+      62.782
+     ],
+     "medianWallMs": 64.47,
+     "runs": 12
+    }
+   ]
+  },
+  {
+   "label": "Exact response-gain session (cpu, 4 threads)",
+   "mismatches": 0,
+   "steps": [
+    {
+     "step": "first",
+     "medianQueryMs": 37.205,
+     "iqrQueryMs": [
+      37.205,
+      37.205
+     ],
+     "medianWallMs": 37.205,
+     "runs": 1
+    },
+    {
+     "step": "ten sequential",
+     "medianQueryMs": 34.158,
+     "iqrQueryMs": [
+      33.261,
+      36.345
+     ],
+     "medianWallMs": 34.158500000000004,
+     "runs": 10
+    },
+    {
+     "step": "four concurrent background evaluations",
+     "medianQueryMs": 104.178,
+     "iqrQueryMs": [
+      96.619,
+      107.439
+     ],
+     "medianWallMs": 109.931,
+     "runs": 12
+    }
+   ]
+  }
+ ],
+ "note": "Training code is unchanged in 4.3: training rows measure run-to-run noise and must give identical states. Evaluation speed-ups come from request-wide shared showdown tables built cooperatively (4.2 built one table per worker and per response-gain seat), fused full-seat rank patterns and per-board shared suit masks; sampled evaluation and equity are expected to be unchanged. Equity rows use device cpu. No NVIDIA device in this environment: GPU rows show the CPU fallback only; GPU timing comes from hardware-validation.json on the RTX 4060 Ti.",
+ "note42": "Training code is unchanged in 4.2: training rows measure run-to-run noise and must give identical states. Evaluation speed-ups come from the exact pattern projection (exact EVs and exact/restricted best responses); sampled evaluation and equity are expected to be unchanged. Equity rows use device cpu; GPU equity was not measured here (no NVIDIA device)."
+}

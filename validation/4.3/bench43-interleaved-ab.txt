@@ -1,0 +1,4 @@
+Exact EV, four-player turn, three hands    4.2 median 0.158 s  4.3 median 0.155 s  ratio(4.2/4.3) 1.020  (11 interleaved runs each)
+Exact response gains, four-player turn     4.2 median 0.425 s  4.3 median 0.434 s  ratio(4.2/4.3) 0.979  (11 interleaved runs each)
+Sampled one-decision gains, 8 seats        4.2 median 0.530 s  4.3 median 0.558 s  ratio(4.2/4.3) 0.949  (11 interleaved runs each)
+Three-player equity                        4.2 median 0.415 s  4.3 median 0.413 s  ratio(4.2/4.3) 1.006  (11 interleaved runs each)

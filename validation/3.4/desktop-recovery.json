@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "runtime": "linux",
+  "periodicSaveAt": 6140,
+  "hostAndWorkerKilled": true,
+  "resumeEquivalent": true,
+  "corruptLatestRecoveredPrevious": true
+}

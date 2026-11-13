@@ -1,0 +1,857 @@
+{
+  "rows": [
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 2,
+      "icm": false,
+      "seconds": 0.028065583000000005,
+      "trainingDeals": 1000,
+      "rssMiB": 52.23046875,
+      "ev": [
+        4.273437499999998,
+        0.5265624999999999
+      ],
+      "standardErrors": [
+        0.19324048567494284,
+        0.19324048567494287
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2,
+            6,
+            10,
+            14,
+            18,
+            22
+          ]
+        }
+      },
+      "n": 2,
+      "icm": true,
+      "seconds": 0.021952027999999985,
+      "trainingDeals": 1000,
+      "rssMiB": 54.35546875,
+      "ev": [
+        7.023593220122249,
+        7.455978331148944
+      ],
+      "standardErrors": [
+        0.2511396490117138,
+        0.23030689924278414
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 3,
+      "icm": false,
+      "seconds": 0.21648339799999997,
+      "trainingDeals": 1000,
+      "rssMiB": 65.3515625,
+      "ev": [
+        2.4093749999999985,
+        3.50859375,
+        0.8820312500000003
+      ],
+      "standardErrors": [
+        0.3907509639423175,
+        0.5529215392108672,
+        0.43716865066718674
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      },
+      "n": 3,
+      "icm": true,
+      "seconds": 0.20235699900000004,
+      "trainingDeals": 1000,
+      "rssMiB": 66.2421875,
+      "ev": [
+        5.6664349776656815,
+        11.820244786188743,
+        15.863379559224773
+      ],
+      "standardErrors": [
+        0.5526610466250608,
+        0.647144085602525,
+        0.3965288943452348
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9s",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 4,
+      "icm": false,
+      "seconds": 0.203461411,
+      "trainingDeals": 1000,
+      "rssMiB": 77.15625,
+      "ev": [
+        8.107812499999998,
+        1.707921875,
+        0.00306250000000002,
+        -1.0187968749999998
+      ],
+      "standardErrors": [
+        0.37002541905496333,
+        0.43619885504536304,
+        0.28510915676009896,
+        0.26804556675353225
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9s",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2,
+            6,
+            10,
+            14
+          ]
+        }
+      },
+      "n": 4,
+      "icm": true,
+      "seconds": 0.24853902100000005,
+      "trainingDeals": 1000,
+      "rssMiB": 78.19140625,
+      "ev": [
+        11.368728264492798,
+        8.62937694984249,
+        15.276897040762496,
+        24.328003911618143
+      ],
+      "standardErrors": [
+        0.4849860756514523,
+        0.4757762816145444,
+        0.37680377654631386,
+        0.2743588837343406
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 5,
+      "icm": false,
+      "seconds": 0.11108568799999989,
+      "trainingDeals": 1000,
+      "rssMiB": 92.5234375,
+      "ev": [
+        4.725,
+        0.2641875,
+        7.659562499999997,
+        -0.9126562499999998,
+        -0.9360937500000005
+      ],
+      "standardErrors": [
+        0.5550723511044574,
+        0.41223207681626384,
+        0.8110535143372775,
+        0.3010357465868757,
+        0.35060704166775547
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2,
+            6,
+            10
+          ]
+        }
+      },
+      "n": 5,
+      "icm": true,
+      "seconds": 0.160432364,
+      "trainingDeals": 1000,
+      "rssMiB": 95.0234375,
+      "ev": [
+        5.6328488114531865,
+        6.160362053784253,
+        17.968191813394025,
+        21.763879539543336,
+        29.205256645384832
+      ],
+      "standardErrors": [
+        0.5726799127390786,
+        0.4000227013804243,
+        0.5664884927902354,
+        0.15062159175470372,
+        0.1724151891401842
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 6,
+      "icm": false,
+      "seconds": 0.887214915,
+      "trainingDeals": 1000,
+      "rssMiB": 137.08203125,
+      "ev": [
+        1.6343750000000004,
+        1.4128750000000003,
+        -0.6737499999999998,
+        -2.1499343750000004,
+        -2.5673437499999996,
+        15.143778125000003
+      ],
+      "standardErrors": [
+        0.4764798196962344,
+        0.7523387863743751,
+        0.9954042938270315,
+        1.1356548313376291,
+        1.0455844048154106,
+        1.9086124571094158
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2,
+            6
+          ]
+        }
+      },
+      "n": 6,
+      "icm": true,
+      "seconds": 1.020922724,
+      "trainingDeals": 1000,
+      "rssMiB": 152.70703125,
+      "ev": [
+        2.355300193848842,
+        5.015812618995956,
+        10.46583489241615,
+        18.0508846802782,
+        23.744678131335466,
+        32.492638458656906
+      ],
+      "standardErrors": [
+        0.4160662555095382,
+        0.46569819813553004,
+        0.5882419523502085,
+        0.47056273064871307,
+        0.6322451318799098,
+        0.49628544982623046
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9s",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50,
+          70
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d",
+          "9h9s:0.3,AdQd"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 7,
+      "icm": false,
+      "seconds": 0.9058031529999998,
+      "trainingDeals": 1000,
+      "rssMiB": 223.08203125,
+      "ev": [
+        13.732812499999998,
+        -0.8671875000000004,
+        0.5469999999999998,
+        -4.489749999999997,
+        -4.405167500000001,
+        15.88730812499999,
+        -5.605015624999998
+      ],
+      "standardErrors": [
+        0.5754417908393855,
+        0.1672537169259366,
+        1.1759178664941514,
+        0.9086546208435387,
+        1.346005790367158,
+        2.667976846794139,
+        1.3130455362304128
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9s",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50,
+          70
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d",
+          "9h9s:0.3,AdQd"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": [
+            2
+          ]
+        }
+      },
+      "n": 7,
+      "icm": true,
+      "seconds": 1.26998013,
+      "trainingDeals": 1000,
+      "rssMiB": 223.84765625,
+      "ev": [
+        9.372917195561293,
+        2.558051003256933,
+        6.871384121759391,
+        11.482336164968977,
+        16.535852673744024,
+        25.22514156560496,
+        26.75925580114578
+      ],
+      "standardErrors": [
+        0.30350968774172893,
+        0.1808285569124552,
+        0.44933940483422863,
+        0.4223824692755165,
+        0.5473069126817086,
+        0.5310997063761359,
+        0.3532888485757875
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50,
+          70,
+          100
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d",
+          "9h9s:0.3,AdQd",
+          "KhQh:0.9,4c4d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128
+      },
+      "n": 8,
+      "icm": false,
+      "seconds": 0.308820772,
+      "trainingDeals": 1000,
+      "rssMiB": 223.84765625,
+      "ev": [
+        8.937500000000002,
+        -0.546875,
+        9.727062499999999,
+        -1.5653437500000005,
+        -2.041,
+        6.157375000000003,
+        1.2654062499999994,
+        -5.134124999999998
+      ],
+      "standardErrors": [
+        0.8520146053884732,
+        0.13847603432252423,
+        1.2285596990070773,
+        0.4348184893219107,
+        0.6788260434338791,
+        1.8906328078839232,
+        1.3006509549732863,
+        1.4547183873489542
+      ]
+    },
+    {
+      "cfg": {
+        "board": "2c4d7h9sJc",
+        "common": 0,
+        "dealt": 8,
+        "prior": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "stacks": [
+          1,
+          5,
+          12,
+          25,
+          40,
+          50,
+          70,
+          100
+        ],
+        "ranges": [
+          "QhQd:0.6,9c9d",
+          "AsAd:0.7,KsTh",
+          "JhJd:0.8,8s8d",
+          "AcKd:0.7,5c5d",
+          "AhKh:0.5,6s6h",
+          "TsTc:0.5,7c7d",
+          "9h9s:0.3,AdQd",
+          "KhQh:0.9,4c4d"
+        ],
+        "bets": "33,75,a",
+        "raises": "2.5x,a",
+        "maxBets": 2,
+        "privateMode": "sampled",
+        "traversal": "external",
+        "batchDeals": 4,
+        "privateSeed": 11,
+        "evaluationDeals": 128,
+        "icm": {
+          "payouts": [
+            50,
+            30,
+            20
+          ],
+          "others": []
+        }
+      },
+      "n": 8,
+      "icm": true,
+      "seconds": 0.4467216170000001,
+      "trainingDeals": 1000,
+      "rssMiB": 226.84765625,
+      "ev": [
+        3.914063590624127,
+        1.693204592638839,
+        8.115949446064603,
+        8.321775826496523,
+        12.608129829012482,
+        17.52936428926146,
+        21.08636086862259,
+        26.731151557279368
+      ],
+      "standardErrors": [
+        0.3280708211159074,
+        0.050838534782450664,
+        0.5048863759630101,
+        0.17310328995495075,
+        0.2796092869466245,
+        0.41534999688207647,
+        0.1853282765627445,
+        0.17193937480547097
+      ]
+    }
+  ]
+}

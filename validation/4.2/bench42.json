@@ -1,0 +1,1295 @@
+{
+ "generated": "2026-11-11T01:40:33.064Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCPUs": 4,
+ "platform": "linux 6.18.44-fc-v378",
+ "runs": 3,
+ "versions": {
+  "old": "4.1",
+  "new": "4.2"
+ },
+ "gpu": "none assumed; rows report the observed device",
+ "training": [
+  {
+   "label": "Heads-up river",
+   "spec": "huRiver.json",
+   "iterations": 3000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.007815179,
+    "minSeconds": 0.007524979,
+    "maxSeconds": 0.010089129,
+    "engineWallSeconds": 0.004256,
+    "trainingDeals": 3000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "a139edc834c10ae3d48975558e0f6e48acd86db82b51adefe905bd20980d4091"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.010004704,
+    "minSeconds": 0.008479001,
+    "maxSeconds": 0.010642482,
+    "engineWallSeconds": 0.00469,
+    "trainingDeals": 3000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "a139edc834c10ae3d48975558e0f6e48acd86db82b51adefe905bd20980d4091"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.7811504468298113
+  },
+  {
+   "label": "Three-player river",
+   "spec": "threeRiver.json",
+   "iterations": 2000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.012245486,
+    "minSeconds": 0.011756247,
+    "maxSeconds": 0.012565726,
+    "engineWallSeconds": 0.008162,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "c2503b87a076a01c2acda82dbe41beab65fb6b81d5c93b029685ebfe7c034cd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.011414781,
+    "minSeconds": 0.011277474,
+    "maxSeconds": 0.012408074,
+    "engineWallSeconds": 0.00752,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "c2503b87a076a01c2acda82dbe41beab65fb6b81d5c93b029685ebfe7c034cd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0727745017622325
+  },
+  {
+   "label": "Six-player flop (grouped fixture)",
+   "spec": "es-grouped-six.json",
+   "iterations": 60,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.023370996,
+    "minSeconds": 0.022436478,
+    "maxSeconds": 0.024253625,
+    "engineWallSeconds": 0.01369,
+    "trainingDeals": 240,
+    "peakRssMiB": 8.6,
+    "stateSha256": [
+     "71989fb0a99f8933047d6fabf360301c5dc84e9a8ca1513c69da3463c464adcc"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.020874089,
+    "minSeconds": 0.020686486,
+    "maxSeconds": 0.02496265,
+    "engineWallSeconds": 0.012545,
+    "trainingDeals": 240,
+    "peakRssMiB": 7.8,
+    "stateSha256": [
+     "71989fb0a99f8933047d6fabf360301c5dc84e9a8ca1513c69da3463c464adcc"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.1196175315722763
+  },
+  {
+   "label": "Eight-player preflop (fixture, full ranges)",
+   "spec": "es-preflop8.json",
+   "iterations": 200,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.18219906,
+    "minSeconds": 0.175663489,
+    "maxSeconds": 0.185888587,
+    "engineWallSeconds": 0.13686,
+    "trainingDeals": 3200,
+    "peakRssMiB": 26.3,
+    "stateSha256": [
+     "57f15daa86d8c61118ad012f00e9862ff1a01557acf2a29d6ef9a64a032a33c6"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.170218826,
+    "minSeconds": 0.166929534,
+    "maxSeconds": 0.170399442,
+    "engineWallSeconds": 0.118208,
+    "trainingDeals": 3200,
+    "peakRssMiB": 31.6,
+    "stateSha256": [
+     "57f15daa86d8c61118ad012f00e9862ff1a01557acf2a29d6ef9a64a032a33c6"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0703813689797157
+  },
+  {
+   "label": "Short-stack multiway all-ins (8 seats, ICM)",
+   "spec": "shortStack8.json",
+   "iterations": 400,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.028772855,
+    "minSeconds": 0.028722924,
+    "maxSeconds": 0.030065594,
+    "engineWallSeconds": 0.023825,
+    "trainingDeals": 1600,
+    "peakRssMiB": 36.3,
+    "stateSha256": [
+     "9d9ec037b855433ec0e5d4d2c31217807bd1a46d68cd20ba9d98f0758a78af99"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.029236489,
+    "minSeconds": 0.028224734,
+    "maxSeconds": 0.031621855,
+    "engineWallSeconds": 0.025448,
+    "trainingDeals": 1600,
+    "peakRssMiB": 21.2,
+    "stateSha256": [
+     "9d9ec037b855433ec0e5d4d2c31217807bd1a46d68cd20ba9d98f0758a78af99"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9841419398888833
+  },
+  {
+   "label": "Tournament bubble ICM (3 seats, side pots)",
+   "spec": "bubble3.json",
+   "iterations": 2000,
+   "threads": 2,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.009461529,
+    "minSeconds": 0.009278894,
+    "maxSeconds": 0.009818613,
+    "engineWallSeconds": 0.005734,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "7a6d2f309fe02f4a9df66d00b154efcc379f3214c92c45626f7b7a1874f73332"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.009683631,
+    "minSeconds": 0.009131956,
+    "maxSeconds": 0.010082523,
+    "engineWallSeconds": 0.006235,
+    "trainingDeals": 2000,
+    "peakRssMiB": 7.3,
+    "stateSha256": [
+     "7a6d2f309fe02f4a9df66d00b154efcc379f3214c92c45626f7b7a1874f73332"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 0.9770641818136193
+  },
+  {
+   "label": "Eight-player final-table ICM (fixture spec)",
+   "spec": "push8-icm.spec.json",
+   "iterations": 400,
+   "threads": 4,
+   "algorithm": "external-sampling MCCFR (study default; unchanged in 4.2)",
+   "v41": {
+    "medianSeconds": 0.022791856,
+    "minSeconds": 0.021740953,
+    "maxSeconds": 0.02503432,
+    "engineWallSeconds": 0.0201,
+    "trainingDeals": 1600,
+    "peakRssMiB": 8.8,
+    "stateSha256": [
+     "ffa155c321b81ffe3583a647dcacc8b00f27721288b569b3936de24e50af9fd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "v42": {
+    "medianSeconds": 0.022669478,
+    "minSeconds": 0.02142973,
+    "maxSeconds": 0.024730584,
+    "engineWallSeconds": 0.017688,
+    "trainingDeals": 1600,
+    "peakRssMiB": 8.8,
+    "stateSha256": [
+     "ffa155c321b81ffe3583a647dcacc8b00f27721288b569b3936de24e50af9fd2"
+    ],
+    "deterministicAcrossRuns": true
+   },
+   "identicalState": true,
+   "speedup": 1.0053983598563672
+  }
+ ],
+ "evaluation": [
+  {
+   "label": "Heads-up equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v41": {
+    "medianSeconds": 0.612651736,
+    "minSeconds": 0.607771068,
+    "maxSeconds": 0.623490365,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.61041642,
+    "minSeconds": 0.605523539,
+    "maxSeconds": 0.698285882,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    1188591600,
+    249743760
+   ],
+   "speedup": 1.0036619526060588
+  },
+  {
+   "label": "Three-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v41": {
+    "medianSeconds": 0.476995267,
+    "minSeconds": 0.474976942,
+    "maxSeconds": 0.496846656,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.490907869,
+    "minSeconds": 0.464312655,
+    "maxSeconds": 0.535766741,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    785223040,
+    186501280,
+    179709040
+   ],
+   "speedup": 0.971659443902701
+  },
+  {
+   "label": "Six-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      9
+     ],
+     [
+      2,
+      30
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v41": {
+    "medianSeconds": 0.210106142,
+    "minSeconds": 0.207718409,
+    "maxSeconds": 0.230209932,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.20351885,
+    "minSeconds": 0.202560953,
+    "maxSeconds": 0.210429136,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    221427920,
+    84602840,
+    83594000,
+    30721880,
+    52526600,
+    79853480
+   ],
+   "speedup": 1.0323669871365724
+  },
+  {
+   "label": "Eight-player equity (preflop)",
+   "mode": "--equity",
+   "request": {
+    "hands": [
+     [
+      48,
+      49
+     ],
+     [
+      44,
+      45
+     ],
+     [
+      40,
+      36
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      9
+     ],
+     [
+      2,
+      30
+     ],
+     [
+      3,
+      31
+     ],
+     [
+      20,
+      24
+     ]
+    ],
+    "board": [],
+    "device": "cpu",
+    "threads": 4
+   },
+   "v41": {
+    "medianSeconds": 0.109963477,
+    "minSeconds": 0.10794017,
+    "maxSeconds": 0.111944743,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.112325128,
+    "minSeconds": 0.112283883,
+    "maxSeconds": 0.128581624,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": null,
+    "gpuBoards": null,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    85148175,
+    44720655,
+    35592375,
+    7497735,
+    28332255,
+    38369415,
+    38369415,
+    38643255
+   ],
+   "speedup": 0.9789748648227671
+  },
+  {
+   "label": "Exact action EV, 8-player root (ICM)",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 1.260324476,
+    "minSeconds": 1.240204481,
+    "maxSeconds": 1.30401006,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": 370
+   },
+   "v42": {
+    "medianSeconds": 0.084352793,
+    "minSeconds": 0.083141957,
+    "maxSeconds": 0.084840924,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.091,
+     "patternCounting": 0.0843,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 14.941111386791901
+  },
+  {
+   "label": "Exact action EV, 8-player after two shoves (ICM)",
+   "mode": "--ev",
+   "request": {
+    "path": [
+     1,
+     1
+    ],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 0.450851731,
+    "minSeconds": 0.450476465,
+    "maxSeconds": 0.451966888,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": 62
+   },
+   "v42": {
+    "medianSeconds": 0.080689144,
+    "minSeconds": 0.079402492,
+    "maxSeconds": 0.082911795,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0892,
+     "patternCounting": 0.0823,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 62
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      12.656010507743623,
+      7.871458025102644
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 5.587514114662066
+  },
+  {
+   "label": "Exact action EV, 2 hands per seat, root range (ICM) [1 run]",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1
+    ],
+    "range": true,
+    "method": "exact",
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 3600000
+   },
+   "study": "shortStack8",
+   "v41": {
+    "medianSeconds": 393.517721208,
+    "minSeconds": 393.517721208,
+    "maxSeconds": 393.517721208,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 386039808,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": 766
+   },
+   "v42": {
+    "medianSeconds": 22.530421724,
+    "minSeconds": 22.530421724,
+    "maxSeconds": 22.530421724,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 386039808,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 47.6697,
+     "patternCounting": 57.7464,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 768
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.087722988843744,
+      14.766938849239502
+     ],
+     [
+      15.088582867347984,
+      15.754409834301065
+     ]
+    ],
+    "range": [
+     15.088152928095864,
+     15.260674341770283
+    ]
+   },
+   "speedup": 17.466061045311662
+  },
+  {
+   "label": "Sampled action EV, 8-player (seed 4)",
+   "mode": "--ev",
+   "request": {
+    "path": [
+     1
+    ],
+    "hands": [
+     0
+    ],
+    "method": "sampled",
+    "samples": 20000,
+    "seed": 4,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 0.528795513,
+    "minSeconds": 0.517866591,
+    "maxSeconds": 0.553346425,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": 123
+   },
+   "v42": {
+    "medianSeconds": 0.536918797,
+    "minSeconds": 0.536037763,
+    "maxSeconds": 0.543914969,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 123
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      13.117165201812709,
+      8.30490252799532
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 0.9848705538986746
+  },
+  {
+   "label": "Large weighted range, heads-up river exact",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "range": true,
+    "method": "exact",
+    "threads": 4
+   },
+   "study": "huRiver",
+   "v41": {
+    "medianSeconds": 0.005269719,
+    "minSeconds": 0.004838363,
+    "maxSeconds": 0.005636034,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": 48
+   },
+   "v42": {
+    "medianSeconds": 0.004178919,
+    "minSeconds": 0.003863629,
+    "maxSeconds": 0.004735284,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 48
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      -0.00044337233119744554,
+      -0.17108472025254415,
+      0.018765959917143842
+     ],
+     [
+      16.39874421245644,
+      16.391116171413092,
+      16.509163374155047
+     ],
+     [
+      0.4363699904145691,
+      -0.103542780448028,
+      0.018962903963650746
+     ],
+     [
+      1.4061921538234687,
+      1.4847220389314426,
+      0.7366465207317988
+     ],
+     [
+      6.649895750637064,
+      5.368742025052713,
+      4.367141252750541
+     ],
+     [
+      6.541832586198907,
+      6.9049378461800535,
+      6.441718975882974
+     ]
+    ],
+    "range": [
+     4.815060976165604,
+     4.609719492840662,
+     4.342756001356085
+    ]
+   },
+   "speedup": 1.2610244419669299
+  },
+  {
+   "label": "Exact response gains, 8 seats, 1 thread",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "threads": 1,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 16.74892549,
+    "minSeconds": 16.413141945,
+    "maxSeconds": 16.917968284,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.673530775,
+    "minSeconds": 0.666121906,
+    "maxSeconds": 0.703662091,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.3588,
+     "patternCounting": 0.3702,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "speedup": 24.867349958879014
+  },
+  {
+   "label": "Exact response gains, 8 seats, 4 threads",
+   "mode": "--gain",
+   "request": {
+    "method": "exact",
+    "seats": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 4.30867423,
+    "minSeconds": 4.293857762,
+    "maxSeconds": 4.347104498,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.180047473,
+    "minSeconds": 0.179519501,
+    "maxSeconds": 0.185493053,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 3015936,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.3604,
+     "patternCounting": 0.369,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    0.5426326263515246,
+    0.05855764838526234,
+    0.007465246631827682,
+    0.03621427267257005,
+    0.13927187905377458,
+    0.056570785543963,
+    0.10626431827068394,
+    0.13421150102554513
+   ],
+   "speedup": 23.93076758150335
+  },
+  {
+   "label": "Restricted response gains, 8 seats (sampled selection)",
+   "mode": "--gain",
+   "request": {
+    "method": "restricted",
+    "selection": "sampled",
+    "samples": 2000,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 0.054123003,
+    "minSeconds": 0.05387231,
+    "maxSeconds": 0.055001021,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.054799042,
+    "minSeconds": 0.054580408,
+    "maxSeconds": 0.055866735,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    {
+     "mean": 0.5266514189522947,
+     "stdErr": 0.02758576457123994,
+     "ci95": [
+      0.47258332039266443,
+      0.580719517511925
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.06240308285893115,
+     "stdErr": 0.028684156718441187,
+     "ci95": [
+      0.0061821356907864194,
+      0.11862403002707587
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.012604081218287108,
+     "stdErr": 0.008935201619404224,
+     "ci95": [
+      -0.00490891395574517,
+      0.030117076392319385
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.029001207648928502,
+     "stdErr": 0.011001518363282033,
+     "ci95": [
+      0.007438231656895718,
+      0.05056418364096128
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.0936446481361993,
+     "stdErr": 0.024394262589474105,
+     "ci95": [
+      0.04583189346083005,
+      0.14145740281156854
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.07289214024487148,
+     "stdErr": 0.019595041296886103,
+     "ci95": [
+      0.034485859302974715,
+      0.11129842118676825
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.11518413583745025,
+     "stdErr": 0.026440234358992978,
+     "ci95": [
+      0.06336127649382402,
+      0.16700699518107648
+     ],
+     "samples": 2000
+    },
+    {
+     "mean": 0.14337140625357153,
+     "stdErr": 0.02682957861103832,
+     "ci95": [
+      0.09078543217593643,
+      0.19595738033120663
+     ],
+     "samples": 2000
+    }
+   ],
+   "speedup": 0.9876633062307915
+  },
+  {
+   "label": "Sampled one-decision gains, 8 seats",
+   "mode": "--gain",
+   "request": {
+    "method": "sampled",
+    "samples": 1500,
+    "threads": 4,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 0.666833698,
+    "minSeconds": 0.660720605,
+    "maxSeconds": 0.667639121,
+    "requestedDevice": "auto",
+    "observedDevice": null,
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": null,
+    "profileSeconds": null,
+    "distinctInformationSets": null
+   },
+   "v42": {
+    "medianSeconds": 0.66645854,
+    "minSeconds": 0.66498531,
+    "maxSeconds": 0.67038534,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": null,
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0,
+     "patternCounting": 0,
+     "cudaStartup": 0,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": null
+   },
+   "identicalNumbers": true,
+   "numbers": [
+    {
+     "mean": 0.5354690916193189,
+     "stdErr": 0.006701818776606504,
+     "ci95": [
+      0.5223335268171702,
+      0.5486046564214676
+     ]
+    },
+    {
+     "mean": 0.04793892316925187,
+     "stdErr": 0.007523381090009629,
+     "ci95": [
+      0.033193096232832994,
+      0.06268475010567075
+     ]
+    },
+    {
+     "mean": 0.00031900218645960045,
+     "stdErr": 0.00003781185471206902,
+     "ci95": [
+      0.0002448909512239452,
+      0.0003931134216952557
+     ]
+    },
+    {
+     "mean": 9.835844251040812e-8,
+     "stdErr": 3.853982736048042e-9,
+     "ci95": [
+      9.080463634775396e-8,
+      1.0591224867306228e-7
+     ]
+    },
+    {
+     "mean": 5.631870621744242e-8,
+     "stdErr": 2.719326637986803e-9,
+     "ci95": [
+      5.0988826006988285e-8,
+      6.164858642789655e-8
+     ]
+    },
+    {
+     "mean": 2.282171424362394e-8,
+     "stdErr": 1.1796919284388786e-9,
+     "ci95": [
+      2.0509518063883736e-8,
+      2.5133910423364143e-8
+     ]
+    },
+    {
+     "mean": 8.261736721132584e-9,
+     "stdErr": 2.6258072312807803e-10,
+     "ci95": [
+      7.74707850380155e-9,
+      8.776394938463618e-9
+     ]
+    },
+    {
+     "mean": 1.2370969429115756e-8,
+     "stdErr": 3.738592382468955e-10,
+     "ci95": [
+      1.163820532215184e-8,
+      1.3103733536079672e-8
+     ]
+    }
+   ],
+   "speedup": 1.000562912735727
+  },
+  {
+   "label": "GPU requested, no usable GPU or budget below request: CPU fallback",
+   "mode": "--ev",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "gpu",
+    "gpuMiB": 16,
+    "threads": 4,
+    "maxVisits": 2000000000,
+    "timeLimitMs": 600000
+   },
+   "study": "finalTable8",
+   "v41": {
+    "medianSeconds": 1.289758495,
+    "minSeconds": 1.288556141,
+    "maxSeconds": 1.314861512,
+    "requestedDevice": "gpu",
+    "observedDevice": null,
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": null,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": null,
+    "distinctInformationSets": 370
+   },
+   "v42": {
+    "medianSeconds": 0.089738281,
+    "minSeconds": 0.086475236,
+    "maxSeconds": 0.100819521,
+    "requestedDevice": "gpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 753984,
+    "gpuBoards": 0,
+    "cudaErrors": 0,
+    "gpuNote": "CUDA unavailable: NVIDIA driver library not found",
+    "profileSeconds": {
+     "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+     "cpuTableScoring": 0.0926,
+     "patternCounting": 0.0854,
+     "cudaStartup": 0.0001,
+     "gpuVerification": 0,
+     "gpuUploadAndLaunch": 0,
+     "gpuKernelAndDownload": 0,
+     "gpuLockWait": 0
+    },
+    "distinctInformationSets": 371
+   },
+   "identicalNumbers": true,
+   "numbers": {
+    "hands": [
+     [
+      15.020151348500445,
+      15.670177585564113
+     ]
+    ],
+    "range": null
+   },
+   "speedup": 14.37244485438717
+  }
+ ],
+ "note": "Training code is unchanged in 4.2: training rows measure run-to-run noise and must give identical states. Evaluation speed-ups come from the exact pattern projection (exact EVs and exact/restricted best responses); sampled evaluation and equity are expected to be unchanged. Equity rows use device cpu; GPU equity was not measured here (no NVIDIA device)."
+}

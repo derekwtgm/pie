@@ -1,0 +1,53 @@
+{
+ "tool": "Wine checks of the final mwcli.exe (build e46140fff4cf2f46)",
+ "wine": "wine-9.0 (Ubuntu 9.0~repack-4build3)",
+ "deadline100ms": [
+  {
+   "queryMs": 101.629,
+   "status": 408
+  },
+  {
+   "queryMs": 102.04,
+   "status": 408
+  },
+  {
+   "queryMs": 102.168,
+   "status": 408
+  },
+  {
+   "queryMs": 101.672,
+   "status": 408
+  },
+  {
+   "queryMs": 101.935,
+   "status": 408
+  }
+ ],
+ "exactParity": [
+  {
+   "path": [
+    1,
+    1
+   ],
+   "ev": [
+    12.656010507743623,
+    7.871458025102644
+   ],
+   "identicalToLinuxReference": true,
+   "threads": 4
+  },
+  {
+   "path": [
+    1,
+    1,
+    1
+   ],
+   "ev": [
+    19.15328556721412,
+    16.085082110588402
+   ],
+   "identicalToLinuxReference": true,
+   "threads": 4
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "workload": "exact best response of seat UTG, eight-player push/fold ICM fixture, 1 thread, CPU",
+ "note": "profileSeconds are CPU-seconds by phase from the 4.2 engine; perBoard4.1 = the retained 4.1 method (EM_EV_DIRECT_PATTERNS=1)",
+ "projection": {
+  "elapsedMs": 85.3,
+  "gain": 0.5426326263515246,
+  "profileSeconds": {
+   "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+   "cpuTableScoring": 0.0439,
+   "patternCounting": 0.0474,
+   "cudaStartup": 0.0,
+   "gpuVerification": 0.0,
+   "gpuUploadAndLaunch": 0.0,
+   "gpuKernelAndDownload": 0.0,
+   "gpuLockWait": 0.0
+  },
+  "work": {
+   "boardEvaluations": 376992,
+   "patternCounts": 551898,
+   "showdownTables": 1,
+   "tableCacheHits": 408,
+   "icmEvaluations": 27648
+  }
+ },
+ "perBoard4.1": {
+  "elapsedMs": 1887.8,
+  "gain": 0.5426326263515246,
+  "profileSeconds": {
+   "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+   "cpuTableScoring": 0.0437,
+   "patternCounting": 1.8262,
+   "cudaStartup": 0.0,
+   "gpuVerification": 0.0,
+   "gpuUploadAndLaunch": 0.0,
+   "gpuKernelAndDownload": 0.0,
+   "gpuLockWait": 0.0
+  },
+  "work": {
+   "boardEvaluations": 376992,
+   "patternCounts": 93117024,
+   "showdownTables": 1,
+   "tableCacheHits": 408,
+   "icmEvaluations": 27648
+  }
+ }
+}

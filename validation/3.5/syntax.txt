@@ -1,0 +1,1 @@
+Checked all 89 source JavaScript files.

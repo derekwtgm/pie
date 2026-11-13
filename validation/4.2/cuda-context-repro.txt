@@ -1,0 +1,34 @@
+# CUDA EV-table context reproduction (Linux CUDA driver test double that enforces per-thread current contexts; NOT physical GPU)
+# Workload: eight-player push/fold ICM, exact root EV, gpuMiB 2048 (the 4.1 hardware-validator 'complete EV' configuration).
+# Columns: device, wall ms, GPU boards, CPU boards, EVs identical to CPU, observed device, scheduler decisions, driver ledger at exit.
+
+== EightMax 4.1, 8 evaluation threads
+cpu    1284ms gpuB 0 cpuB 753984 same true obs undefined sched {"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+gpu    1315ms gpuB 0 cpuB 753984 same true obs undefined sched {"small":0,"busy":0,"unav":2,"fail":0,"gpuT":0} drv {"badCtx":2,"liveAtExit":0,"peak":0,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+hybrid 1368ms gpuB 65536 cpuB 688448 same true obs undefined sched {"small":0,"busy":2,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":4,"liveAtExit":2099751,"peak":2099751,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+auto   1296ms gpuB 65536 cpuB 688448 same true obs undefined sched {"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":5,"liveAtExit":2099751,"peak":2099751,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+
+== EightMax 4.1, 24 evaluation threads
+cpu    1316ms gpuB 0 cpuB 753984 same true obs undefined sched {"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+gpu    1370ms gpuB 65536 cpuB 688448 same true obs undefined sched {"small":0,"busy":2,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":5,"liveAtExit":2099751,"peak":2099751,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+hybrid 1286ms gpuB 65536 cpuB 688448 same true obs undefined sched {"small":0,"busy":2,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":5,"liveAtExit":2099751,"peak":2099751,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+auto   1296ms gpuB 65536 cpuB 688448 same true obs undefined sched {"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":5,"liveAtExit":2099751,"peak":2099751,"ctxAlive":0,"pushes":1,"pops":0,"threads":2}
+   note: CUDA allocation, VRAM reserve or launch failed during an EV table
+
+== EightMax 4.2 (final build 80797f6402bc38b6), 8 evaluation threads
+cpu    85ms gpuB 0 cpuB 753984 same true obs cpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+gpu    465ms gpuB 688448 cpuB 65536 same true obs cpu+gpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":2} drv {"badCtx":0,"liveAtExit":0,"peak":12066343,"ctxAlive":0,"pushes":8,"pops":8,"threads":2}
+hybrid 244ms gpuB 115701 cpuB 638283 same true obs cpu+gpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":0,"liveAtExit":0,"peak":2099751,"ctxAlive":0,"pushes":8,"pops":8,"threads":2}
+auto   83ms gpuB 0 cpuB 753984 same true obs cpu sched {"warm":2,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+
+== EightMax 4.2 (final build 80797f6402bc38b6), 24 evaluation threads
+cpu    86ms gpuB 0 cpuB 753984 same true obs cpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+gpu    403ms gpuB 688448 cpuB 65536 same true obs cpu+gpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":2} drv {"badCtx":0,"liveAtExit":0,"peak":12066343,"ctxAlive":0,"pushes":8,"pops":8,"threads":2}
+hybrid 207ms gpuB 133005 cpuB 620979 same true obs cpu+gpu sched {"warm":0,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {"badCtx":0,"liveAtExit":0,"peak":2333255,"ctxAlive":0,"pushes":8,"pops":8,"threads":2}
+auto   86ms gpuB 0 cpuB 753984 same true obs cpu sched {"warm":2,"small":0,"busy":0,"unav":0,"fail":0,"gpuT":0} drv {}
+

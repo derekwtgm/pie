@@ -7,9 +7,9 @@ const exe=fs.readFileSync(path.join(dir,'EightMax.exe'));
 const start=exe.indexOf('<!DOCTYPE html>'),end=exe.indexOf(0,start);
 const native=exe.subarray(start,end).toString('utf8').trimEnd();
 assert.equal(native.replace('window.EM_NATIVE = true;',''),file.trimEnd());
-const lib=libFrom(native),ctx=vm.createContext({atob,btoa,crypto,TextEncoder,performance,setTimeout,clearTimeout,console});
+const lib=libFrom(native),ctx=vm.createContext({atob,btoa,crypto,TextEncoder,TextDecoder,performance,setTimeout,clearTimeout,console});
 vm.runInContext(lib,ctx);const E=ctx.EM;
-for(const fname of ['lib_pots','lib_icm','lib_deep','lib_runouts','lib_wide','lib_river','lib_quality','lib_information','lib_checkpoint','worker']){
+for(const fname of ['lib_pots','lib_icm','lib_deep','lib_runouts','lib_wide','lib_river','lib_quality','lib_information','lib_checkpoint','lib_archive','lib_select','worker']){
   assert.ok(lib.includes(fs.readFileSync(path.join(dir,'source/web',fname+'.js'),'utf8')),fname);
 }
 require(path.join(dir,'source/web/lib_charts.js'));

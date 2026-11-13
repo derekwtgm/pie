@@ -1,0 +1,28 @@
+== build (UBSan+ASan host and CLI, TSan host and CLI)
+sanitized (undefined,float-cast-overflow,address) host: <sanitized build dir>/ub/eightmax, <sanitized build dir>/ub/mwcli
+sanitized (thread) host: <sanitized build dir>/ts/eightmax, <sanitized build dir>/ts/mwcli
+== v44 (non-timing tests) and v44_postflop against the UBSan+ASan host and CLI
+v44:
+# pass 8
+# fail 0
+# skipped 0
+v44_postflop:
+# pass 5
+# fail 0
+# skipped 0
+== ThreadSanitizer mwcli: concurrent coverage set and the stop path, 8 threads
+tsan sampled EV stopped by the time limit ok
+tsan complete sampled EV ok
+tsan cancelled ok
+tsan exact EV (shared tables, concurrent coverage) ok
+tsan exact response gains, eight seats ok
+tsan sampled response gains ok
+== coverage44 under TSan and ASan+UBSan
+coverage44 tsan ok (55 checks)
+coverage44 asan+ubsan ok (55 checks)
+== cppcheck
+cppcheck findings (all files):
+source/native/mw_es_impl.hpp:70:3: warning: Member variable 'Walker::cpots' is not initialized in the constructor. [uninitMemberVar]
+cppcheck: no findings in the evaluation code (action_ev, ev_control, showdown_table, coverage, ieee_probe)
+sanitize44: all passed
+rc=0

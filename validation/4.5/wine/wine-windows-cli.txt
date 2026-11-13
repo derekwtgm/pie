@@ -1,0 +1,23 @@
+PASS  build identifier EightMaxBuild=0e3de4013c49474a
+PASS  IEEE 754 probe document identical to the Linux build (26 probes)
+PASS  print with 17 digits then parse: identical bit patterns for every probe (C runtime of the Windows build)
+PASS  exact EV, 1 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 2 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 4 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 8 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact response gains, eight seats, 1 threads: bits equal the 4.2 reference
+PASS  exact response gains, eight seats, 8 threads: bits equal the 4.2 reference
+PASS  training 20 updates: the Windows build writes the same state bytes as the Linux build
+PASS  sampled EV under Wine: 12 runs at 100/250/600/1000 ms all partial, worst overrun 14.2 ms (documented tolerance 50 ms idle / 150 ms loaded; Wine adds its own process overhead)
+PASS  cancellation under Wine: HTTP 409, latency 5.601 ms
+PASS  completed sampled EV (seed 9, 1,500 samples, 3 threads): Windows build equals the Linux build bit for bit
+PASS  IEEE 754 sweep, 200,000 doubles: the Windows build parses every printed value back to identical bits (engine parser and JSON reader), neighbours distinct
+PASS  IEEE 754 sweep digest equal to the Linux build (94fc3f6ed8426909): both printed the same characters for all 200,000 doubles
+PASS  informational: C runtime strtod of the Windows build differs from the correctly rounded value for 12 of 200,000 swept doubles (Linux build: 0); the engine does not use it since 4.5
+PASS  coverage memory budget under the Windows build: peak live bytes <= coverageMiB for 1, 2, 8 MiB and 1, 4, 8 threads; capped sets labelled; EVs bit-identical for every budget
+PASS  the same sampled range EV from the Linux build: identical bits
+PASS  training 300 updates, 4 threads, Windows build: state SHA-256 equals the recorded hash of the 4.4 and 4.5 Linux builds
+PASS  Windows build: 150 updates, a deadline-limited evaluation with a capped coverage table, 150 more updates == 300 uninterrupted updates (state bytes)
+PASS  tests/coverage45.cpp built for Windows (VirtualAlloc tiers) and run under Wine: 38 checks, 0 failures; the archived 4.4 table allocates 1,425,408 bytes for 1 MiB there as well
+PASS  tests/icm45.cpp built for Windows and run under Wine: two-lane ICM kernel bit-identical to the 4.4 routine (80000 evaluations)
+wine45: all 22 checks passed (Wine, not Windows)

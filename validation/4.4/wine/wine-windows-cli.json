@@ -1,0 +1,308 @@
+{
+ "tool": "wine44",
+ "runtime": "wine (not Windows)",
+ "wineVersion": "wine-9.0 (Ubuntu 9.0~repack-4build3)",
+ "executable": "mwcli.exe",
+ "generated": "2026-11-12T14:12:45.262Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "checks": [
+  {
+   "check": "build identifier EightMaxBuild=b1b5764df465ea31",
+   "passed": true,
+   "reported": "EightMaxBuild=b1b5764df465ea31",
+   "expected": "b1b5764df465ea31"
+  },
+  {
+   "check": "IEEE 754 probe document identical to the Linux build (26 probes)",
+   "passed": true
+  },
+  {
+   "check": "print with 17 digits then parse: identical bit patterns for every probe (C runtime of the Windows build)",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 1 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 2 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 4 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact EV, 8 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit",
+   "passed": true
+  },
+  {
+   "check": "exact response gains, eight seats, 1 threads: bits equal the 4.2 reference",
+   "passed": true,
+   "queryMs": 129.933
+  },
+  {
+   "check": "exact response gains, eight seats, 8 threads: bits equal the 4.2 reference",
+   "passed": true,
+   "queryMs": 75.847
+  },
+  {
+   "check": "training 20 updates: the Windows build writes the same state bytes as the Linux build",
+   "passed": true
+  },
+  {
+   "check": "sampled EV under Wine: 12 runs at 100/250/600/1000 ms all partial, worst overrun 18.1 ms (documented tolerance 50 ms idle / 150 ms loaded; Wine adds its own process overhead)",
+   "passed": true
+  },
+  {
+   "check": "cancellation under Wine: HTTP 409, latency 3.061 ms",
+   "passed": true
+  },
+  {
+   "check": "completed sampled EV (seed 9, 1,500 samples, 3 threads): Windows build equals the Linux build bit for bit",
+   "passed": true,
+   "evBits": [
+    "40300a2f4e2096de",
+    "402c5e1ab56f0f50",
+    "402c23714416906c",
+    "40295289e8c45c1e"
+   ],
+   "distinctInformationSets": 42273
+  }
+ ],
+ "ieeeVerify": {
+  "probeCount": 26,
+  "mismatches": 0,
+  "textMismatches": 0,
+  "worstUlpDistance": 0
+ },
+ "exactEv": [
+  {
+   "threads": 1,
+   "queryMs": 93.598,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 2,
+   "queryMs": 55.077,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 4,
+   "queryMs": 61.02,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  },
+  {
+   "threads": 8,
+   "queryMs": 52.922,
+   "evBits": [
+    "402e0a51470d8f36",
+    "402f57218439052d"
+   ],
+   "boardsScored": 376992,
+   "distinct": 371
+  }
+ ],
+ "deadline": [
+  {
+   "limitMs": 100,
+   "queryMs": 111.445,
+   "overrunMs": 11.44,
+   "status": "partial",
+   "samples": 6833,
+   "phasesMs": {
+    "workBegin": 0.7007,
+    "stopRaised": 100.0253,
+    "workEnd": 109.6387,
+    "statistics": 109.6391,
+    "coverageMerged": 109.6405,
+    "responseBuilt": 109.852
+   }
+  },
+  {
+   "limitMs": 100,
+   "queryMs": 112.278,
+   "overrunMs": 12.28,
+   "status": "partial",
+   "samples": 7510,
+   "phasesMs": {
+    "workBegin": 0.5305,
+    "stopRaised": 100.0683,
+    "workEnd": 109.666,
+    "statistics": 109.6665,
+    "coverageMerged": 109.6678,
+    "responseBuilt": 109.89
+   }
+  },
+  {
+   "limitMs": 100,
+   "queryMs": 108.742,
+   "overrunMs": 8.74,
+   "status": "partial",
+   "samples": 10465,
+   "phasesMs": {
+    "workBegin": 0.5146,
+    "stopRaised": 100.0039,
+    "workEnd": 107.4574,
+    "statistics": 107.4577,
+    "coverageMerged": 107.4588,
+    "responseBuilt": 107.586
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 258.835,
+   "overrunMs": 8.83,
+   "status": "partial",
+   "samples": 28766,
+   "phasesMs": {
+    "workBegin": 0.474,
+    "stopRaised": 250.0177,
+    "workEnd": 257.5834,
+    "statistics": 257.5837,
+    "coverageMerged": 257.5847,
+    "responseBuilt": 257.712
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 259.028,
+   "overrunMs": 9.03,
+   "status": "partial",
+   "samples": 26884,
+   "phasesMs": {
+    "workBegin": 0.4587,
+    "stopRaised": 250.0917,
+    "workEnd": 257.8251,
+    "statistics": 257.8253,
+    "coverageMerged": 257.8264,
+    "responseBuilt": 257.954
+   }
+  },
+  {
+   "limitMs": 250,
+   "queryMs": 259.478,
+   "overrunMs": 9.48,
+   "status": "partial",
+   "samples": 30316,
+   "phasesMs": {
+    "workBegin": 0.7174,
+    "stopRaised": 250.1073,
+    "workEnd": 258.0408,
+    "statistics": 258.0411,
+    "coverageMerged": 258.0424,
+    "responseBuilt": 258.17
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 618.081,
+   "overrunMs": 18.08,
+   "status": "partial",
+   "samples": 67445,
+   "phasesMs": {
+    "workBegin": 0.4643,
+    "stopRaised": 600.1049,
+    "workEnd": 613.6163,
+    "statistics": 613.6167,
+    "coverageMerged": 613.6178,
+    "responseBuilt": 613.775
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 611.58,
+   "overrunMs": 11.58,
+   "status": "partial",
+   "samples": 69839,
+   "phasesMs": {
+    "workBegin": 0.6818,
+    "stopRaised": 600.0079,
+    "workEnd": 607.7239,
+    "statistics": 607.7242,
+    "coverageMerged": 607.7252,
+    "responseBuilt": 607.852
+   }
+  },
+  {
+   "limitMs": 600,
+   "queryMs": 611.52,
+   "overrunMs": 11.52,
+   "status": "partial",
+   "samples": 71970,
+   "phasesMs": {
+    "workBegin": 0.4788,
+    "stopRaised": 600.175,
+    "workEnd": 607.5803,
+    "statistics": 607.5807,
+    "coverageMerged": 607.5817,
+    "responseBuilt": 607.705
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1011.831,
+   "overrunMs": 11.83,
+   "status": "partial",
+   "samples": 119325,
+   "phasesMs": {
+    "workBegin": 0.4918,
+    "stopRaised": 1000.1174,
+    "workEnd": 1007.5622,
+    "statistics": 1007.5625,
+    "coverageMerged": 1007.5637,
+    "responseBuilt": 1007.691
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1012.837,
+   "overrunMs": 12.84,
+   "status": "partial",
+   "samples": 115171,
+   "phasesMs": {
+    "workBegin": 0.4955,
+    "stopRaised": 1000.0475,
+    "workEnd": 1008.1716,
+    "statistics": 1008.1719,
+    "coverageMerged": 1008.1729,
+    "responseBuilt": 1008.308
+   }
+  },
+  {
+   "limitMs": 1000,
+   "queryMs": 1013.04,
+   "overrunMs": 13.04,
+   "status": "partial",
+   "samples": 121456,
+   "phasesMs": {
+    "workBegin": 0.4243,
+    "stopRaised": 1000.0238,
+    "workEnd": 1008.0572,
+    "statistics": 1008.0576,
+    "coverageMerged": 1008.0588,
+    "responseBuilt": 1008.227
+   }
+  }
+ ],
+ "worstOverrunMs": 18.08,
+ "cancelLatencyMs": 3.061,
+ "passed": true,
+ "failed": 0
+}

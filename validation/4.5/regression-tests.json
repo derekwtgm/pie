@@ -1,0 +1,599 @@
+{
+ "generated": "2026-11-13T03:56:47.281Z",
+ "node": "v22.23.4",
+ "platform": "linux x64",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "limitSecondsPerFile": 600,
+ "files": [
+  {
+   "file": "checkpoint.test.js",
+   "seconds": 1.85,
+   "passed": 12,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "fgs.test.js",
+   "seconds": 6.41,
+   "passed": 5,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "fingerprint.test.js",
+   "seconds": 0.12,
+   "passed": 1,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "native sources and compiler options alter the deterministic build ID",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "information.test.js",
+   "seconds": 0.2,
+   "passed": 5,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "mtt.test.js",
+   "seconds": 3.2,
+   "passed": 13,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "multiway.test.js",
+   "seconds": 1.7,
+   "passed": 11,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "oracle.test.js",
+   "seconds": 19.51,
+   "passed": 3,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "quality.test.js",
+   "seconds": 1.81,
+   "passed": 9,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "solver.test.js",
+   "seconds": 2.55,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "upgrades.test.js",
+   "seconds": 2.78,
+   "passed": 6,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v26.test.js",
+   "seconds": 8.42,
+   "passed": 42,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v27.test.js",
+   "seconds": 0.79,
+   "passed": 9,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v28.test.js",
+   "seconds": 0.28,
+   "passed": 4,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v29.test.js",
+   "seconds": 9.3,
+   "passed": 31,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "native host: /api/mw init, train, status, stop, state, import, memory and errors",
+     "status": "passed"
+    },
+    {
+     "name": "3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v31.test.js",
+   "seconds": 78.35,
+   "passed": 42,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "CUDA test double: probe reports device, SASS image and VRAM reserve; equity kernel matches CPU exactly",
+     "status": "passed"
+    },
+    {
+     "name": "CUDA test double: GPU equity equals CPU; failures fall back to CPU with a stated reason",
+     "status": "passed"
+    },
+    {
+     "name": "CUDA routing: river starts and external sampling stay on CPU and say why; turn studies keep CPU-identical results",
+     "status": "passed"
+    },
+    {
+     "name": "native host: protocol 4 init/train/stop/state/import, CUDA probe in /api/info, /api/equity",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v33.test.js",
+   "seconds": 51.88,
+   "passed": 34,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "Heads-up JavaScript configuration applies the same checks as the native host",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v34.test.js",
+   "seconds": 10.25,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "external sampled hybrid scoring and CUDA failure reproduce CPU strategy, RNG and counters",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v35.test.js",
+   "seconds": 10.01,
+   "passed": 24,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "CUDA driver fixture enforces reduced VRAM budgets on reused batches",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v36.test.js",
+   "seconds": 15.39,
+   "passed": 22,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "slow simulated CUDA scoring selects CPU and preserves complete state",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v37.test.js",
+   "seconds": 4.33,
+   "passed": 11,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v38.test.js",
+   "seconds": 2.79,
+   "passed": 8,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "3.8 native host serves explorer nodes and refuses them while training",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v39.test.js",
+   "seconds": 20.7,
+   "passed": 14,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "3.9 native host: /api/mw/ev and /api/mw/response-gain, HTTP 400 for malformed input, cache invalidated by training",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v40.test.js",
+   "seconds": 24.14,
+   "passed": 17,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.0 CUDA path (driver test double running score.cu): GPU, hybrid and CPU showdown tables give bit-identical EVs; failures fall back to the CPU",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v41.test.js",
+   "seconds": 40.66,
+   "passed": 15,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.1 numeric safety: num_safe.h boundary and property tests under UBSan+ASan (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.1 statistics: simulated family-wise error, coverage, selection bias, equivalence and sequential stopping (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.1 CUDA scheduling: decisions and peak VRAM are reported; CPU, GPU, hybrid and auto agree bit for bit (Linux CUDA test double)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v42.test.js",
+   "seconds": 293.92,
+   "passed": 16,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.2 coverage: unit suite under AddressSanitizer+UBSan and ThreadSanitizer (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: wrapper unit tests (context per thread, balance, concurrent instances, budgets, repeated init, OOM, cuCtxCreate path) (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: the 4.1 EV-table failure is fixed — gpu/hybrid/auto with 1, 2, 4, 8 threads: identical EVs, no context errors, no leaks (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: GPU budget validation — a budget below the real request is refused before allocation and falls back with the same result; within budget the GPU runs (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: fault injection — every failure falls back with identical EVs, no double counting, released buffers, actionable errors (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: cancellation during GPU work is prompt and leaves no device memory (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: Automatic mode — no CUDA start-up for short runs (warm-up), opened once the warm-up is spent, every table accounted for (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: in-process stress — concurrent multithreaded GPU jobs, cancellation on the GPU and repeated re-initialisation; plain, TSan and ASan builds (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.2 CUDA: desktop host — concurrent GPU EV jobs, a job cancelled on the GPU, the host stays responsive (Linux CUDA test double)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v43.test.js",
+   "seconds": 262.99,
+   "passed": 15,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.3 CUDA: device modes x threads on shared tables — identical EVs, every board once, no context errors, no leaks (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 CUDA: eight-seat response gains in GPU mode score one table once, CPU threads count patterns of device-scored chunks, no lock waiting (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 CUDA: fault injection on shared tables (alloc, OOM after N, VRAM pressure, launch, download, mismatch, no primary context, no driver) — identical EVs, correct fallback (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 CUDA lifecycle: one process, many requests — one open and one verification, warm reuse, concurrent jobs, idle release, recovery after cancellation and after a budget refusal (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 CUDA lifecycle: background start-up and idle janitor (unit phase); Automatic opens the device in the background without stalling a table (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 desktop host: EM_GPU_PREWARM opens the device in the background and /api/mw/gpu-status reports the lifecycle (Linux CUDA test double)",
+     "status": "passed"
+    },
+    {
+     "name": "4.3 sanitizers: table43 + coverage43 under ASan+UBSan and TSan; a sanitized mwcli runs shared tables (cpu, gpu, hybrid; EV and 8-seat gains, 8 threads) with no reports (compiler; Linux CUDA test double)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v44.test.js",
+   "seconds": 67.84,
+   "passed": 15,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.4 Windows self-test script compares bit patterns: no re-formatted number comparison remains, references are IEEE 754 patterns, failures do not stop later checks",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 desktop API serves the IEEE 754 probe document character for character as the CLI prints it (native host)",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 coverage units: concurrent set vs std::map reference - 1-16 threads, collisions, repeated observations, key limit, stop mid-run, 4.3 merge agreement (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 sanitizers: coverage44 under ThreadSanitizer and ASan+UBSan with no reports (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 Automatic arm selection units: exploration, the RTX 4060 Ti report timings, slow device, adaptation (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 Automatic on a warm device measures the three arms and keeps results bit-identical whichever arm builds the table; no context errors or leaks (Linux CUDA test double: simulated driver)",
+     "status": "passed"
+    },
+    {
+     "name": "4.4 Automatic never opens CUDA for a single short request and stays on the CPU with no device; device faults in Automatic fall back with identical EVs (Linux CUDA test double)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "v44_postflop.test.js",
+   "seconds": 53.62,
+   "passed": 5,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  },
+  {
+   "file": "v45.test.js",
+   "seconds": 316.44,
+   "passed": 10,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": [
+    {
+     "name": "4.5 coverage budget (unit): the archived 4.4 table allocates 1,425,408 bytes for a 1 MiB allowance; the 4.5 ledger never exceeds the budget (1-32 MiB, 1-16 workers, collisions, cancellation, exhaustion, failed allocation, readers during resizing, repeated jobs) (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.5 coverage budget (unit) under ThreadSanitizer and ASan+UBSan with no reports (compiler)",
+     "status": "passed"
+    },
+    {
+     "name": "4.5 evaluation job pool charges memoryMiB + coverageMiB (4.4 charged memoryMiB only): status shows the charge, an over-pool coverage budget is refused with 413 and creates no job, the pool is released when jobs finish (native host)",
+     "status": "passed"
+    },
+    {
+     "name": "4.5 ICM kernel: the two-lane routine returns the identical bit pattern as the archived 4.4 scalar routine on 240,000 random evaluations (2-8 players, busted players, ties, other tables, short payouts, tiny and huge stacks); also under ASan+UBSan (compiler)",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "file": "wide.test.js",
+   "seconds": 0.65,
+   "passed": 7,
+   "failed": 0,
+   "skipped": 0,
+   "timedOut": 0,
+   "todo": 0,
+   "failures": [],
+   "timeouts": [],
+   "skippedTests": [],
+   "hardware": []
+  }
+ ],
+ "totals": {
+  "passed": 434,
+  "failed": 0,
+  "skipped": 0,
+  "timedOut": 0,
+  "todo": 0,
+  "hardwareDependentRun": 44,
+  "hardwareDependentSkipped": 0
+ }
+}

@@ -1,0 +1,38 @@
+{
+  "baseline": {
+    "EM.handFeatures": 2032,
+    "learn": 1095,
+    "record": 861,
+    "(anonymous)": 648,
+    "(garbage collector)": 600,
+    "cachedState": 377,
+    "probabilities": 336,
+    "add": 319,
+    "seatKey": 255,
+    "buildMultiway": 245,
+    "compileForInternalLoader": 197,
+    "payoff": 150,
+    "iterate": 149,
+    "walk": 149,
+    "advance": 140,
+    "world": 133
+  },
+  "candidate": {
+    "EM.handFeatures": 2155,
+    "learn": 1160,
+    "record": 912,
+    "(anonymous)": 672,
+    "(garbage collector)": 584,
+    "cachedState": 397,
+    "add": 342,
+    "probabilities": 319,
+    "buildMultiway": 275,
+    "seatKey": 257,
+    "compileForInternalLoader": 208,
+    "iterate": 159,
+    "payoff": 152,
+    "walk": 144,
+    "advance": 139,
+    "__require": 128
+  }
+}

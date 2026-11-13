@@ -6,6 +6,12 @@
 #include <math.h>
 #include <stdint.h>
 #include <limits.h>
+/* 4.5: decimal -> double conversion used for every JSON number. Defaults to the C runtime's
+ * strtod; the engine (mw.cpp) installs a correctly rounded, runtime-independent parser
+ * (std::from_chars) at start-up, because the MinGW-w64 runtime's strtod was measured to be one
+ * ULP off for some values just below a power of two (see ieee_probe.hpp, mw_ieee_sweep). */
+double (*json_number_parser)(const char *, char **) = strtod;
+
 
 static int jb_grow(JB *b, size_t extra) {
   if(b->failed)return 0;
@@ -138,7 +144,7 @@ static JV *pval(P *p, int depth) {
   char number[128];size_t length=(size_t)(cur-start);
   if(length>=sizeof number)goto bad_number;
   memcpy(number,start,length);number[length]=0;
-  double value=strtod(number,NULL);if(!isfinite(value))goto bad_number;
+  double value=json_number_parser(number,NULL);if(!isfinite(value))goto bad_number;
   JV *v=newv(p,J_NUM);if(v)v->num=value;p->s=cur;return v;
 bad_number: perr(p,"invalid or out-of-range number");return NULL;
 }

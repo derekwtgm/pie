@@ -1,0 +1,62 @@
+{
+ "mode": "ev",
+ "request": {
+  "path": [],
+  "hands": [
+   0
+  ],
+  "method": "exact",
+  "device": "hybrid",
+  "threads": 8,
+  "timeLimitMs": 600000,
+  "maxVisits": 2000000000,
+  "gpuMiB": 2048
+ },
+ "steps": [
+  {
+   "label": "cold: first evaluation after start-up"
+  },
+  {
+   "label": "warm: second evaluation"
+  },
+  {
+   "label": "ten sequential",
+   "repeat": 10
+  },
+  {
+   "label": "four concurrent",
+   "concurrent": 4,
+   "repeat": 2
+  },
+  {
+   "label": "after 1.5 s idle",
+   "idleMs": 1500
+  },
+  {
+   "label": "cancelled after 5 ms",
+   "cancelAfterMs": 5
+  },
+  {
+   "label": "after cancellation"
+  },
+  {
+   "label": "recoverable refusal (gpuBudgetBytes 4096)",
+   "request": {
+    "path": [],
+    "hands": [
+     0
+    ],
+    "method": "exact",
+    "device": "hybrid",
+    "threads": 8,
+    "timeLimitMs": 600000,
+    "maxVisits": 2000000000,
+    "gpuMiB": 2048,
+    "gpuBudgetBytes": 4096
+   }
+  },
+  {
+   "label": "after the refusal"
+  }
+ ]
+}

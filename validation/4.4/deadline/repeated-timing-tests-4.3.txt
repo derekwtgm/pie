@@ -1,0 +1,13 @@
+run 1 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 2 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 3 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 4 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 5 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 6 v40 on 4.3: not ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 6 v40 on 4.3:   error: '{"path":[],"hands":[3],"range":true,"method":"sampled","samples":2000000} limit 600 took 762.949'
+run 7 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 8 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 9 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 10 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 11 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+run 12 v40 on 4.3: ok 1 - 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts

@@ -1,0 +1,1 @@
+Independent repeat MinGW-w64 builds produced byte-identical PE files.

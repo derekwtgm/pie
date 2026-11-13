@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <stdint.h>
 #include <pthread.h>
 #include <time.h>
@@ -154,7 +155,9 @@ int gpu_init(void) {
   const char *env = getenv("EIGHTMAX_GPU");
   if (env && !strcmp(env, "off")) { snprintf(DESC, sizeof DESC, "turned off (EIGHTMAX_GPU=off)"); return 0; }
   if (env && !strncmp(env, "emu", 3)) return init_emu(env);
-  int want = env ? atoi(env) : -1;
+  /* 4.1: EIGHTMAX_GPU=<device index> parsed with checks (atoi overflow is undefined). */
+  int want = -1;
+  if (env) { char *end = NULL; errno = 0; long w = strtol(env, &end, 10); if (!errno && end != env && !*end && w >= 0 && w < 1024) want = (int)w; }
   void *lib = load_cl();
   if (!lib) { snprintf(DESC, sizeof DESC, "no OpenCL driver found"); return 0; }
 #define LD(n) if (!(*(void **)&CL.n = sym(lib, "cl" #n))) { snprintf(DESC, sizeof DESC, "OpenCL driver lacks cl" #n); return 0; }

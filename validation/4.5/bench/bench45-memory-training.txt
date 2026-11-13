@@ -1,0 +1,21 @@
+coverage  1 MiB 1 thr  4.4: 1587 ms, rss ? MiB, lowerBound 32768, slot bytes 1425408 | 4.5: 1426 ms, rss ? MiB, lowerBound 32768, ledger peak 1045744 of 1048576  ev identical: true
+coverage  1 MiB 4 thr  4.4: 467 ms, rss ? MiB, lowerBound 32768, slot bytes 1425408 | 4.5: 411 ms, rss ? MiB, lowerBound 32768, ledger peak 1045744 of 1048576  ev identical: true
+coverage  2 MiB 1 thr  4.4: 1673 ms, rss ? MiB, lowerBound 65536, slot bytes 3522560 | 4.5: 1434 ms, rss ? MiB, lowerBound 65536, ledger peak 2094336 of 2097152  ev identical: true
+coverage  2 MiB 4 thr  4.4: 452 ms, rss ? MiB, lowerBound 65536, slot bytes 3522560 | 4.5: 415 ms, rss ? MiB, lowerBound 65536, ledger peak 2094336 of 2097152  ev identical: true
+coverage  8 MiB 1 thr  4.4: 1682 ms, rss ? MiB, lowerBound 262144, slot bytes 14008320 | 4.5: 1513 ms, rss ? MiB, lowerBound 262144, ledger peak 8385808 of 8388608  ev identical: true
+coverage  8 MiB 4 thr  4.4: 436 ms, rss ? MiB, lowerBound 262144, slot bytes 14008320 | 4.5: 388 ms, rss ? MiB, lowerBound 262144, ledger peak 8385808 of 8388608  ev identical: true
+coverage 32 MiB 1 thr  4.4: 1759 ms, rss ? MiB, exact 759069, slot bytes 55951360 | 4.5: 1624 ms, rss ? MiB, exact 759069, ledger peak 31978784 of 33554432  ev identical: true
+coverage 32 MiB 4 thr  4.4: 465 ms, rss ? MiB, exact 759069, slot bytes 55951360 | 4.5: 409 ms, rss ? MiB, exact 759069, ledger peak 33551648 of 33554432  ev identical: true
+coverage 64 MiB 1 thr  4.4: 1803 ms, rss ? MiB, exact 759069, slot bytes 89505792 | 4.5: 1542 ms, rss ? MiB, exact 759069, ledger peak 63436064 of 67108864  ev identical: true
+coverage 64 MiB 4 thr  4.4: 482 ms, rss ? MiB, exact 759069, slot bytes 89505792 | 4.5: 412 ms, rss ? MiB, exact 759069, ledger peak 65008928 of 67108864  ev identical: true
+exhaustion 4.4: capped (1 MiB) 404 ms vs uncapped 466 ms
+exhaustion 4.5: capped (1 MiB) 376 ms vs uncapped 411 ms
+train push8       1 thr  4.4: 3.721 s (3.683-4.011) | 4.5: 3.723 s (3.612-3.746)  speed-up 1.000x  state identical: true
+train push8       4 thr  4.4: 3.869 s (3.789-3.923) | 4.5: 3.790 s (3.686-4.028)  speed-up 1.021x  state identical: true
+train bubble4     1 thr  4.4: 0.822 s (0.780-0.959) | 4.5: 0.775 s (0.761-0.861)  speed-up 1.062x  state identical: true
+train bubble4     4 thr  4.4: 0.838 s (0.740-0.846) | 4.5: 0.795 s (0.760-0.903)  speed-up 1.055x  state identical: true
+train linked8     1 thr  4.4: 1.916 s (1.880-2.079) | 4.5: 1.691 s (1.590-1.758)  speed-up 1.133x  state identical: true
+train linked8     4 thr  4.4: 1.959 s (1.826-2.026) | 4.5: 1.641 s (1.524-1.659)  speed-up 1.193x  state identical: true
+train linked8chip 1 thr  4.4: 1.003 s (0.918-1.099) | 4.5: 0.995 s (0.916-1.106)  speed-up 1.008x  state identical: true
+train linked8chip 4 thr  4.4: 1.012 s (0.972-1.043) | 4.5: 1.018 s (0.988-1.042)  speed-up 0.994x  state identical: true
+wrote ../validation/4.5/bench/bench45-memory-training.json

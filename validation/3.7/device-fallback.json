@@ -1,0 +1,80 @@
+{
+  "probe": {
+    "available": false,
+    "reason": "NVIDIA driver library not found",
+    "name": "",
+    "computeCapability": "0.0",
+    "driverVersion": 0,
+    "image": "",
+    "totalMiB": 0,
+    "freeMiB": 0,
+    "reserveMiB": 1024,
+    "defaultBufferCapMiB": 512
+  },
+  "runs": [
+    {
+      "mode": "cpu",
+      "actualPath": "CPU (external sampling traversal; small batch or CPU scoring)",
+      "trainingSeconds": 0.041596,
+      "processWallSeconds": 0.060533537000083015,
+      "peakRssMiB": 13.0,
+      "gpuBufferPeakBytes": 0,
+      "bodySHA256": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+      "counters": {
+        "iterations": 40,
+        "trainingDeals": 2560,
+        "stateVisits": 384936,
+        "rng": 1841728650,
+        "actionRng": 1899539333
+      }
+    },
+    {
+      "mode": "auto",
+      "actualPath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+      "trainingSeconds": 0.038704,
+      "processWallSeconds": 0.057961566999892966,
+      "peakRssMiB": 12.9,
+      "gpuBufferPeakBytes": 0,
+      "bodySHA256": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+      "counters": {
+        "iterations": 40,
+        "trainingDeals": 2560,
+        "stateVisits": 384936,
+        "rng": 1841728650,
+        "actionRng": 1899539333
+      }
+    },
+    {
+      "mode": "gpu",
+      "actualPath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+      "trainingSeconds": 0.035618,
+      "processWallSeconds": 0.05460052399985216,
+      "peakRssMiB": 12.9,
+      "gpuBufferPeakBytes": 0,
+      "bodySHA256": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+      "counters": {
+        "iterations": 40,
+        "trainingDeals": 2560,
+        "stateVisits": 384936,
+        "rng": 1841728650,
+        "actionRng": 1899539333
+      }
+    },
+    {
+      "mode": "hybrid",
+      "actualPath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+      "trainingSeconds": 0.03445,
+      "processWallSeconds": 0.05304941100007454,
+      "peakRssMiB": 12.9,
+      "gpuBufferPeakBytes": 0,
+      "bodySHA256": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+      "counters": {
+        "iterations": 40,
+        "trainingDeals": 2560,
+        "stateVisits": 384936,
+        "rng": 1841728650,
+        "actionRng": 1899539333
+      }
+    }
+  ]
+}

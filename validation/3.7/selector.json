@@ -1,0 +1,87 @@
+{
+  "method": "Each version in its own Node process. Real 60 ms pilots and finite best responses. One observation for each condition.",
+  "3.6": [
+    {
+      "study": "short",
+      "updates": 64,
+      "calls": 6,
+      "pilotDeals": 72724,
+      "wallMs": 392.544944,
+      "reason": "Pilot evidence retained the starting algorithm",
+      "reused": false,
+      "algorithm": "external"
+    },
+    {
+      "study": "single eligible",
+      "updates": 2000,
+      "calls": 3,
+      "pilotDeals": 22408,
+      "wallMs": 185.780642,
+      "reason": "Pilot evidence retained the starting algorithm",
+      "reused": false,
+      "algorithm": "full"
+    },
+    {
+      "study": "cold",
+      "updates": 10000,
+      "calls": 6,
+      "pilotDeals": 87968,
+      "wallMs": 367.3849439999999,
+      "reason": "Pilot evidence retained the starting algorithm",
+      "reused": false,
+      "algorithm": "external"
+    },
+    {
+      "study": "repeat",
+      "updates": 10000,
+      "calls": 6,
+      "pilotDeals": 76200,
+      "wallMs": 366.4729800000001,
+      "reason": "Pilot evidence retained the starting algorithm",
+      "reused": false,
+      "algorithm": "external"
+    }
+  ],
+  "3.7": [
+    {
+      "study": "short",
+      "updates": 64,
+      "calls": 0,
+      "pilotDeals": 0,
+      "wallMs": 0.5389949999999999,
+      "reason": "Short study uses the static accuracy and memory selector to avoid pilot startup",
+      "reused": false,
+      "algorithm": "external"
+    },
+    {
+      "study": "single eligible",
+      "updates": 2000,
+      "calls": 0,
+      "pilotDeals": 0,
+      "wallMs": 17.27657099999999,
+      "reason": "Only one candidate meets the manual settings and resource constraints",
+      "reused": false,
+      "algorithm": "full"
+    },
+    {
+      "study": "cold",
+      "updates": 10000,
+      "calls": 6,
+      "pilotDeals": 59656,
+      "wallMs": 372.356174,
+      "reason": "Pilot evidence retained the starting algorithm",
+      "reused": false,
+      "algorithm": "external"
+    },
+    {
+      "study": "repeat",
+      "updates": 10000,
+      "calls": 0,
+      "pilotDeals": 0,
+      "wallMs": 0.0439869999999587,
+      "reason": "Reused measured calibration for this study and execution configuration",
+      "reused": true,
+      "algorithm": "external"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+== build (UBSan+ASan host and CLI, TSan host and CLI)
+embedded 971218 bytes
+embedded 156428 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ub/eightmax, /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ub/mwcli
+embedded 971218 bytes
+embedded 156428 bytes
+sanitized (thread) host: /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ts/eightmax, /tmp/claude-0/-home-user-pie/3c9a7281-c25f-5c61-af40-fbaf6130beef/scratchpad/san/ts/mwcli
+== v44 (non-timing tests) and v44_postflop against the UBSan+ASan host and CLI
+v44:
+# pass 8
+# fail 0
+# skipped 0
+v44_postflop:
+# pass 5
+# fail 0
+# skipped 0
+== v45 (non-timing tests) against the UBSan+ASan host and CLI
+v45:
+# pass 5
+# fail 0
+# skipped 0
+== ThreadSanitizer mwcli: concurrent coverage set and the stop path, 8 threads
+tsan sampled EV stopped by the time limit ok
+tsan complete sampled EV ok
+tsan cancelled ok
+tsan exact EV (shared tables, concurrent coverage) ok
+tsan exact response gains, eight seats ok
+tsan sampled response gains ok
+tsan sampled EV, 1 MiB coverage budget (growth, key limit, sketches) ok
+tsan sampled EV stopped by the time limit, 2 MiB coverage budget ok
+== coverage45 and icm45 under TSan and ASan+UBSan
+coverage45 tsan ok (38 checks)
+coverage45 asan+ubsan ok (38 checks)
+icm45 asan+ubsan ok: {"suite":"icm45","evaluations":32000,"bitMismatchesAgainst44":0,"cacheHitMismatches":0,"prizeSumErrors":0,"worstRelativePrizeSumError":3.68e-14,"singleStackCheck":true,"sse2":true,"passed":true}
+== coverage44 under TSan and ASan+UBSan
+coverage44 tsan ok (55 checks)
+coverage44 asan+ubsan ok (55 checks)
+== cppcheck
+cppcheck not installed: static analysis skipped
+sanitize44: all passed
+exit status 0

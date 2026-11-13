@@ -1,0 +1,521 @@
+{
+  "updates": 80,
+  "batchDeals": 16,
+  "requestedThreads": 4,
+  "tableLimitMiB": 2048,
+  "runs": [
+    {
+      "version": "3.5",
+      "run": 0,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 64.47999999999999,
+      "processMs": 88.47359700007473,
+      "profile": {
+        "deal": 0.0083,
+        "traverse": 0.0346,
+        "merge": 0.02,
+        "profiledUpdates": 0.0034,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 16.7,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.6",
+      "run": 0,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 50.013000000000005,
+      "processMs": 75.08358699999462,
+      "profile": {
+        "deal": 0.0077,
+        "traverse": 0.0265,
+        "merge": 0.0145,
+        "profiledUpdates": 0.0031,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 16.5,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.4",
+      "run": 0,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 54.760999999999996,
+      "processMs": 79.45208499995715,
+      "profile": {
+        "deal": 0.0083,
+        "traverse": 0.0306,
+        "merge": 0.0149,
+        "profiledUpdates": 0.0038,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.5",
+      "run": 1,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 48.389,
+      "processMs": 69.53268699999171,
+      "profile": {
+        "deal": 0.0073,
+        "traverse": 0.0276,
+        "merge": 0.0126,
+        "profiledUpdates": 0.0032,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.4",
+      "run": 1,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 51.652,
+      "processMs": 76.78393399999095,
+      "profile": {
+        "deal": 0.0078,
+        "traverse": 0.0302,
+        "merge": 0.0127,
+        "profiledUpdates": 0.0031,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.6",
+      "run": 1,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 53.106,
+      "processMs": 75.03543500001797,
+      "profile": {
+        "deal": 0.0079,
+        "traverse": 0.0309,
+        "merge": 0.0129,
+        "profiledUpdates": 0.0035,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.6",
+      "run": 2,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 50.288,
+      "processMs": 73.38249099996119,
+      "profile": {
+        "deal": 0.0073,
+        "traverse": 0.0272,
+        "merge": 0.0149,
+        "profiledUpdates": 0.0039,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.5",
+      "run": 2,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 52.329,
+      "processMs": 74.98670100005711,
+      "profile": {
+        "deal": 0.0077,
+        "traverse": 0.0299,
+        "merge": 0.0133,
+        "profiledUpdates": 0.0044,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.4",
+      "run": 2,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 53.035,
+      "processMs": 78.2385320000003,
+      "profile": {
+        "deal": 0.0083,
+        "traverse": 0.0295,
+        "merge": 0.0143,
+        "profiledUpdates": 0.0034,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.6",
+      "run": 3,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 49.782,
+      "processMs": 72.83398899994609,
+      "profile": {
+        "deal": 0.0074,
+        "traverse": 0.0271,
+        "merge": 0.0136,
+        "profiledUpdates": 0.0029,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.4",
+      "run": 3,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 61.585,
+      "processMs": 86.0624839999673,
+      "profile": {
+        "deal": 0.0082,
+        "traverse": 0.0304,
+        "merge": 0.022,
+        "profiledUpdates": 0.0073,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 17.9,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.5",
+      "run": 3,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 68.413,
+      "processMs": 91.58353899999838,
+      "profile": {
+        "deal": 0.0136,
+        "traverse": 0.0364,
+        "merge": 0.0174,
+        "profiledUpdates": 0.0054,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.5",
+      "run": 4,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 53.096,
+      "processMs": 74.24744600007216,
+      "profile": {
+        "deal": 0.0075,
+        "traverse": 0.0302,
+        "merge": 0.014,
+        "profiledUpdates": 0.0032,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.6",
+      "run": 4,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 51.816,
+      "processMs": 81.5003700000716,
+      "profile": {
+        "deal": 0.0095,
+        "traverse": 0.0277,
+        "merge": 0.0135,
+        "profiledUpdates": 0.0033,
+        "scoreInProfiledUpdates": 0.0002
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.4",
+      "run": 4,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 49.559,
+      "processMs": 70.47671500004071,
+      "profile": {
+        "deal": 0.0073,
+        "traverse": 0.0284,
+        "merge": 0.0129,
+        "profiledUpdates": 0.0034,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.5",
+      "run": 5,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 59.113,
+      "processMs": 79.94580100000803,
+      "profile": {
+        "deal": 0.0074,
+        "traverse": 0.0356,
+        "merge": 0.0145,
+        "profiledUpdates": 0.0041,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.4",
+      "run": 5,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 51.811,
+      "processMs": 72.7197820000356,
+      "profile": {
+        "deal": 0.0072,
+        "traverse": 0.0312,
+        "merge": 0.0125,
+        "profiledUpdates": 0.0033,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.6",
+      "run": 5,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 48.126000000000005,
+      "processMs": 72.33663799991064,
+      "profile": {
+        "deal": 0.007,
+        "traverse": 0.0266,
+        "merge": 0.0128,
+        "profiledUpdates": 0.0029,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.5",
+      "run": 6,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 49.946,
+      "processMs": 77.66719500000363,
+      "profile": {
+        "deal": 0.0077,
+        "traverse": 0.0275,
+        "merge": 0.0133,
+        "profiledUpdates": 0.003,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.6",
+      "run": 6,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 52.025,
+      "processMs": 73.56978400002845,
+      "profile": {
+        "deal": 0.0084,
+        "traverse": 0.0289,
+        "merge": 0.0135,
+        "profiledUpdates": 0.003,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.4",
+      "run": 6,
+      "seed": 1,
+      "specSHA": "63ed994ef5fb84bb5bc85eeb554c485d4f4386f4b8a002d3896a6c17d8a08099",
+      "trainingMs": 50.884,
+      "processMs": 72.97043400001257,
+      "profile": {
+        "deal": 0.008,
+        "traverse": 0.0281,
+        "merge": 0.0138,
+        "profiledUpdates": 0.0033,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 388783,
+      "stateSHA": "c3869ec38034d2b3271f1db230424d3e16a84921d9c4c64fed073f58d9ec857e"
+    },
+    {
+      "version": "3.6",
+      "run": 7,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 52.031,
+      "processMs": 75.1696700000366,
+      "profile": {
+        "deal": 0.0075,
+        "traverse": 0.0289,
+        "merge": 0.0135,
+        "profiledUpdates": 0.0031,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.5",
+      "run": 7,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 50.302,
+      "processMs": 71.86855600002673,
+      "profile": {
+        "deal": 0.0076,
+        "traverse": 0.0284,
+        "merge": 0.0129,
+        "profiledUpdates": 0.0028,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.4",
+      "run": 7,
+      "seed": 2,
+      "specSHA": "abb25a76ae5cdbaa53948c3fe0f0404aaebc67493a320a2f699e39daf4bf61df",
+      "trainingMs": 59.924,
+      "processMs": 81.64563799994085,
+      "profile": {
+        "deal": 0.0085,
+        "traverse": 0.0344,
+        "merge": 0.0157,
+        "profiledUpdates": 0.0039,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 389754,
+      "stateSHA": "01a0fcab1667ec21cac62f5ddbbabfc6ba0ae53efa0c60141fd18f17598f9c5d"
+    },
+    {
+      "version": "3.4",
+      "run": 8,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 56.711,
+      "processMs": 81.979869999941,
+      "profile": {
+        "deal": 0.0074,
+        "traverse": 0.0325,
+        "merge": 0.0159,
+        "profiledUpdates": 0.003,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.5",
+      "run": 8,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 64.876,
+      "processMs": 91.04604100002689,
+      "profile": {
+        "deal": 0.008,
+        "traverse": 0.0362,
+        "merge": 0.0196,
+        "profiledUpdates": 0.0036,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    },
+    {
+      "version": "3.6",
+      "run": 8,
+      "seed": 3,
+      "specSHA": "70cb4b068b08abdb35543571fcd2fe38c5a53314ac7ac722a3e631532a31625e",
+      "trainingMs": 49.948,
+      "processMs": 75.98515999995925,
+      "profile": {
+        "deal": 0.0074,
+        "traverse": 0.0269,
+        "merge": 0.0134,
+        "profiledUpdates": 0.003,
+        "scoreInProfiledUpdates": 0.0
+      },
+      "rssMiB": 20.3,
+      "threads": 4,
+      "visits": 385695,
+      "stateSHA": "78f9ba8a356315bd39211e7e73d4a6d5ed376e7ce1ade7250178ce16749d8ff8"
+    }
+  ]
+}

@@ -1,0 +1,5459 @@
+{
+ "generated": "2026-11-12T22:34:21.858Z",
+ "cpus": 4,
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "query": {
+  "path": [],
+  "hands": [
+   3
+  ],
+  "range": true,
+  "method": "sampled",
+  "samples": 2000000
+ },
+ "reps": 8,
+ "summary": [
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 3.971,
+   "medianOverrunMs": 4.215,
+   "p90OverrunMs": 5.987,
+   "maxOverrunMs": 5.987
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 4.628,
+   "medianOverrunMs": 5.596,
+   "p90OverrunMs": 7.458,
+   "maxOverrunMs": 7.458
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 4.678,
+   "medianOverrunMs": 5.228,
+   "p90OverrunMs": 5.935,
+   "maxOverrunMs": 5.935
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 4.862,
+   "medianOverrunMs": 5.146,
+   "p90OverrunMs": 5.594,
+   "maxOverrunMs": 5.594
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 4.492,
+   "medianOverrunMs": 5.483,
+   "p90OverrunMs": 7.595,
+   "maxOverrunMs": 7.595
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 4.767,
+   "medianOverrunMs": 5.104,
+   "p90OverrunMs": 7.359,
+   "maxOverrunMs": 7.359
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 5.25,
+   "medianOverrunMs": 5.543,
+   "p90OverrunMs": 6.882,
+   "maxOverrunMs": 6.882
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 5.455,
+   "medianOverrunMs": 5.789,
+   "p90OverrunMs": 6.985,
+   "maxOverrunMs": 6.985
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 4.347,
+   "medianOverrunMs": 4.705,
+   "p90OverrunMs": 7.241,
+   "maxOverrunMs": 7.241
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 7.235,
+   "medianOverrunMs": 8.146,
+   "p90OverrunMs": 8.925,
+   "maxOverrunMs": 8.925
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 7.992,
+   "medianOverrunMs": 9.308,
+   "p90OverrunMs": 14.22,
+   "maxOverrunMs": 14.22
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 7.598,
+   "medianOverrunMs": 8.213,
+   "p90OverrunMs": 9.316,
+   "maxOverrunMs": 9.316
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 4.636,
+   "medianOverrunMs": 5.119,
+   "p90OverrunMs": 44.06,
+   "maxOverrunMs": 44.06
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 8.248,
+   "medianOverrunMs": 9.113,
+   "p90OverrunMs": 11.583,
+   "maxOverrunMs": 11.583
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 8.131,
+   "medianOverrunMs": 9.967,
+   "p90OverrunMs": 12.478,
+   "maxOverrunMs": 12.478
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 8.257,
+   "medianOverrunMs": 8.909,
+   "p90OverrunMs": 10.734,
+   "maxOverrunMs": 10.734
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 3.807,
+   "medianOverrunMs": 4.132,
+   "p90OverrunMs": 5.794,
+   "maxOverrunMs": 5.794
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 6.237,
+   "medianOverrunMs": 8.843,
+   "p90OverrunMs": 10.474,
+   "maxOverrunMs": 10.474
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 6.678,
+   "medianOverrunMs": 7.081,
+   "p90OverrunMs": 11.458,
+   "maxOverrunMs": 11.458
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 7.146,
+   "medianOverrunMs": 7.499,
+   "p90OverrunMs": 7.871,
+   "maxOverrunMs": 7.871
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 6.374,
+   "medianOverrunMs": 6.733,
+   "p90OverrunMs": 8.077,
+   "maxOverrunMs": 8.077
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 6.111,
+   "medianOverrunMs": 6.969,
+   "p90OverrunMs": 7.691,
+   "maxOverrunMs": 7.691
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 7.167,
+   "medianOverrunMs": 7.988,
+   "p90OverrunMs": 11.099,
+   "maxOverrunMs": 11.099
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 6.852,
+   "medianOverrunMs": 7.578,
+   "p90OverrunMs": 8.451,
+   "maxOverrunMs": 8.451
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 6.417,
+   "medianOverrunMs": 6.92,
+   "p90OverrunMs": 9.514,
+   "maxOverrunMs": 9.514
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 6.455,
+   "medianOverrunMs": 7.298,
+   "p90OverrunMs": 7.701,
+   "maxOverrunMs": 7.701
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 6.935,
+   "medianOverrunMs": 7.539,
+   "p90OverrunMs": 10.733,
+   "maxOverrunMs": 10.733
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 6.843,
+   "medianOverrunMs": 7.478,
+   "p90OverrunMs": 7.889,
+   "maxOverrunMs": 7.889
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "n": 8,
+   "minOverrunMs": 5.848,
+   "medianOverrunMs": 6.615,
+   "p90OverrunMs": 7.01,
+   "maxOverrunMs": 7.01
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "n": 8,
+   "minOverrunMs": 6.226,
+   "medianOverrunMs": 7.038,
+   "p90OverrunMs": 7.707,
+   "maxOverrunMs": 7.707
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "n": 8,
+   "minOverrunMs": 7.407,
+   "medianOverrunMs": 7.831,
+   "p90OverrunMs": 10.811,
+   "maxOverrunMs": 10.811
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "n": 8,
+   "minOverrunMs": 7.128,
+   "medianOverrunMs": 8.21,
+   "p90OverrunMs": 9.289,
+   "maxOverrunMs": 9.289
+  }
+ ],
+ "rows": [
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 103.971,
+   "overrunMs": 3.971,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.857,
+   "checks": 361,
+   "phases": {
+    "workBegin": 0.333601,
+    "stopRaised": 100.156109,
+    "workEnd": 103.661481,
+    "statistics": 103.661573,
+    "coverageMerged": 103.662751,
+    "responseBuilt": 103.739
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 103.807,
+   "overrunMs": 3.807,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.723,
+   "checks": 424,
+   "phases": {
+    "workBegin": 0.376132,
+    "stopRaised": 100.008765,
+    "workEnd": 103.479824,
+    "statistics": 103.479908,
+    "coverageMerged": 103.481336,
+    "responseBuilt": 103.558
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 106.377,
+   "overrunMs": 6.377,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.2,
+   "checks": 630,
+   "phases": {
+    "workBegin": 0.399267,
+    "stopRaised": 100.056813,
+    "workEnd": 105.020551,
+    "statistics": 105.020837,
+    "coverageMerged": 105.021834,
+    "responseBuilt": 105.128
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 110.474,
+   "overrunMs": 10.474,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.72,
+   "checks": 785,
+   "phases": {
+    "workBegin": 0.318069,
+    "stopRaised": 103.720466,
+    "workEnd": 107.613445,
+    "statistics": 107.613509,
+    "coverageMerged": 107.615064,
+    "responseBuilt": 107.683
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 105.302,
+   "overrunMs": 5.302,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.23,
+   "checks": 1611,
+   "phases": {
+    "workBegin": 0.338866,
+    "stopRaised": 100.023954,
+    "workEnd": 103.842887,
+    "statistics": 103.842951,
+    "coverageMerged": 103.84384,
+    "responseBuilt": 103.916
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 106.678,
+   "overrunMs": 6.678,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 25.603,
+   "checks": 1628,
+   "phases": {
+    "workBegin": 0.274697,
+    "stopRaised": 100.006485,
+    "workEnd": 103.653245,
+    "statistics": 103.653325,
+    "coverageMerged": 103.655081,
+    "responseBuilt": 103.727
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 105.101,
+   "overrunMs": 5.101,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.292,
+   "checks": 1504,
+   "phases": {
+    "workBegin": 0.33114,
+    "stopRaised": 100.092704,
+    "workEnd": 103.977063,
+    "statistics": 103.977234,
+    "coverageMerged": 103.978189,
+    "responseBuilt": 104.074
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 107.378,
+   "overrunMs": 7.378,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 40.21,
+   "checks": 1484,
+   "phases": {
+    "workBegin": 0.331988,
+    "stopRaised": 100.144325,
+    "workEnd": 103.695127,
+    "statistics": 103.695294,
+    "coverageMerged": 103.696502,
+    "responseBuilt": 103.768
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 255.483,
+   "overrunMs": 5.483,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.208,
+   "checks": 859,
+   "phases": {
+    "workBegin": 0.382759,
+    "stopRaised": 250.200212,
+    "workEnd": 254.124708,
+    "statistics": 254.124934,
+    "coverageMerged": 254.126371,
+    "responseBuilt": 254.234
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 256.436,
+   "overrunMs": 6.436,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.129,
+   "checks": 891,
+   "phases": {
+    "workBegin": 0.359977,
+    "stopRaised": 250.142558,
+    "workEnd": 253.458709,
+    "statistics": 253.458872,
+    "coverageMerged": 253.460687,
+    "responseBuilt": 253.537
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 255.68,
+   "overrunMs": 5.68,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.36,
+   "checks": 1936,
+   "phases": {
+    "workBegin": 0.516465,
+    "stopRaised": 250.190037,
+    "workEnd": 254.154043,
+    "statistics": 254.154342,
+    "coverageMerged": 254.15528,
+    "responseBuilt": 254.234
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 257.691,
+   "overrunMs": 7.691,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.549,
+   "checks": 1990,
+   "phases": {
+    "workBegin": 0.34344,
+    "stopRaised": 250.11343,
+    "workEnd": 254.612756,
+    "statistics": 254.612919,
+    "coverageMerged": 254.614388,
+    "responseBuilt": 254.695
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 255.325,
+   "overrunMs": 5.325,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.646,
+   "checks": 4383,
+   "phases": {
+    "workBegin": 0.5545,
+    "stopRaised": 250.007622,
+    "workEnd": 253.704804,
+    "statistics": 253.704935,
+    "coverageMerged": 253.705969,
+    "responseBuilt": 253.786
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 257.167,
+   "overrunMs": 7.167,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.633,
+   "checks": 4402,
+   "phases": {
+    "workBegin": 0.345637,
+    "stopRaised": 250.052636,
+    "workEnd": 253.978624,
+    "statistics": 253.978715,
+    "coverageMerged": 253.979982,
+    "responseBuilt": 254.057
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 255.594,
+   "overrunMs": 5.594,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.596,
+   "checks": 4025,
+   "phases": {
+    "workBegin": 0.378515,
+    "stopRaised": 250.012394,
+    "workEnd": 253.882548,
+    "statistics": 253.882619,
+    "coverageMerged": 253.883688,
+    "responseBuilt": 253.958
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 257.888,
+   "overrunMs": 7.888,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 30.648,
+   "checks": 4169,
+   "phases": {
+    "workBegin": 0.356381,
+    "stopRaised": 250.017667,
+    "workEnd": 254.267308,
+    "statistics": 254.267488,
+    "coverageMerged": 254.26903,
+    "responseBuilt": 254.347
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 604.671,
+   "overrunMs": 4.671,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.076,
+   "checks": 2412,
+   "phases": {
+    "workBegin": 0.362782,
+    "stopRaised": 600.085413,
+    "workEnd": 603.498715,
+    "statistics": 603.498877,
+    "coverageMerged": 603.499687,
+    "responseBuilt": 603.572
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 606.92,
+   "overrunMs": 6.92,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.292,
+   "checks": 2525,
+   "phases": {
+    "workBegin": 0.326332,
+    "stopRaised": 600.105666,
+    "workEnd": 603.772567,
+    "statistics": 603.772629,
+    "coverageMerged": 603.774342,
+    "responseBuilt": 603.852
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 608.925,
+   "overrunMs": 8.925,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.375,
+   "checks": 4581,
+   "phases": {
+    "workBegin": 0.359252,
+    "stopRaised": 600.046028,
+    "workEnd": 603.772449,
+    "statistics": 603.772548,
+    "coverageMerged": 603.773563,
+    "responseBuilt": 603.85
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 607.57,
+   "overrunMs": 7.57,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.963,
+   "checks": 5362,
+   "phases": {
+    "workBegin": 0.412676,
+    "stopRaised": 600.123834,
+    "workEnd": 603.974722,
+    "statistics": 603.974786,
+    "coverageMerged": 603.9761,
+    "responseBuilt": 604.051
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 608.161,
+   "overrunMs": 8.161,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.224,
+   "checks": 9878,
+   "phases": {
+    "workBegin": 0.362405,
+    "stopRaised": 600.015245,
+    "workEnd": 603.761682,
+    "statistics": 603.762085,
+    "coverageMerged": 603.763005,
+    "responseBuilt": 603.841
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 607.617,
+   "overrunMs": 7.617,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.745,
+   "checks": 11640,
+   "phases": {
+    "workBegin": 0.34221,
+    "stopRaised": 600.028009,
+    "workEnd": 604.103449,
+    "statistics": 604.103602,
+    "coverageMerged": 604.104912,
+    "responseBuilt": 604.183
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 607.737,
+   "overrunMs": 7.737,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.604,
+   "checks": 10142,
+   "phases": {
+    "workBegin": 0.340082,
+    "stopRaised": 600.007479,
+    "workEnd": 603.674584,
+    "statistics": 603.674658,
+    "coverageMerged": 603.675654,
+    "responseBuilt": 603.749
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 607.332,
+   "overrunMs": 7.332,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.442,
+   "checks": 12153,
+   "phases": {
+    "workBegin": 0.425773,
+    "stopRaised": 600.025445,
+    "workEnd": 604.048911,
+    "statistics": 604.049101,
+    "coverageMerged": 604.050776,
+    "responseBuilt": 604.129
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 1044.06,
+   "overrunMs": 44.06,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.294,
+   "checks": 4420,
+   "phases": {
+    "workBegin": 0.341457,
+    "stopRaised": 1036.280643,
+    "workEnd": 1039.76464,
+    "statistics": 1039.764727,
+    "coverageMerged": 1039.765813,
+    "responseBuilt": 1039.841
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 1005.848,
+   "overrunMs": 5.848,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.287,
+   "checks": 4893,
+   "phases": {
+    "workBegin": 0.316182,
+    "stopRaised": 1000.069248,
+    "workEnd": 1003.212035,
+    "statistics": 1003.212099,
+    "coverageMerged": 1003.213692,
+    "responseBuilt": 1003.283
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 1008.846,
+   "overrunMs": 8.846,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.444,
+   "checks": 8336,
+   "phases": {
+    "workBegin": 0.364682,
+    "stopRaised": 1000.095732,
+    "workEnd": 1004.423144,
+    "statistics": 1004.423318,
+    "coverageMerged": 1004.424095,
+    "responseBuilt": 1004.501
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 0,
+   "queryMs": 1006.623,
+   "overrunMs": 6.623,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.923,
+   "checks": 9832,
+   "phases": {
+    "workBegin": 0.348857,
+    "stopRaised": 1000.139949,
+    "workEnd": 1003.516644,
+    "statistics": 1003.516774,
+    "coverageMerged": 1003.51798,
+    "responseBuilt": 1003.589
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 1009.339,
+   "overrunMs": 9.339,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.207,
+   "checks": 17177,
+   "phases": {
+    "workBegin": 0.445524,
+    "stopRaised": 1000.063362,
+    "workEnd": 1004.276467,
+    "statistics": 1004.276702,
+    "coverageMerged": 1004.277822,
+    "responseBuilt": 1004.369
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 1007.831,
+   "overrunMs": 7.831,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.939,
+   "checks": 19073,
+   "phases": {
+    "workBegin": 0.334884,
+    "stopRaised": 1000.040525,
+    "workEnd": 1004.190048,
+    "statistics": 1004.190336,
+    "coverageMerged": 1004.192068,
+    "responseBuilt": 1004.276
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 1008.257,
+   "overrunMs": 8.257,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.377,
+   "checks": 17568,
+   "phases": {
+    "workBegin": 0.360863,
+    "stopRaised": 1000.074844,
+    "workEnd": 1003.958986,
+    "statistics": 1003.959066,
+    "coverageMerged": 1003.960334,
+    "responseBuilt": 1004.037
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 0,
+   "queryMs": 1007.288,
+   "overrunMs": 7.288,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.553,
+   "checks": 20433,
+   "phases": {
+    "workBegin": 0.364287,
+    "stopRaised": 1000.044491,
+    "workEnd": 1003.907055,
+    "statistics": 1003.907138,
+    "coverageMerged": 1003.908488,
+    "responseBuilt": 1003.985
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 103.97,
+   "overrunMs": 3.97,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.175,
+   "checks": 441,
+   "phases": {
+    "workBegin": 0.343728,
+    "stopRaised": 100.034607,
+    "workEnd": 103.641368,
+    "statistics": 103.641475,
+    "coverageMerged": 103.642893,
+    "responseBuilt": 103.731
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 104.155,
+   "overrunMs": 4.155,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 5.255,
+   "checks": 329,
+   "phases": {
+    "workBegin": 0.359764,
+    "stopRaised": 100.139996,
+    "workEnd": 103.815017,
+    "statistics": 103.81509,
+    "coverageMerged": 103.816025,
+    "responseBuilt": 103.914
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 106.257,
+   "overrunMs": 6.257,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 18.341,
+   "checks": 742,
+   "phases": {
+    "workBegin": 0.489567,
+    "stopRaised": 100.062895,
+    "workEnd": 105.790432,
+    "statistics": 105.790497,
+    "coverageMerged": 105.791862,
+    "responseBuilt": 105.873
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 104.628,
+   "overrunMs": 4.628,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.154,
+   "checks": 741,
+   "phases": {
+    "workBegin": 0.36661,
+    "stopRaised": 100.042666,
+    "workEnd": 103.675386,
+    "statistics": 103.675555,
+    "coverageMerged": 103.676644,
+    "responseBuilt": 103.774
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 107.191,
+   "overrunMs": 7.191,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 35.406,
+   "checks": 1498,
+   "phases": {
+    "workBegin": 0.338309,
+    "stopRaised": 100.009274,
+    "workEnd": 104.320265,
+    "statistics": 104.320326,
+    "coverageMerged": 104.32193,
+    "responseBuilt": 104.394
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 105.223,
+   "overrunMs": 5.223,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.225,
+   "checks": 1651,
+   "phases": {
+    "workBegin": 0.352095,
+    "stopRaised": 100.004662,
+    "workEnd": 103.802254,
+    "statistics": 103.802325,
+    "coverageMerged": 103.80317,
+    "responseBuilt": 103.907
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 107.589,
+   "overrunMs": 7.589,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.84,
+   "checks": 1710,
+   "phases": {
+    "workBegin": 0.32143,
+    "stopRaised": 100.042503,
+    "workEnd": 103.818701,
+    "statistics": 103.818772,
+    "coverageMerged": 103.819996,
+    "responseBuilt": 103.897
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 105.076,
+   "overrunMs": 5.076,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.261,
+   "checks": 1517,
+   "phases": {
+    "workBegin": 0.310572,
+    "stopRaised": 100.022574,
+    "workEnd": 103.726892,
+    "statistics": 103.727054,
+    "coverageMerged": 103.727941,
+    "responseBuilt": 103.801
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 256.46,
+   "overrunMs": 6.46,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 25.808,
+   "checks": 1048,
+   "phases": {
+    "workBegin": 0.328374,
+    "stopRaised": 250.153506,
+    "workEnd": 253.683818,
+    "statistics": 253.683888,
+    "coverageMerged": 253.685756,
+    "responseBuilt": 253.762
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 254.492,
+   "overrunMs": 4.492,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.56,
+   "checks": 981,
+   "phases": {
+    "workBegin": 0.360778,
+    "stopRaised": 250.148117,
+    "workEnd": 253.653271,
+    "statistics": 253.653332,
+    "coverageMerged": 253.654292,
+    "responseBuilt": 253.734
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 257.301,
+   "overrunMs": 7.301,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.606,
+   "checks": 1993,
+   "phases": {
+    "workBegin": 0.330995,
+    "stopRaised": 250.07226,
+    "workEnd": 254.311242,
+    "statistics": 254.311446,
+    "coverageMerged": 254.312988,
+    "responseBuilt": 254.39
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 255.076,
+   "overrunMs": 5.076,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.88,
+   "checks": 2187,
+   "phases": {
+    "workBegin": 0.376152,
+    "stopRaised": 250.013186,
+    "workEnd": 253.710011,
+    "statistics": 253.710083,
+    "coverageMerged": 253.710973,
+    "responseBuilt": 253.784
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 258.672,
+   "overrunMs": 8.672,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.17,
+   "checks": 4534,
+   "phases": {
+    "workBegin": 0.337485,
+    "stopRaised": 250.017259,
+    "workEnd": 255.542258,
+    "statistics": 255.54243,
+    "coverageMerged": 255.544031,
+    "responseBuilt": 255.618
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 255.25,
+   "overrunMs": 5.25,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.675,
+   "checks": 4418,
+   "phases": {
+    "workBegin": 0.323831,
+    "stopRaised": 250.015032,
+    "workEnd": 253.899476,
+    "statistics": 253.899639,
+    "coverageMerged": 253.900558,
+    "responseBuilt": 253.974
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 256.852,
+   "overrunMs": 6.852,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.084,
+   "checks": 4528,
+   "phases": {
+    "workBegin": 0.324703,
+    "stopRaised": 250.011696,
+    "workEnd": 253.800284,
+    "statistics": 253.800362,
+    "coverageMerged": 253.801864,
+    "responseBuilt": 253.875
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 256.985,
+   "overrunMs": 6.985,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.52,
+   "checks": 4354,
+   "phases": {
+    "workBegin": 0.33679,
+    "stopRaised": 250.063399,
+    "workEnd": 254.506156,
+    "statistics": 254.506353,
+    "coverageMerged": 254.507567,
+    "responseBuilt": 254.621
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 606.996,
+   "overrunMs": 6.996,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 25.745,
+   "checks": 2879,
+   "phases": {
+    "workBegin": 0.462568,
+    "stopRaised": 600.198818,
+    "workEnd": 603.881814,
+    "statistics": 603.881886,
+    "coverageMerged": 603.884244,
+    "responseBuilt": 603.959
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 607.241,
+   "overrunMs": 7.241,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.899,
+   "checks": 2246,
+   "phases": {
+    "workBegin": 0.338864,
+    "stopRaised": 600.143979,
+    "workEnd": 605.397319,
+    "statistics": 605.397616,
+    "coverageMerged": 605.399194,
+    "responseBuilt": 605.517
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 606.455,
+   "overrunMs": 6.455,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.604,
+   "checks": 6036,
+   "phases": {
+    "workBegin": 0.482944,
+    "stopRaised": 600.01345,
+    "workEnd": 603.369607,
+    "statistics": 603.369693,
+    "coverageMerged": 603.370875,
+    "responseBuilt": 603.443
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 607.235,
+   "overrunMs": 7.235,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.765,
+   "checks": 5307,
+   "phases": {
+    "workBegin": 0.333923,
+    "stopRaised": 600.066293,
+    "workEnd": 603.387778,
+    "statistics": 603.387867,
+    "coverageMerged": 603.388989,
+    "responseBuilt": 603.46
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 607.539,
+   "overrunMs": 7.539,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.991,
+   "checks": 11686,
+   "phases": {
+    "workBegin": 0.334254,
+    "stopRaised": 600.033126,
+    "workEnd": 603.909785,
+    "statistics": 603.909898,
+    "coverageMerged": 603.911517,
+    "responseBuilt": 603.987
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 607.992,
+   "overrunMs": 7.992,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.028,
+   "checks": 10241,
+   "phases": {
+    "workBegin": 0.385324,
+    "stopRaised": 600.067141,
+    "workEnd": 603.68628,
+    "statistics": 603.686375,
+    "coverageMerged": 603.687285,
+    "responseBuilt": 603.765
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 607.404,
+   "overrunMs": 7.404,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.254,
+   "checks": 11871,
+   "phases": {
+    "workBegin": 0.321535,
+    "stopRaised": 600.07602,
+    "workEnd": 603.711523,
+    "statistics": 603.711611,
+    "coverageMerged": 603.713107,
+    "responseBuilt": 603.787
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 608.28,
+   "overrunMs": 8.28,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.678,
+   "checks": 10198,
+   "phases": {
+    "workBegin": 0.34971,
+    "stopRaised": 600.065538,
+    "workEnd": 603.640006,
+    "statistics": 603.640202,
+    "coverageMerged": 603.641276,
+    "responseBuilt": 603.727
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 1006.456,
+   "overrunMs": 6.456,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 33.049,
+   "checks": 4417,
+   "phases": {
+    "workBegin": 0.320638,
+    "stopRaised": 1000.082705,
+    "workEnd": 1003.65948,
+    "statistics": 1003.659579,
+    "coverageMerged": 1003.661095,
+    "responseBuilt": 1003.738
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 1004.781,
+   "overrunMs": 4.781,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 12.11,
+   "checks": 3950,
+   "phases": {
+    "workBegin": 0.36085,
+    "stopRaised": 1000.159553,
+    "workEnd": 1003.596884,
+    "statistics": 1003.596957,
+    "coverageMerged": 1003.59787,
+    "responseBuilt": 1003.677
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 1007.038,
+   "overrunMs": 7.038,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.017,
+   "checks": 9112,
+   "phases": {
+    "workBegin": 0.377726,
+    "stopRaised": 1000.109461,
+    "workEnd": 1003.786655,
+    "statistics": 1003.786837,
+    "coverageMerged": 1003.788729,
+    "responseBuilt": 1003.871
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 1,
+   "queryMs": 1008.797,
+   "overrunMs": 8.797,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.004,
+   "checks": 7716,
+   "phases": {
+    "workBegin": 0.369706,
+    "stopRaised": 1000.010666,
+    "workEnd": 1003.843078,
+    "statistics": 1003.843365,
+    "coverageMerged": 1003.844294,
+    "responseBuilt": 1003.922
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 1010.811,
+   "overrunMs": 10.811,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.383,
+   "checks": 18374,
+   "phases": {
+    "workBegin": 0.324837,
+    "stopRaised": 1000.001212,
+    "workEnd": 1005.252112,
+    "statistics": 1005.252477,
+    "coverageMerged": 1005.254192,
+    "responseBuilt": 1005.366
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 1008.131,
+   "overrunMs": 8.131,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.403,
+   "checks": 16269,
+   "phases": {
+    "workBegin": 0.43117,
+    "stopRaised": 1000.040018,
+    "workEnd": 1003.742558,
+    "statistics": 1003.742628,
+    "coverageMerged": 1003.743493,
+    "responseBuilt": 1003.821
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 1007.857,
+   "overrunMs": 7.857,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 31.628,
+   "checks": 18498,
+   "phases": {
+    "workBegin": 0.486956,
+    "stopRaised": 1000.009572,
+    "workEnd": 1004.234593,
+    "statistics": 1004.234672,
+    "coverageMerged": 1004.236123,
+    "responseBuilt": 1004.315
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 1,
+   "queryMs": 1008.589,
+   "overrunMs": 8.589,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.748,
+   "checks": 16476,
+   "phases": {
+    "workBegin": 0.377497,
+    "stopRaised": 1000.048628,
+    "workEnd": 1003.821757,
+    "statistics": 1003.821915,
+    "coverageMerged": 1003.822927,
+    "responseBuilt": 1003.901
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 104.215,
+   "overrunMs": 4.215,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 6.659,
+   "checks": 329,
+   "phases": {
+    "workBegin": 0.548682,
+    "stopRaised": 100.163132,
+    "workEnd": 103.896528,
+    "statistics": 103.896599,
+    "coverageMerged": 103.897637,
+    "responseBuilt": 103.981
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 104.292,
+   "overrunMs": 4.292,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 5.044,
+   "checks": 385,
+   "phases": {
+    "workBegin": 0.362659,
+    "stopRaised": 100.100839,
+    "workEnd": 103.89886,
+    "statistics": 103.898984,
+    "coverageMerged": 103.900488,
+    "responseBuilt": 104.012
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 105.587,
+   "overrunMs": 5.587,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.456,
+   "checks": 726,
+   "phases": {
+    "workBegin": 0.349867,
+    "stopRaised": 100.119945,
+    "workEnd": 103.908833,
+    "statistics": 103.908965,
+    "coverageMerged": 103.90977,
+    "responseBuilt": 103.985
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 109.545,
+   "overrunMs": 9.545,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.073,
+   "checks": 567,
+   "phases": {
+    "workBegin": 0.320083,
+    "stopRaised": 101.865054,
+    "workEnd": 106.123205,
+    "statistics": 106.123269,
+    "coverageMerged": 106.124892,
+    "responseBuilt": 106.205
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 105.091,
+   "overrunMs": 5.091,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.397,
+   "checks": 1508,
+   "phases": {
+    "workBegin": 0.382789,
+    "stopRaised": 100.011266,
+    "workEnd": 103.841935,
+    "statistics": 103.842017,
+    "coverageMerged": 103.842998,
+    "responseBuilt": 103.917
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 107.014,
+   "overrunMs": 7.014,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 35.231,
+   "checks": 1381,
+   "phases": {
+    "workBegin": 0.388972,
+    "stopRaised": 100.102324,
+    "workEnd": 103.920091,
+    "statistics": 103.92029,
+    "coverageMerged": 103.921527,
+    "responseBuilt": 103.995
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 105.146,
+   "overrunMs": 5.146,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.404,
+   "checks": 1574,
+   "phases": {
+    "workBegin": 0.363585,
+    "stopRaised": 100.043925,
+    "workEnd": 103.904518,
+    "statistics": 103.904586,
+    "coverageMerged": 103.905594,
+    "responseBuilt": 103.987
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 107.56,
+   "overrunMs": 7.56,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.766,
+   "checks": 1415,
+   "phases": {
+    "workBegin": 0.355378,
+    "stopRaised": 100.002387,
+    "workEnd": 104.01027,
+    "statistics": 104.010438,
+    "coverageMerged": 104.011729,
+    "responseBuilt": 104.124
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 256.572,
+   "overrunMs": 6.572,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.141,
+   "checks": 895,
+   "phases": {
+    "workBegin": 0.376927,
+    "stopRaised": 250.283605,
+    "workEnd": 255.232758,
+    "statistics": 255.232976,
+    "coverageMerged": 255.234012,
+    "responseBuilt": 255.37
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 256.374,
+   "overrunMs": 6.374,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.815,
+   "checks": 984,
+   "phases": {
+    "workBegin": 0.333843,
+    "stopRaised": 250.03209,
+    "workEnd": 253.474938,
+    "statistics": 253.475009,
+    "coverageMerged": 253.476647,
+    "responseBuilt": 253.554
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 255.104,
+   "overrunMs": 5.104,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.629,
+   "checks": 1842,
+   "phases": {
+    "workBegin": 0.59677,
+    "stopRaised": 250.003787,
+    "workEnd": 253.811581,
+    "statistics": 253.811646,
+    "coverageMerged": 253.812508,
+    "responseBuilt": 253.887
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 257.474,
+   "overrunMs": 7.474,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.674,
+   "checks": 1931,
+   "phases": {
+    "workBegin": 0.360903,
+    "stopRaised": 250.05322,
+    "workEnd": 254.013193,
+    "statistics": 254.01334,
+    "coverageMerged": 254.014613,
+    "responseBuilt": 254.089
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 255.341,
+   "overrunMs": 5.341,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.497,
+   "checks": 3993,
+   "phases": {
+    "workBegin": 0.352099,
+    "stopRaised": 250.079732,
+    "workEnd": 253.851632,
+    "statistics": 253.851768,
+    "coverageMerged": 253.852632,
+    "responseBuilt": 253.934
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 257.988,
+   "overrunMs": 7.988,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.43,
+   "checks": 3958,
+   "phases": {
+    "workBegin": 0.362744,
+    "stopRaised": 250.100115,
+    "workEnd": 254.593308,
+    "statistics": 254.59347,
+    "coverageMerged": 254.595367,
+    "responseBuilt": 254.67
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 256.465,
+   "overrunMs": 6.465,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.218,
+   "checks": 4017,
+   "phases": {
+    "workBegin": 0.363091,
+    "stopRaised": 250.045031,
+    "workEnd": 254.174083,
+    "statistics": 254.1743,
+    "coverageMerged": 254.175505,
+    "responseBuilt": 254.26
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 258.451,
+   "overrunMs": 8.451,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.581,
+   "checks": 4186,
+   "phases": {
+    "workBegin": 0.365252,
+    "stopRaised": 250.021833,
+    "workEnd": 254.13395,
+    "statistics": 254.134145,
+    "coverageMerged": 254.135772,
+    "responseBuilt": 254.212
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 604.945,
+   "overrunMs": 4.945,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.806,
+   "checks": 2245,
+   "phases": {
+    "workBegin": 0.57978,
+    "stopRaised": 600.043098,
+    "workEnd": 603.681896,
+    "statistics": 603.682007,
+    "coverageMerged": 603.682824,
+    "responseBuilt": 603.763
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 609.514,
+   "overrunMs": 9.514,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.861,
+   "checks": 2767,
+   "phases": {
+    "workBegin": 0.361505,
+    "stopRaised": 600.064399,
+    "workEnd": 603.757701,
+    "statistics": 603.757766,
+    "coverageMerged": 603.759403,
+    "responseBuilt": 603.836
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 608.722,
+   "overrunMs": 8.722,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.449,
+   "checks": 4555,
+   "phases": {
+    "workBegin": 0.384447,
+    "stopRaised": 600.082989,
+    "workEnd": 607.480805,
+    "statistics": 607.481044,
+    "coverageMerged": 607.481938,
+    "responseBuilt": 607.562
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 607.554,
+   "overrunMs": 7.554,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 31.602,
+   "checks": 5026,
+   "phases": {
+    "workBegin": 0.360773,
+    "stopRaised": 600.057161,
+    "workEnd": 604.140511,
+    "statistics": 604.14069,
+    "coverageMerged": 604.142352,
+    "responseBuilt": 604.223
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 608.084,
+   "overrunMs": 8.084,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 45.922,
+   "checks": 9506,
+   "phases": {
+    "workBegin": 0.368539,
+    "stopRaised": 600.101675,
+    "workEnd": 603.887595,
+    "statistics": 603.887731,
+    "coverageMerged": 603.88871,
+    "responseBuilt": 603.984
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 607.564,
+   "overrunMs": 7.564,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.431,
+   "checks": 10775,
+   "phases": {
+    "workBegin": 0.341213,
+    "stopRaised": 600.003639,
+    "workEnd": 603.97513,
+    "statistics": 603.975288,
+    "coverageMerged": 603.976924,
+    "responseBuilt": 604.06
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 607.916,
+   "overrunMs": 7.916,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.942,
+   "checks": 10006,
+   "phases": {
+    "workBegin": 0.336286,
+    "stopRaised": 600.052153,
+    "workEnd": 603.69957,
+    "statistics": 603.699679,
+    "coverageMerged": 603.700765,
+    "responseBuilt": 603.776
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 607.889,
+   "overrunMs": 7.889,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.983,
+   "checks": 11486,
+   "phases": {
+    "workBegin": 0.336961,
+    "stopRaised": 600.063939,
+    "workEnd": 604.519683,
+    "statistics": 604.519761,
+    "coverageMerged": 604.521469,
+    "responseBuilt": 604.599
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 1005.119,
+   "overrunMs": 5.119,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.55,
+   "checks": 4288,
+   "phases": {
+    "workBegin": 0.370706,
+    "stopRaised": 1000.194137,
+    "workEnd": 1003.90635,
+    "statistics": 1003.906436,
+    "coverageMerged": 1003.907401,
+    "responseBuilt": 1003.984
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 2,
+   "queryMs": 1006.802,
+   "overrunMs": 6.802,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.785,
+   "checks": 4492,
+   "phases": {
+    "workBegin": 0.354236,
+    "stopRaised": 1000.042244,
+    "workEnd": 1004.060787,
+    "statistics": 1004.060919,
+    "coverageMerged": 1004.062739,
+    "responseBuilt": 1004.14
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 1008.272,
+   "overrunMs": 8.272,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.194,
+   "checks": 8074,
+   "phases": {
+    "workBegin": 0.359807,
+    "stopRaised": 1000.104866,
+    "workEnd": 1003.983,
+    "statistics": 1003.983088,
+    "coverageMerged": 1003.984175,
+    "responseBuilt": 1004.062
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 2,
+   "queryMs": 1006.93,
+   "overrunMs": 6.93,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.45,
+   "checks": 9006,
+   "phases": {
+    "workBegin": 0.339184,
+    "stopRaised": 1000.112181,
+    "workEnd": 1003.980618,
+    "statistics": 1003.980701,
+    "coverageMerged": 1003.982055,
+    "responseBuilt": 1004.073
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 1009.967,
+   "overrunMs": 9.967,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.735,
+   "checks": 16984,
+   "phases": {
+    "workBegin": 0.339596,
+    "stopRaised": 1000.116041,
+    "workEnd": 1004.616195,
+    "statistics": 1004.616301,
+    "coverageMerged": 1004.617502,
+    "responseBuilt": 1004.69
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 2,
+   "queryMs": 1007.828,
+   "overrunMs": 7.828,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.714,
+   "checks": 17952,
+   "phases": {
+    "workBegin": 0.339995,
+    "stopRaised": 1000.024607,
+    "workEnd": 1004.113007,
+    "statistics": 1004.113084,
+    "coverageMerged": 1004.114671,
+    "responseBuilt": 1004.192
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 1010.734,
+   "overrunMs": 10.734,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.129,
+   "checks": 15939,
+   "phases": {
+    "workBegin": 0.343021,
+    "stopRaised": 1000.078294,
+    "workEnd": 1005.023598,
+    "statistics": 1005.023824,
+    "coverageMerged": 1005.025693,
+    "responseBuilt": 1005.124
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 2,
+   "queryMs": 1009.289,
+   "overrunMs": 9.289,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.79,
+   "checks": 17535,
+   "phases": {
+    "workBegin": 0.318758,
+    "stopRaised": 1000.012916,
+    "workEnd": 1004.983686,
+    "statistics": 1004.983782,
+    "coverageMerged": 1004.985586,
+    "responseBuilt": 1005.063
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 104.132,
+   "overrunMs": 4.132,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.811,
+   "checks": 352,
+   "phases": {
+    "workBegin": 0.530479,
+    "stopRaised": 100.13437,
+    "workEnd": 103.826258,
+    "statistics": 103.826366,
+    "coverageMerged": 103.827836,
+    "responseBuilt": 103.909
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 104.001,
+   "overrunMs": 4.001,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.702,
+   "checks": 342,
+   "phases": {
+    "workBegin": 0.378248,
+    "stopRaised": 100.098031,
+    "workEnd": 103.695566,
+    "statistics": 103.695633,
+    "coverageMerged": 103.696611,
+    "responseBuilt": 103.777
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 106.384,
+   "overrunMs": 6.384,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 18.547,
+   "checks": 800,
+   "phases": {
+    "workBegin": 0.342109,
+    "stopRaised": 100.114976,
+    "workEnd": 105.774752,
+    "statistics": 105.774817,
+    "coverageMerged": 105.776455,
+    "responseBuilt": 105.856
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 105.596,
+   "overrunMs": 5.596,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.558,
+   "checks": 712,
+   "phases": {
+    "workBegin": 0.391,
+    "stopRaised": 100.104707,
+    "workEnd": 104.602215,
+    "statistics": 104.602383,
+    "coverageMerged": 104.603581,
+    "responseBuilt": 104.681
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 111.458,
+   "overrunMs": 11.458,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 30.398,
+   "checks": 1309,
+   "phases": {
+    "workBegin": 0.334792,
+    "stopRaised": 100.128754,
+    "workEnd": 105.63074,
+    "statistics": 105.630888,
+    "coverageMerged": 105.633143,
+    "responseBuilt": 105.746
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 105.935,
+   "overrunMs": 5.935,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.698,
+   "checks": 1562,
+   "phases": {
+    "workBegin": 0.387975,
+    "stopRaised": 100.028343,
+    "workEnd": 104.400094,
+    "statistics": 104.400184,
+    "coverageMerged": 104.401197,
+    "responseBuilt": 104.479
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 107.499,
+   "overrunMs": 7.499,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.441,
+   "checks": 1473,
+   "phases": {
+    "workBegin": 0.358681,
+    "stopRaised": 100.129036,
+    "workEnd": 104.100472,
+    "statistics": 104.100542,
+    "coverageMerged": 104.101848,
+    "responseBuilt": 104.18
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 105.148,
+   "overrunMs": 5.148,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.13,
+   "checks": 1393,
+   "phases": {
+    "workBegin": 0.405922,
+    "stopRaised": 100.133775,
+    "workEnd": 103.944214,
+    "statistics": 103.944297,
+    "coverageMerged": 103.945122,
+    "responseBuilt": 104.022
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 257.22,
+   "overrunMs": 7.22,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.704,
+   "checks": 948,
+   "phases": {
+    "workBegin": 0.339304,
+    "stopRaised": 250.133245,
+    "workEnd": 253.948926,
+    "statistics": 253.949009,
+    "coverageMerged": 253.950459,
+    "responseBuilt": 254.031
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 255.132,
+   "overrunMs": 5.132,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.793,
+   "checks": 879,
+   "phases": {
+    "workBegin": 0.369887,
+    "stopRaised": 250.108503,
+    "workEnd": 254.06085,
+    "statistics": 254.060948,
+    "coverageMerged": 254.06177,
+    "responseBuilt": 254.143
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 256.894,
+   "overrunMs": 6.894,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 35.766,
+   "checks": 2036,
+   "phases": {
+    "workBegin": 0.368449,
+    "stopRaised": 250.125427,
+    "workEnd": 253.94124,
+    "statistics": 253.941304,
+    "coverageMerged": 253.942948,
+    "responseBuilt": 254.018
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 255.015,
+   "overrunMs": 5.015,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.94,
+   "checks": 1993,
+   "phases": {
+    "workBegin": 0.369474,
+    "stopRaised": 250.125553,
+    "workEnd": 253.946015,
+    "statistics": 253.946092,
+    "coverageMerged": 253.947065,
+    "responseBuilt": 254.024
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 261.099,
+   "overrunMs": 11.099,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.025,
+   "checks": 4029,
+   "phases": {
+    "workBegin": 0.317497,
+    "stopRaised": 250.033869,
+    "workEnd": 255.343012,
+    "statistics": 255.343435,
+    "coverageMerged": 255.345062,
+    "responseBuilt": 255.457
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 255.984,
+   "overrunMs": 5.984,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.82,
+   "checks": 3872,
+   "phases": {
+    "workBegin": 0.397158,
+    "stopRaised": 250.017028,
+    "workEnd": 254.178361,
+    "statistics": 254.178471,
+    "coverageMerged": 254.179448,
+    "responseBuilt": 254.254
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 258.072,
+   "overrunMs": 8.072,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.555,
+   "checks": 4319,
+   "phases": {
+    "workBegin": 0.366429,
+    "stopRaised": 250.048574,
+    "workEnd": 254.422805,
+    "statistics": 254.422913,
+    "coverageMerged": 254.424537,
+    "responseBuilt": 254.504
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 255.455,
+   "overrunMs": 5.455,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 13.408,
+   "checks": 4020,
+   "phases": {
+    "workBegin": 0.416285,
+    "stopRaised": 250.007296,
+    "workEnd": 253.635153,
+    "statistics": 253.635298,
+    "coverageMerged": 253.636483,
+    "responseBuilt": 253.71
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 606.896,
+   "overrunMs": 6.896,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.986,
+   "checks": 2725,
+   "phases": {
+    "workBegin": 0.343718,
+    "stopRaised": 600.098418,
+    "workEnd": 603.968947,
+    "statistics": 603.969011,
+    "coverageMerged": 603.970862,
+    "responseBuilt": 604.076
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 604.347,
+   "overrunMs": 4.347,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.319,
+   "checks": 2497,
+   "phases": {
+    "workBegin": 0.342877,
+    "stopRaised": 600.07561,
+    "workEnd": 603.477831,
+    "statistics": 603.477937,
+    "coverageMerged": 603.478766,
+    "responseBuilt": 603.551
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 607.132,
+   "overrunMs": 7.132,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.577,
+   "checks": 5147,
+   "phases": {
+    "workBegin": 0.661663,
+    "stopRaised": 600.183919,
+    "workEnd": 604.14243,
+    "statistics": 604.142603,
+    "coverageMerged": 604.143904,
+    "responseBuilt": 604.221
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 607.807,
+   "overrunMs": 7.807,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 39.858,
+   "checks": 4822,
+   "phases": {
+    "workBegin": 0.387569,
+    "stopRaised": 600.050695,
+    "workEnd": 603.767504,
+    "statistics": 603.767584,
+    "coverageMerged": 603.76863,
+    "responseBuilt": 603.882
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 606.966,
+   "overrunMs": 6.966,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.821,
+   "checks": 11850,
+   "phases": {
+    "workBegin": 0.456699,
+    "stopRaised": 600.084357,
+    "workEnd": 603.768932,
+    "statistics": 603.769,
+    "coverageMerged": 603.770675,
+    "responseBuilt": 603.842
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 614.22,
+   "overrunMs": 14.22,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.756,
+   "checks": 9760,
+   "phases": {
+    "workBegin": 0.362345,
+    "stopRaised": 600.00275,
+    "workEnd": 607.263028,
+    "statistics": 607.263509,
+    "coverageMerged": 607.264736,
+    "responseBuilt": 607.376
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 607.577,
+   "overrunMs": 7.577,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.613,
+   "checks": 11195,
+   "phases": {
+    "workBegin": 0.430121,
+    "stopRaised": 600.100811,
+    "workEnd": 603.906821,
+    "statistics": 603.906939,
+    "coverageMerged": 603.908288,
+    "responseBuilt": 603.984
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 608.81,
+   "overrunMs": 8.81,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 39.493,
+   "checks": 9659,
+   "phases": {
+    "workBegin": 0.359005,
+    "stopRaised": 600.024613,
+    "workEnd": 603.875073,
+    "statistics": 603.875156,
+    "coverageMerged": 603.876331,
+    "responseBuilt": 603.952
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 1006.44,
+   "overrunMs": 6.44,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.62,
+   "checks": 4590,
+   "phases": {
+    "workBegin": 0.466813,
+    "stopRaised": 1000.113644,
+    "workEnd": 1003.727492,
+    "statistics": 1003.727554,
+    "coverageMerged": 1003.728975,
+    "responseBuilt": 1003.805
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 3,
+   "queryMs": 1006.736,
+   "overrunMs": 6.736,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 12.089,
+   "checks": 3611,
+   "phases": {
+    "workBegin": 0.563619,
+    "stopRaised": 1000.157832,
+    "workEnd": 1005.057945,
+    "statistics": 1005.058094,
+    "coverageMerged": 1005.059185,
+    "responseBuilt": 1005.167
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 1006.226,
+   "overrunMs": 6.226,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.378,
+   "checks": 9373,
+   "phases": {
+    "workBegin": 0.342274,
+    "stopRaised": 1000.114689,
+    "workEnd": 1003.436469,
+    "statistics": 1003.436525,
+    "coverageMerged": 1003.437917,
+    "responseBuilt": 1003.507
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 3,
+   "queryMs": 1011.583,
+   "overrunMs": 11.583,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.755,
+   "checks": 8461,
+   "phases": {
+    "workBegin": 0.356385,
+    "stopRaised": 1000.05395,
+    "workEnd": 1004.983829,
+    "statistics": 1004.984018,
+    "coverageMerged": 1004.985547,
+    "responseBuilt": 1005.097
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 1009.223,
+   "overrunMs": 9.223,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.96,
+   "checks": 17740,
+   "phases": {
+    "workBegin": 0.493533,
+    "stopRaised": 1000.082292,
+    "workEnd": 1005.172017,
+    "statistics": 1005.17217,
+    "coverageMerged": 1005.173604,
+    "responseBuilt": 1005.251
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 3,
+   "queryMs": 1011.779,
+   "overrunMs": 11.779,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.699,
+   "checks": 15805,
+   "phases": {
+    "workBegin": 0.365324,
+    "stopRaised": 1000.025776,
+    "workEnd": 1005.017979,
+    "statistics": 1005.018185,
+    "coverageMerged": 1005.019245,
+    "responseBuilt": 1005.134
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 1007.959,
+   "overrunMs": 7.959,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.436,
+   "checks": 18000,
+   "phases": {
+    "workBegin": 0.362782,
+    "stopRaised": 1000.027035,
+    "workEnd": 1004.297839,
+    "statistics": 1004.29805,
+    "coverageMerged": 1004.299366,
+    "responseBuilt": 1004.377
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 3,
+   "queryMs": 1008.663,
+   "overrunMs": 8.663,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.914,
+   "checks": 16817,
+   "phases": {
+    "workBegin": 0.368465,
+    "stopRaised": 1000.006303,
+    "workEnd": 1004.148924,
+    "statistics": 1004.149002,
+    "coverageMerged": 1004.14999,
+    "responseBuilt": 1004.227
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 104.074,
+   "overrunMs": 4.074,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.902,
+   "checks": 362,
+   "phases": {
+    "workBegin": 0.358607,
+    "stopRaised": 100.192581,
+    "workEnd": 103.747857,
+    "statistics": 103.747947,
+    "coverageMerged": 103.748899,
+    "responseBuilt": 103.829
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 103.965,
+   "overrunMs": 3.965,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.533,
+   "checks": 413,
+   "phases": {
+    "workBegin": 0.32409,
+    "stopRaised": 100.061417,
+    "workEnd": 103.623388,
+    "statistics": 103.623489,
+    "coverageMerged": 103.625151,
+    "responseBuilt": 103.707
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 105.096,
+   "overrunMs": 5.096,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.543,
+   "checks": 717,
+   "phases": {
+    "workBegin": 0.377957,
+    "stopRaised": 100.058146,
+    "workEnd": 103.925654,
+    "statistics": 103.925831,
+    "coverageMerged": 103.926752,
+    "responseBuilt": 104.005
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 106.237,
+   "overrunMs": 6.237,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 20.291,
+   "checks": 738,
+   "phases": {
+    "workBegin": 0.468239,
+    "stopRaised": 100.044128,
+    "workEnd": 105.788244,
+    "statistics": 105.788322,
+    "coverageMerged": 105.789743,
+    "responseBuilt": 105.871
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 104.965,
+   "overrunMs": 4.965,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.125,
+   "checks": 1521,
+   "phases": {
+    "workBegin": 0.397244,
+    "stopRaised": 100.020087,
+    "workEnd": 103.852518,
+    "statistics": 103.852692,
+    "coverageMerged": 103.853603,
+    "responseBuilt": 103.928
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 107.003,
+   "overrunMs": 7.003,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.192,
+   "checks": 1462,
+   "phases": {
+    "workBegin": 0.380926,
+    "stopRaised": 100.016655,
+    "workEnd": 104.02944,
+    "statistics": 104.029505,
+    "coverageMerged": 104.030857,
+    "responseBuilt": 104.11
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 104.862,
+   "overrunMs": 4.862,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.52,
+   "checks": 1563,
+   "phases": {
+    "workBegin": 0.344791,
+    "stopRaised": 100.047255,
+    "workEnd": 103.675382,
+    "statistics": 103.675475,
+    "coverageMerged": 103.676305,
+    "responseBuilt": 103.749
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 107.193,
+   "overrunMs": 7.193,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.172,
+   "checks": 1473,
+   "phases": {
+    "workBegin": 0.340568,
+    "stopRaised": 100.010625,
+    "workEnd": 103.729384,
+    "statistics": 103.729537,
+    "coverageMerged": 103.731143,
+    "responseBuilt": 103.83
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 256.853,
+   "overrunMs": 6.853,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.858,
+   "checks": 902,
+   "phases": {
+    "workBegin": 0.38184,
+    "stopRaised": 250.189426,
+    "workEnd": 255.162754,
+    "statistics": 255.162932,
+    "coverageMerged": 255.16406,
+    "responseBuilt": 255.34
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 256.733,
+   "overrunMs": 6.733,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.018,
+   "checks": 1030,
+   "phases": {
+    "workBegin": 0.389216,
+    "stopRaised": 250.059614,
+    "workEnd": 253.939367,
+    "statistics": 253.939439,
+    "coverageMerged": 253.940944,
+    "responseBuilt": 254.02
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 257.359,
+   "overrunMs": 7.359,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.505,
+   "checks": 1900,
+   "phases": {
+    "workBegin": 0.641519,
+    "stopRaised": 250.097663,
+    "workEnd": 255.18828,
+    "statistics": 255.188476,
+    "coverageMerged": 255.189497,
+    "responseBuilt": 255.3
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 256.696,
+   "overrunMs": 6.696,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.211,
+   "checks": 2086,
+   "phases": {
+    "workBegin": 0.500784,
+    "stopRaised": 250.12505,
+    "workEnd": 253.862968,
+    "statistics": 253.863028,
+    "coverageMerged": 253.86429,
+    "responseBuilt": 253.938
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 256.882,
+   "overrunMs": 6.882,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.532,
+   "checks": 4024,
+   "phases": {
+    "workBegin": 0.385275,
+    "stopRaised": 250.003619,
+    "workEnd": 254.707478,
+    "statistics": 254.707668,
+    "coverageMerged": 254.708715,
+    "responseBuilt": 254.797
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 257.593,
+   "overrunMs": 7.593,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.161,
+   "checks": 4308,
+   "phases": {
+    "workBegin": 0.355835,
+    "stopRaised": 250.110527,
+    "workEnd": 254.113487,
+    "statistics": 254.113582,
+    "coverageMerged": 254.115021,
+    "responseBuilt": 254.193
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 255.516,
+   "overrunMs": 5.516,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.536,
+   "checks": 3919,
+   "phases": {
+    "workBegin": 0.548998,
+    "stopRaised": 250.020062,
+    "workEnd": 253.90265,
+    "statistics": 253.90272,
+    "coverageMerged": 253.903699,
+    "responseBuilt": 253.978
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 257.35,
+   "overrunMs": 7.35,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.001,
+   "checks": 4519,
+   "phases": {
+    "workBegin": 0.336634,
+    "stopRaised": 250.110897,
+    "workEnd": 253.862139,
+    "statistics": 253.862307,
+    "coverageMerged": 253.863729,
+    "responseBuilt": 253.955
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 604.705,
+   "overrunMs": 4.705,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.002,
+   "checks": 2491,
+   "phases": {
+    "workBegin": 0.335821,
+    "stopRaised": 600.19733,
+    "workEnd": 603.732733,
+    "statistics": 603.732814,
+    "coverageMerged": 603.733686,
+    "responseBuilt": 603.809
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 608.194,
+   "overrunMs": 8.194,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.754,
+   "checks": 2760,
+   "phases": {
+    "workBegin": 0.335646,
+    "stopRaised": 600.192645,
+    "workEnd": 604.652121,
+    "statistics": 604.652401,
+    "coverageMerged": 604.653941,
+    "responseBuilt": 604.762
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 607.872,
+   "overrunMs": 7.872,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.457,
+   "checks": 4667,
+   "phases": {
+    "workBegin": 0.349753,
+    "stopRaised": 600.031991,
+    "workEnd": 603.939156,
+    "statistics": 603.939235,
+    "coverageMerged": 603.940187,
+    "responseBuilt": 604.013
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 607.298,
+   "overrunMs": 7.298,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.651,
+   "checks": 5580,
+   "phases": {
+    "workBegin": 0.362233,
+    "stopRaised": 600.046326,
+    "workEnd": 603.870539,
+    "statistics": 603.870628,
+    "coverageMerged": 603.87193,
+    "responseBuilt": 603.953
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 609.308,
+   "overrunMs": 9.308,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.689,
+   "checks": 10263,
+   "phases": {
+    "workBegin": 0.360821,
+    "stopRaised": 600.119463,
+    "workEnd": 604.379699,
+    "statistics": 604.379855,
+    "coverageMerged": 604.380972,
+    "responseBuilt": 604.471
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 607.168,
+   "overrunMs": 7.168,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.84,
+   "checks": 11762,
+   "phases": {
+    "workBegin": 0.327191,
+    "stopRaised": 600.001161,
+    "workEnd": 603.821875,
+    "statistics": 603.822018,
+    "coverageMerged": 603.823604,
+    "responseBuilt": 603.911
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 607.598,
+   "overrunMs": 7.598,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.069,
+   "checks": 10394,
+   "phases": {
+    "workBegin": 0.348099,
+    "stopRaised": 600.045597,
+    "workEnd": 603.627292,
+    "statistics": 603.627421,
+    "coverageMerged": 603.628319,
+    "responseBuilt": 603.706
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 606.843,
+   "overrunMs": 6.843,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.476,
+   "checks": 11535,
+   "phases": {
+    "workBegin": 0.420712,
+    "stopRaised": 600.003578,
+    "workEnd": 603.580756,
+    "statistics": 603.580821,
+    "coverageMerged": 603.58222,
+    "responseBuilt": 603.654
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 1004.636,
+   "overrunMs": 4.636,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.293,
+   "checks": 4227,
+   "phases": {
+    "workBegin": 0.442636,
+    "stopRaised": 1000.189598,
+    "workEnd": 1003.564158,
+    "statistics": 1003.564303,
+    "coverageMerged": 1003.565253,
+    "responseBuilt": 1003.64
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 4,
+   "queryMs": 1006.855,
+   "overrunMs": 6.855,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.864,
+   "checks": 4698,
+   "phases": {
+    "workBegin": 0.378997,
+    "stopRaised": 1000.103079,
+    "workEnd": 1003.637777,
+    "statistics": 1003.63785,
+    "coverageMerged": 1003.639774,
+    "responseBuilt": 1003.716
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 1011.457,
+   "overrunMs": 11.457,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.9,
+   "checks": 8391,
+   "phases": {
+    "workBegin": 0.392601,
+    "stopRaised": 1000.046795,
+    "workEnd": 1004.915376,
+    "statistics": 1004.915562,
+    "coverageMerged": 1004.916739,
+    "responseBuilt": 1005.028
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 4,
+   "queryMs": 1006.806,
+   "overrunMs": 6.806,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.141,
+   "checks": 10068,
+   "phases": {
+    "workBegin": 0.460613,
+    "stopRaised": 1000.017224,
+    "workEnd": 1003.808373,
+    "statistics": 1003.808445,
+    "coverageMerged": 1003.809769,
+    "responseBuilt": 1003.887
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 1012.478,
+   "overrunMs": 12.478,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.94,
+   "checks": 16066,
+   "phases": {
+    "workBegin": 0.390326,
+    "stopRaised": 1000.036961,
+    "workEnd": 1007.532454,
+    "statistics": 1007.532623,
+    "coverageMerged": 1007.533597,
+    "responseBuilt": 1007.609
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 4,
+   "queryMs": 1007.808,
+   "overrunMs": 7.808,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 34.556,
+   "checks": 18815,
+   "phases": {
+    "workBegin": 0.462067,
+    "stopRaised": 1000.115254,
+    "workEnd": 1004.229591,
+    "statistics": 1004.229762,
+    "coverageMerged": 1004.231336,
+    "responseBuilt": 1004.308
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 1009.56,
+   "overrunMs": 9.56,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.242,
+   "checks": 16854,
+   "phases": {
+    "workBegin": 0.382322,
+    "stopRaised": 1000.182825,
+    "workEnd": 1004.384898,
+    "statistics": 1004.385117,
+    "coverageMerged": 1004.386609,
+    "responseBuilt": 1004.505
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 4,
+   "queryMs": 1008.21,
+   "overrunMs": 8.21,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.609,
+   "checks": 19012,
+   "phases": {
+    "workBegin": 0.494603,
+    "stopRaised": 1000.055822,
+    "workEnd": 1003.992732,
+    "statistics": 1003.99281,
+    "coverageMerged": 1003.99427,
+    "responseBuilt": 1004.074
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 104.209,
+   "overrunMs": 4.209,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 5.185,
+   "checks": 402,
+   "phases": {
+    "workBegin": 0.39581,
+    "stopRaised": 100.035432,
+    "workEnd": 103.873202,
+    "statistics": 103.873269,
+    "coverageMerged": 103.874934,
+    "responseBuilt": 103.955
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 104.233,
+   "overrunMs": 4.233,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.809,
+   "checks": 364,
+   "phases": {
+    "workBegin": 0.50824,
+    "stopRaised": 100.116627,
+    "workEnd": 103.908022,
+    "statistics": 103.908112,
+    "coverageMerged": 103.909161,
+    "responseBuilt": 103.991
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 109.538,
+   "overrunMs": 9.538,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.509,
+   "checks": 776,
+   "phases": {
+    "workBegin": 0.333698,
+    "stopRaised": 103.133463,
+    "workEnd": 106.866001,
+    "statistics": 106.866069,
+    "coverageMerged": 106.867398,
+    "responseBuilt": 106.962
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 106.692,
+   "overrunMs": 6.692,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.492,
+   "checks": 696,
+   "phases": {
+    "workBegin": 0.361978,
+    "stopRaised": 101.62217,
+    "workEnd": 105.558548,
+    "statistics": 105.55871,
+    "coverageMerged": 105.559663,
+    "responseBuilt": 105.637
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 106.974,
+   "overrunMs": 6.974,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.678,
+   "checks": 1611,
+   "phases": {
+    "workBegin": 0.3453,
+    "stopRaised": 100.054038,
+    "workEnd": 103.824504,
+    "statistics": 103.824673,
+    "coverageMerged": 103.826254,
+    "responseBuilt": 103.899
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 105.228,
+   "overrunMs": 5.228,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.921,
+   "checks": 1559,
+   "phases": {
+    "workBegin": 0.334676,
+    "stopRaised": 100.048885,
+    "workEnd": 103.737294,
+    "statistics": 103.737377,
+    "coverageMerged": 103.738402,
+    "responseBuilt": 103.812
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 107.871,
+   "overrunMs": 7.871,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.704,
+   "checks": 1445,
+   "phases": {
+    "workBegin": 0.334514,
+    "stopRaised": 100.02673,
+    "workEnd": 104.635639,
+    "statistics": 104.635879,
+    "coverageMerged": 104.637537,
+    "responseBuilt": 104.762
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 105.381,
+   "overrunMs": 5.381,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.588,
+   "checks": 1513,
+   "phases": {
+    "workBegin": 0.381397,
+    "stopRaised": 100.091784,
+    "workEnd": 103.98314,
+    "statistics": 103.983227,
+    "coverageMerged": 103.984051,
+    "responseBuilt": 104.058
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 257.589,
+   "overrunMs": 7.589,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.198,
+   "checks": 1052,
+   "phases": {
+    "workBegin": 0.344431,
+    "stopRaised": 250.024207,
+    "workEnd": 253.83247,
+    "statistics": 253.832664,
+    "coverageMerged": 253.834469,
+    "responseBuilt": 253.944
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 254.76,
+   "overrunMs": 4.76,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.127,
+   "checks": 1015,
+   "phases": {
+    "workBegin": 0.387907,
+    "stopRaised": 250.084563,
+    "workEnd": 253.818306,
+    "statistics": 253.818459,
+    "coverageMerged": 253.819348,
+    "responseBuilt": 253.896
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 256.969,
+   "overrunMs": 6.969,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 31.367,
+   "checks": 1987,
+   "phases": {
+    "workBegin": 0.558626,
+    "stopRaised": 250.072933,
+    "workEnd": 253.967795,
+    "statistics": 253.967863,
+    "coverageMerged": 253.969222,
+    "responseBuilt": 254.046
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 256.588,
+   "overrunMs": 6.588,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.205,
+   "checks": 2067,
+   "phases": {
+    "workBegin": 0.377922,
+    "stopRaised": 250.108732,
+    "workEnd": 254.976756,
+    "statistics": 254.976975,
+    "coverageMerged": 254.978282,
+    "responseBuilt": 255.087
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 257.59,
+   "overrunMs": 7.59,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.5,
+   "checks": 4352,
+   "phases": {
+    "workBegin": 0.447618,
+    "stopRaised": 250.023141,
+    "workEnd": 253.929672,
+    "statistics": 253.929755,
+    "coverageMerged": 253.931549,
+    "responseBuilt": 254.01
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 255.543,
+   "overrunMs": 5.543,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.934,
+   "checks": 3981,
+   "phases": {
+    "workBegin": 0.358489,
+    "stopRaised": 250.001708,
+    "workEnd": 253.790958,
+    "statistics": 253.791298,
+    "coverageMerged": 253.79239,
+    "responseBuilt": 253.867
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 257.309,
+   "overrunMs": 7.309,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.566,
+   "checks": 4386,
+   "phases": {
+    "workBegin": 0.32911,
+    "stopRaised": 250.034822,
+    "workEnd": 253.774584,
+    "statistics": 253.774752,
+    "coverageMerged": 253.77644,
+    "responseBuilt": 253.853
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 255.947,
+   "overrunMs": 5.947,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.424,
+   "checks": 3880,
+   "phases": {
+    "workBegin": 0.386271,
+    "stopRaised": 250.066034,
+    "workEnd": 254.270615,
+    "statistics": 254.270825,
+    "coverageMerged": 254.27195,
+    "responseBuilt": 254.351
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 606.549,
+   "overrunMs": 6.549,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 32.611,
+   "checks": 2407,
+   "phases": {
+    "workBegin": 0.385216,
+    "stopRaised": 600.04047,
+    "workEnd": 603.715349,
+    "statistics": 603.715479,
+    "coverageMerged": 603.717135,
+    "responseBuilt": 603.812
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 604.648,
+   "overrunMs": 4.648,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.154,
+   "checks": 2397,
+   "phases": {
+    "workBegin": 0.371056,
+    "stopRaised": 600.240728,
+    "workEnd": 603.767569,
+    "statistics": 603.767639,
+    "coverageMerged": 603.768566,
+    "responseBuilt": 603.848
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 606.594,
+   "overrunMs": 6.594,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 30.244,
+   "checks": 5523,
+   "phases": {
+    "workBegin": 0.345062,
+    "stopRaised": 600.135063,
+    "workEnd": 603.716818,
+    "statistics": 603.716887,
+    "coverageMerged": 603.718344,
+    "responseBuilt": 603.793
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 608.143,
+   "overrunMs": 8.143,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.81,
+   "checks": 4968,
+   "phases": {
+    "workBegin": 0.381121,
+    "stopRaised": 600.191056,
+    "workEnd": 603.84694,
+    "statistics": 603.847092,
+    "coverageMerged": 603.848187,
+    "responseBuilt": 603.965
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 610.733,
+   "overrunMs": 10.733,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.782,
+   "checks": 10520,
+   "phases": {
+    "workBegin": 0.34252,
+    "stopRaised": 600.061054,
+    "workEnd": 605.689765,
+    "statistics": 605.690141,
+    "coverageMerged": 605.691943,
+    "responseBuilt": 605.807
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 612.39,
+   "overrunMs": 12.39,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 39.683,
+   "checks": 9714,
+   "phases": {
+    "workBegin": 0.346043,
+    "stopRaised": 600.053429,
+    "workEnd": 605.400676,
+    "statistics": 605.400928,
+    "coverageMerged": 605.401989,
+    "responseBuilt": 605.542
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 607.58,
+   "overrunMs": 7.58,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.632,
+   "checks": 10180,
+   "phases": {
+    "workBegin": 0.492287,
+    "stopRaised": 600.005288,
+    "workEnd": 604.247409,
+    "statistics": 604.247903,
+    "coverageMerged": 604.249845,
+    "responseBuilt": 604.324
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 609.316,
+   "overrunMs": 9.316,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.089,
+   "checks": 9376,
+   "phases": {
+    "workBegin": 0.33383,
+    "stopRaised": 600.038716,
+    "workEnd": 604.279913,
+    "statistics": 604.280274,
+    "coverageMerged": 604.281167,
+    "responseBuilt": 604.361
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 1007.01,
+   "overrunMs": 7.01,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.032,
+   "checks": 4440,
+   "phases": {
+    "workBegin": 0.391431,
+    "stopRaised": 1000.149456,
+    "workEnd": 1003.964216,
+    "statistics": 1003.964284,
+    "coverageMerged": 1003.965883,
+    "responseBuilt": 1004.044
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 5,
+   "queryMs": 1004.757,
+   "overrunMs": 4.757,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.136,
+   "checks": 3903,
+   "phases": {
+    "workBegin": 0.417985,
+    "stopRaised": 1000.133794,
+    "workEnd": 1003.834601,
+    "statistics": 1003.8347,
+    "coverageMerged": 1003.835547,
+    "responseBuilt": 1003.918
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 1007.264,
+   "overrunMs": 7.264,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.404,
+   "checks": 8829,
+   "phases": {
+    "workBegin": 0.382079,
+    "stopRaised": 1000.050349,
+    "workEnd": 1004.3029,
+    "statistics": 1004.303049,
+    "coverageMerged": 1004.304582,
+    "responseBuilt": 1004.428
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 5,
+   "queryMs": 1009.113,
+   "overrunMs": 9.113,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 41.154,
+   "checks": 7675,
+   "phases": {
+    "workBegin": 0.382289,
+    "stopRaised": 1000.144265,
+    "workEnd": 1003.974836,
+    "statistics": 1003.974978,
+    "coverageMerged": 1003.975896,
+    "responseBuilt": 1004.06
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 1007.407,
+   "overrunMs": 7.407,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 31.93,
+   "checks": 17612,
+   "phases": {
+    "workBegin": 0.359148,
+    "stopRaised": 1000.075098,
+    "workEnd": 1003.830846,
+    "statistics": 1003.830979,
+    "coverageMerged": 1003.832451,
+    "responseBuilt": 1003.909
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 5,
+   "queryMs": 1009.022,
+   "overrunMs": 9.022,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.227,
+   "checks": 16171,
+   "phases": {
+    "workBegin": 0.36293,
+    "stopRaised": 1000.033548,
+    "workEnd": 1004.078346,
+    "statistics": 1004.078519,
+    "coverageMerged": 1004.079704,
+    "responseBuilt": 1004.157
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 1008.258,
+   "overrunMs": 8.258,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.643,
+   "checks": 17843,
+   "phases": {
+    "workBegin": 0.343154,
+    "stopRaised": 1000.003915,
+    "workEnd": 1004.189976,
+    "statistics": 1004.190164,
+    "coverageMerged": 1004.191676,
+    "responseBuilt": 1004.269
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 5,
+   "queryMs": 1008.352,
+   "overrunMs": 8.352,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.546,
+   "checks": 16952,
+   "phases": {
+    "workBegin": 0.559948,
+    "stopRaised": 1000.006191,
+    "workEnd": 1004.05201,
+    "statistics": 1004.05208,
+    "coverageMerged": 1004.053205,
+    "responseBuilt": 1004.134
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 104.216,
+   "overrunMs": 4.216,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.804,
+   "checks": 380,
+   "phases": {
+    "workBegin": 0.344888,
+    "stopRaised": 100.212033,
+    "workEnd": 103.89525,
+    "statistics": 103.89536,
+    "coverageMerged": 103.896098,
+    "responseBuilt": 103.975
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 103.868,
+   "overrunMs": 3.868,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.466,
+   "checks": 434,
+   "phases": {
+    "workBegin": 0.339889,
+    "stopRaised": 100.02547,
+    "workEnd": 103.590943,
+    "statistics": 103.591088,
+    "coverageMerged": 103.59245,
+    "responseBuilt": 103.668
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 104.734,
+   "overrunMs": 4.734,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.049,
+   "checks": 748,
+   "phases": {
+    "workBegin": 0.382266,
+    "stopRaised": 100.156878,
+    "workEnd": 103.813718,
+    "statistics": 103.81379,
+    "coverageMerged": 103.814557,
+    "responseBuilt": 103.895
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 106.746,
+   "overrunMs": 6.746,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 25.077,
+   "checks": 774,
+   "phases": {
+    "workBegin": 0.345273,
+    "stopRaised": 100.186278,
+    "workEnd": 106.215146,
+    "statistics": 106.215331,
+    "coverageMerged": 106.216836,
+    "responseBuilt": 106.324
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 105.674,
+   "overrunMs": 5.674,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.789,
+   "checks": 1498,
+   "phases": {
+    "workBegin": 0.362421,
+    "stopRaised": 100.105671,
+    "workEnd": 103.792263,
+    "statistics": 103.792372,
+    "coverageMerged": 103.793255,
+    "responseBuilt": 103.87
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 107.081,
+   "overrunMs": 7.081,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.246,
+   "checks": 1484,
+   "phases": {
+    "workBegin": 0.479053,
+    "stopRaised": 100.039597,
+    "workEnd": 103.862796,
+    "statistics": 103.862861,
+    "coverageMerged": 103.864239,
+    "responseBuilt": 103.938
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 105.128,
+   "overrunMs": 5.128,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.516,
+   "checks": 1470,
+   "phases": {
+    "workBegin": 0.344414,
+    "stopRaised": 100.143158,
+    "workEnd": 103.855285,
+    "statistics": 103.855411,
+    "coverageMerged": 103.856211,
+    "responseBuilt": 103.963
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 107.322,
+   "overrunMs": 7.322,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.312,
+   "checks": 1650,
+   "phases": {
+    "workBegin": 0.343653,
+    "stopRaised": 100.010432,
+    "workEnd": 104.234876,
+    "statistics": 104.235059,
+    "coverageMerged": 104.236644,
+    "responseBuilt": 104.314
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 254.56,
+   "overrunMs": 4.56,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.151,
+   "checks": 1016,
+   "phases": {
+    "workBegin": 0.372147,
+    "stopRaised": 250.073098,
+    "workEnd": 253.585354,
+    "statistics": 253.585428,
+    "coverageMerged": 253.586715,
+    "responseBuilt": 253.666
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 258.077,
+   "overrunMs": 8.077,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.628,
+   "checks": 953,
+   "phases": {
+    "workBegin": 0.344471,
+    "stopRaised": 250.059085,
+    "workEnd": 254.501689,
+    "statistics": 254.501871,
+    "coverageMerged": 254.503255,
+    "responseBuilt": 254.578
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 254.908,
+   "overrunMs": 4.908,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.145,
+   "checks": 1944,
+   "phases": {
+    "workBegin": 0.37348,
+    "stopRaised": 250.101227,
+    "workEnd": 253.853226,
+    "statistics": 253.853297,
+    "coverageMerged": 253.854133,
+    "responseBuilt": 253.936
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 256.111,
+   "overrunMs": 6.111,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.065,
+   "checks": 1965,
+   "phases": {
+    "workBegin": 0.50402,
+    "stopRaised": 250.091129,
+    "workEnd": 253.736317,
+    "statistics": 253.736389,
+    "coverageMerged": 253.737763,
+    "responseBuilt": 253.812
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 255.371,
+   "overrunMs": 5.371,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.905,
+   "checks": 3998,
+   "phases": {
+    "workBegin": 0.362464,
+    "stopRaised": 250.0051,
+    "workEnd": 253.683095,
+    "statistics": 253.683179,
+    "coverageMerged": 253.684272,
+    "responseBuilt": 253.768
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 257.238,
+   "overrunMs": 7.238,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 33.543,
+   "checks": 4160,
+   "phases": {
+    "workBegin": 0.34066,
+    "stopRaised": 250.023937,
+    "workEnd": 254.027107,
+    "statistics": 254.027269,
+    "coverageMerged": 254.029027,
+    "responseBuilt": 254.105
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 255.698,
+   "overrunMs": 5.698,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.181,
+   "checks": 4134,
+   "phases": {
+    "workBegin": 0.368711,
+    "stopRaised": 250.019572,
+    "workEnd": 253.89236,
+    "statistics": 253.892437,
+    "coverageMerged": 253.893353,
+    "responseBuilt": 253.98
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 256.916,
+   "overrunMs": 6.916,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.841,
+   "checks": 4401,
+   "phases": {
+    "workBegin": 0.347955,
+    "stopRaised": 250.019377,
+    "workEnd": 253.838793,
+    "statistics": 253.838968,
+    "coverageMerged": 253.840459,
+    "responseBuilt": 253.914
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 604.844,
+   "overrunMs": 4.844,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.699,
+   "checks": 2441,
+   "phases": {
+    "workBegin": 0.347461,
+    "stopRaised": 600.210262,
+    "workEnd": 603.867839,
+    "statistics": 603.867934,
+    "coverageMerged": 603.868824,
+    "responseBuilt": 603.95
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 606.43,
+   "overrunMs": 6.43,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 33.718,
+   "checks": 2716,
+   "phases": {
+    "workBegin": 0.340432,
+    "stopRaised": 600.000729,
+    "workEnd": 603.549214,
+    "statistics": 603.549291,
+    "coverageMerged": 603.550721,
+    "responseBuilt": 603.623
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 608.146,
+   "overrunMs": 8.146,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 40.509,
+   "checks": 4887,
+   "phases": {
+    "workBegin": 0.359199,
+    "stopRaised": 600.074451,
+    "workEnd": 603.843916,
+    "statistics": 603.843983,
+    "coverageMerged": 603.845077,
+    "responseBuilt": 603.923
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 606.803,
+   "overrunMs": 6.803,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.587,
+   "checks": 5380,
+   "phases": {
+    "workBegin": 0.334358,
+    "stopRaised": 600.039143,
+    "workEnd": 603.791697,
+    "statistics": 603.791825,
+    "coverageMerged": 603.793562,
+    "responseBuilt": 603.87
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 608.693,
+   "overrunMs": 8.693,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 44.614,
+   "checks": 9755,
+   "phases": {
+    "workBegin": 0.384465,
+    "stopRaised": 600.152561,
+    "workEnd": 604.463609,
+    "statistics": 604.463979,
+    "coverageMerged": 604.464879,
+    "responseBuilt": 604.541
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 607.458,
+   "overrunMs": 7.458,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.947,
+   "checks": 11566,
+   "phases": {
+    "workBegin": 0.317336,
+    "stopRaised": 600.024702,
+    "workEnd": 603.843422,
+    "statistics": 603.843482,
+    "coverageMerged": 603.844818,
+    "responseBuilt": 603.917
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 608.213,
+   "overrunMs": 8.213,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.803,
+   "checks": 10155,
+   "phases": {
+    "workBegin": 0.314372,
+    "stopRaised": 600.023631,
+    "workEnd": 603.886933,
+    "statistics": 603.887112,
+    "coverageMerged": 603.888035,
+    "responseBuilt": 603.969
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 607.478,
+   "overrunMs": 7.478,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.373,
+   "checks": 11396,
+   "phases": {
+    "workBegin": 0.340249,
+    "stopRaised": 600.040658,
+    "workEnd": 604.141499,
+    "statistics": 604.141637,
+    "coverageMerged": 604.143177,
+    "responseBuilt": 604.221
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 1004.708,
+   "overrunMs": 4.708,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.909,
+   "checks": 4342,
+   "phases": {
+    "workBegin": 0.348461,
+    "stopRaised": 1000.183419,
+    "workEnd": 1003.685698,
+    "statistics": 1003.68594,
+    "coverageMerged": 1003.687402,
+    "responseBuilt": 1003.763
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 6,
+   "queryMs": 1006.505,
+   "overrunMs": 6.505,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.524,
+   "checks": 4891,
+   "phases": {
+    "workBegin": 0.332319,
+    "stopRaised": 1000.12303,
+    "workEnd": 1003.687501,
+    "statistics": 1003.687563,
+    "coverageMerged": 1003.689513,
+    "responseBuilt": 1003.768
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 1008.248,
+   "overrunMs": 8.248,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 35.549,
+   "checks": 8510,
+   "phases": {
+    "workBegin": 0.401267,
+    "stopRaised": 1000.000488,
+    "workEnd": 1004.013977,
+    "statistics": 1004.014139,
+    "coverageMerged": 1004.01546,
+    "responseBuilt": 1004.098
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 6,
+   "queryMs": 1007.559,
+   "overrunMs": 7.559,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.748,
+   "checks": 9670,
+   "phases": {
+    "workBegin": 0.327573,
+    "stopRaised": 1000.002583,
+    "workEnd": 1004.176454,
+    "statistics": 1004.176612,
+    "coverageMerged": 1004.178434,
+    "responseBuilt": 1004.281
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 1010.141,
+   "overrunMs": 10.141,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.174,
+   "checks": 17169,
+   "phases": {
+    "workBegin": 0.332444,
+    "stopRaised": 1000.022303,
+    "workEnd": 1004.332948,
+    "statistics": 1004.333118,
+    "coverageMerged": 1004.334158,
+    "responseBuilt": 1004.437
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 6,
+   "queryMs": 1007.672,
+   "overrunMs": 7.672,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.287,
+   "checks": 18387,
+   "phases": {
+    "workBegin": 0.375213,
+    "stopRaised": 1000.028761,
+    "workEnd": 1003.836755,
+    "statistics": 1003.836829,
+    "coverageMerged": 1003.838241,
+    "responseBuilt": 1003.919
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 1009.536,
+   "overrunMs": 9.536,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 50.486,
+   "checks": 16152,
+   "phases": {
+    "workBegin": 0.374478,
+    "stopRaised": 1000.065306,
+    "workEnd": 1004.881806,
+    "statistics": 1004.881995,
+    "coverageMerged": 1004.883437,
+    "responseBuilt": 1004.983
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 6,
+   "queryMs": 1007.128,
+   "overrunMs": 7.128,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.034,
+   "checks": 18278,
+   "phases": {
+    "workBegin": 0.334341,
+    "stopRaised": 1000.018821,
+    "workEnd": 1003.926333,
+    "statistics": 1003.926406,
+    "coverageMerged": 1003.927938,
+    "responseBuilt": 1004.006
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 105.794,
+   "overrunMs": 5.794,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 6.706,
+   "checks": 456,
+   "phases": {
+    "workBegin": 0.346204,
+    "stopRaised": 100.222799,
+    "workEnd": 105.299222,
+    "statistics": 105.299446,
+    "coverageMerged": 105.301247,
+    "responseBuilt": 105.446
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 105.987,
+   "overrunMs": 5.987,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.68,
+   "checks": 246,
+   "phases": {
+    "workBegin": 0.350329,
+    "stopRaised": 100.150377,
+    "workEnd": 105.492969,
+    "statistics": 105.493194,
+    "coverageMerged": 105.494396,
+    "responseBuilt": 105.618
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 108.843,
+   "overrunMs": 8.843,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 24.611,
+   "checks": 778,
+   "phases": {
+    "workBegin": 0.329649,
+    "stopRaised": 100.00083,
+    "workEnd": 108.109636,
+    "statistics": 108.109897,
+    "coverageMerged": 108.111616,
+    "responseBuilt": 108.214
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 107.458,
+   "overrunMs": 7.458,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.86,
+   "checks": 687,
+   "phases": {
+    "workBegin": 0.340589,
+    "stopRaised": 102.387755,
+    "workEnd": 106.13724,
+    "statistics": 106.13756,
+    "coverageMerged": 106.138435,
+    "responseBuilt": 106.214
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 109.138,
+   "overrunMs": 9.138,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 45.14,
+   "checks": 1263,
+   "phases": {
+    "workBegin": 0.335531,
+    "stopRaised": 100.027255,
+    "workEnd": 105.053202,
+    "statistics": 105.053377,
+    "coverageMerged": 105.055243,
+    "responseBuilt": 105.154
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 104.678,
+   "overrunMs": 4.678,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.019,
+   "checks": 1454,
+   "phases": {
+    "workBegin": 0.352133,
+    "stopRaised": 100.006427,
+    "workEnd": 103.616556,
+    "statistics": 103.616664,
+    "coverageMerged": 103.617598,
+    "responseBuilt": 103.691
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 107.146,
+   "overrunMs": 7.146,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.794,
+   "checks": 1602,
+   "phases": {
+    "workBegin": 0.307103,
+    "stopRaised": 100.030113,
+    "workEnd": 104.152081,
+    "statistics": 104.152242,
+    "coverageMerged": 104.153787,
+    "responseBuilt": 104.232
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 100,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 105.594,
+   "overrunMs": 5.594,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.924,
+   "checks": 1319,
+   "phases": {
+    "workBegin": 0.349266,
+    "stopRaised": 100.014606,
+    "workEnd": 103.858075,
+    "statistics": 103.858157,
+    "coverageMerged": 103.859178,
+    "responseBuilt": 103.936
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 256.721,
+   "overrunMs": 6.721,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 33.659,
+   "checks": 975,
+   "phases": {
+    "workBegin": 0.35384,
+    "stopRaised": 250.068178,
+    "workEnd": 253.817848,
+    "statistics": 253.817921,
+    "coverageMerged": 253.819365,
+    "responseBuilt": 253.9
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 257.595,
+   "overrunMs": 7.595,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 12.033,
+   "checks": 952,
+   "phases": {
+    "workBegin": 0.581352,
+    "stopRaised": 250.0795,
+    "workEnd": 255.649275,
+    "statistics": 255.649439,
+    "coverageMerged": 255.650416,
+    "responseBuilt": 255.767
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 256.511,
+   "overrunMs": 6.511,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.576,
+   "checks": 2122,
+   "phases": {
+    "workBegin": 0.425245,
+    "stopRaised": 250.013101,
+    "workEnd": 253.749264,
+    "statistics": 253.749333,
+    "coverageMerged": 253.750717,
+    "responseBuilt": 253.824
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 254.767,
+   "overrunMs": 4.767,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.553,
+   "checks": 1985,
+   "phases": {
+    "workBegin": 0.366542,
+    "stopRaised": 250.05664,
+    "workEnd": 253.66728,
+    "statistics": 253.667351,
+    "coverageMerged": 253.668443,
+    "responseBuilt": 253.744
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 260.937,
+   "overrunMs": 10.937,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 43.129,
+   "checks": 3865,
+   "phases": {
+    "workBegin": 0.349361,
+    "stopRaised": 250.029809,
+    "workEnd": 255.286213,
+    "statistics": 255.286526,
+    "coverageMerged": 255.288069,
+    "responseBuilt": 255.393
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 255.942,
+   "overrunMs": 5.942,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 10.767,
+   "checks": 3929,
+   "phases": {
+    "workBegin": 0.528842,
+    "stopRaised": 250.112916,
+    "workEnd": 254.062498,
+    "statistics": 254.062617,
+    "coverageMerged": 254.06366,
+    "responseBuilt": 254.141
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 257.578,
+   "overrunMs": 7.578,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.155,
+   "checks": 4141,
+   "phases": {
+    "workBegin": 0.33827,
+    "stopRaised": 250.030439,
+    "workEnd": 254.051397,
+    "statistics": 254.051581,
+    "coverageMerged": 254.0532,
+    "responseBuilt": 254.13
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 250,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 255.789,
+   "overrunMs": 5.789,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.266,
+   "checks": 3982,
+   "phases": {
+    "workBegin": 0.384142,
+    "stopRaised": 250.040252,
+    "workEnd": 253.564428,
+    "statistics": 253.56462,
+    "coverageMerged": 253.565613,
+    "responseBuilt": 253.669
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 606.417,
+   "overrunMs": 6.417,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 26.657,
+   "checks": 2485,
+   "phases": {
+    "workBegin": 0.487409,
+    "stopRaised": 600.092631,
+    "workEnd": 603.57041,
+    "statistics": 603.570487,
+    "coverageMerged": 603.571944,
+    "responseBuilt": 603.646
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 604.432,
+   "overrunMs": 4.432,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.634,
+   "checks": 2219,
+   "phases": {
+    "workBegin": 0.370532,
+    "stopRaised": 600.004664,
+    "workEnd": 603.490984,
+    "statistics": 603.491058,
+    "coverageMerged": 603.491975,
+    "responseBuilt": 603.612
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 607.701,
+   "overrunMs": 7.701,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 27.829,
+   "checks": 5454,
+   "phases": {
+    "workBegin": 0.392091,
+    "stopRaised": 600.076204,
+    "workEnd": 604.193093,
+    "statistics": 604.193281,
+    "coverageMerged": 604.194976,
+    "responseBuilt": 604.32
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 608.198,
+   "overrunMs": 8.198,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.403,
+   "checks": 4678,
+   "phases": {
+    "workBegin": 0.364639,
+    "stopRaised": 600.015281,
+    "workEnd": 603.984789,
+    "statistics": 603.984901,
+    "coverageMerged": 603.985805,
+    "responseBuilt": 604.065
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 606.935,
+   "overrunMs": 6.935,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.496,
+   "checks": 10678,
+   "phases": {
+    "workBegin": 0.5419,
+    "stopRaised": 600.003601,
+    "workEnd": 603.9378,
+    "statistics": 603.937868,
+    "coverageMerged": 603.939035,
+    "responseBuilt": 604.012
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 610.007,
+   "overrunMs": 10.007,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 38.259,
+   "checks": 9627,
+   "phases": {
+    "workBegin": 0.380219,
+    "stopRaised": 600.015051,
+    "workEnd": 604.724634,
+    "statistics": 604.724901,
+    "coverageMerged": 604.726047,
+    "responseBuilt": 604.837
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 607.346,
+   "overrunMs": 7.346,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 31.222,
+   "checks": 10525,
+   "phases": {
+    "workBegin": 0.320967,
+    "stopRaised": 600.017846,
+    "workEnd": 603.732599,
+    "statistics": 603.732677,
+    "coverageMerged": 603.734178,
+    "responseBuilt": 603.81
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 600,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 608.122,
+   "overrunMs": 8.122,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 36.008,
+   "checks": 9673,
+   "phases": {
+    "workBegin": 0.359745,
+    "stopRaised": 600.005956,
+    "workEnd": 603.655788,
+    "statistics": 603.655861,
+    "coverageMerged": 603.656794,
+    "responseBuilt": 603.73
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 1006.615,
+   "overrunMs": 6.615,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 28.822,
+   "checks": 4469,
+   "phases": {
+    "workBegin": 0.342023,
+    "stopRaised": 1000.00689,
+    "workEnd": 1003.669658,
+    "statistics": 1003.669761,
+    "coverageMerged": 1003.671816,
+    "responseBuilt": 1003.748
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 1,
+   "rep": 7,
+   "queryMs": 1007.018,
+   "overrunMs": 7.018,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 9.881,
+   "checks": 3729,
+   "phases": {
+    "workBegin": 0.408528,
+    "stopRaised": 1000.168853,
+    "workEnd": 1003.936589,
+    "statistics": 1003.936688,
+    "coverageMerged": 1003.937671,
+    "responseBuilt": 1004.018
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 1007.707,
+   "overrunMs": 7.707,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.495,
+   "checks": 8092,
+   "phases": {
+    "workBegin": 0.541582,
+    "stopRaised": 1000.02199,
+    "workEnd": 1004.078827,
+    "statistics": 1004.078946,
+    "coverageMerged": 1004.080722,
+    "responseBuilt": 1004.159
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 2,
+   "rep": 7,
+   "queryMs": 1009.996,
+   "overrunMs": 9.996,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 45.414,
+   "checks": 7171,
+   "phases": {
+    "workBegin": 0.356409,
+    "stopRaised": 1000.197717,
+    "workEnd": 1004.572998,
+    "statistics": 1004.573129,
+    "coverageMerged": 1004.574031,
+    "responseBuilt": 1004.672
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 1010.663,
+   "overrunMs": 10.663,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 30.103,
+   "checks": 16604,
+   "phases": {
+    "workBegin": 0.37931,
+    "stopRaised": 1000.118317,
+    "workEnd": 1006.602975,
+    "statistics": 1006.603152,
+    "coverageMerged": 1006.605007,
+    "responseBuilt": 1006.683
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 4,
+   "rep": 7,
+   "queryMs": 1008.783,
+   "overrunMs": 8.783,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 37.46,
+   "checks": 15844,
+   "phases": {
+    "workBegin": 0.384693,
+    "stopRaised": 1000.028507,
+    "workEnd": 1003.97557,
+    "statistics": 1003.975963,
+    "coverageMerged": 1003.976985,
+    "responseBuilt": 1004.05
+   }
+  },
+  {
+   "build": "4.5",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 1008.536,
+   "overrunMs": 8.536,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 29.507,
+   "checks": 18088,
+   "phases": {
+    "workBegin": 0.534589,
+    "stopRaised": 1000.015831,
+    "workEnd": 1004.579289,
+    "statistics": 1004.579626,
+    "coverageMerged": 1004.581413,
+    "responseBuilt": 1004.66
+   }
+  },
+  {
+   "build": "4.4",
+   "limitMs": 1000,
+   "threads": 8,
+   "rep": 7,
+   "queryMs": 1008.909,
+   "overrunMs": 8.909,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 39.134,
+   "checks": 16245,
+   "phases": {
+    "workBegin": 0.371755,
+    "stopRaised": 1000.032698,
+    "workEnd": 1004.042104,
+    "statistics": 1004.042278,
+    "coverageMerged": 1004.043125,
+    "responseBuilt": 1004.119
+   }
+  }
+ ]
+}
