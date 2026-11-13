@@ -103,6 +103,7 @@ static std::vector<unsigned char> slurpCheckpoint(const char *path) {
   b.resize((size_t)size); if (size && std::fread(b.data(), 1, (size_t)size, f) != size) b.clear(); std::fclose(f); return b;
 }
 #include "mwcli_analytics.hpp"   // 4.7: --verify, --compare, --monitor
+#include "mwcli_selftest47.hpp"  // 4.7: --selftest47
 static int runSession(MW *m, const JV *plan) {
   const JV *base = jget(plan, "request"), *steps = jget(plan, "steps"); const char *mode = jstr(jget(plan, "mode"));
   if (!base || base->type != J_OBJ || !steps || steps->type != J_ARR) { std::fprintf(stderr, "error: plan needs request (object) and steps (array)\n"); return 2; }
@@ -281,6 +282,7 @@ int main(int argc, char **argv) {
       pack ? "compress" : "decompress", (unsigned long long)r.rawBytes, (unsigned long long)(pack ? r.packedBytes : inSize), r.rawBytes ? (double)(pack ? r.packedBytes : inSize) / (double)r.rawBytes : 0.0, (unsigned long long)r.blocks, (unsigned long long)r.plainRowBlocks, (unsigned long long)r.shuffledRowBlocks, r.rawSha256.c_str(), secs, peakRssMiB());
     return 0;
   }
+  if (argc >= 2 && !std::strcmp(argv[1], "--selftest47")) return st47::run(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--verify")) return mwa::verify(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--compare")) return mwa::compare(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--monitor")) return mwa::monitor(argc, argv);

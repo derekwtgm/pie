@@ -8,3 +8,7 @@ terminalBaseline                       max|z| 1.99 crit 4.69 variance ratio 0.67
 default rows seen 32 43.2 s
 ownHandEnumeration rows seen 32 43.1 s
 ownHandEnumeration+terminalBaseline rows seen 32 26.1 s
+terminalBaseline rows seen 32 26.0 s
+ownHandEnumeration                     max|z| 1.74 crit 4.70 variance ratio 0.286
+ownHandEnumeration+terminalBaseline    max|z| 1.74 crit 4.70 variance ratio 0.259
+terminalBaseline                       max|z| 0.56 crit 4.70 variance ratio 0.910

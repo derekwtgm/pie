@@ -1,0 +1,52 @@
+{
+ "tool": "unbiased47",
+ "game": "river3",
+ "runsPerEstimator": 4000,
+ "components": 128,
+ "familywiseAlpha": 0.001,
+ "bonferroniCritical": 4.69979979843776,
+ "method": "two-sample Welch z per (row, value) component of seat 0 after one update from the uniform profile; regrets and average-strategy increments; Bonferroni over all components and candidates",
+ "candidates": [
+  {
+   "estimator": "ownHandEnumeration",
+   "maxAbsZ": 1.7431920128790446,
+   "consistentWithDefaultExpectation": true,
+   "worstComponent": {
+    "row": "0.1.0|3|15,26,48,1,4|0",
+    "component": "regret 0",
+    "defaultMean": -0.07125,
+    "candidateMean": -0.05195833333333329
+   },
+   "regretVarianceRatioToDefault": 0.28580245724432257,
+   "seconds": 43.142
+  },
+  {
+   "estimator": "ownHandEnumeration+terminalBaseline",
+   "maxAbsZ": 1.7431920128790446,
+   "consistentWithDefaultExpectation": true,
+   "worstComponent": {
+    "row": "0.1.0|3|15,26,48,1,4|0",
+    "component": "regret 0",
+    "defaultMean": -0.07125,
+    "candidateMean": -0.05195833333333329
+   },
+   "regretVarianceRatioToDefault": 0.25924377252220443,
+   "seconds": 26.147
+  },
+  {
+   "estimator": "terminalBaseline",
+   "maxAbsZ": 0.5630148243659931,
+   "consistentWithDefaultExpectation": true,
+   "worstComponent": {
+    "row": "0.1.2|2|15,26,48,1,4|0",
+    "component": "regret 0",
+    "defaultMean": -0.15025,
+    "candidateMean": -0.137875
+   },
+   "regretVarianceRatioToDefault": 0.9101645912951762,
+   "seconds": 25.973
+  }
+ ],
+ "defaultSeconds": 43.216,
+ "passed": true
+}

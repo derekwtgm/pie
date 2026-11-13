@@ -9,7 +9,7 @@ constexpr int TERMINAL_REF = INT_MAX;
 struct Walker {
   const MW &m; const Game &g;
   Unit *u = nullptr; Rng *rng = nullptr; int player = 0; double step = 1, avgStep = 1;
-  std::pmr::vector<BS> st; std::pmr::vector<double> sig, samp, val;
+  std::pmr::vector<BS> st; std::pmr::vector<const BS *> cur; std::pmr::vector<double> sig, samp, val;
   struct Edge;
   Tournament::Workspace icm; double util[8] = {}; LPot pots[24];
   // 3.8: per-worker direct-mapped cache of committed betting transitions,
@@ -67,9 +67,9 @@ struct Walker {
     if(edgeKeys[i]==key){next=edges[i].state;return;}
     g.rules.nextStreet(t,next);edgeKeys[i]=key;edges[i].id=-1;edges[i].state=next;
   }
-  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),sig(&budget),samp(&budget),val(&budget),edgeKeys(&budget),termKeys(&budget),vhand(&budget),vcw(&budget),vone(&budget),vscore(&budget),vsh(&budget) {
+  Walker(const MW &mm, const Game &gg,ScratchBudget &budget) : m(mm), g(gg),st(&budget),cur(&budget),sig(&budget),samp(&budget),val(&budget),edgeKeys(&budget),termKeys(&budget),vhand(&budget),vcw(&budget),vone(&budget),vscore(&budget),vsh(&budget) {
     if(const size_t e=edgeEntries(mm.budgetBytes)){edgeKeys.assign(e,UINT64_MAX);termKeys.assign(e,UINT64_MAX);edges.init(&budget,e);terms.init(&budget,e);edgeMask=e-1;}
-    st.resize(MAX_DEPTH + 2); sig.resize((MAX_DEPTH + 2) * 8); samp.resize((MAX_DEPTH + 2) * 8); val.resize((MAX_DEPTH + 2) * 8);
+    st.resize(MAX_DEPTH + 2); cur.assign(MAX_DEPTH + 2, nullptr); sig.resize((MAX_DEPTH + 2) * 8); samp.resize((MAX_DEPTH + 2) * 8); val.resize((MAX_DEPTH + 2) * 8);
     if (!m.tournament.start.empty()) m.tournament.prepare(icm,m.budgetBytes);
   }
   int child(int ref, int slot, const BS &c) {
@@ -151,6 +151,23 @@ struct Walker {
     if(a==CHANCE_SLOT)street(ref,t,c);else advance(ref,t,a,c);
     return child(ref,a,c);
   }
+  // 4.7: the betting state of depth d+1 is referenced in place when the read-only state store
+  // holds it (pointer into Game::store, which only grows between updates) instead of being
+  // copied (about 430 bytes per visited state); otherwise it is built into st[d+1] as before.
+  // Every value read is the same object content, so results are bit-identical.
+  int descendP(int d,int ref,const BS &t,int a){
+    BS &c=st[(size_t)d+1];
+    if(ref>=0&&!g.store.empty()){
+      const int id=g.states.find((uint32_t)ref,a);
+      if(id>=0){
+        if((size_t)id<g.store.size()){cur[(size_t)d+1]=&g.store[(size_t)id];return id;}
+        if(a==CHANCE_SLOT)street(ref,t,c);else advance(ref,t,a,c);
+        cur[(size_t)d+1]=&c;return id;
+      }
+    }
+    if(a==CHANCE_SLOT)street(ref,t,c);else advance(ref,t,a,c);
+    cur[(size_t)d+1]=&c;return child(ref,a,c);
+  }
   static uint64_t edgeKey(int ref,int a){return ref>=0?(uint64_t)(uint32_t)ref*8+(unsigned)a:UINT64_MAX;}
   static int choose(const double *q, int k, Rng &r) {
     const double value = r.next(); double cumulative = 0;
@@ -160,7 +177,7 @@ struct Walker {
   // lib_wide.js learn(): returns the sampled value for `player`.
   double learn(int d, int ref, double own, double opp, double sp) {
     u->visits++;
-    BS &t = st[(size_t)d];
+    const BS &t = *cur[(size_t)d];
     const uint64_t tkey = ref == TERMINAL_REF ? terminalKey : UINT64_MAX;
     if (t.kind == 2 || (g.terminalExpectation && !t.live[player] && m.tournament.start.empty())) {
       // A folded player only receives chips if an unmatched top contribution
@@ -176,9 +193,9 @@ struct Walker {
     }
     if (d + 1 >= MAX_DEPTH || u->overflow) { u->overflow = true; return 0; }
     BS &c = st[(size_t)d + 1];
-    if (t.kind == 1) { const int r = descend(ref, t, CHANCE_SLOT, c); return learn(d + 1, r, own, opp, sp); }
+    if (t.kind == 1) { const int r = descendP(d, ref, t, CHANCE_SLOT); return learn(d + 1, r, own, opp, sp); }
     const int k = t.k;
-    if (k == 1) { const int r = descend(ref, t, 0, c); return learn(d + 1, r, own, opp, sp); }
+    if (k == 1) { const int r = descendP(d, ref, t, 0); return learn(d + 1, r, own, opp, sp); }
     double *s = &sig[(size_t)d * 8], *q = &samp[(size_t)d * 8], *v = &val[(size_t)d * 8];
     const int physical=u->w.seat[t.actor];
     int hand=m.hands[t.actor][physical].strategyHand;uint32_t code=u->code[t.length];
@@ -204,7 +221,7 @@ struct Walker {
             if(c.kind==2){known+=s[i]*(seatPayoff(c,edgeKey(ref,i))-baseline);u->visits++;if(a==i)terminal=true;}
           }
           if(terminal)return known;
-          const int r=descend(ref,t,a,c);
+          const int r=descendP(d, ref, t, a);
           const double v=learn(d+1,r,own,opp*s[a],sp*q[a]);
           return known+s[a]/q[a]*(v-baseline);
         }
@@ -214,7 +231,7 @@ struct Walker {
         if(c.kind==2){const double called=seatPayoff(c,edgeKey(ref,1));advance(ref,t,0,c);
           if(c.kind==2){u->visits+=2;return s[0]*seatPayoff(c,edgeKey(ref,0))+s[1]*called;}}
       }
-      const int r = descend(ref, t, a, c);
+      const int r = descendP(d, ref, t, a);
       const double ratio = s[a] / q[a];
       return ratio * learn(d + 1, r, own, opp * s[a], sp * q[a]);
     }
@@ -224,7 +241,7 @@ struct Walker {
     double mean = 0;
     for (int a = 0; a < k; a++) {
       u->vals[off + (size_t)(k + a)] = avgStep * own * s[a] / sp;
-      const int r = descend(ref, t, a, c);
+      const int r = descendP(d, ref, t, a);
       v[a] = learn(d + 1, r, own * s[a], opp, sp);
       mean += s[a] * v[a];
     }
@@ -234,7 +251,7 @@ struct Walker {
   void run(Unit &unit, int seat, Rng &r, double stp, double avgStp) {
     if (g.ownHands) { runVec(unit, seat, r, stp, avgStp); return; }
     u = &unit; rng = &r; player = seat; step = stp; avgStep = avgStp;
-    st[0] = g.rootState;
+    st[0] = g.rootState; cur[0] = &st[0];
     learn(0, 0, 1, 1, 1);
   }
   // ---- 4.7 experimental: own-hand enumeration (Game::ownHands) ----
@@ -254,16 +271,16 @@ struct Walker {
   }
   const double *learnVec(int d, int ref, const double *own, double opp, double sp) {
     u->visits++;
-    BS &t = st[(size_t)d]; const int H = vH;
+    const BS &t = *cur[(size_t)d]; const int H = vH;
     if (t.kind == 2) {
       const uint64_t tkey = ref == TERMINAL_REF ? terminalKey : UINT64_MAX;
       double *out = frame(d, (size_t)H); vecPayoff(t, tkey, out); return out;
     }
     if (d + 1 >= MAX_DEPTH || u->overflow) { u->overflow = true; double *out = frame(d, (size_t)H); std::fill_n(out, H, 0.0); return out; }
     BS &c = st[(size_t)d + 1];
-    if (t.kind == 1) { const int r = descend(ref, t, CHANCE_SLOT, c); return learnVec(d + 1, r, own, opp, sp); }
+    if (t.kind == 1) { const int r = descendP(d, ref, t, CHANCE_SLOT); return learnVec(d + 1, r, own, opp, sp); }
     const int k = t.k;
-    if (k == 1) { const int r = descend(ref, t, 0, c); return learnVec(d + 1, r, own, opp, sp); }
+    if (k == 1) { const int r = descendP(d, ref, t, 0); return learnVec(d + 1, r, own, opp, sp); }
     const uint32_t code = u->code[t.length];
     if (t.actor != player) {
       double *s = &sig[(size_t)d * 8], *q = &samp[(size_t)d * 8];
@@ -282,14 +299,14 @@ struct Walker {
             if (c.kind == 2) { vecPayoff(c, edgeKey(ref, i), tmp); for (int h = 0; h < H; h++) out[h] += s[i] * (tmp[h] - base[h]); u->visits++; if (a == i) terminal = true; }
           }
           if (terminal) return out;
-          const int r = descend(ref, t, a, c);
+          const int r = descendP(d, ref, t, a);
           const double *v = learnVec(d + 1, r, own, opp * s[a], sp * q[a]);
           const double ratio = s[a] / q[a];
           for (int h = 0; h < H; h++) out[h] += ratio * (v[h] - base[h]);
           return out;
         }
       }
-      const int r = descend(ref, t, a, c);
+      const int r = descendP(d, ref, t, a);
       const double ratio = s[a] / q[a];
       const double *v = learnVec(d + 1, r, own, opp * s[a], sp * q[a]);
       double *out = frame(d, (size_t)H);
@@ -301,7 +318,7 @@ struct Walker {
     if (!u->room(0, (size_t)H, 2 * (size_t)k * H, g.unitLimitBytes)) { u->overflow = true; std::fill_n(out, H, 0.0); return out; }
     for (int a = 0; a < k; a++) {
       for (int h = 0; h < H; h++) CO[h] = own[h] * S[(size_t)h * k + a];
-      const int r = descend(ref, t, a, c);
+      const int r = descendP(d, ref, t, a);
       const double *v = learnVec(d + 1, r, CO, opp, sp);
       std::copy_n(v, H, V + (size_t)a * H);
     }
@@ -335,7 +352,7 @@ struct Walker {
     vH = (int)vhand.size();
     for (int i : vhand) { const Hand &h = range[(size_t)i]; vcw.push_back(h.w / tot); vsh.push_back(h.strategyHand); vscore.push_back(m.startLen == 5 ? h.riverScore : evalSeven(unit.w.cards, h.a, h.b)); }
     vone.assign((size_t)vH, 1.0);
-    st[0] = g.rootState;
+    st[0] = g.rootState; cur[0] = &st[0];
     learnVec(0, 0, vone.data(), 1, 1);
   }
 };
