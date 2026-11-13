@@ -255,7 +255,7 @@ test('4.3 sanitizers: table43 + coverage43 under ASan+UBSan and TSan; a sanitize
     // sanitized engine
     const json = path.join(dir, 'json_' + name + '.o'), exe = path.join(dir, 'mwcli_' + name);
     cp.execFileSync('gcc', [...flags.filter(f => f !== '-fno-sanitize-recover=all'), '-c', path.join(native, 'json.c'), '-o', json]);
-    cp.execFileSync('g++', ['-std=c++20', ...flags, '-ffp-contract=off', '-I' + native, path.join(native, 'mw.cpp'), path.join(native, 'mwcli.cpp'), json, '-lpthread', '-ldl', '-o', exe]);
+    cp.execFileSync('g++', ['-std=c++20', ...flags, '-ffp-contract=off', '-I' + native, path.join(native, 'mw.cpp'), path.join(native, 'mwcli.cpp'), json, '-lpthread', '-ldl', '-lz', '-o', exe]);
     let lib = fx();
     if (name === 'tsan') { lib = path.join(dir, 'fxt'); fs.mkdirSync(lib); cp.execFileSync('g++', ['-std=c++20', '-O1', '-g', '-fsanitize=thread', '-shared', '-fPIC', path.join(__dirname, 'cuda_driver_fixture.cpp'), '-o', path.join(lib, 'libcuda.so.1')]); }
     const f = runner(t, path.join(fixtures40, 'push8-icm.spec.json'), path.join(fixtures40, 'push8-icm.state'));

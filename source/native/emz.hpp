@@ -30,7 +30,7 @@ constexpr size_t BLOCK_VALUES = 8u << 20;
 inline bool isEMZ(const unsigned char *p, size_t n) { return n >= 8 && !std::memcmp(p, "EMZ1\0\0\0\0", 8); }
 struct Result { bool ok = false; std::string error; uint64_t rawBytes = 0, packedBytes = 0; std::string rawSha256; double ratio = 0; uint64_t blocks = 0, plainRowBlocks = 0, shuffledRowBlocks = 0; };
 struct Reader {   // exact reads from a FILE with a running SHA-256 of what was read
-  FILE *f; emsha::Sha256 sha; uint64_t pos = 0; bool hash = true;
+  FILE *f = nullptr; emsha::Sha256 sha; uint64_t pos = 0; bool hash = true;
   bool read(void *p, size_t n) { if (n && std::fread(p, 1, n, f) != n) return false; if (hash) sha.add(p, n); pos += n; return true; }
 };
 inline bool put(FILE *o, const void *p, size_t n, uint64_t &count) { count += n; return !n || std::fwrite(p, 1, n, o) == n; }
@@ -42,7 +42,7 @@ inline bool writeBlock(FILE *o, uint32_t type, const std::vector<unsigned char> 
 }
 // Compresses an EMMW4 stream of inSize bytes from `in` to `out`.
 inline Result compress(FILE *in, uint64_t inSize, FILE *out, int level = 6) {
-  Result r; Reader rd{in}; uint64_t written = 0;
+  Result r; Reader rd; rd.f = in; uint64_t written = 0;
   auto fail = [&](const char *e) { r.ok = false; r.error = e; return r; };
   unsigned char head[12]; if (inSize < 20 || !rd.read(head, 12) || std::memcmp(head, "EMMW4\0\0\0", 8)) return fail("input is not an EMMW4 external-sampling checkpoint");
   uint32_t hl; std::memcpy(&hl, head + 8, 4); if ((uint64_t)hl + 16 > inSize) return fail("truncated EMMW4 header");
@@ -118,7 +118,7 @@ inline Result compress(FILE *in, uint64_t inSize, FILE *out, int level = 6) {
 }
 // Decompresses EMZ1 from `in` to `out` (EMMW4 bytes), verifying every check.
 inline Result decompress(FILE *in, FILE *out) {
-  Result r; Reader rd{in}; rd.hash = false; emsha::Sha256 raw; uint64_t produced = 0, dummy = 0;
+  Result r; Reader rd; rd.f = in; rd.hash = false; emsha::Sha256 raw; uint64_t produced = 0, dummy = 0;
   auto fail = [&](const char *e) { r.ok = false; r.error = e; return r; };
   unsigned char head[16]; if (!rd.read(head, 16) || !isEMZ(head, 16)) return fail("not an EMZ1 compressed checkpoint");
   uint32_t version; std::memcpy(&version, head + 8, 4); if (version != 1) return fail("unsupported EMZ1 version");

@@ -27,7 +27,10 @@ TRAINER, A CONVERGENCE DASHBOARD, CHECKPOINT COMPARISON AND COMPRESSION
   - Checkpoints can be compressed without loss (about 45% of the original
     size on the large eight-player study): mwcli --compress / --decompress.
     Every mwcli command also reads compressed checkpoints directly.
-  - A faster inner loop of the training engine (no change to any result).
+  - Training engine inner loop: betting states are read in place instead of
+    copied. Results are byte-identical to 4.6; measured 19-21% faster on two
+    of five benchmark workloads with one thread, no measurable difference on
+    the others (and with four threads).
   - PLEASE RUN on your PC: "Run self-tests.bat" (now also runs the new
     "Run 4.7 checks.bat") and "Validate CUDA hardware.bat"; keep
     Windows-self-test.json, EightMax-4.7-self-test.json,

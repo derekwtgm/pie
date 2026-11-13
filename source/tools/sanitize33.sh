@@ -20,11 +20,11 @@ fs.writeFileSync(process.argv[2]+"/group6.json",JSON.stringify(E.MultiwayGame({.
 fs.writeFileSync(process.argv[2]+"/group8.json",JSON.stringify(E.MultiwayGame({...pf8,abstraction:"compact"}).nativeSpec()));' "$src" "$t"
 echo "== 3.3 ThreadSanitizer (DCFR, grouped keys)"
 gcc -O1 -g -fsanitize=thread -c "$n/json.c" -o "$t/j.o"
-g++ -std=c++20 -O1 -g -fsanitize=thread -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/j.o" -lpthread -ldl -o "$t/tsan"
+g++ -std=c++20 -O1 -g -fsanitize=thread -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/j.o" -lpthread -ldl -lz -o "$t/tsan"
 for s in dcfr6 group6 group8; do TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/tsan" "$t/$s.json" 30 4 "$t/o" 4096 >/dev/null; echo "tsan $s ok"; done
 echo "== 3.3 AddressSanitizer + UndefinedBehaviorSanitizer (train, export, resume)"
 gcc -O1 -g -fsanitize=address,undefined -c "$n/json.c" -o "$t/ja.o"
-g++ -std=c++20 -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/ja.o" -lpthread -ldl -o "$t/asan"
+g++ -std=c++20 -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/ja.o" -lpthread -ldl -lz -o "$t/asan"
 for s in dcfr6 group6 group8; do
   "$t/asan" "$t/$s.json" 30 4 "$t/$s.state" 4096 >/dev/null
   "$t/asan" "$t/$s.json" 10 2 "$t/$s.2" 4096 "$t/$s.state" >/dev/null

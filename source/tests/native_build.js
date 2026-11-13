@@ -28,7 +28,7 @@ function cli(){
   try{
     const dir=publish(path.join(os.tmpdir(),'eightmax-native-'+fingerprint()),work=>{
       execFileSync('gcc',['-O2','-c',path.join(native,'json.c'),'-o',path.join(work,'json.o')]);
-      execFileSync('g++',['-std=c++20','-O2','-ffp-contract=off','-I'+native,path.join(native,'mw.cpp'),path.join(native,'mwcli.cpp'),path.join(work,'json.o'),'-lpthread','-ldl','-o',path.join(work,'mwcli')]);
+      execFileSync('g++',['-std=c++20','-O2','-ffp-contract=off','-I'+native,path.join(native,'mw.cpp'),path.join(native,'mwcli.cpp'),path.join(work,'json.o'),'-lpthread','-ldl','-lz','-o',path.join(work,'mwcli')]);
       if(process.platform==='linux')execFileSync('g++',['-std=c++20','-O2','-shared','-fPIC',path.join(__dirname,'cuda_driver_fixture.cpp'),'-o',path.join(work,'libcuda.so.1')]);
     });
     cached={cli:process.env.EM_TEST_MWCLI||path.join(dir,'mwcli'),fixtureDir:dir,why:''};

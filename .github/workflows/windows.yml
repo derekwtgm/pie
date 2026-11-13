@@ -28,7 +28,7 @@ jobs:
           # 3.3: build.sh runs node (fingerprint check); the MSYS2 shell must see the runner's PATH.
           path-type: inherit
           update: true
-          install: mingw-w64-ucrt-x86_64-gcc python
+          install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-zlib python
       - name: Compile a fresh native host from the current source
         shell: msys2 {0}
         run: CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"

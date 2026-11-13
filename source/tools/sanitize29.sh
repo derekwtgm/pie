@@ -17,12 +17,12 @@ g++ -std=c++20 -O2 -Wall -Wextra -Wshadow -Werror -ffp-contract=off -fsyntax-onl
 echo "no warnings"
 echo "== ThreadSanitizer"
 gcc -O1 -g -fsanitize=thread -c "$n/json.c" -o "$t/j.o"
-g++ -std=c++20 -O1 -g -fsanitize=thread -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/j.o" -lpthread -ldl -o "$t/tsan"
+g++ -std=c++20 -O1 -g -fsanitize=thread -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/j.o" -lpthread -ldl -lz -o "$t/tsan"
 for s in flop river6; do TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/tsan" "$t/$s.json" 4 4 "$t/o" 4096; done
 for s in es8 es6; do TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/tsan" "$t/$s.json" 20 4 "$t/o" 4096; done
 echo "== AddressSanitizer + UndefinedBehaviorSanitizer"
 gcc -O1 -g -fsanitize=address,undefined -c "$n/json.c" -o "$t/ja.o"
-g++ -std=c++20 -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/ja.o" -lpthread -ldl -o "$t/asan"
+g++ -std=c++20 -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -ffp-contract=off -I"$n" "$n/mw.cpp" "$n/mwcli.cpp" "$t/ja.o" -lpthread -ldl -lz -o "$t/asan"
 for s in flop river6; do "$t/asan" "$t/$s.json" 4 4 "$t/$s.state" 4096; done
 for s in es8 es6; do ASAN_OPTIONS=detect_leaks=0 "$t/asan" "$t/$s.json" 20 4 "$t/$s.state" 4096; ASAN_OPTIONS=detect_leaks=0 "$t/asan" "$t/$s.json" 5 2 "$t/o3" 4096 "$t/$s.state"; done
 "$t/asan" "$t/flop.json" 2 2 "$t/o2" 4096 "$t/flop.state"
