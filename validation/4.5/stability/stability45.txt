@@ -1,27 +1,13 @@
-error 400: limit must be from 1 to 1326
-node:child_process:955
-    throw err;
-    ^
-
-Error: Command failed: source/build/linux/mwcli --node /tmp/em45-stab-ElY3v9/spec.json /tmp/em45-stab-ElY3v9/state /tmp/em45-stab-ElY3v9/n.json
-error 400: limit must be from 1 to 1326
-
-    at genericNodeError (node:internal/errors:983:15)
-    at wrappedFn (node:internal/errors:537:14)
-    at checkExecSyncError (node:child_process:916:11)
-    at Object.execFileSync (node:child_process:952:15)
-    at run (/home/user/pie/source/tools/stability45.js:46:32)
-    at /home/user/pie/source/tools/stability45.js:61:20
-    at Array.forEach (<anonymous>)
-    at Object.<anonymous> (/home/user/pie/source/tools/stability45.js:56:13)
-    at Module._compile (node:internal/modules/cjs/loader:1781:14)
-    at Object..js (node:internal/modules/cjs/loader:1913:10) {
-  status: 1,
-  signal: null,
-  output: [ null, '', 'error 400: limit must be from 1 to 1326\n' ],
-  pid: 13746,
-  stdout: '',
-  stderr: 'error 400: limit must be from 1 to 1326\n'
-}
-
-Node.js v22.23.4
+hu-river-dry         20000: NashConv 2.93e-1 (sd 1.1e-1), root spread 0.0574 max 0.134  |  100000: NashConv 1.28e-1 (sd 1.4e-2), root spread 0.0305 max 0.101
+hu-river-wet         20000: NashConv 2.95e-1 (sd 1.0e-1), root spread 0.0281 max 0.080  |  100000: NashConv 1.23e-1 (sd 3.3e-2), root spread 0.0120 max 0.037
+hu-river-flush       20000: NashConv 2.72e-1 (sd 3.7e-2), root spread 0.0322 max 0.098  |  100000: NashConv 1.37e-1 (sd 3.9e-2), root spread 0.0145 max 0.038
+river3-shallow       20000: NashConv 1.15e-1 (sd 3.2e-2), root spread 0.0432 max 0.129  |  100000: NashConv 5.48e-2 (sd 1.7e-2), root spread 0.0483 max 0.148
+river3-deep          20000: NashConv 8.68e-1 (sd 3.1e-1), root spread 0.0566 max 0.117  |  100000: NashConv 3.12e-1 (sd 1.3e-1), root spread 0.0247 max 0.052
+river3-jam           20000: NashConv 1.10e-1 (sd 2.7e-2), root spread 0.0758 max 0.221  |  100000: NashConv 5.35e-2 (sd 1.9e-2), root spread 0.0370 max 0.100
+river3-three-sizes   20000: NashConv 2.20e-1 (sd 4.4e-2), root spread 0.0530 max 0.170  |  100000: NashConv 7.26e-2 (sd 2.3e-2), root spread 0.0365 max 0.179
+turn4                20000: NashConv 4.40e+0 (sd 1.2e-1), root spread 0.0640 max 0.086  |  60000: NashConv 2.00e+0 (sd 1.2e-1), root spread 0.0368 max 0.080
+flop5                20000: NashConv 4.32e-1 (sd 1.7e-1), root spread 0.1429 max 0.215  |  60000: NashConv 2.31e-1 (sd 1.8e-2), root spread 0.0488 max 0.070
+flop6                20000: NashConv 3.46e-1 (sd 1.6e-1), root spread 0.0923 max 0.167  |  60000: NashConv 1.10e-1 (sd 4.5e-2), root spread 0.0893 max 0.175
+bubble4              20000: NashConv 1.42e-3 (sd 2.4e-3), root spread 0.0012 max 0.002  |  60000: NashConv 1.59e-4 (sd 2.7e-4), root spread 0.0001 max 0.000
+final8               20000: NashConv 4.42e-3 (sd 4.1e-3), root spread 0.0077 max 0.008  |  60000: NashConv 4.90e-4 (sd 4.6e-4), root spread 0.0009 max 0.001
+wrote validation/4.5/stability/stability45.json {"scenarios":12,"nashConvFallsWithBudget":12,"rootSpreadFallsWithBudget":11}

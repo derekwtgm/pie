@@ -12,10 +12,8 @@ runner-built zip) are attached to the runs on GitHub and are not copied here.
 | 30 (`43320034718`) | `a65eb2f` | self-test **passed** after the `[math]::Abs` fix, including the 4.5 section (IEEE sweep with digest `94fc3f6ed8426909`, coverage budgets 1/2/8/32 MiB x 1/4/8 threads, golden training hash, continuation after a capped evaluation, job-pool 413). Regression step **failed**: see run 32 |
 | 32 (`43322182693`) | `94e42e8` | regression suite on Windows: **398 passed, 2 failed, 34 skipped, 0 timed out** (hardware-dependent: 12 run, 32 skipped — tests that need a Linux compiler toolchain or the Linux CUDA test double). The two failures: the inherited `4.2 coverage` test (compares the whole `coverage` object across thread counts; the first 4.5 layout put worker-count-dependent bytes in it) and one 4.5 test with a wrong assertion |
 | 33 (`43326879611`) | `f703424` | **all steps succeeded**: compile, self-test on the fresh host, release assembly, release verification (device comparison script, build verification, interface smoke tests, self-test on the assembled release, accuracy report, complete regression suite — the step fails on any failed or timed-out test), concurrency stress (5 repetitions), parse of every PowerShell script, `validate_hardware.ps1` on CPU paths (including the new section 11) |
-
-Commit `f703424` has the same source files as the released build
-`e081b4411b33df7e` (later commits changed only built artifacts, reports and
-documents).
+| 34 (`43331280269`) | `8393e24` | all steps succeeded |
+| 35 (`43361922865`) | `7a498fc` | **all steps succeeded**. This commit has the source files of the released build `0e3de4013c49474a` (later commits change only built artifacts, reports and documents) |
 
 What this does and does not show:
 

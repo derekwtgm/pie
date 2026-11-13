@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12T23:39:41.798Z",
+ "generated": "2026-11-13T04:21:15.117Z",
  "host": "eightmax",
  "checks": [
   {
@@ -38,7 +38,7 @@
      },
      "tableCapacityBytes": 49161,
      "scratchPeakBytes": 0,
-     "scratchBudgetBytes": 1541782528,
+     "scratchBudgetBytes": 1541840896,
      "attemptedDealsThisSession": 0,
      "transientLimitPerDealBytes": 67108864,
      "budgetMiB": 1470.4,
@@ -91,7 +91,7 @@
    "ok": true,
    "detail": {
     "status": 200,
-    "ms": 13
+    "ms": 14
    }
   },
   {
@@ -99,7 +99,7 @@
    "ok": true,
    "detail": {
     "bytes": 377271,
-    "ms": 13
+    "ms": 14
    }
   },
   {
@@ -591425,20 +591425,20 @@
     "deadline": {
      "timeLimitMs": 120000,
      "clock": "steady (monotonic)",
-     "checks": 550,
-     "maxCheckGapMs": 8.971,
+     "checks": 565,
+     "maxCheckGapMs": 6.574,
      "phasesMs": {
-      "workBegin": 0.511833,
+      "workBegin": 0.428892,
       "stopRaised": null,
-      "workEnd": 53.313424,
-      "statistics": 53.313591,
-      "coverageMerged": 53.315138,
-      "responseBuilt": 53.49
+      "workEnd": 50.899843,
+      "statistics": 50.899986,
+      "coverageMerged": 50.90155,
+      "responseBuilt": 51.025
      }
     },
     "work": {
      "units": "counts of work items of each kind; kinds have different costs and are never added together",
-     "treeVisits": 175358,
+     "treeVisits": 175740,
      "treeNodePolls": 176681,
      "chanceCards": 0,
      "opponentTuples": 0,
@@ -591471,7 +591471,7 @@
     },
     "stoppedEarly": false,
     "stoppedBy": null,
-    "elapsedMs": 53.5,
+    "elapsedMs": 51,
     "cache": {
      "hit": false
     }
@@ -591564,8 +591564,8 @@
  ],
  "runner": "linux",
  "deepNodesChecked": 25,
- "evMs": 56,
- "gainMs": 803,
+ "evMs": 53,
+ "gainMs": 786,
  "seatGains": [
   {
    "seat": 0,
@@ -591608,6 +591608,6 @@
    "stdErr": 0.0000627940004199625
   }
  ],
- "rootMs": 13,
+ "rootMs": 14,
  "passed": 105
 }

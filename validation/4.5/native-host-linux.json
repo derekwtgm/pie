@@ -1,13 +1,13 @@
 {
  "version": "4.5",
- "build": "e081b4411b33df7e",
+ "build": "0e3de4013c49474a",
  "executable": "eightmax",
  "runtime": "linux",
  "node": "v22.23.4",
  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
  "passed": true,
  "checks": [
-  "Host starts (0.0 s) and reports version 4.5, build e081b4411b33df7e, engine gen",
+  "Host starts (0.0 s) and reports version 4.5, build 0e3de4013c49474a, engine gen",
   "Embedded interface is byte-identical to the built native.html and carries the same version and build id",
   "Refuses a prefix-matching Host header",
   "Refuses a foreign Host header",
@@ -27,19 +27,19 @@
   "Reserved or empty save name \"   \" is refused",
   "Duplicate board cards are rejected",
   "Saving before solving reports a clear message",
-  "Known river equilibrium reproduced natively (10000 iterations, 0.10 s): value bets, half bluffs, half calls",
+  "Known river equilibrium reproduced natively (10000 iterations, 0.07 s): value bets, half bluffs, half calls",
   "Saved solution lists, reloads and reproduces the identical strategy",
   "Loading a missing file is refused",
   "A corrupted solution file is refused without crashing",
-  "Host answers during a long solve (1 ms) and stops it on request after 6 iterations",
+  "Host answers during a long solve (2 ms) and stops it on request after 3 iterations",
   "Host is still running after every refused or cancelled request",
   "Host shuts down when its process is terminated"
  ],
  "timings": {
-  "startupSeconds": 0.014,
-  "riverSolveSeconds": 0.095,
-  "responsiveMs": 1
+  "startupSeconds": 0.011,
+  "riverSolveSeconds": 0.065,
+  "responsiveMs": 2
  },
  "error": null,
- "generated": "2026-11-12T23:42:59.990Z"
+ "generated": "2026-11-13T04:24:37.454Z"
 }

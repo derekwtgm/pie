@@ -3,16 +3,16 @@
  "runtime": "linux",
  "executable": "eightmax",
  "checks": [
-  "Host 4.5 build e081b4411b33df7e advertises multiway protocol 1 (4 logical CPUs)",
-  "3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.13 s) are bit-identical to JavaScript",
+  "Host 4.5 build 0e3de4013c49474a advertises multiway protocol 1 (4 logical CPUs)",
+  "3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.16 s) are bit-identical to JavaScript",
   "3-player river, own-hand enumeration: 40 updates on the host (4 threads, 0.14 s) are bit-identical to JavaScript",
-  "6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.42 s) are bit-identical to JavaScript",
-  "Cancellation stops training in 4 ms after 14179 updates; the stopped state is complete and resumable (matches 14179 JavaScript updates); concurrent jobs are refused",
+  "6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.59 s) are bit-identical to JavaScript",
+  "Cancellation stops training in 3 ms after 11805 updates; the stopped state is complete and resumable (matches 11805 JavaScript updates); concurrent jobs are refused",
   "A malformed native state is refused",
-  "Memory: application limit 8043 MiB, native process limit 6144 MiB, resident 8.1 MiB, tables 0.1 MiB, available 1470 MiB",
+  "Memory: application limit 8043 MiB, native process limit 6144 MiB, resident 8.2 MiB, tables 0.1 MiB, available 1469.9 MiB",
   "8-player full-range river fits the available budget (0.047 MiB)",
   "Tables released"
  ],
  "error": null,
- "generated": "2026-11-12T23:43:03.799Z"
+ "generated": "2026-11-13T04:24:40.759Z"
 }

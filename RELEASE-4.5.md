@@ -9,8 +9,8 @@ identical bits, and an honest negative result on training convergence.
 | Environment | What ran | Status |
 |---|---|---|
 | Linux build machine (4 logical CPUs, 15 GiB, GCC 13.3) | everything in this document unless stated otherwise | done |
-| Windows executables under Wine 9.0 (not Windows) | `tools/wine45.js`, desktop-host checks | done, see section 13 |
-| GitHub-hosted `windows-latest` virtual machine (real Windows, Windows PowerShell 5.1, MinGW-w64 UCRT build of this source, **no GPU**) | the repository's Windows workflow: `test_windows.ps1` (the script behind `Run self-tests.bat`), regression suite, hardware script on CPU paths | see section 13 for the exact status of each step |
+| Windows executables under Wine 9.0 (not Windows) | `tools/wine45.js` (22 checks on `mwcli.exe`) | done, see section 13 |
+| GitHub-hosted `windows-latest` virtual machine (real Windows, Windows PowerShell 5.1, MinGW-w64 UCRT build of this source, **no GPU**) | the repository's Windows workflow: `test_windows.ps1` (the script behind `Run self-tests.bat`), regression suite, hardware script on CPU paths | all steps passed on the final source (section 13) |
 | Your PC (i7 13th gen, 24 logical processors, RTX 4060 Ti 8 GB, 16 GB RAM) | nothing | **pending** |
 | Any physical NVIDIA GPU | nothing | **pending** |
 
@@ -32,11 +32,11 @@ code paths were exercised only with the Linux driver test double (simulated).
 | 9 Response-gain evaluation | Per-seat coverage tables now keep sketches inside the pool; results bit-identical for 1 and 4 threads in all new tests; evaluation methods and their labels unchanged. |
 | 10 Tournament mathematics | Unchanged (0.5/1 blinds, 0.1 bb individual antes, 2.3 bb eight-player pot, optional big-blind ante). ICM kernel bit-identical to 4.4 on 240,000 random evaluations. |
 | 11 Checkpoints | Unchanged formats. New tests: evaluation with exhausted coverage budget / deadline between two training runs gives the same state bytes as an uninterrupted run (Linux, Wine, Windows runner). |
-| 12 Regression suite | @@TESTS@@ |
+| 12 Regression suite | **434 passed, 0 failed, 0 skipped, 0 timed out** from a clean build on Linux (424 inherited + 10 in `tests/v45.test.js`); 44 hardware-dependent tests run with the CUDA test double or a compiler, none skipped. On the hosted Windows runner the same suite passes with 34 tests skipped (they need a Linux toolchain or the Linux CUDA test double). ASan+UBSan and ThreadSanitizer clean. |
 | 13 Windows / hardware | Executables rebuilt (`EightMax.exe`, `mwcli.exe`, `gpustress.exe`). Wine and hosted-Windows results in section 13. Physical RTX 4060 Ti: pending. |
 | 14 Benchmarks | `validation/4.5/bench/`, `deadline/`: interleaved 4.4 / 4.5, medians and ranges, regressions listed. CUDA rows (cold/warm start, VRAM) are **not measured**. |
 
-Build identifier: `@@BUILD@@`.
+Build identifier: `0e3de4013c49474a`.
 
 ---
 
@@ -135,8 +135,8 @@ completed EV numbers are returned unchanged.
 
 ### Tests
 
-`tests/coverage45.cpp` (46 checks; also under ThreadSanitizer and ASan+UBSan;
-also built for Windows and run under Wine): the scenario above; 1, 2, 8, 32 MiB
+`tests/coverage45.cpp` (46 checks; 38 in the quick mode used under ThreadSanitizer,
+ASan+UBSan and for the Windows build under Wine): the scenario above; 1, 2, 8, 32 MiB
 below and above capacity with 1 and 8 workers; the plan for 20,000 allowances;
 ledger overflow cases and 16-thread contention; forced hash collisions; a stop
 raised and cleared continuously during growth; a stop into a 64 MiB fill
@@ -204,7 +204,7 @@ differently and parse back to itself. `digest` hashes every printed character.
 |---|---|---|---:|
 | Linux | 0 mismatches | `94fc3f6ed8426909` | 0 |
 | Windows build under Wine | 0 mismatches | `94fc3f6ed8426909` | 12 |
-| Windows build on the hosted Windows runner | 0 mismatches, digest equal (self-test check passed) | `94fc3f6ed8426909` | see `windows-runner/` |
+| Windows build on the hosted Windows runner (UCRT64 toolchain) | 0 mismatches, digest equal (self-test checks passed) | `94fc3f6ed8426909` | recorded in that run's report |
 
 **Defect found by the sweep.** Before the fix the Windows build failed it: the
 MinGW-w64 runtime's `strtod` — and `__mingw_strtod` — return the neighbouring
@@ -351,7 +351,31 @@ New in 4.5:
   the starting pot (chip EV) or the prize pool (ICM) within 1e-9 relative;
   every unilateral gain ≥ 0; 1 and 4 threads bit-identical.
 * **Stability study** (`tools/stability45.js`,
-  `validation/4.5/stability/`): see the table written there. @@STABILITY@@
+  `validation/4.5/stability/`): Five seeds, two budgets, twelve scenarios: NashConv falls with the budget in 12 of
+12, the spread of the root strategy across seeds falls in 11 of 12.
+
+| Scenario | Budget (deals) | NashConv mean (sd over seeds) | Root-strategy spread across seeds, mean / max |
+|---|---|---|---|
+| Heads-up river, dry board (exploitability = half) | 20,000 -> 100,000 | 0.293 (0.11) -> 0.128 (0.014) | 0.057 / 0.134 -> 0.031 / 0.101 |
+| Heads-up river, four-straight board | 20,000 -> 100,000 | 0.295 (0.10) -> 0.123 (0.033) | 0.028 / 0.080 -> 0.012 / 0.037 |
+| Heads-up river, three-flush board | 20,000 -> 100,000 | 0.272 (0.037) -> 0.137 (0.039) | 0.032 / 0.098 -> 0.015 / 0.038 |
+| Three-player river, stacks 4/12/30 | 20,000 -> 100,000 | 0.115 (0.032) -> 0.055 (0.017) | 0.043 / 0.129 -> 0.048 / 0.148 |
+| Three-player river, stacks 40/40/40 | 20,000 -> 100,000 | 0.868 (0.31) -> 0.312 (0.13) | 0.057 / 0.117 -> 0.025 / 0.052 |
+| Three-player river, all-in or fold | 20,000 -> 100,000 | 0.110 (0.027) -> 0.054 (0.019) | 0.076 / 0.221 -> 0.037 / 0.100 |
+| Three-player river, three bet sizes | 20,000 -> 100,000 | 0.220 (0.044) -> 0.073 (0.023) | 0.053 / 0.170 -> 0.037 / 0.179 |
+| Four-player turn + river | 20,000 -> 60,000 | 4.40 (0.12) -> 2.00 (0.12) | 0.064 / 0.086 -> 0.037 / 0.080 |
+| Five-player flop, weighted ranges | 20,000 -> 60,000 | 0.432 (0.17) -> 0.231 (0.018) | 0.143 / 0.215 -> 0.049 / 0.070 |
+| Six-player flop, stacks 3-50 bb | 20,000 -> 60,000 | 0.346 (0.16) -> 0.110 (0.045) | 0.092 / 0.167 -> 0.089 / 0.175 |
+| Four-player ICM bubble | 20,000 -> 60,000 | 0.0014 -> 0.00016 | 0.0012 -> 0.0001 |
+| Eight-player final table ICM | 20,000 -> 60,000 | 0.0044 -> 0.00049 | 0.0077 -> 0.0009 |
+
+Reading: push/fold ICM studies are stable to the third decimal at these budgets.
+Postflop trees are not converged at 60,000-100,000 deals: the four-player
+turn + river tree is still 2 chips of NashConv away, and in the short-stacked
+three-player river and the six-player flop individual hands still differ by
+0.15-0.18 in an action probability between seeds while NashConv is already
+small, so several near-best strategies exist there. These budgets are far below
+what the convergence studies use (up to 1,000,000 deals).
 
 Approximation limits: explicit small ranges, the stated bet menus, and at most
 six players after the flop. A low NashConv in a multiplayer or ICM game does not
@@ -386,6 +410,13 @@ comparison. The script ran on the hosted Windows runner on CPU paths only
 ---
 
 ## 8. Native performance (Priority 8)
+
+The timing benchmarks in sections 1, 4 and 8 were run on a 4.5 development build
+taken before two later changes (parking an abandoned coverage replacement instead
+of freeing it, and moving the ledger byte figures to `execution.coverageMemory`).
+Neither changes the measured paths' arithmetic; the cancellation figures by budget
+in section 4 were measured after the first of them. The regression suite,
+sanitizer, Wine and Windows-runner results are from the final source.
 
 **Profile** (callgrind, eight-seat linked ICM training, one thread): 45% of
 instructions in `Tournament::evaluate` (exact ICM finishing-set recursion), 11%
@@ -498,13 +529,81 @@ runs (section 2).
 
 ## 12. Regression suite
 
-@@TESTDETAIL@@
+Linux, clean build `0e3de4013c49474a`, `node source/tools/run_tests.js`
+(`validation/4.5/regression-tests.json`), 600 s limit per file:
+
+| | Count |
+|---|---:|
+| Passed | **434** |
+| Failed | 0 |
+| Skipped | 0 |
+| Timed out | 0 |
+| Hardware-dependent, run (simulated CUDA driver, compilers, native host) | 44 |
+| Hardware-dependent, skipped | 0 |
+| Hardware-dependent and verified on a physical NVIDIA GPU | **0** |
+
+424 inherited tests (unchanged files) + 10 new in `tests/v45.test.js`:
+coverage budget unit test (46 checks), the same under TSan and ASan+UBSan,
+evaluator budgets, timeout/merged/response-gain budgets, job-pool charge, memory
+exhaustion and continuation, IEEE sweep, trainer options and golden hash, ICM
+kernel, side-pot property test.
+
+No inherited test was changed. During development the inherited test
+`4.2 coverage: engine counts ... identical for 1, 2, 4 and 8 threads` failed
+(on Linux and on the Windows runner), because it compares the whole `coverage`
+object across thread counts and the first 4.5 layout had put worker-dependent
+byte figures there. The report was changed (those figures are now in
+`execution.coverageMemory`), not the test.
+
+Sanitizers (`tools/sanitize45.sh`, `validation/4.5/sanitize45.txt`, exit 0):
+UBSan (+float-cast-overflow) + ASan host and CLI: v44 non-timing tests,
+v44_postflop, five v45 tests; ThreadSanitizer CLI with 8 threads: stopped,
+complete and cancelled sampled EVs, exact EV and gains, sampled gains, a 1 MiB
+coverage budget through growth, key limit and sketch back-fill, a deadline with a
+2 MiB budget; `coverage45` and `coverage44` under TSan and ASan+UBSan; `icm45`
+under ASan+UBSan. No reports. Not run on sanitized builds: the two v45 tests that
+contain 100-250 ms deadlines and sampled response gains (they exceed the
+harness's 300 s process limit at sanitizer speed; they pass on the release
+build), and static analysis (`cppcheck` is not installed on the build machine).
+
+Fault injection: failed table allocation (`failAllocations`), overdrawn ledger,
+undersized budget, stop during growth (section 1); inherited checkpoint and CUDA
+test-double faults.
 
 ---
 
 ## 13. Windows and hardware validation
 
-@@WINDOWS@@
+**Rebuilt** (MinGW-w64 GCC 13, cross-compiled on Linux, built twice and compared
+byte for byte): `EightMax.exe`, `mwcli.exe`, `gpustress.exe`; offline interface
+`EightMax-Offline.html`. `Run self-tests.bat` and `Validate CUDA hardware.bat`
+updated; they write `Windows-self-test.json`, `hardware-validation.json` and
+`device-results.json` on your PC (not included: they do not exist yet).
+
+| Evidence | What ran | Result |
+|---|---|---|
+| Linux native | everything in sections 1-12 | passed as reported |
+| Windows cross-compilation | the three executables, twice, identical bytes | done |
+| Wine 9.0 (not Windows), the packaged `mwcli.exe` | `tools/wine45.js`: build id; probe table; exact EV / gain bit patterns for 1-8 threads; training bytes equal to Linux; 12 deadline runs (worst overrun 14.2 ms); cancellation (5.6 ms); IEEE sweep digest; coverage ledger for 1/2/8 MiB x 1/4/8 threads; golden training hash; continuation; `coverage45` (VirtualAlloc path) and `icm45` built for Windows | **22 of 22 passed** (`validation/4.5/wine/`) |
+| Wine, `EightMax.exe` desktop host | nothing | **not run** for 4.5 (the helper `winepath` is not installed on the build machine); the desktop host was exercised on the Windows runner instead |
+| Simulated CUDA (Linux driver test double) | inherited 4.2-4.4 tests: scheduling arms, cold/warm sessions, allocation failure, CPU fallback, parity | passed; timings of a simulated device mean nothing |
+| Hosted Windows runner (real Windows, PowerShell 5.1, UCRT64 build of this source, no GPU) | the whole repository workflow on the final source (run 35, commit `7a498fc`): `test_windows.ps1` on a fresh build and on the assembled release, complete regression suite, concurrency stress x5, parse of every PowerShell script, `validate_hardware.ps1` on CPU paths | **all steps succeeded**; the earlier failing runs are listed in `validation/4.5/windows-runner/README.md` |
+| Physical Windows PC with the RTX 4060 Ti | nothing | **not run** |
+| Physical NVIDIA GPU | nothing | **not run** |
+
+Status of the 22 Windows items of the brief:
+
+| # | Item | Linux | Wine (packaged exe) | Windows runner | Your PC |
+|---:|---|---|---|---|---|
+| 1-3 | start-up, native solver, build id | yes | build id | yes | pending |
+| 4-6 | explorer, exact EV, sampled EV | yes | exact, sampled | yes | pending |
+| 7 | IEEE 754 comparison | yes | yes | yes (PowerShell 5.1) | pending |
+| 8-10 | background jobs, deadlines, concurrent start-up | yes | deadlines | yes | pending |
+| 11 | coverage memory budgets | yes | yes | yes | pending |
+| 12 | response gains | yes | yes | yes | pending |
+| 13-15 | checkpoint restoration, deterministic continuation, large-state recovery | yes | continuation | yes | pending |
+| 16 | CPU-only operation | yes | yes | yes | pending |
+| 17-22 | CUDA initialization, GPU memory enforcement, CPU/GPU parity, GPU fallback, Automatic scheduling, cold/warm GPU performance | simulated driver only | no | no GPU | **pending: never run on hardware** |
 
 ---
 

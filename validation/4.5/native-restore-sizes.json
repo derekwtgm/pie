@@ -7,9 +7,9 @@
       "wireBytes": 134238951,
       "rows": 1241603,
       "status": 200,
-      "restoreSeconds": 1.585,
-      "peakRestoreMiB": 215.75390625,
-      "idleMiB": 6.40234375,
+      "restoreSeconds": 1.345,
+      "peakRestoreMiB": 215.83203125,
+      "idleMiB": 6.3125,
       "requestedLimits": {
         "EIGHTMAX_CHECKPOINT_MIB": "4096",
         "EIGHTMAX_APP_MIB": "8192",
@@ -19,17 +19,17 @@
       "memory": {
         "appLimitMiB": 8192,
         "processLimitMiB": 8192,
-        "residentMiB": 215.7,
+        "residentMiB": 215.5,
         "multiwayTablesMiB": 200.1,
         "browserReportedMiB": 0,
-        "availableForTablesMiB": 1919.1,
-        "availableSystemMiB": 15352.5,
+        "availableForTablesMiB": 1917.2,
+        "availableSystemMiB": 15337.9,
         "systemRamMiB": 16086
       },
       "restoredUpdates": 128,
       "resumedUpdates": 129,
       "committedDeals": 129,
-      "peakAfterTrainingMiB": 215.75390625
+      "peakAfterTrainingMiB": 215.83203125
     },
     {
       "nominalMiB": 256,
@@ -37,9 +37,9 @@
       "wireBytes": 268477187,
       "rows": 2484360,
       "status": 200,
-      "restoreSeconds": 2.836,
-      "peakRestoreMiB": 415.61328125,
-      "idleMiB": 6.41015625,
+      "restoreSeconds": 2.849,
+      "peakRestoreMiB": 415.40625,
+      "idleMiB": 6.3046875,
       "requestedLimits": {
         "EIGHTMAX_CHECKPOINT_MIB": "4096",
         "EIGHTMAX_APP_MIB": "8192",
@@ -53,13 +53,13 @@
         "multiwayTablesMiB": 399.8,
         "browserReportedMiB": 0,
         "availableForTablesMiB": 1880.2,
-        "availableSystemMiB": 15179.5,
+        "availableSystemMiB": 15157.6,
         "systemRamMiB": 16086
       },
       "restoredUpdates": 128,
       "resumedUpdates": 129,
       "committedDeals": 129,
-      "peakAfterTrainingMiB": 415.67578125
+      "peakAfterTrainingMiB": 415.6015625
     },
     {
       "nominalMiB": 512,
@@ -67,9 +67,9 @@
       "wireBytes": 536953551,
       "rows": 4969873,
       "status": 200,
-      "restoreSeconds": 5.596,
-      "peakRestoreMiB": 814.953125,
-      "idleMiB": 6.421875,
+      "restoreSeconds": 5.848,
+      "peakRestoreMiB": 814.8984375,
+      "idleMiB": 5.97265625,
       "requestedLimits": {
         "EIGHTMAX_CHECKPOINT_MIB": "4096",
         "EIGHTMAX_APP_MIB": "8192",
@@ -79,17 +79,17 @@
       "memory": {
         "appLimitMiB": 8192,
         "processLimitMiB": 8192,
-        "residentMiB": 814.8,
+        "residentMiB": 814.5,
         "multiwayTablesMiB": 799.2,
         "browserReportedMiB": 0,
-        "availableForTablesMiB": 1780.3,
-        "availableSystemMiB": 14763.9,
+        "availableForTablesMiB": 1780.4,
+        "availableSystemMiB": 14766.3,
         "systemRamMiB": 16086
       },
       "restoredUpdates": 128,
       "resumedUpdates": 129,
       "committedDeals": 129,
-      "peakAfterTrainingMiB": 814.953125
+      "peakAfterTrainingMiB": 814.8984375
     },
     {
       "nominalMiB": 1024,
@@ -97,9 +97,9 @@
       "wireBytes": 1073906387,
       "rows": 9940900,
       "status": 200,
-      "restoreSeconds": 12.322,
-      "peakRestoreMiB": 1613.8515625,
-      "idleMiB": 6.26953125,
+      "restoreSeconds": 12.376,
+      "peakRestoreMiB": 1613.3828125,
+      "idleMiB": 6.04296875,
       "requestedLimits": {
         "EIGHTMAX_CHECKPOINT_MIB": "4096",
         "EIGHTMAX_APP_MIB": "8192",
@@ -109,17 +109,17 @@
       "memory": {
         "appLimitMiB": 8192,
         "processLimitMiB": 8192,
-        "residentMiB": 1613.6,
+        "residentMiB": 1613.3,
         "multiwayTablesMiB": 1598,
         "browserReportedMiB": 0,
-        "availableForTablesMiB": 1580.6,
-        "availableSystemMiB": 13909.8,
+        "availableForTablesMiB": 1580.7,
+        "availableSystemMiB": 13955.4,
         "systemRamMiB": 16086
       },
       "restoredUpdates": 128,
       "resumedUpdates": 129,
       "committedDeals": 129,
-      "peakAfterTrainingMiB": 1613.93359375
+      "peakAfterTrainingMiB": 1613.44140625
     },
     {
       "nominalMiB": 2050,
@@ -127,9 +127,9 @@
       "wireBytes": 2149909523,
       "rows": 19902372,
       "status": 200,
-      "restoreSeconds": 25.63,
-      "peakRestoreMiB": 3213.92578125,
-      "idleMiB": 6.41015625,
+      "restoreSeconds": 26.793,
+      "peakRestoreMiB": 3213.53515625,
+      "idleMiB": 6.28125,
       "requestedLimits": {
         "EIGHTMAX_CHECKPOINT_MIB": "4096",
         "EIGHTMAX_APP_MIB": "8192",
@@ -139,17 +139,17 @@
       "memory": {
         "appLimitMiB": 8192,
         "processLimitMiB": 8192,
-        "residentMiB": 3213.6,
+        "residentMiB": 3213.4,
         "multiwayTablesMiB": 3198,
         "browserReportedMiB": 0,
         "availableForTablesMiB": 1180.6,
-        "availableSystemMiB": 12226,
+        "availableSystemMiB": 12205.5,
         "systemRamMiB": 16086
       },
       "restoredUpdates": 128,
       "resumedUpdates": 129,
       "committedDeals": 129,
-      "peakAfterTrainingMiB": 3213.92578125
+      "peakAfterTrainingMiB": 3213.53515625
     }
   ]
 }

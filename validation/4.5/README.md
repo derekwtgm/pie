@@ -29,9 +29,8 @@ Read `../../RELEASE-4.5.md` for the conclusions; this file is the index.
 | `convergence/convergence45.json`, `-summary.txt`, `.log` | Linux native | ten-seed study of the candidate trainer options, six games, exact best responses, 288 Holm-adjusted comparisons |
 | `stability/stability45.json`, `.txt` | Linux native | `tools/stability45.js`: NashConv and root-strategy spread across seeds for board textures, stack depths, betting abstractions, multiway flop/turn and ICM scenarios at two budgets |
 | `wine/wine-windows-cli.json`, `.txt` | Wine | `tools/wine45.js`: the 4.4 checks plus IEEE sweep digest, coverage ledger, golden training hash, continuation, `coverage45` and `icm45` built for Windows |
-| `wine/native-host-wine.json`, `native-mw-wine.json`, `explorer-host-wine.json` | Wine | `EightMax.exe` desktop host checks |
 | `ieee-sweep.json` | Linux native | `mwcli --ieee-sweep 200000 45` |
-| `windows-runner/` | Windows runner | what the repository's Windows workflow produced for this source (see `windows-runner/README.md` for the exact status of each step) |
+| `windows-runner/README.md` | Windows runner | which workflow runs failed and passed, and what they do and do not show (the runner's report files stay attached to the runs on GitHub) |
 | `native-continuation.json`, `native-restore-sizes.json`, `checkpoint-sizes.json` | Linux native | 3.7 restoration / continuation utilities re-run on 4.5 |
 | `native-host-linux.json`, `native-mw-linux.json`, `explorer-host-linux.json` | Linux native | desktop host checks |
 | `package_smoke.log`, `mtt_ui_smoke.log`, `checkpoint_ui_smoke.log` | Linux native (packaged interface code in a Node `vm` context; no browser) | packaged interface checks |
