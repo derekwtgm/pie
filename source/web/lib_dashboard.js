@@ -314,6 +314,24 @@ A.lineChart = function (c) {
   const legend = c.series.length > 1 ? `<div class="qd-legend">${c.series.map(s => `<span><i style="background:${s.color}"></i>${escX(s.name)}</span>`).join('')}</div>` : '';
   return `<figure class="qd-chart"><figcaption>${escX(c.title)}</figcaption>${legend}<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escX(c.title)}">${g}${marks}<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle" class="qd-label">${escX(c.xLabel)}${c.xLog ? ' (log)' : ''}</text><text x="12" y="${T + (H - T - B) / 2}" transform="rotate(-90 12 ${T + (H - T - B) / 2})" text-anchor="middle" class="qd-label">${escX(c.yLabel)}${c.yLog ? ' (log)' : ''}</text></svg>${c.note ? `<p class="small muted">${escX(c.note)}</p>` : ''}</figure>`;
 };
+// 4.8: short trainer description for legends ("linear ES-MCCFR, exploration 0.1", ...).
+A.trainerLabel = function (t) {
+  if (!t) return 'trainer unknown';
+  const parts = [(t.weighting || 'linear') + (t.regretMatching === 'plus' ? ' RM+' : ''), 'exploration ' + (t.opponentExploration ?? 0.1)];
+  if (t.ownHandEnumeration) parts.push('own hands'); if (t.terminalBaseline) parts.push('baseline'); if (t.terminalExpectation) parts.push('terminal expectation'); if (t.chanceSampling && t.chanceSampling !== 'independent') parts.push(t.chanceSampling);
+  return parts.join(', ') + (t.validatedDefault ? ' (default)' : t.experimental ? ' (experimental)' : '');
+};
+// 4.8: runs[k] = evaluation rows (trainSeconds, evaluation.nashConv) of run k; returns, for k >= 1,
+// points {x: time of run 0, y: NashConv_k(x) / NashConv_0(x)} for run-0 times inside run k's range
+// (log-log interpolation, never extrapolated).
+A.equalTimeComparison = function (runs) {
+  const at = (rows, T) => { const p = rows.map(r => [Math.log(r.trainSeconds), Math.log(r.evaluation.nashConv)]), lt = Math.log(T);
+    if (!p.length || lt < p[0][0] || lt > p[p.length - 1][0]) return NaN;
+    for (let i = 1; i < p.length; i++) if (lt <= p[i][0]) { const f = p[i][0] === p[i - 1][0] ? 0 : (lt - p[i - 1][0]) / (p[i][0] - p[i - 1][0]); return Math.exp(p[i - 1][1] + f * (p[i][1] - p[i - 1][1])); }
+    return Math.exp(p[0][1]); };
+  const base = runs[0] || [];
+  return runs.map((rows, k) => k === 0 ? [] : base.map(r => ({ x: r.trainSeconds, y: at(rows, r.trainSeconds) / r.evaluation.nashConv })).filter(q => Number.isFinite(q.y)));
+};
 A.chartsHTML = function (docs) {
   const live = docs[0], rowsOf = d => (d && d.evaluations) || [], n = (live && live.game && live.game.players) || 0, pre = live && live.game && live.game.stage === 'preflop';
   const runName = (d, i) => i === 0 ? 'this run' : (d.label || 'run ' + (i + 1));
@@ -324,13 +342,26 @@ A.chartsHTML = function (docs) {
   const nonPositive = ev.some(r => r.evaluation.seats.some(s => !(s.gain > 0)));
   const classes = [...new Set(ev.map(r => r.evaluation.mode))];
   const qNote = (classes.includes('exactBestResponse') ? 'Exact NashConv inside the abstraction. ' : '') + (classes.some(c => c !== 'exactBestResponse') ? 'Restricted / sampled points are lower bounds or estimates of lower bounds (95% bars) and are not equilibrium distances. ' : '') + 'More updates do not guarantee a stronger strategy.';
+  // 4.8: quality against training time, algorithm comparison at equal time, training efficiency.
+  // Every point comes from a run document (live monitor or an imported analytics export).
+  const same = docs.filter(sameGame).slice(0, 8);
+  const evRows = d => rowsOf(d).filter(r => r.evaluation && !r.evaluation.error && Number.isFinite(r.evaluation.nashConv) && r.evaluation.nashConv > 0 && r.trainSeconds > 0);
+  const tSeries = same.map((d, i) => ({ name: runName(d, docs.indexOf(d)) + ' · ' + A.trainerLabel(d.trainer), color: SERIES[i], points: evRows(d).map(r => ({ x: r.trainSeconds, y: r.evaluation.nashConv, lo: r.evaluation.nashConvCi95 ? r.evaluation.nashConvCi95[0] : NaN, hi: r.evaluation.nashConvCi95 ? r.evaluation.nashConvCi95[1] : NaN })) }));
+  const cmp = A.equalTimeComparison(same.map(evRows));
+  const cmpSeries = same.slice(1).map((d, j) => ({ name: runName(d, docs.indexOf(d)) + ' · ' + A.trainerLabel(d.trainer) + ' vs this run', color: SERIES[j + 1], points: cmp[j + 1] || [] }));
+  const live0 = evRows(live)[0];
+  const effSeries = [{ name: 'improvement factor (first NashConv / current)', color: SERIES[0], points: live0 ? evRows(live).map(r => ({ x: r.trainSeconds, y: live0.evaluation.nashConv / r.evaluation.nashConv, note: 'peak memory ' + fmtN(r.peakRssMiB) + ' MiB, ' + fmtN(r.trainingDeals) + ' deals' })) : [] }];
+  const exactOnly = ev.length && ev.every(r => r.evaluation.mode === 'exactBestResponse');
   return '<div class="qd-charts">' +
     A.lineChart({ title: '1 · Strategy quality: NashConv against sampled deals', series: qSeries, xLog: true, yLog: true, xLabel: 'sampled deals', yLabel: 'NashConv', note: qNote }) +
+    A.lineChart({ title: '1b · Strategy quality: NashConv against training time', series: tSeries, xLog: true, yLog: true, xLabel: 'training seconds', yLabel: 'NashConv', note: 'Training wall time only (evaluation time excluded). ' + qNote }) +
     A.lineChart({ title: '2 · Convergence by player: response gain per seat', series: seatSeries, xLog: true, yLog: true, xLabel: 'sampled deals', yLabel: 'gain', note: nonPositive ? 'Gains at or below zero (possible for sampled estimates) cannot be drawn on a log scale; see the table.' : '' }) +
     A.lineChart({ title: '3 · Strategy stability: average-strategy change between evaluations', series: [{ name: 'weighted total variation', color: SERIES[0], points: rows.filter(r => r.strategyChange).map(r => ({ x: r.trainingDeals, y: r.strategyChange.weightedTv })) }], xLog: true, yLog: true, xLabel: 'sampled deals', yLabel: 'TV distance' }) +
     A.lineChart({ title: '4 · Training throughput', series: [{ name: 'deals per second', color: SERIES[0], points: rows.map(r => ({ x: r.trainSeconds, y: r.dealsPerSecond })) }], xLabel: 'training seconds', yLabel: 'deals / s', zero: true }) +
     A.lineChart({ title: '5 · Memory: process resident memory', series: [{ name: 'current', color: SERIES[0], points: rows.map(r => ({ x: r.trainSeconds, y: r.rssMiB })) }, { name: 'peak', color: SERIES[1], dash: true, points: rows.map(r => ({ x: r.trainSeconds, y: r.peakRssMiB })) }], xLabel: 'training seconds', yLabel: 'MiB', zero: true }) +
     A.lineChart({ title: '6a · Coverage: stored information-set rows (exact count)', series: [{ name: 'rows', color: SERIES[0], points: rows.map(r => ({ x: r.trainingDeals, y: r.coverage && r.coverage.storedRows })) }], xLog: true, xLabel: 'sampled deals', yLabel: 'rows', zero: true }) +
+    A.lineChart({ title: '7 · Algorithm comparison at equal training time (ratio to this run)', series: cmpSeries, xLog: true, yLog: true, xLabel: 'training seconds', yLabel: 'NashConv ratio', note: cmpSeries.length ? 'Each imported run of the same game is interpolated (log-log) at this run\'s evaluation times inside the overlapping time range; below 1 = lower NashConv than this run at the same training time. One run per configuration is a single observation: use tools/convergence48.js (ten seeds, Holm) before calling a difference real.' + (exactOnly ? '' : ' Sampled or restricted values are lower bounds or their estimates.') : 'Import the analytics export of another run of the same game (for example another trainer) to compare it here.' }) +
+    A.lineChart({ title: '8 · Training efficiency: quality improvement against training time', series: effSeries, xLog: true, yLog: true, xLabel: 'training seconds', yLabel: 'improvement factor', note: 'First evaluated NashConv divided by the current one (above 1 = improved). Hover a point for peak resident memory and sampled deals.' + (exactOnly ? '' : ' With sampled evaluations the factor carries the noise of both estimates.') }) +
     A.lineChart({ title: '6b · Coverage: fallback share of evaluation lookups (exact counts)', series: [{ name: 'fallback share', color: SERIES[0], points: rows.map(r => ({ x: r.trainingDeals, y: r.coverage && r.coverage.fallbackShare })) }], xLog: true, xLabel: 'sampled deals', yLabel: 'share', zero: true, note: 'Lookups of information sets that training never stored (the uniform fallback policy is used there). Counts are exact for each evaluation, not estimates.' }) +
     '</div>';
 };

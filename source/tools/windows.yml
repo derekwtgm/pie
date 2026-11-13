@@ -1,0 +1,157 @@
+name: Windows build, release and verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    # 4.8: the full regression suite now runs to completion on the runner (4.7 runs stopped at the
+    # harness defect fixed in 4.8), which needs more than 90 minutes.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build the UI
+        run: |
+          node source/tools/build.js build
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          # 3.3: build.sh runs node (fingerprint check); the MSYS2 shell must see the runner's PATH.
+          path-type: inherit
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-zlib python
+      - name: Compile a fresh native host from the current source
+        shell: msys2 {0}
+        run: CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
+      - name: Test the fresh host on Windows
+        shell: powershell
+        run: |
+          ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Report fresh-windows.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_host.js build/fresh/EightMax.exe build fresh-windows-host.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_mw.js build/fresh/EightMax.exe fresh-windows-multiway.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: 4.7 and 4.8 feature self-tests on Windows (no PowerShell; recorded JSON reports)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftests'
+          & ./build/fresh/mwcli.exe --selftest47 validation/4.7/fixtures (Join-Path $w 'st47')
+          $c47 = $LASTEXITCODE
+          & ./build/fresh/mwcli.exe --selftest48 validation/4.8/fixtures (Join-Path $w 'st48')
+          $c48 = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'st47/selftest47.json') windows-selftest47.json -ErrorAction SilentlyContinue
+          Copy-Item (Join-Path $w 'st48/selftest48.json') windows-selftest48.json -ErrorAction SilentlyContinue
+          "selftest47 exit $c47; selftest48 exit $c48"
+          if ($c47 -or $c48) { exit 1 }
+      - name: Assemble the release around the fresh host
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          New-Item -ItemType Directory -Force $r | Out-Null
+          Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
+          Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
+          Copy-Item build/fresh/gpustress.exe "$r/gpustress.exe"
+          Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
+          Copy-Item build/build-info.json "$r/BUILD-INFO.json"
+          Copy-Item RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item -Recurse source, validation, .github $r
+          Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
+          Copy-Item fresh-windows.json, fresh-windows-host.json, windows-selftest47.json, windows-selftest48.json "$r/validation/"
+      - name: Verify the assembled release
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          & "$r/source/tools/test_devices.ps1"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/verify_build.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/package_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/mtt_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/checkpoint_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Report "$r/validation/Windows-release-test.json"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/accuracy_report.js "$r/validation"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
+          # 4.0: Windows PowerShell turns native stderr into error records, which stopped
+          # this step on the first stderr line (3.9 runs failed here). Use the
+          # repository runner (per-file pass/fail/skip/timeout totals) and keep going.
+          $ErrorActionPreference = 'Continue'
+          node source/tools/run_tests.js "$r/validation/regression-tests.json" 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath "$r/validation/regression-tests.txt"
+          $testExit = $LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
+          if ($testExit) { exit $testExit }
+          $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
+          "EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"
+          Push-Location $r
+          Get-ChildItem -Recurse -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object {
+            $rel = (Resolve-Path -Relative $_.FullName).Substring(2).Replace('\','/')
+            '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower(), $rel } | Sort-Object { $_.Substring(66) } | Set-Content -Encoding ascii SHA256SUMS.txt
+          Pop-Location
+          $v = (Get-Content source/VERSION -TotalCount 1).Trim()
+          python source/tools/package36.py $r "release/EightMax-Windows-$v.zip"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Concurrency stress on Windows (4.1; the 4.0 runner saw intermittent startup-test failures)
+        shell: powershell
+        run: |
+          # Every concurrent-startup, cancellation and job test, 5 times in a row on the
+          # fresh Windows host. A failure in any repetition fails the step; no rerun.
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
+          $ErrorActionPreference = 'Continue'; $failed = 0; $log = @()
+          for ($i = 1; $i -le 5; $i++) {
+            # TAP reporter: the default reporter on a non-terminal prints no "# pass" totals,
+            # which made the first version of this step pass without checking anything.
+            $out = node --test --test-reporter=tap --test-concurrency=1 --test-name-pattern='startup failure|concurrency|desktop jobs|worker start' source/tests/v34.test.js source/tests/v40.test.js source/tests/v41.test.js 2>&1 | ForEach-Object { "$_" }
+            $code = $LASTEXITCODE
+            $pm = $out | Select-String '^# pass (\d+)' | Select-Object -Last 1; $fm = $out | Select-String '^# fail (\d+)' | Select-Object -Last 1; $sm = $out | Select-String '^# skipped (\d+)' | Select-Object -Last 1
+            $pass = if ($pm) { [int]$pm.Matches[0].Groups[1].Value } else { -1 }; $fail = if ($fm) { [int]$fm.Matches[0].Groups[1].Value } else { -1 }; $skip = if ($sm) { [int]$sm.Matches[0].Groups[1].Value } else { -1 }
+            $log += "repetition $i : pass $pass fail $fail skipped $skip exit $code"; Write-Host "repetition $i : pass $pass fail $fail skipped $skip exit $code"
+            # 3 (v34) + 2 (v40) + 4 (v41) tests match the pattern; require all of them to run and pass
+            if ($code -or $fail -ne 0 -or $pass -lt 9 -or $skip -ne 0) { $failed++; $out | Select-String -Pattern 'not ok|error|# Subtest' | ForEach-Object { Write-Host $_ } }
+          }
+          $log | Set-Content -Encoding utf8 windows-concurrency-stress.txt
+          if ($failed) { exit 1 }
+      - name: Parse every PowerShell script (3.3)
+        shell: powershell
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Filter *.ps1 source/tools | ForEach-Object {
+            $e = $null; [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$e) | Out-Null
+            if ($e) { $e | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" }; $bad++ } }
+          if ($bad) { exit 1 }
+      - name: Hardware validation script on the runner (CPU paths; runners have no NVIDIA GPU)
+        shell: powershell
+        run: |
+          ./release/EightMax/source/tools/validate_hardware.ps1 -Exe release/EightMax/mwcli.exe -Report windows-runner-hardware-validation.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Upload the release and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: EightMax-Windows-release
+          path: |
+            release/EightMax-Windows-*.zip
+            fresh-windows.json
+            fresh-windows-host.json
+            windows-selftest47.json
+            windows-selftest48.json
+            windows-runner-hardware-validation.json
+            windows-concurrency-stress.txt
+            release/EightMax/validation/

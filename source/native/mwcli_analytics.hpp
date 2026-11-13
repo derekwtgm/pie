@@ -201,7 +201,7 @@ inline int compare(int argc, char **argv) {
   const auto c = emana::compatibility(ja.v, jbv.v);
   auto ba = slurpCheckpoint(argv[3]), bb = slurpCheckpoint(argv[4]);
   emana::Study A = emana::parse(ba.data(), ba.size()), B = emana::parse(bb.data(), bb.size());
-  std::ostringstream o; o << "{\"tool\":\"mwcli compare 4.7\",\"build\":\"" << EM_BUILD_ID << "\",\"compatible\":" << (c.compatible ? "true" : "false");
+  std::ostringstream o; o << "{\"tool\":\"mwcli compare 4.8\",\"build\":\"" << EM_BUILD_ID << "\",\"compatible\":" << (c.compatible ? "true" : "false");
   o << ",\"differingGameFields\":["; for (size_t i = 0; i < c.differing.size(); i++) o << (i ? "," : "") << jsonEsc(c.differing[i]); o << "]";
   o << ",\"differingTrainerSettings\":["; for (size_t i = 0; i < c.trainerDiffering.size(); i++) o << (i ? "," : "") << jsonEsc(c.trainerDiffering[i]); o << "]";
   const char *idA = jstr(jget(ja.v, "studyId")), *idB = jstr(jget(jbv.v, "studyId"));
@@ -253,6 +253,27 @@ inline int compare(int argc, char **argv) {
         }
         o << "],\"seatsWhereBSmaller\":" << better << ",\"seatsWhereASmaller\":" << worse;
         o << ",\"statistics\":" << jsonEsc(exact ? "exact values; differences are exact" : restricted ? "lower bounds; no ordering is inferred" : "independent evaluation streams; difference intervals use sqrt(seA^2 + seB^2) and Bonferroni over seats (family-wise 95%)");
+        // 4.8 (Priority 8): one overall classification of the change from A to B. Exact: the
+        // NashConv difference is exact; a relative difference below 1e-9 is treated as rounding
+        // (equal). Sampled: the two NashConv estimates use independent streams, so the difference
+        // has SE sqrt(seA^2 + seB^2) and a two-sided 95% interval; the change is called meaningful
+        // only when that interval excludes zero (otherwise inconclusive). Restricted: lower bounds,
+        // never ordered. "Improvement" means B has the smaller (better) value.
+        {
+          const double dN = eb.nashConv - ea.nashConv; std::string cls, why; double lo = NAN, hi = NAN;
+          if (exact) {
+            const double tol = 1e-9 * std::max({std::fabs(ea.nashConv), std::fabs(eb.nashConv), 1e-300});
+            cls = std::fabs(dN) <= tol ? "no change (equal within rounding)" : dN < 0 ? "meaningful improvement" : "meaningful regression";
+            why = "exact NashConv inside the abstraction; the difference is exact (relative rounding tolerance 1e-9)";
+          } else if (restricted) { cls = "not comparable (lower bounds)"; why = "restricted gains are lower bounds; their difference does not order the strategies"; }
+          else {
+            const double se = std::sqrt(ea.nashSe * ea.nashSe + eb.nashSe * eb.nashSe), z95 = 1.959963984540054; lo = dN - z95 * se; hi = dN + z95 * se;
+            cls = hi < 0 ? "meaningful improvement" : lo > 0 ? "meaningful regression" : "statistically inconclusive";
+            why = "sampled estimates of a lower bound on NashConv from independent evaluation streams; 95% interval of B - A from sqrt(seA^2 + seB^2)";
+          }
+          o << ",\"qualityChange\":{\"class\":" << jsonEsc(cls) << ",\"nashConvA\":" << fmt(ea.nashConv) << ",\"nashConvB\":" << fmt(eb.nashConv) << ",\"differenceBminusA\":" << fmt(dN) << ",\"relativeDifference\":" << fmt(ea.nashConv != 0 ? dN / std::fabs(ea.nashConv) : NAN)
+            << ",\"ci95\":" << (std::isfinite(lo) ? "[" + fmt(lo) + "," + fmt(hi) + "]" : std::string("null")) << ",\"basis\":" << jsonEsc(why) << ",\"note\":\"improvement = B has the smaller value; a later checkpoint is not assumed to be stronger\"}";
+        }
         o << ",\"interpretation\":" << jsonEsc(exact ? (ea.nashConv > eb.nashConv ? "B has the smaller exact NashConv inside the abstraction" : ea.nashConv < eb.nashConv ? "A has the smaller exact NashConv inside the abstraction" : "equal exact NashConv") : "Sampled or restricted gains bound the best-response gains from below; a smaller value is evidence, not proof, of a stronger strategy.") << "}";
       }
     }

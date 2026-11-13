@@ -307,6 +307,7 @@ struct FlatHist {
 // built during scoring) are immutable once `ready`; subset histograms are added
 // under `histMu` to a list (stable references for concurrent readers).
 struct ShowTable {
+  long long histReserve = 0;   // 4.8: bytes of the full-seat histogram charged with the table (upper bound)
   uint64_t used = 0; int len = -1, n = 0; int prefix[5] = {}; int holes[16] = {}; unsigned long long boards = 0;
   int deck[52] = {}; int deckCount = 0; std::atomic<long long> stamp{0}; std::atomic<long long> charged{0};
   std::vector<int32_t> scores;

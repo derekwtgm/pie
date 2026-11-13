@@ -11,6 +11,7 @@
 //        mwcli --compress in.state out.emz [level] | --decompress in.emz out.state   (4.7) lossless EMZ1
 //        (4.7) every command that reads a checkpoint also accepts an EMZ1 file)
 //        mwcli --continuation-suite spec.json work-dir [quick|standard|full] [threads]   (4.6)
+//        mwcli --selftest48 fixtures-dir work-dir   (4.8) recorded checks of the 4.8 changes ("Run 4.8 checks.bat")
 //        exit codes of training: 0 ok, 1 engine/refused input, 2 usage, 3 input checkpoint unreadable, 4 save failed
 //        mwcli --equity <spec.json>   exact all-in equity {hands,board,device:cpu|gpu|both,threads,gpuMiB}
 // Prints mw_info JSON plus "seconds" (training wall time) on stdout.
@@ -104,6 +105,7 @@ static std::vector<unsigned char> slurpCheckpoint(const char *path) {
 }
 #include "mwcli_analytics.hpp"   // 4.7: --verify, --compare, --monitor
 #include "mwcli_selftest47.hpp"  // 4.7: --selftest47
+#include "mwcli_selftest48.hpp"  // 4.8: --selftest48
 static int runSession(MW *m, const JV *plan) {
   const JV *base = jget(plan, "request"), *steps = jget(plan, "steps"); const char *mode = jstr(jget(plan, "mode"));
   if (!base || base->type != J_OBJ || !steps || steps->type != J_ARR) { std::fprintf(stderr, "error: plan needs request (object) and steps (array)\n"); return 2; }
@@ -283,6 +285,7 @@ int main(int argc, char **argv) {
     return 0;
   }
   if (argc >= 2 && !std::strcmp(argv[1], "--selftest47")) return st47::run(argc, argv);
+  if (argc >= 2 && !std::strcmp(argv[1], "--selftest48")) return st48::run(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--verify")) return mwa::verify(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--compare")) return mwa::compare(argc, argv);
   if (argc >= 2 && !std::strcmp(argv[1], "--monitor")) return mwa::monitor(argc, argv);

@@ -132,7 +132,12 @@ struct EvShared {
   // 4.3: request-wide shared showdown tables (showdown_table.hpp). Per-seat
   // children of a response-gain request point at their parent's cache.
   // EM_EV_PRIVATE_TABLES=1 restores 4.2's private per-worker tables (A/B tests).
-  std::shared_ptr<TableCache> cache = [this] { auto c = std::make_shared<TableCache>(); c->ctl = &ctl; return c; }();
+  // 4.8: the request-wide cache keeps up to EM_EV_TABLE_CAP tables (default 64) instead of
+  // max(4, 3 x workers); bytes stay governed by the request memory budget (makeRoom). 4.7 rebuilt
+  // the same preflop all-in tables hundreds of times in exact best responses (528 tables for the
+  // 16 deals of the four-player bubble study). EM_EV_TABLE_CAP=0 restores the 4.7 rule.
+  std::shared_ptr<TableCache> cache = [this] { auto c = std::make_shared<TableCache>(); c->ctl = &ctl; c->countCap = sharedTableCap(); return c; }();
+  static size_t sharedTableCap() { static const size_t c = [] { const char *e = std::getenv("EM_EV_TABLE_CAP"); const long v = e ? std::strtol(e, nullptr, 10) : 64; return v <= 0 ? (size_t)0 : (size_t)std::clamp<long>(v, 4, 65536); }(); return c; }
   // 4.4: EM_GPU_AUTO_MODEL=4.3 keeps the 4.3 Automatic rule (model only, pull split) for A/B runs.
   bool autoModel43 = [] { const char *e = std::getenv("EM_GPU_AUTO_MODEL"); return e && !std::strcmp(e, "4.3"); }();
   bool privateTables = std::getenv("EM_EV_PRIVATE_TABLES") != nullptr;
@@ -618,7 +623,8 @@ struct Evaluator {
     { std::lock_guard<std::mutex> g(T.buildMu);
       ShowTable::Hist H; H.mask = T.n >= 32 ? ~0u : (1u << T.n) - 1; H.patterns.reserve(T.fullAcc.used); T.fullAcc.each([&](uint32_t k, uint32_t v) { H.patterns.emplace_back(k, v); }); std::sort(H.patterns.begin(), H.patterns.end());
       FlatHist(1).swap(T.fullAcc);
-      const long long bytes = (long long)(H.patterns.size() * 8 + 64); T.charged += bytes; sh->ctl.charge(bytes);
+      const long long bytes = (long long)(H.patterns.size() * 8 + 64);
+      if (bytes > T.histReserve) { T.charged += bytes - T.histReserve; sh->ctl.charge(bytes - T.histReserve); }   // never with the 4.8 bound; kept for safety
       std::lock_guard<std::mutex> h(T.histMu); T.hist.push_back(std::move(H)); }
     st.nsPatterns += nsSince(tp); st.patternSets++;
   }
@@ -642,13 +648,18 @@ struct Evaluator {
         if (T && T->failed.load()) { C.eraseTable(T); T.reset(); }
         if (!T) {
           int deckCount = 0; int deck[52]; for (int x = 0; x < 52; x++) if (!(used >> x & 1)) deck[deckCount++] = x;
-          const unsigned long long boards = binom64(deckCount, 5 - len); const long long bytes = (long long)(boards * (unsigned long long)m.n * 4);
+          // 4.8: the full-seat rank histogram built with the table (at most one entry per board and
+          // per ordered rank pattern of the seats: Fubini number) is charged here with the scores, so a
+          // table never exceeds the request budget after admission (4.7 charged it unconditionally).
+          static const unsigned long long fubini[9] = {1, 1, 3, 13, 75, 541, 4683, 47293, 545835};
+          const unsigned long long boards = binom64(deckCount, 5 - len); const long long reserve = (long long)(std::min(boards, fubini[std::clamp(m.n, 0, 8)]) * 8 + 64);
+          const long long bytes = (long long)(boards * (unsigned long long)m.n * 4) + reserve;
           // 4.1: a new table is charged to maxBoardEvaluations in full before any board is scored.
           if (!sh->ctl.chargeBoards((long long)boards)) { sh->ctl.raise(6, SITE_TABLE); sh->ctl.rethrowStop(); }
           for (auto &x : mru) x.reset();   // our own references must not pin old tables
           if (!C.makeRoom(bytes, sh->memoryBudget)) return nullptr;
           try { T = std::make_shared<ShowTable>(); T->scores.resize((size_t)boards * (size_t)m.n); } catch (const std::bad_alloc &) { C.ctl->release(bytes); return nullptr; }
-          T->used = used; T->len = len; T->n = m.n; std::copy_n(cards, len, T->prefix); std::copy_n(holes, 2 * m.n, T->holes); T->boards = boards;
+          T->histReserve = reserve; T->used = used; T->len = len; T->n = m.n; std::copy_n(cards, len, T->prefix); std::copy_n(holes, 2 * m.n, T->holes); T->boards = boards;
           std::copy_n(deck, deckCount, T->deck); T->deckCount = deckCount; T->stamp = ++C.stamp; T->charged = bytes;
           T->chunks = (boards + ShowTable::CHUNK - 1) / ShowTable::CHUNK;
           T->chunkState.reset(new std::atomic<uint8_t>[T->chunks]); for (unsigned long long c = 0; c < T->chunks; c++) T->chunkState[c] = ShowTable::C_FREE;
@@ -690,6 +701,7 @@ struct Evaluator {
   // per-board method). 4.3: the full-seat histogram is built during scoring
   // (build()); subset histograms are computed outside the lock and published
   // under T.histMu (concurrent readers keep stable references into the list).
+  std::vector<std::pair<uint32_t, uint32_t>> scratchPatterns;   // 4.8: an uncached subset histogram (over budget)
   const std::vector<std::pair<uint32_t, uint32_t>> &patterns(ShowTable &T, uint32_t mask) {
     { std::lock_guard<std::mutex> g(T.histMu); for (auto &h : T.hist) if (h.mask == mask) return h.patterns; }
     int seats[8], c = 0; for (uint32_t x = mask; x; x &= x - 1) seats[c++] = std::countr_zero(x);
@@ -712,7 +724,12 @@ struct Evaluator {
     ShowTable::Hist H; H.mask = mask; count.each([&](uint32_t k, uint32_t v) { H.patterns.emplace_back(k, v); }); std::sort(H.patterns.begin(), H.patterns.end());
     std::lock_guard<std::mutex> g(T.histMu);
     for (auto &h : T.hist) if (h.mask == mask) return h.patterns;   // another worker published it first (identical)
-    const long long bytes = (long long)(H.patterns.size() * 8 + 64); T.charged += bytes; sh->ctl.charge(bytes);
+    const long long bytes = (long long)(H.patterns.size() * 8 + 64);
+    // 4.8: a subset histogram is cached only when it fits the request budget; otherwise it is used
+    // once from this evaluator's scratch vector (same values, not reused). 4.7 charged it
+    // unconditionally, which let cached tables plus histograms exceed memoryMiB.
+    if (!sh->ctl.tryCharge(bytes, sh->memoryBudget)) { scratchPatterns = std::move(H.patterns); sh->show.patternSets++; return scratchPatterns; }
+    T.charged += bytes;
     sh->show.patternSets++;
     T.hist.push_back(std::move(H)); return T.hist.back().patterns;
   }

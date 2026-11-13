@@ -8,7 +8,9 @@ permissions:
 jobs:
   windows:
     runs-on: windows-latest
-    timeout-minutes: 90
+    # 4.8: the full regression suite now runs to completion on the runner (4.7 runs stopped at the
+    # harness defect fixed in 4.8), which needs more than 90 minutes.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -41,6 +43,18 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node source/tools/test_native_mw.js build/fresh/EightMax.exe fresh-windows-multiway.json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: 4.7 and 4.8 feature self-tests on Windows (no PowerShell; recorded JSON reports)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftests'
+          & ./build/fresh/mwcli.exe --selftest47 validation/4.7/fixtures (Join-Path $w 'st47')
+          $c47 = $LASTEXITCODE
+          & ./build/fresh/mwcli.exe --selftest48 validation/4.8/fixtures (Join-Path $w 'st48')
+          $c48 = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'st47/selftest47.json') windows-selftest47.json -ErrorAction SilentlyContinue
+          Copy-Item (Join-Path $w 'st48/selftest48.json') windows-selftest48.json -ErrorAction SilentlyContinue
+          "selftest47 exit $c47; selftest48 exit $c48"
+          if ($c47 -or $c48) { exit 1 }
       - name: Assemble the release around the fresh host
         shell: powershell
         run: |
@@ -51,10 +65,10 @@ jobs:
           Copy-Item build/fresh/gpustress.exe "$r/gpustress.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
-          Copy-Item fresh-windows.json, fresh-windows-host.json "$r/validation/"
+          Copy-Item fresh-windows.json, fresh-windows-host.json, windows-selftest47.json, windows-selftest48.json "$r/validation/"
       - name: Verify the assembled release
         shell: powershell
         run: |
@@ -136,6 +150,8 @@ jobs:
             release/EightMax-Windows-*.zip
             fresh-windows.json
             fresh-windows-host.json
+            windows-selftest47.json
+            windows-selftest48.json
             windows-runner-hardware-validation.json
             windows-concurrency-stress.txt
             release/EightMax/validation/

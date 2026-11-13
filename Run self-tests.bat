@@ -10,5 +10,9 @@ rem 4.7: feature checks (compressed checkpoints, verification, comparison, monit
 call "%~dp0Run 4.7 checks.bat" /nopause
 set "eightmax_47_result=%errorlevel%"
 if not "%eightmax_47_result%"=="0" set "eightmax_test_result=%eightmax_47_result%"
+rem 4.8: checks of the 4.8 changes (continuation fixture, evaluation identity, comparison classes)
+call "%~dp0Run 4.8 checks.bat" /nopause
+set "eightmax_48_result=%errorlevel%"
+if not "%eightmax_48_result%"=="0" set "eightmax_test_result=%eightmax_48_result%"
 pause
 exit /b %eightmax_test_result%
