@@ -475,7 +475,8 @@ try {
   function Ratio-Interval([double[]]$a, [double[]]$b) {
     $rng = New-Object System.Random 46; $r = @()
     for ($k = 0; $k -lt 2000; $k++) {
-      $sa = @(for ($x = 0; $x -lt $a.Count; $x++) { $a[$rng.Next($a.Count)] } | Sort-Object); $sb = @(for ($x = 0; $x -lt $b.Count; $x++) { $b[$rng.Next($b.Count)] } | Sort-Object)
+      # 4.8: a for statement cannot be piped directly (PowerShell 5.1 parse error "An empty pipe element is not allowed"); it is wrapped in $( ).
+      $sa = @($(for ($x = 0; $x -lt $a.Count; $x++) { $a[$rng.Next($a.Count)] }) | Sort-Object); $sb = @($(for ($x = 0; $x -lt $b.Count; $x++) { $b[$rng.Next($b.Count)] }) | Sort-Object)
       $r += $sa[[int][math]::Floor($sa.Count / 2)] / $sb[[int][math]::Floor($sb.Count / 2)]
     }
     $r = @($r | Sort-Object); return @($r[50], $r[1949])

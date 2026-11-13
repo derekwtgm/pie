@@ -231,8 +231,12 @@ test('4.8 a GPU request on a machine without a usable CUDA device falls back to 
   assert.equal(g.execution.gpuBoards, 0); assert.ok(g.execution.scheduling.cpuGpuUnavailable > 0);
 });
 test('4.8 tournament defaults are unchanged: 8 players, 0.5/1 blinds, 0.1 bb antes, 2.3 bb starting pot, UTG..BB', t => {
-  const mtt = fs.readFileSync(path.join(__dirname, 'mtt.test.js'), 'utf8');
-  assert.match(mtt, /2\.3/); assert.equal(fs.readFileSync(path.join(__dirname, '..', 'VERSION'), 'utf8').trim(), '4.8');
+  const holes = ['AsAh', 'KsKh', 'QsQh', 'JsJh', 'TsTh', '9s9h', '8s8h', '7s7h'];
+  const g = E.MultiwayGame({ preflop: { mode: 'linked', opens: '2', raises: '3x,a', maxBets: 3 }, board: '', dealt: 8, common: 0, stacks: Array(8).fill(25), ranges: holes, privateMode: 'sampled', evaluationDeals: 128, bets: '50', raises: '', maxBets: 1 });
+  const root = g.view([]);
+  assert.ok(Math.abs(root.pot - 2.3) < 1e-12, 'eight-player starting pot ' + root.pot + ' (0.5 + 1 + 8 x 0.1)');
+  assert.equal(root.seat, 0, 'UTG acts first');
+  assert.equal(fs.readFileSync(path.join(__dirname, '..', 'VERSION'), 'utf8').trim(), '4.8');
   assert.equal(typeof EM.analytics.seatLabel, 'function');
   assert.deepEqual([0, 1, 2, 3, 4, 5, 6, 7].map(s => EM.analytics.seatLabel(s, 8, true)), ['UTG', 'UTG+1', 'MP', 'HJ', 'CO', 'BTN', 'SB', 'BB']);
 });
