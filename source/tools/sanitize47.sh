@@ -42,9 +42,9 @@ echo "== ThreadSanitizer: own-hand enumeration, parallel batch walkers"
 TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/ts/mwcli" "$src/../validation/4.5/fixtures/icm-final8.spec.json" 20 1 "$t/x.state" 512 >/dev/null 2>"$t/x.err" || { cat "$t/x.err" | head; fail 'tsan smoke failed'; }
 node -e '
 const E=require(process.argv[1]+"/tools/loadlib");for(const l of ["lib_runouts","lib_wide","lib_river"])require(process.argv[1]+"/web/"+l);
-require("fs").writeFileSync(process.argv[2],JSON.stringify(E.MultiwayGame({privateMode:"sampled",abstraction:"exact",traversal:"external",preflop:{mode:"shove"},dealt:4,common:0,board:"",stacks:[12,7,20,4],ranges:["AsAh,7c2d:0.5,KdQd","KsKh:0.75,8c3d,9h9d","QsQh,6d5d,AdJc","JsJh:0.5,9s8s,Tc9c"],icm:{payouts:[50,30,20]},batchDeals:16,actionStreams:"deal",ownHandEnumeration:true,terminalBaseline:true,privateSeed:3}).nativeSpec()));' "$src" "$t/own16.json"
+require("fs").writeFileSync(process.argv[2],JSON.stringify(E.MultiwayGame({privateMode:"sampled",abstraction:"exact",traversal:"external",board:"Td7c2h",dealt:8,common:1.5,stacks:[20,35,8,50,14,3],prior:Array(6).fill(2.5),folded:[1,2.5],ranges:["AhTh,7s7d,KcKs","KdTs,9c8c,QcJc","QsQd,Ac7h,9s9d","JhTc,6s5s,AsKs","AdKc,2s2d,5c5d","8h8d,As2c,Jc9c"],streets:{flop:{bets:"50,a",raises:"a",maxBets:2},turn:{bets:"a",raises:"",maxBets:1}},batchDeals:16,actionStreams:"deal",ownHandEnumeration:true,terminalBaseline:true,privateSeed:3}).nativeSpec()));' "$src" "$t/own16.json"
 TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/ts/mwcli" "$t/own16.json" 400 4 "$t/own.state" 256 > "$t/own.json" 2> "$t/own.err" || { head -40 "$t/own.err"; fail 'TSan own-hand training failed'; }
-scan "$t/own.err"; grep -o '"threads":[0-9]*' "$t/own.json"
+scan "$t/own.err"; grep -q '"threads":4' "$t/own.json" || fail 'parallel batch walkers were not exercised'; grep -o '"threads":[0-9]*' "$t/own.json"
 echo "== ThreadSanitizer: --monitor with the elapsed-time watchdog"
 rm -rf "$t/mon"; TSAN_OPTIONS=halt_on_error=1 setarch -R "$t/ts/mwcli" --monitor "$fx/river3.spec.json" "$t/mon" updates=10000000 first=10000000 seconds=1 eval=none threads=4 > "$t/mon.json" 2> "$t/mon.err" || { head -40 "$t/mon.err"; fail 'TSan monitor failed'; }
 scan "$t/mon.err"; grep -o '"stop":"[^"]*"' "$t/mon.json"

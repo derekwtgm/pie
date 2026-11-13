@@ -4,3 +4,28 @@ embedded 156782 bytes
 sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ub/eightmax, /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ub/mwcli
 embedded 1023701 bytes
 embedded 156782 bytes
+sanitized (thread) host: /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ts/eightmax, /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ts/mwcli
+== UBSan+ASan: mwcli --selftest47
+"checksPassed":10,"checksFailed":0
+== UBSan+ASan: EMZ1 corruption fuzz (300 cases)
+fuzz: refused 300 decoded exactly 0 wrong 0
+== UBSan+ASan host and CLI: tests/v47.test.js
+# pass 13
+# fail 0
+# skipped 0
+== ThreadSanitizer: own-hand enumeration, parallel batch walkers
+"threads":1
+== ThreadSanitizer: --monitor with the elapsed-time watchdog
+"stop":"maximum elapsed training time"
+== ThreadSanitizer host: dashboard live monitor
+# pass 1
+# fail 0
+# skipped 0
+sanitize47: all passed
+exit 0
+
+== Follow-up (same builds): the first pass's own-hand TSan workload stayed on one thread (adaptive
+   threading judged the batch too small), so parallel batch walkers were NOT exercised by it. The script
+   now uses a six-player flop with batchDeals 16 and requires "threads":4. Rerun of that step:
+ThreadSanitizer own-hand enumeration, six-player flop, batchDeals 16, 4 threads, 200 updates: exit 0,
+0 ThreadSanitizer warnings, "threads":4; the TSan 4-thread state is byte-identical to a 1-thread state.
