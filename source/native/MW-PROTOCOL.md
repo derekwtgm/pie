@@ -685,3 +685,64 @@ mean identical decimal output. Reference for `200000 45`: `94fc3f6ed8426909`.
 Absent fields give the 4.4 trainer bit for bit. Neither option improved exact
 NashConv in the ten-seed study (`validation/4.5/convergence/`); they are kept
 for experiments only. The JavaScript trainer refuses a study that sets them.
+
+## 4.7: own-hand enumeration (experimental), trainer metadata, analytics commands, EMZ1
+
+### Experimental trainer option (spec protocol 4, native engine only, opt-in)
+
+| Field | Values | Default | Meaning |
+|---|---|---|---|
+| `ownHandEnumeration` | boolean | false | the updating seat's private hand is enumerated over every compatible hand of its range (conditional weight w(h) / sum w given the sampled opponents' hands and board) instead of being sampled; opponent actions are sampled once per traversal and shared by every hand |
+
+The expected regret and average-strategy increments are those of the default estimator (law
+of total expectation over the updating seat's hand); only their variance and the cost per deal
+change. Allowed with `terminalBaseline` (vector form of the same control variate); refused
+(400) together with grouped keys, turn or river groups, stratified or Latin chance sampling and
+`terminalExpectation`. Part of the spec, hence of `studyId`: checkpoints of the two trainers are
+never mixed. Evidence: `tools/unbiased47.js`, `source/reference`, `validation/4.7`.
+
+### `info.trainer`
+
+`{estimator, regretMatching, weighting, opponentExploration, terminalBaseline,
+terminalExpectation, chanceSampling, ownHandEnumeration, experimental, validatedDefault}`
+in every protocol-4 `info` (and therefore in `mwcli` training output and `/api/mw/status`).
+
+### mwcli analytics (see `native/mwcli_analytics.hpp`)
+
+* `--verify spec state [method=auto|exact|restricted|sampled] [samples] [seed] [timeMs]
+  [maxVisits] [threads] [memory] [node=s.s board=c,c]` - per seat: position (preflop roots),
+  stack, policy value, best deviation value, gain, unadjusted and Bonferroni-simultaneous 95%
+  intervals (sampled), relative gain (percent of the starting pot for chip EV, of the seat's
+  ICM equity for ICM), coverage; aggregate NashConv (exact), NashConv lower bound (restricted)
+  or an estimate of a lower bound (sampled); Mode D local deviations through action EV.
+* `--compare specA stateA stateB [specB=] [gains=] [csv=]` - exit 3 when the game fields
+  (`protocol, algorithm, n, board, anteOf, hands, rules, icm, groupKeys, turnGroups,
+  riverGroups, abstraction`) differ or a checkpoint belongs to another study. Otherwise:
+  counters, strategy hashes, canonical row overlap, total-variation distances of the
+  normalised average strategies (mean, mass-weighted, max, per seat, union with uniform
+  fallback), gains of both checkpoints on independent evaluation streams and per-seat
+  differences (exact; or Bonferroni-simultaneous intervals for sampled; restricted lower bounds
+  are not ordered).
+* `--monitor spec out-dir [...]` - training with adaptive evaluations; writes
+  `analytics.json` (schema `eightmax-analytics/1`, the dashboard's format), `analytics.csv`
+  and checkpoints. Evaluation k uses seed `evalSeed + 7919 k`; evaluations only read the
+  strategy, so the final state equals uninterrupted training (tested byte for byte).
+* `--selftest47 fixtures-dir work-dir` - 10 self-recording checks used by `Run 4.7 checks.bat`.
+
+Canonical row key: `betting path (action slots, 7 = next street) | hand | five card bytes`
+(grouped studies: `path | g:key text`). Strategy hash: SHA-256 over rows sorted by key of
+`key, k, normalised average strategy (IEEE 754 little-endian)`.
+
+### EMZ1 compressed checkpoints
+
+`mwcli --compress in.state out.emz [level]`, `--decompress in.emz out.state`; every command that
+reads a checkpoint accepts EMZ1 (decompressed and verified into a temporary file). Layout in
+`native/emz.hpp`: blocks of at most about 8 MiB, deflate, per-block CRC-32, whole-file SHA-256
+and length in the end block. Row blocks are stored either in original order or with their float64
+values byte-shuffled, whichever is smaller. Lossless; any failed check refuses the file.
+
+### Host
+
+`GET /api/memory` adds `peakResidentMiB`. The Quality tab (`web/lib_dashboard.js`) uses only
+existing routes: `mw/init`, `mw/train`, `mw/status`, `mw/stop`, `mw/state`, `mw/response-gain`,
+`memory`.

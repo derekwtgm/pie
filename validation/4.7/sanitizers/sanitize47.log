@@ -1,0 +1,6 @@
+== build (UBSan+ASan, TSan)
+embedded 1023701 bytes
+embedded 156782 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ub/eightmax, /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/san47/ub/mwcli
+embedded 1023701 bytes
+embedded 156782 bytes

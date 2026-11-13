@@ -1,3 +1,39 @@
+EightMax 4.7 - 8-max MTT solver for Windows
+============================================
+
+NEW IN 4.7: MEASURING STRATEGY QUALITY, A FASTER-CONVERGING EXPERIMENTAL
+TRAINER, A CONVERGENCE DASHBOARD, CHECKPOINT COMPARISON AND COMPRESSION
+  - Independent check of the training mathematics: a separate reference
+    program (source/reference) solves Kuhn poker, Leduc hold'em, three-player
+    Kuhn, a three-player push/fold game with side pots and ICM, and a
+    weighted-range game by plain enumeration. It reproduces the published
+    values (Kuhn -1/18, Leduc -0.0856) and statistically confirms that the
+    sampled training updates (the formula EightMax uses) are unbiased.
+    No defect was found in EightMax's training engine.
+  - A new, OPTIONAL trainer ("own-hand enumeration") averages over all of the
+    updating player's hands instead of sampling one. It is proven and tested
+    to aim at the same answer as the standard trainer, with 4 to 10 times
+    less random noise per update. Whether it is better PER SECOND is the
+    question the ten-seed study answers - see RELEASE-4.7.md, section 2.
+    The default trainer is unchanged (same strategy bytes as 4.4-4.6).
+  - "Quality" tab: train a study and watch its measured quality live -
+    NashConv / best-response gains (exact when possible, otherwise clearly
+    labelled lower bounds or estimates with error bars), gains per seat,
+    strategy changes, speed, memory and coverage, in seven charts and a
+    checkpoint table. Export CSV/JSON; import earlier runs to compare.
+  - mwcli --verify (quality report for a checkpoint), --compare (are two
+    checkpoints different, and is either measurably stronger?), --monitor
+    (training with automatic quality checks and stopping rules).
+  - Checkpoints can be compressed without loss (about 45% of the original
+    size on the large eight-player study): mwcli --compress / --decompress.
+    Every mwcli command also reads compressed checkpoints directly.
+  - A faster inner loop of the training engine (no change to any result).
+  - PLEASE RUN on your PC: "Run self-tests.bat" (now also runs the new
+    "Run 4.7 checks.bat") and "Validate CUDA hardware.bat"; keep
+    Windows-self-test.json, EightMax-4.7-self-test.json,
+    hardware-validation.json and device-results.json.
+Read RELEASE-4.7.md.
+
 EightMax 4.6 - 8-max MTT solver for Windows
 ============================================
 
