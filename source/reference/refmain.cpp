@@ -148,7 +148,8 @@ static int unbiased(long long N) {
           // The normal approximation needs enough non-zero observations; sparser components are
           // counted (sparse) and checked only for a zero expectation when never observed.
           if (nz[off] < MIN_NONZERO) { sparse++; if (nz[off] == 0 && std::fabs(exact) > 1e-12 && N >= 100000) maxZ = std::max(maxZ, 1e9); continue; }
-          const double z = se > 0 ? (mean - exact) / se : (std::fabs(mean - exact) < 1e-12 ? 0 : 1e9);
+          // zero-variance (deterministic) components: equal up to the rounding of N summations
+          const double z = se > 0 ? (mean - exact) / se : (std::fabs(mean - exact) <= 1e-9 * std::max(1.0, std::fabs(exact)) ? 0 : 1e9);
           if (std::fabs(z) > maxZ) { maxZ = std::fabs(z); worstNz = nz[off]; }
         }
       }

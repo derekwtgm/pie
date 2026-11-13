@@ -73,10 +73,14 @@ MCCFR with the engine's estimator and the 4.7 candidates.
   buffering per traversal they pass (5e-4). The engine buffers correctly (checked in the audit above).
 * `refsuite unbiased`: for a fixed random profile, the mean of N independent sampled increments of every
   (information set, action) component is compared with its exact expectation (z test, Bonferroni,
-  family-wise 0.001). **All 25 estimator x game families pass at N = 200,000 and 1,000,000.** At N =
+  family-wise 0.001). Final results are given below. At N =
   40,000 one family (Leduc, on-policy sampling) failed on a component with only 170 non-zero
   observations, where the normal approximation does not hold; components with fewer than 100 non-zero
   observations are now reported as sparse and excluded from the z test, and the test uses N = 200,000.
+  At N = 1,000,000 deterministic (zero-variance) components of the own-enumeration estimator differed from
+  the exact value by about 1e-11 relative (rounding of a million summations) and tripped an absolute 1e-12
+  tolerance; zero-variance components are now compared with a 1e-9 relative tolerance. Final runs: 25/25
+  families pass at N = 200,000 and at N = 1,000,000 (largest |z| 3.49, critical 4.95).
 
 ## 2. Variance reduction: own-hand enumeration (Priority 2)
 
@@ -267,8 +271,8 @@ indices of the 4.5 eight-player study, and the 4.6 binary fails it identically o
 
 ## 10. Windows (Priority 16)
 
-Built with MinGW-w64 (GCC, posix threads, static zlib); the build id of every executable equals the
-source fingerprint. Under **Wine 9.0** (not Windows): `Run 4.7 checks.bat` in Wine's `cmd` - 10/10
+Built with MinGW-w64 (GCC, posix threads, static zlib); every executable carries build `4507f915d661cc3e`,
+equal to the source fingerprint (checked by the packaging step). Under **Wine 9.0** (not Windows): `Run 4.7 checks.bat` in Wine's `cmd` - 10/10
 (`--selftest47`: golden hash, EMZ1 round trip / resume / corruption, own-hand continuation, verify exact
 and sampled, compare, monitor); `--verify` result bit-identical to Linux; `EightMax.exe --version`.
 `Run self-tests.bat` runs the 4.6 PowerShell harness (unchanged) and then the 4.7 checks.
@@ -277,7 +281,31 @@ and sampled, compare, monitor); `--verify` result bit-identical to Linux; `Eight
 
 ## 11. Regression and safety (Priority 15)
 
-See `validation/4.7/regression-tests.json` and section "Test counts" in `validation/4.7/README.md`.
+Final build `4507f915d661cc3e`, Linux, `node tools/run_tests.js` (every `tests/*.test.js` in its own process):
+
+| | passed | failed | skipped | timed out | hardware-dependent run / skipped |
+|---|---|---|---|---|---|
+| 4.6 source rebuilt here (baseline, build `169a67d1905adb32`) | 449 | 0 | 0 | 0 | 45 / 0 |
+| **4.7** | **462** | **0** | **0** | **0** | 46 / 0 |
+
+4.7 = 449 inherited + 13 new (`tests/v47.test.js`: reference suite, golden state, option validation,
+continuation and thread independence, one-hand equivalence, engine unbiasedness, verify, compare,
+monitor, JS/native analytics agreement, dashboard against the host, independent best response, EMZ1).
+The baseline's one failure in a loaded full run ("4.4 sampled-EV deadline under CPU load") passed when
+rerun alone (`validation/4.7/baseline-4.6`). Nothing was incomplete. "Hardware-dependent" = needs a
+compiler, the native host or the Linux CUDA driver test double (simulated CUDA, not a GPU).
+
+Infrastructure defects found and fixed before the final run: the test build cache, `v43` and the inherited
+sanitizer scripts linked `mwcli` without zlib, which made suites **skip** native tests (24 skips in v29 in an
+interrupted run; 0 in the final run); the Windows CI did not install MSYS2 zlib. The inherited
+`sanitize29.sh` strict gate already fails on 4.6 code and is obsolete (documented, not used).
+
+Safety tools (`tools/sanitize47.sh`, `validation/4.7/sanitizers`): ASan+UBSan host and CLI - v47 suite
+13/13, `--selftest47` 10/10, 300 fuzzed EMZ1 files all refused cleanly; ThreadSanitizer - own-hand
+training with 4 parallel batch walkers (state identical to 1 thread), `--monitor` watchdog stop, dashboard
+against a TSan host: no reports. cppcheck: 0 findings in the 4.7 native files. Property-based tests: 20,000
+random side-pot showdowns, 2,000 random ICM tables, 120 random profiles (reference). Fault injection:
+corrupted/truncated EMZ1, inherited save-stage faults and cancellation (v46).
 
 ## Remaining limitations
 
