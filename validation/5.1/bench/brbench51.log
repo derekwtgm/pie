@@ -1,0 +1,5 @@
+flop6w       IDENTICAL v5.0 11.593s 28.9MiB | v5.1 11.855s x1.022 [0.994, 1.051] no supported difference 28.5MiB
+
+real	1m57.756s
+user	5m51.337s
+sys	0m0.286s

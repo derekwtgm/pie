@@ -1,0 +1,9 @@
+== wine selftest47
+exit 0 3s
+{"tool":"mwcli selftest47","build":"7d08acc7eb4577ee","checksPassed":10,"checksFailed":0,"passed":true,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst47\\s
+== wine selftest48
+exit 0 18s
+{"tool":"mwcli selftest48","build":"7d08acc7eb4577ee","passed":9,"failed":0,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst48\\selftest48.json"}
+== wine selftest49
+exit 1 13s
+{"tool":"mwcli selftest49","build":"7d08acc7eb4577ee","passed":14,"failed":1,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst49\\selftest49.json"}

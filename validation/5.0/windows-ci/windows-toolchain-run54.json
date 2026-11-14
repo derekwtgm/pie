@@ -1,0 +1,13 @@
+{
+  "msystem": "UCRT64",
+  "gcc": "gcc.exe (Rev6, Built by MSYS2 project) 16.2.0",
+  "gxx": "g++.exe (Rev6, Built by MSYS2 project) 16.2.0",
+  "gxxPath": "D:/a/_temp/msys64/ucrt64/bin/g++.exe",
+  "binutils": "GNU ld (GNU Binutils) 2.47.20260726",
+  "zlib": "mingw-w64-ucrt-x86_64-zlib 1.4-2",
+  "gccPackage": "mingw-w64-ucrt-x86_64-gcc 16.2.0-6",
+  "msys2Runtime": "msys2-runtime 3.6.12-1",
+  "node": "v24.22.2",
+  "python": "Python 3.14.10"
+}
+##[group]Run mkdir -p build/fixture

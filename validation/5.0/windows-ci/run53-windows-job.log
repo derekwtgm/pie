@@ -1,0 +1,1226 @@
+﻿2026-11-14T04:35:55.4974699Z Current runner version: '2.338.2'
+2026-11-14T04:35:55.4995327Z ##[group]Runner Image Provisioner
+2026-11-14T04:35:55.4995892Z Hosted Compute Agent
+2026-11-14T04:35:55.4996239Z Version: 20261103.629
+2026-11-14T04:35:55.4996666Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-14T04:35:55.4997111Z Build Date: 2026-11-03T17:26:59Z
+2026-11-14T04:35:55.4997528Z Worker ID: {0397161c-c4c3-49c4-b694-fc491b291928}
+2026-11-14T04:35:55.4997927Z Region: centralus
+2026-11-14T04:35:55.4998263Z Cloud: Azure
+2026-11-14T04:35:55.4998579Z ##[endgroup]
+2026-11-14T04:35:55.4999381Z ##[group]Operating System
+2026-11-14T04:35:55.4999740Z Microsoft Windows Server 2025
+2026-11-14T04:35:55.5000080Z 10.0.26100
+2026-11-14T04:35:55.5000369Z Datacenter
+2026-11-14T04:35:55.5000711Z ##[endgroup]
+2026-11-14T04:35:55.5001074Z ##[group]Runner Image
+2026-11-14T04:35:55.5001454Z Image: windows-2025-vs2026
+2026-11-14T04:35:55.5001831Z Version: 20261103.298.1
+2026-11-14T04:35:55.5002858Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+2026-11-14T04:35:55.5003870Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+2026-11-14T04:35:55.5004428Z ##[endgroup]
+2026-11-14T04:35:55.5005159Z ##[group]GITHUB_TOKEN Permissions
+2026-11-14T04:35:55.5006414Z Contents: read
+2026-11-14T04:35:55.5006734Z Metadata: read
+2026-11-14T04:35:55.5007041Z ##[endgroup]
+2026-11-14T04:35:55.5008549Z Secret source: Actions
+2026-11-14T04:35:55.5009073Z Cache mode: write
+2026-11-14T04:35:55.5009603Z Prepare workflow directory
+2026-11-14T04:35:55.5240179Z Prepare all required actions
+2026-11-14T04:35:55.5274427Z Getting action download info
+2026-11-14T04:35:55.7920794Z Download action repository 'actions/checkout@v6' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-11-14T04:35:55.8779089Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+2026-11-14T04:35:55.9780170Z Download action repository 'actions/setup-python@v6' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-14T04:35:56.0840914Z Download action repository 'msys2/setup-msys2@v2' (SHA:ec48f7c5447b3140e2b088413ae3a55687bccb6e)
+2026-11-14T04:35:56.3715719Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-14T04:35:56.5824251Z Complete job name: windows
+2026-11-14T04:35:56.7010863Z ##[group]Run actions/checkout@v6
+2026-11-14T04:35:56.7011618Z with:
+2026-11-14T04:35:56.7011849Z   repository: derekwtgm/pie
+2026-11-14T04:35:56.7014262Z   token: ***
+2026-11-14T04:35:56.7014482Z   ssh-strict: true
+2026-11-14T04:35:56.7014703Z   ssh-user: git
+2026-11-14T04:35:56.7014927Z   persist-credentials: true
+2026-11-14T04:35:56.7015169Z   clean: true
+2026-11-14T04:35:56.7015396Z   sparse-checkout-cone-mode: true
+2026-11-14T04:35:56.7015667Z   fetch-depth: 1
+2026-11-14T04:35:56.7015889Z   fetch-tags: false
+2026-11-14T04:35:56.7016115Z   show-progress: true
+2026-11-14T04:35:56.7016364Z   lfs: false
+2026-11-14T04:35:56.7016572Z   submodules: false
+2026-11-14T04:35:56.7016799Z   set-safe-directory: true
+2026-11-14T04:35:56.7017063Z   allow-unsafe-pr-checkout: false
+2026-11-14T04:35:56.7017514Z ##[endgroup]
+2026-11-14T04:35:56.8069883Z Syncing repository: derekwtgm/pie
+2026-11-14T04:35:56.8072375Z ##[group]Getting Git version info
+2026-11-14T04:35:56.8073305Z Working directory is 'D:\a\pie\pie'
+2026-11-14T04:35:56.8944601Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-14T04:35:57.2164127Z git version 2.56.0.windows.4
+2026-11-14T04:35:57.2204330Z ##[endgroup]
+2026-11-14T04:35:57.2222081Z Temporarily overriding HOME='D:\a\_temp\d141cbb8-2936-4348-b8c0-aaeea9290b4b' before making global git config changes
+2026-11-14T04:35:57.2223612Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T04:35:57.2231402Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\pie\pie
+2026-11-14T04:35:57.2763210Z Deleting the contents of 'D:\a\pie\pie'
+2026-11-14T04:35:57.2768200Z ##[group]Determining repository object format
+2026-11-14T04:35:57.2770055Z ##[endgroup]
+2026-11-14T04:35:57.2770745Z ##[group]Initializing the repository
+2026-11-14T04:35:57.2777563Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\pie\pie
+2026-11-14T04:35:57.3484089Z Initialized empty Git repository in D:/a/pie/pie/.git/
+2026-11-14T04:35:57.3527936Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/derekwtgm/pie
+2026-11-14T04:35:57.4146527Z ##[endgroup]
+2026-11-14T04:35:57.4147800Z ##[group]Disabling automatic garbage collection
+2026-11-14T04:35:57.4153718Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-14T04:35:57.4445775Z ##[endgroup]
+2026-11-14T04:35:57.4446935Z ##[group]Setting up auth
+2026-11-14T04:35:57.4447746Z Removing SSH command configuration
+2026-11-14T04:35:57.4455025Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T04:35:57.4749032Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-14T04:35:58.6697254Z Removing HTTP extra header
+2026-11-14T04:35:58.6705005Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T04:35:58.6954462Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-14T04:35:59.0755032Z Removing includeIf entries pointing to credentials config files
+2026-11-14T04:35:59.0762848Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T04:35:59.1011632Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-14T04:35:59.4977484Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-14T04:35:59.5277374Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/pie/pie/.git.path D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:35:59.5544359Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/pie/pie/.git/worktrees/*.path D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:35:59.5849146Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:35:59.6121476Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:35:59.6396756Z ##[endgroup]
+2026-11-14T04:35:59.6397089Z ##[group]Fetching the repository
+2026-11-14T04:35:59.6407101Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f3ea133ec3985c906e6c7d000503a8c09d9c1eab:refs/remotes/origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:02.0697953Z From https://github.com/derekwtgm/pie
+2026-11-14T04:36:02.0699199Z  * [new ref]         f3ea133ec3985c906e6c7d000503a8c09d9c1eab -> origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:02.0750566Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:02.1351408Z   origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:02.1386996Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:02.1714423Z f3ea133ec3985c906e6c7d000503a8c09d9c1eab
+2026-11-14T04:36:02.1746865Z ##[endgroup]
+2026-11-14T04:36:02.1747271Z ##[group]Determining the checkout info
+2026-11-14T04:36:02.1747692Z ##[endgroup]
+2026-11-14T04:36:02.1755002Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-14T04:36:02.2105986Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-14T04:36:02.2375275Z ##[group]Checking out the ref
+2026-11-14T04:36:02.2383910Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B ccr-b6b3ba71-s19btg refs/remotes/origin/ccr-b6b3ba71-s19btg
+2026-11-14T04:36:03.1847372Z Switched to a new branch 'ccr-b6b3ba71-s19btg'
+2026-11-14T04:36:03.1940661Z branch 'ccr-b6b3ba71-s19btg' set up to track 'origin/ccr-b6b3ba71-s19btg'.
+2026-11-14T04:36:03.2010195Z ##[endgroup]
+2026-11-14T04:36:03.2437404Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-14T04:36:03.2733659Z f3ea133ec3985c906e6c7d000503a8c09d9c1eab
+2026-11-14T04:36:03.3105300Z ##[group]Run actions/setup-node@v6
+2026-11-14T04:36:03.3105503Z with:
+2026-11-14T04:36:03.3105618Z   node-version: 24
+2026-11-14T04:36:03.3105751Z   package-manager-cache: false
+2026-11-14T04:36:03.3105890Z   check-latest: false
+2026-11-14T04:36:03.3107536Z   token: ***
+2026-11-14T04:36:03.3107642Z ##[endgroup]
+2026-11-14T04:36:03.4386770Z Found in cache @ C:\hostedtoolcache\windows\node\24.22.2\x64
+2026-11-14T04:36:03.4392412Z ##[group]Environment details
+2026-11-14T04:36:07.5394925Z node: v24.22.2
+2026-11-14T04:36:07.5395211Z npm: 11.19.1
+2026-11-14T04:36:07.5395483Z yarn: 1.22.22
+2026-11-14T04:36:07.5396550Z ##[endgroup]
+2026-11-14T04:36:07.5672732Z ##[group]Run actions/setup-python@v6
+2026-11-14T04:36:07.5672941Z with:
+2026-11-14T04:36:07.5673068Z   python-version: 3.12
+2026-11-14T04:36:07.5673214Z   check-latest: false
+2026-11-14T04:36:07.5674788Z   token: ***
+2026-11-14T04:36:07.5674925Z   update-environment: true
+2026-11-14T04:36:07.5675072Z   allow-prereleases: false
+2026-11-14T04:36:07.5675206Z   freethreaded: false
+2026-11-14T04:36:07.5675346Z ##[endgroup]
+2026-11-14T04:36:07.6925885Z ##[group]Installed versions
+2026-11-14T04:36:07.7085623Z Successfully set up CPython (3.12.10)
+2026-11-14T04:36:07.7086007Z ##[endgroup]
+2026-11-14T04:36:07.7334260Z ##[group]Run node source/tools/build.js build
+2026-11-14T04:36:07.7334646Z [36;1mnode source/tools/build.js build[0m
+2026-11-14T04:36:07.7334839Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:36:07.7890520Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-14T04:36:07.7891053Z env:
+2026-11-14T04:36:07.7891263Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:07.7891704Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:36:07.7891973Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:07.7892221Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:07.7892448Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:07.7892641Z ##[endgroup]
+2026-11-14T04:36:09.9061434Z EightMax-Offline.html 1037783 bytes
+2026-11-14T04:36:09.9084228Z native.html 1037807 bytes
+2026-11-14T04:36:09.9086400Z EightMax 5.0 build 9ee5a8be32f5146e
+2026-11-14T04:36:10.0342097Z ##[group]Run msys2/setup-msys2@v2
+2026-11-14T04:36:10.0342289Z with:
+2026-11-14T04:36:10.0342394Z   msystem: UCRT64
+2026-11-14T04:36:10.0342508Z   path-type: inherit
+2026-11-14T04:36:10.0342618Z   update: true
+2026-11-14T04:36:10.0342782Z   install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-zlib python
+2026-11-14T04:36:10.0342976Z   release: true
+2026-11-14T04:36:10.0343093Z   platform-check-severity: fatal
+2026-11-14T04:36:10.0343222Z   cache: true
+2026-11-14T04:36:10.0343318Z env:
+2026-11-14T04:36:10.0343457Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:10.0343881Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:36:10.0344127Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:10.0344355Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:10.0344574Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:10.0344788Z ##[endgroup]
+2026-11-14T04:36:10.1370318Z ##[group]Downloading MSYS2...
+2026-11-14T04:36:10.8338615Z ##[endgroup]
+2026-11-14T04:36:10.8339075Z ##[group]Extracting MSYS2...
+2026-11-14T04:36:10.8350207Z [command]C:\hostedtoolcache\windows\msys2-installer\0.0.20260927\x64\base.exe -y
+2026-11-14T04:36:11.0951841Z 
+2026-11-14T04:36:11.0952981Z 7-Zip SFX 26.02 ZS v1.5.7 R1 (x64) : Copyright (c) 1999- Igor Pavlov, 2016- Tino Reichardt, 2022- Sergey G. Brester : 2026-06-27
+2026-11-14T04:36:11.0953437Z 
+2026-11-14T04:36:11.0953765Z Extracting archive: C:\hostedtoolcache\windows\msys2-installer\0.0.20260927\x64\base.exe
+2026-11-14T04:36:11.0954290Z --
+2026-11-14T04:36:11.0955424Z Path = C:\hostedtoolcache\windows\msys2-installer\0.0.20260927\x64\base.exe
+2026-11-14T04:36:11.0955859Z Type = 7z
+2026-11-14T04:36:11.0956030Z 
+2026-11-14T04:36:11.5544761Z   0%
+2026-11-14T04:36:11.5544942Z     
+2026-11-14T04:36:11.7568911Z   0% 1006 - msys64\usr\lib\terminfo\61\aixterm-16color
+2026-11-14T04:36:11.7569371Z                                                       
+2026-11-14T04:36:11.9614230Z   1% 2205 - msys64\usr\lib\terminfo\6d\minitel1-nb
+2026-11-14T04:36:11.9614671Z                                                   
+2026-11-14T04:36:12.1636523Z   2% 3406 - msys64\usr\lib\terminfo\77\wy520-wvb
+2026-11-14T04:36:12.1636900Z                                                 
+2026-11-14T04:36:12.3668482Z   3% 4357 - msys64\usr\share\bash-completion\completions-core\pngfix.bash
+2026-11-14T04:36:12.3669021Z                                                                          
+2026-11-14T04:36:12.5698173Z   8% 5425 - msys64\usr\share\locale\af\LC_TIME\coreutils.mo
+2026-11-14T04:36:12.5698627Z                                                            
+2026-11-14T04:36:12.9823018Z  27% 6098 - msys64\usr\share\locale\ru\LC_MESSAGES\p11-kit.mo
+2026-11-14T04:36:12.9823569Z                                                              
+2026-11-14T04:36:13.1802422Z  31% 6211 - msys64\usr\share\locale\tr\LC_MESSAGES\gnupg2.mo
+2026-11-14T04:36:13.1802897Z                                                             
+2026-11-14T04:36:13.3824745Z  36% 6934 - msys64\usr\share\man\man1\trap.1.gz
+2026-11-14T04:36:13.3825225Z                                                
+2026-11-14T04:36:13.5862355Z  37% 8035 - msys64\usr\share\man\man3\libssh2_base64_decode.3.gz
+2026-11-14T04:36:13.5862837Z                                                                 
+2026-11-14T04:36:13.7881031Z  38% 8877 - msys64\usr\share\man\ro\man1\xzcmp.1.gz
+2026-11-14T04:36:13.7881397Z                                                    
+2026-11-14T04:36:13.9916077Z  44% 9442 - msys64\usr\share\terminfo\61\att730-24
+2026-11-14T04:36:13.9916523Z                                                   
+2026-11-14T04:36:14.2965485Z  45% 10476 - msys64\usr\share\terminfo\6e\ncr160vt100an
+2026-11-14T04:36:14.2971988Z                                                        
+2026-11-14T04:36:14.5008616Z  45% 10707 - msys64\usr\share\terminfo\6f\osborne-w
+2026-11-14T04:36:14.5009281Z                                                    
+2026-11-14T04:36:14.6950246Z  45% 10723 - msys64\usr\share\terminfo\70\p14-w
+2026-11-14T04:36:14.6950675Z                                                
+2026-11-14T04:36:14.8979610Z  45% 11791 - msys64\usr\share\terminfo\78\xnuppc+f
+2026-11-14T04:36:14.8980119Z                                                   
+2026-11-14T04:36:15.1021107Z  46% 12738 - msys64\usr\share\zoneinfo\posix\America\Rio_Branco
+2026-11-14T04:36:15.1021605Z                                                                
+2026-11-14T04:36:15.3042636Z  46% 13691 - msys64\usr\share\zoneinfo\right\Pacific\Kiritimati
+2026-11-14T04:36:15.3043095Z                                                                
+2026-11-14T04:36:15.5367310Z  63% 14296 - msys64\usr\bin\msys-gettextpo-0.dll
+2026-11-14T04:36:15.5368005Z                                                 
+2026-11-14T04:36:15.8978863Z  84% 14424 - msys64\usr\bin\stty.exe
+2026-11-14T04:36:15.8979248Z                                     
+2026-11-14T04:36:15.9243845Z  91% 14497 - msys64\usr\lib\gawk\readdir.dll
+2026-11-14T04:36:15.9244238Z                                             
+2026-11-14T04:36:15.9244624Z Everything is Ok
+2026-11-14T04:36:15.9269065Z ##[endgroup]
+2026-11-14T04:36:15.9269556Z ##[group]Disable Key Refresh...
+2026-11-14T04:36:15.9287582Z ##[endgroup]
+2026-11-14T04:36:15.9301717Z ##[group]Restoring package cache...
+2026-11-14T04:36:16.1758838Z Cache hit for restore-key: msys2-pkgs-upd:true-conf:6b7d2a07-files:4cdd684360d349b3ef843e4798f2676eab7cd9bde93c9ebbdd982e4d9468cdfa
+2026-11-14T04:36:17.5954795Z Received 130538275 of 130538275 (100.0%), 97.6 MBs/sec
+2026-11-14T04:36:17.5957793Z Cache Size: ~124 MB (130538275 B)
+2026-11-14T04:36:17.6026121Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/d5f42f94-c7de-4559-92df-b32163dc9f3d/cache.tzst -P -C D:/a/pie/pie --force-local --use-compress-program "zstd -d"
+2026-11-14T04:36:17.8439272Z Cache restored successfully
+2026-11-14T04:36:17.8528278Z Cache restore for msys2-pkgs-upd:true-conf:6b7d2a07, got msys2-pkgs-upd:true-conf:6b7d2a07-files:4cdd684360d349b3ef843e4798f2676eab7cd9bde93c9ebbdd982e4d9468cdfa
+2026-11-14T04:36:17.8529642Z Cache restore for msys2-pkgs-upd:true-conf:6b7d2a07, got msys2-pkgs-upd:true-conf:6b7d2a07-files:4cdd684360d349b3ef843e4798f2676eab7cd9bde93c9ebbdd982e4d9468cdfa
+2026-11-14T04:36:17.8530650Z ##[endgroup]
+2026-11-14T04:36:17.8530991Z ##[group]Starting MSYS2 for the first time...
+2026-11-14T04:36:17.8989136Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'uname' '-a'"
+2026-11-14T04:36:17.9287608Z [1;32mMSYS2 is starting for the first time. Executing the initial setup.[1;0m
+2026-11-14T04:36:18.0088078Z Copying skeleton files.
+2026-11-14T04:36:18.0088853Z These files are for the users to personalise their msys2 experience.
+2026-11-14T04:36:18.0089216Z 
+2026-11-14T04:36:18.0089507Z They will never be overwritten nor automatically updated.
+2026-11-14T04:36:18.0089729Z 
+2026-11-14T04:36:18.0533341Z './.bashrc' -> '/home/runneradmin/.bashrc'
+2026-11-14T04:36:18.0668466Z './.bash_profile' -> '/home/runneradmin/.bash_profile'
+2026-11-14T04:36:18.0800134Z './.profile' -> '/home/runneradmin/.profile'
+2026-11-14T04:36:18.1266243Z 'C:\Windows\system32\drivers\etc\hosts' -> '/etc/hosts'
+2026-11-14T04:36:18.1694121Z 'C:\Windows\system32\drivers\etc\protocol' -> '/etc/protocols'
+2026-11-14T04:36:18.2119112Z 'C:\Windows\system32\drivers\etc\services' -> '/etc/services'
+2026-11-14T04:36:18.2529848Z 'C:\Windows\system32\drivers\etc\networks' -> '/etc/networks'
+2026-11-14T04:36:18.6318514Z gpg: /etc/pacman.d/gnupg/trustdb.gpg: trustdb created
+2026-11-14T04:36:18.6381222Z gpg: no ultimately trusted keys found
+2026-11-14T04:36:18.8732553Z gpg: starting migration from earlier GnuPG versions
+2026-11-14T04:36:18.9177754Z gpg: porting secret keys from '/etc/pacman.d/gnupg/secring.gpg' to gpg-agent
+2026-11-14T04:36:18.9180023Z gpg: migration succeeded
+2026-11-14T04:36:18.9358566Z ==> Generating pacman master key. This may take some time.
+2026-11-14T04:36:18.9511412Z gpg: Generating pacman keyring master key...
+2026-11-14T04:36:19.8450245Z gpg: directory '/etc/pacman.d/gnupg/openpgp-revocs.d' created
+2026-11-14T04:36:19.8618251Z gpg: revocation certificate stored as '/etc/pacman.d/gnupg/openpgp-revocs.d/28C05ACD20481618569C601147B2B27CF6E0EDB4.rev'
+2026-11-14T04:36:19.8618759Z gpg: Done
+2026-11-14T04:36:19.8764119Z ==> Updating trust database...
+2026-11-14T04:36:19.9046667Z gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+2026-11-14T04:36:19.9048124Z gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+2026-11-14T04:36:20.0020067Z ==> Appending keys from msys2.gpg...
+2026-11-14T04:36:20.4719963Z ==> Locally signing trusted keys in keyring...
+2026-11-14T04:36:20.8845054Z   -> Locally signed 5 keys.
+2026-11-14T04:36:20.8997158Z ==> Importing owner trust values...
+2026-11-14T04:36:20.9167119Z gpg: setting ownertrust to 4
+2026-11-14T04:36:20.9167377Z gpg: setting ownertrust to 4
+2026-11-14T04:36:20.9167527Z gpg: setting ownertrust to 4
+2026-11-14T04:36:20.9167669Z gpg: setting ownertrust to 4
+2026-11-14T04:36:20.9167804Z gpg: setting ownertrust to 4
+2026-11-14T04:36:20.9410062Z ==> Disabling revoked keys in keyring...
+2026-11-14T04:36:21.1496295Z   -> Disabled 4 keys.
+2026-11-14T04:36:21.1625443Z ==> Updating trust database...
+2026-11-14T04:36:21.1934516Z gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+2026-11-14T04:36:21.1951781Z gpg: depth: 0  valid:   1  signed:   5  trust: 0-, 0q, 0n, 0m, 0f, 1u
+2026-11-14T04:36:21.1972635Z gpg: depth: 1  valid:   5  signed:   7  trust: 0-, 0q, 0n, 5m, 0f, 0u
+2026-11-14T04:36:21.1980921Z gpg: depth: 2  valid:   4  signed:   2  trust: 4-, 0q, 0n, 0m, 0f, 0u
+2026-11-14T04:36:21.1982964Z gpg: next trustdb check due at 2027-02-10
+2026-11-14T04:36:21.2314223Z pacman-key (pacman) 6.1.0
+2026-11-14T04:36:21.2314743Z Copyright (c) 2010-2024 Pacman Development Team <pacman-dev@lists.archlinux.org>.
+2026-11-14T04:36:21.2315035Z 
+2026-11-14T04:36:21.2452116Z This is free software; see the source for copying conditions.
+2026-11-14T04:36:21.2452693Z There is NO WARRANTY, to the extent permitted by law.
+2026-11-14T04:36:21.4204076Z [1;32mInitial setup complete. MSYS2 is now ready to use.[1;0m
+2026-11-14T04:36:21.4353011Z MINGW64_NT-10.0-26100 runnervmm7ud1 3.6.10-c770e1b9.x86_64 2026-09-26 06:38 UTC x86_64 Msys
+2026-11-14T04:36:21.4395913Z ##[endgroup]
+2026-11-14T04:36:21.4396386Z ##[group]Disable CheckSpace...
+2026-11-14T04:36:21.4797698Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'sed' '-i' 's/^CheckSpace/#CheckSpace/g' '/etc/pacman.conf'"
+2026-11-14T04:36:21.6378770Z ##[endgroup]
+2026-11-14T04:36:21.6379042Z ##[group]Updating packages...
+2026-11-14T04:36:21.6731069Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'pacman' '--noconfirm' '-Syuu' '--overwrite' '*'"
+2026-11-14T04:36:22.2737525Z :: Synchronizing package databases...
+2026-11-14T04:36:23.5648645Z  clangarm64 downloading...
+2026-11-14T04:36:23.5649029Z  mingw32 downloading...
+2026-11-14T04:36:23.5649302Z  mingw64 downloading...
+2026-11-14T04:36:23.5649575Z  ucrt64 downloading...
+2026-11-14T04:36:23.5649855Z  clang64 downloading...
+2026-11-14T04:36:23.5650095Z  msys downloading...
+2026-11-14T04:36:23.9393670Z :: Starting core system upgrade...
+2026-11-14T04:36:24.0652083Z warning: terminate other MSYS2 programs before proceeding
+2026-11-14T04:36:24.0652384Z resolving dependencies...
+2026-11-14T04:36:24.0710752Z looking for conflicting packages...
+2026-11-14T04:36:24.0722088Z 
+2026-11-14T04:36:24.0722776Z Packages (4) bash-5.3.20-3  filesystem-2026.10.18-3  msys2-runtime-3.6.12-1  pacman-6.1.0-29
+2026-11-14T04:36:24.0723150Z 
+2026-11-14T04:36:24.0723298Z Total Installed Size:  54.05 MiB
+2026-11-14T04:36:24.0723568Z Net Upgrade Size:      -0.14 MiB
+2026-11-14T04:36:24.0723719Z 
+2026-11-14T04:36:24.0727587Z :: Proceed with installation? [Y/n] 
+2026-11-14T04:36:24.0727774Z checking keyring...
+2026-11-14T04:36:24.1140589Z checking package integrity...
+2026-11-14T04:36:24.5873174Z loading package files...
+2026-11-14T04:36:24.5939711Z checking for file conflicts...
+2026-11-14T04:36:24.5940158Z :: Processing package changes...
+2026-11-14T04:36:24.5940420Z upgrading bash...
+2026-11-14T04:36:24.6877666Z upgrading filesystem...
+2026-11-14T04:36:24.7140850Z upgrading msys2-runtime...
+2026-11-14T04:36:24.8154701Z upgrading pacman...
+2026-11-14T04:36:25.0623284Z :: To complete this update all MSYS2 processes including this terminal will be closed. Confirm to proceed [Y/n] 
+2026-11-14T04:36:25.2026958Z ##[endgroup]
+2026-11-14T04:36:25.2027199Z ##[group]Killing remaining tasks...
+2026-11-14T04:36:25.2445996Z [command]C:\Windows\system32\taskkill.exe /F /FI "MODULES eq msys-2.0.dll"
+2026-11-14T04:36:25.3566301Z 
+2026-11-14T04:36:25.3567023Z INFO: No tasks running with the specified criteria.
+2026-11-14T04:36:25.3596852Z ##[endgroup]
+2026-11-14T04:36:25.3597082Z ##[group]Final system upgrade...
+2026-11-14T04:36:25.3949255Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'pacman' '--noconfirm' '-Syuu' '--overwrite' '*'"
+2026-11-14T04:36:25.9602632Z :: Synchronizing package databases...
+2026-11-14T04:36:26.7045716Z  clangarm64 downloading...
+2026-11-14T04:36:26.7046020Z  mingw32 downloading...
+2026-11-14T04:36:26.7046216Z  mingw64 downloading...
+2026-11-14T04:36:26.7046428Z  ucrt64 downloading...
+2026-11-14T04:36:26.7046623Z  clang64 downloading...
+2026-11-14T04:36:26.7046866Z  msys downloading...
+2026-11-14T04:36:27.0752229Z :: Starting core system upgrade...
+2026-11-14T04:36:27.2037823Z  there is nothing to do
+2026-11-14T04:36:27.2038233Z :: Starting full system upgrade...
+2026-11-14T04:36:27.2230752Z resolving dependencies...
+2026-11-14T04:36:27.2273280Z looking for conflicting packages...
+2026-11-14T04:36:27.2321235Z 
+2026-11-14T04:36:27.2322508Z Packages (25) brotli-1.2.1-1  bsdtar-3.8.11-2  ca-certificates-20260816-4  coreutils-9.0-1  curl-8.23.0-2  dash-0.5.13.5-1  file-5.48-2  gcc-libs-16.2.0-1  libcurl-8.23.0-2  libexpat-2.10.0-1  liblz4-1.11.1-1  libnghttp2-1.71.0-2  libnghttp3-1.19.0-1  libngtcp2-1.26.0-2  libopenssl-4.1.0-1  libpcre2_8-10.49-1  libpsl-0.23.2-2  libreadline-8.3.006-2  libsqlite-3.54.1-1  libssh2-1.11.1-2  nano-9.3-1  openssl-4.1.0-1  tzcode-2026f-1  wget-1.25.0-5  zlib-1.4-1
+2026-11-14T04:36:27.2323320Z 
+2026-11-14T04:36:27.2323410Z Total Installed Size:  65.97 MiB
+2026-11-14T04:36:27.2323578Z Net Upgrade Size:       1.07 MiB
+2026-11-14T04:36:27.2323683Z 
+2026-11-14T04:36:27.2343718Z :: Proceed with installation? [Y/n] 
+2026-11-14T04:36:27.2343980Z checking keyring...
+2026-11-14T04:36:27.2773737Z checking package integrity...
+2026-11-14T04:36:29.4786346Z loading package files...
+2026-11-14T04:36:29.5163608Z checking for file conflicts...
+2026-11-14T04:36:29.5198500Z :: Running pre-transaction hooks...
+2026-11-14T04:36:29.5198974Z (1/1) Removing old entries from the info directory file...
+2026-11-14T04:36:29.6459098Z :: Processing package changes...
+2026-11-14T04:36:29.6459434Z upgrading gcc-libs...
+2026-11-14T04:36:29.6585728Z upgrading brotli...
+2026-11-14T04:36:29.6659550Z upgrading libexpat...
+2026-11-14T04:36:29.6687119Z upgrading liblz4...
+2026-11-14T04:36:29.6719484Z upgrading libopenssl...
+2026-11-14T04:36:29.6946218Z upgrading zlib...
+2026-11-14T04:36:29.6989908Z upgrading bsdtar...
+2026-11-14T04:36:29.7042893Z upgrading openssl...
+2026-11-14T04:36:29.7653742Z upgrading coreutils...
+2026-11-14T04:36:29.9496236Z upgrading libpcre2_8...
+2026-11-14T04:36:29.9531072Z upgrading ca-certificates...
+2026-11-14T04:36:30.3708361Z upgrading libnghttp3...
+2026-11-14T04:36:30.3747851Z upgrading libngtcp2...
+2026-11-14T04:36:30.3800080Z upgrading libnghttp2...
+2026-11-14T04:36:30.3837989Z upgrading libpsl...
+2026-11-14T04:36:30.3896601Z upgrading libssh2...
+2026-11-14T04:36:30.4808583Z upgrading libcurl...
+2026-11-14T04:36:30.4851747Z upgrading curl...
+2026-11-14T04:36:30.7613021Z upgrading dash...
+2026-11-14T04:36:30.8603962Z upgrading file...
+2026-11-14T04:36:30.8850639Z upgrading libreadline...
+2026-11-14T04:36:30.9045242Z upgrading libsqlite...
+2026-11-14T04:36:30.9110697Z upgrading nano...
+2026-11-14T04:36:30.9739560Z upgrading tzcode...
+2026-11-14T04:36:32.0447375Z upgrading wget...
+2026-11-14T04:36:32.1381364Z :: Running post-transaction hooks...
+2026-11-14T04:36:32.1381662Z (1/1) Updating the info directory file...
+2026-11-14T04:36:32.4642580Z ##[endgroup]
+2026-11-14T04:36:32.4643241Z ##[group]Installing additional packages through pacman...
+2026-11-14T04:36:32.5003051Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'pacman' '--noconfirm' '-S' '--needed' '--overwrite' '*' 'mingw-w64-ucrt-x86_64-gcc' 'mingw-w64-ucrt-x86_64-zlib' 'python'"
+2026-11-14T04:36:33.0586817Z resolving dependencies...
+2026-11-14T04:36:33.0646184Z looking for conflicting packages...
+2026-11-14T04:36:33.0662586Z 
+2026-11-14T04:36:33.0664703Z Packages (22) binutils-2.47-1  mingw-w64-ucrt-x86_64-binutils-2.47-4  mingw-w64-ucrt-x86_64-cc-libs-16.2.0-6  mingw-w64-ucrt-x86_64-crt-14.0.0.r598.ge3d18511f-1  mingw-w64-ucrt-x86_64-gettext-runtime-1.0-1  mingw-w64-ucrt-x86_64-gmp-6.3.0-2  mingw-w64-ucrt-x86_64-headers-14.0.0.r598.ge3d18511f-1  mingw-w64-ucrt-x86_64-isl-0.28-1  mingw-w64-ucrt-x86_64-libgcc-16.2.0-6  mingw-w64-ucrt-x86_64-libiconv-1.19.1-1  mingw-w64-ucrt-x86_64-libstdc++-16.2.0-6  mingw-w64-ucrt-x86_64-libwinpthread-14.0.0.r598.ge3d18511f-1  mingw-w64-ucrt-x86_64-mpc-1.4.1-1  mingw-w64-ucrt-x86_64-mpfr-4.2.2-3  mingw-w64-ucrt-x86_64-tzdata-2026f-1  mingw-w64-ucrt-x86_64-windows-default-manifest-20260815-1  mingw-w64-ucrt-x86_64-winpthreads-14.0.0.r598.ge3d18511f-1  mingw-w64-ucrt-x86_64-zstd-1.5.7-2  mpdecimal-4.0.1-1  mingw-w64-ucrt-x86_64-gcc-16.2.0-6  mingw-w64-ucrt-x86_64-zlib-1.4-2  python-3.14.10-3
+2026-11-14T04:36:33.0666284Z 
+2026-11-14T04:36:33.0666366Z Total Installed Size:  735.10 MiB
+2026-11-14T04:36:33.0666462Z 
+2026-11-14T04:36:33.0682813Z :: Proceed with installation? [Y/n] 
+2026-11-14T04:36:33.0682994Z checking keyring...
+2026-11-14T04:36:33.1055817Z checking package integrity...
+2026-11-14T04:36:35.8473338Z loading package files...
+2026-11-14T04:36:35.9305731Z checking for file conflicts...
+2026-11-14T04:36:36.2992009Z :: Processing package changes...
+2026-11-14T04:36:36.2992678Z installing mingw-w64-ucrt-x86_64-libwinpthread...
+2026-11-14T04:36:36.3029888Z installing mingw-w64-ucrt-x86_64-libgcc...
+2026-11-14T04:36:36.3065296Z installing mingw-w64-ucrt-x86_64-tzdata...
+2026-11-14T04:36:37.3070643Z installing mingw-w64-ucrt-x86_64-libstdc++...
+2026-11-14T04:36:37.3147918Z installing mingw-w64-ucrt-x86_64-cc-libs...
+2026-11-14T04:36:37.3164415Z installing mingw-w64-ucrt-x86_64-libiconv...
+2026-11-14T04:36:37.3325468Z installing mingw-w64-ucrt-x86_64-gettext-runtime...
+2026-11-14T04:36:37.4185206Z installing mingw-w64-ucrt-x86_64-zlib...
+2026-11-14T04:36:37.4363558Z installing mingw-w64-ucrt-x86_64-zstd...
+2026-11-14T04:36:37.4493604Z installing mingw-w64-ucrt-x86_64-binutils...
+2026-11-14T04:36:37.6513034Z installing mingw-w64-ucrt-x86_64-headers...
+2026-11-14T04:36:38.5650931Z installing mingw-w64-ucrt-x86_64-crt...
+2026-11-14T04:36:38.9600252Z installing mingw-w64-ucrt-x86_64-gmp...
+2026-11-14T04:36:38.9710997Z installing mingw-w64-ucrt-x86_64-isl...
+2026-11-14T04:36:39.0170731Z installing mingw-w64-ucrt-x86_64-mpfr...
+2026-11-14T04:36:39.0319262Z installing mingw-w64-ucrt-x86_64-mpc...
+2026-11-14T04:36:39.0366345Z installing mingw-w64-ucrt-x86_64-windows-default-manifest...
+2026-11-14T04:36:39.0386272Z installing mingw-w64-ucrt-x86_64-winpthreads...
+2026-11-14T04:36:39.0453167Z installing mingw-w64-ucrt-x86_64-gcc...
+2026-11-14T04:36:40.0104496Z Optional dependencies for mingw-w64-ucrt-x86_64-gcc
+2026-11-14T04:36:40.0104909Z     mingw-w64-ucrt-x86_64-libatomic
+2026-11-14T04:36:40.0105177Z     mingw-w64-ucrt-x86_64-libgomp: OpenMP
+2026-11-14T04:36:40.0106379Z     mingw-w64-ucrt-x86_64-libquadmath: Quad Math
+2026-11-14T04:36:40.0106686Z installing mpdecimal...
+2026-11-14T04:36:40.0137677Z installing binutils...
+2026-11-14T04:36:40.1992269Z installing python...
+2026-11-14T04:36:44.8235366Z :: Running post-transaction hooks...
+2026-11-14T04:36:44.8235687Z (1/1) Updating the info directory file...
+2026-11-14T04:36:45.2169989Z ##[endgroup]
+2026-11-14T04:36:45.2170875Z ##[group]Saving package cache...
+2026-11-14T04:36:45.2781763Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'paccache' '-r' '-f' '-u' '-k0'"
+2026-11-14T04:36:45.8764528Z ==> no candidate packages found for pruning
+2026-11-14T04:36:45.9132273Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'paccache' '-r' '-f' '-k1'"
+2026-11-14T04:36:46.0513401Z ==> no candidate packages found for pruning
+2026-11-14T04:36:46.2946746Z Cache unchanged, skipping save for msys2-pkgs-upd:true-conf:6b7d2a07-files:4cdd684360d349b3ef843e4798f2676eab7cd9bde93c9ebbdd982e4d9468cdfa
+2026-11-14T04:36:46.3282403Z [command]C:\Windows\system32\cmd.exe /D /S /C D:\a\_temp\setup-msys2\msys2.cmd -c "'pacman' '--noconfirm' '-Scc'"
+2026-11-14T04:36:46.7791486Z 
+2026-11-14T04:36:46.7792188Z Cache directory: /var/cache/pacman/pkg/
+2026-11-14T04:36:46.7950318Z :: Do you want to remove ALL files from cache? [Y/n] 
+2026-11-14T04:36:46.7950715Z removing all files from cache...
+2026-11-14T04:36:46.7950875Z 
+2026-11-14T04:36:46.7951029Z Database directory: /var/lib/pacman/
+2026-11-14T04:36:46.7963833Z :: Do you want to remove unused repositories? [Y/n] 
+2026-11-14T04:36:46.7964446Z removing unused sync repositories...
+2026-11-14T04:36:46.8005206Z ##[endgroup]
+2026-11-14T04:36:46.8220264Z ##[group]Run set -e
+2026-11-14T04:36:46.8220470Z [36;1mset -e[0m
+2026-11-14T04:36:46.8220700Z [36;1m# the release compiler is MSYS2 UCRT64 GCC; later PowerShell steps use it explicitly[0m
+2026-11-14T04:36:46.8220948Z [36;1m{ echo '{'[0m
+2026-11-14T04:36:46.8221090Z [36;1m  echo "  \"msystem\": \"$MSYSTEM\","[0m
+2026-11-14T04:36:46.8221546Z [36;1m  echo "  \"gcc\": \"$(gcc --version | head -1)\","[0m
+2026-11-14T04:36:46.8221755Z [36;1m  echo "  \"gxx\": \"$(g++ --version | head -1)\","[0m
+2026-11-14T04:36:46.8221969Z [36;1m  echo "  \"gxxPath\": \"$(cygpath -m "$(command -v g++)")\","[0m
+2026-11-14T04:36:46.8222273Z [36;1m  echo "  \"binutils\": \"$(ld --version | head -1)\","[0m
+2026-11-14T04:36:46.8222571Z [36;1m  echo "  \"zlib\": \"$(pacman -Q mingw-w64-ucrt-x86_64-zlib)\","[0m
+2026-11-14T04:36:46.8222822Z [36;1m  echo "  \"gccPackage\": \"$(pacman -Q mingw-w64-ucrt-x86_64-gcc)\","[0m
+2026-11-14T04:36:46.8223124Z [36;1m  echo "  \"msys2Runtime\": \"$(pacman -Q msys2-runtime)\","[0m
+2026-11-14T04:36:46.8223331Z [36;1m  echo "  \"node\": \"$(node --version)\","[0m
+2026-11-14T04:36:46.8223550Z [36;1m  echo "  \"python\": \"$(python3 --version 2>&1)\""[0m
+2026-11-14T04:36:46.8223755Z [36;1m  echo '}'; } > windows-toolchain.json[0m
+2026-11-14T04:36:46.8223928Z [36;1mcat windows-toolchain.json[0m
+2026-11-14T04:36:46.8224138Z [36;1mecho "EM_TEST_CXX=$(cygpath -w "$(command -v g++)")" >> "$GITHUB_ENV"[0m
+2026-11-14T04:36:46.8224402Z [36;1mecho "EM_TEST_CC=$(cygpath -w "$(command -v gcc)")" >> "$GITHUB_ENV"[0m
+2026-11-14T04:36:46.8224632Z [36;1mcygpath -w /ucrt64/bin >> "$GITHUB_PATH"[0m
+2026-11-14T04:36:46.8228967Z shell: D:\a\_temp\setup-msys2\msys2.CMD {0}
+2026-11-14T04:36:46.8229134Z env:
+2026-11-14T04:36:46.8229303Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:46.8229582Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:36:46.8229848Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:46.8230080Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:46.8230310Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:46.8230561Z   MSYSTEM: UCRT64
+2026-11-14T04:36:46.8230710Z ##[endgroup]
+2026-11-14T04:36:48.3100589Z {
+2026-11-14T04:36:48.3100812Z   "msystem": "UCRT64",
+2026-11-14T04:36:48.3101067Z   "gcc": "gcc.exe (Rev6, Built by MSYS2 project) 16.2.0",
+2026-11-14T04:36:48.3101423Z   "gxx": "g++.exe (Rev6, Built by MSYS2 project) 16.2.0",
+2026-11-14T04:36:48.3101643Z   "gxxPath": "D:/a/_temp/msys64/ucrt64/bin/g++.exe",
+2026-11-14T04:36:48.3101929Z   "binutils": "GNU ld (GNU Binutils) 2.47.20260726",
+2026-11-14T04:36:48.3102224Z   "zlib": "mingw-w64-ucrt-x86_64-zlib 1.4-2",
+2026-11-14T04:36:48.3102533Z   "gccPackage": "mingw-w64-ucrt-x86_64-gcc 16.2.0-6",
+2026-11-14T04:36:48.3103797Z   "msys2Runtime": "msys2-runtime 3.6.12-1",
+2026-11-14T04:36:48.3103975Z   "node": "v24.22.2",
+2026-11-14T04:36:48.3104115Z   "python": "Python 3.14.10"
+2026-11-14T04:36:48.3104259Z }
+2026-11-14T04:36:48.3750801Z ##[group]Run mkdir -p build/fixture
+2026-11-14T04:36:48.3751055Z [36;1mmkdir -p build/fixture[0m
+2026-11-14T04:36:48.3751357Z [36;1mg++ -std=c++20 -O2 -shared -static -o build/fixture/nvcuda-fixture.dll source/tests/cuda_driver_fixture.cpp[0m
+2026-11-14T04:36:48.3751762Z [36;1mecho "EM_TEST_CUDA_FIXTURE=$(cygpath -w "$PWD/build/fixture/nvcuda-fixture.dll")" >> "$GITHUB_ENV"[0m
+2026-11-14T04:36:48.3753725Z shell: D:\a\_temp\setup-msys2\msys2.CMD {0}
+2026-11-14T04:36:48.3753895Z env:
+2026-11-14T04:36:48.3754066Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:48.3754337Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:36:48.3754609Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:48.3754858Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:48.3755085Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:48.3755303Z   MSYSTEM: UCRT64
+2026-11-14T04:36:48.3755440Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:36:48.3755620Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:36:48.3755779Z ##[endgroup]
+2026-11-14T04:36:49.7242101Z ##[group]Run CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
+2026-11-14T04:36:49.7242561Z [36;1mCC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"[0m
+2026-11-14T04:36:49.7244516Z shell: D:\a\_temp\setup-msys2\msys2.CMD {0}
+2026-11-14T04:36:49.7244677Z env:
+2026-11-14T04:36:49.7244836Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:49.7245102Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:36:49.7245377Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:49.7245610Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:49.7245835Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:36:49.7246025Z   MSYSTEM: UCRT64
+2026-11-14T04:36:49.7246165Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:36:49.7246384Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:36:49.7246609Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:36:49.7246807Z ##[endgroup]
+2026-11-14T04:36:50.4735535Z embedded 1037807 bytes
+2026-11-14T04:36:50.6857103Z embedded 159541 bytes
+2026-11-14T04:36:58.0577108Z In file included from mw.cpp:1585:
+2026-11-14T04:36:58.0577881Z checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+2026-11-14T04:36:58.0578491Z    67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+2026-11-14T04:36:58.0578759Z       |          ^~~~~
+2026-11-14T04:37:43.0610945Z ##[group]Run ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Report fresh-windows.json
+2026-11-14T04:37:43.0611474Z [36;1m./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Report fresh-windows.json[0m
+2026-11-14T04:37:43.0611749Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:37:43.0612034Z [36;1mnode source/tools/test_native_host.js build/fresh/EightMax.exe build fresh-windows-host.json[0m
+2026-11-14T04:37:43.0612317Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:37:43.0612582Z [36;1mnode source/tools/test_native_mw.js build/fresh/EightMax.exe fresh-windows-multiway.json[0m
+2026-11-14T04:37:43.0612853Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:37:43.0657849Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-14T04:37:43.0658088Z env:
+2026-11-14T04:37:43.0658250Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:37:43.0658638Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:37:43.0658899Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:37:43.0659132Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:37:43.0659357Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:37:43.0659541Z   MSYSTEM: UCRT64
+2026-11-14T04:37:43.0659677Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:37:43.0659857Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:37:43.0660069Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:37:43.0660266Z ##[endgroup]
+2026-11-14T04:37:46.3347596Z PASS  Native server starts and reports the expected version
+2026-11-14T04:37:46.3374720Z PASS  Checkpoint tests use an isolated profile
+2026-11-14T04:37:46.4578163Z PASS  Checkpoint persisted
+2026-11-14T04:37:46.5124466Z PASS  Checkpoint persisted
+2026-11-14T04:37:46.5436103Z PASS  Rebuilt missing index
+2026-11-14T04:37:46.5589624Z PASS  Recovered latest after missing index
+2026-11-14T04:37:46.5753695Z PASS  Recovered previous after missing index
+2026-11-14T04:37:46.6041232Z PASS  Rebuilt corrupt index
+2026-11-14T04:37:46.6194758Z PASS  Recovered latest after corrupt index
+2026-11-14T04:37:46.6344905Z PASS  Recovered previous after corrupt index
+2026-11-14T04:37:47.3695437Z PASS  Embedded app includes multiway training and grouping controls
+2026-11-14T04:37:48.0974429Z PASS  CPU river solve completes without an engine error
+2026-11-14T04:37:48.1387693Z PASS  Known river equilibrium: value bets, half-frequency bluffs and calls
+2026-11-14T04:37:48.1988067Z   /api/estimate -> HTTP 400: 
+2026-11-14T04:37:48.2061910Z   request body starts: {"maxBets":1,"pot":10,"ranges":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-11-14T04:37:48.2231134Z PASS  Duplicate board cards are rejected
+2026-11-14T04:37:48.2284963Z PASS  Empty build request is refused without crashing the host
+2026-11-14T04:37:48.2301488Z PASS  Empty estimate request is refused without crashing the host
+2026-11-14T04:37:48.2316920Z PASS  Empty report request is refused without crashing the host
+2026-11-14T04:37:48.2332100Z PASS  Empty save request is refused without crashing the host
+2026-11-14T04:37:48.2347768Z PASS  Empty load request is refused without crashing the host
+2026-11-14T04:37:48.2365344Z PASS  Reserved Windows name 'con' is refused for saves
+2026-11-14T04:37:48.2381711Z PASS  Reserved Windows name 'NUL.txt' is refused for saves
+2026-11-14T04:37:48.2397990Z PASS  Reserved Windows name 'Com3' is refused for saves
+2026-11-14T04:37:48.2413652Z PASS  Reserved Windows name 'lpt9' is refused for saves
+2026-11-14T04:37:48.2431780Z PASS  Reserved Windows name 'aux.em8' is refused for saves
+2026-11-14T04:37:48.2581449Z PASS  Host is still running after the refused requests
+2026-11-14T04:38:18.4590715Z PASS  Streamed a trained checkpoint larger than 64 MiB and recovered its SHA-256 after index removal
+2026-11-14T04:38:18.6512963Z PASS  Restored genuine 3.6 native fixture
+2026-11-14T04:38:18.7907965Z PASS  Committed seven more updates
+2026-11-14T04:38:19.2515844Z PASS  Reopened native generation with the saved RNG
+2026-11-14T04:38:19.4547256Z PASS  Explorer reads the root decision of the restored native study
+2026-11-14T04:38:19.4586253Z PASS  Explorer aggregate strategy is normalized
+2026-11-14T04:38:19.4756940Z PASS  Explorer follows an action branch with a bounded page
+2026-11-14T04:38:19.4779444Z PASS  Explorer refuses a branch outside the solved abstraction
+2026-11-14T04:38:19.4795713Z PASS  Explorer rejects malformed request {"rangeSeat":"nonsense"}
+2026-11-14T04:38:19.4811005Z PASS  Explorer rejects malformed request {"offset":-1}
+2026-11-14T04:38:19.4825923Z PASS  Explorer rejects malformed request {"limit":"5"}
+2026-11-14T04:38:19.4840598Z PASS  Explorer rejects malformed request {"path":[0.5]}
+2026-11-14T04:38:19.4855664Z PASS  Explorer rejects malformed request {"foo":1}
+2026-11-14T04:38:19.5328385Z PASS  Action EVs computed for every legal action with method and uncertainty
+2026-11-14T04:38:19.5575336Z PASS  Repeated action-EV request is served from the cache
+2026-11-14T04:38:20.0025660Z PASS  Per-seat sampled response gains computed
+2026-11-14T04:38:20.0045547Z PASS  Action-EV endpoint rejects a string hand index
+2026-11-14T04:38:20.5956150Z PASS  Exact EV with a 100 ms limit stops with HTTP 408 and no result (slowest of 5: 101.3 ms)
+2026-11-14T04:38:20.6815418Z PASS  Exact 8-player ICM action EVs equal the reference at path [1,1]
+2026-11-14T04:38:20.7166513Z PASS  Exact 8-player ICM action EVs equal the reference at path [1,1,1]
+2026-11-14T04:38:20.8390733Z PASS  Explorer and status answer while a background evaluation runs (33 ms)
+2026-11-14T04:38:20.9103197Z PASS  Cancelled background evaluation stops (69 ms)
+2026-11-14T04:38:20.9121467Z PASS  Malformed evaluation job is rejected without creating a job
+2026-11-14T04:38:21.0790860Z PASS  Background evaluation job completes with classifications and coverage
+2026-11-14T04:38:21.2047658Z PASS  Released evaluation jobs free their results
+2026-11-14T04:38:21.2379640Z PASS  Malformed numbers (1e300, 2^64, fractions) are refused with 4xx before conversion and the host keeps running (400,400,400,400,400,400,400,400,400)
+2026-11-14T04:38:21.2526012Z PASS  Refused requests created no evaluation job
+2026-11-14T04:38:21.3211824Z PASS  Concurrent training start round 0: exactly one of 8 requests started, none stuck (409,409,409,409,200,409,409,409)
+2026-11-14T04:38:21.3829066Z PASS  Concurrent training start round 1: exactly one of 8 requests started, none stuck (409,409,200,409,409,409,409,409)
+2026-11-14T04:38:21.4459511Z PASS  Concurrent training start round 2: exactly one of 8 requests started, none stuck (409,409,409,200,409,409,409,409)
+2026-11-14T04:38:21.5119472Z PASS  Concurrent training start round 3: exactly one of 8 requests started, none stuck (200,409,409,409,409,409,409,409)
+2026-11-14T04:38:21.5704688Z PASS  Concurrent training start round 4: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:38:21.6333182Z PASS  Concurrent training start round 5: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:38:21.6956316Z PASS  Concurrent training start round 6: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:38:21.7586590Z PASS  Concurrent training start round 7: exactly one of 8 requests started, none stuck (200,409,409,409,409,409,409,409)
+2026-11-14T04:38:21.8212585Z PASS  Concurrent training start round 8: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:38:21.8843922Z PASS  Concurrent training start round 9: exactly one of 8 requests started, none stuck (409,409,200,409,409,409,409,409)
+2026-11-14T04:38:23.2470486Z PASS  A job queued for 1,228 ms still received its 500 ms time limit
+2026-11-14T04:38:23.3817115Z PASS  Sampled action EVs carry simultaneous comparisons (critical value 2.539) and work counters
+2026-11-14T04:38:23.4225732Z PASS  Exact EV past maxBoardEvaluations is refused with no numbers
+2026-11-14T04:38:23.4597225Z PASS  Board enumeration is counted (376992 board evaluations)
+2026-11-14T04:38:23.6418636Z PASS  Exact response gains identical for 1, 2 and more threads (1 thr 0.06 s, 2 thr 0.06 s, 4 thr 0.04 s)
+2026-11-14T04:38:23.7032754Z PASS  4.2 coverage with 1 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:38:23.7452390Z PASS  4.2 coverage with 2 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:38:23.7801178Z PASS  4.2 coverage with 4 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:38:23.7868117Z PASS  4.2 coverage counts and EVs are identical for every thread count
+2026-11-14T04:38:24.4179390Z PASS  4.2 exact EV by pattern projection is bit-identical to the 4.1 per-board method (0.03 s vs 0.59 s)
+2026-11-14T04:38:24.4198214Z PASS  4.2 the result reports the requested and the observed device
+2026-11-14T04:38:24.4618137Z PASS  4.2 malformed gpuBudgetBytes values are refused
+2026-11-14T04:38:24.5861484Z PASS  4.3 one shared showdown table per request: 376,992 boards for every thread count (1 thr 0.050 s, 2 thr 0.034 s, 4 thr 0.033 s)
+2026-11-14T04:38:24.5879328Z PASS  4.3 exact EVs bit-identical to 4.2 for every thread count (IEEE 754 patterns 402e0a51470d8f36,402f57218439052d = 15.020151348500445, 15.670177585564113)
+2026-11-14T04:38:24.6375224Z PASS  4.3 private per-worker tables (4.2 behaviour) give the same EVs
+2026-11-14T04:38:24.7717791Z PASS  4.3 eight-seat exact response gains bit-identical to 4.2, one table for all seats (1 thr 0.078 s, 4 thr 0.050 s)
+2026-11-14T04:38:24.8232762Z PASS  4.3 malformed coverageMiB values are refused
+2026-11-14T04:38:24.8618778Z PASS  4.3 coverage capacity reported (exact, 32,768-key limit at coverageMiB 1) and equal to the audit
+2026-11-14T04:38:25.0280971Z PASS  4.3 in-process session (first, repeated, concurrent, cancelled, after) gives identical results
+2026-11-14T04:38:25.0434956Z PASS  4.4 native doubles printed with 17 significant digits parse back to identical IEEE 754 bit patterns (26 probes: 1-ULP neighbours, negative, subnormal, tiny, huge)
+2026-11-14T04:38:25.0499500Z PASS  4.4 CLI JSON carries every probe value as the same digit string as its text field (26 raw tokens compared without numeric conversion)
+2026-11-14T04:38:25.0663155Z PASS  4.4 desktop API probe document is character-identical to the CLI document
+2026-11-14T04:38:25.1488644Z PASS  4.4 IEEE 754 bit patterns survive PowerShell parsing, re-serialization and a file round trip unchanged (26 patterns; [double] casts of the parsed numbers differed for 3, worst 1 ULP: recorded, not used for exact checks)
+2026-11-14T04:38:25.1515689Z PASS  4.4 the bit-pattern comparison separates a value from its one-ULP neighbours (distance 1) and from its negation
+2026-11-14T04:38:25.1919287Z PASS  4.4 exact EV reference: the engine prints 15.020151348500445,15.670177585564113 and the bit patterns 402e0a51470d8f36,402f57218439052d (raw output, no PowerShell number conversion)
+2026-11-14T04:38:35.1695336Z PASS  4.4 sampled EV honours 100, 250, 600 and 1000 ms limits within 50 ms; runs that reached the limit are labelled partial (worst overrun of 20 runs: 3.0 ms, 20 reached the limit)
+2026-11-14T04:38:35.6508110Z PASS  4.5 IEEE 754 sweep: 200,000 doubles round-trip through print and parse with identical bit patterns (engine parser and JSON reader); one-ULP neighbours print differently
+2026-11-14T04:38:35.6514238Z PASS  4.5 IEEE 754 sweep digest equals the Linux build (the same characters were printed for all 200,000 values)
+2026-11-14T04:38:35.6536278Z   note: this computer's C runtime strtod differs from the correctly rounded result for 4 of 200,000 values (informational; the engine uses its own parser since 4.5)
+2026-11-14T04:38:35.8260744Z PASS  4.5 eight-seat linked ICM study (300 updates, 4 threads): the trained state file is byte-identical to the Linux build and to 4.4 (deterministic training, bit-identical ICM kernel)
+2026-11-14T04:38:42.3589843Z PASS  4.5 coverage memory budget: peak live bytes <= coverageMiB for 1, 2, 8 and 32 MiB with 1, 4 and 8 threads (12 runs); capped counts are labelled lower bounds
+2026-11-14T04:38:42.3607363Z PASS  4.5 sampled range EVs are bit-identical for every coverage budget and thread count
+2026-11-14T04:38:42.3650023Z PASS  4.5 a 1 MiB coverage budget holds exactly 32,768 information sets and reports the count as a lower bound
+2026-11-14T04:38:42.9648955Z PASS  4.5 checkpoint continuation: 150 updates, an evaluation that ran into its deadline with a capped coverage table, then 150 more updates give the same state bytes as 300 uninterrupted updates
+2026-11-14T04:38:42.9672659Z   /api/mw/jobs/ev -> HTTP 413: 
+2026-11-14T04:38:42.9687598Z   request body starts: {"memoryMiB":16,"hands":[0],"path":[],"coverageMiB":4096,"method":"exact"}
+2026-11-14T04:38:42.9696963Z PASS  4.5 a background job whose coverage budget exceeds the evaluation memory pool is refused (HTTP 413); 4.4 charged only memoryMiB
+2026-11-14T04:38:43.0021810Z PASS  4.6 EightMax.exe, mwcli.exe and gpustress.exe report the same build identifier (9ee5a8be32f5146e)
+2026-11-14T04:38:52.2305681Z PASS  4.6 continuation: icm45: deadline-limited sampled evaluation between segments: evaluation succeeded and left the checkpoint unchanged
+2026-11-14T04:38:52.2311458Z PASS  4.6 continuation: icm45: 150 + 150 resumed updates == 300 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:38:52.2317887Z PASS  4.6 continuation: c500: 500 + 500 resumed updates == 1000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:38:52.2323993Z PASS  4.6 continuation: c1000: 1000 + 1000 resumed updates == 2000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:38:52.2329700Z PASS  4.6 continuation: generation 2: evaluation before the next generation: evaluation succeeded and left the checkpoint unchanged
+2026-11-14T04:38:52.2335492Z PASS  4.6 continuation: four sequential generations == one uninterrupted run
+2026-11-14T04:38:52.2341305Z PASS  4.6 continuation: generation 2 == uninterrupted run of the same length
+2026-11-14T04:38:52.2346995Z PASS  4.6 continuation: re-saving a restored checkpoint (0 updates) reproduces it byte for byte
+2026-11-14T04:38:52.2352882Z PASS  4.6 continuation: a second save/restore cycle reproduces it again
+2026-11-14T04:38:52.2358536Z PASS  4.6 continuation: continuing from a twice re-saved state == uninterrupted
+2026-11-14T04:38:52.2364059Z PASS  4.6 continuation: resumed segment with 1 thread == uninterrupted
+2026-11-14T04:38:52.2369646Z PASS  4.6 continuation: resumed segment with 8 threads == uninterrupted
+2026-11-14T04:38:52.2375492Z PASS  4.6 continuation: interrupted save (rename): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:38:52.2380996Z PASS  4.6 continuation: interrupted save (rename): no temporary file left behind
+2026-11-14T04:38:52.2386536Z PASS  4.6 continuation: continuation after a failed save (rename) == uninterrupted
+2026-11-14T04:38:52.2392781Z PASS  4.6 continuation: interrupted save (write): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:38:52.2399403Z PASS  4.6 continuation: interrupted save (write): no temporary file left behind
+2026-11-14T04:38:52.2405664Z PASS  4.6 continuation: continuation after a failed save (write) == uninterrupted
+2026-11-14T04:38:52.2411856Z PASS  4.6 continuation: interrupted save (crash): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:38:52.2418434Z PASS  4.6 continuation: crash before commit leaves at most one orphaned temporary file (never the destination)
+2026-11-14T04:38:52.2424199Z PASS  4.6 continuation: continuation after a failed save (crash) == uninterrupted
+2026-11-14T04:38:52.2430571Z PASS  4.6 continuation: cancelled training reports a whole number of committed updates
+2026-11-14T04:38:52.2436863Z PASS  4.6 continuation: cancelled run == uninterrupted run with the same committed update count (no partial update kept)
+2026-11-14T04:38:52.2442963Z PASS  4.6 continuation: missing input checkpoint: nonzero exit, the message names the file, no output written
+2026-11-14T04:38:52.2449396Z PASS  4.6 continuation: truncated input checkpoint: refused with a reason, no output written
+2026-11-14T04:38:52.2456883Z PASS  4.6 continuation suite: 25 checks passed, 0 failed (150+150, 500+500, 1000+1000, four generations, re-saves, 1 and 8 threads, interrupted saves, cancellation, missing and truncated inputs)
+2026-11-14T04:38:52.2727545Z PASS  4.6 mwcli --state-info reports the same SHA-256 as Get-FileHash and the committed update count
+2026-11-14T04:38:52.2904624Z PASS  4.6 a missing input checkpoint exits with code 3 and names the file (exit 3)
+2026-11-14T04:38:52.4017228Z PASS  4.6 a failed save exits with code 4, names the failed stage and leaves the previous checkpoint unchanged (exit 4)
+2026-11-14T04:38:52.4570960Z Totals: 126 passed, 0 failed, 0 skipped, 0 timed out; 8 of 8 sections completed
+2026-11-14T04:38:52.4575061Z Report: fresh-windows.json
+2026-11-14T04:38:52.6379158Z PASS  Host starts (0.0 s) and reports version 5.0, build 9ee5a8be32f5146e, engine avx2
+2026-11-14T04:38:52.6412227Z PASS  Embedded interface is byte-identical to the built native.html and carries the same version and build id
+2026-11-14T04:38:52.6420066Z PASS  Refuses a prefix-matching Host header
+2026-11-14T04:38:52.6433338Z PASS  Refuses a foreign Host header
+2026-11-14T04:38:52.6443936Z PASS  Refuses POST without the app header
+2026-11-14T04:38:52.6450026Z PASS  Empty build request is refused (400)
+2026-11-14T04:38:52.6456859Z PASS  Empty estimate request is refused (400)
+2026-11-14T04:38:52.6463271Z PASS  Empty report request is refused (400)
+2026-11-14T04:38:52.6471389Z PASS  Empty save request is refused (400)
+2026-11-14T04:38:52.6479443Z PASS  Empty load request is refused (400)
+2026-11-14T04:38:52.6489462Z PASS  Malformed JSON is refused
+2026-11-14T04:38:52.6494810Z PASS  Reserved or empty save name "con" is refused
+2026-11-14T04:38:52.6499894Z PASS  Reserved or empty save name "NUL.txt" is refused
+2026-11-14T04:38:52.6505036Z PASS  Reserved or empty save name "Com3" is refused
+2026-11-14T04:38:52.6510380Z PASS  Reserved or empty save name "lpt9" is refused
+2026-11-14T04:38:52.6515395Z PASS  Reserved or empty save name "aux.em8" is refused
+2026-11-14T04:38:52.6520228Z PASS  Reserved or empty save name ".." is refused
+2026-11-14T04:38:52.6524658Z PASS  Reserved or empty save name "   " is refused
+2026-11-14T04:38:52.6536340Z PASS  Duplicate board cards are rejected
+2026-11-14T04:38:52.6556545Z PASS  Saving before solving reports a clear message
+2026-11-14T04:38:53.3592764Z PASS  Known river equilibrium reproduced natively (10000 iterations, 0.70 s): value bets, half bluffs, half calls
+2026-11-14T04:38:53.3721057Z PASS  Saved solution lists, reloads and reproduces the identical strategy
+2026-11-14T04:38:53.3726243Z PASS  Loading a missing file is refused
+2026-11-14T04:38:53.3736251Z PASS  A corrupted solution file is refused without crashing
+2026-11-14T04:38:54.4249752Z PASS  Host answers during a long solve (1 ms) and stops it on request after 11 iterations
+2026-11-14T04:38:54.4250198Z PASS  Host is still running after every refused or cancelled request
+2026-11-14T04:38:54.4772563Z PASS  Host shuts down when its process is terminated
+2026-11-14T04:38:54.7866372Z PASS  Host 5.0 build 9ee5a8be32f5146e advertises multiway protocol 1 (4 logical CPUs)
+2026-11-14T04:38:55.2585744Z PASS  3-player river, 4 deals/update: 400 updates on the host (4 threads, 0.10 s) are bit-identical to JavaScript
+2026-11-14T04:38:55.3702793Z PASS  3-player river, own-hand enumeration: 40 updates on the host (4 threads, 0.10 s) are bit-identical to JavaScript
+2026-11-14T04:38:55.8228053Z PASS  6-player river, 16 deals/update (threaded merge): 4 updates on the host (4 threads, 0.28 s) are bit-identical to JavaScript
+2026-11-14T04:38:58.5428308Z PASS  Cancellation stops training in 3 ms after 27045 updates; the stopped state is complete and resumable (matches 27045 JavaScript updates); concurrent jobs are refused
+2026-11-14T04:38:58.5452674Z PASS  A malformed native state is refused
+2026-11-14T04:38:58.5465086Z PASS  Memory: application limit 8189 MiB, native process limit 6144 MiB, resident 9.5 MiB, tables 0.1 MiB, available 1469.6 MiB
+2026-11-14T04:38:58.5618823Z PASS  8-player full-range river fits the available budget (0.047 MiB)
+2026-11-14T04:38:58.5630400Z PASS  Tables released
+2026-11-14T04:38:58.6587601Z ##[group]Run $w = Join-Path $env:RUNNER_TEMP 'selftests'
+2026-11-14T04:38:58.6587886Z [36;1m$w = Join-Path $env:RUNNER_TEMP 'selftests'[0m
+2026-11-14T04:38:58.6588153Z [36;1m& ./build/fresh/mwcli.exe --selftest47 validation/4.7/fixtures (Join-Path $w 'st47')[0m
+2026-11-14T04:38:58.6588400Z [36;1m$c47 = $LASTEXITCODE[0m
+2026-11-14T04:38:58.6588610Z [36;1m& ./build/fresh/mwcli.exe --selftest48 validation/4.8/fixtures (Join-Path $w 'st48')[0m
+2026-11-14T04:38:58.6588834Z [36;1m$c48 = $LASTEXITCODE[0m
+2026-11-14T04:38:58.6589046Z [36;1m& ./build/fresh/mwcli.exe --selftest49 validation/4.9/fixtures (Join-Path $w 'st49')[0m
+2026-11-14T04:38:58.6589275Z [36;1m$c49 = $LASTEXITCODE[0m
+2026-11-14T04:38:58.6589530Z [36;1mCopy-Item (Join-Path $w 'st49/selftest49.json') windows-selftest49.json -ErrorAction SilentlyContinue[0m
+2026-11-14T04:38:58.6589911Z [36;1mCopy-Item (Join-Path $w 'st47/selftest47.json') windows-selftest47.json -ErrorAction SilentlyContinue[0m
+2026-11-14T04:38:58.6590336Z [36;1mCopy-Item (Join-Path $w 'st48/selftest48.json') windows-selftest48.json -ErrorAction SilentlyContinue[0m
+2026-11-14T04:38:58.6590649Z [36;1m"selftest47 exit $c47; selftest48 exit $c48; selftest49 exit $c49"[0m
+2026-11-14T04:38:58.6590890Z [36;1mif ($c47 -or $c48 -or $c49) { exit 1 }[0m
+2026-11-14T04:38:58.6637392Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-14T04:38:58.6637631Z env:
+2026-11-14T04:38:58.6637786Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:38:58.6638038Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:38:58.6638286Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:38:58.6638618Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:38:58.6638847Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:38:58.6639170Z   MSYSTEM: UCRT64
+2026-11-14T04:38:58.6639308Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:38:58.6639488Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:38:58.6639689Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:38:58.6639874Z ##[endgroup]
+2026-11-14T04:38:58.9841972Z PASS default trainer writes the 4.4-4.6 golden state sha256 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:38:59.1853332Z PASS EMZ1 round trip restores every byte compressed 434283 of 1032202 bytes
+2026-11-14T04:38:59.2936688Z PASS 150 + 150 resumed from EMZ1 = golden 300 
+2026-11-14T04:38:59.3353176Z PASS corrupted compressed checkpoints are refused and nothing is written error: corrupted compressed block (nothing was written to 'D:\a\_temp\selftests\st47\bad.state')
+2026-11-14T04:38:59.3353759Z 
+2026-11-14T04:38:59.3354182Z error: cannot read input checkpoint 'D:\a\_temp\selftests\st47\bad.emz': compressed checkpoint: corrupted compressed block
+2026-11-14T04:38:59.3354663Z 
+2026-11-14T04:38:59.3354669Z 
+2026-11-14T04:38:59.4022755Z PASS own-hand enumeration: 150 + 150 = 300 and 1 thread = 4 threads 852e4c62221ac39fedf773707afbce7f7f5e0151322208bd52b8fd3a29a54987
+2026-11-14T04:38:59.4287317Z PASS verify: exact NashConv = sum of exact seat gains, labelled exact NashConv 0.48490168302837866
+2026-11-14T04:38:59.4525732Z PASS verify: sampled results are labelled as estimates of lower bounds sampled one-decision deviation gain: a statistical ESTIMATE of a LOWER BOUND on the best-response gain
+2026-11-14T04:38:59.4918479Z PASS compare: same game is compatible, strategies differ, gains compared weighted TV 0.093804553958162576
+2026-11-14T04:38:59.5451142Z PASS compare: different games are refused (exit 3) {"tool":"mwcli compare 4.8","build":"9ee5a8be32f5146e","compatible":false,"differingGameFields":["n","board","anteOf","hands","rules","icm"],"differingTrainerSettings":["batchDeals","actionStreams","a
+2026-11-14T04:38:59.6145884Z PASS monitor: analytics written and final checkpoint = uninterrupted training {"analytics":"D:\\a\\_temp\\selftests\\st47\\mon\\analytics.json","evaluations":3,"stop":"maximum updates","finalCheckpoint":"D:\\a\\_temp\\selftests\\st47\\mon\\checkpoint-00001500.state"}
+2026-11-14T04:38:59.6146558Z 
+2026-11-14T04:38:59.6146563Z 
+2026-11-14T04:38:59.6151122Z {"tool":"mwcli selftest47","build":"9ee5a8be32f5146e","checksPassed":10,"checksFailed":0,"passed":true,"report":"D:\\a\\_temp\\selftests\\st47\\selftest47.json"}
+2026-11-14T04:38:59.7493129Z PASS default trainer writes the 4.4-4.7 golden state sha256 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:00.2248710Z PASS 150 updates, deadline-limited evaluation, 150 more = 300 uninterrupted (golden) evaluation exit 0; resumed aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:01.5962018Z PASS four-player continuation suite: every check passes with valid evaluation hands passed 25, failed 0
+2026-11-14T04:39:06.8785256Z PASS six-player flop: exact response gains of every seat are bit-identical to the 4.7 evaluation path 3fc6a9450988b300,3fb37046f6454aa0,3fc23390476a32a0,3f74b3790c0de7e0,3fa1c47def0eb9c0,3fa47c135a70f7e0,
+2026-11-14T04:39:06.9351743Z PASS four-player turn: exact response gains of every seat are bit-identical to the 4.7 evaluation path 3fa10ec578d91c00,3f9223b29e162744,3f84ed250613b637,3f7ebf18572fe974,
+2026-11-14T04:39:07.0502146Z PASS an exact evaluation stops at its deadline with an error, not a partial result exit 1 after 114.5342 ms
+2026-11-14T04:39:09.4153954Z PASS checkpoint comparison: exact classes (a change is classified; identical checkpoints are 'no change') meaningful improvement / no change (equal within rounding)
+2026-11-14T04:39:09.4487114Z PASS EMZ1 level 1 restores every byte 112072d4fa99558fd8b00c83dc5111ce51c097d47cd46477a15580bdef4f14fb
+2026-11-14T04:39:09.5318439Z PASS EMZ1 level 9 restores every byte 112072d4fa99558fd8b00c83dc5111ce51c097d47cd46477a15580bdef4f14fb
+2026-11-14T04:39:09.5322532Z {"tool":"mwcli selftest48","build":"9ee5a8be32f5146e","passed":9,"failed":0,"report":"D:\\a\\_temp\\selftests\\st48\\selftest48.json"}
+2026-11-14T04:39:09.7210331Z PASS uncompressed restoration: 150 + 150 = 300 uninterrupted (golden) aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:09.8827840Z PASS EMZ1 level 1: 150 + 150 resumed from the compressed checkpoint = golden 300 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:10.1038935Z PASS EMZ1 level 6: 150 + 150 resumed from the compressed checkpoint = golden 300 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:10.9028362Z PASS EMZ1 level 9: 150 + 150 resumed from the compressed checkpoint = golden 300 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:11.0230747Z PASS unusable system temporary directory: falls back to the checkpoint's folder and restores exactly aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:11.1442303Z PASS temporary directory with spaces and Unicode characters: exact restoration aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:11.1442925Z PASS no temporary file is left in the Unicode temporary directory 0 left
+2026-11-14T04:39:11.2716506Z PASS long temporary directory (257 characters): exact restoration, nothing left behind aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:11.3001181Z PASS temporary file creation failure: exit 3, the reason is named, the existing output checkpoint is unchanged exit 3; error: cannot read input checkpoint 'D:\a\_temp\selftests\st49\ckpt dir\a150-l6.emz': cannot create a temporary file for decompression (tried: temporary file creation disabled by EM_TEST_TEMP_FAIL (fault injection))
+2026-11-14T04:39:11.3001854Z 
+2026-11-14T04:39:11.3001866Z 
+2026-11-14T04:39:11.3720236Z PASS corrupted, truncated and checksum-mismatched EMZ1 files are refused and no output is written corrupted block: exit 3; truncated file: exit 3; SHA-256 mismatch in the end block: exit 3; 
+2026-11-14T04:39:11.5955669Z PASS four concurrent restorations from one EMZ1 file all equal golden 300 
+2026-11-14T04:39:12.7582589Z PASS 500 + 500 resumed from EMZ1 = 1000 uninterrupted dbf2d61b5e89180d732d9c27d118289cbf428fe26ab65bfd3d8e5e9ec8be4bf9
+2026-11-14T04:39:15.0094778Z PASS 1000 + 1000 resumed from EMZ1 = 2000 uninterrupted f71d95fd55263b9e21bc242b86b5aedb36e82d07e486eceac9979847d0d70c96
+2026-11-14T04:39:15.7377373Z PASS three generations, each resumed from the previous compressed checkpoint = 300 uninterrupted (golden) aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+2026-11-14T04:39:15.7378045Z PASS no temporary decompression file is left in the checkpoint folder 0 left
+2026-11-14T04:39:15.7382007Z {"tool":"mwcli selftest49","build":"9ee5a8be32f5146e","passed":15,"failed":0,"report":"D:\\a\\_temp\\selftests\\st49\\selftest49.json"}
+2026-11-14T04:39:15.7455761Z selftest47 exit 0; selftest48 exit 0; selftest49 exit 0
+2026-11-14T04:39:15.7735898Z ##[group]Run # 4.8 used msvcrt tmpfile() (drive root) and failed on a standard account. Here TMP/TEMP point
+2026-11-14T04:39:15.7736367Z [36;1m# 4.8 used msvcrt tmpfile() (drive root) and failed on a standard account. Here TMP/TEMP point[0m
+2026-11-14T04:39:15.7736728Z [36;1m# to a folder whose write permission is DENIED; 4.9 must fall back to the checkpoint folder.[0m
+2026-11-14T04:39:15.7737094Z [36;1m$w = Join-Path $env:RUNNER_TEMP 'emz49'; New-Item -ItemType Directory -Force $w | Out-Null[0m
+2026-11-14T04:39:15.7737440Z [36;1m$deny = Join-Path $w 'no write'; New-Item -ItemType Directory -Force $deny | Out-Null[0m
+2026-11-14T04:39:15.7737712Z [36;1micacls $deny /deny "*S-1-1-0:(W,AD,WD)" | Out-Null[0m
+2026-11-14T04:39:15.7738063Z [36;1m$spec = (Resolve-Path validation/4.9/fixtures/icm-final8.spec.json).Path; $cli = (Resolve-Path build/fresh/mwcli.exe).Path[0m
+2026-11-14T04:39:15.7738471Z [36;1m& $cli $spec 150 4 (Join-Path $w 'a150.state') 512 | Out-Null[0m
+2026-11-14T04:39:15.7738754Z [36;1m& $cli --compress (Join-Path $w 'a150.state') (Join-Path $w 'a150.emz') | Out-Null[0m
+2026-11-14T04:39:15.7739116Z [36;1m$denied = $false; try { [IO.File]::WriteAllText((Join-Path $deny 'probe.txt'), 'x') } catch { $denied = $true }[0m
+2026-11-14T04:39:15.7739454Z [36;1m$old = $env:TMP, $env:TEMP; $env:TMP = $deny; $env:TEMP = $deny[0m
+2026-11-14T04:39:15.7739770Z [36;1m& $cli $spec 150 4 (Join-Path $w 'b300.state') 512 (Join-Path $w 'a150.emz') | Out-Null; $code = $LASTEXITCODE[0m
+2026-11-14T04:39:15.7740045Z [36;1m$env:TMP, $env:TEMP = $old[0m
+2026-11-14T04:39:15.7740359Z [36;1m$hash = if (Test-Path (Join-Path $w 'b300.state')) { (Get-FileHash (Join-Path $w 'b300.state')).Hash.ToLower() } else { 'missing' }[0m
+2026-11-14T04:39:15.7740769Z [36;1m$left = @(Get-ChildItem $w -Filter 'EightMax-emz-*' -ErrorAction SilentlyContinue).Count[0m
+2026-11-14T04:39:15.7741311Z [36;1m$r = [ordered]@{ tempFolderWriteDenied = $denied; exitCode = $code; sha256 = $hash; golden = 'aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8'; leftoverTempFiles = $left }[0m
+2026-11-14T04:39:15.7741870Z [36;1m$r | ConvertTo-Json | Set-Content -Encoding utf8 windows-emz-denied-temp.json; $r | ConvertTo-Json[0m
+2026-11-14T04:39:15.7742342Z [36;1mif (-not $denied) { Write-Host "note: the deny ACE was not enforced for the runner account; the fallback was exercised only if TMP was unusable" }[0m
+2026-11-14T04:39:15.7742750Z [36;1mif ($code -ne 0 -or $hash -ne $r.golden -or $left -ne 0) { exit 1 }[0m
+2026-11-14T04:39:15.7788205Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-14T04:39:15.7788446Z env:
+2026-11-14T04:39:15.7788616Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:15.7788901Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:39:15.7789340Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:15.7789804Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:15.7790033Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:15.7790221Z   MSYSTEM: UCRT64
+2026-11-14T04:39:15.7790363Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:39:15.7790550Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:39:15.7790766Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:39:15.7790971Z ##[endgroup]
+2026-11-14T04:39:16.3740104Z {
+2026-11-14T04:39:16.3740356Z     "tempFolderWriteDenied":  true,
+2026-11-14T04:39:16.3740571Z     "exitCode":  0,
+2026-11-14T04:39:16.3740800Z     "sha256":  "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+2026-11-14T04:39:16.3741113Z     "golden":  "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+2026-11-14T04:39:16.3741379Z     "leftoverTempFiles":  0
+2026-11-14T04:39:16.3741516Z }
+2026-11-14T04:39:16.4186061Z ##[group]Run $r = 'release/EightMax'
+2026-11-14T04:39:16.4186303Z [36;1m$r = 'release/EightMax'[0m
+2026-11-14T04:39:16.4186483Z [36;1mNew-Item -ItemType Directory -Force $r | Out-Null[0m
+2026-11-14T04:39:16.4186712Z [36;1mCopy-Item build/fresh/EightMax.exe "$r/EightMax.exe"[0m
+2026-11-14T04:39:16.4186917Z [36;1mCopy-Item build/fresh/mwcli.exe "$r/mwcli.exe"[0m
+2026-11-14T04:39:16.4187128Z [36;1mCopy-Item build/fresh/gpustress.exe "$r/gpustress.exe"[0m
+2026-11-14T04:39:16.4187380Z [36;1mCopy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"[0m
+2026-11-14T04:39:16.4187636Z [36;1mCopy-Item build/build-info.json "$r/BUILD-INFO.json"[0m
+2026-11-14T04:39:16.4188738Z [36;1mCopy-Item RELEASE-5.0.md, RELEASE-4.9.md, RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'Run 4.9 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r[0m
+2026-11-14T04:39:16.4189813Z [36;1mCopy-Item -Recurse source, validation, .github $r[0m
+2026-11-14T04:39:16.4190062Z [36;1mRemove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue[0m
+2026-11-14T04:39:16.4190549Z [36;1mCopy-Item fresh-windows.json, fresh-windows-host.json, windows-selftest47.json, windows-selftest48.json, windows-selftest49.json, windows-emz-denied-temp.json "$r/validation/"[0m
+2026-11-14T04:39:16.4235408Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-14T04:39:16.4235631Z env:
+2026-11-14T04:39:16.4235789Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:16.4236065Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:39:16.4236316Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:16.4236554Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:16.4236780Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:16.4236962Z   MSYSTEM: UCRT64
+2026-11-14T04:39:16.4237094Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:39:16.4237268Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:39:16.4237475Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:39:16.4237668Z ##[endgroup]
+2026-11-14T04:39:17.0663341Z ##[group]Run $r = 'release/EightMax'
+2026-11-14T04:39:17.0663605Z [36;1m$r = 'release/EightMax'[0m
+2026-11-14T04:39:17.0663775Z [36;1m& "$r/source/tools/test_devices.ps1"[0m
+2026-11-14T04:39:17.0664202Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0664375Z [36;1mnode source/tools/verify_build.js $r[0m
+2026-11-14T04:39:17.0664533Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0664705Z [36;1mnode source/tools/package_smoke.js $r[0m
+2026-11-14T04:39:17.0664872Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0665032Z [36;1mnode source/tools/mtt_ui_smoke.js $r[0m
+2026-11-14T04:39:17.0665197Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0665365Z [36;1mnode source/tools/checkpoint_ui_smoke.js $r[0m
+2026-11-14T04:39:17.0665534Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0665852Z [36;1m./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Report "$r/validation/Windows-release-test.json"[0m
+2026-11-14T04:39:17.0666133Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0666330Z [36;1mnode source/tools/accuracy_report.js "$r/validation"[0m
+2026-11-14T04:39:17.0666529Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0666739Z [36;1m$env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path[0m
+2026-11-14T04:39:17.0666978Z [36;1m$env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path[0m
+2026-11-14T04:39:17.0667243Z [36;1m# 4.0: Windows PowerShell turns native stderr into error records, which stopped[0m
+2026-11-14T04:39:17.0667516Z [36;1m# this step on the first stderr line (3.9 runs failed here). Use the[0m
+2026-11-14T04:39:17.0667779Z [36;1m# repository runner (per-file pass/fail/skip/timeout totals) and keep going.[0m
+2026-11-14T04:39:17.0668009Z [36;1m$ErrorActionPreference = 'Continue'[0m
+2026-11-14T04:39:17.0668385Z [36;1mnode source/tools/run_tests.js "$r/validation/regression-tests.json" 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath "$r/validation/regression-tests.txt"[0m
+2026-11-14T04:39:17.0668726Z [36;1m$testExit = $LASTEXITCODE[0m
+2026-11-14T04:39:17.0668873Z [36;1m$ErrorActionPreference = 'Stop'[0m
+2026-11-14T04:39:17.0669025Z [36;1mif ($testExit) { exit $testExit }[0m
+2026-11-14T04:39:17.0669208Z [36;1m$sig = Get-AuthenticodeSignature "$r/EightMax.exe"[0m
+2026-11-14T04:39:17.0669500Z [36;1m"EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"[0m
+2026-11-14T04:39:17.0669760Z [36;1mPush-Location $r[0m
+2026-11-14T04:39:17.0669999Z [36;1mGet-ChildItem -Recurse -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object {[0m
+2026-11-14T04:39:17.0670306Z [36;1m  $rel = (Resolve-Path -Relative $_.FullName).Substring(2).Replace('\','/')[0m
+2026-11-14T04:39:17.0670714Z [36;1m  '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower(), $rel } | Sort-Object { $_.Substring(66) } | Set-Content -Encoding ascii SHA256SUMS.txt[0m
+2026-11-14T04:39:17.0671310Z [36;1mPop-Location[0m
+2026-11-14T04:39:17.0671473Z [36;1m$v = (Get-Content source/VERSION -TotalCount 1).Trim()[0m
+2026-11-14T04:39:17.0671724Z [36;1mpython source/tools/package36.py $r "release/EightMax-Windows-$v.zip"[0m
+2026-11-14T04:39:17.0671952Z [36;1mif ($LASTEXITCODE) { exit $LASTEXITCODE }[0m
+2026-11-14T04:39:17.0719513Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-14T04:39:17.0719737Z env:
+2026-11-14T04:39:17.0719898Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:17.0720158Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:39:17.0720407Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:17.0720629Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:17.0721912Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:39:17.0722109Z   MSYSTEM: UCRT64
+2026-11-14T04:39:17.0722243Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:39:17.0722419Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:39:17.0722740Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:39:17.0722938Z ##[endgroup]
+2026-11-14T04:39:17.3367178Z Measuring cpu scoring...
+2026-11-14T04:39:17.4739672Z Measuring auto scoring...
+2026-11-14T04:39:17.5737550Z Measuring gpu scoring...
+2026-11-14T04:39:17.6918705Z Measuring hybrid scoring...
+2026-11-14T04:39:17.9954519Z 
+2026-11-14T04:39:17.9976594Z requested observed                                                                                 trainingSeconds proc
+2026-11-14T04:39:17.9977083Z                                                                                                                    essS
+2026-11-14T04:39:17.9977395Z                                                                                                                    econ
+2026-11-14T04:39:17.9977658Z                                                                                                                      ds
+2026-11-14T04:39:17.9979791Z --------- --------                                                                                 --------------- ----
+2026-11-14T04:39:17.9982254Z cpu       CPU scoring                                                                                     0.062316 ...5
+2026-11-14T04:39:17.9984538Z auto      CPU scoring (Automatic: projected scoring work 0.001 s is below 0.50 s, CUDA not opened)        0.063073 ...8
+2026-11-14T04:39:17.9986680Z gpu       CPU (CUDA unavailable: NVIDIA driver library not found)                                         0.062229 ...1
+2026-11-14T04:39:17.9989273Z hybrid    CPU (CUDA unavailable: NVIDIA driver library not found)                                         0.062899 ...3
+2026-11-14T04:39:17.9989574Z 
+2026-11-14T04:39:17.9989788Z 
+2026-11-14T04:39:18.0004992Z All four states match. Results saved to D:\a\pie\pie\release\EightMax\device-results.json
+2026-11-14T04:39:18.0791075Z Verified the executables, interface and source: 9ee5a8be32f5146e
+2026-11-14T04:39:18.1772421Z Embedded default example: {"utility":"chips","unit":"bb","reportThreshold":0.1,"iterations":100,"ev":[2.227303210020912,0.7270932883389654,9.045603501640125],"best":[2.2619434077521587,0.744276994831536,9.059688152208638],"gain":[0.034640197731246936,0.017183706492570616,0.014084650568513268],"maxGain":0.034640197731246936,"deals":8,"nodes":148,"startStreet":"River","runoutMode":"fixed","seed":17,"sampleCount":4,"turnBoards":0,"riverBoards":1}
+2026-11-14T04:39:18.2075979Z Embedded five-seat solve: 1 deals 2063 nodes
+2026-11-14T04:39:59.9704761Z Packaged 25 bb full-range preset and worker result passed.
+2026-11-14T04:39:59.9705429Z Packaged UI/worker integration passed: 6-seat flop through turn and river, exact turn, fixed river, accuracy report, seed repeats, added sizes and trained responses through normal controls.
+2026-11-14T04:40:00.1330112Z Embedded default example: {"utility":"chips","unit":"bb","reportThreshold":0.1,"iterations":100,"ev":[2.227303210020912,0.7270932883389654,9.045603501640125],"best":[2.2619434077521587,0.744276994831536,9.059688152208638],"gain":[0.034640197731246936,0.017183706492570616,0.014084650568513268],"maxGain":0.034640197731246936,"deals":8,"nodes":148,"startStreet":"River","runoutMode":"fixed","seed":17,"sampleCount":4,"turnBoards":0,"riverBoards":1}
+2026-11-14T04:40:00.1636452Z Embedded five-seat solve: 1 deals 2063 nodes
+2026-11-14T04:40:02.6230086Z Six-player preflop-to-flop UI passed.
+2026-11-14T04:40:05.6650678Z Eight-player shove/call, ICM, overcall and response-check UI passed.
+2026-11-14T04:40:05.8794185Z Six-player postflop ICM UI passed.
+2026-11-14T04:40:06.0192839Z Big blind ante shove/call UI passed.
+2026-11-14T04:40:07.2453470Z Push/fold overcall and chart re-solve bridges passed.
+2026-11-14T04:40:07.2473390Z Heads-up isomorphism and push/fold ante controls render.
+2026-11-14T04:40:07.4855996Z Push/fold future-game ICM UI passed.
+2026-11-14T04:40:07.6223273Z Embedded default example: {"utility":"chips","unit":"bb","reportThreshold":0.1,"iterations":100,"ev":[2.227303210020912,0.7270932883389654,9.045603501640125],"best":[2.2619434077521587,0.744276994831536,9.059688152208638],"gain":[0.034640197731246936,0.017183706492570616,0.014084650568513268],"maxGain":0.034640197731246936,"deals":8,"nodes":148,"startStreet":"River","runoutMode":"fixed","seed":17,"sampleCount":4,"turnBoards":0,"riverBoards":1}
+2026-11-14T04:40:07.6534944Z Embedded five-seat solve: 1 deals 2063 nodes
+2026-11-14T04:40:09.8578160Z Checkpoint UI/worker passed: six-way ICM, grouping and budget controls, file download/load, exact replay, corrupt-file preservation, linked preflop and enumerated continuation.
+2026-11-14T04:40:10.5923903Z PASS  Native server starts and reports the expected version
+2026-11-14T04:40:10.5952115Z PASS  Checkpoint tests use an isolated profile
+2026-11-14T04:40:10.6757876Z PASS  Checkpoint persisted
+2026-11-14T04:40:10.7343203Z PASS  Checkpoint persisted
+2026-11-14T04:40:10.7655649Z PASS  Rebuilt missing index
+2026-11-14T04:40:10.7834737Z PASS  Recovered latest after missing index
+2026-11-14T04:40:10.8005927Z PASS  Recovered previous after missing index
+2026-11-14T04:40:10.8327205Z PASS  Rebuilt corrupt index
+2026-11-14T04:40:10.8498261Z PASS  Recovered latest after corrupt index
+2026-11-14T04:40:10.8663432Z PASS  Recovered previous after corrupt index
+2026-11-14T04:40:11.5986003Z PASS  Embedded app includes multiway training and grouping controls
+2026-11-14T04:40:12.2821211Z PASS  CPU river solve completes without an engine error
+2026-11-14T04:40:12.3244967Z PASS  Known river equilibrium: value bets, half-frequency bluffs and calls
+2026-11-14T04:40:12.3377432Z   /api/estimate -> HTTP 400: 
+2026-11-14T04:40:12.3448407Z   request body starts: {"maxBets":1,"pot":10,"ranges":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-11-14T04:40:12.3477200Z PASS  Duplicate board cards are rejected
+2026-11-14T04:40:12.3528156Z PASS  Empty build request is refused without crashing the host
+2026-11-14T04:40:12.3544573Z PASS  Empty estimate request is refused without crashing the host
+2026-11-14T04:40:12.3560946Z PASS  Empty report request is refused without crashing the host
+2026-11-14T04:40:12.3576970Z PASS  Empty save request is refused without crashing the host
+2026-11-14T04:40:12.3592270Z PASS  Empty load request is refused without crashing the host
+2026-11-14T04:40:12.3610675Z PASS  Reserved Windows name 'con' is refused for saves
+2026-11-14T04:40:12.3626649Z PASS  Reserved Windows name 'NUL.txt' is refused for saves
+2026-11-14T04:40:12.3643215Z PASS  Reserved Windows name 'Com3' is refused for saves
+2026-11-14T04:40:12.3659344Z PASS  Reserved Windows name 'lpt9' is refused for saves
+2026-11-14T04:40:12.3675674Z PASS  Reserved Windows name 'aux.em8' is refused for saves
+2026-11-14T04:40:12.3825822Z PASS  Host is still running after the refused requests
+2026-11-14T04:40:44.1953283Z PASS  Streamed a trained checkpoint larger than 64 MiB and recovered its SHA-256 after index removal
+2026-11-14T04:40:44.3906075Z PASS  Restored genuine 3.6 native fixture
+2026-11-14T04:40:44.5324888Z PASS  Committed seven more updates
+2026-11-14T04:40:45.3078891Z PASS  Reopened native generation with the saved RNG
+2026-11-14T04:40:45.5128781Z PASS  Explorer reads the root decision of the restored native study
+2026-11-14T04:40:45.5172304Z PASS  Explorer aggregate strategy is normalized
+2026-11-14T04:40:45.5349984Z PASS  Explorer follows an action branch with a bounded page
+2026-11-14T04:40:45.5377893Z PASS  Explorer refuses a branch outside the solved abstraction
+2026-11-14T04:40:45.5401286Z PASS  Explorer rejects malformed request {"rangeSeat":"nonsense"}
+2026-11-14T04:40:45.5419698Z PASS  Explorer rejects malformed request {"offset":-1}
+2026-11-14T04:40:45.5438748Z PASS  Explorer rejects malformed request {"limit":"5"}
+2026-11-14T04:40:45.5457437Z PASS  Explorer rejects malformed request {"path":[0.5]}
+2026-11-14T04:40:45.5474219Z PASS  Explorer rejects malformed request {"foo":1}
+2026-11-14T04:40:45.5933540Z PASS  Action EVs computed for every legal action with method and uncertainty
+2026-11-14T04:40:45.6207288Z PASS  Repeated action-EV request is served from the cache
+2026-11-14T04:40:46.1013726Z PASS  Per-seat sampled response gains computed
+2026-11-14T04:40:46.1037808Z PASS  Action-EV endpoint rejects a string hand index
+2026-11-14T04:40:46.6770128Z PASS  Exact EV with a 100 ms limit stops with HTTP 408 and no result (slowest of 5: 101.4 ms)
+2026-11-14T04:40:46.7697074Z PASS  Exact 8-player ICM action EVs equal the reference at path [1,1]
+2026-11-14T04:40:46.8085068Z PASS  Exact 8-player ICM action EVs equal the reference at path [1,1,1]
+2026-11-14T04:40:46.9407179Z PASS  Explorer and status answer while a background evaluation runs (34 ms)
+2026-11-14T04:40:46.9917409Z PASS  Cancelled background evaluation stops (49 ms)
+2026-11-14T04:40:46.9940169Z PASS  Malformed evaluation job is rejected without creating a job
+2026-11-14T04:40:47.1138649Z PASS  Background evaluation job completes with classifications and coverage
+2026-11-14T04:40:47.1734227Z PASS  Released evaluation jobs free their results
+2026-11-14T04:40:47.2068919Z PASS  Malformed numbers (1e300, 2^64, fractions) are refused with 4xx before conversion and the host keeps running (400,400,400,400,400,400,400,400,400)
+2026-11-14T04:40:47.2222645Z PASS  Refused requests created no evaluation job
+2026-11-14T04:40:47.2942439Z PASS  Concurrent training start round 0: exactly one of 8 requests started, none stuck (409,409,409,200,409,409,409,409)
+2026-11-14T04:40:47.3555528Z PASS  Concurrent training start round 1: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:40:47.4178522Z PASS  Concurrent training start round 2: exactly one of 8 requests started, none stuck (409,409,409,200,409,409,409,409)
+2026-11-14T04:40:47.4803632Z PASS  Concurrent training start round 3: exactly one of 8 requests started, none stuck (409,409,200,409,409,409,409,409)
+2026-11-14T04:40:47.5426838Z PASS  Concurrent training start round 4: exactly one of 8 requests started, none stuck (200,409,409,409,409,409,409,409)
+2026-11-14T04:40:47.6063396Z PASS  Concurrent training start round 5: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:40:47.6676121Z PASS  Concurrent training start round 6: exactly one of 8 requests started, none stuck (200,409,409,409,409,409,409,409)
+2026-11-14T04:40:47.7304701Z PASS  Concurrent training start round 7: exactly one of 8 requests started, none stuck (409,409,409,409,200,409,409,409)
+2026-11-14T04:40:47.7940349Z PASS  Concurrent training start round 8: exactly one of 8 requests started, none stuck (409,200,409,409,409,409,409,409)
+2026-11-14T04:40:47.8572438Z PASS  Concurrent training start round 9: exactly one of 8 requests started, none stuck (409,409,409,200,409,409,409,409)
+2026-11-14T04:40:49.2274272Z PASS  A job queued for 1,219 ms still received its 500 ms time limit
+2026-11-14T04:40:49.3393683Z PASS  Sampled action EVs carry simultaneous comparisons (critical value 2.539) and work counters
+2026-11-14T04:40:49.3794521Z PASS  Exact EV past maxBoardEvaluations is refused with no numbers
+2026-11-14T04:40:49.4189435Z PASS  Board enumeration is counted (376992 board evaluations)
+2026-11-14T04:40:49.6120286Z PASS  Exact response gains identical for 1, 2 and more threads (1 thr 0.06 s, 2 thr 0.05 s, 4 thr 0.06 s)
+2026-11-14T04:40:49.6771970Z PASS  4.2 coverage with 1 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:40:49.7174373Z PASS  4.2 coverage with 2 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:40:49.7562243Z PASS  4.2 coverage with 4 threads equals the independent audit (371 distinct information sets)
+2026-11-14T04:40:49.7631835Z PASS  4.2 coverage counts and EVs are identical for every thread count
+2026-11-14T04:40:50.4091891Z PASS  4.2 exact EV by pattern projection is bit-identical to the 4.1 per-board method (0.04 s vs 0.60 s)
+2026-11-14T04:40:50.4115843Z PASS  4.2 the result reports the requested and the observed device
+2026-11-14T04:40:50.4652254Z PASS  4.2 malformed gpuBudgetBytes values are refused
+2026-11-14T04:40:50.6068234Z PASS  4.3 one shared showdown table per request: 376,992 boards for every thread count (1 thr 0.056 s, 2 thr 0.039 s, 4 thr 0.037 s)
+2026-11-14T04:40:50.6091983Z PASS  4.3 exact EVs bit-identical to 4.2 for every thread count (IEEE 754 patterns 402e0a51470d8f36,402f57218439052d = 15.020151348500445, 15.670177585564113)
+2026-11-14T04:40:50.6744273Z PASS  4.3 private per-worker tables (4.2 behaviour) give the same EVs
+2026-11-14T04:40:50.8190578Z PASS  4.3 eight-seat exact response gains bit-identical to 4.2, one table for all seats (1 thr 0.085 s, 4 thr 0.053 s)
+2026-11-14T04:40:50.8748451Z PASS  4.3 malformed coverageMiB values are refused
+2026-11-14T04:40:50.9197749Z PASS  4.3 coverage capacity reported (exact, 32,768-key limit at coverageMiB 1) and equal to the audit
+2026-11-14T04:40:51.0959759Z PASS  4.3 in-process session (first, repeated, concurrent, cancelled, after) gives identical results
+2026-11-14T04:40:51.1139264Z PASS  4.4 native doubles printed with 17 significant digits parse back to identical IEEE 754 bit patterns (26 probes: 1-ULP neighbours, negative, subnormal, tiny, huge)
+2026-11-14T04:40:51.1203859Z PASS  4.4 CLI JSON carries every probe value as the same digit string as its text field (26 raw tokens compared without numeric conversion)
+2026-11-14T04:40:51.1375874Z PASS  4.4 desktop API probe document is character-identical to the CLI document
+2026-11-14T04:40:51.1935914Z PASS  4.4 IEEE 754 bit patterns survive PowerShell parsing, re-serialization and a file round trip unchanged (26 patterns; [double] casts of the parsed numbers differed for 3, worst 1 ULP: recorded, not used for exact checks)
+2026-11-14T04:40:51.1963230Z PASS  4.4 the bit-pattern comparison separates a value from its one-ULP neighbours (distance 1) and from its negation
+2026-11-14T04:40:51.2420388Z PASS  4.4 exact EV reference: the engine prints 15.020151348500445,15.670177585564113 and the bit patterns 402e0a51470d8f36,402f57218439052d (raw output, no PowerShell number conversion)
+2026-11-14T04:41:01.2266898Z PASS  4.4 sampled EV honours 100, 250, 600 and 1000 ms limits within 50 ms; runs that reached the limit are labelled partial (worst overrun of 20 runs: 2.7 ms, 20 reached the limit)
+2026-11-14T04:41:01.7168033Z PASS  4.5 IEEE 754 sweep: 200,000 doubles round-trip through print and parse with identical bit patterns (engine parser and JSON reader); one-ULP neighbours print differently
+2026-11-14T04:41:01.7175065Z PASS  4.5 IEEE 754 sweep digest equals the Linux build (the same characters were printed for all 200,000 values)
+2026-11-14T04:41:01.7197323Z   note: this computer's C runtime strtod differs from the correctly rounded result for 4 of 200,000 values (informational; the engine uses its own parser since 4.5)
+2026-11-14T04:41:01.9078720Z PASS  4.5 eight-seat linked ICM study (300 updates, 4 threads): the trained state file is byte-identical to the Linux build and to 4.4 (deterministic training, bit-identical ICM kernel)
+2026-11-14T04:41:08.9860821Z PASS  4.5 coverage memory budget: peak live bytes <= coverageMiB for 1, 2, 8 and 32 MiB with 1, 4 and 8 threads (12 runs); capped counts are labelled lower bounds
+2026-11-14T04:41:08.9879370Z PASS  4.5 sampled range EVs are bit-identical for every coverage budget and thread count
+2026-11-14T04:41:08.9925554Z PASS  4.5 a 1 MiB coverage budget holds exactly 32,768 information sets and reports the count as a lower bound
+2026-11-14T04:41:09.6023190Z PASS  4.5 checkpoint continuation: 150 updates, an evaluation that ran into its deadline with a capped coverage table, then 150 more updates give the same state bytes as 300 uninterrupted updates
+2026-11-14T04:41:09.6048548Z   /api/mw/jobs/ev -> HTTP 413: 
+2026-11-14T04:41:09.6064206Z   request body starts: {"memoryMiB":16,"hands":[0],"path":[],"coverageMiB":4096,"method":"exact"}
+2026-11-14T04:41:09.6074089Z PASS  4.5 a background job whose coverage budget exceeds the evaluation memory pool is refused (HTTP 413); 4.4 charged only memoryMiB
+2026-11-14T04:41:09.6394086Z PASS  4.6 EightMax.exe, mwcli.exe and gpustress.exe report the same build identifier (9ee5a8be32f5146e)
+2026-11-14T04:41:19.6638520Z PASS  4.6 continuation: icm45: deadline-limited sampled evaluation between segments: evaluation succeeded and left the checkpoint unchanged
+2026-11-14T04:41:19.6644426Z PASS  4.6 continuation: icm45: 150 + 150 resumed updates == 300 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:41:19.6651567Z PASS  4.6 continuation: c500: 500 + 500 resumed updates == 1000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:41:19.6658702Z PASS  4.6 continuation: c1000: 1000 + 1000 resumed updates == 2000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)
+2026-11-14T04:41:19.6665236Z PASS  4.6 continuation: generation 2: evaluation before the next generation: evaluation succeeded and left the checkpoint unchanged
+2026-11-14T04:41:19.6671304Z PASS  4.6 continuation: four sequential generations == one uninterrupted run
+2026-11-14T04:41:19.6677499Z PASS  4.6 continuation: generation 2 == uninterrupted run of the same length
+2026-11-14T04:41:19.6683692Z PASS  4.6 continuation: re-saving a restored checkpoint (0 updates) reproduces it byte for byte
+2026-11-14T04:41:19.6689855Z PASS  4.6 continuation: a second save/restore cycle reproduces it again
+2026-11-14T04:41:19.6696115Z PASS  4.6 continuation: continuing from a twice re-saved state == uninterrupted
+2026-11-14T04:41:19.6702348Z PASS  4.6 continuation: resumed segment with 1 thread == uninterrupted
+2026-11-14T04:41:19.6708530Z PASS  4.6 continuation: resumed segment with 8 threads == uninterrupted
+2026-11-14T04:41:19.6714633Z PASS  4.6 continuation: interrupted save (rename): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:41:19.6720481Z PASS  4.6 continuation: interrupted save (rename): no temporary file left behind
+2026-11-14T04:41:19.6726630Z PASS  4.6 continuation: continuation after a failed save (rename) == uninterrupted
+2026-11-14T04:41:19.6732872Z PASS  4.6 continuation: interrupted save (write): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:41:19.6740034Z PASS  4.6 continuation: interrupted save (write): no temporary file left behind
+2026-11-14T04:41:19.6747285Z PASS  4.6 continuation: continuation after a failed save (write) == uninterrupted
+2026-11-14T04:41:19.6753898Z PASS  4.6 continuation: interrupted save (crash): nonzero exit, error names the stage, previous checkpoint intact
+2026-11-14T04:41:19.6760654Z PASS  4.6 continuation: crash before commit leaves at most one orphaned temporary file (never the destination)
+2026-11-14T04:41:19.6767391Z PASS  4.6 continuation: continuation after a failed save (crash) == uninterrupted
+2026-11-14T04:41:19.6774321Z PASS  4.6 continuation: cancelled training reports a whole number of committed updates
+2026-11-14T04:41:19.6781089Z PASS  4.6 continuation: cancelled run == uninterrupted run with the same committed update count (no partial update kept)
+2026-11-14T04:41:19.6787769Z PASS  4.6 continuation: missing input checkpoint: nonzero exit, the message names the file, no output written
+2026-11-14T04:41:19.6794199Z PASS  4.6 continuation: truncated input checkpoint: refused with a reason, no output written
+2026-11-14T04:41:19.6801812Z PASS  4.6 continuation suite: 25 checks passed, 0 failed (150+150, 500+500, 1000+1000, four generations, re-saves, 1 and 8 threads, interrupted saves, cancellation, missing and truncated inputs)
+2026-11-14T04:41:19.7094358Z PASS  4.6 mwcli --state-info reports the same SHA-256 as Get-FileHash and the committed update count
+2026-11-14T04:41:19.7285837Z PASS  4.6 a missing input checkpoint exits with code 3 and names the file (exit 3)
+2026-11-14T04:41:19.8409672Z PASS  4.6 a failed save exits with code 4, names the failed stage and leaves the previous checkpoint unchanged (exit 4)
+2026-11-14T04:41:19.9051305Z Totals: 126 passed, 0 failed, 0 skipped, 0 timed out; 8 of 8 sections completed
+2026-11-14T04:41:19.9056227Z Report: release/EightMax/validation/Windows-release-test.json
+2026-11-14T04:41:20.0519635Z 1. Push/fold vs independent oracle (3-handed, exact card removal; two-player-style exploitability does not apply, gains are exact unilateral gains)
+2026-11-14T04:41:23.0523269Z    chip 10/10/10 classic: EV gap 0.0038 bb; solver-reported gain 1.5e-7, oracle exact gain 2.6e-4
+2026-11-14T04:41:25.6868677Z    icm 6/14/9 bba: EV gap 0.0096 prize units of 100; solver-reported gain 8.2e-8, oracle exact gain 1.1e-4
+2026-11-14T04:41:28.5818683Z    icm 20/4/12 none: EV gap 0.0027 prize units of 100; solver-reported gain 3.4e-7, oracle exact gain 4.0e-4
+2026-11-14T04:41:28.5819188Z 2. Heads-up postflop exploitability (two-player zero-sum), JS and WebAssembly engines
+2026-11-14T04:41:28.9182018Z    js: 100 it 0.1555% pot, 500 it 0.0134% pot, 2000 it 0.0012% pot | wasm-simd: 100 it 0.1555% pot, 500 it 0.0134% pot, 2000 it 0.0012% pot
+2026-11-14T04:41:28.9182530Z 3. Known-solution reference: polarized river (AsAd/KsTh vs QhQd, pot 10, all-in 10)
+2026-11-14T04:41:28.9379184Z    value bet 1.0000 (1), bluff 0.5004 (0.5), call 0.4999 (0.5), OOP EV 2.5000 (2.5); exact gain 1.8e-3
+2026-11-14T04:41:28.9379920Z 4. Three-player river, exact deal enumeration: exact unilateral best-response gain vs iterations
+2026-11-14T04:41:32.2296670Z    100 it: 0.03368 bb (0.1 s) · 500 it: 0.00393 bb (0.3 s) · 1000 it: 0.00158 bb (0.7 s) · 2000 it: 0.00060 bb (1.3 s) · 5000 it: 0.00029 bb (3.3 s)
+2026-11-14T04:41:34.0398208Z 5. Same spot, sampled deals: exact unilateral gain of the sampled strategy, mean and 95% CI over seeds
+2026-11-14T04:41:34.0399012Z    external/simultaneous: 3000 it 0.905 ± 0.148 bb (0.0 s) · 12000 it 0.345 ± 0.084 bb (0.1 s) · 48000 it 0.219 ± 0.085 bb (0.3 s)
+2026-11-14T04:41:38.4880411Z    full/simultaneous: 3000 it 0.479 ± 0.141 bb (0.1 s) · 12000 it 0.224 ± 0.041 bb (0.2 s) · 48000 it 0.099 ± 0.023 bb (0.9 s)
+2026-11-14T04:41:49.2004087Z    full/alternating: 3000 it 0.444 ± 0.106 bb (0.1 s) · 12000 it 0.204 ± 0.057 bb (0.5 s) · 48000 it 0.108 ± 0.022 bb (2.1 s)
+2026-11-14T04:41:49.8570327Z    tested responses vs exact gain after 12000 it (seed 1): seat 1 0.234±0.073 vs 0.239, seat 2 0.139±0.068 vs 0.178, seat 3 -0.019±0.102 vs 0.133
+2026-11-14T04:41:49.8571114Z 6. Eight-player river preset (sampled): tested response gains, lower bounds with 95% intervals
+2026-11-14T04:41:51.8851687Z    seed 17, 2000 it (1.8 s): seat 1 -1.099±1.009, seat 4 0.000±0.000, seat 8 -0.041±0.080 bb
+2026-11-14T04:41:58.9338887Z    seed 17, 8000 it (6.9 s): seat 1 -0.837±1.100, seat 4 0.000±0.000, seat 8 0.000±0.000 bb
+2026-11-14T04:42:05.2139773Z    seed 23, 8000 it (6.1 s): seat 1 0.968±1.165, seat 4 0.000±0.000, seat 8 0.000±0.000 bb
+2026-11-14T04:42:05.2140170Z 7. Future-game ICM (FGS) invariants
+2026-11-14T04:42:06.1305028Z    heads-up (ICM linear) value shift 0.0187 of 100; 4-handed prize pool error 8.5e-14
+2026-11-14T04:42:06.1305682Z 8. Not regenerated by this report: the 15-100 bb chart realization fit (see tools/gen_deep.js).
+2026-11-14T04:42:06.1326424Z wrote D:\a\pie\pie\release\EightMax\validation\ACCURACY.json
+2026-11-14T04:42:07.2231325Z checkpoint.test.js          1.02 s pass 12 fail 0 skip 0 timeout 0
+2026-11-14T04:42:10.6570202Z fgs.test.js                 3.44 s pass 5 fail 0 skip 0 timeout 0
+2026-11-14T04:42:10.7788402Z fingerprint.test.js         0.12 s pass 1 fail 0 skip 0 timeout 0
+2026-11-14T04:42:10.9093082Z information.test.js         0.13 s pass 5 fail 0 skip 0 timeout 0
+2026-11-14T04:42:12.7730531Z mtt.test.js                 1.86 s pass 13 fail 0 skip 0 timeout 0
+2026-11-14T04:42:13.6591204Z multiway.test.js            0.89 s pass 11 fail 0 skip 0 timeout 0
+2026-11-14T04:42:24.4588194Z oracle.test.js              10.8 s pass 3 fail 0 skip 0 timeout 0
+2026-11-14T04:42:25.7186896Z quality.test.js             1.26 s pass 9 fail 0 skip 0 timeout 0
+2026-11-14T04:42:27.1684620Z solver.test.js              1.45 s pass 14 fail 0 skip 0 timeout 0
+2026-11-14T04:42:28.8005710Z upgrades.test.js            1.63 s pass 6 fail 0 skip 0 timeout 0
+2026-11-14T04:42:33.6531943Z v26.test.js                 4.85 s pass 42 fail 0 skip 0 timeout 0
+2026-11-14T04:42:34.1609958Z v27.test.js                 0.51 s pass 9 fail 0 skip 0 timeout 0
+2026-11-14T04:42:34.3611013Z v28.test.js                  0.2 s pass 4 fail 0 skip 0 timeout 0
+2026-11-14T04:42:41.0176457Z v29.test.js                 6.66 s pass 30 fail 0 skip 1 timeout 0
+2026-11-14T04:42:41.0177150Z    SKIPPED: 3.0 CUDA driver test double checks hybrid aggregation, CPU parity and injected failures
+2026-11-14T04:43:01.8097694Z v31.test.js                20.79 s pass 39 fail 0 skip 3 timeout 0
+2026-11-14T04:43:01.8098504Z    SKIPPED: CUDA test double: probe reports device, SASS image and VRAM reserve; equity kernel matches CPU exactly (CUDA test double needs Linux and a C++ compiler)
+2026-11-14T04:43:01.8099400Z    SKIPPED: CUDA test double: GPU equity equals CPU; failures fall back to CPU with a stated reason (CUDA test double needs Linux and a C++ compiler)
+2026-11-14T04:43:01.8100530Z    SKIPPED: CUDA routing: river starts and external sampling stay on CPU and say why; turn studies keep CPU-identical results (CUDA test double needs Linux and a C++ compiler)
+2026-11-14T04:43:36.6325691Z v33.test.js                34.82 s pass 33 fail 0 skip 1 timeout 0
+2026-11-14T04:43:36.6326310Z    SKIPPED: Allocation fault injection: every failed DCFR and linear update rolls back exactly and resumes
+2026-11-14T04:43:46.4569796Z v34.test.js                 9.82 s pass 13 fail 0 skip 1 timeout 0
+2026-11-14T04:43:46.4570594Z    SKIPPED: external sampled hybrid scoring and CUDA failure reproduce CPU strategy, RNG and counters
+2026-11-14T04:43:56.8173430Z v35.test.js                10.36 s pass 23 fail 0 skip 1 timeout 0
+2026-11-14T04:43:56.8174838Z    SKIPPED: CUDA driver fixture enforces reduced VRAM budgets on reused batches
+2026-11-14T04:44:14.5366009Z v36.test.js                17.72 s pass 21 fail 0 skip 1 timeout 0
+2026-11-14T04:44:14.5366472Z    SKIPPED: slow simulated CUDA scoring selects CPU and preserves complete state
+2026-11-14T04:44:18.3183369Z v37.test.js                 3.78 s pass 11 fail 0 skip 0 timeout 0
+2026-11-14T04:44:20.7739291Z v38.test.js                 2.46 s pass 8 fail 0 skip 0 timeout 0
+2026-11-14T04:44:49.2082989Z v39.test.js                28.43 s pass 14 fail 0 skip 0 timeout 0
+2026-11-14T04:45:01.1211601Z v40.test.js                11.91 s pass 15 fail 1 skip 1 timeout 0
+2026-11-14T04:45:01.1213613Z    FAILED: 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts
+2026-11-14T04:45:01.1215148Z    SKIPPED: 4.0 CUDA path (driver test double running score.cu): GPU, hybrid and CPU showdown tables give bit-identical EVs; failures fall back to the CPU
+2026-11-14T04:45:25.7491976Z v41.test.js                24.63 s pass 13 fail 0 skip 2 timeout 0
+2026-11-14T04:45:25.7492791Z    SKIPPED: 4.1 numeric safety: num_safe.h boundary and property tests under UBSan+ASan (compiler) (needs gcc with sanitizers on Linux)
+2026-11-14T04:45:25.7493767Z    SKIPPED: 4.1 CUDA scheduling: decisions and peak VRAM are reported; CPU, GPU, hybrid and auto agree bit for bit (Linux CUDA test double) (needs the Linux CUDA driver test double (no physical GPU is assumed))
+2026-11-14T04:45:41.4551287Z v42.test.js                15.71 s pass 7 fail 0 skip 9 timeout 0
+2026-11-14T04:45:41.4553572Z    SKIPPED: 4.2 coverage: unit suite under AddressSanitizer+UBSan and ThreadSanitizer (compiler) (C++ compiler unavailable: Command failed: g++ -std=c++20 -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -ID:\\a\\pie\\pie\\source\\native D:\\a\\pie\\pie\\source\\tests\\coverage42.cpp -lpthread -o C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\em42-7nw24f\\cov_asan)
+2026-11-14T04:45:41.4555829Z    SKIPPED: 4.2 CUDA: wrapper unit tests (context per thread, balance, concurrent instances, budgets, repeated init, OOM, cuCtxCreate path) (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4557863Z    SKIPPED: 4.2 CUDA: the 4.1 EV-table failure is fixed — gpu/hybrid/auto with 1, 2, 4, 8 threads: identical EVs, no context errors, no leaks (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4559022Z    SKIPPED: 4.2 CUDA: GPU budget validation — a budget below the real request is refused before allocation and falls back with the same result; within budget the GPU runs (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4560047Z    SKIPPED: 4.2 CUDA: fault injection — every failure falls back with identical EVs, no double counting, released buffers, actionable errors (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4560840Z    SKIPPED: 4.2 CUDA: cancellation during GPU work is prompt and leaves no device memory (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4561719Z    SKIPPED: 4.2 CUDA: Automatic mode — no CUDA start-up for short runs (warm-up), opened once the warm-up is spent, every table accounted for (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4562737Z    SKIPPED: 4.2 CUDA: in-process stress — concurrent multithreaded GPU jobs, cancellation on the GPU and repeated re-initialisation; plain, TSan and ASan builds (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:45:41.4563686Z    SKIPPED: 4.2 CUDA: desktop host — concurrent GPU EV jobs, a job cancelled on the GPU, the host stays responsive (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1080134Z v43.test.js                48.65 s pass 8 fail 0 skip 7 timeout 0
+2026-11-14T04:46:30.1081878Z    SKIPPED: 4.3 CUDA: device modes x threads on shared tables — identical EVs, every board once, no context errors, no leaks (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1083457Z    SKIPPED: 4.3 CUDA: eight-seat response gains in GPU mode score one table once, CPU threads count patterns of device-scored chunks, no lock waiting (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1084869Z    SKIPPED: 4.3 CUDA: fault injection on shared tables (alloc, OOM after N, VRAM pressure, launch, download, mismatch, no primary context, no driver) — identical EVs, correct fallback (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1086230Z    SKIPPED: 4.3 CUDA lifecycle: one process, many requests — one open and one verification, warm reuse, concurrent jobs, idle release, recovery after cancellation and after a budget refusal (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1087428Z    SKIPPED: 4.3 CUDA lifecycle: background start-up and idle janitor (unit phase); Automatic opens the device in the background without stalling a table (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1089291Z    SKIPPED: 4.3 desktop host: EM_GPU_PREWARM opens the device in the background and /api/mw/gpu-status reports the lifecycle (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:46:30.1090434Z    SKIPPED: 4.3 sanitizers: table43 + coverage43 under ASan+UBSan and TSan; a sanitized mwcli runs shared tables (cpu, gpu, hybrid; EV and 8-seat gains, 8 threads) with no reports (compiler; Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:47:09.1373017Z v44.test.js                39.03 s pass 12 fail 0 skip 3 timeout 0
+2026-11-14T04:47:09.1374262Z    SKIPPED: 4.4 sanitizers: coverage44 under ThreadSanitizer and ASan+UBSan with no reports (compiler) (Linux)
+2026-11-14T04:47:09.1375656Z    SKIPPED: 4.4 Automatic on a warm device measures the three arms and keeps results bit-identical whichever arm builds the table; no context errors or leaks (Linux CUDA test double: simulated driver) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:47:09.1377182Z    SKIPPED: 4.4 Automatic never opens CUDA for a single short request and stays on the CPU with no device; device faults in Automatic fall back with identical EVs (Linux CUDA test double) (needs the Linux CUDA driver test double (simulated driver; no physical GPU))
+2026-11-14T04:47:31.1123620Z v44_postflop.test.js       21.97 s pass 5 fail 0 skip 0 timeout 0
+2026-11-14T04:49:48.6509884Z v45.test.js               137.54 s pass 9 fail 0 skip 1 timeout 0
+2026-11-14T04:49:48.6510657Z    SKIPPED: 4.5 coverage budget (unit) under ThreadSanitizer and ASan+UBSan with no reports (compiler) (Linux)
+2026-11-14T04:50:15.5448875Z v46.test.js                26.89 s pass 15 fail 0 skip 0 timeout 0
+2026-11-14T04:51:03.1586564Z v47.test.js                47.61 s pass 13 fail 0 skip 0 timeout 0
+2026-11-14T04:54:04.5914282Z v48.test.js               181.43 s pass 21 fail 0 skip 0 timeout 0
+2026-11-14T04:55:40.9331404Z v49.test.js                96.34 s pass 6 fail 0 skip 2 timeout 0
+2026-11-14T04:55:40.9332216Z    SKIPPED: 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions) (POSIX permissions)
+2026-11-14T04:55:40.9333404Z    SKIPPED: 4.9 Automatic does not open CUDA for a small training job; GPU Preferred and Hybrid still measure; all modes write the same strategy bytes (Linux CUDA test double, simulated driver) (Linux CUDA test double)
+2026-11-14T04:56:26.3569170Z v50.test.js                45.42 s pass 7 fail 0 skip 0 timeout 0
+2026-11-14T04:56:26.7672665Z wide.test.js                0.41 s pass 7 fail 0 skip 0 timeout 0
+2026-11-14T04:56:26.7673005Z 
+2026-11-14T04:56:26.7673363Z Totals: passed 464 failed 1 skipped 33 timed out 0 | hardware-dependent run 22 skipped 31
+2026-11-14T04:56:26.7966169Z ##[error]Process completed with exit code 1.
+2026-11-14T04:56:26.8159410Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T04:56:26.8159671Z with:
+2026-11-14T04:56:26.8159847Z   name: EightMax-Windows-release
+2026-11-14T04:56:26.8160706Z   path: release/EightMax-Windows-*.zip
+fresh-windows.json
+fresh-windows-host.json
+windows-selftest47.json
+windows-selftest48.json
+windows-selftest49.json
+windows-emz-denied-temp.json
+windows-toolchain.json
+windows-runner-hardware-validation.json
+windows-concurrency-stress.txt
+release/EightMax/validation/
+
+2026-11-14T04:56:26.8161509Z   if-no-files-found: warn
+2026-11-14T04:56:26.8161690Z   compression-level: 6
+2026-11-14T04:56:26.8161864Z   overwrite: false
+2026-11-14T04:56:26.8162027Z   include-hidden-files: false
+2026-11-14T04:56:26.8162222Z env:
+2026-11-14T04:56:26.8162427Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:56:26.8162737Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-14T04:56:26.8163106Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:56:26.8163384Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:56:26.8163654Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-14T04:56:26.8163896Z   MSYSTEM: UCRT64
+2026-11-14T04:56:26.8164079Z   EM_TEST_CXX: D:\a\_temp\msys64\ucrt64\bin\g++.exe
+2026-11-14T04:56:26.8164751Z   EM_TEST_CC: D:\a\_temp\msys64\ucrt64\bin\gcc.exe
+2026-11-14T04:56:26.8165022Z   EM_TEST_CUDA_FIXTURE: D:\a\pie\pie\build\fixture\nvcuda-fixture.dll
+2026-11-14T04:56:26.8165283Z ##[endgroup]
+2026-11-14T04:56:26.9437116Z (node:4752) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T04:56:26.9437928Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T04:56:27.1065029Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-14T04:56:27.1068396Z The least common ancestor is D:\a\pie\pie. This will be the root directory of the artifact
+2026-11-14T04:56:27.1068910Z With the provided path, there will be 839 files uploaded
+2026-11-14T04:56:27.1072940Z Artifact name is valid!
+2026-11-14T04:56:27.1073988Z Root directory input is valid!
+2026-11-14T04:56:27.4018299Z Beginning upload of artifact content to blob storage
+2026-11-14T04:56:28.5784665Z (node:4752) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-14T04:56:29.2535241Z Uploaded bytes 8388608
+2026-11-14T04:56:29.3012312Z Uploaded bytes 9047773
+2026-11-14T04:56:29.3383712Z Finished uploading artifact content to blob storage!
+2026-11-14T04:56:29.3386242Z SHA256 digest of uploaded artifact zip is eda75b0e88184798db278d313490cb27b42b7d9ca5afdfe3f84d61ad2dbbb334
+2026-11-14T04:56:29.3387742Z Finalizing artifact upload
+2026-11-14T04:56:29.6975240Z Artifact EightMax-Windows-release.zip successfully finalized. Artifact ID 14099996328
+2026-11-14T04:56:29.6976021Z Artifact EightMax-Windows-release has been successfully uploaded! Final size is 9047773 bytes. Artifact ID is 14099996328
+2026-11-14T04:56:29.6986397Z Artifact download URL: https://github.com/derekwtgm/pie/actions/runs/43557445261/artifacts/14099996328
+2026-11-14T04:56:29.7296654Z Post job cleanup.
+2026-11-14T04:56:29.8342075Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-14T04:56:29.8587591Z git version 2.56.0.windows.4
+2026-11-14T04:56:29.8634539Z Temporarily overriding HOME='D:\a\_temp\75500f72-cae5-43e3-9554-d8c5c89902ab' before making global git config changes
+2026-11-14T04:56:29.8635122Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T04:56:29.8641653Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\pie\pie
+2026-11-14T04:56:29.8894149Z Removing SSH command configuration
+2026-11-14T04:56:29.8901444Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T04:56:29.9155656Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-14T04:56:30.3079319Z Removing HTTP extra header
+2026-11-14T04:56:30.3086727Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T04:56:30.3345155Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-14T04:56:30.7179578Z Removing includeIf entries pointing to credentials config files
+2026-11-14T04:56:30.7189823Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T04:56:30.7419068Z includeif.gitdir:D:/a/pie/pie/.git.path
+2026-11-14T04:56:30.7419477Z includeif.gitdir:D:/a/pie/pie/.git/worktrees/*.path
+2026-11-14T04:56:30.7420029Z includeif.gitdir:/github/workspace/.git.path
+2026-11-14T04:56:30.7420319Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-14T04:56:30.7449014Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/pie/pie/.git.path
+2026-11-14T04:56:30.7678428Z D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.7716303Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/pie/pie/.git.path D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.7994510Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/pie/pie/.git/worktrees/*.path
+2026-11-14T04:56:30.8224048Z D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.8253229Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/pie/pie/.git/worktrees/*.path D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.8509548Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-14T04:56:30.8741291Z /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.8772491Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.9039559Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-14T04:56:30.9267270Z /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.9295368Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config
+2026-11-14T04:56:30.9553975Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-14T04:56:31.3479634Z Removing credentials config 'D:\a\_temp\git-credentials-700267e4-4a97-40bd-b31d-0d7a9cd96063.config'
+2026-11-14T04:56:31.3643758Z Cleaning up orphan processes
+2026-11-14T04:56:31.3772256Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

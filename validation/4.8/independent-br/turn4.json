@@ -1,0 +1,63 @@
+{
+ "tool": "independent_br48",
+ "spec": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/turn4.json",
+ "state": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/turn4.state",
+ "players": 4,
+ "startCards": 4,
+ "deals": 16,
+ "storedRowsUsed": 3020,
+ "storedRows": 3020,
+ "chipConservation": {
+  "sumOfPolicyValues": 13.600000000000003,
+  "deadMoney": 5.6,
+  "note": "net chips relative to the study root sum to the dead money (common pot + chips folded before the root) for every strategy profile"
+ },
+ "tolerance": 1e-09,
+ "agree": true,
+ "seats": [
+  {
+   "seat": 0,
+   "independentPolicyValue": 13.56683228820642,
+   "independentBestResponse": 13.600148109855937,
+   "independentGain": 0.03331582164951641,
+   "enginePolicyValue": 13.56683228820642,
+   "engineBestResponse": 13.600148109855937,
+   "engineGain": 0.03331582164951641,
+   "maxAbsDifference": 0.0,
+   "agree": true
+  },
+  {
+   "seat": 1,
+   "independentPolicyValue": 0.012863615158650676,
+   "independentBestResponse": 0.030577916171487578,
+   "independentGain": 0.0177143010128369,
+   "enginePolicyValue": 0.012863615158650676,
+   "engineBestResponse": 0.030577916171487578,
+   "engineGain": 0.0177143010128369,
+   "maxAbsDifference": 0.0,
+   "agree": true
+  },
+  {
+   "seat": 2,
+   "independentPolicyValue": -0.002553442322830027,
+   "independentBestResponse": 0.007664500151492576,
+   "independentGain": 0.010217942474322603,
+   "enginePolicyValue": -0.0025534423228300266,
+   "engineBestResponse": 0.007664500151492575,
+   "engineGain": 0.010217942474322601,
+   "maxAbsDifference": 1.734723475976807e-18,
+   "agree": true
+  },
+  {
+   "seat": 3,
+   "independentPolicyValue": 0.022857538957762023,
+   "independentBestResponse": 0.030364000177902885,
+   "independentGain": 0.007506461220140863,
+   "enginePolicyValue": 0.022857538957762033,
+   "engineBestResponse": 0.030364000177902892,
+   "engineGain": 0.007506461220140859,
+   "maxAbsDifference": 1.0408340855860843e-17,
+   "agree": true
+  }
+ ]
+}

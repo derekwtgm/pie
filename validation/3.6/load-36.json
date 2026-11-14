@@ -1,0 +1,9 @@
+{
+  "op": "new-load",
+  "iterations": 20000,
+  "bytes": 116541772,
+  "wallSeconds": 15.867798734,
+  "cpuSeconds": 19.675157,
+  "peakRSSKiB": 1225524,
+  "stateSHA256": "fbb3f509ffcd2fa9a3462afe747c84440383b4d49e51945bf799b88ba6a60843"
+}

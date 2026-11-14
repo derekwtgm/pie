@@ -1,0 +1,1373 @@
+{
+ "cfg": {
+  "board": "Qs9h4d2c7s",
+  "common": 10,
+  "stacks": [
+   40,
+   40
+  ],
+  "ranges": [
+   "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd,Ts8s,AcAd,5h5d",
+   "QcJc,TdTc,As4s,KdJd,6s5s,9d8d,7c7d,AhJh,Kc2s"
+  ],
+  "streets": {
+   "river": {
+    "bets": "50,a",
+    "raises": "2.5x",
+    "maxBets": 2
+   }
+  },
+  "engine": "native",
+  "privateMode": "sampled",
+  "abstraction": "exact",
+  "batchDeals": 1,
+  "evaluationDeals": 128
+ },
+ "variants": [
+  [
+   "full standard linear",
+   {
+    "traversal": "full",
+    "regretMatching": "standard",
+    "weighting": "linear"
+   }
+  ],
+  [
+   "external linear",
+   {
+    "traversal": "external"
+   }
+  ],
+  [
+   "external conditional terminals",
+   {
+    "traversal": "external",
+    "terminalExpectation": true
+   }
+  ],
+  [
+   "full CFR+ linear",
+   {
+    "traversal": "full",
+    "regretMatching": "plus"
+   }
+  ],
+  [
+   "full CFR uniform",
+   {
+    "traversal": "full",
+    "regretMatching": "standard",
+    "weighting": "uniform"
+   }
+  ],
+  [
+   "external DCFR",
+   {
+    "traversal": "external",
+    "regretMatching": "standard",
+    "weighting": "dcfr"
+   }
+  ]
+ ],
+ "threads": 1,
+ "updates": 4000,
+ "timeBudgetMs": 100,
+ "rows": [
+  {
+   "seed": 11,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003459,
+    "peakRssMiB": 7.8,
+    "exploitabilityBB": 0.32036299400934753,
+    "seatGainsBB": [
+     0.32218449847682074,
+     0.31854148954187433
+    ]
+   },
+   "equalTime": {
+    "deals": 88960,
+    "seconds": 0.100069,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.07168773433197906,
+    "seatGainsBB": [
+     0.06323673985332157,
+     0.08013872881063655
+    ]
+   }
+  },
+  {
+   "seed": 11,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008479,
+    "peakRssMiB": 8.5,
+    "exploitabilityBB": 0.42770312025088586,
+    "seatGainsBB": [
+     0.4436027031553351,
+     0.4118035373464366
+    ]
+   },
+   "equalTime": {
+    "deals": 53888,
+    "seconds": 0.100169,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.15015759010985108,
+    "seatGainsBB": [
+     0.13247933006271673,
+     0.16783585015698543
+    ]
+   }
+  },
+  {
+   "seed": 11,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.009213,
+    "peakRssMiB": 9.3,
+    "exploitabilityBB": 0.31454927142109,
+    "seatGainsBB": [
+     0.382148421201288,
+     0.24695012164089203
+    ]
+   },
+   "equalTime": {
+    "deals": 43392,
+    "seconds": 0.100082,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.12889820385243578,
+    "seatGainsBB": [
+     0.16726324130193504,
+     0.09053316640293652
+    ]
+   }
+  },
+  {
+   "seed": 11,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003607,
+    "peakRssMiB": 9.7,
+    "exploitabilityBB": 0.7723545053323688,
+    "seatGainsBB": [
+     0.6324917587458785,
+     0.9122172519188592
+    ]
+   },
+   "equalTime": {
+    "deals": 107776,
+    "seconds": 0.100052,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1595057546957015,
+    "seatGainsBB": [
+     0.12962147742642482,
+     0.18939003196497817
+    ]
+   }
+  },
+  {
+   "seed": 11,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003253,
+    "peakRssMiB": 9.9,
+    "exploitabilityBB": 0.4068314164983813,
+    "seatGainsBB": [
+     0.42524095728035327,
+     0.3884218757164093
+    ]
+   },
+   "equalTime": {
+    "deals": 119296,
+    "seconds": 0.100049,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.05483821160666391,
+    "seatGainsBB": [
+     0.06339749542569795,
+     0.046278927787629875
+    ]
+   }
+  },
+  {
+   "seed": 11,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.006699,
+    "peakRssMiB": 10.1,
+    "exploitabilityBB": 0.8616094628285547,
+    "seatGainsBB": [
+     0.7116545576219702,
+     1.0115643680351392
+    ]
+   },
+   "equalTime": {
+    "deals": 60416,
+    "seconds": 0.100066,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.18647627170812808,
+    "seatGainsBB": [
+     0.15231991821696145,
+     0.22063262519929472
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00575,
+    "peakRssMiB": 10.3,
+    "exploitabilityBB": 0.3718075055781118,
+    "seatGainsBB": [
+     0.4827454951867374,
+     0.26086951596948627
+    ]
+   },
+   "equalTime": {
+    "deals": 66944,
+    "seconds": 0.100069,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.10851261669641943,
+    "seatGainsBB": [
+     0.09167360513930678,
+     0.12535162825353208
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.006634,
+    "peakRssMiB": 10.5,
+    "exploitabilityBB": 0.38007514182388236,
+    "seatGainsBB": [
+     0.37559084289386035,
+     0.38455944075390436
+    ]
+   },
+   "equalTime": {
+    "deals": 61504,
+    "seconds": 0.100141,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1158936485972013,
+    "seatGainsBB": [
+     0.1172110905792465,
+     0.1145762066151561
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003506,
+    "peakRssMiB": 10.7,
+    "exploitabilityBB": 0.6887090651089538,
+    "seatGainsBB": [
+     0.5754664254604718,
+     0.8019517047574358
+    ]
+   },
+   "equalTime": {
+    "deals": 124736,
+    "seconds": 0.100074,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.15043686899156095,
+    "seatGainsBB": [
+     0.12813331939887007,
+     0.17274041858425182
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003634,
+    "peakRssMiB": 11.7,
+    "exploitabilityBB": 0.33302274858016667,
+    "seatGainsBB": [
+     0.4221893668762027,
+     0.24385613028413067
+    ]
+   },
+   "equalTime": {
+    "deals": 105664,
+    "seconds": 0.100043,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.04271342753851659,
+    "seatGainsBB": [
+     0.04339285137910309,
+     0.04203400369793009
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008516,
+    "peakRssMiB": 12.3,
+    "exploitabilityBB": 0.7103429452065697,
+    "seatGainsBB": [
+     0.6263535801285824,
+     0.794332310284557
+    ]
+   },
+   "equalTime": {
+    "deals": 48384,
+    "seconds": 0.100368,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.26351543407954603,
+    "seatGainsBB": [
+     0.2584751063100388,
+     0.2685557618490533
+    ]
+   }
+  },
+  {
+   "seed": 29,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003001,
+    "peakRssMiB": 12.8,
+    "exploitabilityBB": 0.32630026631095266,
+    "seatGainsBB": [
+     0.404845481279426,
+     0.24775505134247933
+    ]
+   },
+   "equalTime": {
+    "deals": 102848,
+    "seconds": 0.100037,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.059619730564231865,
+    "seatGainsBB": [
+     0.055210552694522796,
+     0.06402890843394093
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008742,
+    "peakRssMiB": 13.3,
+    "exploitabilityBB": 0.8443468169777295,
+    "seatGainsBB": [
+     0.5427963354021097,
+     1.1458972985533493
+    ]
+   },
+   "equalTime": {
+    "deals": 47040,
+    "seconds": 0.100182,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.10440810687124968,
+    "seatGainsBB": [
+     0.09344947712700069,
+     0.11536673661549868
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.004105,
+    "peakRssMiB": 13.6,
+    "exploitabilityBB": 0.6692261810650157,
+    "seatGainsBB": [
+     0.579353121155032,
+     0.7590992409749995
+    ]
+   },
+   "equalTime": {
+    "deals": 100864,
+    "seconds": 0.100044,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.17450391492136674,
+    "seatGainsBB": [
+     0.14911662459474062,
+     0.19989120524799286
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.004262,
+    "peakRssMiB": 13.9,
+    "exploitabilityBB": 0.28951433150469796,
+    "seatGainsBB": [
+     0.26278203749020346,
+     0.31624662551919247
+    ]
+   },
+   "equalTime": {
+    "deals": 113664,
+    "seconds": 0.100063,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.0546987119278306,
+    "seatGainsBB": [
+     0.06942434046782786,
+     0.03997308338783334
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008776,
+    "peakRssMiB": 14.2,
+    "exploitabilityBB": 0.7281135735816195,
+    "seatGainsBB": [
+     0.74621246498047,
+     0.7100146821827691
+    ]
+   },
+   "equalTime": {
+    "deals": 49472,
+    "seconds": 0.100113,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.2330690243189375,
+    "seatGainsBB": [
+     0.2032753468110906,
+     0.2628627018267844
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00362,
+    "peakRssMiB": 14.3,
+    "exploitabilityBB": 0.2227001535196138,
+    "seatGainsBB": [
+     0.22802092284448783,
+     0.2173793841947398
+    ]
+   },
+   "equalTime": {
+    "deals": 109696,
+    "seconds": 0.100045,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.06522512018976667,
+    "seatGainsBB": [
+     0.07722718014874896,
+     0.05322306023078438
+    ]
+   }
+  },
+  {
+   "seed": 43,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.012838,
+    "peakRssMiB": 14.7,
+    "exploitabilityBB": 0.3830367545965503,
+    "seatGainsBB": [
+     0.3311698710103128,
+     0.43490363818278777
+    ]
+   },
+   "equalTime": {
+    "deals": 54848,
+    "seconds": 0.100125,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.12919103019411682,
+    "seatGainsBB": [
+     0.06107986178875269,
+     0.19730219859948095
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003838,
+    "peakRssMiB": 16.3,
+    "exploitabilityBB": 0.6775799064060108,
+    "seatGainsBB": [
+     0.54645054135612,
+     0.8087092714559017
+    ]
+   },
+   "equalTime": {
+    "deals": 103360,
+    "seconds": 0.100044,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.16450601035366152,
+    "seatGainsBB": [
+     0.1367966715304343,
+     0.19221534917688876
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003731,
+    "peakRssMiB": 16.5,
+    "exploitabilityBB": 0.2728869919226964,
+    "seatGainsBB": [
+     0.3297568084455582,
+     0.21601717539983456
+    ]
+   },
+   "equalTime": {
+    "deals": 110208,
+    "seconds": 0.100039,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.061149868769813764,
+    "seatGainsBB": [
+     0.05866407434341703,
+     0.0636356631962105
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008544,
+    "peakRssMiB": 16.6,
+    "exploitabilityBB": 0.7636472285178373,
+    "seatGainsBB": [
+     0.704455326033079,
+     0.8228391310025955
+    ]
+   },
+   "equalTime": {
+    "deals": 51904,
+    "seconds": 0.100098,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.21673580430987616,
+    "seatGainsBB": [
+     0.1786476812246951,
+     0.2548239273950572
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003957,
+    "peakRssMiB": 17,
+    "exploitabilityBB": 0.2765250934360868,
+    "seatGainsBB": [
+     0.3715117258888849,
+     0.18153846098328863
+    ]
+   },
+   "equalTime": {
+    "deals": 109056,
+    "seconds": 0.100036,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.0710997902008439,
+    "seatGainsBB": [
+     0.0754945223911756,
+     0.06670505801051219
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.012309,
+    "peakRssMiB": 17.2,
+    "exploitabilityBB": 0.5113433644050662,
+    "seatGainsBB": [
+     0.4842660639987759,
+     0.5384206648113565
+    ]
+   },
+   "equalTime": {
+    "deals": 60608,
+    "seconds": 0.100319,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.09050194514707921,
+    "seatGainsBB": [
+     0.09162728281295429,
+     0.08937660748120413
+    ]
+   }
+  },
+  {
+   "seed": 67,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008405,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.31243809348149254,
+    "seatGainsBB": [
+     0.2957519646579527,
+     0.32912422230503235
+    ]
+   },
+   "equalTime": {
+    "deals": 47232,
+    "seconds": 0.100148,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.10014119112894404,
+    "seatGainsBB": [
+     0.06462271922439289,
+     0.1356596630334952
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.004077,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.31046962056116656,
+    "seatGainsBB": [
+     0.33375459800458884,
+     0.2871846431177443
+    ]
+   },
+   "equalTime": {
+    "deals": 109184,
+    "seconds": 0.100087,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.07697356363343455,
+    "seatGainsBB": [
+     0.06520802385683488,
+     0.08873910341003421
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008313,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.6393786371765589,
+    "seatGainsBB": [
+     0.5388788148956092,
+     0.7398784594575085
+    ]
+   },
+   "equalTime": {
+    "deals": 48256,
+    "seconds": 0.100143,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.21954907276356472,
+    "seatGainsBB": [
+     0.15900894783925867,
+     0.2800891976878708
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003799,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.3789827781469992,
+    "seatGainsBB": [
+     0.375615672268915,
+     0.3823498840250834
+    ]
+   },
+   "equalTime": {
+    "deals": 105344,
+    "seconds": 0.100054,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.0718143391113708,
+    "seatGainsBB": [
+     0.07764180757781514,
+     0.06598687064492648
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.006962,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.4207044979706902,
+    "seatGainsBB": [
+     0.5946218654529298,
+     0.24678713048845058
+    ]
+   },
+   "equalTime": {
+    "deals": 53312,
+    "seconds": 0.100082,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.15389926392991282,
+    "seatGainsBB": [
+     0.16409276099359182,
+     0.14370576686623382
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00754,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.33742501084705045,
+    "seatGainsBB": [
+     0.35599729909354494,
+     0.31885272260055597
+    ]
+   },
+   "equalTime": {
+    "deals": 51072,
+    "seconds": 0.100064,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1423125061782955,
+    "seatGainsBB": [
+     0.168177575452777,
+     0.11644743690381398
+    ]
+   }
+  },
+  {
+   "seed": 89,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00335,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.6704266747705976,
+    "seatGainsBB": [
+     0.5722122292329104,
+     0.7686411203082848
+    ]
+   },
+   "equalTime": {
+    "deals": 105216,
+    "seconds": 0.100064,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.14621972685472184,
+    "seatGainsBB": [
+     0.121554325134273,
+     0.17088512857517069
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00833,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.6617218701057841,
+    "seatGainsBB": [
+     0.6225770868789153,
+     0.7008666533326529
+    ]
+   },
+   "equalTime": {
+    "deals": 56896,
+    "seconds": 0.100148,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.245940136977304,
+    "seatGainsBB": [
+     0.23250540669741415,
+     0.25937486725719383
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003293,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.2501720780537209,
+    "seatGainsBB": [
+     0.28544736679824023,
+     0.21489678930920153
+    ]
+   },
+   "equalTime": {
+    "deals": 114880,
+    "seconds": 0.100114,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.08124922133499979,
+    "seatGainsBB": [
+     0.05500153442503475,
+     0.10749690824496483
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.007999,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.4137387051790611,
+    "seatGainsBB": [
+     0.5464646453889364,
+     0.2810127649691858
+    ]
+   },
+   "equalTime": {
+    "deals": 51456,
+    "seconds": 0.100102,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.11164216010467753,
+    "seatGainsBB": [
+     0.13056295327897693,
+     0.09272136693037814
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008503,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.44675598054839494,
+    "seatGainsBB": [
+     0.6219043377993758,
+     0.27160762329741406
+    ]
+   },
+   "equalTime": {
+    "deals": 43968,
+    "seconds": 0.100191,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.127670443167337,
+    "seatGainsBB": [
+     0.12571350555915384,
+     0.12962738077552016
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.002991,
+    "peakRssMiB": 17.3,
+    "exploitabilityBB": 0.6791061313276043,
+    "seatGainsBB": [
+     0.5321984612925439,
+     0.8260138013626648
+    ]
+   },
+   "equalTime": {
+    "deals": 118592,
+    "seconds": 0.100041,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1557807886837197,
+    "seatGainsBB": [
+     0.14135459755446433,
+     0.17020697981297506
+    ]
+   }
+  },
+  {
+   "seed": 131,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003405,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.373866785091832,
+    "seatGainsBB": [
+     0.3907446290621115,
+     0.35698894112155255
+    ]
+   },
+   "equalTime": {
+    "deals": 108480,
+    "seconds": 0.100059,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.07299764599644876,
+    "seatGainsBB": [
+     0.08120667776176216,
+     0.06478861423113536
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003274,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.33555215729920107,
+    "seatGainsBB": [
+     0.3493956864957468,
+     0.3217086281026553
+    ]
+   },
+   "equalTime": {
+    "deals": 108608,
+    "seconds": 0.100052,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.06295181871379762,
+    "seatGainsBB": [
+     0.03853806670104998,
+     0.08736557072654527
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008125,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.4792898860180481,
+    "seatGainsBB": [
+     0.520136501631999,
+     0.43844327040409725
+    ]
+   },
+   "equalTime": {
+    "deals": 35904,
+    "seconds": 0.100057,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.13899857630822732,
+    "seatGainsBB": [
+     0.13144642333886836,
+     0.14655072927758628
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008338,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.3782188461226701,
+    "seatGainsBB": [
+     0.3666761362616464,
+     0.3897615559836938
+    ]
+   },
+   "equalTime": {
+    "deals": 39552,
+    "seconds": 0.102474,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.15110320808241817,
+    "seatGainsBB": [
+     0.16742810199707048,
+     0.13477831416776587
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003844,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.7409403769591134,
+    "seatGainsBB": [
+     0.6105548292968086,
+     0.8713259246214182
+    ]
+   },
+   "equalTime": {
+    "deals": 109120,
+    "seconds": 0.100055,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.16277295741954267,
+    "seatGainsBB": [
+     0.13115417889500236,
+     0.194391735944083
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003671,
+    "peakRssMiB": 17.4,
+    "exploitabilityBB": 0.37724679813201,
+    "seatGainsBB": [
+     0.4117431918123309,
+     0.34275040445168914
+    ]
+   },
+   "equalTime": {
+    "deals": 113664,
+    "seconds": 0.100041,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.06880927652324109,
+    "seatGainsBB": [
+     0.0681127120873013,
+     0.06950584095918089
+    ]
+   }
+  },
+  {
+   "seed": 157,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.007749,
+    "peakRssMiB": 17.5,
+    "exploitabilityBB": 0.7945773572703358,
+    "seatGainsBB": [
+     0.5965311842466603,
+     0.9926235302940114
+    ]
+   },
+   "equalTime": {
+    "deals": 45312,
+    "seconds": 0.100128,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.25236162031639653,
+    "seatGainsBB": [
+     0.22134294316421865,
+     0.2833802974685744
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.00666,
+    "peakRssMiB": 17.8,
+    "exploitabilityBB": 0.5649521335418821,
+    "seatGainsBB": [
+     0.7008288445173632,
+     0.4290754225664011
+    ]
+   },
+   "equalTime": {
+    "deals": 63360,
+    "seconds": 0.100128,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1396669250299345,
+    "seatGainsBB": [
+     0.16476964975736585,
+     0.11456420030250314
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.005673,
+    "peakRssMiB": 17.8,
+    "exploitabilityBB": 0.3879752292504006,
+    "seatGainsBB": [
+     0.292302755058544,
+     0.48364770344225727
+    ]
+   },
+   "equalTime": {
+    "deals": 56320,
+    "seconds": 0.100306,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.11027012028256622,
+    "seatGainsBB": [
+     0.08665077354860173,
+     0.1338894670165307
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003,
+    "peakRssMiB": 17.8,
+    "exploitabilityBB": 0.6844824206279936,
+    "seatGainsBB": [
+     0.5685680762456933,
+     0.8003967650102939
+    ]
+   },
+   "equalTime": {
+    "deals": 111680,
+    "seconds": 0.100086,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.155119032628533,
+    "seatGainsBB": [
+     0.12902582392643946,
+     0.18121224133062652
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003699,
+    "peakRssMiB": 17.9,
+    "exploitabilityBB": 0.33157989653137987,
+    "seatGainsBB": [
+     0.3368586474087163,
+     0.32630114565404345
+    ]
+   },
+   "equalTime": {
+    "deals": 126272,
+    "seconds": 0.100049,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.059861725242218666,
+    "seatGainsBB": [
+     0.06580251532937886,
+     0.05392093515505847
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.006924,
+    "peakRssMiB": 18.2,
+    "exploitabilityBB": 0.727967459547008,
+    "seatGainsBB": [
+     0.5939202996818445,
+     0.8620146194121716
+    ]
+   },
+   "equalTime": {
+    "deals": 33920,
+    "seconds": 0.100125,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.26191053480647364,
+    "seatGainsBB": [
+     0.2421621413263928,
+     0.2816589282865545
+    ]
+   }
+  },
+  {
+   "seed": 193,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003625,
+    "peakRssMiB": 18.5,
+    "exploitabilityBB": 0.3380750736373117,
+    "seatGainsBB": [
+     0.36125774893475704,
+     0.3148923983398664
+    ]
+   },
+   "equalTime": {
+    "deals": 98816,
+    "seconds": 0.100056,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.06158675296040461,
+    "seatGainsBB": [
+     0.06642013281512948,
+     0.05675337310567974
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "external conditional terminals",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.006731,
+    "peakRssMiB": 18.8,
+    "exploitabilityBB": 0.3972417183236694,
+    "seatGainsBB": [
+     0.3803027400728931,
+     0.4141806965744457
+    ]
+   },
+   "equalTime": {
+    "deals": 51968,
+    "seconds": 0.100103,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.1271549122537634,
+    "seatGainsBB": [
+     0.1040596776667897,
+     0.15025014684073712
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "full CFR+ linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.004063,
+    "peakRssMiB": 19.2,
+    "exploitabilityBB": 0.7050895531170183,
+    "seatGainsBB": [
+     0.5983197880283146,
+     0.8118593182057219
+    ]
+   },
+   "equalTime": {
+    "deals": 87232,
+    "seconds": 0.10006,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.17053291299478146,
+    "seatGainsBB": [
+     0.16199837453531263,
+     0.1790674514542503
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "full CFR uniform",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.002873,
+    "peakRssMiB": 19.3,
+    "exploitabilityBB": 0.22490778120355448,
+    "seatGainsBB": [
+     0.27518149194260566,
+     0.1746340704645033
+    ]
+   },
+   "equalTime": {
+    "deals": 134528,
+    "seconds": 0.100027,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.03893664329202218,
+    "seatGainsBB": [
+     0.04444293779005548,
+     0.03343034879398887
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "external DCFR",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.015241,
+    "peakRssMiB": 19.3,
+    "exploitabilityBB": 0.6649723633316538,
+    "seatGainsBB": [
+     0.6402861209273842,
+     0.6896586057359233
+    ]
+   },
+   "equalTime": {
+    "deals": 63232,
+    "seconds": 0.100175,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.22469300127734804,
+    "seatGainsBB": [
+     0.1934188829204384,
+     0.25596711963425767
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "full standard linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.003232,
+    "peakRssMiB": 19.3,
+    "exploitabilityBB": 0.3159834531407617,
+    "seatGainsBB": [
+     0.2672257851110711,
+     0.3647411211704523
+    ]
+   },
+   "equalTime": {
+    "deals": 89024,
+    "seconds": 0.100035,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.05466206811401553,
+    "seatGainsBB": [
+     0.04736049104781692,
+     0.06196364518021413
+    ]
+   }
+  },
+  {
+   "seed": 239,
+   "variant": "external linear",
+   "equalWork": {
+    "deals": 4000,
+    "seconds": 0.008547,
+    "peakRssMiB": 19.5,
+    "exploitabilityBB": 0.6559396808204012,
+    "seatGainsBB": [
+     0.38641538407178544,
+     0.925463977569017
+    ]
+   },
+   "equalTime": {
+    "deals": 43136,
+    "seconds": 0.10018,
+    "peakRssMiB": null,
+    "exploitabilityBB": 0.10653132536281795,
+    "seatGainsBB": [
+     0.12457060508967466,
+     0.08849204563596125
+    ]
+   }
+  }
+ ]
+}

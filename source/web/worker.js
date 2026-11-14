@@ -4,7 +4,7 @@
 EM.workerMain = function (self) {
 let game = null, stopFlag = false;
 let river = null, riverBusy = false, riverStop = false;
-let riverConfig=null, riverResult=null;
+let riverConfig=null, riverResult=null, saveController=null;
 const post = (m) => self.postMessage(m);
 
 self.onmessage = (ev) => {
@@ -23,10 +23,14 @@ self.onmessage = (ev) => {
     else if (m.type === 'report-start') reportStart(m);
     else if (m.type === 'report-stop') { reportStop = true; }
     else if (m.type === 'deep-solve') deepSolve(m);
-    else if (m.type === 'river-solve' || m.type === 'multi-solve') multiwaySolve(m);
+    else if (m.type === 'river-solve' || m.type === 'multi-solve') multiwaySolve(m).catch(e=>post({type:'error',id:m.id,message:e.message}));
     else if (m.type === 'multi-check') multiwayCheck(m);
     else if (m.type === 'multi-export' || m.type === 'multi-load' || m.type === 'multi-recover') checkpointFile(m);
     else if (m.type === 'multi-resume') multiwayResume(m);
+    else if(m.type==='multi-cancel-save'){
+      if(saveController){saveController.abort();if(m.checkpointHost)fetch(m.checkpointHost+'/api/checkpoint/cancel',{method:'POST',headers:{'X-EightMax':'1'}}).catch(()=>{});}
+      post({type:'result',id:m.id,result:true});
+    }
     else if (m.type === 'river-stop' || m.type === 'multi-stop') { riverStop=true; post({type:'result',id:m.id,result:true}); }
     else if (m.type === 'river-node' || m.type === 'multi-node') {
       if (!river || riverBusy) throw new Error('Finish the postflop solve first');
@@ -37,13 +41,38 @@ self.onmessage = (ev) => {
   }
 };
 
-function multiwaySolve(m) {
+async function multiwaySolve(m) {
   if (riverBusy) throw new Error('A multiway solve is already running');
   let max=Number(m.maxIter);const target=Number(m.target);
   const auto=m.cfg?.privateMode==='auto';
   if (!Number.isInteger(max) || max<1 || max>(auto||m.cfg?.privateMode==='sampled'?1000000:250000) || !Number.isFinite(target) || target<0)
     throw new Error('Choose a positive number of iterations (up to 1,000,000 for wide ranges or 250,000 for enumeration)');
+  let selection=null;
+  if(m.cfg.algorithmPolicy==='measured' && (m.cfg.privateMode==='sampled'||(auto&&EM.planMultiwayMode(m.cfg).chosen==='sampled'))){
+    riverBusy=true;riverStop=false;
+    try{
+      selection=await EM.selectByTrials(m.cfg,async(g,ms)=>{
+        let backend='JavaScript',started,seconds;
+        if(m.native){
+          const n=await nativeStart(m,g);
+          if(!n.used)throw Error('Native pilot unavailable: '+n.reason);
+          try{
+            await nativeCall(m.native.base,'train',{iterations:100000,threads:m.native.threads});
+            started=performance.now();await new Promise(r=>setTimeout(r,ms));await nativeCall(m.native.base,'stop',{});
+            let st;do{st=await nativeCall(m.native.base,'status');if(st.running)await new Promise(r=>setTimeout(r,5));}while(st.running);
+            if(st.error)throw Error(st.error);g.importNative(await nativeCall(m.native.base,'state'),true);
+            backend=st.engine?.devicePath||'native CPU';seconds=st.elapsed;
+          }finally{await nativeCall(m.native.base,'free',{});}
+        }else{started=performance.now();do{g.iterate(1);}while(!g.limitReached && performance.now()-started<ms);
+          seconds=(performance.now()-started)/1000;await new Promise(r=>setTimeout(r,0));}
+        return {backend,seconds};
+      },msg=>post({type:'progress',id:m.id,it:0,elapsed:0,saveStatus:msg}),()=>riverStop,{updates:max,backend:{kind:m.native?'native':'javascript',threads:m.native?.threads||1,host:m.native?.base||null,device:EM.NATIVE_INFO?.cuda?.name||null,memory:EM.NATIVE_INFO?.processLimitMiB||null}});
+      m={...m,cfg:selection.cfg};
+    }catch(e){if(riverStop)throw e;selection={reason:'Established algorithm retained. '+e.message,trials:[]};}
+    finally{riverBusy=false;}
+  }
   const g=m.type==='river-solve'?EM.RiverGame(m.cfg):EM.MultiwayGame(m.cfg);
+  if(selection&&g.traversalSelection){g.traversalSelection.pilot=selection;g.traversalSelection.reason=selection.reason;}
   // Automatic mode resolves to exact or sampled deals; later resumes, checks and
   // checkpoints use the resolved configuration. Exact runs keep their 250,000 cap
   // and stop early at the target gain.
@@ -73,17 +102,26 @@ async function nativeChunk(m,g,count,onProgress){
     const st=await nativeCall(base,'status');
     if(st.error)throw Error('Native training failed: '+st.error);
     onProgress(st);
-    if(!st.running){g.importNative(await nativeCall(base,'state'));return st;}
+    if(!st.running){g.importNative(await nativeCall(base,'state'),true);return st;}
   }
 }
 async function nativeStart(m,g){
   if(!m.native||!m.native.base||typeof g.nativeSupport!=='function')return {used:false,reason:'native host not available'};
   const why=g.nativeSupport();if(why)return {used:false,reason:why};
   try{
-    const init=await nativeCall(m.native.base,'init',g.nativeSpec());
-    if(g.iterations>0)await nativeCall(m.native.base,'import',g.exportNative(),true);
-    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB};
+    const init=await nativeCall(m.native.base,'init',{...g.nativeSpec(),tableLimitMiB:g.diagnostics().budgetMiB});
+    if(g.iterations>0)await nativeCall(m.native.base,'import',g.exportNative(true),true);
+    return {used:true,budgetMiB:init.budgetMiB,tableMiB:init.engine.tableMiB,algorithm:init.engine.algorithm||'full'};
   }catch(e){return {used:false,reason:e.message};}
+}
+// 3.1 progress diagnostics: only values that are measured or configured.
+function trainingDiagnostics(g,nativeEngine,saveStatus,native){
+  const d=typeof g.diagnostics==='function'?g.diagnostics():{};
+  const used=Boolean(nativeEngine?.used);
+  return {...d,engine:used?'native C++':'JavaScript',fallbackReason:nativeEngine&&!used?nativeEngine.reason:native?null:'desktop host not connected',
+    devicePath:used?nativeEngine.devicePath||'CPU':'JavaScript worker (CPU)',threads:used?nativeEngine.workerThreads||nativeEngine.threads||native?.threads:1,
+    nativeTableMiB:used?nativeEngine.tableMiB:null,nativeBudgetMiB:used?nativeEngine.budgetMiB:null,gpuPeakMiB:used?nativeEngine.gpuPeakMiB||0:null,
+    states:used?nativeEngine.states:null,checkpoint:saveStatus||'no checkpoint saved in this run'};
 }
 function trainMultiway(m,g,max,target,wide){
   let interval=Number(m.autosaveSeconds??0);
@@ -93,10 +131,23 @@ function trainMultiway(m,g,max,target,wide){
   let lastSave=started,saveStatus='';
   async function autosave(final){
     if(!interval||(!final&&performance.now()-lastSave<interval*1000))return;
+    let poll=null;saveController=new AbortController();const signal=saveController.signal;
     try{
-      await EM.autosaveTraining(await EM.encodeCheckpoint(g.snapshot(m.labels)),m.checkpointHost);
+      const report=(done,total)=>{if(signal.aborted)throw Error('Checkpoint save cancelled');post({type:'progress',id:m.id,it:g.iterations,elapsed:(performance.now()-started)/1000,saveStatus:'Preparing checkpoint '+Math.floor(100*done/total)+'%'});};
+      const state=g.archiveState?.(m.labels);
+      if(state){
+        const file=await EM.archiveBlob(state,report,!!m.checkpointHost,signal);
+        try{
+          if(m.checkpointHost){let querying=false;poll=setInterval(async()=>{
+            if(querying)return;querying=true;try{const r=await fetch(m.checkpointHost+'/api/checkpoint/progress'),p=await r.json();
+              if(p.active)post({type:'progress',id:m.id,it:g.iterations,elapsed:(performance.now()-started)/1000,saveStatus:p.expectedBytes&&p.receivedBytes>=p.expectedBytes?'Verifying checkpoint before commit':'Writing checkpoint '+(p.receivedBytes/1048576).toFixed(1)+' MiB'});
+            }catch{}finally{querying=false;}
+          },400);}
+          await EM.autosaveTraining(file.blob,m.checkpointHost,signal);
+        }finally{await file.release();}
+      }else await EM.autosaveTraining(await EM.encodeCheckpoint(g.snapshot(m.labels)),m.checkpointHost);
       saveStatus='Checkpoint saved at update '+g.iterations.toLocaleString();lastSave=performance.now();
-    }catch(e){saveStatus='Automatic checkpoint failed: '+e.message;interval=0;}
+    }catch(e){saveStatus='Automatic checkpoint failed: '+e.message;interval=0;}finally{if(poll)clearInterval(poll);saveController=null;}
   }
   const diagnosticInterval=Math.max(1000,Math.ceil((max-g.iterations)/20));
   let next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+25,lastMetrics=null;
@@ -110,9 +161,11 @@ function trainMultiway(m,g,max,target,wide){
         const st=await nativeChunk(m,g,Math.min(max,next)-g.iterations,s=>{
           const elapsed=(performance.now()-started)/1000;
           post({type:'progress',id:m.id,it:s.iterations,elapsed,trainingDeals:s.trainingDeals,strategyMiB:g.strategyMiB,engine:'native',threads:s.threads,
-            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+            dealsPerSecond:elapsed?(s.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+            diagnostics:{...trainingDiagnostics(g,nativeEngine,saveStatus,m.native),iterations:s.iterations,trainingDeals:s.trainingDeals}});
         });
-        nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;
+        nativeEngine.seconds=(nativeEngine.seconds||0)+st.elapsed;nativeEngine.threads=st.threads;nativeEngine.devicePath=st.engine?.devicePath;
+        if(st.engine){nativeEngine.scratchPeakBytes=st.engine.scratchPeakBytes;nativeEngine.discardedDeals=Math.max(0,(st.engine.attemptedDealsThisSession||0)-(g.trainingDeals-initialDeals));nativeEngine.tableMiB=st.engine.tableMiB;nativeEngine.gpuPeakMiB=(st.engine.gpuBufferPeakBytes||0)/1048576;nativeEngine.states=st.engine.states;nativeEngine.workerThreads=st.engine.threads;}
         if(st.engine&&st.engine.limitReached)nativeEngine.limitReached=true;
         if(g.iterations===begin&&!riverStop&&!nativeEngine.limitReached)throw Error('Native training made no progress');
         void dealsBefore;
@@ -134,9 +187,9 @@ function trainMultiway(m,g,max,target,wide){
           await autosave(true);riverBusy=false;
           const reason=riverStop?'stopped':g.limitReached?'memory budget reached':wide?'training budget reached':lastMetrics.maxGain<=target?'target reached':'iteration limit';
           // Recorded only when native training was requested (desktop app).
-          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB}:
+          const engine=!m.native||!wide?null:nativeEngine?.used?{name:'native C++',algorithm:nativeEngine.algorithm,devicePath:nativeEngine.devicePath,threads:nativeEngine.threads,seconds:nativeEngine.seconds,tableMiB:nativeEngine.tableMiB,budgetMiB:nativeEngine.budgetMiB,gpuPeakMiB:nativeEngine.gpuPeakMiB,states:nativeEngine.states,discardedDeals:nativeEngine.discardedDeals,scratchPeakBytes:nativeEngine.scratchPeakBytes}:
             {name:'JavaScript',fallbackReason:nativeEngine?.reason};
-          riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?'native memory budget reached':reason,checkpoints,saveStatus};
+          riverResult={metrics:engine?{...lastMetrics,trainingEngine:engine}:lastMetrics,node:g.view([]),reason:nativeEngine?.limitReached?(nativeEngine.algorithm==='external'?'Native memory budget reached. The incomplete update was discarded. Resume from the last committed update.':'Native memory budget reached.'):reason,checkpoints,saveStatus};
           post({type:'result',id:m.id,result:riverResult}); return;
         }
         next=wide?Math.min(max,g.iterations+diagnosticInterval):g.iterations+Math.min(100,Math.max(25,Math.floor(g.iterations/2)));
@@ -144,7 +197,8 @@ function trainMultiway(m,g,max,target,wide){
       await autosave(false);
       const elapsed=(performance.now()-started)/1000;
       post({type:'progress',id:m.id,it:g.iterations,elapsed,trainingDeals:g.trainingDeals,strategyMiB:g.strategyMiB,
-        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null});
+        dealsPerSecond:elapsed?(g.trainingDeals-initialDeals)/elapsed:0,saveStatus,gap:lastMetrics?lastMetrics.maxGain:null,
+        diagnostics:wide?trainingDiagnostics(g,nativeEngine,saveStatus,m.native):null});
       setTimeout(step,0);
     } catch(e) { riverBusy=false; river=null; post({type:'error',id:m.id,message:e.message}); }
   }
@@ -168,10 +222,13 @@ async function checkpointFile(m){
   try{
     if(m.type==='multi-export'){
       if(!river || !riverResult)throw Error('Solve a spot before saving training');
+      const archive=m.streamFormat?river.archiveState?.(m.labels):null;
+      if(archive){const {blob}=await EM.archiveBlob(archive);post({type:'result',id:m.id,result:{blob,iterations:river.iterations}});return;}
       const text=await EM.encodeCheckpoint(river.snapshot(m.labels));
       post({type:'result',id:m.id,result:{text,iterations:river.iterations}});
     }else{
-      const loaded=m.type==='multi-recover'?await EM.recoverTraining(m.checkpointHost):EM.restoreCheckpoint(await EM.decodeCheckpoint(m.text));
+      const progress=(done,total)=>post({type:'progress',id:m.id,saveStatus:'Loading checkpoint '+Math.floor(100*done/total)+'%'});
+      const loaded=m.type==='multi-recover'?await EM.recoverTraining(m.checkpointHost,progress):m.file?await EM.loadStudyFile(m.file,progress):EM.restoreCheckpoint(await EM.decodeCheckpoint(m.text));
       // Only commit after both validation and evaluation succeed.
       const result={metrics:loaded.game.metrics(),node:loaded.game.view([]),reason:loaded.message||'loaded training checkpoint',checkpoints:[],recovery:loaded.generation?{generation:loaded.generation,skipped:loaded.skipped}:undefined};
       river=loaded.game;riverConfig=loaded.cfg;riverResult=result;

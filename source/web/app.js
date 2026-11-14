@@ -98,7 +98,8 @@ const Engine = {
 
 // ---------- tabs ----------
 const riverPanel = EM.multiwayPanel($('#v-river'), call, esc, pct, fmt);
-const TABS = ['preflop', 'postflop', 'river', 'reports', 'trainer', 'icm'];
+const TABS = ['preflop', 'postflop', 'river', 'reports', 'trainer', 'icm', 'quality'];
+let qualityPanel = null;   // 4.7 convergence dashboard (lib_dashboard.js), created on first use
 let tab = 'preflop';
 function setTab(t, push) {
   if (t === 'multiway') t = 'river';  // Keep the original tab and bookmark working.
@@ -108,6 +109,7 @@ function setTab(t, push) {
   for (const v of TABS) $('#v-' + v).hidden = v !== t;
   if (push && location.hash !== '#' + t) history.replaceState(null, '', '#' + t);
   if (t === 'trainer' && !TR.spot) trNew();
+  if (t === 'quality' && !qualityPanel) qualityPanel = EM.dashboardPanel($('#v-quality'), { napi, NATIVE, esc });
   render();
 }
 
@@ -1874,6 +1876,7 @@ function render() {
   else if (tab === 'river') riverPanel.render();
   else if (tab === 'reports') renderReports();
   else if (tab === 'trainer') renderTrainer();
+  else if (tab === 'quality') { if (qualityPanel) qualityPanel.render(); }
   else renderICM();
 }
 document.addEventListener('click', (e) => {

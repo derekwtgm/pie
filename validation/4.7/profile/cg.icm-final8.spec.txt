@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------------
+Profile data file 'cg.icm-final8.spec' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 149394195
+Trigger: Program termination
+Profiled target:  ./mwcli-g validation/4.5/fixtures/icm-final8.spec.json 300 1 o.state 512 (PID 30908, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                     
+--------------------------------------------------------------------------------
+1,082,297,046 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                    file:function
+--------------------------------------------------------------------------------
+393,895,835 (36.39%)  source/native/icm.hpp:Tournament::evaluate(double*, int, Tournament::Workspace&) const [<scratch>/prof/mwcli-g]
+113,939,433 (10.53%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::build((anonymous namespace)::es::BS&, int, double const*, double const*, bool const*, double const*, double, double, int, int) const [<scratch>/prof/mwcli-g]
+ 48,304,068 ( 4.46%)  /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h:Tournament::evaluate(double*, int, Tournament::Workspace&) const
+ 46,381,482 ( 4.29%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::pots((anonymous namespace)::es::BS const&, (anonymous namespace)::es::LPot*) const [<scratch>/prof/mwcli-g]
+ 41,834,216 ( 3.87%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::learn(int, int, double, double, double)'2 [<scratch>/prof/mwcli-g]
+ 33,852,928 ( 3.13%)  /usr/include/c++/13/bit:Tournament::evaluate(double*, int, Tournament::Workspace&) const
+ 26,416,824 ( 2.44%)  source/native/mw_es_impl.hpp:esExport(MW*, unsigned char**, _IO_FILE*, int (*)())
+ 23,372,671 ( 2.16%)  source/native/mw.cpp:esExport(MW*, unsigned char**, _IO_FILE*, int (*)()) [<scratch>/prof/mwcli-g]
+ 22,723,225 ( 2.10%)  /usr/include/c++/13/bits/stl_vector.h:Tournament::evaluate(double*, int, Tournament::Workspace&) const
+ 19,944,328 ( 1.84%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::advance((anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) const [<scratch>/prof/mwcli-g]
+ 16,307,642 ( 1.51%)  ./libio/./libio/iofwrite.c:fwrite [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 15,755,445 ( 1.46%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::seatPayoff((anonymous namespace)::es::BS const&, unsigned long) [<scratch>/prof/mwcli-g]
+ 14,094,210 ( 1.30%)  ./string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:__memcpy_avx_unaligned_erms [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 13,746,753 ( 1.27%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::advance(int, (anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) [<scratch>/prof/mwcli-g]
+ 13,458,126 ( 1.24%)  ./libio/./libio/fileops.c:_IO_file_xsputn@@GLIBC_2.2.5 [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 13,064,583 ( 1.21%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::descend(int, (anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) [<scratch>/prof/mwcli-g]
+ 11,627,245 ( 1.07%)  source/native/mw.cpp:MW::deal((anonymous namespace)::World&, int) [<scratch>/prof/mwcli-g]
+ 11,426,426 ( 1.06%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::child(int, int, (anonymous namespace)::es::BS const&) [<scratch>/prof/mwcli-g]
+ 10,446,057 ( 0.97%)  ./string/../sysdeps/x86_64/multiarch/memset-vec-unaligned-erms.S:__memset_avx2_unaligned_erms [/usr/lib/x86_64-linux-gnu/libc.so.6]
+  9,598,808 ( 0.89%)  source/native/mw_es.hpp:(anonymous namespace)::es::StateTable::add(unsigned int, int, int, int, int, int, double&, double) [<scratch>/prof/mwcli-g]

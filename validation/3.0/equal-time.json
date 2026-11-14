@@ -1,0 +1,69 @@
+{
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "trainingMilliseconds": 1000,
+  "rows": [
+    {
+      "seed": 1,
+      "label": "2.9 native CPU",
+      "seconds": 1.001013,
+      "deals": 202752,
+      "maxGainBb": 0.049481854074570286
+    },
+    {
+      "seed": 1,
+      "label": "3.0 native CPU",
+      "seconds": 1.00128,
+      "deals": 205568,
+      "maxGainBb": 0.061087501105080655
+    },
+    {
+      "seed": 1,
+      "label": "3.0 JavaScript",
+      "seconds": 1.0072260069999996,
+      "deals": 25344,
+      "maxGainBb": 0.1795454237715468
+    },
+    {
+      "seed": 2,
+      "label": "3.0 JavaScript",
+      "seconds": 1.0054275560000001,
+      "deals": 24320,
+      "maxGainBb": 0.16767326789562986
+    },
+    {
+      "seed": 2,
+      "label": "3.0 native CPU",
+      "seconds": 1.001213,
+      "deals": 198144,
+      "maxGainBb": 0.058620670289750265
+    },
+    {
+      "seed": 2,
+      "label": "2.9 native CPU",
+      "seconds": 1.000891,
+      "deals": 209664,
+      "maxGainBb": 0.055495532264759895
+    },
+    {
+      "seed": 3,
+      "label": "2.9 native CPU",
+      "seconds": 1.000513,
+      "deals": 210944,
+      "maxGainBb": 0.05638691327617806
+    },
+    {
+      "seed": 3,
+      "label": "3.0 native CPU",
+      "seconds": 1.00013,
+      "deals": 207360,
+      "maxGainBb": 0.049483955446782524
+    },
+    {
+      "seed": 3,
+      "label": "3.0 JavaScript",
+      "seconds": 1.0058517850000008,
+      "deals": 24320,
+      "maxGainBb": 0.21233325684344884
+    }
+  ]
+}

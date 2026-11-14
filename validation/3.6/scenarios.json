@@ -1,0 +1,3157 @@
+{
+ "generated": "2026-11-09T17:00:08.355Z",
+ "cpu": "AMD EPYC 9V74 80-Core Processor",
+ "logicalProcessors": 9,
+ "threads": 4,
+ "budgetMs": 150,
+ "node": "v24.22.1",
+ "scenarios": [
+  {
+   "name": "Eight-player final-table ICM (linked preflop)",
+   "config": {
+    "preflop": {
+     "mode": "linked",
+     "opens": "2.2,a",
+     "raises": "a",
+     "maxBets": 2
+    },
+    "board": "",
+    "dealt": 8,
+    "common": 0,
+    "stacks": [
+     30,
+     22,
+     15,
+     40,
+     9,
+     18,
+     25,
+     12
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "icm": {
+     "payouts": [
+      30,
+      20,
+      14,
+      11,
+      9,
+      7,
+      5,
+      4
+     ]
+    },
+    "streets": {
+     "flop": {
+      "bets": "50",
+      "raises": "",
+      "maxBets": 1
+     },
+     "turn": {
+      "bets": "a",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.202517,
+       "deals": 1280,
+       "stateVisits": 336216,
+       "visitsPerSecond": 1660186.5522400588,
+       "peakRssMiB": 14.8515625,
+       "tableMiB": 7.149,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "f75d52bb03a13b97ef4ace34975d169222eb063ada21acf6daa09c9ef2b83e5d"
+      },
+      "equalTime": {
+       "seconds": 0.265489,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.10054222712550447,
+        "se": 0.10006029401932832
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.11518091606843209,
+       "se": 0.08835875363876823
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.155307,
+       "deals": 1280,
+       "stateVisits": 336216,
+       "visitsPerSecond": 2164847.6887712725,
+       "peakRssMiB": 15.625,
+       "tableMiB": 7.149,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "f75d52bb03a13b97ef4ace34975d169222eb063ada21acf6daa09c9ef2b83e5d"
+      },
+      "equalTime": {
+       "seconds": 0.259255,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.10054222712550447,
+        "se": 0.10006029401932832
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.11518091606843209,
+       "se": 0.08835875363876823
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.176864,
+       "deals": 1280,
+       "stateVisits": 340093,
+       "visitsPerSecond": 1922906.8662927449,
+       "peakRssMiB": 15.453125,
+       "tableMiB": 7.203,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "d92976a74f4c5d2be1992ef558718d72b9cca10b765121aad05b0779ae182589"
+      },
+      "equalTime": {
+       "seconds": 0.205744,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.019996452814384696,
+        "se": 0.10075291099220515
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.024307868694495378,
+       "se": 0.0830898716526241
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.136393,
+       "deals": 1280,
+       "stateVisits": 340093,
+       "visitsPerSecond": 2493478.4043169376,
+       "peakRssMiB": 15.2734375,
+       "tableMiB": 7.203,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "d92976a74f4c5d2be1992ef558718d72b9cca10b765121aad05b0779ae182589"
+      },
+      "equalTime": {
+       "seconds": 0.180279,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.019996452814384696,
+        "se": 0.10075291099220515
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.024307868694495378,
+       "se": 0.0830898716526241
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.112406,
+       "deals": 1280,
+       "stateVisits": 335548,
+       "visitsPerSecond": 2985143.1418251693,
+       "peakRssMiB": 15.42578125,
+       "tableMiB": 7.146,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "92bde47de1bbc1f865da9d951ca790e25a78522b0e7115ff4efc0c653ec31d46"
+      },
+      "equalTime": {
+       "seconds": 0.233934,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.0033476075005142887,
+        "se": 0.08869212148693288
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.08640957967066666,
+       "se": 0.0796794341999131
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.119709,
+       "deals": 1280,
+       "stateVisits": 335548,
+       "visitsPerSecond": 2803030.6827389756,
+       "peakRssMiB": 15.39453125,
+       "tableMiB": 7.146,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "92bde47de1bbc1f865da9d951ca790e25a78522b0e7115ff4efc0c653ec31d46"
+      },
+      "equalTime": {
+       "seconds": 0.183427,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.0033476075005142887,
+        "se": 0.08869212148693288
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.08640957967066666,
+       "se": 0.0796794341999131
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.136393,
+      "max": 0.202517,
+      "mean": 0.15043866666666666,
+      "ci95": 0.11594059724470247,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.155307,
+      "max": 0.176864,
+      "mean": 0.15062666666666666,
+      "ci95": 0.07170673951798988,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 15.2734375,
+      "max": 15.42578125,
+      "mean": 15.18359375,
+      "ci95": 0.7390048826002152,
+      "n": 3
+     },
+     "3.6": {
+      "median": 15.453125,
+      "max": 15.625,
+      "mean": 15.490885416666666,
+      "ci95": 0.29758543350103916,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 2048,
+      "max": 2048,
+      "mean": 2048,
+      "ci95": 0,
+      "n": 3
+     },
+     "3.6": {
+      "median": 2048,
+      "max": 2048,
+      "mean": 2048,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": -0.019996452814384696,
+      "max": -0.0033476075005142887,
+      "mean": -0.04129542914680115,
+      "ci95": 0.12913620871354453,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.019996452814384696,
+      "max": -0.0033476075005142887,
+      "mean": -0.04129542914680115,
+      "ci95": 0.12913620871354453,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0,
+     "max": 0,
+     "mean": 0,
+     "ci95": 0,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 0.08640957967066666,
+      "max": 0.11518091606843209,
+      "mean": 0.07529945481119804,
+      "ci95": 0.11538283655489666,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.08640957967066666,
+      "max": 0.11518091606843209,
+      "mean": 0.07529945481119804,
+      "ci95": 0.11538283655489666,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Eight-player linked preflop to river",
+   "config": {
+    "preflop": {
+     "mode": "linked",
+     "opens": "2,a",
+     "raises": "2.75x,a",
+     "maxBets": 3
+    },
+    "board": "",
+    "dealt": 8,
+    "common": 0,
+    "stacks": [
+     24.9,
+     18,
+     40,
+     12,
+     30,
+     9,
+     55,
+     20
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,75",
+      "raises": "3x",
+      "maxBets": 2
+     },
+     "turn": {
+      "bets": "66",
+      "raises": "a",
+      "maxBets": 2
+     },
+     "river": {
+      "bets": "75,a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.12486,
+       "deals": 1280,
+       "stateVisits": 388783,
+       "visitsPerSecond": 3113751.401569758,
+       "peakRssMiB": 16.6953125,
+       "tableMiB": 8.055,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "3a2b174d2558f63b90e6fd067521693480f7d84e14c5dcbe24ef6f5c7e0d2e30"
+      },
+      "equalTime": {
+       "seconds": 0.225458,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.1305405208333335,
+        "se": 0.6336852023286024
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.9900071614583332,
+       "se": 0.5393080178995694
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.066225,
+       "deals": 1280,
+       "stateVisits": 388783,
+       "visitsPerSecond": 5870637.976594941,
+       "peakRssMiB": 16.46484375,
+       "tableMiB": 8.055,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "3a2b174d2558f63b90e6fd067521693480f7d84e14c5dcbe24ef6f5c7e0d2e30"
+      },
+      "equalTime": {
+       "seconds": 0.150203,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.1305405208333335,
+        "se": 0.6336852023286024
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.9900071614583332,
+       "se": 0.5393080178995694
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.084767,
+       "deals": 1280,
+       "stateVisits": 389754,
+       "visitsPerSecond": 4597944.954994279,
+       "peakRssMiB": 16.68359375,
+       "tableMiB": 8.08,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "ba91411e840311e56b3d0ca983d90d99ca54a7152d18e0e68229206475399e8e"
+      },
+      "equalTime": {
+       "seconds": 0.176621,
+       "deals": 3072,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.5441178385416677,
+        "se": 0.6978180527889547
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.03460828125000101,
+       "se": 0.5401664956568444
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.07444,
+       "deals": 1280,
+       "stateVisits": 389754,
+       "visitsPerSecond": 5235814.078452445,
+       "peakRssMiB": 16.6640625,
+       "tableMiB": 8.08,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "ba91411e840311e56b3d0ca983d90d99ca54a7152d18e0e68229206475399e8e"
+      },
+      "equalTime": {
+       "seconds": 0.184393,
+       "deals": 3072,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.5441178385416677,
+        "se": 0.6978180527889547
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.03460828125000101,
+       "se": 0.5401664956568444
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.095656,
+       "deals": 1280,
+       "stateVisits": 385695,
+       "visitsPerSecond": 4032104.6249059127,
+       "peakRssMiB": 16.55078125,
+       "tableMiB": 8.005,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "f464b39846959003b2f3deb15ddf754f5806f760c361d7a69b1d2a6ed1dd2246"
+      },
+      "equalTime": {
+       "seconds": 0.204682,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.5745647786458327,
+        "se": 0.6202305066737147
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.1694580078125,
+       "se": 0.498616282009933
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.086006,
+       "deals": 1280,
+       "stateVisits": 385695,
+       "visitsPerSecond": 4484512.708415692,
+       "peakRssMiB": 16.38671875,
+       "tableMiB": 8.005,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "f464b39846959003b2f3deb15ddf754f5806f760c361d7a69b1d2a6ed1dd2246"
+      },
+      "equalTime": {
+       "seconds": 0.18973,
+       "deals": 3072,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.43256038411458375,
+        "se": 0.710129257721179
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.1694580078125,
+       "se": 0.498616282009933
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.095656,
+      "max": 0.12486,
+      "mean": 0.09831866666666667,
+      "ci95": 0.06289162137427619,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.084767,
+      "max": 0.086006,
+      "mean": 0.07899933333333334,
+      "ci95": 0.027527036221409673,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 16.6640625,
+      "max": 16.6953125,
+      "mean": 16.63671875,
+      "ci95": 0.18892540347988523,
+      "n": 3
+     },
+     "3.6": {
+      "median": 16.46484375,
+      "max": 16.68359375,
+      "mean": 16.51171875,
+      "ci95": 0.38231083977096464,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 2048,
+      "max": 3072,
+      "mean": 2389.3333333333335,
+      "ci95": 1468.7573333333335,
+      "n": 3
+     },
+     "3.6": {
+      "median": 3072,
+      "max": 3072,
+      "mean": 2730.6666666666665,
+      "ci95": 1468.7573333333335,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 0.5441178385416677,
+      "max": 0.5745647786458327,
+      "mean": 0.4164077126736114,
+      "ci95": 0.6162049876824873,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.43256038411458375,
+      "max": 0.5441178385416677,
+      "mean": 0.36907291449652835,
+      "ci95": 0.5315818730123454,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0,
+     "max": 0.1420043945312489,
+     "mean": 0.04733479817708297,
+     "ci95": 0.20368163655598806,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 0.1694580078125,
+      "max": 0.9900071614583332,
+      "mean": 0.3980244835069448,
+      "ci95": 1.284618426276229,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.1694580078125,
+      "max": 0.9900071614583332,
+      "mean": 0.3980244835069448,
+      "ci95": 1.284618426276229,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Eight-player preflop shove/call",
+   "config": {
+    "preflop": {
+     "mode": "shove"
+    },
+    "dealt": 8,
+    "common": 0,
+    "board": "",
+    "stacks": [
+     10,
+     6,
+     14,
+     3,
+     9,
+     12,
+     7.5,
+     11
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.055062,
+       "deals": 1280,
+       "stateVisits": 156706,
+       "visitsPerSecond": 2845991.7910718825,
+       "peakRssMiB": 7.265625,
+       "tableMiB": 1.46,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "8e02ddea2521162de539f40867833c1b7ab41c7e49f9cafdd7e3326f8bcea28f"
+      },
+      "equalTime": {
+       "seconds": 0.151837,
+       "deals": 4096,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.1845540364583335,
+        "se": 0.3015738211933519
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.2124186197916669,
+       "se": 0.22430080422978388
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.1318,
+       "deals": 1280,
+       "stateVisits": 156706,
+       "visitsPerSecond": 1188968.13353566,
+       "peakRssMiB": 7.66015625,
+       "tableMiB": 1.46,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "8e02ddea2521162de539f40867833c1b7ab41c7e49f9cafdd7e3326f8bcea28f"
+      },
+      "equalTime": {
+       "seconds": 0.202399,
+       "deals": 5120,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.013883463541666684,
+        "se": 0.30995141755076877
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.2124186197916669,
+       "se": 0.22430080422978388
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.045936,
+       "deals": 1280,
+       "stateVisits": 156287,
+       "visitsPerSecond": 3402277.0811563917,
+       "peakRssMiB": 7.671875,
+       "tableMiB": 1.456,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "40b113c1f6a7a2b84f1e013f80c4d71b03802111b44b1c649bc692f694137581"
+      },
+      "equalTime": {
+       "seconds": 0.166576,
+       "deals": 5120,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.05434570312499976,
+        "se": 0.3079080437670352
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.14165039062500007,
+       "se": 0.24027353958107261
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.040458,
+       "deals": 1280,
+       "stateVisits": 156287,
+       "visitsPerSecond": 3862944.287903505,
+       "peakRssMiB": 7.3125,
+       "tableMiB": 1.456,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "40b113c1f6a7a2b84f1e013f80c4d71b03802111b44b1c649bc692f694137581"
+      },
+      "equalTime": {
+       "seconds": 0.181217,
+       "deals": 6144,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.21225585937500005,
+        "se": 0.31507973969150826
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.14165039062500007,
+       "se": 0.24027353958107261
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.048479,
+       "deals": 1280,
+       "stateVisits": 157011,
+       "visitsPerSecond": 3238742.548319891,
+       "peakRssMiB": 7.39453125,
+       "tableMiB": 1.468,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "d2f0996d30b0dd5da6e2a53d2b3bdaf59fa5f08b93d18dd9887e7b29d423b806"
+      },
+      "equalTime": {
+       "seconds": 0.194204,
+       "deals": 5120,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.13447916666666648,
+        "se": 0.2901943045952973
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.22151692708333373,
+       "se": 0.22455850047588585
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.043006,
+       "deals": 1280,
+       "stateVisits": 157011,
+       "visitsPerSecond": 3650909.1754638883,
+       "peakRssMiB": 7.6640625,
+       "tableMiB": 1.468,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "d2f0996d30b0dd5da6e2a53d2b3bdaf59fa5f08b93d18dd9887e7b29d423b806"
+      },
+      "equalTime": {
+       "seconds": 0.160934,
+       "deals": 4096,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.0008365885416666413,
+        "se": 0.29862982485942013
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.22151692708333373,
+       "se": 0.22455850047588585
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.048479,
+      "max": 0.055062,
+      "mean": 0.04799966666666666,
+      "ci95": 0.01816992797339285,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.045936,
+      "max": 0.1318,
+      "mean": 0.07358066666666667,
+      "ci95": 0.12531176045244077,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 7.3125,
+      "max": 7.39453125,
+      "mean": 7.32421875,
+      "ci95": 0.16209620790840895,
+      "n": 3
+     },
+     "3.6": {
+      "median": 7.6640625,
+      "max": 7.671875,
+      "mean": 7.665364583333333,
+      "ci95": 0.014823786317071529,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 5120,
+      "max": 6144,
+      "mean": 5120,
+      "ci95": 2543.962325322711,
+      "n": 3
+     },
+     "3.6": {
+      "median": 5120,
+      "max": 5120,
+      "mean": 4778.666666666667,
+      "ci95": 1468.7573333333335,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": -0.1845540364583335,
+      "max": 0.13447916666666648,
+      "mean": -0.08744357638888901,
+      "ci95": 0.4787051281315574,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.0008365885416666413,
+      "max": 0.05434570312499976,
+      "mean": 0.013766276041666574,
+      "ci95": 0.08920079941982301,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": -0.1706705729166668,
+     "max": 0.13364257812499986,
+     "mean": -0.1012098524305556,
+     "ci95": 0.5191460678194678,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": -0.2124186197916669,
+      "max": -0.14165039062500007,
+      "mean": -0.1918619791666669,
+      "ci95": 0.10861978718750001,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.2124186197916669,
+      "max": -0.14165039062500007,
+      "mean": -0.1918619791666669,
+      "ci95": 0.10861978718750001,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Four-player flop (3 sizes)",
+   "config": {
+    "board": "Ks8d5h",
+    "dealt": 8,
+    "common": 1.5,
+    "stacks": [
+     60,
+     60,
+     60,
+     60
+    ],
+    "prior": [
+     2.5,
+     2.5,
+     2.5,
+     2.5
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,75,a",
+      "raises": "3x,a",
+      "maxBets": 3
+     },
+     "turn": {
+      "bets": "50,100",
+      "raises": "a",
+      "maxBets": 2
+     },
+     "river": {
+      "bets": "75,150,a",
+      "raises": "a",
+      "maxBets": 2
+     }
+    },
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.026766,
+       "deals": 1280,
+       "stateVisits": 169565,
+       "visitsPerSecond": 6335089.292385862,
+       "peakRssMiB": 8.9140625,
+       "tableMiB": 3.631,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "858088680594b333cbdd15b1540cc188f54c82b521340a387912200893eb7ae6"
+      },
+      "equalTime": {
+       "seconds": 0.193118,
+       "deals": 7168,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -2.7901340332031244,
+        "se": 1.3696150879472233
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.4353986816406243,
+       "se": 1.0315569470663688
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.035261,
+       "deals": 1280,
+       "stateVisits": 169565,
+       "visitsPerSecond": 4808853.97464621,
+       "peakRssMiB": 9.046875,
+       "tableMiB": 3.631,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "858088680594b333cbdd15b1540cc188f54c82b521340a387912200893eb7ae6"
+      },
+      "equalTime": {
+       "seconds": 0.167375,
+       "deals": 7168,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -2.7901340332031244,
+        "se": 1.3696150879472233
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.4353986816406243,
+       "se": 1.0315569470663688
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.04244,
+       "deals": 1280,
+       "stateVisits": 167574,
+       "visitsPerSecond": 3948491.9886899153,
+       "peakRssMiB": 8.99609375,
+       "tableMiB": 3.596,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "4754762b77af62f7937a44d39d55195b8bbc590961f24d33e6e6ba0e6c2f7d63"
+      },
+      "equalTime": {
+       "seconds": 0.165642,
+       "deals": 6144,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -1.1697158203125,
+        "se": 1.2854609574862166
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.770388183593746,
+       "se": 0.9717655648357996
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.04415,
+       "deals": 1280,
+       "stateVisits": 167574,
+       "visitsPerSecond": 3795560.5889014723,
+       "peakRssMiB": 8.8359375,
+       "tableMiB": 3.596,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "4754762b77af62f7937a44d39d55195b8bbc590961f24d33e6e6ba0e6c2f7d63"
+      },
+      "equalTime": {
+       "seconds": 0.15474,
+       "deals": 5120,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 1.3114526367187462,
+        "se": 1.2771958552895444
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.770388183593746,
+       "se": 0.9717655648357996
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.027649,
+       "deals": 1280,
+       "stateVisits": 168402,
+       "visitsPerSecond": 6090708.5247206045,
+       "peakRssMiB": 9.171875,
+       "tableMiB": 3.611,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "e20e5ae83e0661074f2fd66e27d163022c6559b2395380f581a5d4fa5330899e"
+      },
+      "equalTime": {
+       "seconds": 0.171543,
+       "deals": 7168,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.48362109375000095,
+        "se": 1.452568406035407
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.40135839843750176,
+       "se": 0.9984686765120984
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.024585,
+       "deals": 1280,
+       "stateVisits": 168402,
+       "visitsPerSecond": 6849786.455155583,
+       "peakRssMiB": 9.140625,
+       "tableMiB": 3.611,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "e20e5ae83e0661074f2fd66e27d163022c6559b2395380f581a5d4fa5330899e"
+      },
+      "equalTime": {
+       "seconds": 0.157705,
+       "deals": 6144,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.7908134765624999,
+        "se": 1.436416953099013
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.40135839843750176,
+       "se": 0.9984686765120984
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.027649,
+      "max": 0.04415,
+      "mean": 0.032855,
+      "ci95": 0.024325932759896515,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.035261,
+      "max": 0.04244,
+      "mean": 0.03409533333333333,
+      "ci95": 0.02232027395454632,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 8.9140625,
+      "max": 9.171875,
+      "mean": 8.973958333333334,
+      "ci95": 0.43673601659584144,
+      "n": 3
+     },
+     "3.6": {
+      "median": 9.046875,
+      "max": 9.140625,
+      "mean": 9.061197916666666,
+      "ci95": 0.1821577359238519,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 7168,
+      "max": 7168,
+      "mean": 6485.333333333333,
+      "ci95": 2937.514666666667,
+      "n": 3
+     },
+     "3.6": {
+      "median": 6144,
+      "max": 7168,
+      "mean": 6485.333333333333,
+      "ci95": 1468.7573333333335,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 0.48362109375000095,
+      "max": 1.3114526367187462,
+      "mean": -0.3316867675781257,
+      "ci95": 5.388379231082287,
+      "n": 3
+     },
+     "3.6": {
+      "median": -1.1697158203125,
+      "max": 0.7908134765624999,
+      "mean": -1.056345458984375,
+      "ci95": 4.454824983577222,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0,
+     "max": 2.481168457031246,
+     "mean": 0.7246586914062491,
+     "ci95": 3.798346526154068,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 0.40135839843750176,
+      "max": 1.770388183593746,
+      "mean": 0.5787826334635412,
+      "ci95": 2.7664234789969187,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.40135839843750176,
+      "max": 1.770388183593746,
+      "mean": 0.5787826334635412,
+      "ci95": 2.7664234789969187,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Heads-up river",
+   "config": {
+    "board": "Qs9h4d2c7s",
+    "common": 10,
+    "stacks": [
+     40,
+     40
+    ],
+    "ranges": [
+     "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd,Ts8s,AcAd,5h5d",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d,7c7d,AhJh,Kc2s"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,a",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "updates": 20000,
+   "qualityKind": "exact",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.038304,
+       "deals": 20000,
+       "stateVisits": 299469,
+       "visitsPerSecond": 7818217.4185463665,
+       "peakRssMiB": 2.30859375,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "323c745277271875437e65ba1f58525a07d6c144b41a342f258297122910f30f"
+      },
+      "equalTime": {
+       "seconds": 0.150119,
+       "deals": 67392,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.1320445856334862,
+        "exploitabilityBB": 0.11442622518488865
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.16774438818630388,
+       "exploitabilityBB": 0.15162914037643405
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.039412,
+       "deals": 20000,
+       "stateVisits": 299469,
+       "visitsPerSecond": 7598421.8004668625,
+       "peakRssMiB": 2.28515625,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "323c745277271875437e65ba1f58525a07d6c144b41a342f258297122910f30f"
+      },
+      "equalTime": {
+       "seconds": 0.150141,
+       "deals": 68928,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.09615518081794949,
+        "exploitabilityBB": 0.09017068718309784
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.16774438818630388,
+       "exploitabilityBB": 0.15162914037643405
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.042262,
+       "deals": 20000,
+       "stateVisits": 297432,
+       "visitsPerSecond": 7037811.745776348,
+       "peakRssMiB": 2.28125,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "2a46c03e4bcc323006e5fd4b40c7cca3ab52c8b59a6f3acd24c42e6a3e9cc233"
+      },
+      "equalTime": {
+       "seconds": 0.150132,
+       "deals": 56896,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.18072533622948495,
+        "exploitabilityBB": 0.1411499864717396
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.14534457068022189,
+       "exploitabilityBB": 0.12848573567658983
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.036768,
+       "deals": 20000,
+       "stateVisits": 297432,
+       "visitsPerSecond": 8089425.587467362,
+       "peakRssMiB": 2.14453125,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "2a46c03e4bcc323006e5fd4b40c7cca3ab52c8b59a6f3acd24c42e6a3e9cc233"
+      },
+      "equalTime": {
+       "seconds": 0.155912,
+       "deals": 55488,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.12659077450695388,
+        "exploitabilityBB": 0.11899749608831822
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.14534457068022189,
+       "exploitabilityBB": 0.12848573567658983
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.052173,
+       "deals": 20000,
+       "stateVisits": 297692,
+       "visitsPerSecond": 5705863.1859390875,
+       "peakRssMiB": 2.14453125,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "763808476cc769366d6aacb9bb27766e0939b6348a910f4836a731c6fe167a3a"
+      },
+      "equalTime": {
+       "seconds": 0.150111,
+       "deals": 59840,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.0877750117817433,
+        "exploitabilityBB": 0.07674655128549324
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.17892025497401143,
+       "exploitabilityBB": 0.15483188053060548
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.05438,
+       "deals": 20000,
+       "stateVisits": 297692,
+       "visitsPerSecond": 5474292.019124678,
+       "peakRssMiB": 2.16015625,
+       "tableMiB": 0.064,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "763808476cc769366d6aacb9bb27766e0939b6348a910f4836a731c6fe167a3a"
+      },
+      "equalTime": {
+       "seconds": 0.150172,
+       "deals": 63552,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.15881072895525294,
+        "exploitabilityBB": 0.1283990988939243
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.17892025497401143,
+       "exploitabilityBB": 0.15483188053060548
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.038304,
+      "max": 0.052173,
+      "mean": 0.042415,
+      "ci95": 0.02108085724645563,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.042262,
+      "max": 0.05438,
+      "mean": 0.045351333333333334,
+      "ci95": 0.019745135193205646,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 2.14453125,
+      "max": 2.30859375,
+      "mean": 2.19921875,
+      "ci95": 0.23532031250000002,
+      "n": 3
+     },
+     "3.6": {
+      "median": 2.28125,
+      "max": 2.28515625,
+      "mean": 2.2421875,
+      "ci95": 0.17655692254453467,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 59840,
+      "max": 67392,
+      "mean": 60906.666666666664,
+      "ci95": 14963.810070224645,
+      "n": 3
+     },
+     "3.6": {
+      "median": 63552,
+      "max": 68928,
+      "mean": 63125.333333333336,
+      "ci95": 14973.943195845657,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 0.12659077450695388,
+      "max": 0.1320445856334862,
+      "mean": 0.11547012397406113,
+      "ci95": 0.05996990944164278,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.15881072895525294,
+      "max": 0.18072533622948495,
+      "mean": 0.14523041533422912,
+      "ci95": 0.10903801108825112,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": -0.05413456172253106,
+     "max": 0.03588940481553671,
+     "mean": -0.029760291360168,
+     "ci95": 0.14279703337793612,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 0.16774438818630388,
+      "max": 0.17892025497401143,
+      "mean": 0.16400307128017907,
+      "ci95": 0.04247635225617811,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.16774438818630388,
+      "max": 0.17892025497401143,
+      "mean": 0.16400307128017907,
+      "ci95": 0.04247635225617811,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Heads-up turn",
+   "config": {
+    "board": "Qs9h4d2c",
+    "common": 10,
+    "stacks": [
+     40,
+     40
+    ],
+    "ranges": [
+     "AsQd,KhQh,9s9c,JhTh,8d7d,AhKd",
+     "QcJc,TdTc,As4s,KdJd,6s5s,9d8d"
+    ],
+    "streets": {
+     "turn": {
+      "bets": "60",
+      "raises": "",
+      "maxBets": 1
+     },
+     "river": {
+      "bets": "75,a",
+      "raises": "",
+      "maxBets": 1
+     }
+    }
+   },
+   "updates": 20000,
+   "qualityKind": "exact",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.081811,
+       "deals": 20000,
+       "stateVisits": 525700,
+       "visitsPerSecond": 6425786.263460904,
+       "peakRssMiB": 3.14453125,
+       "tableMiB": 0.555,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "86d399ab711e6d91f2601b10d663b28eb2c503fb3d2d64fe96805b5654136b1e"
+      },
+      "equalTime": {
+       "seconds": 0.150248,
+       "deals": 38400,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 1.3944580134318285,
+        "exploitabilityBB": 1.2001745812128126
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 2.290003129619008,
+       "exploitabilityBB": 2.105653938930744
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.056135,
+       "deals": 20000,
+       "stateVisits": 525700,
+       "visitsPerSecond": 9364923.844303912,
+       "peakRssMiB": 3.15625,
+       "tableMiB": 0.555,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "86d399ab711e6d91f2601b10d663b28eb2c503fb3d2d64fe96805b5654136b1e"
+      },
+      "equalTime": {
+       "seconds": 0.150214,
+       "deals": 32576,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 1.5330414918776545,
+        "exploitabilityBB": 1.4274930312631346
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 2.290003129619008,
+       "exploitabilityBB": 2.105653938930744
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.071551,
+       "deals": 20000,
+       "stateVisits": 513022,
+       "visitsPerSecond": 7170018.588139928,
+       "peakRssMiB": 3.0390625,
+       "tableMiB": 0.552,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "443cdc81fa19cf64a76b098109a30f807f37208140d13f24301b3b1546f6fd46"
+      },
+      "equalTime": {
+       "seconds": 0.15026,
+       "deals": 40576,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 1.682402370262727,
+        "exploitabilityBB": 1.4150330393634691
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 2.1867502527117866,
+       "exploitabilityBB": 2.030993737205837
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.085248,
+       "deals": 20000,
+       "stateVisits": 513022,
+       "visitsPerSecond": 6017994.557057057,
+       "peakRssMiB": 2.89453125,
+       "tableMiB": 0.552,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "443cdc81fa19cf64a76b098109a30f807f37208140d13f24301b3b1546f6fd46"
+      },
+      "equalTime": {
+       "seconds": 0.150095,
+       "deals": 21952,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 2.1453540922179375,
+        "exploitabilityBB": 1.8361526744304726
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 2.1867502527117866,
+       "exploitabilityBB": 2.030993737205837
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.110959,
+       "deals": 20000,
+       "stateVisits": 523324,
+       "visitsPerSecond": 4716372.714245803,
+       "peakRssMiB": 3.01953125,
+       "tableMiB": 0.553,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "946a85ce0d5001af27ee20fb3e5fb34336141fea9f034c46ea354763324c7735"
+      },
+      "equalTime": {
+       "seconds": 0.150177,
+       "deals": 37056,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 1.3741863532756367,
+        "exploitabilityBB": 1.155057821953893
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 1.9068243070009445,
+       "exploitabilityBB": 1.796471284391161
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.059088,
+       "deals": 20000,
+       "stateVisits": 523324,
+       "visitsPerSecond": 8856688.329271594,
+       "peakRssMiB": 3.03515625,
+       "tableMiB": 0.553,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "946a85ce0d5001af27ee20fb3e5fb34336141fea9f034c46ea354763324c7735"
+      },
+      "equalTime": {
+       "seconds": 0.15054,
+       "deals": 41088,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 1.2970148853599306,
+        "exploitabilityBB": 1.0882410154370643
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 1.9068243070009445,
+       "exploitabilityBB": 1.796471284391161
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.085248,
+      "max": 0.110959,
+      "mean": 0.09267266666666667,
+      "ci95": 0.039574012998638074,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.059088,
+      "max": 0.071551,
+      "mean": 0.062258,
+      "ci95": 0.020327586207628062,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 3.01953125,
+      "max": 3.14453125,
+      "mean": 3.01953125,
+      "ci95": 0.31054227604037,
+      "n": 3
+     },
+     "3.6": {
+      "median": 3.0390625,
+      "max": 3.15625,
+      "mean": 3.0768229166666665,
+      "ci95": 0.17095624359165187,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 37056,
+      "max": 38400,
+      "mean": 32469.333333333332,
+      "ci95": 22689.545227298833,
+      "n": 3
+     },
+     "3.6": {
+      "median": 40576,
+      "max": 41088,
+      "mean": 38080,
+      "ci95": 11858.922275834231,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 1.3944580134318285,
+      "max": 2.1453540922179375,
+      "mean": 1.6379994863084673,
+      "ci95": 1.091863836452039,
+      "n": 3
+     },
+     "3.6": {
+      "median": 1.5330414918776545,
+      "max": 1.682402370262727,
+      "mean": 1.5041529158334377,
+      "ci95": 0.4827344079882939,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0.07717146791570606,
+     "max": 0.4629517219552104,
+     "mean": 0.13384657047503015,
+     "ci95": 0.7570924383665476,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 2.1867502527117866,
+      "max": 2.290003129619008,
+      "mean": 2.1278592297772465,
+      "ci95": 0.4925485857327042,
+      "n": 3
+     },
+     "3.6": {
+      "median": 2.1867502527117866,
+      "max": 2.290003129619008,
+      "mean": 2.1278592297772465,
+      "ci95": 0.4925485857327042,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Short-stack multiway all-ins (6-seat flop)",
+   "config": {
+    "board": "Td7c2h",
+    "dealt": 8,
+    "common": 1.5,
+    "stacks": [
+     20,
+     35,
+     8,
+     50,
+     14,
+     3
+    ],
+    "prior": [
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5
+    ],
+    "folded": [
+     1,
+     2.5
+    ],
+    "ranges": [
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,a",
+      "raises": "3x,a",
+      "maxBets": 3
+     },
+     "turn": {
+      "bets": "50,g",
+      "raises": "a",
+      "maxBets": 2
+     },
+     "river": {
+      "bets": "75,150",
+      "raises": "a",
+      "maxBets": 2
+     }
+    },
+    "batchDeals": 4,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.018873,
+       "deals": 320,
+       "stateVisits": 46892,
+       "visitsPerSecond": 2484607.6405446935,
+       "peakRssMiB": 4.63671875,
+       "tableMiB": 0.921,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "147f03ca4ea592ba9c93d9e7eb3ee679ed0df224cfefbb2c389346204a68b5d6"
+      },
+      "equalTime": {
+       "seconds": 0.162977,
+       "deals": 3584,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.17849755788838564,
+        "se": 0.609360397415967
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.9449683492826202,
+       "se": 0.6102368241778618
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.022871,
+       "deals": 320,
+       "stateVisits": 46892,
+       "visitsPerSecond": 2050282.0165274802,
+       "peakRssMiB": 5.53125,
+       "tableMiB": 0.921,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "147f03ca4ea592ba9c93d9e7eb3ee679ed0df224cfefbb2c389346204a68b5d6"
+      },
+      "equalTime": {
+       "seconds": 0.161062,
+       "deals": 1792,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.4824803713868069,
+        "se": 0.6142569155354392
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.9449683492826202,
+       "se": 0.6102368241778618
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.014359,
+       "deals": 320,
+       "stateVisits": 47368,
+       "visitsPerSecond": 3298836.96636256,
+       "peakRssMiB": 5.640625,
+       "tableMiB": 1.119,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "edaa33f6c03e302c9d52795018be780c42f1e7304832778f94b4203f5921d93a"
+      },
+      "equalTime": {
+       "seconds": 0.15629,
+       "deals": 3328,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -1.329050997612888,
+        "se": 0.6236992845809491
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.3069619984576744,
+       "se": 0.5772204891989765
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.014147,
+       "deals": 320,
+       "stateVisits": 47368,
+       "visitsPerSecond": 3348271.7183855237,
+       "peakRssMiB": 4.89453125,
+       "tableMiB": 1.119,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "edaa33f6c03e302c9d52795018be780c42f1e7304832778f94b4203f5921d93a"
+      },
+      "equalTime": {
+       "seconds": 0.165493,
+       "deals": 2816,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.04027881175332311,
+        "se": 0.628613746868466
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 1.3069619984576744,
+       "se": 0.5772204891989765
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.01258,
+       "deals": 320,
+       "stateVisits": 47906,
+       "visitsPerSecond": 3808108.1081081084,
+       "peakRssMiB": 4.8828125,
+       "tableMiB": 1.125,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "97ee4d50fa7a2df6fd6516e9edbf0d12e212d1108f4a54f61b6e33eb05226d06"
+      },
+      "equalTime": {
+       "seconds": 0.158189,
+       "deals": 3584,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.016505226475621797,
+        "se": 0.5582511935931791
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.18838558049681445,
+       "se": 0.5610079134094075
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.015202,
+       "deals": 320,
+       "stateVisits": 47906,
+       "visitsPerSecond": 3151295.8821207737,
+       "peakRssMiB": 5.78125,
+       "tableMiB": 1.125,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "97ee4d50fa7a2df6fd6516e9edbf0d12e212d1108f4a54f61b6e33eb05226d06"
+      },
+      "equalTime": {
+       "seconds": 0.158698,
+       "deals": 4096,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.9448182877913445,
+        "se": 0.6025281619626451
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.18838558049681445,
+       "se": 0.5610079134094075
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.014147,
+      "max": 0.018873,
+      "mean": 0.0152,
+      "ci95": 0.008138651398907583,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.015202,
+      "max": 0.022871,
+      "mean": 0.017477333333333334,
+      "ci95": 0.011651623622669706,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 4.8828125,
+      "max": 4.89453125,
+      "mean": 4.8046875,
+      "ci95": 0.36167781994991843,
+      "n": 3
+     },
+     "3.6": {
+      "median": 5.640625,
+      "max": 5.78125,
+      "mean": 5.651041666666667,
+      "ci95": 0.3113499296177214,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 3584,
+      "max": 3584,
+      "mean": 3328,
+      "ci95": 1101.568,
+      "n": 3
+     },
+     "3.6": {
+      "median": 3328,
+      "max": 4096,
+      "mean": 3072,
+      "ci95": 2914.474980226799,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": -0.016505226475621797,
+      "max": 0.17849755788838564,
+      "mean": 0.04057117321981357,
+      "ci95": 0.298214369852507,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.9448182877913445,
+      "max": -0.4824803713868069,
+      "mean": -0.9187832189303465,
+      "ci95": 1.0530746734029588,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0.9283130613157227,
+     "max": 1.2887721858595649,
+     "mean": 0.95935439215016,
+     "ci95": 0.7826812023602645,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 1.3069619984576744,
+      "max": 1.9449683492826202,
+      "mean": 1.1467719760790362,
+      "ci95": 2.2090242894547303,
+      "n": 3
+     },
+     "3.6": {
+      "median": 1.3069619984576744,
+      "max": 1.9449683492826202,
+      "mean": 1.1467719760790362,
+      "ci95": 2.2090242894547303,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Six-player flop",
+   "config": {
+    "board": "Td7c2h",
+    "dealt": 8,
+    "common": 1.5,
+    "stacks": [
+     40,
+     35,
+     30,
+     50,
+     45,
+     26
+    ],
+    "prior": [
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5,
+     2.5
+    ],
+    "ranges": [
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6",
+     "22+,A2s+,K9s+,QTs+,JTs,ATo+,KJo+:0.6"
+    ],
+    "streets": {
+     "flop": {
+      "bets": "33,75",
+      "raises": "3x",
+      "maxBets": 2
+     },
+     "turn": {
+      "bets": "66",
+      "raises": "a",
+      "maxBets": 2
+     },
+     "river": {
+      "bets": "75,a",
+      "raises": "",
+      "maxBets": 1
+     }
+    },
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.16414,
+       "deals": 1280,
+       "stateVisits": 360846,
+       "visitsPerSecond": 2198403.8016327526,
+       "peakRssMiB": 13.35546875,
+       "tableMiB": 7.054,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "70f91e3a4ca6c59edddc46202974ffe4f7b488eef1f2a07a5cad027b7e7f5377"
+      },
+      "equalTime": {
+       "seconds": 0.287079,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.7415053320312499,
+        "se": 1.12938664724928
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.7896529296874991,
+       "se": 1.0883550464172727
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.104989,
+       "deals": 1280,
+       "stateVisits": 360846,
+       "visitsPerSecond": 3436988.6369048185,
+       "peakRssMiB": 13.53125,
+       "tableMiB": 7.054,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "70f91e3a4ca6c59edddc46202974ffe4f7b488eef1f2a07a5cad027b7e7f5377"
+      },
+      "equalTime": {
+       "seconds": 0.189781,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.7415053320312499,
+        "se": 1.12938664724928
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.7896529296874991,
+       "se": 1.0883550464172727
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.103847,
+       "deals": 1280,
+       "stateVisits": 363726,
+       "visitsPerSecond": 3502518.1276300712,
+       "peakRssMiB": 14.0390625,
+       "tableMiB": 7.091,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "6179a00d91114941cbaf26cd676a85637119e286194319141f19bd642b981f61"
+      },
+      "equalTime": {
+       "seconds": 0.227712,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.3750164062499999,
+        "se": 1.0883828271408205
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.7069703320312495,
+       "se": 1.077021378242073
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.084135,
+       "deals": 1280,
+       "stateVisits": 363726,
+       "visitsPerSecond": 4323123.551435193,
+       "peakRssMiB": 13.35546875,
+       "tableMiB": 7.091,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "6179a00d91114941cbaf26cd676a85637119e286194319141f19bd642b981f61"
+      },
+      "equalTime": {
+       "seconds": 0.304144,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.3750164062499999,
+        "se": 1.0883828271408205
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.7069703320312495,
+       "se": 1.077021378242073
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.153117,
+       "deals": 1280,
+       "stateVisits": 358516,
+       "visitsPerSecond": 2341451.3084765244,
+       "peakRssMiB": 13.375,
+       "tableMiB": 7.028,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "e49d828342ef7b1f8be4cbb746b2a30634c1fff98b83c474fa6090bc3d3eb0c9"
+      },
+      "equalTime": {
+       "seconds": 0.203636,
+       "deals": 1024,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": 0.9994915820312485,
+        "se": 0.9689164694441762
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.7361895507812499,
+       "se": 1.0587447626171815
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.107625,
+       "deals": 1280,
+       "stateVisits": 358516,
+       "visitsPerSecond": 3331159.117305459,
+       "peakRssMiB": 13.421875,
+       "tableMiB": 7.028,
+       "workerThreads": 4,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "e49d828342ef7b1f8be4cbb746b2a30634c1fff98b83c474fa6090bc3d3eb0c9"
+      },
+      "equalTime": {
+       "seconds": 0.226603,
+       "deals": 2048,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.49750466796875004,
+        "se": 1.005457472455108
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.7361895507812499,
+       "se": 1.0587447626171815
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.153117,
+      "max": 0.16414,
+      "mean": 0.13379733333333335,
+      "ci95": 0.10772226680266411,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.104989,
+      "max": 0.107625,
+      "mean": 0.105487,
+      "ci95": 0.004813673098861759,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 13.35546875,
+      "max": 13.375,
+      "mean": 13.361979166666666,
+      "ci95": 0.028014322916666667,
+      "n": 3
+     },
+     "3.6": {
+      "median": 13.53125,
+      "max": 14.0390625,
+      "mean": 13.6640625,
+      "ci95": 0.8181717179060167,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 2048,
+      "max": 2048,
+      "mean": 1706.6666666666667,
+      "ci95": 1468.7573333333332,
+      "n": 3
+     },
+     "3.6": {
+      "median": 2048,
+      "max": 2048,
+      "mean": 2048,
+      "ci95": 0,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 0.3750164062499999,
+      "max": 0.9994915820312485,
+      "mean": 0.21100088541666617,
+      "ci95": 2.191213596306546,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.49750466796875004,
+      "max": 0.3750164062499999,
+      "mean": -0.2879978645833334,
+      "ci95": 1.4583192747729512,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0,
+     "max": 1.4969962499999987,
+     "mean": 0.49899874999999955,
+     "ci95": 2.1471916212499984,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": -0.7361895507812499,
+      "max": 0.7069703320312495,
+      "mean": -0.27295738281249987,
+      "ci95": 2.1093601642062136,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.7361895507812499,
+      "max": 0.7069703320312495,
+      "mean": -0.27295738281249987,
+      "ci95": 2.1093601642062136,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Three-player river",
+   "config": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+     30,
+     30,
+     30
+    ],
+    "ranges": [
+     "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc,QhJh,9c9d",
+     "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd,6h6d,4c3c",
+     "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc,6s5s,AdJd"
+    ],
+    "streets": {
+     "river": {
+      "bets": "50,125",
+      "raises": "2.5x",
+      "maxBets": 2
+     }
+    }
+   },
+   "updates": 20000,
+   "qualityKind": "exact",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.120139,
+       "deals": 20000,
+       "stateVisits": 679971,
+       "visitsPerSecond": 5659868.985092268,
+       "peakRssMiB": 2.26953125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "61f21d85a34381570169e6c61a4a5d47c970eac5a9180d1c40cd2629f42e70b0"
+      },
+      "equalTime": {
+       "seconds": 0.151686,
+       "deals": 20544,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.25734662192462654,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.2732153208962833,
+       "exploitabilityBB": null
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.142709,
+       "deals": 20000,
+       "stateVisits": 679971,
+       "visitsPerSecond": 4764738.033340574,
+       "peakRssMiB": 2.39453125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "61f21d85a34381570169e6c61a4a5d47c970eac5a9180d1c40cd2629f42e70b0"
+      },
+      "equalTime": {
+       "seconds": 0.150095,
+       "deals": 25792,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.22548654064792029,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.2732153208962833,
+       "exploitabilityBB": null
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.101701,
+       "deals": 20000,
+       "stateVisits": 683749,
+       "visitsPerSecond": 6723129.566080963,
+       "peakRssMiB": 2.28125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "ab5e377c54d3229cf3a5f0a940f72b680c58902ba21371f9d295c8087b6263df"
+      },
+      "equalTime": {
+       "seconds": 0.150109,
+       "deals": 19392,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.19929669337535838,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.20089422052821782,
+       "exploitabilityBB": null
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.128395,
+       "deals": 20000,
+       "stateVisits": 683749,
+       "visitsPerSecond": 5325355.348728533,
+       "peakRssMiB": 2.26953125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "ab5e377c54d3229cf3a5f0a940f72b680c58902ba21371f9d295c8087b6263df"
+      },
+      "equalTime": {
+       "seconds": 0.150382,
+       "deals": 21760,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.21363093044817738,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.20089422052821782,
+       "exploitabilityBB": null
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.089388,
+       "deals": 20000,
+       "stateVisits": 680397,
+       "visitsPerSecond": 7611726.406229025,
+       "peakRssMiB": 2.26953125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "0000d2d3c5aa2b9141959da4e98db96d4533d51f2fe523592993584834aec41d"
+      },
+      "equalTime": {
+       "seconds": 0.150179,
+       "deals": 27328,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.2324076921221181,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.2832616234649281,
+       "exploitabilityBB": null
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.090394,
+       "deals": 20000,
+       "stateVisits": 680397,
+       "visitsPerSecond": 7527015.067371728,
+       "peakRssMiB": 2.28125,
+       "tableMiB": 0.092,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "0000d2d3c5aa2b9141959da4e98db96d4533d51f2fe523592993584834aec41d"
+      },
+      "equalTime": {
+       "seconds": 0.150116,
+       "deals": 29568,
+       "quality": {
+        "kind": "exact largest unilateral gain",
+        "value": 0.2398585139949887,
+        "exploitabilityBB": null
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "exact largest unilateral gain",
+       "value": 0.2832616234649281,
+       "exploitabilityBB": null
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.120139,
+      "max": 0.128395,
+      "mean": 0.11264066666666667,
+      "ci95": 0.051068426535190725,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.101701,
+      "max": 0.142709,
+      "mean": 0.11160133333333333,
+      "ci95": 0.06838599552628213,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 2.26953125,
+      "max": 2.26953125,
+      "mean": 2.26953125,
+      "ci95": 0,
+      "n": 3
+     },
+     "3.6": {
+      "median": 2.28125,
+      "max": 2.39453125,
+      "mean": 2.3190104166666665,
+      "ci95": 0.16248307291666667,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 21760,
+      "max": 27328,
+      "mean": 23210.666666666668,
+      "ci95": 8986.297855699298,
+      "n": 3
+     },
+     "3.6": {
+      "median": 25792,
+      "max": 29568,
+      "mean": 24917.333333333332,
+      "ci95": 12779.626349788967,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": 0.2324076921221181,
+      "max": 0.25734662192462654,
+      "mean": 0.234461748164974,
+      "ci95": 0.05448181332224703,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.22548654064792029,
+      "max": 0.2398585139949887,
+      "mean": 0.22154724933942246,
+      "ci95": 0.05109250572821817,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0.014334237072819,
+     "max": 0.031860081276706254,
+     "mean": 0.012914498825551549,
+     "ci95": 0.04892623393465878,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": 0.2732153208962833,
+      "max": 0.2832616234649281,
+      "mean": 0.2524570549631431,
+      "ci95": 0.11163711664376348,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.2732153208962833,
+      "max": 0.2832616234649281,
+      "mean": 0.2524570549631431,
+      "ci95": 0.11163711664376348,
+      "n": 3
+     }
+    }
+   }
+  },
+  {
+   "name": "Tournament bubble ICM (4 left, 3 paid, shove/call)",
+   "config": {
+    "preflop": {
+     "mode": "shove"
+    },
+    "dealt": 4,
+    "common": 0,
+    "board": "",
+    "stacks": [
+     12,
+     7,
+     20,
+     4
+    ],
+    "ranges": [
+     "random",
+     "random",
+     "random",
+     "random"
+    ],
+    "icm": {
+     "payouts": [
+      50,
+      30,
+      20
+     ]
+    },
+    "batchDeals": 16,
+    "actionStreams": "deal"
+   },
+   "updates": 80,
+   "qualityKind": "approximate",
+   "rows": [
+    {
+     "seed": 1,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.012973,
+       "deals": 1280,
+       "stateVisits": 37169,
+       "visitsPerSecond": 2865104.447699067,
+       "peakRssMiB": 4.51953125,
+       "tableMiB": 0.51,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "fbb2192ab30c23c3fde2e0e4b4c6e49cfd681ef84574af58cfe38fe634602df8"
+      },
+      "equalTime": {
+       "seconds": 0.152501,
+       "deals": 24576,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.8803086341251152,
+        "se": 0.2542379747816121
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.12450471178061526,
+       "se": 0.15696565704916676
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.015816,
+       "deals": 1280,
+       "stateVisits": 37169,
+       "visitsPerSecond": 2350088.5179565,
+       "peakRssMiB": 5.15625,
+       "tableMiB": 0.51,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "fbb2192ab30c23c3fde2e0e4b4c6e49cfd681ef84574af58cfe38fe634602df8"
+      },
+      "equalTime": {
+       "seconds": 0.151365,
+       "deals": 27648,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.9124054763239144,
+        "se": 0.2541324920427324
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.12450471178061526,
+       "se": 0.15696565704916676
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 2,
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.009751,
+       "deals": 1280,
+       "stateVisits": 37200,
+       "visitsPerSecond": 3814993.3340170244,
+       "peakRssMiB": 5.140625,
+       "tableMiB": 0.509,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "b71cc5835bd6a7c9bc37499ef40e7a0f03065106b5fa0428f428d34a40e8aebd"
+      },
+      "equalTime": {
+       "seconds": 0.158262,
+       "deals": 24576,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.41801022411641364,
+        "se": 0.25363093014242655
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.031922563118485854,
+       "se": 0.144414893615139
+      }
+     },
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.023609,
+       "deals": 1280,
+       "stateVisits": 37200,
+       "visitsPerSecond": 1575670.2952263965,
+       "peakRssMiB": 4.51953125,
+       "tableMiB": 0.509,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "b71cc5835bd6a7c9bc37499ef40e7a0f03065106b5fa0428f428d34a40e8aebd"
+      },
+      "equalTime": {
+       "seconds": 0.156556,
+       "deals": 19456,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.47203824321920473,
+        "se": 0.244581965078401
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": -0.031922563118485854,
+       "se": 0.144414893615139
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    },
+    {
+     "seed": 3,
+     "3.5": {
+      "equalUpdates": {
+       "seconds": 0.008501,
+       "deals": 1280,
+       "stateVisits": 37144,
+       "visitsPerSecond": 4369368.309610634,
+       "peakRssMiB": 4.51953125,
+       "tableMiB": 0.508,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "8fb8684254194a888b41a83ca235f098608784d414f7ab1ecbf7c7dba15735f8"
+      },
+      "equalTime": {
+       "seconds": 0.153008,
+       "deals": 22528,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.5377381693864975,
+        "se": 0.2471676336318811
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.16210115667973424,
+       "se": 0.14809813765073052
+      }
+     },
+     "3.6": {
+      "equalUpdates": {
+       "seconds": 0.007576,
+       "deals": 1280,
+       "stateVisits": 37144,
+       "visitsPerSecond": 4902851.108764519,
+       "peakRssMiB": 5.16796875,
+       "tableMiB": 0.508,
+       "workerThreads": 1,
+       "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+       "gpuBufferPeakBytes": 0,
+       "bodySHA256": "8fb8684254194a888b41a83ca235f098608784d414f7ab1ecbf7c7dba15735f8"
+      },
+      "equalTime": {
+       "seconds": 0.157873,
+       "deals": 26624,
+       "quality": {
+        "kind": "approximate seat-0 trained-response gain (paired holdout)",
+        "value": -0.6280294647604506,
+        "se": 0.23735836615783978
+       }
+      },
+      "equalUpdatesQuality": {
+       "kind": "approximate seat-0 trained-response gain (paired holdout)",
+       "value": 0.16210115667973424,
+       "se": 0.14809813765073052
+      }
+     },
+     "identicalTablesAtEqualUpdates": true
+    }
+   ],
+   "summary": {
+    "identicalTablesAtEqualUpdates": true,
+    "seconds": {
+     "3.5": {
+      "median": 0.012973,
+      "max": 0.023609,
+      "mean": 0.015027666666666668,
+      "ci95": 0.019280314428754785,
+      "n": 3
+     },
+     "3.6": {
+      "median": 0.009751,
+      "max": 0.015816,
+      "mean": 0.011047666666666666,
+      "ci95": 0.010608853813945662,
+      "n": 3
+     }
+    },
+    "peakRssMiB": {
+     "3.5": {
+      "median": 4.51953125,
+      "max": 4.51953125,
+      "mean": 4.51953125,
+      "ci95": 0,
+      "n": 3
+     },
+     "3.6": {
+      "median": 5.15625,
+      "max": 5.16796875,
+      "mean": 5.154947916666667,
+      "ci95": 0.03408089474983495,
+      "n": 3
+     }
+    },
+    "equalTimeDeals": {
+     "3.5": {
+      "median": 22528,
+      "max": 24576,
+      "mean": 22186.666666666668,
+      "ci95": 6402.164788584285,
+      "n": 3
+     },
+     "3.6": {
+      "median": 26624,
+      "max": 27648,
+      "mean": 26282.666666666668,
+      "ci95": 3885.966640302399,
+      "n": 3
+     }
+    },
+    "equalTimeQuality": {
+     "3.5": {
+      "median": -0.5377381693864975,
+      "max": -0.47203824321920473,
+      "mean": -0.6300283489102725,
+      "ci95": 0.544627260710432,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.6280294647604506,
+      "max": -0.41801022411641364,
+      "mean": -0.6528150550669262,
+      "ci95": 0.616433400788107,
+      "n": 3
+     }
+    },
+    "equalTimeQualityPairedReduction": {
+     "median": 0.03209684219879927,
+     "max": 0.09029129537395308,
+     "mean": 0.022786706156653753,
+     "ci95": 0.18038459832217674,
+     "n": 3
+    },
+    "equalUpdatesQuality": {
+     "3.5": {
+      "median": -0.031922563118485854,
+      "max": 0.16210115667973424,
+      "mean": 0.0018912939268777111,
+      "ci95": 0.3633701435754633,
+      "n": 3
+     },
+     "3.6": {
+      "median": -0.031922563118485854,
+      "max": 0.16210115667973424,
+      "mean": 0.0018912939268777111,
+      "ci95": 0.3633701435754633,
+      "n": 3
+     }
+    }
+   }
+  }
+ ]
+}

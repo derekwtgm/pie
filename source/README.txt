@@ -1,4 +1,195 @@
-EightMax 2.8 source
+EightMax Windows 5.1 source
+
+Read ../RELEASE-5.1.md and ../validation/5.1/README.md for 5.1. 5.1 additions and changes:
+  native/route_reuse.hpp     routeMeasureCovers(): reuse window of a CPU or device route measurement
+  native/score_schedule.hpp  route measurements per engine (mode, GPU budget, 256-use expiry, cleared on
+                             failure), recalibration reasons, driver-init / scoring / device seconds,
+                             EM_ROUTE_REUSE=0 (exact size), test-only EM_TEST_CPU_SCORE_NS, EM_TEST_ROUTE_TRACE
+  native/mw.cpp, mw_es_impl.hpp, checkpoint_native.hpp, analytics.hpp
+                             experimental batchSchedule {start, doubleEvery} (deal-weighted; dealsBefore()
+                             consistency check), mw_last_query_telemetry()
+  native/ev_control.hpp, mwcli.cpp  evaluator telemetry in the EM_QUERY_TIMING line (stop observed, longest
+                             check gap with site and time)
+  tests/v51.test.js tests/route51.cpp tests/stall51.c tests/cuda_driver_fixture.cpp (launch/lane costs)
+  tests/v40.test.js          failure messages carry the telemetry (thresholds unchanged)
+  tools/devices51.js convergence51.js decide51.js diagnose51.js deadline51.js sanitize51.sh
+  tools/test_devices.ps1 (-Repeats, medians, reuse fields) tools/run_tests.js (failure details)
+  .github/workflows/windows.yml (packages RELEASE-5.1.md; v51 in the GCC/Clang job)
+Toolchains for 5.1: as 5.0 (Ubuntu 24.04, Node 22, GCC 13.3, Clang 18.1, MinGW-w64 GCC 13.2 posix for the
+release executables, Python 3.12+, Wine 9.0 for tests). Windows CI: MSYS2 UCRT64 GCC. No CUDA toolkit needed.
+Build (from source/), byte-reproducible:
+  node tools/build.js && sh native/build.sh linux && sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+  sh tools/sanitize51.sh . /tmp/san51          (ASan+UBSan and TSan; Linux; includes the 5.0 pass)
+  python3 tools/package36.py .. ../release/EightMax-Windows-5.1.zip   (from source/, after copying the
+                             executables, EightMax-Offline.html and build-info.json to the root)
+Studies (each writes JSON with raw per-seed data):
+  node tools/convergence51.js build/linux/mwcli out.json --arms=default,parallel64,warm-4-256 --seeds=40 --seed-offset=700 ...
+  node tools/decide51.js out.json decision.json        (applies validation/5.1/six-player/preregistration.json)
+  node tools/devices51.js out.json --arm=v5.0:<5.0 mwcli> --arm=v5.1:build/linux/mwcli --fixture-dir=<dir with libcuda.so.1>
+  node tools/deadline51.js build/linux/mwcli out.json --trials=100 --contention=0,8 --stall=<built tests/stall51.c>
+
+EightMax Windows 5.0 source
+
+Read ../RELEASE-5.0.md and ../validation/5.0/README.md for 5.0. 5.0 additions and changes:
+  native/score_schedule.hpp  beginScoringCall() (per-call scheduling state on every training path),
+                             schedulingJson(), autoMinScoreSeconds() (EM_AUTO_MIN_SCORE_SECONDS, default 0.5)
+  native/mw.cpp, mw_es_impl.hpp  beginScoringCall at the start of mw_train / es::train; "scheduling" report block
+  native/cuda_score.hpp      test-only EM_TEST_CUDA_LIBRARY (absolute path) on Windows; normal loading unchanged
+  tests/v50.test.js tests/sched50.cpp tests/cuda_driver_fixture.cpp (cuInitCalls counter, builds as a Windows DLL)
+  tools/devices50.js tools/sanitize50.sh tools/convergence48.js (parallel16/64, --threads, corrected equal time)
+  tools/test_devices.ps1 tools/validate_hardware.ps1 (scheduling fields) tools/run_tests.js (names every skip)
+  .github/workflows/windows.yml (toolchain identification, test-double DLL, EM_TEST_CXX, GCC/Clang job)
+Toolchains for 5.0: Ubuntu 24.04, Node 22.23, GCC 13.3, Clang 18.1, MinGW-w64 GCC 13.2 (posix; release
+executables), Python 3.12+, Wine 9.0 (tests only). Windows CI: MSYS2 UCRT64 GCC 16.2. No CUDA toolkit needed.
+Build (from source/), byte-reproducible:
+  node tools/build.js && sh native/build.sh linux && sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+  sh tools/sanitize50.sh . /tmp/san50          (ASan+UBSan and TSan; Linux)
+  python3 tools/package36.py .. ../release/EightMax-Windows-5.0.zip   (from source/, after copying the
+                             executables, EightMax-Offline.html and build-info.json to the root)
+
+EightMax Windows 4.5 source
+
+Read ../RELEASE-4.5.md and ../validation/4.5/README.md for 4.5. 4.5 additions and changes:
+  native/coverage.hpp        emcov::Budget (strict live-byte ledger: reserve before allocate, overflow-
+                             checked); SharedCoverage planned generations (planFor), retired generations
+                             and abandoned replacements accounted / released, status codes, fault
+                             injection hook (failAllocations); WorkerFilter inside the budget;
+                             Coverage (per-seat tables): sketches drawn from the pool
+  native/action_ev.hpp       EvShared::shareCoverage(workers) builds the ledger; coverage.memory JSON;
+                             merged-table path shares the worker pool
+  native/ev_jobs.h           jobs charged memoryMiB + coverageMiB; coverageMiB validated at submission
+  native/ieee_probe.hpp      mw_ieee_sweep (deterministic print/parse sweep with digest)
+  native/mw.cpp              em_parse_double (std::from_chars) installed as the JSON number parser;
+                             experimental chanceSampling "latin" (dealLatin) and opponentExploration
+  native/json.c, json.h      json_number_parser hook (default strtod; the engine replaces it)
+  native/icm.hpp             two-lane SSE2 kernel for five or more live players (bit-identical)
+  native/mwcli.cpp           --ieee-sweep [count] [seed]
+  web/lib_wide.js            passes the experimental options to the native specification; the
+                             JavaScript trainer refuses them
+  tests/v45.test.js tests/coverage45.cpp tests/icm45.cpp
+  tests/fixtures/coverage44_reference.hpp, icm44_reference.hpp   archived 4.4 code (regression references)
+  tools/bench45.js tools/icm_bench45.cpp tools/stability45.js tools/wine45.js tools/sanitize45.sh
+  tools/test_windows.ps1 (section v45; [math]::Abs fix)  tools/validate_hardware.ps1 (section 11)
+
+EightMax Windows 4.4 source
+
+Read ../RELEASE-4.4.md, ../validation/4.4/README.md and ../validation/4.4/NUMERIC-POLICY.md.
+4.4 additions and changes:
+  native/ieee_probe.hpp      jbits()/jbitsArr() (IEEE 754 patterns as hex strings), probe table,
+                             mw_ieee_probe / mw_ieee_verify, ulpDistance()
+  native/coverage.hpp        SharedCoverage (request-wide exact set in growing tiers: lock-free lookups,
+                             inserts under a shared lock, promotion under an exclusive lock, key limit,
+                             lock-free sketches back-filled when the limit is reached) and WorkerFilter; Coverage::countOnly. The 4.2/4.3
+                             Coverage class is unchanged (EM_EV_MERGED_COVERAGE=1 selects it)
+  native/action_ev.hpp       Evaluator key memo: growable direct-mapped cache (was std::unordered_map);
+                             evBits / gainBits; EvShared::covSet; EvalPool::CovSummary (no merge after
+                             the workers stop); deadline.phasesMs; partialResult; Automatic arms in
+                             Evaluator::build(); execution.auto44
+  native/ev_control.hpp      stopNs and phase marks
+  native/showdown_table.hpp  ArmStats44 / AutoArms44 (measured whole-table time per arm)
+  native/mwcli.cpp           --ieee, --ieee-verify, valueBits and auto44 in --session results
+  native/server.c            GET /api/mw/ieee-probe
+  tests/v44.test.js tests/v44_postflop.test.js tests/coverage44.cpp tests/auto44.cpp
+  tools/bench44.js tools/convergence44.js tools/merge_convergence44.js tools/deadline44.js
+  tools/ps_number_model.py   arithmetic model of the PowerShell 5.1 Decimal -> Double cast
+  tools/test_windows.ps1     bit-pattern comparisons, continue-after-failure, v44 section
+  tools/validate_hardware.ps1 bit-pattern comparisons, section 10 (Automatic on a warm device)
+Environment switches added in 4.4: EM_EV_MERGED_COVERAGE=1 (4.3 coverage merge),
+EM_GPU_AUTO_MODEL=4.3 (4.3 Automatic rule). EM_GPU_INIT_ESTIMATE_S now defaults to 0.1.
+Toolchains for 4.4: Ubuntu 24.04, Node 22, GCC 13.3, MinGW-w64 GCC 13 (posix), Python 3.13, Wine 9.0 (tests only).
+No CUDA toolkit is needed: the embedded kernels (score.cu / score_ptx.hpp) are unchanged from 4.1.
+  node tools/build.js && sh native/build.sh linux && CC=x86_64-w64-mingw32-gcc-posix sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+
+EightMax Windows 4.3 source
+
+Read ../RELEASE-4.3.md and ../validation/4.3/README.md for 4.3. 4.3 additions and changes:
+  native/showdown_table.hpp  ShowTable shared by every worker and every response-gain seat of a request
+                             (TableCache), cooperative chunked construction (16,384 boards a chunk),
+                             fullPattern() (branch-free dense rank code), FlatHist (open-addressing
+                             histogram), EvGpu lifecycle (openAsync background start-up, idle buffer
+                             janitor, use counters), autoChoice43() Automatic cost model
+  native/action_ev.hpp       build(): device decision, helper threads within the request's thread
+                             budget, device pull of chunk batches (verification and first batch
+                             reserved before helpers start), fused score+pattern chunks, CPU pattern
+                             counting of device-scored chunks; coverageMiB; tables43 / lifecycle JSON;
+                             mw_gpu_prewarm, mw_gpu_status, mw_ev_cache_clear
+  native/coverage.hpp        16-byte slots, configurable key limit, shared byte pool, HyperLogLog
+                             estimates (reported only once exact counting stopped, labelled approximate)
+  native/ev_control.hpp      Poller::waitCheck (deadline/cancel check while waiting, not counted as work)
+  native/mwcli.cpp           --session spec state plan.json (cold/warm, repeated, concurrent, idle,
+                             cancelled and budget-refused requests in ONE process)
+  native/server.c            EM_GPU_PREWARM=1, GET /api/mw/gpu-status
+  tests/v43.test.js tests/table43.cpp tests/coverage43.cpp
+  tools/bench43.js tools/convergence43.js tools/sessions43/*.json
+  tools/validate_hardware.ps1 (section 9: cold vs warm CUDA), tools/test_windows.ps1 (4.3 checks)
+Environment switches for A/B comparisons: EM_EV_PRIVATE_TABLES=1 (4.2 per-worker tables),
+EM_EV_DIRECT_PATTERNS=1 (4.1 per-board subset patterns), EM_EV_NO_TABLES=1 (3.9 per-board
+enumeration), EM_GPU_BATCH_CHUNKS (1-64, default 8), EM_GPU_IDLE_RELEASE_S (default 60, 0 = never),
+EM_GPU_INIT_ESTIMATE_S (Automatic warm-up, default 0.3 s), EM_GPU_PREWARM=1 (desktop host).
+Toolchains for 4.3: Ubuntu 24.04, Node 22, GCC 13, MinGW-w64 GCC 13 (posix), Python 3.13, Wine 9.0 (tests only).
+No CUDA toolkit is needed: the embedded kernels (score.cu / score_ptx.hpp) are unchanged from 4.1/4.2.
+  node tools/build.js && sh native/build.sh linux && CC=x86_64-w64-mingw32-gcc-posix sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+
+EightMax Windows 4.2 source
+
+Read ../RELEASE-4.2.md and ../validation/4.2/README.md for 4.2. 4.2 additions and changes:
+  native/coverage.hpp        strategy-coverage accounting (unmodified 128-bit keys, merge = set union)
+  native/cuda_score.hpp      primary CUDA context + RAII push/pop guard per call, structured CUDA errors,
+                             process-wide device-memory ledger, budget refusal before any driver call
+  native/showdown_table.hpp  EvGpu (atomic state, bounded waits), failure classes, Automatic rule autoChoice()
+  native/action_ev.hpp       verification under the device lock, per-phase profile, observed device,
+                             gpuBudgetBytes / gpuWaitMs fields, rank patterns by projection
+                             (EM_EV_DIRECT_PATTERNS=1 selects the 4.1 per-board method), EM_COVERAGE_AUDIT=1
+  native/mw.cpp              mwcli --equity: gpuBudgetBytes, gpuRequestedBytes, structured gpuError
+  tests/coverage42.cpp tests/cuda42.cpp tests/v42.test.js tests/cuda_driver_fixture.cpp (now enforces
+                             per-thread current contexts and tracks every device allocation)
+  tools/gpu_stress42.cpp     in-process CUDA stress (built as build/*/gpustress[.exe])
+  tools/bench42.js tools/convergence42.js
+Toolchains for 4.2: Ubuntu 24.04, Node 22, GCC 13, MinGW-w64 GCC 13 (posix), Python 3.13, Wine 9.0 (tests only).
+No CUDA toolkit is needed: the embedded kernels (score.cu / score_ptx.hpp) are unchanged from 4.1.
+  node tools/build.js && sh native/build.sh linux && sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+
+EightMax Windows 3.9 source
+
+Read ../RELEASE-3.9.md and ../validation/3.9/README.md for 3.9. 3.9 additions: native/action_ev.hpp
+(mw_action_ev, mw_response_gain; POST /api/mw/ev, /api/mw/response-gain; mwcli --ev / --gain), strict
+request validation in native/explorer.hpp, EV display in web/lib_explorer.js, tests/v39.test.js,
+tools/scenarios39.js, tools/convergence39.js.
+Read ../RELEASE-3.8.md and ../validation/3.8/README.md for what changed, measurements and reproduction.
+3.8 additions: native/explorer.hpp (mw_node_query, POST /api/mw/node), web/lib_explorer.js (explorer UI),
+restore estimate (mw_es.hpp restoreEstimate, checkpoint_native.hpp), engine caches (icm.hpp, mw_es.hpp,
+mw_es_impl.hpp), mwcli --node / --restore, tools/test_explorer_host.js, tests/v38.test.js.
+Toolchains for 3.8: Ubuntu 24.04, Node 22, GCC 13, MinGW-w64 GCC 13 (posix), Python 3.12, Wine 9.0 (tests only).
+Earlier: ../RELEASE-3.7.md for checkpoint storage and restoration.
+
+HISTORICAL 3.1 BUILD, TEST AND BENCHMARK
+Toolchains used for this release (Ubuntu 24.04): Node 22, GCC 13, MinGW-w64 GCC 13
+(winpthreads, the -posix variant; std::thread is required), Python 3, cppcheck 2.13.
+  node tools/build.js                       # interface + build-info.json
+  sh native/build.sh linux                  # build/linux/eightmax, mwcli
+  sh native/build.sh windows                # build/windows/EightMax.exe, mwcli.exe
+  node tools/run_tests.js report.json       # all suites, per-file limit, counts
+                                            # pass / fail / skip / timeout separately
+  sh tools/sanitize29.sh .                  # -Werror, TSan, ASan+UBSan, cppcheck
+  EM_TEST_MWCLI=/path/to/sanitizer/mwcli node --test tests/v31.test.js
+  sh tools/release.sh                       # full release gate and ZIP
+Benchmarks (build a 3.0 mwcli and tools/timed_training.cpp against each mw.cpp):
+  node tools/bench31.js mwcli30 mwcli31 timed30 timed31 bench31.json
+  node tools/large31.js timed31 large31.json
+CUDA module (needs NVRTC 12.9 and ptxas, e.g. the nvidia-cuda-nvrtc-cu12 and
+nvidia-cuda-nvcc-cu12 wheels; no GPU needed to build):
+  python3 native/gen_ptx.py <libnvrtc.so.12> <ptxas>
+The tests compile the native CLI and the CUDA driver test double once per source
+fingerprint into the OS temp directory (tests/native_build.js).
+New engine files: native/mw_es.hpp (betting rules, state table, workers) and
+native/mw_es_impl.hpp (external-sampling traversal, merge, EMMW4). Protocol and
+state formats: native/MW-PROTOCOL.md.
+
 
 web/       Browser UI, preflop models and shared pot rules. lib_river.js
            implements the multi-street postflop betting tree and alternating

@@ -1,0 +1,23 @@
+TAP version 13
+# In file included from /tmp/ro50/source/native/mw.cpp:1585:
+# /tmp/ro50/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+#    24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+#       |                                                  ^
+# /tmp/ro50/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+#    67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+#       |          ^~~~~
+# Subtest: 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)
+ok 1 - 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)
+  ---
+  duration_ms: 102.504634
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38142.302049

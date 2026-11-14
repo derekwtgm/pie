@@ -1,0 +1,1 @@
+cppcheck 2.13 (--enable=warning,portability,performance --std=c++20) on native/mwcli.cpp including analytics.hpp, mwcli_analytics.hpp, mwcli_selftest47.hpp, emz.hpp: 0 findings

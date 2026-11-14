@@ -1,0 +1,2 @@
+EightMax.exe: NOT digitally signed (no Authenticode certificate table)
+mwcli.exe: NOT digitally signed (no Authenticode certificate table)

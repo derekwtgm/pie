@@ -1,0 +1,65 @@
+== build
+In file included from /home/user/pie/source/native/mw.cpp:1479:
+/home/user/pie/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:66:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+In file included from /home/user/pie/source/native/mw.cpp:1479:
+/home/user/pie/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:66:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+In file included from /home/user/pie/source/native/mw.cpp:1479:
+/home/user/pie/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:66:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+In file included from /home/user/pie/source/native/mw.cpp:1479:
+/home/user/pie/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:66:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+== studies
+== ThreadSanitizer
+{"rounds":3,"completed":15,"cancelled":3,"failures":0,"stateUnchanged":true}
+{"rounds":3,"completed":15,"cancelled":3,"failures":0,"stateUnchanged":true}
+In file included from /home/user/pie/source/native/mw.cpp:1479:
+/home/user/pie/source/native/checkpoint_native.hpp:23:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   23 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:66:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   66 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+tsan push8 device cpu gpuBoards 0 ev [19.15328556721412,16.085082110588402]
+tsan push8 device gpu gpuBoards 753984 ev [19.15328556721412,16.085082110588402]
+tsan push8 device hybrid gpuBoards 592616 ev [19.15328556721412,16.085082110588402]
+== AddressSanitizer + UndefinedBehaviorSanitizer
+{"rounds":2,"completed":10,"cancelled":2,"failures":0,"stateUnchanged":true}
+{"rounds":2,"completed":10,"cancelled":2,"failures":0,"stateUnchanged":true}
+asan push8 cpu ok
+asan push8 gpu ok
+asan push8 hybrid ok
+== tests/v39.test.js and tests/v40.test.js against the ASan+UBSan mwcli
+v39:
+# pass 14
+# fail 0
+# skipped 0
+v40:
+# pass 14
+# fail 0
+# skipped 0
+== cppcheck
+cppcheck findings (all files):
+/home/user/pie/source/native/checkpoint_native.hpp:198:78: style: Array index 'j' is used before limits check. [arrayIndexThenCheck]
+/home/user/pie/source/native/mw_es_impl.hpp:70:3: warning: Member variable 'Walker::cpots' is not initialized in the constructor. [uninitMemberVar]
+cppcheck: no findings in 4.0 evaluation code
+sanitize40: all passed
+exit=0

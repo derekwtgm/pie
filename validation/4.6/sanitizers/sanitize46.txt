@@ -1,0 +1,18 @@
+== build (UBSan+ASan, TSan)
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/san46/ub/eightmax, /tmp/claude-0/san46/ub/mwcli
+sanitized (thread) host: /tmp/claude-0/san46/ts/eightmax, /tmp/claude-0/san46/ts/mwcli
+== UBSan+ASan mwcli: continuation suite (quick)
+"checksPassed":24,"checksFailed":0
+== UBSan+ASan host and CLI: tests/v46.test.js (exit codes, cancellation, ledger, cold Automatic)
+# pass 8
+# fail 0
+# skipped 0
+== ThreadSanitizer host: process memory ledger under concurrent evaluations, job workers and restore
+# pass 4
+# fail 0
+# skipped 0
+host TSan report file: 0 bytes, no ThreadSanitizer warning
+== ThreadSanitizer mwcli: training cancelled from a second thread
+tsan cancellation ok ("iterations":507)
+sanitize46: all passed
+exit=0

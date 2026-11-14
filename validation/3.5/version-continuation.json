@@ -1,0 +1,32 @@
+[
+  {
+    "fixture": "es-six-weighted",
+    "iterations": 30,
+    "bodySHA256": "0fa5436c9e9a0e6fe65ca5cdb8d21e6c77d4aa692eb862ef47dbd3e9a2704d09",
+    "equalCountersAndRows": true
+  },
+  {
+    "fixture": "es-dcfr-six",
+    "iterations": 30,
+    "bodySHA256": "fdbf0af8a082911f0184dfccc6cd686ebd225020f25f6fc771c14b9f790b9687",
+    "equalCountersAndRows": true
+  },
+  {
+    "fixture": "es-grouped-six",
+    "iterations": 30,
+    "bodySHA256": "269bdece7af8a3f608ca69051d552f920b2be2bc226a0e16631291eaf2deb80f",
+    "equalCountersAndRows": true
+  },
+  {
+    "fixture": "es-preflop8",
+    "iterations": 30,
+    "bodySHA256": "f2c22b42d1e321c18426eb4b24c055567d84c1695189abf7fb093c98febca3b8",
+    "equalCountersAndRows": true
+  },
+  {
+    "fixture": "device-turn",
+    "iterations": 30,
+    "bodySHA256": "ca319b652ad391af5f05122dfde703084cc4eb27b0c465e409fe262a216c0801",
+    "equalCountersAndRows": true
+  }
+]

@@ -1,0 +1,220 @@
+{
+ "generated": "2026-11-11T15:41:40.331Z",
+ "cpus": 4,
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "query": {
+  "path": [],
+  "hands": [
+   3
+  ],
+  "range": true,
+  "method": "sampled",
+  "samples": 2000000
+ },
+ "reps": 2,
+ "summary": [
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 1,
+   "n": 2,
+   "minOverrunMs": 12.529,
+   "medianOverrunMs": 12.713,
+   "p90OverrunMs": 12.713,
+   "maxOverrunMs": 12.713
+  },
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 4,
+   "n": 2,
+   "minOverrunMs": 27.147,
+   "medianOverrunMs": 28.023,
+   "p90OverrunMs": 28.023,
+   "maxOverrunMs": 28.023
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 1,
+   "n": 2,
+   "minOverrunMs": 39.05,
+   "medianOverrunMs": 41.366,
+   "p90OverrunMs": 41.366,
+   "maxOverrunMs": 41.366
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 4,
+   "n": 2,
+   "minOverrunMs": 106.973,
+   "medianOverrunMs": 110.471,
+   "p90OverrunMs": 110.471,
+   "maxOverrunMs": 110.471
+  }
+ ],
+ "rows": [
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 112.529,
+   "overrunMs": 12.529,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.372,
+   "checks": 396,
+   "phases": {
+    "workBegin": 0.319576,
+    "stopRaised": 100.207101,
+    "workEnd": 103.986057,
+    "statistics": 103.986225,
+    "coverageMerged": 111.801062,
+    "responseBuilt": 111.879
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 127.147,
+   "overrunMs": 27.147,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 5.767,
+   "checks": 1416,
+   "phases": {
+    "workBegin": 0.292683,
+    "stopRaised": 100.047884,
+    "workEnd": 104.02835,
+    "statistics": 104.028564,
+    "coverageMerged": 124.910268,
+    "responseBuilt": 124.985
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 0,
+   "queryMs": 639.05,
+   "overrunMs": 39.05,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 11.355,
+   "checks": 2740,
+   "phases": {
+    "workBegin": 0.274896,
+    "stopRaised": 600.076168,
+    "workEnd": 604.004653,
+    "statistics": 604.004808,
+    "coverageMerged": 636.704122,
+    "responseBuilt": 636.778
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 0,
+   "queryMs": 710.471,
+   "overrunMs": 110.471,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 22.944,
+   "checks": 8587,
+   "phases": {
+    "workBegin": 0.281322,
+    "stopRaised": 600.038339,
+    "workEnd": 604.255583,
+    "statistics": 604.255829,
+    "coverageMerged": 702.430997,
+    "responseBuilt": 702.742
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 112.713,
+   "overrunMs": 12.713,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 4.294,
+   "checks": 410,
+   "phases": {
+    "workBegin": 0.307937,
+    "stopRaised": 100.183283,
+    "workEnd": 103.948347,
+    "statistics": 103.948412,
+    "coverageMerged": 111.970663,
+    "responseBuilt": 112.046
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 100,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 128.023,
+   "overrunMs": 28.023,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 8.191,
+   "checks": 1389,
+   "phases": {
+    "workBegin": 0.291213,
+    "stopRaised": 100.148006,
+    "workEnd": 104.280822,
+    "statistics": 104.28105,
+    "coverageMerged": 125.337467,
+    "responseBuilt": 125.412
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 1,
+   "rep": 1,
+   "queryMs": 641.366,
+   "overrunMs": 41.366,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 13.377,
+   "checks": 2490,
+   "phases": {
+    "workBegin": 0.331569,
+    "stopRaised": 600.045525,
+    "workEnd": 605.866043,
+    "statistics": 605.866272,
+    "coverageMerged": 638.795052,
+    "responseBuilt": 638.874
+   }
+  },
+  {
+   "build": "w",
+   "limitMs": 600,
+   "threads": 4,
+   "rep": 1,
+   "queryMs": 706.973,
+   "overrunMs": 106.973,
+   "httpStatus": 200,
+   "status": "partial",
+   "maxCheckGapMs": 23.404,
+   "checks": 8734,
+   "phases": {
+    "workBegin": 0.282143,
+    "stopRaised": 600.086907,
+    "workEnd": 604.762525,
+    "statistics": 604.762762,
+    "coverageMerged": 696.87282,
+    "responseBuilt": 697.146
+   }
+  }
+ ],
+ "note": "4.4 development build with the 4.3 coverage path (per-worker tables merged after the stop) and the new deadline.phasesMs instrumentation, before the repair. Shows that the stop is published within 0.2 ms of the limit and that the time until coverageMerged grows with the limit and the thread count. Linux native, 4 CPUs."
+}

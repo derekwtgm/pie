@@ -8,19 +8,10 @@ const read = name => fs.readFileSync(path.join(web, name), 'utf8');
 // every engine and interface source file (sorted paths and contents). The same
 // identifier is embedded in both HTML entry points and compiled into the native
 // host by native/build.sh, so mismatched pieces can be detected.
-const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const VERSION = fs.readFileSync(path.join(root, 'VERSION'), 'utf8').trim();
 if (!/^\d+\.\d+(\.\d+)?$/.test(VERSION)) throw Error('Bad source/VERSION');
-function sourceFiles() {
-  const out = ['VERSION'];
-  for (const dir of ['web', 'native', 'wasm']) for (const f of fs.readdirSync(path.join(root, dir)).sort())
-    if (/\.(js|c|h|cl|py|sh|css|html)$/.test(f)) out.push(dir + '/' + f);
-  return out.sort();
-}
-const hash = crypto.createHash('sha256');
-for (const f of sourceFiles()) { hash.update(f + '\0'); hash.update(fs.readFileSync(path.join(root, f)).toString('utf8').replace(/\r\n/g, '\n')); hash.update('\0'); }
-const BUILD = hash.digest('hex').slice(0, 16);
+const {build:BUILD,files:inputs}=require('./fingerprint')(root);
 const buildInfo='globalThis.EM.BUILD = Object.freeze({version:'+JSON.stringify(VERSION)+',build:'+JSON.stringify(BUILD)+'});';
 
 function compactCharts() {
@@ -67,8 +58,8 @@ function compactDeepCharts() {
   const unpack='const dictionary='+JSON.stringify(dict)+', codes='+JSON.stringify(alphabet)+';\nfor(const key of Object.keys(EM.DEEP_LIB.data)) EM.DEEP_LIB.data[key]=EM.DEEP_LIB.data[key].replace(/~([A-Za-z0-9_-])/g,(_,c)=>dictionary[codes.indexOf(c)]);';
   return source.replace(match[0],()=> 'EM.DEEP_LIB = '+JSON.stringify(charts)+';\n'+unpack);
 }
-const files=['lib_cards','lib_eval','lib_pots','lib_icm','lib_information','lib_checkpoint','lib_eqdata','lib_pushfold','lib_fgs','lib_charts',
-  'lib_postflop','lib_wasm','lib_deep','lib_deeplib','lib_flops','lib_runouts','lib_wide','lib_river','lib_quality','worker'];
+const files=['lib_cards','lib_eval','lib_pots','lib_icm','lib_information','lib_checkpoint','lib_archive','lib_eqdata','lib_pushfold','lib_fgs','lib_charts',
+  'lib_postflop','lib_wasm','lib_deep','lib_deeplib','lib_flops','lib_runouts','lib_wide','lib_river','lib_select','lib_quality','lib_explorer','lib_dashboard','worker'];
 const libParts=files.map(x => x==='lib_charts'?compactCharts():x==='lib_deeplib'?compactDeepCharts():read(x+'.js')).join('\n;\n');
 const lib=libParts+'\n;\n'+buildInfo;
 const app=read('lib_river_ui.js')+'\n;\n'+read('app.js'), css=read('app.css');
@@ -85,5 +76,5 @@ for(const native of [false,true]) {
   fs.writeFileSync(path.join(dest,filename),output);
   console.log(filename,Buffer.byteLength(output),'bytes');
 }
-fs.writeFileSync(path.join(dest,'build-info.json'),JSON.stringify({version:VERSION,build:BUILD,files:sourceFiles()},null,1)+'\n');
+fs.writeFileSync(path.join(dest,'build-info.json'),JSON.stringify({version:VERSION,build:BUILD,files:inputs},null,1)+'\n');
 console.log('EightMax',VERSION,'build',BUILD);

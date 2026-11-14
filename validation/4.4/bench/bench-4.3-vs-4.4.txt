@@ -1,0 +1,27 @@
+repetition 1/7
+repetition 2/7
+repetition 3/7
+repetition 4/7
+repetition 5/7
+repetition 6/7
+repetition 7/7
+exact-ev-final8-1t           v4.3 84.3 ms [75.0-121.4]   v4.4 83.7 ms [73.6-108.5]  ratio 0.994  identical true 
+exact-ev-final8-2t           v4.3 46.5 ms [42.6-61.1]   v4.4 47.2 ms [44.3-60.4]  ratio 1.015  identical true 
+exact-ev-final8-4t           v4.3 33.6 ms [31.4-40.4]   v4.4 35.6 ms [32.2-41.0]  ratio 1.059  identical true 
+exact-gain-final8-4t         v4.3 55.2 ms [50.7-57.3]   v4.4 56.1 ms [53.1-64.9]  ratio 1.016  identical true 
+exact-gain-bubble4-4t        v4.3 2937.8 ms [1768.7-4478.0]   v4.4 4451.9 ms [2544.0-5291.9]  ratio 1.515  identical true 
+exact-gain-flop6-4t          v4.3 3899.5 ms [3740.8-4061.3]   v4.4 3845.4 ms [3602.8-4051.9]  ratio 0.986  identical true 
+exact-gain-shortallin8-4t    v4.3 46.5 ms [40.8-53.0]   v4.4 47.6 ms [38.7-51.5]  ratio 1.024  identical true 
+exact-ev-river3-2t           v4.3 1.5 ms [1.2-1.8]   v4.4 1.7 ms [1.5-2.3]  ratio 1.169  identical true 
+exact-gain-huriver-2t        v4.3 0.3 ms [0.2-0.5]   v4.4 0.3 ms [0.2-0.4]  ratio 0.984  identical true 
+sampled-ev-linked8-4t        v4.3 41.4 ms [38.7-51.8]   v4.4 35.8 ms [30.6-40.7]  ratio 0.864  identical true 
+sampled-ev-linked8-1t        v4.3 34.3 ms [32.8-42.5]   v4.4 33.3 ms [30.6-50.8]  ratio 0.97  identical true 
+sampled-ev-wide3-4t          v4.3 1189.9 ms [1104.5-1258.5]   v4.4 1031.4 ms [996.4-1116.0]  ratio 0.867  identical true 
+sampled-gain-linked8-4t      v4.3 8477.1 ms [7794.3-8661.5]   v4.4 8048.6 ms [7454.7-8295.7]  ratio 0.949  identical true 
+deadline-250-linked8-4t      v4.3 313.2 ms [309.2-328.4]   v4.4 256.2 ms [255.4-258.7]  ratio 0.818  identical null 
+throughput-3000-linked8-4t   v4.3 3199.2 ms [3190.8-3217.0]   v4.4 3010.3 ms [3009.9-3014.8]  ratio 0.941  identical null  samples 383784 vs 389127
+throughput-3000-linked8-1t   v4.3 3092.0 ms [3090.4-3106.8]   v4.4 3008.3 ms [3007.2-3008.5]  ratio 0.973  identical null  samples 103162 vs 94749
+cancel-150-linked8-4t        v4.3 3.6 ms [3.1-3.9]   v4.4 2.4 ms [1.8-3.1]  ratio 0.667  identical null 
+train-final8                 v4.3 905.9 ms [847.8-1001.7]   v4.4 869.2 ms [789.9-973.8]  ratio 0.96  identical true 
+train-flop6                  v4.3 157.1 ms [140.4-179.0]   v4.4 152.6 ms [144.5-187.3]  ratio 0.972  identical true 
+train-linked8                v4.3 173.4 ms [168.3-186.3]   v4.4 196.3 ms [171.4-231.0]  ratio 1.132  identical true 

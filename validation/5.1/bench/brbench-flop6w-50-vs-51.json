@@ -1,0 +1,64 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-14T18:03:55.664Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "method": "exact",
+ "rounds": 5,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v5.0",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli50",
+   "env": {}
+  },
+  {
+   "name": "v5.1",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli51final-pre",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "flop6w",
+   "description": "Six-player flop, weighted three-hand ranges, two bet sizes (half pot, all-in), side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.806360217590185,
+   "arms": [
+    {
+     "name": "v5.0",
+     "medianSec": 11.592638033,
+     "minSec": 11.077830085,
+     "seconds": [
+      11.934146595,
+      11.515854015,
+      11.077830085,
+      11.592638033,
+      11.972439011
+     ],
+     "peakRssMiB": 28.94921875
+    },
+    {
+     "name": "v5.1",
+     "medianSec": 11.854533997,
+     "minSec": 11.508274206,
+     "seconds": [
+      11.854533997,
+      11.546952508,
+      11.508274206,
+      11.995813464,
+      12.472458514
+     ],
+     "peakRssMiB": 28.5390625,
+     "timeRatioToFirst": 1.0220857710517879,
+     "ratio95": [
+      0.9943662958197468,
+      1.0505779688814971
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  }
+ ]
+}

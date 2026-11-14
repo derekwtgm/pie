@@ -1,0 +1,40 @@
+== build mwcli with UBSan+ASan
+embedded 1028354 bytes
+embedded 156782 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/san50f/ub/eightmax, /tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/san50f/ub/mwcli
+EightMaxBuild=9ee5a8be32f5146e
+== UBSan+ASan: mwcli --selftest47
+{"tool":"mwcli selftest47","build":"9ee5a8be32f5146e","checksPassed":10,"checksFailed":0,"passed":true,"report":"/tmp/cl
+== UBSan+ASan: mwcli --selftest48
+{"tool":"mwcli selftest48","build":"9ee5a8be32f5146e","passed":9,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c579
+== UBSan+ASan: mwcli --selftest49
+{"tool":"mwcli selftest49","build":"9ee5a8be32f5146e","passed":15,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c57
+== UBSan+ASan: EMZ1 corruption fuzz (300 cases)
+fuzz (train from a damaged EMZ1): refused 300 accepted 0 other 0
+== UBSan+ASan CLI: tests/v49.test.js and tests/v50.test.js
+# pass 14
+# fail 0
+# skipped 1
+== sched50 harness (consecutive training calls, scheduler) under ASan+UBSan and TSan
+In file included from /home/user/pie/source/native/mw.cpp:1585:
+/home/user/pie/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+In file included from /home/user/pie/source/native/mw.cpp:1585:
+/home/user/pie/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+  auto: "bodySha256":"d06244626a72b9ba
+  gpu: "bodySha256":"d06244626a72b9ba
+sanitize50: all passed
+
+real	21m42.556s
+user	43m33.713s
+sys	0m31.102s
+exit 0

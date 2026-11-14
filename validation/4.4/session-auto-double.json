@@ -1,0 +1,4993 @@
+{
+ "note": "Linux CUDA driver TEST DOUBLE (simulated driver: the kernel source executed on the CPU). No physical GPU. Timings of the device arms have no meaning for real hardware; this file shows that Automatic measures the three arms, that every request returns identical values whichever arm built the table, and the arm statistics it keeps.",
+ "plan": {
+  "mode": "ev",
+  "request": {
+   "path": [],
+   "hands": [
+    0
+   ],
+   "method": "exact",
+   "device": "auto",
+   "maxVisits": 2000000000,
+   "threads": 2,
+   "gpuMiB": 2048
+  },
+  "steps": [
+   {
+    "label": "warm the device",
+    "request": {
+     "path": [],
+     "hands": [
+      0
+     ],
+     "method": "exact",
+     "device": "gpu",
+     "maxVisits": 2000000000,
+     "threads": 2,
+     "gpuMiB": 2048
+    }
+   },
+   {
+    "label": "auto",
+    "repeat": 40
+   }
+  ]
+ },
+ "session": {
+  "tool": "mwcli session 4.3",
+  "build": "b1b5764df465ea31",
+  "mode": "ev",
+  "steps": [
+   {
+    "label": "warm the device",
+    "concurrent": 1,
+    "idleMsBefore": 0,
+    "runs": [
+     {
+      "wallMs": 266.995,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 266.994,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu+gpu",
+        "gpuBoards": 311456,
+        "cpuBoards": 65536,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0103,
+         "patternCounting": 0.0315,
+         "cudaStartup": 0.0001,
+         "gpuVerification": 0.0487,
+         "gpuUploadAndLaunch": 0.2293,
+         "gpuKernelAndDownload": 0.0018,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.2453
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 65536,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.2453,
+         "helperThreads": 0,
+         "gpuBatches": 4,
+         "gpuScoredChunksPatternedByCpu": 20,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": []
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 72.477,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 4,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.966
+        }
+       }
+      ]
+     }
+    ],
+    "gpuAfter": {
+     "attempted": true,
+     "opening": false,
+     "available": true,
+     "verified": true,
+     "opens": 1,
+     "backgroundOpens": 0,
+     "openSeconds": 0.0001,
+     "verifications": 1,
+     "uses": 4,
+     "idleBufferReleases": 0,
+     "idleReleaseSeconds": 60.0,
+     "secondsSinceLastUse": 0.017,
+     "processDeviceBytes": 4196903,
+     "processPeakDeviceBytes": 4196903,
+     "cpuNsPerEval": 19.664,
+     "gpuNsPerEval": 72.477,
+     "batchFixedSeconds": 0.036713,
+     "cpuFusedNsPerEval": 19.966
+    }
+   },
+   {
+    "label": "auto",
+    "concurrent": 1,
+    "idleMsBefore": 0,
+    "runs": [
+     {
+      "wallMs": 227.411,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 227.411,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "gpu",
+        "gpuBoards": 376992,
+        "cpuBoards": 0,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0,
+         "patternCounting": 0.0487,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0.1986,
+         "gpuKernelAndDownload": 0.0018,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.2056
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.2056,
+         "helperThreads": 0,
+         "gpuBatches": 3,
+         "gpuScoredChunksPatternedByCpu": 24,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 0,
+          "gpuPreferred": 1,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 1,
+           "fastest": "gpuPreferred",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 1,
+             "chosen": 1,
+             "meanNsPerEvaluation": 68.1523
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 69.482,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 7,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.966
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 226.094,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 226.094,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "gpu",
+        "gpuBoards": 376992,
+        "cpuBoards": 0,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0,
+         "patternCounting": 0.033,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0.2015,
+         "gpuKernelAndDownload": 0.0018,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.2075
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.2075,
+         "helperThreads": 0,
+         "gpuBatches": 3,
+         "gpuScoredChunksPatternedByCpu": 24,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 0,
+          "gpuPreferred": 1,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 2,
+           "fastest": "gpuPreferred",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.398,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 10,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.966
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 88.108,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 88.108,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu+gpu",
+        "gpuBoards": 131072,
+        "cpuBoards": 245920,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0384,
+         "patternCounting": 0.018,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0.0695,
+         "gpuKernelAndDownload": 0.0006,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0752
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0752,
+         "helperThreads": 0,
+         "gpuBatches": 1,
+         "gpuScoredChunksPatternedByCpu": 8,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 1,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 3,
+           "fastest": "gpuPull",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 1,
+             "chosen": 1,
+             "meanNsPerEvaluation": 24.9164
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.098,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 11,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.863
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 87.214,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 87.214,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu+gpu",
+        "gpuBoards": 131072,
+        "cpuBoards": 245920,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.047,
+         "patternCounting": 0.0187,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0.0676,
+         "gpuKernelAndDownload": 0.0006,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.073
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.073,
+         "helperThreads": 0,
+         "gpuBatches": 1,
+         "gpuScoredChunksPatternedByCpu": 8,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 1,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 4,
+           "fastest": "gpuPull",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 0,
+             "chosen": 0,
+             "meanNsPerEvaluation": 0
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.495
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.158,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.157,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.052,
+         "patternCounting": 0.0094,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0272
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0272,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 5,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 1,
+             "chosen": 1,
+             "meanNsPerEvaluation": 9.0116
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.418
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 39.621,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 39.621,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0526,
+         "patternCounting": 0.0093,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0268
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0268,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 6,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 8.9742
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.37
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 51.14,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 51.14,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0649,
+         "patternCounting": 0.012,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0332
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0332,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 7,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 9.5773
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 24.749
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 53.71,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 53.71,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0702,
+         "patternCounting": 0.0112,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0368
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0368,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 8,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 4,
+             "chosen": 4,
+             "meanNsPerEvaluation": 10.358
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 23.706
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 39.337,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 39.337,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0511,
+         "patternCounting": 0.0091,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0266
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0266,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 9,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 5,
+             "chosen": 5,
+             "meanNsPerEvaluation": 9.8933
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.449
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 44.666,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 44.665,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0564,
+         "patternCounting": 0.0104,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0289
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0289,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 10,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 6,
+             "chosen": 6,
+             "meanNsPerEvaluation": 9.7927
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 20.458
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 39.439,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 39.438,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0502,
+         "patternCounting": 0.0092,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0263
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0263,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 11,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 7,
+             "chosen": 7,
+             "meanNsPerEvaluation": 9.4679
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.047
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 42.427,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 42.426,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0547,
+         "patternCounting": 0.0098,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0287
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0287,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 12,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 8,
+             "chosen": 8,
+             "meanNsPerEvaluation": 9.4742
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 20.508
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 45.436,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 45.435,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0622,
+         "patternCounting": 0.0096,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0322
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0322,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 13,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 9,
+             "chosen": 9,
+             "meanNsPerEvaluation": 9.8284
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.826
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.274,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.273,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0534,
+         "patternCounting": 0.01,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0271
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0271,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 14,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 10,
+             "chosen": 10,
+             "meanNsPerEvaluation": 9.5738
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.015
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.131,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.13,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.054,
+         "patternCounting": 0.009,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0274
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0274,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 15,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 11,
+             "chosen": 11,
+             "meanNsPerEvaluation": 9.4212
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.176
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 46.834,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 46.833,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0651,
+         "patternCounting": 0.0096,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0329
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0329,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 16,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 12,
+             "chosen": 12,
+             "meanNsPerEvaluation": 9.8649
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 24.7105
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 67.494,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 12,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 20.96
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 93.101,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 93.101,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu+gpu",
+        "gpuBoards": 131072,
+        "cpuBoards": 245920,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0338,
+         "patternCounting": 0.0181,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0.074,
+         "gpuKernelAndDownload": 0.0006,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0787
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0787,
+         "helperThreads": 0,
+         "gpuBatches": 1,
+         "gpuScoredChunksPatternedByCpu": 8,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 0,
+          "gpuPull": 1,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 0
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 17,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 12,
+             "chosen": 12,
+             "meanNsPerEvaluation": 9.8649
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.467
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.154,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.154,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0538,
+         "patternCounting": 0.0098,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0279
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0279,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 18,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 13,
+             "chosen": 13,
+             "meanNsPerEvaluation": 9.6777
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.125
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.296,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.296,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0552,
+         "patternCounting": 0.0097,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0281
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0281,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 19,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 14,
+             "chosen": 14,
+             "meanNsPerEvaluation": 9.5686
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 21.533
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 45.536,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 45.535,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0624,
+         "patternCounting": 0.0097,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0322
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0322,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 20,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 15,
+             "chosen": 15,
+             "meanNsPerEvaluation": 9.8958
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.257
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.178,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.177,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.053,
+         "patternCounting": 0.0101,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0274
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0274,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 21,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 16,
+             "chosen": 16,
+             "meanNsPerEvaluation": 9.642
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.555
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.705,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.705,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0563,
+         "patternCounting": 0.0092,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0288
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0288,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 22,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 17,
+             "chosen": 17,
+             "meanNsPerEvaluation": 9.6049
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.894
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 44.122,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 44.122,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0552,
+         "patternCounting": 0.0101,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0286
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0286,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 23,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 18,
+             "chosen": 18,
+             "meanNsPerEvaluation": 9.567
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.046
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.823,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.822,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0529,
+         "patternCounting": 0.0097,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0275
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0275,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 24,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 19,
+             "chosen": 19,
+             "meanNsPerEvaluation": 9.4271
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.927
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.789,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.788,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0533,
+         "patternCounting": 0.0094,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0276
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0276,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 25,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 20,
+             "chosen": 20,
+             "meanNsPerEvaluation": 9.3322
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.411
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.45,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.45,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0531,
+         "patternCounting": 0.0095,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0271
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0271,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 26,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 21,
+             "chosen": 21,
+             "meanNsPerEvaluation": 9.2193
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.731
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.403,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.402,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0519,
+         "patternCounting": 0.0098,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0272
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0272,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 27,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 22,
+             "chosen": 22,
+             "meanNsPerEvaluation": 9.1488
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.955
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 43.613,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 43.613,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0571,
+         "patternCounting": 0.0108,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0296
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0296,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 28,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 23,
+             "chosen": 23,
+             "meanNsPerEvaluation": 9.3368
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 21.821
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 44.953,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 44.952,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0615,
+         "patternCounting": 0.0107,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0313
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0313,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 29,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 24,
+             "chosen": 24,
+             "meanNsPerEvaluation": 9.6423
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 19.958
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.299,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.299,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0552,
+         "patternCounting": 0.0099,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.028
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.028,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 30,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 25,
+             "chosen": 25,
+             "meanNsPerEvaluation": 9.5241
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 21.357
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.57,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.569,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0536,
+         "patternCounting": 0.01,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0275
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0275,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 31,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 26,
+             "chosen": 26,
+             "meanNsPerEvaluation": 9.4026
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.499
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 45.957,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 45.957,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0608,
+         "patternCounting": 0.0097,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0324
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0324,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 32,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 27,
+             "chosen": 27,
+             "meanNsPerEvaluation": 9.8009
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 23.939
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.23,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.229,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.052,
+         "patternCounting": 0.0097,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0268
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0268,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 33,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 28,
+             "chosen": 28,
+             "meanNsPerEvaluation": 9.5331
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 17.782
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 40.956,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 40.955,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0541,
+         "patternCounting": 0.0095,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.028
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.028,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 34,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 29,
+             "chosen": 29,
+             "meanNsPerEvaluation": 9.4557
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 18.454
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 48.958,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 48.958,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0599,
+         "patternCounting": 0.0118,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0308
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0308,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 35,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 30,
+             "chosen": 30,
+             "meanNsPerEvaluation": 9.6782
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 21.766
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 53.936,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 53.935,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0666,
+         "patternCounting": 0.0119,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0345
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0345,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 36,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 31,
+             "chosen": 31,
+             "meanNsPerEvaluation": 10.2064
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 23.284
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 41.578,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 41.577,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0544,
+         "patternCounting": 0.0099,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0279
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0279,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 37,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 32,
+             "chosen": 32,
+             "meanNsPerEvaluation": 9.9108
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 20.604
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 51.541,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 51.541,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0662,
+         "patternCounting": 0.0121,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0348
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0348,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 38,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 33,
+             "chosen": 33,
+             "meanNsPerEvaluation": 10.3973
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 25.278
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 53.831,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 53.83,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0719,
+         "patternCounting": 0.012,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0367
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0367,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 39,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 34,
+             "chosen": 34,
+             "meanNsPerEvaluation": 10.935
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 25.98
+        }
+       }
+      ]
+     },
+     {
+      "wallMs": 46.363,
+      "results": [
+       {
+        "status": 200,
+        "queryMs": 46.362,
+        "values": [
+         15.020151348500445,
+         15.670177585564113
+        ],
+        "valueBits": [
+         "402e0a51470d8f36",
+         "402f57218439052d"
+        ],
+        "identicalToFirst": true,
+        "observedDevice": "cpu",
+        "gpuBoards": 0,
+        "cpuBoards": 376992,
+        "gpuErrors": [],
+        "profileSeconds": {
+         "note": "summed over worker threads (CPU-seconds), so parts can exceed the wall time",
+         "cpuTableScoring": 0.0621,
+         "patternCounting": 0.0107,
+         "cudaStartup": 0,
+         "gpuVerification": 0,
+         "gpuUploadAndLaunch": 0,
+         "gpuKernelAndDownload": 0,
+         "gpuLockWait": 0,
+         "sharedTableWait": 0.0316
+        },
+        "scheduling": {
+         "cpuForced": 0,
+         "cpuSmallTable": 0,
+         "cpuGpuWarmup": 0,
+         "cpuGpuSlower": 0,
+         "cpuGpuUnavailable": 0,
+         "cpuGpuBusy": 0,
+         "cpuAfterGpuFailure": 0,
+         "gpuDeclinedTransient": 0,
+         "gpuWaitTimeouts": 0,
+         "gpuVerificationBoards": 0,
+         "gpuWaitMs": 2000,
+         "gpuInitEstimateSeconds": 0,
+         "cpuGpuOpening": 0,
+         "gpuBackgroundOpens": 0,
+         "rule": "auto (4.3): tables below 262,144 seat-board evaluations stay on the CPU. CUDA start-up is never paid inside a table: once this process has spent gpuInitEstimateSeconds scoring tables on the CPU the device is opened on a background thread (cpuGpuWarmup / cpuGpuOpening count tables decided before it was ready). A table then uses the device only if the predicted CPU time of the table (measured ns per evaluation divided by the threads that build it) exceeds 1.25x one measured device batch (upload, kernel, download); the device is verified bit for bit once per process first. The device pulls batches of chunks while CPU threads pull single chunks, so the split adapts to measured speed. gpu: the device scores every chunk it can (a busy device is awaited up to gpuWaitMs) while CPU threads count rank patterns of scored chunks. hybrid: device and CPU threads both pull chunks. A refusal for the GPU budget, the VRAM reserve or out-of-memory sends only that table to the CPU; any other CUDA failure disables the device for the process."
+        },
+        "tables43": {
+         "sharing": "request-wide",
+         "sharedTableHits": 1,
+         "tablesBuiltByThisRequest": 1,
+         "waitsForAnotherWorker": 1,
+         "waitSeconds": 0.0316,
+         "helperThreads": 0,
+         "gpuBatches": 0,
+         "gpuScoredChunksPatternedByCpu": 0,
+         "chunkBoards": 16384,
+         "gpuBatchChunks": 8,
+         "threadBudget": 2
+        },
+        "auto44": {
+         "rule": "measured whole-table time per arm; arms with fewer than 2 measurements are tried first, then the fastest, with 2 of every 32 decisions re-measuring the others",
+         "thisRequest": {
+          "cpu": 1,
+          "gpuPull": 0,
+          "gpuPreferred": 0,
+          "cpuMeasuredFaster": 1
+         },
+         "classes": [
+          {
+           "threads": 2,
+           "log2Evaluations": 21,
+           "decisions": 40,
+           "fastest": "cpu",
+           "arms": [
+            {
+             "arm": "cpu",
+             "measurements": 35,
+             "chosen": 35,
+             "meanNsPerEvaluation": 10.7983
+            },
+            {
+             "arm": "gpuPull",
+             "measurements": 3,
+             "chosen": 3,
+             "meanNsPerEvaluation": 25.1689
+            },
+            {
+             "arm": "gpuPreferred",
+             "measurements": 2,
+             "chosen": 2,
+             "meanNsPerEvaluation": 68.3473
+            }
+           ]
+          }
+         ]
+        },
+        "cuda": {
+         "attempted": true,
+         "available": true,
+         "verified": true,
+         "primaryContext": true,
+         "openSeconds": 0.0001,
+         "cpuNsPerEval": 19.664,
+         "gpuNsPerEval": 68.232,
+         "processDeviceBytes": 4196903,
+         "processPeakDeviceBytes": 4196903,
+         "opens": 1,
+         "backgroundOpens": 0,
+         "verifications": 1,
+         "uses": 13,
+         "idleBufferReleases": 0,
+         "idleReleaseSeconds": 60,
+         "heldBytes": 4196903,
+         "batchFixedSeconds": 0.036713,
+         "cpuFusedNsPerEval": 21.661
+        }
+       }
+      ]
+     }
+    ],
+    "gpuAfter": {
+     "attempted": true,
+     "opening": false,
+     "available": true,
+     "verified": true,
+     "opens": 1,
+     "backgroundOpens": 0,
+     "openSeconds": 0.0001,
+     "verifications": 1,
+     "uses": 13,
+     "idleBufferReleases": 0,
+     "idleReleaseSeconds": 60.0,
+     "secondsSinceLastUse": 1.032,
+     "processDeviceBytes": 4196903,
+     "processPeakDeviceBytes": 4196903,
+     "cpuNsPerEval": 19.664,
+     "gpuNsPerEval": 68.232,
+     "batchFixedSeconds": 0.036713,
+     "cpuFusedNsPerEval": 21.661
+    }
+   }
+  ],
+  "sessionSeconds": 2.5293,
+  "mismatches": 0
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-13T23:05:13.307Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "method": "restricted",
+ "rounds": 3,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v4.8",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli-study",
+   "env": {}
+  },
+  {
+   "name": "v4.9",
+   "exe": "/home/user/pie/source/build/linux/mwcli",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "turn4",
+   "description": "Four-player turn and river, unequal stacks, all-in or check/fold on the turn, half-pot river bet, two hands a seat, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.02108331,
+     "minSec": 0.020824935,
+     "seconds": [
+      0.025065928,
+      0.020824935,
+      0.02108331
+     ],
+     "peakRssMiB": 8.30078125
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.021268653,
+     "minSec": 0.020672125,
+     "seconds": [
+      0.022203056,
+      0.021268653,
+      0.020672125
+     ],
+     "peakRssMiB": 8.27734375,
+     "timeRatioToFirst": 0.960824072154977,
+     "ratio95": [
+      0.8008353362929057,
+      1.1527749286213043
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  },
+  {
+   "key": "flop6",
+   "description": "Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 3.553115934,
+     "minSec": 3.520552291,
+     "seconds": [
+      3.520552291,
+      3.553115934,
+      3.644693794
+     ],
+     "peakRssMiB": 18.09765625
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 3.46361522,
+     "minSec": 3.402841999,
+     "seconds": [
+      3.545094089,
+      3.402841999,
+      3.46361522
+     ],
+     "peakRssMiB": 18.05078125,
+     "timeRatioToFirst": 0.9713430899958845,
+     "ratio95": [
+      0.8983706459329357,
+      1.0502429067046641
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  }
+ ]
+}

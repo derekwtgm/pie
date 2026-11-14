@@ -1,0 +1,22 @@
+train Heads-up river                                 v4.1 0.008 v4.2 0.010 identical true
+train Three-player river                             v4.1 0.012 v4.2 0.011 identical true
+train Six-player flop (grouped fixture)              v4.1 0.023 v4.2 0.021 identical true
+train Eight-player preflop (fixture, full ranges)    v4.1 0.182 v4.2 0.170 identical true
+train Short-stack multiway all-ins (8 seats, ICM)    v4.1 0.029 v4.2 0.029 identical true
+train Tournament bubble ICM (3 seats, side pots)     v4.1 0.009 v4.2 0.010 identical true
+train Eight-player final-table ICM (fixture spec)    v4.1 0.023 v4.2 0.023 identical true
+eval  Heads-up equity (preflop)                                          v4.1 0.613 v4.2 0.610 x1.00 identical true
+eval  Three-player equity (preflop)                                      v4.1 0.477 v4.2 0.491 x0.97 identical true
+eval  Six-player equity (preflop)                                        v4.1 0.210 v4.2 0.204 x1.03 identical true
+eval  Eight-player equity (preflop)                                      v4.1 0.110 v4.2 0.112 x0.98 identical true
+eval  Exact action EV, 8-player root (ICM)                               v4.1 1.260 v4.2 0.084 x14.94 identical true
+eval  Exact action EV, 8-player after two shoves (ICM)                   v4.1 0.451 v4.2 0.081 x5.59 identical true
+eval  Exact action EV, 2 hands per seat, root range (ICM) [1 run]        v4.1 393.518 v4.2 22.530 x17.47 identical true
+eval  Sampled action EV, 8-player (seed 4)                               v4.1 0.529 v4.2 0.537 x0.98 identical true
+eval  Large weighted range, heads-up river exact                         v4.1 0.005 v4.2 0.004 x1.26 identical true
+eval  Exact response gains, 8 seats, 1 thread                            v4.1 16.749 v4.2 0.674 x24.87 identical true
+eval  Exact response gains, 8 seats, 4 threads                           v4.1 4.309 v4.2 0.180 x23.93 identical true
+eval  Restricted response gains, 8 seats (sampled selection)             v4.1 0.054 v4.2 0.055 x0.99 identical true
+eval  Sampled one-decision gains, 8 seats                                v4.1 0.667 v4.2 0.666 x1.00 identical true
+eval  GPU requested, no usable GPU or budget below request: CPU fallback v4.1 1.290 v4.2 0.090 x14.37 identical true
+exit=0

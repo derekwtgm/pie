@@ -1,0 +1,155 @@
+{
+  "kind": "Synthetic physical row values on a trained 8-seat linked topology. Each successful import reconstructs a live solver, then trains it.",
+  "runs": [
+    {
+      "nominalMiB": 128,
+      "rawBytes": 134217667,
+      "wireBytes": 134238951,
+      "rows": 1241603,
+      "status": 200,
+      "restoreSeconds": 1.071,
+      "peakRestoreMiB": 212.76171875,
+      "idleMiB": 4.49609375,
+      "requestedLimits": {
+        "EIGHTMAX_CHECKPOINT_MIB": "4096",
+        "EIGHTMAX_APP_MIB": "8192",
+        "EIGHTMAX_PROCESS_MIB": "8192",
+        "EIGHTMAX_RESTORE_MIB": "6500"
+      },
+      "memory": {
+        "appLimitMiB": 8192,
+        "processLimitMiB": 8192,
+        "residentMiB": 212.5,
+        "multiwayTablesMiB": 200.1,
+        "browserReportedMiB": 0,
+        "availableForTablesMiB": 1103.2,
+        "availableSystemMiB": 8825.3,
+        "systemRamMiB": 9967
+      },
+      "restoredUpdates": 128,
+      "resumedUpdates": 129,
+      "committedDeals": 129,
+      "peakAfterTrainingMiB": 212.76171875
+    },
+    {
+      "nominalMiB": 256,
+      "rawBytes": 268435423,
+      "wireBytes": 268477187,
+      "rows": 2484360,
+      "status": 200,
+      "restoreSeconds": 2.014,
+      "peakRestoreMiB": 412.3984375,
+      "idleMiB": 4.5703125,
+      "requestedLimits": {
+        "EIGHTMAX_CHECKPOINT_MIB": "4096",
+        "EIGHTMAX_APP_MIB": "8192",
+        "EIGHTMAX_PROCESS_MIB": "8192",
+        "EIGHTMAX_RESTORE_MIB": "6500"
+      },
+      "memory": {
+        "appLimitMiB": 8192,
+        "processLimitMiB": 8192,
+        "residentMiB": 412.3,
+        "multiwayTablesMiB": 399.8,
+        "browserReportedMiB": 0,
+        "availableForTablesMiB": 1087.7,
+        "availableSystemMiB": 8701.3,
+        "systemRamMiB": 9967
+      },
+      "restoredUpdates": 128,
+      "resumedUpdates": 129,
+      "committedDeals": 129,
+      "peakAfterTrainingMiB": 412.3984375
+    },
+    {
+      "nominalMiB": 512,
+      "rawBytes": 536870827,
+      "wireBytes": 536953551,
+      "rows": 4969873,
+      "status": 200,
+      "restoreSeconds": 4.081,
+      "peakRestoreMiB": 811.9296875,
+      "idleMiB": 4.578125,
+      "requestedLimits": {
+        "EIGHTMAX_CHECKPOINT_MIB": "4096",
+        "EIGHTMAX_APP_MIB": "8192",
+        "EIGHTMAX_PROCESS_MIB": "8192",
+        "EIGHTMAX_RESTORE_MIB": "6500"
+      },
+      "memory": {
+        "appLimitMiB": 8192,
+        "processLimitMiB": 8192,
+        "residentMiB": 811.6,
+        "multiwayTablesMiB": 799.2,
+        "browserReportedMiB": 0,
+        "availableForTablesMiB": 1046,
+        "availableSystemMiB": 8368.3,
+        "systemRamMiB": 9967
+      },
+      "restoredUpdates": 128,
+      "resumedUpdates": 129,
+      "committedDeals": 129,
+      "peakAfterTrainingMiB": 811.9296875
+    },
+    {
+      "nominalMiB": 1024,
+      "rawBytes": 1073741743,
+      "wireBytes": 1073906387,
+      "rows": 9940900,
+      "status": 200,
+      "restoreSeconds": 8.018,
+      "peakRestoreMiB": 1610.46875,
+      "idleMiB": 4.5,
+      "requestedLimits": {
+        "EIGHTMAX_CHECKPOINT_MIB": "4096",
+        "EIGHTMAX_APP_MIB": "8192",
+        "EIGHTMAX_PROCESS_MIB": "8192",
+        "EIGHTMAX_RESTORE_MIB": "6500"
+      },
+      "memory": {
+        "appLimitMiB": 8192,
+        "processLimitMiB": 8192,
+        "residentMiB": 1610.5,
+        "multiwayTablesMiB": 1598,
+        "browserReportedMiB": 0,
+        "availableForTablesMiB": 947.6,
+        "availableSystemMiB": 7581.1,
+        "systemRamMiB": 9967
+      },
+      "restoredUpdates": 128,
+      "resumedUpdates": 129,
+      "committedDeals": 129,
+      "peakAfterTrainingMiB": 1611.01953125
+    },
+    {
+      "nominalMiB": 2050,
+      "rawBytes": 2149580719,
+      "wireBytes": 2149909523,
+      "rows": 19902372,
+      "status": 200,
+      "restoreSeconds": 16.95,
+      "peakRestoreMiB": 3210.5234375,
+      "idleMiB": 4.5,
+      "requestedLimits": {
+        "EIGHTMAX_CHECKPOINT_MIB": "4096",
+        "EIGHTMAX_APP_MIB": "8192",
+        "EIGHTMAX_PROCESS_MIB": "8192",
+        "EIGHTMAX_RESTORE_MIB": "6500"
+      },
+      "memory": {
+        "appLimitMiB": 8192,
+        "processLimitMiB": 8192,
+        "residentMiB": 3210.4,
+        "multiwayTablesMiB": 3198,
+        "browserReportedMiB": 0,
+        "availableForTablesMiB": 746.5,
+        "availableSystemMiB": 5971.7,
+        "systemRamMiB": 9967
+      },
+      "restoredUpdates": 128,
+      "resumedUpdates": 129,
+      "committedDeals": 129,
+      "peakAfterTrainingMiB": 3210.5234375
+    }
+  ]
+}

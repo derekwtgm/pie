@@ -1,0 +1,20 @@
+{
+ "run": 61, "url": "https://github.com/derekwtgm/pie/actions/runs/43634643150", "commit": "7609665c64e82adceea1ff20cbc5df87c3dca173",
+ "runner": "GitHub Actions windows-latest (Windows Server, no NVIDIA GPU); compiler jobs ubuntu-latest",
+ "build": "7d08acc7eb4577ee", "conclusion": "success (windows, compilers (gcc), compilers (clang))",
+ "regression": {"passed": 478, "failed": 0, "skipped": 33, "timedOut": 0, "hardwareDependentRun": 26, "hardwareDependentSkipped": 31},
+ "otherSteps": {"assembledReleaseVerified": "executables, interface and source 7d08acc7eb4577ee; 1237 SHA-256 entries, ZIP CRC passed",
+   "concurrencyStress": "5 repetitions x 9 tests: all passed, 0 skipped", "powershellParse": "passed", "hardwareValidationScript": "ran on CPU paths; CUDA unavailable (no NVIDIA driver on the runner); all four device states match",
+   "windowsHarness": "Windows-release-test.json in the run artifact (run 60 on the same build: 126 passed, 0 failed, 8/8 sections)"},
+ "skips": {
+  "Linux CUDA driver test double (the Windows DLL double is used by v50/v51 instead)": {"v29": 1, "v31": 3, "v34": 1, "v35": 1, "v36": 1, "v40": 1, "v41": 1, "v42": 8, "v43": 7, "v44": 2, "v49": 1},
+  "sanitizer builds need Linux gcc/clang with ASan/UBSan/TSan (run in tools/sanitize51.sh)": {"v41": 1, "v42": 1, "v44": 1, "v45": 1},
+  "allocation fault injection (Linux only)": {"v33": 1},
+  "POSIX permissions (read-only folder)": {"v49": 1}
+ },
+ "earlierRunsOnThisRelease": {
+  "55/56 (f94a1d7)": "failed: the workflow copied RELEASE-5.1.md, which was not yet committed (v48 check and assemble step)",
+  "57/58 (c6fc195)": "compilers (gcc) failed: tests/v51 original-fixture test assumed <= 3 calibrations; the runner measured 5 (timing-dependent). Replaced by a timing-independent invariant",
+  "59/60 (6d2894b)": "windows failed 1 test: v40 'deadlines hold ...' expected 408, got 200 (push8 exact finished inside 250/600 ms). Test assumption fixed in 7609665"
+ }
+}

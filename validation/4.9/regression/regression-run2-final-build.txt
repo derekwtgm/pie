@@ -1,0 +1,41 @@
+checkpoint.test.js          1.88 s pass 12 fail 0 skip 0 timeout 0
+fgs.test.js                 5.67 s pass 5 fail 0 skip 0 timeout 0
+fingerprint.test.js         0.13 s pass 1 fail 0 skip 0 timeout 0
+information.test.js         0.15 s pass 5 fail 0 skip 0 timeout 0
+mtt.test.js                 2.61 s pass 13 fail 0 skip 0 timeout 0
+multiway.test.js            1.47 s pass 11 fail 0 skip 0 timeout 0
+oracle.test.js             17.97 s pass 3 fail 0 skip 0 timeout 0
+quality.test.js             1.76 s pass 9 fail 0 skip 0 timeout 0
+solver.test.js              2.21 s pass 14 fail 0 skip 0 timeout 0
+upgrades.test.js            2.69 s pass 6 fail 0 skip 0 timeout 0
+v26.test.js                 7.85 s pass 42 fail 0 skip 0 timeout 0
+v27.test.js                 0.69 s pass 9 fail 0 skip 0 timeout 0
+v28.test.js                 0.23 s pass 4 fail 0 skip 0 timeout 0
+v29.test.js                    9 s pass 31 fail 0 skip 0 timeout 0
+v31.test.js                23.33 s pass 42 fail 0 skip 0 timeout 0
+v33.test.js                57.77 s pass 34 fail 0 skip 0 timeout 0
+v34.test.js                11.15 s pass 14 fail 0 skip 0 timeout 0
+v35.test.js                 9.64 s pass 24 fail 0 skip 0 timeout 0
+v36.test.js                15.76 s pass 22 fail 0 skip 0 timeout 0
+v37.test.js                 3.98 s pass 11 fail 0 skip 0 timeout 0
+v38.test.js                 2.52 s pass 8 fail 0 skip 0 timeout 0
+v39.test.js                18.95 s pass 14 fail 0 skip 0 timeout 0
+v40.test.js                21.81 s pass 17 fail 0 skip 0 timeout 0
+v41.test.js                39.85 s pass 15 fail 0 skip 0 timeout 0
+v42.test.js               241.86 s pass 16 fail 0 skip 0 timeout 0
+v43.test.js               290.42 s pass 15 fail 0 skip 0 timeout 0
+v44.test.js                63.32 s pass 15 fail 0 skip 0 timeout 0
+v44_postflop.test.js       26.48 s pass 5 fail 0 skip 0 timeout 0
+v45.test.js               258.82 s pass 10 fail 0 skip 0 timeout 0
+v46.test.js                30.57 s pass 15 fail 0 skip 0 timeout 0
+v47.test.js                26.31 s pass 13 fail 0 skip 0 timeout 0
+v48.test.js               235.88 s pass 21 fail 0 skip 0 timeout 0
+v49.test.js               117.96 s pass 7 fail 0 skip 1 timeout 0
+wide.test.js                 0.8 s pass 7 fail 0 skip 0 timeout 0
+
+Totals: passed 490 failed 0 skipped 1 timed out 0 | hardware-dependent run 49 skipped 0
+
+real	25m51.641s
+user	36m39.443s
+sys	1m53.057s
+done

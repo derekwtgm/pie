@@ -1,0 +1,3 @@
+{"mode":"cpu","build":null,"devicePath":"CPU scoring","rng":4225209845,"calibrations":0,"reuses":0,"batches":100,"cudaOpened":false,"driverInitSeconds":-1,"reasons":{}}
+{"mode":"gpu","build":null,"devicePath":"CPU scoring (measured faster than CUDA for this batch size)","rng":4225209845,"calibrations":1,"reuses":99,"batches":100,"cudaOpened":true,"driverInitSeconds":0.0025368,"reasons":{"first measurement in this job":1}}
+{"mode":"hybrid","build":null,"devicePath":"CPU scoring (measured faster than CUDA for this batch size)","rng":4225209845,"calibrations":1,"reuses":99,"batches":100,"cudaOpened":true,"driverInitSeconds":0.0019023,"reasons":{"first measurement in this job":1}}

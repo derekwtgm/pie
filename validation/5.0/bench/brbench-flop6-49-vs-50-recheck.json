@@ -1,0 +1,129 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-14T04:03:23.608Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "method": "exact",
+ "rounds": 11,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v4.9",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli49",
+   "env": {}
+  },
+  {
+   "name": "v5.0",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/cc50/mwcli",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "flop6",
+   "description": "Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.47493659278170663,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.682542517,
+     "minSec": 0.619254571,
+     "seconds": [
+      0.685334367,
+      0.71784217,
+      0.641659406,
+      0.682542517,
+      0.650017115,
+      0.6632028,
+      0.689925451,
+      0.685422076,
+      0.654629041,
+      0.728140585,
+      0.619254571
+     ],
+     "peakRssMiB": 11.83984375
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.681490091,
+     "minSec": 0.59674245,
+     "seconds": [
+      0.673049114,
+      0.68952318,
+      0.655619206,
+      0.752577701,
+      0.672830872,
+      0.688387654,
+      0.735894883,
+      0.681490091,
+      0.634802447,
+      0.684127467,
+      0.59674245
+     ],
+     "peakRssMiB": 11.89453125,
+     "timeRatioToFirst": 1.0055833111233043,
+     "ratio95": [
+      0.976543488499149,
+      1.0354867013283962
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  },
+  {
+   "key": "flop5",
+   "description": "Five-player flop, unequal stacks (4 to 40 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.24434707676160783,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.141334119,
+     "minSec": 0.130917499,
+     "seconds": [
+      0.141947029,
+      0.14337897,
+      0.144126448,
+      0.144326098,
+      0.141334119,
+      0.141448676,
+      0.140847475,
+      0.130917499,
+      0.139978748,
+      0.140452687,
+      0.139899974
+     ],
+     "peakRssMiB": 7.87109375
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.140148406,
+     "minSec": 0.137850713,
+     "seconds": [
+      0.143135366,
+      0.140096585,
+      0.141085547,
+      0.140108637,
+      0.140148406,
+      0.139680583,
+      0.139886562,
+      0.140520481,
+      0.137850713,
+      0.140981877,
+      0.140943787
+     ],
+     "peakRssMiB": 7.96484375,
+     "timeRatioToFirst": 0.99754912819853,
+     "ratio95": [
+      0.9815720041519054,
+      1.0137863131390283
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  }
+ ]
+}

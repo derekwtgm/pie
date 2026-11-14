@@ -1,0 +1,76 @@
+{
+ "note": "Cross-compiled Windows mwcli.exe executed under Wine 9.0 (wine64) on Linux, compared with the Linux build of the same source and build id. This is not a physical Windows test.",
+ "runs": [
+  {
+   "scenario": "Eight-player final-table",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Eight-player linked",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Eight-player preflop",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Four-player flop",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Heads-up river",
+   "updates": 3000,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Heads-up turn",
+   "updates": 3000,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Short-stack",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Six-player flop",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Three-player river",
+   "updates": 3000,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  },
+  {
+   "scenario": "Tournament bubble",
+   "updates": 60,
+   "stateIdentical": true,
+   "explorerResponseIdentical": true,
+   "restoreEstimateIdentical": true
+  }
+ ],
+ "allIdentical": true
+}

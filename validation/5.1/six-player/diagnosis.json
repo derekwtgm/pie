@@ -1,0 +1,364 @@
+{
+ "tool": "diagnose51",
+ "generated": "2026-11-14T18:30:57.503Z",
+ "build": "EightMaxBuild=a9491fdc15ac332d",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "deals": 64000,
+ "repeats": 5,
+ "seed": 601,
+ "games": {
+  "flop6w": {
+   "default 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.590235,
+    "microsecondsPerDeal": 9.222421874999998,
+    "phaseSecondsMedian": {
+     "deal": 0.029,
+     "traverse": 0.4843,
+     "merge": 0.0541,
+     "profiledUpdates": 0.0373,
+     "scoreInProfiledUpdates": 0.0009
+    },
+    "stateBodySha256": "723d219a9d45aaca50b7418e8580b28d5c47fc6dcce2fe2f134587ce1b254d4e",
+    "sameStateEveryRepeat": true
+   },
+   "default 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.60906,
+    "microsecondsPerDeal": 9.516562500000001,
+    "phaseSecondsMedian": {
+     "deal": 0.0305,
+     "traverse": 0.4995,
+     "merge": 0.056,
+     "profiledUpdates": 0.0384,
+     "scoreInProfiledUpdates": 0.0009
+    },
+    "stateBodySha256": "723d219a9d45aaca50b7418e8580b28d5c47fc6dcce2fe2f134587ce1b254d4e",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 1,
+    "medianSeconds": 0.520409,
+    "microsecondsPerDeal": 8.131390625,
+    "phaseSecondsMedian": {
+     "deal": 0.0244,
+     "traverse": 0.4784,
+     "merge": 0.0162,
+     "profiledUpdates": 0.0343,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "7934feff8f57c177ace2daa31aeac44c67aad4698d3746407e473a61d0e723b6",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 4,
+    "medianSeconds": 0.270173,
+    "microsecondsPerDeal": 4.221453125,
+    "phaseSecondsMedian": {
+     "deal": 0.0249,
+     "traverse": 0.219,
+     "merge": 0.0237,
+     "profiledUpdates": 0.0173,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "7934feff8f57c177ace2daa31aeac44c67aad4698d3746407e473a61d0e723b6",
+    "sameStateEveryRepeat": true
+   },
+   "warm-4-256 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1784,
+    "dealsPerCommittedUpdate": 35.874439461883405,
+    "threadsUsed": 4,
+    "medianSeconds": 0.288993,
+    "microsecondsPerDeal": 4.515515625,
+    "phaseSecondsMedian": {
+     "deal": 0.0255,
+     "traverse": 0.2366,
+     "merge": 0.0253,
+     "profiledUpdates": 0.0184,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "217e36ff7f5e0707667d0b54ec387045dcae6097a3586bb74c22d6fb6e0abae1",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64SameStateOn1And4Threads": true
+  },
+  "flop6": {
+   "default 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.420301,
+    "microsecondsPerDeal": 6.567203125,
+    "phaseSecondsMedian": {
+     "deal": 0.026,
+     "traverse": 0.3222,
+     "merge": 0.0496,
+     "profiledUpdates": 0.0263,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "5f3363128eb74ac245f1dd6a519aed5d6732c94d1bbedbdf806daf686a2b568d",
+    "sameStateEveryRepeat": true
+   },
+   "default 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.399992,
+    "microsecondsPerDeal": 6.249875,
+    "phaseSecondsMedian": {
+     "deal": 0.0252,
+     "traverse": 0.3036,
+     "merge": 0.0482,
+     "profiledUpdates": 0.0253,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "5f3363128eb74ac245f1dd6a519aed5d6732c94d1bbedbdf806daf686a2b568d",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 1,
+    "medianSeconds": 0.302953,
+    "microsecondsPerDeal": 4.733640625,
+    "phaseSecondsMedian": {
+     "deal": 0.0194,
+     "traverse": 0.273,
+     "merge": 0.0099,
+     "profiledUpdates": 0.0198,
+     "scoreInProfiledUpdates": 0.0007
+    },
+    "stateBodySha256": "9609a96d433a027ef2d1dccd25a21232971c236aa25d0aa9548032df40e24249",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 4,
+    "medianSeconds": 0.197681,
+    "microsecondsPerDeal": 3.088765625,
+    "phaseSecondsMedian": {
+     "deal": 0.0218,
+     "traverse": 0.158,
+     "merge": 0.0159,
+     "profiledUpdates": 0.0126,
+     "scoreInProfiledUpdates": 0.0007
+    },
+    "stateBodySha256": "9609a96d433a027ef2d1dccd25a21232971c236aa25d0aa9548032df40e24249",
+    "sameStateEveryRepeat": true
+   },
+   "warm-4-256 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1784,
+    "dealsPerCommittedUpdate": 35.874439461883405,
+    "threadsUsed": 4,
+    "medianSeconds": 0.231466,
+    "microsecondsPerDeal": 3.61665625,
+    "phaseSecondsMedian": {
+     "deal": 0.0228,
+     "traverse": 0.1877,
+     "merge": 0.0167,
+     "profiledUpdates": 0.0149,
+     "scoreInProfiledUpdates": 0.0008
+    },
+    "stateBodySha256": "438c442d93f01d45a6bbb97e28cb5f93fc862ee0805b39480c0555eab7c7dacb",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64SameStateOn1And4Threads": true
+  },
+  "river3-chip": {
+   "default 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.144826,
+    "microsecondsPerDeal": 2.26290625,
+    "phaseSecondsMedian": {
+     "deal": 0.0151,
+     "traverse": 0.0904,
+     "merge": 0.0266,
+     "profiledUpdates": 0.0093,
+     "scoreInProfiledUpdates": 0.0002
+    },
+    "stateBodySha256": "a25d8fe2c605311ea512e5cf30009161aede83d319389ac20a6dbfeae64c3389",
+    "sameStateEveryRepeat": true
+   },
+   "default 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.150796,
+    "microsecondsPerDeal": 2.3561875000000003,
+    "phaseSecondsMedian": {
+     "deal": 0.0153,
+     "traverse": 0.0951,
+     "merge": 0.0264,
+     "profiledUpdates": 0.0095,
+     "scoreInProfiledUpdates": 0.0002
+    },
+    "stateBodySha256": "a25d8fe2c605311ea512e5cf30009161aede83d319389ac20a6dbfeae64c3389",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 1,
+    "medianSeconds": 0.11168,
+    "microsecondsPerDeal": 1.745,
+    "phaseSecondsMedian": {
+     "deal": 0.0119,
+     "traverse": 0.0906,
+     "merge": 0.0077,
+     "profiledUpdates": 0.0082,
+     "scoreInProfiledUpdates": 0.0002
+    },
+    "stateBodySha256": "8043ef34f6dea81ea81057a05c81588568763f7ddfe0ac6623a8af5764465259",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 1,
+    "medianSeconds": 0.108763,
+    "microsecondsPerDeal": 1.699421875,
+    "phaseSecondsMedian": {
+     "deal": 0.011,
+     "traverse": 0.0889,
+     "merge": 0.0078,
+     "profiledUpdates": 0.0073,
+     "scoreInProfiledUpdates": 0.0002
+    },
+    "stateBodySha256": "8043ef34f6dea81ea81057a05c81588568763f7ddfe0ac6623a8af5764465259",
+    "sameStateEveryRepeat": true
+   },
+   "warm-4-256 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1784,
+    "dealsPerCommittedUpdate": 35.874439461883405,
+    "threadsUsed": 1,
+    "medianSeconds": 0.100461,
+    "microsecondsPerDeal": 1.569703125,
+    "phaseSecondsMedian": {
+     "deal": 0.0102,
+     "traverse": 0.0809,
+     "merge": 0.0078,
+     "profiledUpdates": 0.0067,
+     "scoreInProfiledUpdates": 0.0002
+    },
+    "stateBodySha256": "76413ce2e9a36214e00ddb11bdd2211b6c737d3a42f97784e08725e6d0a4bc3f",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64SameStateOn1And4Threads": true
+  },
+  "turn4": {
+   "default 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.246061,
+    "microsecondsPerDeal": 3.844703125,
+    "phaseSecondsMedian": {
+     "deal": 0.0198,
+     "traverse": 0.162,
+     "merge": 0.0468,
+     "profiledUpdates": 0.0155,
+     "scoreInProfiledUpdates": 0.0006
+    },
+    "stateBodySha256": "eb849d7e22aaeb3c3c5d4db15e1ca2d3e94c1fdc9e35795fb69177ebba4e3cd7",
+    "sameStateEveryRepeat": true
+   },
+   "default 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 64000,
+    "dealsPerCommittedUpdate": 1,
+    "threadsUsed": 1,
+    "medianSeconds": 0.223929,
+    "microsecondsPerDeal": 3.498890625,
+    "phaseSecondsMedian": {
+     "deal": 0.0182,
+     "traverse": 0.1465,
+     "merge": 0.0422,
+     "profiledUpdates": 0.0142,
+     "scoreInProfiledUpdates": 0.0006
+    },
+    "stateBodySha256": "eb849d7e22aaeb3c3c5d4db15e1ca2d3e94c1fdc9e35795fb69177ebba4e3cd7",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 1 thread": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 1,
+    "medianSeconds": 0.172277,
+    "microsecondsPerDeal": 2.6918281250000002,
+    "phaseSecondsMedian": {
+     "deal": 0.0139,
+     "traverse": 0.1455,
+     "merge": 0.0122,
+     "profiledUpdates": 0.0114,
+     "scoreInProfiledUpdates": 0.0005
+    },
+    "stateBodySha256": "dce504fad13932b4c1808ddb001889e251a63e4eb8a5e889b8a0cd81f8e26aba",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1000,
+    "dealsPerCommittedUpdate": 64,
+    "threadsUsed": 4,
+    "medianSeconds": 0.147013,
+    "microsecondsPerDeal": 2.297078125,
+    "phaseSecondsMedian": {
+     "deal": 0.015,
+     "traverse": 0.1085,
+     "merge": 0.0217,
+     "profiledUpdates": 0.0099,
+     "scoreInProfiledUpdates": 0.0005
+    },
+    "stateBodySha256": "dce504fad13932b4c1808ddb001889e251a63e4eb8a5e889b8a0cd81f8e26aba",
+    "sameStateEveryRepeat": true
+   },
+   "warm-4-256 4 threads": {
+    "trainingDeals": 64000,
+    "committedUpdates": 1784,
+    "dealsPerCommittedUpdate": 35.874439461883405,
+    "threadsUsed": 4,
+    "medianSeconds": 0.153,
+    "microsecondsPerDeal": 2.390625,
+    "phaseSecondsMedian": {
+     "deal": 0.0175,
+     "traverse": 0.1169,
+     "merge": 0.021,
+     "profiledUpdates": 0.0103,
+     "scoreInProfiledUpdates": 0.0006
+    },
+    "stateBodySha256": "4c8b8987f9dcb83a518e6422e1c9ff23124f5d76829302194162d7ffb7d36f21",
+    "sameStateEveryRepeat": true
+   },
+   "parallel64SameStateOn1And4Threads": true
+  }
+ }
+}

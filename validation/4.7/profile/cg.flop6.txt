@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------------
+Profile data file 'cg.flop6' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 246213519
+Trigger: Program termination
+Profiled target:  ./mwcli-g flop6.json 20000 1 o.state 512 (PID 30894, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                     
+--------------------------------------------------------------------------------
+1,026,805,410 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                    file:function
+--------------------------------------------------------------------------------
+206,570,903 (20.12%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::learn(int, int, double, double, double)'2 [<scratch>/prof/mwcli-g]
+126,896,826 (12.36%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::descend(int, (anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) [<scratch>/prof/mwcli-g]
+ 75,786,944 ( 7.38%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::pots((anonymous namespace)::es::BS const&, (anonymous namespace)::es::LPot*) const [<scratch>/prof/mwcli-g]
+ 56,817,220 ( 5.53%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::policy(int, int, int, unsigned int, double*) const [clone .isra.0] [<scratch>/prof/mwcli-g]
+ 46,516,933 ( 4.53%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::build((anonymous namespace)::es::BS&, int, double const*, double const*, bool const*, double const*, double, double, int, int) const [<scratch>/prof/mwcli-g]
+ 40,842,587 ( 3.98%)  source/native/mw_es.hpp:(anonymous namespace)::es::Walker::descend(int, (anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&)
+ 32,202,550 ( 3.14%)  source/native/mw.cpp:(anonymous namespace)::es::Walker::policy(int, int, int, unsigned int, double*) const [clone .isra.0]
+ 30,451,836 ( 2.97%)  /usr/include/c++/13/bits/stl_vector.h:(anonymous namespace)::es::Walker::learn(int, int, double, double, double)'2
+ 21,728,882 ( 2.12%)  source/native/mw.cpp:(anonymous namespace)::es::Walker::learn(int, int, double, double, double)'2
+ 21,454,841 ( 2.09%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::merge(MW&, (anonymous namespace)::es::Game&, (anonymous namespace)::es::Unit&, bool, (anonymous namespace)::es::Update&) [<scratch>/prof/mwcli-g]
+ 18,824,733 ( 1.83%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::learn(int, int, double, double, double) [<scratch>/prof/mwcli-g]
+ 17,405,340 ( 1.70%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::advance(int, (anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) [<scratch>/prof/mwcli-g]
+ 17,030,759 ( 1.66%)  /usr/include/c++/13/bits/stl_algo.h:(anonymous namespace)::es::Rules::pots((anonymous namespace)::es::BS const&, (anonymous namespace)::es::LPot*) const
+ 15,511,388 ( 1.51%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::train(MW*, long long, int, int volatile*, void (*)(void*, long long, long long), void*, char*, int) [<scratch>/prof/mwcli-g]
+ 15,347,742 ( 1.49%)  source/native/mw_es.hpp:(anonymous namespace)::es::Walker::policy(int, int, int, unsigned int, double*) const [clone .isra.0]
+ 15,163,327 ( 1.48%)  ./string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:__memcpy_avx_unaligned_erms [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 14,315,018 ( 1.39%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::seatPayoff((anonymous namespace)::es::BS const&, unsigned long) [<scratch>/prof/mwcli-g]
+ 13,176,816 ( 1.28%)  source/native/mw_es.hpp:(anonymous namespace)::es::Rules::advance((anonymous namespace)::es::BS const&, int, (anonymous namespace)::es::BS&) const [<scratch>/prof/mwcli-g]
+ 11,295,983 ( 1.10%)  source/native/mw.cpp:MW::deal((anonymous namespace)::World&, int) [<scratch>/prof/mwcli-g]
+ 10,790,060 ( 1.05%)  source/native/mw_es_impl.hpp:(anonymous namespace)::es::Walker::layout((anonymous namespace)::es::BS const&, unsigned long, (anonymous namespace)::es::Walker::CPot const*&) [<scratch>/prof/mwcli-g]

@@ -1,0 +1,25 @@
+repetition 1/5
+repetition 2/5
+repetition 3/5
+repetition 4/5
+repetition 5/5
+exact-ev-final8-1t           4.4 91.5 ms [79.2-109.9]   4.5 82.8 ms [72.4-111.2]  ratio 0.904  identical true 
+exact-ev-final8-2t           4.4 49.2 ms [43.8-57.2]   4.5 42.4 ms [41.0-53.2]  ratio 0.864  identical true 
+exact-ev-final8-4t           4.4 31.8 ms [30.1-36.3]   4.5 31.3 ms [28.7-37.2]  ratio 0.985  identical true 
+exact-gain-final8-4t         4.4 52.3 ms [49.7-61.4]   4.5 46.1 ms [44.1-58.5]  ratio 0.882  identical true 
+exact-gain-bubble4-4t        4.4 4458.2 ms [1759.6-4945.0]   4.5 2236.1 ms [1904.9-4743.6]  ratio 0.502  identical true 
+exact-gain-flop6-4t          4.4 3780.7 ms [3676.5-4477.4]   4.5 3732.2 ms [3619.1-3843.4]  ratio 0.987  identical true 
+exact-gain-shortallin8-4t    4.4 44.2 ms [40.7-48.7]   4.5 47.9 ms [41.9-55.2]  ratio 1.082  identical true 
+exact-ev-river3-2t           4.4 1.8 ms [1.6-2.2]   4.5 1.8 ms [1.7-3.4]  ratio 1.001  identical true 
+exact-gain-huriver-2t        4.4 0.3 ms [0.3-0.4]   4.5 0.3 ms [0.3-0.4]  ratio 0.944  identical true 
+sampled-ev-linked8-4t        4.4 32.6 ms [27.3-38.6]   4.5 32.2 ms [29.6-40.2]  ratio 0.988  identical true 
+sampled-ev-linked8-1t        4.4 31.9 ms [28.3-38.2]   4.5 28.0 ms [27.6-34.4]  ratio 0.877  identical true 
+sampled-ev-wide3-4t          4.4 1075.0 ms [1000.9-1153.1]   4.5 1056.9 ms [1026.5-1115.0]  ratio 0.983  identical true 
+sampled-gain-linked8-4t      4.4 7858.3 ms [7550.1-8593.9]   4.5 6724.4 ms [6430.5-6859.2]  ratio 0.856  identical true 
+deadline-250-linked8-4t      4.4 256.3 ms [255.4-258.5]   4.5 257.5 ms [257.3-258.7]  ratio 1.005  identical null 
+throughput-3000-linked8-4t   4.4 3009.4 ms [3008.6-3014.9]   4.5 3009.1 ms [3008.4-3009.8]  ratio 1  identical null  samples 435643 vs 483770
+throughput-3000-linked8-1t   4.4 3008.0 ms [3007.8-3008.4]   4.5 3007.3 ms [3006.6-3007.4]  ratio 1  identical null  samples 106948 vs 120526
+cancel-150-linked8-4t        4.4 2.2 ms [2.0-3.2]   4.5 4.1 ms [3.6-4.7]  ratio 1.885  identical null 
+train-final8                 4.4 841.7 ms [810.6-924.5]   4.5 839.8 ms [779.3-873.2]  ratio 0.998  identical true 
+train-flop6                  4.4 141.6 ms [133.8-188.2]   4.5 152.5 ms [145.6-165.4]  ratio 1.077  identical true 
+train-linked8                4.4 180.9 ms [178.5-206.3]   4.5 156.7 ms [149.2-166.1]  ratio 0.866  identical true 

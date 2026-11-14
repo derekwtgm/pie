@@ -1,0 +1,101 @@
+TAP version 13
+# Subtest: 4.4 IEEE 754 probes: native %.17g output parses back to identical bit patterns (native reader and JavaScript), one-ULP neighbours stay distinct
+ok 1 - 4.4 IEEE 754 probes: native %.17g output parses back to identical bit patterns (native reader and JavaScript), one-ULP neighbours stay distinct
+  ---
+  duration_ms: 59.772448
+  type: 'test'
+  ...
+# Subtest: 4.4 exact EVs and exact response gains carry IEEE 754 bit patterns equal to the printed numbers and to the 4.2 reference, for every thread count and table mode
+ok 2 - 4.4 exact EVs and exact response gains carry IEEE 754 bit patterns equal to the printed numbers and to the 4.2 reference, for every thread count and table mode
+  ---
+  duration_ms: 2717.611405
+  type: 'test'
+  ...
+# Subtest: 4.4 PowerShell 5.1 number model (arithmetic model, not a PowerShell run): Decimal to Double changes exactly the EV the 4.3 report showed changed, by one ULP
+ok 3 - 4.4 PowerShell 5.1 number model (arithmetic model, not a PowerShell run): Decimal to Double changes exactly the EV the 4.3 report showed changed, by one ULP
+  ---
+  duration_ms: 56.711732
+  type: 'test'
+  ...
+# Subtest: 4.4 Windows self-test script compares bit patterns: no re-formatted number comparison remains, references are IEEE 754 patterns, failures do not stop later checks
+ok 4 - 4.4 Windows self-test script compares bit patterns: no re-formatted number comparison remains, references are IEEE 754 patterns, failures do not stop later checks
+  ---
+  duration_ms: 0.793844
+  type: 'test'
+  ...
+# Subtest: 4.4 desktop API serves the IEEE 754 probe document character for character as the CLI prints it (native host)
+ok 5 - 4.4 desktop API serves the IEEE 754 probe document character for character as the CLI prints it (native host)
+  ---
+  duration_ms: 63.921552
+  type: 'test'
+  ...
+# Subtest: 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+ok 6 - 4.4 reproduced 4.3 regression: eight-handed range-sampled EV returns a labelled partial estimate within 50 ms of 100, 250, 600 and 1000 ms limits at 1, 2, 4 and 8 threads
+  ---
+  duration_ms: 12683.011566
+  type: 'test'
+  ...
+# Subtest: 4.4 partial sampled results: completed samples only, equal weights, counts and limitation reported; estimate consistent with a longer run
+ok 7 - 4.4 partial sampled results: completed samples only, equal weights, counts and limitation reported; estimate consistent with a longer run
+  ---
+  duration_ms: 1185.841762
+  type: 'test'
+  ...
+# Subtest: 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+ok 8 - 4.4 sampled-EV deadline under CPU load (all cores busy): partial result within the loaded tolerance
+  ---
+  duration_ms: 5088.609934
+  type: 'test'
+  ...
+# overruns under load (ms): 28.3 10.0 30.1 16.8 10.9 19.3 25.4 75.3 98.3 26.4 26.0 17.0
+# Subtest: 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+ok 9 - 4.4 cancellation latency of sampled evaluations and response gains stays below 50 ms; fault injection stops a sampled run inside sampling and retries
+  ---
+  duration_ms: 593.423945
+  type: 'test'
+  ...
+# Subtest: 4.4 coverage: the concurrent set equals the 4.3 merged tables and is identical for every thread count (complete sampled and exact runs); after a timeout it is exact and consistent
+ok 10 - 4.4 coverage: the concurrent set equals the 4.3 merged tables and is identical for every thread count (complete sampled and exact runs); after a timeout it is exact and consistent
+  ---
+  duration_ms: 7712.38017
+  type: 'test'
+  ...
+# Subtest: 4.4 coverage units: concurrent set vs std::map reference - 1-16 threads, collisions, repeated observations, key limit, stop mid-run, 4.3 merge agreement (compiler)
+ok 11 - 4.4 coverage units: concurrent set vs std::map reference - 1-16 threads, collisions, repeated observations, key limit, stop mid-run, 4.3 merge agreement (compiler)
+  ---
+  duration_ms: 17780.710425
+  type: 'test'
+  ...
+# Subtest: 4.4 sanitizers: coverage44 under ThreadSanitizer and ASan+UBSan with no reports (compiler)
+ok 12 - 4.4 sanitizers: coverage44 under ThreadSanitizer and ASan+UBSan with no reports (compiler)
+  ---
+  duration_ms: 17660.466395
+  type: 'test'
+  ...
+# Subtest: 4.4 Automatic arm selection units: exploration, the RTX 4060 Ti report timings, slow device, adaptation (compiler)
+ok 13 - 4.4 Automatic arm selection units: exploration, the RTX 4060 Ti report timings, slow device, adaptation (compiler)
+  ---
+  duration_ms: 2549.881789
+  type: 'test'
+  ...
+# Subtest: 4.4 Automatic on a warm device measures the three arms and keeps results bit-identical whichever arm builds the table; no context errors or leaks (Linux CUDA test double: simulated driver)
+ok 14 - 4.4 Automatic on a warm device measures the three arms and keeps results bit-identical whichever arm builds the table; no context errors or leaks (Linux CUDA test double: simulated driver)
+  ---
+  duration_ms: 8311.094826
+  type: 'test'
+  ...
+# Subtest: 4.4 Automatic never opens CUDA for a single short request and stays on the CPU with no device; device faults in Automatic fall back with identical EVs (Linux CUDA test double)
+ok 15 - 4.4 Automatic never opens CUDA for a single short request and stays on the CPU with no device; device faults in Automatic fall back with identical EVs (Linux CUDA test double)
+  ---
+  duration_ms: 3942.496438
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80613.515304

@@ -1,0 +1,9 @@
+embedded 1028354 bytes
+embedded 156782 bytes
+In file included from mw.cpp:1585:
+checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~

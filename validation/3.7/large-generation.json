@@ -1,0 +1,20 @@
+{
+  "kind": "Synthetic rows on legal topology, full generation save, stream download, corrupted index and cold native continuation",
+  "nominalMiB": 2050,
+  "rows": 19902372,
+  "wireBytes": 2149909523,
+  "sha256": "01b243c6af608ebec9c57e696b733d1f166419edd63cb9c5b2e025f060db092c",
+  "saveSeconds": 31.198770433999982,
+  "downloadSeconds": 4.89437966700001,
+  "coldIndexAndRestoreSeconds": 41.405408668999996,
+  "savePeakProcessMiB": 13.734375,
+  "restorePeakProcessMiB": 3211.05078125,
+  "generation": "1",
+  "resumedUpdates": 129,
+  "policy": {
+    "EIGHTMAX_CHECKPOINT_MIB": "4096",
+    "EIGHTMAX_APP_MIB": "8192",
+    "EIGHTMAX_PROCESS_MIB": "8192",
+    "EIGHTMAX_RESTORE_MIB": "6500"
+  }
+}

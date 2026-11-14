@@ -1,0 +1,16 @@
+Checking the EightMax 4.7 features. This takes about a minute.
+PASS default trainer writes the 4.4-4.6 golden state sha256 aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8
+PASS EMZ1 round trip restores every byte compressed 434283 of 1032202 bytes
+PASS 150 + 150 resumed from EMZ1 = golden 300 
+PASS corrupted compressed checkpoints are refused and nothing is written error: corrupted compressed block (nothing was written to 'C:\users\root\Temp\EightMax-4.7-checks\bad.state')
+error: cannot read input checkpoint 'C:\users\root\Temp\EightMax-4.7-checks\bad.emz': compressed checkpoint: corrupted compressed block
+
+PASS own-hand enumeration: 150 + 150 = 300 and 1 thread = 4 threads 852e4c62221ac39fedf773707afbce7f7f5e0151322208bd52b8fd3a29a54987
+PASS verify: exact NashConv = sum of exact seat gains, labelled exact NashConv 0.48490168302837866
+PASS verify: sampled results are labelled as estimates of lower bounds sampled one-decision deviation gain: a statistical ESTIMATE of a LOWER BOUND on the best-response gain
+PASS compare: same game is compatible, strategies differ, gains compared weighted TV 0.093804553958162576
+PASS compare: different games are refused (exit 3) {"tool":"mwcli compare 4.7","build":"4507f915d661cc3e","compatible":false,"differingGameFields":["n","board","anteOf","hands","rules","icm"],"differingTrainerSettings":["batchDeals","actionStreams","a
+PASS monitor: analytics written and final checkpoint = uninterrupted training {"analytics":"C:\\users\\root\\Temp\\EightMax-4.7-checks\\mon\\analytics.json","evaluations":2,"stop":"maximum updates","finalCheckpoint":"C:\\users\\root\\Temp\\EightMax-4.7-checks\\mon\\checkpoint-0
+{"tool":"mwcli selftest47","build":"4507f915d661cc3e","checksPassed":10,"checksFailed":0,"passed":true,"report":"C:\\users\\root\\Temp\\EightMax-4.7-checks\\selftest47.json"}
+
+All 4.7 checks passed. Report: EightMax-4.7-self-test.json

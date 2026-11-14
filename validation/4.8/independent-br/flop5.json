@@ -1,0 +1,75 @@
+{
+ "tool": "independent_br48",
+ "spec": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/flop5.json",
+ "state": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/g48/flop5.state",
+ "players": 5,
+ "startCards": 3,
+ "deals": 32,
+ "storedRowsUsed": 159,
+ "storedRows": 159,
+ "chipConservation": {
+  "sumOfPolicyValues": 19.799999999999997,
+  "pot0": 19.8,
+  "conserved": true,
+  "note": "net chips relative to the study root sum to the root pot (common pot + chips folded before the root + every seat's prior wager) for every strategy profile"
+ },
+ "tolerance": 1e-09,
+ "agree": true,
+ "seats": [
+  {
+   "seat": 0,
+   "independentPolicyValue": 12.457976798677533,
+   "independentBestResponse": 12.549566889858067,
+   "independentGain": 0.0915900911805334,
+   "enginePolicyValue": 12.45797679867754,
+   "engineBestResponse": 12.549566889858072,
+   "engineGain": 0.09159009118053163,
+   "maxAbsDifference": 7.105427357601002e-15,
+   "agree": true
+  },
+  {
+   "seat": 1,
+   "independentPolicyValue": 0.9194915267156807,
+   "independentBestResponse": 0.950997998522617,
+   "independentGain": 0.03150647180693633,
+   "enginePolicyValue": 0.919491526715681,
+   "engineBestResponse": 0.9509979985226172,
+   "engineGain": 0.03150647180693622,
+   "maxAbsDifference": 3.3306690738754696e-16,
+   "agree": true
+  },
+  {
+   "seat": 2,
+   "independentPolicyValue": 4.354966821376147,
+   "independentBestResponse": 4.412456933127342,
+   "independentGain": 0.05749011175119545,
+   "enginePolicyValue": 4.354966821376147,
+   "engineBestResponse": 4.412456933127342,
+   "engineGain": 0.05749011175119545,
+   "maxAbsDifference": 0.0,
+   "agree": true
+  },
+  {
+   "seat": 3,
+   "independentPolicyValue": 0.07986876732537632,
+   "independentBestResponse": 0.09357508830933481,
+   "independentGain": 0.013706320983958492,
+   "enginePolicyValue": 0.07986876732537625,
+   "engineBestResponse": 0.09357508830933475,
+   "engineGain": 0.013706320983958506,
+   "maxAbsDifference": 6.938893903907228e-17,
+   "agree": true
+  },
+  {
+   "seat": 4,
+   "independentPolicyValue": 1.9876960859052601,
+   "independentBestResponse": 2.0377501669442464,
+   "independentGain": 0.05005408103898623,
+   "enginePolicyValue": 1.987696085905259,
+   "engineBestResponse": 2.037750166944245,
+   "engineGain": 0.05005408103898601,
+   "maxAbsDifference": 1.3322676295501878e-15,
+   "agree": true
+  }
+ ]
+}

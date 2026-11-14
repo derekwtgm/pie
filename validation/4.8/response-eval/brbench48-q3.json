@@ -1,0 +1,122 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-13T18:19:58.238Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "method": "exact",
+ "rounds": 1,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v47",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/bin47/mwcli",
+   "env": {}
+  },
+  {
+   "name": "v48",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/prof/mwcli48",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "flop6w",
+   "description": "Six-player flop, weighted three-hand ranges, two bet sizes (half pot, all-in), side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.806360217590185,
+   "arms": [
+    {
+     "name": "v47",
+     "medianSec": 54.767016267,
+     "minSec": 54.767016267,
+     "seconds": [
+      54.767016267
+     ],
+     "peakRssMiB": 6.046875
+    },
+    {
+     "name": "v48",
+     "medianSec": 9.750251796,
+     "minSec": 9.750251796,
+     "seconds": [
+      9.750251796
+     ],
+     "peakRssMiB": 63.32421875,
+     "timeRatioToFirst": 0.1780314587244556,
+     "ratio95": [
+      0.1780314587244556,
+      0.1780314587244556
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "flop6",
+   "description": "Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.47493659278170663,
+   "arms": [
+    {
+     "name": "v47",
+     "medianSec": 3.184639752,
+     "minSec": 3.184639752,
+     "seconds": [
+      3.184639752
+     ],
+     "peakRssMiB": 5.89453125
+    },
+    {
+     "name": "v48",
+     "medianSec": 0.586189601,
+     "minSec": 0.586189601,
+     "seconds": [
+      0.586189601
+     ],
+     "peakRssMiB": 11.7578125,
+     "timeRatioToFirst": 0.18406778996960788,
+     "ratio95": [
+      0.18406778996960788,
+      0.18406778996960788
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "bubble4",
+   "description": "Four-player bubble push/fold, weighted two-hand ranges, short stack (ICM: 3 paid)",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.000004604457410370367,
+   "arms": [
+    {
+     "name": "v47",
+     "medianSec": 1.505458796,
+     "minSec": 1.505458796,
+     "seconds": [
+      1.505458796
+     ],
+     "peakRssMiB": 354.0390625
+    },
+    {
+     "name": "v48",
+     "medianSec": 1.64461941,
+     "minSec": 1.64461941,
+     "seconds": [
+      1.64461941
+     ],
+     "peakRssMiB": 353.8984375,
+     "timeRatioToFirst": 1.092437344927506,
+     "ratio95": [
+      1.092437344927506,
+      1.092437344927506
+     ],
+     "supported": "slower"
+    }
+   ]
+  }
+ ]
+}

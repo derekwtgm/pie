@@ -1,0 +1,254 @@
+{
+ "tool": "bench49",
+ "generated": "2026-11-13T23:05:56.210Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "rounds": 7,
+ "arms": [
+  {
+   "name": "v4.8",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli-study"
+  },
+  {
+   "name": "v4.9",
+   "exe": "/home/user/pie/source/build/linux/mwcli"
+  }
+ ],
+ "workloads": [
+  {
+   "workload": "short training, CPU Only (final table, 150 updates x 16 deals = 2,400 deals)",
+   "identicalStrategy": true,
+   "strategySha256": "465f3a0e84f423fe3198ffee5473e2a31e36579b68877fd8ea559940015a7def",
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.021605865,
+     "minSec": 0.0211675,
+     "medianTrainingSec": 0.016145,
+     "peakRssMiB": 7.97265625,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.02522371,
+      0.021876861,
+      0.021301013,
+      0.021605865,
+      0.022190317,
+      0.021302501,
+      0.0211675
+     ]
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.021794873,
+     "minSec": 0.02063031,
+     "medianTrainingSec": 0.016216,
+     "peakRssMiB": 8.0390625,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.022387372,
+      0.021998693,
+      0.021681122,
+      0.021794873,
+      0.021816528,
+      0.02157786,
+      0.02063031
+     ],
+     "ratioToFirst": 0.9833983395529696,
+     "ratio95": [
+      0.940730009948685,
+      1.0280019601886514
+     ],
+     "verdict": "no supported difference"
+    }
+   ]
+  },
+  {
+   "workload": "short training, Automatic (same job; no GPU on this machine)",
+   "identicalStrategy": true,
+   "strategySha256": "465f3a0e84f423fe3198ffee5473e2a31e36579b68877fd8ea559940015a7def",
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.021867673,
+     "minSec": 0.021468787,
+     "medianTrainingSec": 0.016726,
+     "peakRssMiB": 7.91796875,
+     "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+     "seconds": [
+      0.021514934,
+      0.022069655,
+      0.022838892,
+      0.021753735,
+      0.021867673,
+      0.021468787,
+      0.022395591
+     ]
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.021692549,
+     "minSec": 0.020481623,
+     "medianTrainingSec": 0.016558,
+     "peakRssMiB": 8.046875,
+     "devicePath": "CPU scoring (Automatic: projected scoring work 0.000 s is below 0.50 s, CUDA not opened)",
+     "seconds": [
+      0.020481623,
+      0.020651248,
+      0.021692549,
+      0.022118165,
+      0.021698772,
+      0.021841857,
+      0.021012025
+     ],
+     "ratioToFirst": 0.9711633343743507,
+     "ratio95": [
+      0.9385324983916765,
+      1.0049286771095909
+     ],
+     "verdict": "no supported difference"
+    }
+   ]
+  },
+  {
+   "workload": "six-player flop training, 100,000 updates, 1 thread",
+   "identicalStrategy": true,
+   "strategySha256": "4e34fcdba86d0701bace3056b5c8b890f8f12f8ad78bacc23b6076d659eb5d63",
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.420675235,
+     "minSec": 0.418812867,
+     "medianTrainingSec": 0.414549,
+     "peakRssMiB": 5.41796875,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.431858345,
+      0.42041735,
+      0.422318559,
+      0.422307916,
+      0.418812867,
+      0.420013494,
+      0.420675235
+     ]
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.431384223,
+     "minSec": 0.423434435,
+     "medianTrainingSec": 0.424557,
+     "peakRssMiB": 5.52734375,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.438657195,
+      0.44408818,
+      0.426445657,
+      0.428861159,
+      0.471871522,
+      0.423434435,
+      0.431384223
+     ],
+     "ratioToFirst": 1.03607131184356,
+     "ratio95": [
+      0.998226993640873,
+      1.0753503662629091
+     ],
+     "verdict": "no supported difference"
+    }
+   ]
+  },
+  {
+   "workload": "eight-player linked ICM study training, 1,500 updates, 4 threads",
+   "identicalStrategy": true,
+   "strategySha256": "7cbc65b0b24551e9048cf3d5b82a52cc1f4e61e29a8f0a2a3997cd2f565efe91",
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.632614459,
+     "minSec": 0.590627014,
+     "medianTrainingSec": 0.555012,
+     "peakRssMiB": 38.5546875,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.631969731,
+      0.632614459,
+      0.644391573,
+      0.638167293,
+      0.590627014,
+      0.674754021,
+      0.626318798
+     ]
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.625274174,
+     "minSec": 0.617014402,
+     "medianTrainingSec": 0.549531,
+     "peakRssMiB": 38.6171875,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.624993768,
+      0.625067525,
+      0.631617085,
+      0.633296631,
+      0.631874143,
+      0.625274174,
+      0.617014402
+     ],
+     "ratioToFirst": 0.9894269098379451,
+     "ratio95": [
+      0.9518467637618299,
+      1.0284907688738236
+     ],
+     "verdict": "no supported difference"
+    }
+   ]
+  },
+  {
+   "workload": "EMZ1 restore + 150 updates (14 MiB state compressed)",
+   "identicalStrategy": true,
+   "strategySha256": "6530e392aa1b3ed7a3a47b64bc96a8eb0a6960bc260c54b2748c6a0024c0be77",
+   "arms": [
+    {
+     "name": "v4.8",
+     "medianSec": 0.366741559,
+     "minSec": 0.362858144,
+     "medianTrainingSec": 0.070484,
+     "peakRssMiB": 50.5,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.367484505,
+      0.368545223,
+      0.362858144,
+      0.3643727,
+      0.366741559,
+      0.3731573,
+      0.3631744
+     ]
+    },
+    {
+     "name": "v4.9",
+     "medianSec": 0.365290146,
+     "minSec": 0.350096435,
+     "medianTrainingSec": 0.070838,
+     "peakRssMiB": 50.6484375,
+     "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+     "seconds": [
+      0.372343637,
+      0.366762934,
+      0.365619657,
+      0.350096435,
+      0.350826277,
+      0.354652464,
+      0.365290146
+     ],
+     "ratioToFirst": 0.9839139521142528,
+     "ratio95": [
+      0.9590393285334817,
+      1.0094337493389778
+     ],
+     "verdict": "no supported difference"
+    }
+   ]
+  }
+ ]
+}

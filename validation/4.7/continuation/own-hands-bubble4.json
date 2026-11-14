@@ -1,0 +1,141 @@
+{
+ "tool": "mwcli continuation-suite 4.6",
+ "build": "dev",
+ "level": "standard",
+ "executable": "/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/mwcli",
+ "spec": "/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/own-bubble4.json",
+ "workDirectory": "/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4",
+ "threads": 4,
+ "seconds": 1.002084,
+ "checksPassed": 24,
+ "checksFailed": 1,
+ "passed": false,
+ "equivalence": "byte-identical EMMW4 state files: header counters (iterations, trainingDeals, stateVisits), both RNG states, row checksum, and the body with every betting state, regret and average-strategy value",
+ "checks": [
+  {
+   "name": "icm45: deadline-limited sampled evaluation between segments: evaluation succeeded and left the checkpoint unchanged",
+   "passed": false,
+   "detail": "exit 1, sha before 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253, after 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253; stderr: error 400: hands[0] is not in the acting seat's range (2 hands)\n"
+  },
+  {
+   "name": "icm45: 150 + 150 resumed updates == 300 uninterrupted (byte-identical state: counters, RNG, regrets, averages)",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "c500: 500 + 500 resumed updates == 1000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)",
+   "passed": true,
+   "detail": "sha256 498ad9279b71af97ad6dd422256aeae3b0367ad0ebdf322d6744cf49018f7d38, iterations 1000, rng 4108095796, actionRng 1899539347, trainingDeals 4000, stateVisits 144028"
+  },
+  {
+   "name": "c1000: 1000 + 1000 resumed updates == 2000 uninterrupted (byte-identical state: counters, RNG, regrets, averages)",
+   "passed": true,
+   "detail": "sha256 6b2ec5ec02a784a308dbba441180adaa44a1552e08de2e7507f30b449fd627eb, iterations 2000, rng 1209634318, actionRng 1899539347, trainingDeals 8000, stateVisits 288249"
+  },
+  {
+   "name": "generation 2: evaluation before the next generation: evaluation succeeded and left the checkpoint unchanged",
+   "passed": true,
+   "detail": "exit 0, sha before c83c273c50995796eb9d1aa87b9abb90dbf77a8dd5b451b752efa9a3a14d6d94, after c83c273c50995796eb9d1aa87b9abb90dbf77a8dd5b451b752efa9a3a14d6d94"
+  },
+  {
+   "name": "four sequential generations == one uninterrupted run",
+   "passed": true,
+   "detail": "sha256 498ad9279b71af97ad6dd422256aeae3b0367ad0ebdf322d6744cf49018f7d38, iterations 1000, rng 4108095796, actionRng 1899539347, trainingDeals 4000, stateVisits 144028"
+  },
+  {
+   "name": "generation 2 == uninterrupted run of the same length",
+   "passed": true,
+   "detail": "sha256 c83c273c50995796eb9d1aa87b9abb90dbf77a8dd5b451b752efa9a3a14d6d94, iterations 500, rng 2469665682, actionRng 1899539347, trainingDeals 2000, stateVisits 72001"
+  },
+  {
+   "name": "re-saving a restored checkpoint (0 updates) reproduces it byte for byte",
+   "passed": true,
+   "detail": "sha256 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253, iterations 150, rng 2605193751, actionRng 1899539347, trainingDeals 600, stateVisits 21528"
+  },
+  {
+   "name": "a second save/restore cycle reproduces it again",
+   "passed": true,
+   "detail": "sha256 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253, iterations 150, rng 2605193751, actionRng 1899539347, trainingDeals 600, stateVisits 21528"
+  },
+  {
+   "name": "continuing from a twice re-saved state == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "resumed segment with 1 thread == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "resumed segment with 8 threads == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "interrupted save (rename): nonzero exit, error names the stage, previous checkpoint intact",
+   "passed": true,
+   "detail": "exit 4; stderr: error: cannot write checkpoint '/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/fault-rename.state': save failed at stage 'injected-replace' (EM_TEST_SAVE_FAULT); temporary file /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/fault-rename.state.amS0NX. The previous file at that path, if any, is unchanged.\n; sha before 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253 after 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253"
+  },
+  {
+   "name": "interrupted save (rename): no temporary file left behind",
+   "passed": true,
+   "detail": "0 left"
+  },
+  {
+   "name": "continuation after a failed save (rename) == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "interrupted save (write): nonzero exit, error names the stage, previous checkpoint intact",
+   "passed": true,
+   "detail": "exit 4; stderr: error: cannot write checkpoint '/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/fault-write.state': save failed at stage 'injected-write' (the writer report\n...[1 bytes omitted]...\nd an error); temporary file /tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/fault-write.state.GizjRZ. The previous file at that path, if any, is unchanged.\n; sha before 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253 after 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253"
+  },
+  {
+   "name": "interrupted save (write): no temporary file left behind",
+   "passed": true,
+   "detail": "0 left"
+  },
+  {
+   "name": "continuation after a failed save (write) == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "interrupted save (crash): nonzero exit, error names the stage, previous checkpoint intact",
+   "passed": true,
+   "detail": "exit 86; stderr: ; sha before 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253 after 0a2a2795f5cfe83ce0a37e92570dc526838525609a3d35251e781a0952d9b253"
+  },
+  {
+   "name": "crash before commit leaves at most one orphaned temporary file (never the destination)",
+   "passed": true,
+   "detail": "1 temporary file(s)"
+  },
+  {
+   "name": "continuation after a failed save (crash) == uninterrupted",
+   "passed": true,
+   "detail": "sha256 e36cf7adee35b88153d3c5f16a15df0fbc55579926638d134ea41b803a154be1, iterations 300, rng 3314880485, actionRng 1899539347, trainingDeals 1200, stateVisits 43147"
+  },
+  {
+   "name": "cancelled training reports a whole number of committed updates",
+   "passed": true,
+   "detail": "iterations 13865"
+  },
+  {
+   "name": "cancelled run == uninterrupted run with the same committed update count (no partial update kept)",
+   "passed": true,
+   "detail": "sha256 17af0a9a0a23150e1725f2324b8583b16002dbb54b9e4d0464984703563a2aaa, iterations 13865, rng 3315505657, actionRng 1899539347, trainingDeals 55460, stateVisits 1998111"
+  },
+  {
+   "name": "missing input checkpoint: nonzero exit, the message names the file, no output written",
+   "passed": true,
+   "detail": "exit 3; stderr: error: input checkpoint '/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/does-not-exist.state' does not exist\n"
+  },
+  {
+   "name": "truncated input checkpoint: refused with a reason, no output written",
+   "passed": true,
+   "detail": "exit 1; stderr: error: input checkpoint '/tmp/claude-0/-home-user-pie/500b2f6c-8abe-52de-be87-392e4be320c6/scratchpad/dev/cs-bubble4/truncated.state' was refused (status 400): Invalid row count\n"
+  }
+ ]
+}

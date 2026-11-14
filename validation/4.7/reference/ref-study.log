@@ -1,0 +1,117 @@
+kuhn2   default (linear, eps 0.1)    it 1000     NashConv 7.377e-02  0.000s
+kuhn2   default (linear, eps 0.1)    it 10000    NashConv 2.333e-02  0.003s
+kuhn2   default (linear, eps 0.1)    it 100000   NashConv 5.321e-03  0.031s
+kuhn2   own-chance enumeration       it 1000     NashConv 4.559e-02  0.001s
+kuhn2   own-chance enumeration       it 10000    NashConv 1.421e-02  0.007s
+kuhn2   own-chance enumeration       it 100000   NashConv 4.265e-03  0.068s
+kuhn2   terminal baseline            it 1000     NashConv 5.449e-02  0.000s
+kuhn2   terminal baseline            it 10000    NashConv 2.324e-02  0.003s
+kuhn2   terminal baseline            it 100000   NashConv 6.812e-03  0.030s
+kuhn2   own enumeration + baseline   it 1000     NashConv 3.609e-02  0.000s
+kuhn2   own enumeration + baseline   it 10000    NashConv 1.067e-02  0.005s
+kuhn2   own enumeration + baseline   it 100000   NashConv 3.134e-03  0.045s
+kuhn2   regret matching+             it 1000     NashConv 7.560e-02  0.000s
+kuhn2   regret matching+             it 10000    NashConv 2.924e-02  0.002s
+kuhn2   regret matching+             it 100000   NashConv 1.049e-02  0.022s
+kuhn2   DCFR(1.5,0,2)                it 1000     NashConv 5.891e-02  0.000s
+kuhn2   DCFR(1.5,0,2)                it 10000    NashConv 2.586e-02  0.003s
+kuhn2   DCFR(1.5,0,2)                it 100000   NashConv 6.686e-03  0.030s
+kuhn2   eps 0.05                     it 1000     NashConv 8.217e-02  0.000s
+kuhn2   eps 0.05                     it 10000    NashConv 1.975e-02  0.002s
+kuhn2   eps 0.05                     it 100000   NashConv 6.483e-03  0.022s
+kuhn3   default (linear, eps 0.1)    it 1000     NashConv 1.377e-01  0.001s
+kuhn3   default (linear, eps 0.1)    it 10000    NashConv 4.751e-02  0.007s
+kuhn3   default (linear, eps 0.1)    it 100000   NashConv 1.355e-02  0.062s
+kuhn3   own-chance enumeration       it 1000     NashConv 9.964e-02  0.002s
+kuhn3   own-chance enumeration       it 10000    NashConv 3.201e-02  0.019s
+kuhn3   own-chance enumeration       it 100000   NashConv 7.359e-03  0.175s
+kuhn3   terminal baseline            it 1000     NashConv 1.529e-01  0.001s
+kuhn3   terminal baseline            it 10000    NashConv 3.986e-02  0.007s
+kuhn3   terminal baseline            it 100000   NashConv 1.408e-02  0.059s
+kuhn3   own enumeration + baseline   it 1000     NashConv 8.203e-02  0.002s
+kuhn3   own enumeration + baseline   it 10000    NashConv 2.279e-02  0.020s
+kuhn3   own enumeration + baseline   it 100000   NashConv 8.194e-03  0.191s
+kuhn3   regret matching+             it 1000     NashConv 2.574e-01  0.001s
+kuhn3   regret matching+             it 10000    NashConv 9.962e-02  0.009s
+kuhn3   regret matching+             it 100000   NashConv 3.624e-02  0.084s
+kuhn3   DCFR(1.5,0,2)                it 1000     NashConv 1.997e-01  0.001s
+kuhn3   DCFR(1.5,0,2)                it 10000    NashConv 7.427e-02  0.009s
+kuhn3   DCFR(1.5,0,2)                it 100000   NashConv 2.242e-02  0.088s
+kuhn3   eps 0.05                     it 1000     NashConv 1.792e-01  0.001s
+kuhn3   eps 0.05                     it 10000    NashConv 3.963e-02  0.005s
+kuhn3   eps 0.05                     it 100000   NashConv 1.830e-02  0.049s
+leduc2  default (linear, eps 0.1)    it 1000     NashConv 1.895e+00  0.001s
+leduc2  default (linear, eps 0.1)    it 10000    NashConv 5.435e-01  0.010s
+leduc2  default (linear, eps 0.1)    it 100000   NashConv 2.507e-01  0.098s
+leduc2  own-chance enumeration       it 1000     NashConv 7.453e-01  0.007s
+leduc2  own-chance enumeration       it 10000    NashConv 2.686e-01  0.064s
+leduc2  own-chance enumeration       it 100000   NashConv 8.794e-02  0.618s
+leduc2  terminal baseline            it 1000     NashConv 1.661e+00  0.001s
+leduc2  terminal baseline            it 10000    NashConv 4.956e-01  0.012s
+leduc2  terminal baseline            it 100000   NashConv 1.796e-01  0.112s
+leduc2  own enumeration + baseline   it 1000     NashConv 7.028e-01  0.007s
+leduc2  own enumeration + baseline   it 10000    NashConv 2.650e-01  0.065s
+leduc2  own enumeration + baseline   it 100000   NashConv 9.906e-02  0.641s
+leduc2  regret matching+             it 1000     NashConv 1.899e+00  0.002s
+leduc2  regret matching+             it 10000    NashConv 6.514e-01  0.014s
+leduc2  regret matching+             it 100000   NashConv 1.949e-01  0.134s
+leduc2  DCFR(1.5,0,2)                it 1000     NashConv 1.521e+00  0.003s
+leduc2  DCFR(1.5,0,2)                it 10000    NashConv 3.750e-01  0.028s
+leduc2  DCFR(1.5,0,2)                it 100000   NashConv 1.295e-01  0.278s
+leduc2  eps 0.05                     it 1000     NashConv 1.869e+00  0.001s
+leduc2  eps 0.05                     it 10000    NashConv 6.323e-01  0.012s
+leduc2  eps 0.05                     it 100000   NashConv 2.790e-01  0.116s
+pf3icm  default (linear, eps 0.1)    it 1000     NashConv 2.757e-03  0.001s
+pf3icm  default (linear, eps 0.1)    it 10000    NashConv 6.566e-04  0.006s
+pf3icm  default (linear, eps 0.1)    it 100000   NashConv 2.891e-04  0.052s
+pf3icm  own-chance enumeration       it 1000     NashConv 8.206e-04  0.003s
+pf3icm  own-chance enumeration       it 10000    NashConv 2.860e-04  0.034s
+pf3icm  own-chance enumeration       it 100000   NashConv 9.292e-05  0.345s
+pf3icm  terminal baseline            it 1000     NashConv 1.864e-03  0.001s
+pf3icm  terminal baseline            it 10000    NashConv 5.621e-04  0.006s
+pf3icm  terminal baseline            it 100000   NashConv 1.302e-04  0.063s
+pf3icm  own enumeration + baseline   it 1000     NashConv 6.914e-04  0.004s
+pf3icm  own enumeration + baseline   it 10000    NashConv 2.296e-04  0.034s
+pf3icm  own enumeration + baseline   it 100000   NashConv 5.974e-05  0.335s
+pf3icm  regret matching+             it 1000     NashConv 2.023e-02  0.001s
+pf3icm  regret matching+             it 10000    NashConv 7.021e-03  0.008s
+pf3icm  regret matching+             it 100000   NashConv 2.326e-03  0.074s
+pf3icm  DCFR(1.5,0,2)                it 1000     NashConv 1.205e-02  0.001s
+pf3icm  DCFR(1.5,0,2)                it 10000    NashConv 3.745e-03  0.007s
+pf3icm  DCFR(1.5,0,2)                it 100000   NashConv 1.202e-03  0.069s
+pf3icm  eps 0.05                     it 1000     NashConv 2.359e-03  0.001s
+pf3icm  eps 0.05                     it 10000    NashConv 7.303e-04  0.006s
+pf3icm  eps 0.05                     it 100000   NashConv 1.834e-04  0.055s
+wr2     default (linear, eps 0.1)    it 1000     NashConv 4.776e-02  0.000s
+wr2     default (linear, eps 0.1)    it 10000    NashConv 4.911e-03  0.002s
+wr2     default (linear, eps 0.1)    it 100000   NashConv 1.112e-03  0.022s
+wr2     own-chance enumeration       it 1000     NashConv 2.543e-02  0.001s
+wr2     own-chance enumeration       it 10000    NashConv 3.718e-03  0.011s
+wr2     own-chance enumeration       it 100000   NashConv 5.771e-04  0.109s
+wr2     terminal baseline            it 1000     NashConv 3.442e-02  0.000s
+wr2     terminal baseline            it 10000    NashConv 1.040e-02  0.002s
+wr2     terminal baseline            it 100000   NashConv 1.065e-03  0.021s
+wr2     own enumeration + baseline   it 1000     NashConv 1.696e-02  0.001s
+wr2     own enumeration + baseline   it 10000    NashConv 2.010e-03  0.009s
+wr2     own enumeration + baseline   it 100000   NashConv 1.251e-04  0.094s
+wr2     regret matching+             it 1000     NashConv 1.097e-01  0.000s
+wr2     regret matching+             it 10000    NashConv 4.672e-02  0.002s
+wr2     regret matching+             it 100000   NashConv 1.605e-02  0.024s
+wr2     DCFR(1.5,0,2)                it 1000     NashConv 8.445e-02  0.000s
+wr2     DCFR(1.5,0,2)                it 10000    NashConv 2.896e-02  0.003s
+wr2     DCFR(1.5,0,2)                it 100000   NashConv 8.102e-03  0.032s
+wr2     eps 0.05                     it 1000     NashConv 5.395e-02  0.000s
+wr2     eps 0.05                     it 10000    NashConv 1.099e-02  0.002s
+wr2     eps 0.05                     it 100000   NashConv 9.063e-04  0.021s
+DCFR(1.5,0,2) | equal iterations                   better 0 worse 5 n.s. 10
+DCFR(1.5,0,2) | equal time                         better 0 worse 5 n.s. 10
+eps 0.05 | equal iterations                        better 0 worse 0 n.s. 15
+eps 0.05 | equal time                              better 0 worse 0 n.s. 15
+own enumeration + baseline | equal iterations      better 4 worse 0 n.s. 11
+own enumeration + baseline | equal time            better 2 worse 0 n.s. 13
+own-chance enumeration | equal iterations          better 2 worse 0 n.s. 13
+own-chance enumeration | equal time                better 1 worse 0 n.s. 14
+regret matching+ | equal iterations                better 0 worse 6 n.s. 9
+regret matching+ | equal time                      better 0 worse 7 n.s. 8
+terminal baseline | equal iterations               better 0 worse 0 n.s. 15
+terminal baseline | equal time                     better 0 worse 0 n.s. 15

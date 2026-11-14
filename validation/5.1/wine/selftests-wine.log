@@ -1,0 +1,10 @@
+# host locale LANG=LC_ALL=C.UTF-8 (the first run, selftests-wine-no-locale.log, had no locale set: Wine could not create the Unicode temporary folder on the Linux side, in 5.0 and 5.1 alike)
+== wine selftest47
+exit 0 2s
+{"tool":"mwcli selftest47","build":"7d08acc7eb4577ee","checksPassed":10,"checksFailed":0,"passed":true,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst47\\s
+== wine selftest48
+exit 0 19s
+{"tool":"mwcli selftest48","build":"7d08acc7eb4577ee","passed":9,"failed":0,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst48\\selftest48.json"}
+== wine selftest49
+exit 0 14s
+{"tool":"mwcli selftest49","build":"7d08acc7eb4577ee","passed":15,"failed":0,"report":"Z:/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/wst49\\selftest49.json"}

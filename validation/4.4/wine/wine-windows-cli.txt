@@ -1,0 +1,14 @@
+PASS  build identifier EightMaxBuild=b1b5764df465ea31
+PASS  IEEE 754 probe document identical to the Linux build (26 probes)
+PASS  print with 17 digits then parse: identical bit patterns for every probe (C runtime of the Windows build)
+PASS  exact EV, 1 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 2 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 4 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact EV, 8 threads: bits equal the 4.2 reference, 376,992 boards, coverage 371/159/212 equal to the audit
+PASS  exact response gains, eight seats, 1 threads: bits equal the 4.2 reference
+PASS  exact response gains, eight seats, 8 threads: bits equal the 4.2 reference
+PASS  training 20 updates: the Windows build writes the same state bytes as the Linux build
+PASS  sampled EV under Wine: 12 runs at 100/250/600/1000 ms all partial, worst overrun 18.1 ms (documented tolerance 50 ms idle / 150 ms loaded; Wine adds its own process overhead)
+PASS  cancellation under Wine: HTTP 409, latency 3.061 ms
+PASS  completed sampled EV (seed 9, 1,500 samples, 3 threads): Windows build equals the Linux build bit for bit
+wine44: all 13 checks passed (Wine, not Windows)

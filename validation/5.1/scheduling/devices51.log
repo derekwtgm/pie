@@ -1,0 +1,52 @@
+turn  no-driver    cpu     v5.0  train 0.1291 [0.1176, 0.1322] process 0.1436 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  no-driver    cpu     v5.1  train 0.1314 [0.1262, 0.1363] process 0.1449 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  no-driver    auto    v5.0  train 0.1297 [0.1194, 0.1331] process 0.1452 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  no-driver    auto    v5.1  train 0.1224 [0.1195, 0.1303] process 0.1363 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  no-driver    gpu     v5.0  train 0.1292 [0.1186, 0.1450] process 0.1540 driver not loaded cal 0 gpuB 0 SAME CPU
+turn  no-driver    gpu     v5.1  train 0.1294 [0.1215, 0.1521] process 0.1441 driver not loaded cal 0 gpuB 0 SAME CPU
+turn  no-driver    hybrid  v5.0  train 0.1217 [0.1216, 0.1550] process 0.1362 driver not loaded cal 0 gpuB 0 SAME CPU
+turn  no-driver    hybrid  v5.1  train 0.1235 [0.1230, 0.1240] process 0.1383 driver not loaded cal 0 gpuB 0 SAME CPU
+turn  test-double  cpu     v5.0  train 0.1294 [0.1242, 0.1368] process 0.1442 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double  cpu     v5.1  train 0.1317 [0.1254, 0.1632] process 0.1453 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double  auto    v5.0  train 0.1260 [0.1217, 0.1311] process 0.1405 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double  auto    v5.1  train 0.1283 [0.1206, 0.1313] process 0.1411 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double  gpu     v5.0  train 0.1281 [0.1253, 0.1341] process 0.1437 driver loaded(cuInit 1) cal 96 gpuB 3979 SAME CPU after measuring CUDA
+turn  test-double  gpu     v5.1  train 0.1305 [0.1258, 0.1531] process 0.1488 driver loaded(cuInit 1) cal 1 gpuB 3427 SAME CPU after measuring CUDA
+turn  test-double  hybrid  v5.0  train 0.1356 [0.1312, 0.1521] process 0.1497 driver loaded(cuInit 1) cal 96 gpuB 2967 SAME CPU after measuring CUDA
+turn  test-double  hybrid  v5.1  train 0.1245 [0.1220, 0.1286] process 0.1389 driver loaded(cuInit 1) cal 1 gpuB 2553 SAME CPU after measuring CUDA
+turn  test-double-gpu-profitable cpu     v5.0  train 0.1251 [0.1198, 0.1379] process 0.1414 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double-gpu-profitable cpu     v5.1  train 0.4802 [0.4610, 0.4946] process 0.4969 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double-gpu-profitable auto    v5.0  train 0.1252 [0.1196, 0.1414] process 0.1395 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double-gpu-profitable auto    v5.1  train 0.4671 [0.4547, 0.4832] process 0.4803 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double-gpu-profitable gpu     v5.0  train 0.1374 [0.1332, 0.1852] process 0.1539 driver loaded(cuInit 1) cal 96 gpuB 3979 SAME CPU after measuring CUDA
+turn  test-double-gpu-profitable gpu     v5.1  train 0.1420 [0.1354, 0.1508] process 0.1588 driver loaded(cuInit 1) cal 1 gpuB 3979 SAME CUDA
+turn  test-double-gpu-profitable hybrid  v5.0  train 0.1437 [0.1377, 0.1957] process 0.1593 driver loaded(cuInit 1) cal 96 gpuB 2967 SAME CPU after measuring CUDA
+turn  test-double-gpu-profitable hybrid  v5.1  train 0.2623 [0.2336, 0.2748] process 0.2788 driver loaded(cuInit 1) cal 1 gpuB 2967 SAME Hybrid
+turn  test-double-crossover cpu     v5.0  train 0.1289 [0.1230, 0.1316] process 0.1441 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double-crossover cpu     v5.1  train 0.4855 [0.4721, 0.4925] process 0.4995 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+turn  test-double-crossover auto    v5.0  train 0.1453 [0.1338, 0.1756] process 0.1613 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double-crossover auto    v5.1  train 0.4720 [0.4566, 0.4860] process 0.4865 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+turn  test-double-crossover gpu     v5.0  train 0.4328 [0.4204, 0.4536] process 0.4475 driver loaded(cuInit 1) cal 96 gpuB 3979 SAME CPU after measuring CUDA
+turn  test-double-crossover gpu     v5.1  train 0.4697 [0.4404, 0.4826] process 0.4857 driver loaded(cuInit 1) cal 4 gpuB 3979 SAME CUDA
+turn  test-double-crossover hybrid  v5.0  train 1.0043 [1.0023, 1.0065] process 1.0193 driver loaded(cuInit 1) cal 96 gpuB 2967 SAME CPU after measuring CUDA
+turn  test-double-crossover hybrid  v5.1  train 0.5724 [0.5550, 0.5768] process 0.5871 driver loaded(cuInit 1) cal 6 gpuB 2967 SAME CPU after measuring CUDA
+es    no-driver    cpu     v5.0  train 0.0652 [0.0636, 0.0667] process 0.1079 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+es    no-driver    cpu     v5.1  train 0.0676 [0.0605, 0.0687] process 0.1087 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+es    no-driver    auto    v5.0  train 0.0645 [0.0583, 0.0681] process 0.1072 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+es    no-driver    auto    v5.1  train 0.0620 [0.0597, 0.0646] process 0.0996 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+es    no-driver    gpu     v5.0  train 0.0648 [0.0587, 0.0676] process 0.1062 driver not loaded cal 0 gpuB 0 SAME CPU
+es    no-driver    gpu     v5.1  train 0.0665 [0.0579, 0.0673] process 0.1102 driver not loaded cal 0 gpuB 0 SAME CPU
+es    no-driver    hybrid  v5.0  train 0.0641 [0.0604, 0.0718] process 0.1074 driver not loaded cal 0 gpuB 0 SAME CPU
+es    no-driver    hybrid  v5.1  train 0.0671 [0.0584, 0.0695] process 0.1098 driver not loaded cal 0 gpuB 0 SAME CPU
+es    test-double  cpu     v5.0  train 0.0637 [0.0620, 0.0666] process 0.1048 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+es    test-double  cpu     v5.1  train 0.0599 [0.0583, 0.0644] process 0.0973 driver not loaded cal 0 gpuB 0 SAME CPU Only requested
+es    test-double  auto    v5.0  train 0.0592 [0.0562, 0.0669] process 0.0980 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+es    test-double  auto    v5.1  train 0.0588 [0.0577, 0.0598] process 0.0977 driver not loaded cal 0 gpuB 0 SAME CPU without opening CUDA
+es    test-double  gpu     v5.0  train 0.0573 [0.0557, 0.0592] process 0.0955 driver loaded(cuInit 1) cal 1 gpuB 2624 SAME CPU
+es    test-double  gpu     v5.1  train 0.0564 [0.0552, 0.0584] process 0.0934 driver loaded(cuInit 1) cal 1 gpuB 2624 SAME CPU after measuring CUDA
+es    test-double  hybrid  v5.0  train 0.0585 [0.0571, 0.0661] process 0.0992 driver loaded(cuInit 1) cal 1 gpuB 1968 SAME CPU
+es    test-double  hybrid  v5.1  train 0.0652 [0.0607, 0.0678] process 0.1050 driver loaded(cuInit 1) cal 1 gpuB 1968 SAME CPU after measuring CUDA
+
+real	1m30.617s
+user	1m36.576s
+sys	0m5.020s

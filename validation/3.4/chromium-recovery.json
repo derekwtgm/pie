@@ -1,0 +1,4 @@
+{
+  "status": "blocked before test",
+  "reason": "Chromium process singleton socket creation returned Operation not permitted"
+}

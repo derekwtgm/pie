@@ -1,2 +1,4 @@
 source/build/
 release/
+build/
+__pycache__/

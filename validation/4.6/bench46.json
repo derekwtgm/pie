@@ -1,0 +1,562 @@
+{
+ "tool": "bench46",
+ "generated": "2026-11-13T14:08:43.432Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "logicalCpus": 4,
+ "platform": "linux",
+ "rounds": 7,
+ "order": "interleaved; 4.5/4.6 order alternates each round",
+ "versions": {
+  "4.5": "EightMaxBuild=0e3de4013c49474a",
+  "4.6": "EightMaxBuild=169a67d1905adb32"
+ },
+ "gpu": "none on this machine: CUDA cold start, warm evaluation and GPU board counts cannot be measured here; see \"Validate CUDA hardware.bat\"",
+ "scenarios": [
+  {
+   "scenario": "training: heads-up river (chip EV)",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 100000,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 110.300935,
+     "min": 108.463052,
+     "max": 119.229705
+    },
+    "trainingSeconds": {
+     "median": 0.105689,
+     "min": 0.103802,
+     "max": 0.114094
+    },
+    "peakRssMiB": {
+     "median": 10.8,
+     "min": 7.1,
+     "max": 12.6
+    },
+    "result": "9df7239da98064a425451b0e98e34202b331ef45f451cfa17e759a11ded3c287",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 110.727235,
+     "min": 109.301451,
+     "max": 135.007464
+    },
+    "trainingSeconds": {
+     "median": 0.105948,
+     "min": 0.104717,
+     "max": 0.12988
+    },
+    "peakRssMiB": {
+     "median": 10.8,
+     "min": 7.1,
+     "max": 12.6
+    },
+    "result": "9df7239da98064a425451b0e98e34202b331ef45f451cfa17e759a11ded3c287",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.003864881109122,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "training: three-player river (side pots)",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 100000,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 180.685155,
+     "min": 171.985531,
+     "max": 205.433479
+    },
+    "trainingSeconds": {
+     "median": 0.172688,
+     "min": 0.167299,
+     "max": 0.200714
+    },
+    "peakRssMiB": {
+     "median": 10.8,
+     "min": 7.1,
+     "max": 12.6
+    },
+    "result": "17bbfb2c0d32df01679491aab273aa76381ec8a8379e7d452da734638afdc9d4",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 175.448046,
+     "min": 172.530942,
+     "max": 217.684859
+    },
+    "trainingSeconds": {
+     "median": 0.170233,
+     "min": 0.167298,
+     "max": 0.21197
+    },
+    "peakRssMiB": {
+     "median": 10.8,
+     "min": 7.1,
+     "max": 12.6
+    },
+    "result": "17bbfb2c0d32df01679491aab273aa76381ec8a8379e7d452da734638afdc9d4",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 0.9710152779291691,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "training: six-player flop (unequal stacks, all-ins)",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 50000,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 283.882073,
+     "min": 270.180171,
+     "max": 336.321567
+    },
+    "trainingSeconds": {
+     "median": 0.278674,
+     "min": 0.265349,
+     "max": 0.330901
+    },
+    "peakRssMiB": {
+     "median": 7.2,
+     "min": 7.1,
+     "max": 12.6
+    },
+    "result": "111a947d348902f3761e69dfb5e6a9766dd089b8b15c9479e9384dbb998ff8e1",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 280.118416,
+     "min": 270.601566,
+     "max": 284.054806
+    },
+    "trainingSeconds": {
+     "median": 0.274657,
+     "min": 0.265803,
+     "max": 0.279179
+    },
+    "peakRssMiB": {
+     "median": 7.2,
+     "min": 7.1,
+     "max": 9
+    },
+    "result": "111a947d348902f3761e69dfb5e6a9766dd089b8b15c9479e9384dbb998ff8e1",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 0.9867421814973151,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "training: multiway short-stack all-ins, bubble ICM",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 50000,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 76.816703,
+     "min": 75.400439,
+     "max": 78.00126
+    },
+    "trainingSeconds": {
+     "median": 0.071981,
+     "min": 0.070747,
+     "max": 0.07343
+    },
+    "peakRssMiB": {
+     "median": 7.2,
+     "min": 7.2,
+     "max": 9
+    },
+    "result": "6d6d28aef76526feb0079cf9ac4ebdd1552f1152e29950893cd94a3b87cf8794",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 80.187242,
+     "min": 75.769634,
+     "max": 100.779776
+    },
+    "trainingSeconds": {
+     "median": 0.075166,
+     "min": 0.07107,
+     "max": 0.095924
+    },
+    "peakRssMiB": {
+     "median": 7.2,
+     "min": 7.2,
+     "max": 9
+    },
+    "result": "6d6d28aef76526feb0079cf9ac4ebdd1552f1152e29950893cd94a3b87cf8794",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.043877683737611,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "training: eight-player preflop final table (ICM)",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 50000,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 335.439918,
+     "min": 326.120245,
+     "max": 395.576513
+    },
+    "trainingSeconds": {
+     "median": 0.330931,
+     "min": 0.321432,
+     "max": 0.390657
+    },
+    "peakRssMiB": {
+     "median": 8.1,
+     "min": 8,
+     "max": 9
+    },
+    "result": "d935a358f6995ce21f94ec15b2437ef6eb11894e3fa6e6e713893c56470d52cd",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 338.817382,
+     "min": 320.161681,
+     "max": 367.05568
+    },
+    "trainingSeconds": {
+     "median": 0.333627,
+     "min": 0.315398,
+     "max": 0.361628
+    },
+    "peakRssMiB": {
+     "median": 8.2,
+     "min": 8.1,
+     "max": 9
+    },
+    "result": "d935a358f6995ce21f94ec15b2437ef6eb11894e3fa6e6e713893c56470d52cd",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.010068759914257,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "training: eight-player linked training (random ranges, ICM)",
+   "algorithm": "external-sampling MCCFR, linear weighting (default)",
+   "seed": 11,
+   "trainingDeals": 1200,
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 155.387938,
+     "min": 146.044095,
+     "max": 167.7879
+    },
+    "trainingSeconds": {
+     "median": 0.129909,
+     "min": 0.119184,
+     "max": 0.138762
+    },
+    "peakRssMiB": {
+     "median": 18.7,
+     "min": 18.7,
+     "max": 18.7
+    },
+    "result": "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 151.136353,
+     "min": 144.121213,
+     "max": 166.951129
+    },
+    "trainingSeconds": {
+     "median": 0.123647,
+     "min": 0.116059,
+     "max": 0.139147
+    },
+    "peakRssMiB": {
+     "median": 18.9,
+     "min": 18.7,
+     "max": 18.9
+    },
+    "result": "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 0.9726388994234547,
+   "timeMeasure": "wallMs"
+  },
+  {
+   "scenario": "exact action EV, eight-player ICM root (CPU)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 30.183998,
+     "min": 29.091348,
+     "max": 33.036079
+    },
+    "queryMs": {
+     "median": 26.196,
+     "min": 24.878,
+     "max": 29.589
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 1184992
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 31.509488,
+     "min": 28.791471,
+     "max": 35.221333
+    },
+    "queryMs": {
+     "median": 27.969,
+     "min": 25.236,
+     "max": 30.462
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 1184992
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.0676820888685294,
+   "timeMeasure": "queryMs"
+  },
+  {
+   "scenario": "exact action EV, eight-player ICM root (Automatic, no GPU present)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 31.326289,
+     "min": 28.652131,
+     "max": 33.424943
+    },
+    "queryMs": {
+     "median": 27.821,
+     "min": 24.809,
+     "max": 29.77
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 1184992
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 35.503901,
+     "min": 29.692183,
+     "max": 41.572742
+    },
+    "queryMs": {
+     "median": 31.832,
+     "min": 25.804,
+     "max": 37.451
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "auto",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 1184992
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.1441716688832178,
+   "timeMeasure": "queryMs"
+  },
+  {
+   "scenario": "sampled action EV, 20,000 samples (seeded)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 1536.38972,
+     "min": 1495.627402,
+     "max": 1564.971334
+    },
+    "queryMs": {
+     "median": 1532.075,
+     "min": 1490.992,
+     "max": 1561.244
+    },
+    "result": "sampled (seeded): 402e0a65ca15f67f,402f57c7cb338024",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 0,
+    "coveragePeakBytes": 2233568
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 1564.226151,
+     "min": 1513.098096,
+     "max": 1588.232698
+    },
+    "queryMs": {
+     "median": 1559.235,
+     "min": 1509.483,
+     "max": 1584.154
+    },
+    "result": "sampled (seeded): 402e0a65ca15f67f,402f57c7cb338024",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "auto",
+    "observedDevice": "no showdown tables",
+    "cpuBoards": 0,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 0,
+    "coveragePeakBytes": 2233568
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.017727591664899,
+   "timeMeasure": "queryMs"
+  },
+  {
+   "scenario": "eight-seat exact response gains (CPU)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 43.029435,
+     "min": 40.789128,
+     "max": 46.694946
+    },
+    "queryMs": {
+     "median": 39.365,
+     "min": 37.121,
+     "max": 42.459
+    },
+    "result": "3fe15d3f18fd8430,3fadfb44a17da100,3f7e93e0e23e9000,3fa28aad598de200,3fc1d3a932e4eb40,3facf6d893a40500,3fbb34236bb44e80,3fc12dd7abd36dc0",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 44.227766,
+     "min": 42.092774,
+     "max": 49.323956
+    },
+    "queryMs": {
+     "median": 40.363,
+     "min": 38.462,
+     "max": 45.247
+    },
+    "result": "3fe15d3f18fd8430,3fadfb44a17da100,3f7e93e0e23e9000,3fa28aad598de200,3fc1d3a932e4eb40,3facf6d893a40500,3fbb34236bb44e80,3fc12dd7abd36dc0",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.0253524704686905,
+   "timeMeasure": "queryMs"
+  },
+  {
+   "scenario": "large information-set coverage (exact EV, coverageMiB 1, audit)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 30.250168,
+     "min": 26.707174,
+     "max": 36.665676
+    },
+    "queryMs": {
+     "median": 25.86,
+     "min": 23.098,
+     "max": 32.695
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 103632
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 30.337723,
+     "min": 27.810821,
+     "max": 32.525429
+    },
+    "queryMs": {
+     "median": 26.356,
+     "min": 24.453,
+     "max": 28.603
+    },
+    "result": "402e0a51470d8f36,402f57218439052d",
+    "identicalAcrossRounds": true,
+    "requestedDevice": "cpu",
+    "observedDevice": "cpu",
+    "cpuBoards": 376992,
+    "gpuBoards": 0,
+    "peakEvaluationMiB": 11.658,
+    "coveragePeakBytes": 103632
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 1.0191802010827533,
+   "timeMeasure": "queryMs"
+  },
+  {
+   "scenario": "checkpoint continuation 150 + 150 vs 300 (eight-player linked ICM)",
+   "threads": 4,
+   "4.5": {
+    "wallMs": {
+     "median": 216,
+     "min": 196,
+     "max": 256
+    },
+    "result": "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+    "identicalAcrossRounds": true
+   },
+   "4.6": {
+    "wallMs": {
+     "median": 199,
+     "min": 191,
+     "max": 219
+    },
+    "result": "aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8",
+    "identicalAcrossRounds": true
+   },
+   "identicalResults": true,
+   "timeRatio46over45": 0.9212962962962963,
+   "timeMeasure": "wallMs"
+  }
+ ]
+}

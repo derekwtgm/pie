@@ -1,0 +1,8 @@
+	DLL Name: KERNEL32.dll
+	DLL Name: msvcrt.dll
+	DLL Name: SHELL32.dll
+	DLL Name: WINMM.dll
+	DLL Name: WS2_32.dll
+
+	DLL Name: KERNEL32.dll
+	DLL Name: msvcrt.dll

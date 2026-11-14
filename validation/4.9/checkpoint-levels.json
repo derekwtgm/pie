@@ -1,0 +1,197 @@
+{
+ "tool": "checkpoint48",
+ "generated": "2026-11-13T22:38:45.511Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+ "rounds": 3,
+ "studies": [
+  {
+   "study": "eight-player linked study, random ranges, ICM (4.5 fixture), 3,000 updates",
+   "updates": 3000,
+   "rawBytes": 14880640,
+   "trainingSaveIncludedSeconds": 1.464443237,
+   "restoreSecondsRaw": 0.300693298,
+   "restorePeakRssMiBRaw": 55.1,
+   "resumedFromRawEqualsUninterrupted": true,
+   "levels": [
+    {
+     "level": 1,
+     "compressedBytes": 7366210,
+     "ratio": 0.4950197034536149,
+     "compressSeconds": 0.543804079,
+     "decompressSeconds": 0.158820317,
+     "restoreSecondsCompressed": 0.444002175,
+     "compressPeakRssMiB": 64.4,
+     "decompressPeakRssMiB": 20.3,
+     "restorePeakRssMiBCompressed": 56.4,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 3,
+     "compressedBytes": 7197214,
+     "ratio": 0.4836629338523074,
+     "compressSeconds": 0.659444476,
+     "decompressSeconds": 0.158199915,
+     "restoreSecondsCompressed": 0.465312929,
+     "compressPeakRssMiB": 64.4,
+     "decompressPeakRssMiB": 20.5,
+     "restorePeakRssMiBCompressed": 56.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 6,
+     "compressedBytes": 6768730,
+     "ratio": 0.4548682045933508,
+     "compressSeconds": 1.097978186,
+     "decompressSeconds": 0.147565779,
+     "restoreSecondsCompressed": 0.42483708,
+     "compressPeakRssMiB": 64.6,
+     "decompressPeakRssMiB": 20.2,
+     "restorePeakRssMiBCompressed": 56.3,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 9,
+     "compressedBytes": 6722941,
+     "ratio": 0.45179111919917425,
+     "compressSeconds": 6.307469059,
+     "decompressSeconds": 0.150664602,
+     "restoreSecondsCompressed": 0.425029216,
+     "compressPeakRssMiB": 64.6,
+     "decompressPeakRssMiB": 20.1,
+     "restorePeakRssMiBCompressed": 56.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    }
+   ]
+  },
+  {
+   "study": "six-player flop, weighted three-hand ranges, two bet sizes, 50,000 updates",
+   "updates": 50000,
+   "rawBytes": 56365,
+   "trainingSaveIncludedSeconds": 0.33228299,
+   "restoreSecondsRaw": 0.004644832,
+   "restorePeakRssMiBRaw": 21.8,
+   "resumedFromRawEqualsUninterrupted": true,
+   "levels": [
+    {
+     "level": 1,
+     "compressedBytes": 35586,
+     "ratio": 0.6313492415506077,
+     "compressSeconds": 0.00639185,
+     "decompressSeconds": 0.004902046,
+     "restoreSecondsCompressed": 0.005024906,
+     "compressPeakRssMiB": 22.2,
+     "decompressPeakRssMiB": 22.2,
+     "restorePeakRssMiBCompressed": 22.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 3,
+     "compressedBytes": 33840,
+     "ratio": 0.6003725716313315,
+     "compressSeconds": 0.006643109,
+     "decompressSeconds": 0.005094372,
+     "restoreSecondsCompressed": 0.004825064,
+     "compressPeakRssMiB": 22.2,
+     "decompressPeakRssMiB": 22.2,
+     "restorePeakRssMiBCompressed": 22.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 6,
+     "compressedBytes": 32569,
+     "ratio": 0.5778231171826488,
+     "compressSeconds": 0.008578492,
+     "decompressSeconds": 0.004878352,
+     "restoreSecondsCompressed": 0.005043097,
+     "compressPeakRssMiB": 22.2,
+     "decompressPeakRssMiB": 22.2,
+     "restorePeakRssMiBCompressed": 22.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 9,
+     "compressedBytes": 32449,
+     "ratio": 0.5756941364321831,
+     "compressSeconds": 0.014634276,
+     "decompressSeconds": 0.004983218,
+     "restoreSecondsCompressed": 0.004935876,
+     "compressPeakRssMiB": 22.2,
+     "decompressPeakRssMiB": 22.2,
+     "restorePeakRssMiBCompressed": 22.2,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    }
+   ]
+  },
+  {
+   "study": "four-player turn and river, 50,000 updates",
+   "updates": 50000,
+   "rawBytes": 164680,
+   "trainingSaveIncludedSeconds": 0.159348765,
+   "restoreSecondsRaw": 0.006312464,
+   "restorePeakRssMiBRaw": 23.4,
+   "resumedFromRawEqualsUninterrupted": true,
+   "levels": [
+    {
+     "level": 1,
+     "compressedBytes": 70220,
+     "ratio": 0.4264027204274958,
+     "compressSeconds": 0.011086339,
+     "decompressSeconds": 0.006763709,
+     "restoreSecondsCompressed": 0.007910893,
+     "compressPeakRssMiB": 23.4,
+     "decompressPeakRssMiB": 23.4,
+     "restorePeakRssMiBCompressed": 23.4,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 3,
+     "compressedBytes": 67057,
+     "ratio": 0.4071957736215691,
+     "compressSeconds": 0.010707048,
+     "decompressSeconds": 0.006168298,
+     "restoreSecondsCompressed": 0.006363495,
+     "compressPeakRssMiB": 23.4,
+     "decompressPeakRssMiB": 23.4,
+     "restorePeakRssMiBCompressed": 23.4,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 6,
+     "compressedBytes": 65306,
+     "ratio": 0.39656303133349524,
+     "compressSeconds": 0.014518922,
+     "decompressSeconds": 0.006103849,
+     "restoreSecondsCompressed": 0.006311853,
+     "compressPeakRssMiB": 23.4,
+     "decompressPeakRssMiB": 23.4,
+     "restorePeakRssMiBCompressed": 23.4,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    },
+    {
+     "level": 9,
+     "compressedBytes": 63721,
+     "ratio": 0.38693830459072137,
+     "compressSeconds": 0.072526451,
+     "decompressSeconds": 0.006994327,
+     "restoreSecondsCompressed": 0.007328222,
+     "compressPeakRssMiB": 23.4,
+     "decompressPeakRssMiB": 23.4,
+     "restorePeakRssMiBCompressed": 23.4,
+     "byteExactRoundTrip": true,
+     "resumedEqualsUninterrupted": true
+    }
+   ]
+  }
+ ]
+}

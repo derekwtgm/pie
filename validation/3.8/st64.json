@@ -1,0 +1,65 @@
+{
+ "reps": 5,
+ "A": "cli37/mwcli",
+ "B": "tune/st64",
+ "scenarios": [
+  {
+   "scenario": "Eight-player linked",
+   "updates": 1500,
+   "threads": 4,
+   "medianMsA": 1772.497,
+   "medianMsB": 1688.045,
+   "geomeanRatioB_over_A": 0.9702773700997196,
+   "ratio95": [
+    0.914925687313724,
+    1.0289777497577388
+   ],
+   "peakRssMiBA": 165.0,
+   "peakRssMiBB": 250.7,
+   "identicalStates": true,
+   "msA": [
+    1604.242,
+    1900.392,
+    1671.9189999999999,
+    1772.497,
+    1776.7
+   ],
+   "msB": [
+    1608.577,
+    1688.045,
+    1764.809,
+    1730.735,
+    1664.383
+   ]
+  },
+  {
+   "scenario": "Six-player flop",
+   "updates": 1500,
+   "threads": 4,
+   "medianMsA": 1372.464,
+   "medianMsB": 1385.9660000000001,
+   "geomeanRatioB_over_A": 0.9788787825716199,
+   "ratio95": [
+    0.9351772110333025,
+    1.0246225631505195
+   ],
+   "peakRssMiBA": 125.4,
+   "peakRssMiBB": 224.6,
+   "identicalStates": true,
+   "msA": [
+    1339.566,
+    1372.464,
+    1370.453,
+    1392.814,
+    1488.184
+   ],
+   "msB": [
+    1391.4679999999998,
+    1385.9660000000001,
+    1243.024,
+    1349.318,
+    1451.122
+   ]
+  }
+ ]
+}

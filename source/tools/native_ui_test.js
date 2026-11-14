@@ -16,7 +16,7 @@ const checks=[],pass=m=>{checks.push(m);console.log('PASS  '+m);};
   let browser,failure=null;
   try{
     for(let i=0;i<600;i++){try{await fetch('http://127.0.0.1:'+port+'/api/info');break;}catch(e){await new Promise(r=>setTimeout(r,100));}}
-    browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+    browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
     const page=await browser.newPage();await page.goto('http://127.0.0.1:'+port+'/');
     await page.evaluate(()=>{
       const url=URL.createObjectURL(new Blob([document.querySelector('#em-lib').textContent+'\n;EM.workerMain(self);'],{type:'text/javascript'}));
@@ -42,8 +42,15 @@ const checks=[],pass=m=>{checks.push(m);console.log('PASS  '+m);};
     if(s.reason!=='stopped'||!(s.iterations>0&&s.iterations<1000000))throw Error('stop failed '+JSON.stringify(s));
     pass(`Stop from the interface ends native training after ${s.iterations} updates and returns the trained strategy (${s.ms.toFixed(0)} ms)`);
     const f=await page.evaluate(async cfg=>{const res=await job('multi-solve',{cfg:{...cfg,abstraction:'detailed'},maxIter:2000,target:0,native:{base:location.origin,threads:2}});return res.metrics.trainingEngine;},cfg);
-    if(f.name!=='JavaScript'||!/Exact cards/.test(f.fallbackReason))throw Error('fallback not recorded '+JSON.stringify(f));
-    pass('An ineligible study (Detailed groups) trains in JavaScript and records why: '+f.fallbackReason);
+    if(f.name!=='native C++')throw Error('Detailed native traversal unavailable');
+    pass('Detailed grouped river study used native C++');
+    const back=await page.evaluate(async cfg=>{
+      const res=await job('multi-solve',{cfg,maxIter:200,target:0,native:{base:location.origin+'/unavailable',threads:2}});
+      const ref=EM.MultiwayGame(cfg);ref.iterate(200);
+      return {engine:res.metrics.trainingEngine,ev:res.metrics.ev,ref:ref.metrics().ev};
+    },cfg);
+    if(back.engine.name!=='JavaScript'||!back.engine.fallbackReason||JSON.stringify(back.ev)!==JSON.stringify(back.ref))throw Error('Native fallback failed');
+    pass('Unavailable native route reported the reason and reproduced JavaScript EVs');
   }catch(e){failure=e.stack||String(e);console.log('FAIL  '+failure);}
   finally{if(browser)await browser.close();host.kill('SIGKILL');fs.rmSync(home,{recursive:true,force:true});
     if(reportFile)fs.writeFileSync(reportFile,JSON.stringify({passed:!failure,runtime:viaWine?'wine (not Windows)':process.platform,checks,error:failure,generated:new Date().toISOString()},null,1)+'\n');
