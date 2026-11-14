@@ -1,5 +1,26 @@
-EightMax 4.9 - 8-max MTT solver for Windows
+EightMax 5.0 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 5.0: AUTOMATIC MODE REALLY SKIPS THE GRAPHICS CARD FOR SMALL JOBS
+  - 4.9 promised this, but the rule only worked for external-sampling
+    training. The normal training used by "Compare processing modes.bat"
+    (the 2,400-deal turn: 63.2 ms CPU vs 172.9 ms Automatic on your PC)
+    still opened CUDA and then fell back to the CPU. 5.0 applies the rule
+    to every training call. Results are byte-for-byte the same as CPU Only.
+    GPU Preferred and Hybrid are unchanged.
+  - The device report now explains each decision: the training path, the
+    planned updates, the projected CPU time and the threshold, whether
+    CUDA was opened, the calibrations, the GPU memory and the reason.
+  - Run "Compare processing modes.bat" to see the new timing on your RTX
+    4060 Ti. It was not measured for this release: no GPU was available.
+  - A faster parallel six-player trainer was tested on ten fresh seeds. It
+    trains faster but produced no proven quality gain per second, so it is
+    not the default. Strategies, tournament rules and checkpoints are
+    unchanged, and 4.9 checkpoints resume to the same state.
+Read RELEASE-5.0.md.
+
+EightMax 4.9 - 8-max MTT solver for Windows
+--------------------------------------------
 
 NEW IN 4.9: COMPRESSED CHECKPOINTS WORK ON A NORMAL WINDOWS ACCOUNT
   - Resuming training from a compressed (.emz) checkpoint failed on your PC
