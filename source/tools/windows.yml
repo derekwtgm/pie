@@ -31,6 +31,33 @@ jobs:
           path-type: inherit
           update: true
           install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-zlib python
+      - name: Identify the release toolchain and its dependencies (5.0)
+        shell: msys2 {0}
+        run: |
+          set -e
+          # the release compiler is MSYS2 UCRT64 GCC; later PowerShell steps use it explicitly
+          { echo '{'
+            echo "  \"msystem\": \"$MSYSTEM\","
+            echo "  \"gcc\": \"$(gcc --version | head -1)\","
+            echo "  \"gxx\": \"$(g++ --version | head -1)\","
+            echo "  \"gxxPath\": \"$(cygpath -m "$(command -v g++)")\","
+            echo "  \"binutils\": \"$(ld --version | head -1)\","
+            echo "  \"zlib\": \"$(pacman -Q mingw-w64-ucrt-x86_64-zlib)\","
+            echo "  \"gccPackage\": \"$(pacman -Q mingw-w64-ucrt-x86_64-gcc)\","
+            echo "  \"msys2Runtime\": \"$(pacman -Q msys2-runtime)\","
+            echo "  \"node\": \"$(node --version)\","
+            echo "  \"python\": \"$(python3 --version 2>&1)\""
+            echo '}'; } > windows-toolchain.json
+          cat windows-toolchain.json
+          echo "EM_TEST_CXX=$(cygpath -w "$(command -v g++)")" >> "$GITHUB_ENV"
+          echo "EM_TEST_CC=$(cygpath -w "$(command -v gcc)")" >> "$GITHUB_ENV"
+          cygpath -w /ucrt64/bin >> "$GITHUB_PATH"
+      - name: Build the CUDA driver test double as a Windows DLL (5.0; simulated driver, not a GPU)
+        shell: msys2 {0}
+        run: |
+          mkdir -p build/fixture
+          g++ -std=c++20 -O2 -shared -static -o build/fixture/nvcuda-fixture.dll source/tests/cuda_driver_fixture.cpp
+          echo "EM_TEST_CUDA_FIXTURE=$(cygpath -w "$PWD/build/fixture/nvcuda-fixture.dll")" >> "$GITHUB_ENV"
       - name: Compile a fresh native host from the current source
         shell: msys2 {0}
         run: CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
@@ -178,6 +205,42 @@ jobs:
             windows-selftest48.json
             windows-selftest49.json
             windows-emz-denied-temp.json
+            windows-toolchain.json
             windows-runner-hardware-validation.json
             windows-concurrency-stress.txt
             release/EightMax/validation/
+  compilers:
+    # 5.0: supported compiler matrix on Linux (the Windows job above uses MSYS2 UCRT64 GCC for the release)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install the toolchain
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zlib1g-dev clang
+      - name: Identify the toolchain
+        run: |
+          if [ "${{ matrix.compiler }}" = clang ]; then echo "CXX=clang++" >> "$GITHUB_ENV"; echo "CC=clang" >> "$GITHUB_ENV"; else echo "CXX=g++" >> "$GITHUB_ENV"; echo "CC=gcc" >> "$GITHUB_ENV"; fi
+          g++ --version | head -1; clang++ --version | head -1; dpkg -s zlib1g-dev | grep Version
+      - name: Build mwcli with ${{ matrix.compiler }} (C++20, -Wall -Wextra)
+        run: |
+          mkdir -p build/${{ matrix.compiler }} && printf '#define EM_VERSION "ci"\n#define EM_BUILD_ID "ci"\n' > build/bi.h
+          $CC -O2 -c source/native/json.c -o build/json.o
+          $CXX -std=c++20 -O2 -Wall -Wextra -ffp-contract=off -Isource/native -include build/bi.h source/native/mw.cpp source/native/mwcli.cpp build/json.o -lpthread -ldl -lz -o build/${{ matrix.compiler }}/mwcli
+          echo "EM_TEST_MWCLI=$PWD/build/${{ matrix.compiler }}/mwcli" >> "$GITHUB_ENV"
+      - name: Compiler, scheduling and checkpoint tests with the ${{ matrix.compiler }} build
+        run: |
+          EM_TEST_CXX=$CXX EM_TEST_CC=$CC node --test --test-reporter=tap source/tests/v49.test.js source/tests/v50.test.js 2>&1 | tee tests-${{ matrix.compiler }}.tap
+          grep -q '^# fail 0' tests-${{ matrix.compiler }}.tap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compiler-${{ matrix.compiler }}
+          path: tests-${{ matrix.compiler }}.tap

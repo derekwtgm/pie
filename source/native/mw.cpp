@@ -139,6 +139,11 @@ struct MW {
   size_t gpuBudget=512ULL<<20,peakGpuBytes=0;
   size_t cpuScoreUnits=0;unsigned cpuScoreReuse=0,scoreCalibrations=0;
   long long plannedUpdates=0; double autoProjectedScoreSeconds=-1; bool autoDeviceSkipped=false;   // 4.9: Automatic small-job rule (score_schedule.hpp)
+  // 5.0: per-call scheduling diagnostics, reset by beginScoringCall() at the start of EVERY mw_train
+  // call on both training paths (4.9 set plannedUpdates only on the external-sampling path, so the
+  // enumerated/full-width path never qualified for the Automatic small-job rule).
+  std::string trainingPath, scheduleDecision="not applicable", scheduleReason; double autoThresholdSeconds=0.5, callCalibrationSeconds=0;
+  unsigned callCalibrations=0; size_t callGpuPeakBytes=0; bool callCudaOpened=false;
   double scoreCalibrationSeconds=0,cpuScoreProbeSeconds=0,bestDeviceScoreSeconds=0;
   int n = 0, startLen = 5, kmax = 1, maxDepth = 1;
   int board[5] = {0, 0, 0, 0, 0};
@@ -829,6 +834,7 @@ extern "C" int mw_train(MW *m, long long iterations, int threads, volatile int *
   m->lastThreads = threads;
   Pool pool;
   ScoreSchedule scorer;
+  beginScoringCall(*m, iterations, m->updates == 0 ? "sampled deals, simultaneous updates" : m->updates == 1 ? "sampled deals, alternating updates" : "sampled deals, enumerated own hands");
   try {
     std::vector<DealWork> work;
     std::vector<GroupedWorld> grouped;
@@ -1085,6 +1091,7 @@ extern "C" void mw_info(MW *m, JB *out) {
     jb_puts(out, ",\"budgetMiB\":"); jb_num(out, m->budgetBytes / 1048576.0, 1);
     jb_printf(out,",\"scoreCalibrations\":%u,\"scoreCalibrationSeconds\":%.7f,\"cpuScoreProbeSeconds\":%.7f,\"bestDeviceScoreSeconds\":%.7f",m->scoreCalibrations,m->scoreCalibrationSeconds,m->cpuScoreProbeSeconds,m->bestDeviceScoreSeconds);
     jb_printf(out,",\"automaticDeviceSkipped\":%s,\"automaticProjectedScoreSeconds\":%.6f",m->autoDeviceSkipped?"true":"false",m->autoProjectedScoreSeconds);
+    schedulingJson(out, *m);
     if (!m->studyId.empty()) jb_printf(out, ",\"studyId\":\"%s\"", m->studyId.c_str());
     // 3.3: external sampling scores hands on the CPU. The profile below bounds what any GPU
     // offload of hand scoring could save (Amdahl): at most scoringShare of the training time,
@@ -1100,6 +1107,8 @@ extern "C" void mw_info(MW *m, JB *out) {
   jb_num(out, m->bytes / 1048576.0, 3);
   if(!m->studyId.empty())jb_printf(out,",\"studyId\":\"%s\"",m->studyId.c_str());
   jb_printf(out,",\"devicePath\":\"%s\",\"gpuBufferPeakBytes\":%zu",m->route.c_str(),m->peakGpuBytes);
+  jb_printf(out,",\"requestedDevice\":\"%s\",\"scoreCalibrations\":%u,\"scoreCalibrationSeconds\":%.7f,\"automaticDeviceSkipped\":%s,\"automaticProjectedScoreSeconds\":%.6f",m->mode.c_str(),m->scoreCalibrations,m->scoreCalibrationSeconds,m->autoDeviceSkipped?"true":"false",m->autoProjectedScoreSeconds);
+  schedulingJson(out, *m);
   jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f}}", m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, m->secDeal, m->secTraverse, m->secMerge);
 }
 static uint32_t crcUpdate(uint32_t crc,const unsigned char *data,size_t n) {

@@ -463,7 +463,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
     if (cap < fixed*T+B*sizeof(Unit)) throw std::bad_alloc();
     ScratchBudget budget(cap-fixed*T-B*sizeof(Unit),g.scratchPeak);
     Workers pool(T);
-    ScoreSchedule scorer; m->plannedUpdates = iterations; m->autoDeviceSkipped = false; m->autoProjectedScoreSeconds = -1;
+    ScoreSchedule scorer; beginScoringCall(*m, iterations, "external sampling");
     const bool routeBatch=m->mode!="cpu" && B*n>=128 && m->startLen!=5;
     m->route=routeBatch?"CPU (external sampling traversal)":"CPU (external sampling traversal; small batch or CPU scoring)";
 

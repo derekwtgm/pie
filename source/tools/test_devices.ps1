@@ -31,9 +31,15 @@ try {
     $signature = "$hash/$($info.rng)/$($info.trainingDeals)/$($info.stateVisits)"
     if ($null -eq $reference) { $reference = $signature }
     if ($signature -ne $reference) { throw "Training state differs from CPU in $mode mode" }
+    # 5.0: the scheduling block of the training report (per call; absent before 5.0)
+    $sc = $info.scheduling
     $rows += [pscustomobject]@{requested=$mode; observed=$info.devicePath; trainingSeconds=$info.wallSeconds;
       processSeconds=$clock.Elapsed.TotalSeconds; sampledDeals=$info.trainingDeals; stateVisits=$info.stateVisits;
-      gpuBufferPeakBytes=$info.gpuBufferPeakBytes; strategySHA256=$hash}
+      gpuBufferPeakBytes=$info.gpuBufferPeakBytes; strategySHA256=$hash; rng=$info.rng;
+      trainingPath=$sc.trainingPath; plannedUpdates=$sc.plannedUpdates; projectedCpuScoreSeconds=$sc.projectedCpuScoreSeconds;
+      thresholdSeconds=$sc.thresholdSeconds; automaticSkippedCuda=$sc.automaticSkippedCuda; cudaOpened=$sc.cudaOpenedThisCall;
+      calibrations=$sc.calibrationsThisCall; calibrationSeconds=$sc.calibrationSecondsThisCall; gpuBufferPeakBytesThisCall=$sc.gpuBufferPeakBytesThisCall;
+      decision=$sc.decision; reason=$sc.reason}
   }
   $report = [ordered]@{build=(& $exe --build-id); cpu=$env:PROCESSOR_IDENTIFIER;
     graphics=@(Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion); runs=$rows}

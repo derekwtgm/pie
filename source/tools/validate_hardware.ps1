@@ -186,7 +186,7 @@ try {
     if ($mode -eq 'cpu') { $cpuHash = $hash }
     if ($hash -ne $cpuHash) { $failures += "External sampling state differs in $mode" }
     $clock.Stop()
-    $batchRuns += [pscustomobject]@{trainingDeals=$info.trainingDeals; stateVisits=$info.stateVisits; sha256=$hash; mode=$mode; path=$info.devicePath; gpuPeakBytes=$info.gpuBufferPeakBytes; seconds=$info.wallSeconds; processSeconds=$clock.Elapsed.TotalSeconds; processPeakMiB=$info.processPeakRssMiB; calibrationSeconds=$info.scoreCalibrationSeconds; cpuProbeSeconds=$info.cpuScoreProbeSeconds; deviceProbeSeconds=$info.bestDeviceScoreSeconds; sameState=($hash -eq $cpuHash)}
+    $batchRuns += [pscustomobject]@{trainingDeals=$info.trainingDeals; stateVisits=$info.stateVisits; sha256=$hash; mode=$mode; path=$info.devicePath; gpuPeakBytes=$info.gpuBufferPeakBytes; seconds=$info.wallSeconds; processSeconds=$clock.Elapsed.TotalSeconds; processPeakMiB=$info.processPeakRssMiB; calibrationSeconds=$info.scoreCalibrationSeconds; cpuProbeSeconds=$info.cpuScoreProbeSeconds; deviceProbeSeconds=$info.bestDeviceScoreSeconds; sameState=($hash -eq $cpuHash); scheduling=$info.scheduling}   # 5.0: per-call scheduling block
   }
   # 3.9: end-to-end action-EV and response-gain timing on the eight-handed
   # preflop fixture (CPU engine; these calculations do not use the GPU), and

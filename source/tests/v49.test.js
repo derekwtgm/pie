@@ -57,12 +57,14 @@ test('4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves
 });
 // Windows hosts: the toolchains on PATH there (for example LLVM clang++ targeting MSVC, without zlib) are not
 // the release toolchain; the MSYS2 MinGW-w64 GCC build of the release is the CI build step itself.
-test('4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)', { skip: (process.platform === 'win32' && 'Windows: the release toolchain (MSYS2 GCC) is exercised by the CI build step; other compilers on PATH target MSVC') || (!has('clang++') && !has('g++') && 'no compiler'), timeout: 900000 }, t => {
+// 5.0: on Windows the CI workflow names the release compiler explicitly (EM_TEST_CXX = MSYS2 UCRT64 g++);
+// without it the test is skipped there, because other compilers on a hosted runner's PATH target MSVC.
+test('4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)', { skip: (process.platform === 'win32' && !process.env.EM_TEST_CXX && 'Windows: set EM_TEST_CXX to the release compiler (the CI workflow does)') || (!process.env.EM_TEST_CXX && !has('clang++') && !has('g++') && 'no compiler'), timeout: 900000 }, t => {
   const dir = tmp(t), bi = path.join(dir, 'bi.h'); fs.writeFileSync(bi, '#define EM_VERSION "4.9"\n#define EM_BUILD_ID "test"\n');
   // Only compilers with C++20 support are used (GCC >= 11, Clang >= 14). Hosted Windows runners also
   // carry older MinGW toolchains on PATH; the release compiler itself is exercised by the build step.
   const major = cxx => { const v = cp.spawnSync(cxx, ['-dumpversion'], { encoding: 'utf8' }).stdout || ''; return parseInt(v, 10) || 0; };
-  const usable = ['clang++', 'g++'].filter(has).filter(c => major(c) >= (c === 'g++' ? 11 : 14));
+  const usable = process.env.EM_TEST_CXX ? [process.env.EM_TEST_CXX] : ['clang++', 'g++'].filter(has).filter(c => major(c) >= (c === 'g++' ? 11 : 14));
   if (!usable.length) return t.skip('no C++20 compiler on PATH (found: ' + ['clang++', 'g++'].filter(has).map(c => c + ' ' + major(c)).join(', ') + ')');
   for (const cxx of usable) for (const src of ['mw.cpp', 'mwcli.cpp']) {
     const r = cp.spawnSync(cxx, ['-std=c++20', '-O0', '-Wall', '-Wextra', '-ffp-contract=off', '-fsyntax-only', '-I' + native, '-include', bi, path.join(native, src)], { encoding: 'utf8' });

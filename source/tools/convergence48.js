@@ -32,6 +32,10 @@ const VARIANTS = {
   'own-hands+baseline': { ownHandEnumeration: true, terminalBaseline: true },
   'rm-plus': { regretMatching: 'plus' },
   'dcfr': { weighting: 'dcfr' },
+  // 5.0 candidate: simultaneous 16-deal batches with per-deal action streams, so training can use
+  // every --threads worker (the default alternates one deal per update and uses one thread).
+  'parallel16': { batchDeals: 16, actionStreams: 'deal' },
+  'parallel64': { batchDeals: 64, actionStreams: 'deal' },
 };
 const quick = args.includes('--quick');
 const nSeeds = +opt('seeds', quick ? 3 : 10), seedOffset = +opt('seed-offset', 300);
@@ -40,6 +44,8 @@ const vnames = (opt('variants') || 'default,eps0,eps0.05,eps0.2,eps0.4,batch8,ow
 if (vnames[0] !== 'default') throw new Error('the first variant must be default');
 for (const v of vnames) if (!VARIANTS[v]) throw new Error('unknown variant ' + v);
 const seeds = Array.from({ length: nSeeds }, (_, i) => seedOffset + 1 + i);
+// 5.0: training threads (default 1, as in 4.9) and evaluation threads (exact gains are thread-independent)
+const trainThreads = +opt('threads', 1), evalThreads = +opt('eval-threads', 1);
 // ---------------- worker: one seed list, raw rows ----------------
 if (opt('worker')) {
   const mySeeds = opt('worker').split(',').map(Number), raw = {}; const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'em48-conv-'));
@@ -52,11 +58,11 @@ if (opt('worker')) {
         const sp = G.spec(key, seed, VARIANTS[vname]);
         const spec = path.join(dir, 'spec.json'), st = path.join(dir, 'state'), q = path.join(dir, 'q.json');
         fs.writeFileSync(spec, JSON.stringify(sp));
-        fs.writeFileSync(q, JSON.stringify({ method: 'exact', threads: 1, timeLimitMs: 3600000, maxVisits: 2000000000 }));
+        fs.writeFileSync(q, JSON.stringify({ method: 'exact', threads: evalThreads, timeLimitMs: 3600000, maxVisits: 2000000000 }));
         let deals = 0, wall = 0, peak = 0; const rows = [];
         for (const target of cps) {
           const updates = Math.round((target - deals) / (sp.batchDeals || 1));
-          const info = run([spec, updates, 1, st + '.next', 512, ...(deals ? [st] : [])]);
+          const info = run([spec, updates, trainThreads, st + '.next', 512, ...(deals ? [st] : [])]);
           fs.renameSync(st + '.next', st);
           deals = info.trainingDeals; wall += info.wallSeconds; peak = Math.max(peak, info.processPeakRssMiB || 0);
           const t0 = process.hrtime.bigint(), g = run(['--gain', spec, st, q]), evalWall = Number(process.hrtime.bigint() - t0) / 1e9;
@@ -95,7 +101,7 @@ function atTime(rows, T) {
     p.on('exit', c => c ? rej(new Error('worker ' + j + ' exit ' + c)) : res(JSON.parse(fs.readFileSync(rawFile, 'utf8'))));
   })));
   const raw = {}; for (const r of raws) for (const k in r) for (const v in r[k]) Object.assign((raw[k] ||= {})[v] ||= {}, r[k][v]);
-  const report = { tool: 'convergence48', generated: new Date().toISOString(), cpu: os.cpus()[0].model, logicalCpus: os.cpus().length, workers: jobs, trainingThreads: 1, tableBudgetMiB: 512, seeds, studyWallSeconds: (Date.now() - t0) / 1000,
+  const report = { tool: 'convergence48', generated: new Date().toISOString(), cpu: os.cpus()[0].model, logicalCpus: os.cpus().length, workers: jobs, trainingThreads: trainThreads, evaluationThreads: evalThreads, tableBudgetMiB: 512, seeds, studyWallSeconds: (Date.now() - t0) / 1000,
     variants: vnames.map(v => ({ name: v, options: VARIANTS[v], validatedDefault: v === 'default' })),
     method: 'exact best response of every seat after each checkpoint (independent of training, deterministic); NashConv = sum of per-seat gains inside the abstraction; paired per-seed differences of ln NashConv at equal sampled deals and at equal training time; Student t; Holm over all comparisons (family-wise 5%)', games: [] };
   for (const key of keys) {
@@ -112,8 +118,12 @@ function atTime(rows, T) {
         const L = x => Math.log(Math.max(x, 1e-300));
         const A = seeds.map(s => raw[key][v][s]), B = seeds.map(s => raw[key].default[s]);
         const eqDeals = paired(A.map(r => L(r[i].nashConv)), B.map(r => L(r[i].nashConv)));
-        const T = B.map(r => r[i].wallSeconds), va = A.map((r, s) => atTime(r, T[s])), vb = B.map(r => ({ value: L(r[i].nashConv) }));
-        const eqTime = paired(va.map(x => x.value), vb.map(x => x.value)); eqTime.extrapolatedSeeds = va.filter(x => x.extrapolated).length;
+        // 5.0: both curves are evaluated at the EARLIER of the two arms' cumulative training times of this
+        // checkpoint (per seed), by log-log interpolation inside each curve. 4.9 evaluated the variant at the
+        // default's time, which for a FASTER variant lies beyond its last point and was clamped to it, so the
+        // equal-time test silently equalled the equal-deal test.
+        const T = A.map((r, s) => Math.min(r[i].wallSeconds, B[s][i].wallSeconds)), va = A.map((r, s) => atTime(r, T[s])), vb = B.map((r, s) => atTime(r, T[s]));
+        const eqTime = paired(va.map(x => x.value), vb.map(x => x.value)); eqTime.extrapolatedSeeds = va.filter(x => x.extrapolated).length + vb.filter(x => x.extrapolated).length; eqTime.comparisonSeconds = T;
         return { checkpoint: cps[i], equalDeals: eqDeals, equalTime: eqTime };
       });
     }
@@ -130,6 +140,7 @@ function atTime(rows, T) {
     report.summary[v] = { equalDeals: count('equalDeals'), equalTime: count('equalTime'), byGame: Object.fromEntries(report.games.map(g => [g.key, { equalDeals: g.comparison[v].map(c => c.equalDeals.verdict[8] || '.'), equalTime: g.comparison[v].map(c => c.equalTime.verdict[8] || '.'), lastRatioEqualDeals: g.comparison[v].at(-1).equalDeals.ratio, lastRatioEqualTime: g.comparison[v].at(-1).equalTime.ratio }])) };
     console.log(v.padEnd(20), 'equal deals', JSON.stringify(report.summary[v].equalDeals), 'equal time', JSON.stringify(report.summary[v].equalTime));
   }
+  report.raw = raw;   // 5.0: every seed's rows (deals, updates, training and evaluation seconds, NashConv, seat gains, peak RSS)
   fs.writeFileSync(out, JSON.stringify(report, null, 1)); fs.rmSync(tmp, { recursive: true, force: true });
   console.log('wrote', out, report.comparisons, 'Holm-adjusted comparisons');
 })().catch(e => { console.error(e); process.exit(1); });

@@ -60,15 +60,16 @@ static int requireCtx(){
   if(stack.empty()||!alive.count(stack.back())){invalidContextCalls++;return INVALID_CONTEXT;}
   return OK;
 }
+static std::atomic<long long> inits{0};   // 5.0: driver initialisations (distinguishes "never opened" from "opened and fell back")
 // ELF destructor: runs after every C++ static destructor of the host.
 __attribute__((destructor)) static void report(){{
   const char *f=std::getenv("EM_FIXTURE_STATS"); if(!f)return; FILE *o=std::fopen(f,"w"); if(!o)return;
-  std::fprintf(o,"{\"liveBytesAtExit\":%lld,\"leakedBlocks\":%zu,\"peakBytes\":%lld,\"allocations\":%lld,\"frees\":%lld,\"failedAllocations\":%lld,\"invalidContextCalls\":%lld,\"launches\":%lld,\"pushes\":%lld,\"pops\":%lld,\"contextsCreated\":%lld,\"contextsDestroyed\":%lld,\"primaryRetains\":%lld,\"primaryReleases\":%lld,\"contextsAliveAtExit\":%zu,\"driverThreads\":%zu}\n",
-    live.load(),blocks.size(),peak.load(),allocs.load(),frees.load(),failedAllocs.load(),invalidContextCalls.load(),launches.load(),pushes.load(),pops.load(),creates.load(),destroys.load(),retains.load(),releases.load(),alive.size(),threadsSeen.size());
+  std::fprintf(o,"{\"cuInitCalls\":%lld,\"liveBytesAtExit\":%lld,\"leakedBlocks\":%zu,\"peakBytes\":%lld,\"allocations\":%lld,\"frees\":%lld,\"failedAllocations\":%lld,\"invalidContextCalls\":%lld,\"launches\":%lld,\"pushes\":%lld,\"pops\":%lld,\"contextsCreated\":%lld,\"contextsDestroyed\":%lld,\"primaryRetains\":%lld,\"primaryReleases\":%lld,\"contextsAliveAtExit\":%zu,\"driverThreads\":%zu}\n",
+    inits.load(),live.load(),blocks.size(),peak.load(),allocs.load(),frees.load(),failedAllocs.load(),invalidContextCalls.load(),launches.load(),pushes.load(),pops.load(),creates.load(),destroys.load(),retains.load(),releases.load(),alive.size(),threadsSeen.size());
   std::fclose(o);
 }}
 extern "C" {
-int cuInit(unsigned){return fault("missing")?100:0;}
+int cuInit(unsigned){inits++;return fault("missing")?100:0;}
 int cuDeviceGetCount(int *n){*n=fault("nodevice")?0:1;return 0;}
 int cuDeviceGet(int *d,int){*d=0;return 0;}
 int cuDeviceGetName(char *s,int len,int){std::strncpy(s,"EightMax CUDA test double (CPU)",(size_t)len);return 0;}

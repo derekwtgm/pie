@@ -41,6 +41,7 @@ for(const f of files){
   out.files.push(row);
   console.log(f.padEnd(24),String(row.seconds).padStart(7)+' s','pass',row.passed,'fail',row.failed,'skip',row.skipped,'timeout',row.timedOut);
   for(const x of row.failures)console.log('   FAILED:',x);for(const x of row.timeouts)console.log('   TIMED OUT:',x);
+  for(const x of row.skippedTests)console.log('   SKIPPED:',x);   // 5.0: every skip and its reason in the log
 }
 if(perf){
   console.log('Performance check (tools/bench31.js --quick) requires the 3.0 and 3.1 drivers; see source/README.txt.');

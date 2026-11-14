@@ -160,7 +160,12 @@ public:
   static constexpr int MIN_MAJOR=7, MIN_MINOR=5;
   bool open() {
 #ifdef _WIN32
-    library=LoadLibraryExW(L"nvcuda.dll",nullptr,LOAD_LIBRARY_SEARCH_SYSTEM32);
+    // 5.0 test hook: EM_TEST_CUDA_LIBRARY = full path of a CUDA driver test double (tests/cuda_driver_fixture.cpp
+    // built as a DLL) so the Windows scheduling tests can tell "never opened" from "opened and fell back" on CI
+    // runners without an NVIDIA driver. Only an absolute path set in the process environment is honoured; the
+    // normal path still loads nvcuda.dll from System32 only (no DLL search-order planting).
+    if(const wchar_t *t=_wgetenv(L"EM_TEST_CUDA_LIBRARY"); t && *t && t[1]==L':') library=LoadLibraryExW(t,nullptr,LOAD_WITH_ALTERED_SEARCH_PATH);
+    else library=LoadLibraryExW(L"nvcuda.dll",nullptr,LOAD_LIBRARY_SEARCH_SYSTEM32);
 #else
     library=dlopen("libcuda.so.1",RTLD_LOCAL|RTLD_NOW);
 #endif
