@@ -1,0 +1,16 @@
+{
+ "frozen": "2026-11-14, after development rounds 1-2 (seeds 601-610) and before any confirmation run",
+ "build": "648b2bce93ba9053 (Linux x86-64, same build ID as development round 2)",
+ "candidate": {"name": "warm-4-256", "trainer": {"batchDeals": 64, "actionStreams": "deal", "batchSchedule": {"start": 4, "doubleEvery": 256}}, "status": "opt-in; the 5.0 default (batchDeals 1) is unchanged unless the rule below is met"},
+ "choiceRationale": "Development round 2 (deal-weighted): the only candidate whose early control ratios stayed near 1 (river3 0.01 s 1.01, parallel64 1.85) while keeping parallel64-like equal-time ratios at 0.3-1 s on flop6/flop6w. Round 1 (update-count weighting) failed everywhere and motivated deal weighting.",
+ "arms": ["default (5.0 default)", "parallel64 (fixed batchDeals 64)", "warm-4-256"],
+ "games": {"primary": ["flop6", "flop6w"], "controls": ["river3-chip", "turn4"]},
+ "seeds": {"values": "701-740 (fresh, paired across arms)", "n": 40, "justification": "Development paired SD of ln(NashConv ratio) at the primary budgets was 0.35-0.55. With SD 0.45, n = ((1.96+0.84)*0.45/ln(1/0.80))^2 = 32; 40 seeds leave room for Holm over four comparisons and for seeds excluded outside observed ranges. A 10% effect would need about 160 seeds, which is why the minimum meaningful improvement is 20%."},
+ "budgets": {"flop6": [0.03, 0.1, 0.3, 1], "flop6w": [0.03, 0.1, 0.3, 1], "river3-chip": [0.01, 0.03, 0.1, 0.3], "turn4": [0.01, 0.03, 0.1, 0.3]},
+ "settings": {"threads": 4, "evalThreads": 4, "machine": "4 logical CPUs, no other load"},
+ "primaryMetric": "Paired mean of ln(NashConv warm-4-256 / NashConv default) at equal training wall time, exact best response by the same evaluator (mwcli --gain method=exact), log-log interpolation inside observed ranges, out-of-range seeds excluded and counted (never clamped).",
+ "primaryComparisons": ["flop6@0.3", "flop6@1", "flop6w@0.3", "flop6w@1"],
+ "promotionRule": "Promote warm-4-256 to default only if (a) at flop6@1 and flop6w@1 the ratio estimate is <= 0.80 and the Holm-adjusted p (over the four primaries) is < 0.05 with ratio < 1, (b) no primary estimate is > 1, and (c) every control comparison (river3-chip and turn4, every budget, equal time) has a 95% upper bound <= 1.15 (non-inferiority margin 15%). Budgets where more than 25% of seeds are excluded are reported but do not count toward (c).",
+ "secondary": ["equal-deal ratios at every checkpoint", "warm-4-256 vs parallel64 at equal time", "flop6/flop6w early budgets 0.03 and 0.1 s", "per-seat gains, deals, committed updates, training time, evaluation time, peak RSS"],
+ "note": "NashConv here is the sum of seat gains inside each abstraction, not exploitability of the full game."
+}
