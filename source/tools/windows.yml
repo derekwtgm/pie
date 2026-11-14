@@ -116,7 +116,7 @@ jobs:
           Copy-Item build/fresh/gpustress.exe "$r/gpustress.exe"
           Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
           Copy-Item build/build-info.json "$r/BUILD-INFO.json"
-          Copy-Item RELEASE-5.0.md, RELEASE-4.9.md, RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'Run 4.9 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
+          Copy-Item RELEASE-5.1.md, RELEASE-5.0.md, RELEASE-4.9.md, RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'Run 4.9 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat' $r
           Copy-Item -Recurse source, validation, .github $r
           Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
           Copy-Item fresh-windows.json, fresh-windows-host.json, windows-selftest47.json, windows-selftest48.json, windows-selftest49.json, windows-emz-denied-temp.json "$r/validation/"
@@ -235,9 +235,9 @@ jobs:
           $CC -O2 -c source/native/json.c -o build/json.o
           $CXX -std=c++20 -O2 -Wall -Wextra -ffp-contract=off -Isource/native -include build/bi.h source/native/mw.cpp source/native/mwcli.cpp build/json.o -lpthread -ldl -lz -o build/${{ matrix.compiler }}/mwcli
           echo "EM_TEST_MWCLI=$PWD/build/${{ matrix.compiler }}/mwcli" >> "$GITHUB_ENV"
-      - name: Compiler, scheduling and checkpoint tests with the ${{ matrix.compiler }} build
+      - name: Compiler, scheduling, route-reuse and checkpoint tests with the ${{ matrix.compiler }} build
         run: |
-          EM_TEST_CXX=$CXX EM_TEST_CC=$CC node --test --test-reporter=tap source/tests/v49.test.js source/tests/v50.test.js 2>&1 | tee tests-${{ matrix.compiler }}.tap
+          EM_TEST_CXX=$CXX EM_TEST_CC=$CC node --test --test-reporter=tap source/tests/v49.test.js source/tests/v50.test.js source/tests/v51.test.js 2>&1 | tee tests-${{ matrix.compiler }}.tap
           grep -q '^# fail 0' tests-${{ matrix.compiler }}.tap
       - uses: actions/upload-artifact@v4
         if: always()
