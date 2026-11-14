@@ -21,5 +21,5 @@ All timings are from one machine: Intel Xeon @ 2.10 GHz, 4 logical CPUs, Linux. 
 | `regression-linux-f94a1d7-missing-release-notes.log` | The earlier clean-clone run: 1 failure, because the workflow copied RELEASE-5.1.md before it existed. Fixed by adding the file |
 | `v40-v51-final-commit.tap` | After the regression, only `tests/v40.test.js` and `tests/v51.test.js` changed. Both were rerun from a clean clone of the final source commit 7609665: 30 passed, 0 failed |
 | `wine/` | `mwcli.exe --selftest47/48/49` under Wine with LANG=C.UTF-8 (10, 9 and 15 checks passed). The run without a locale is kept: its Unicode-folder check fails in 5.0 and 5.1 alike, because Wine cannot create the folder on the Linux side. Also the device turn through the Windows exe with the test-double DLL: 1 calibration and 99 reuses in GPU Preferred and Hybrid, identical bodies |
-| `windows-ci/` | Windows CI totals and skip list for the final commit |
+| `windows-ci/run61-summary.json` | Windows CI run 61 (final test commit 7609665): 478 passed, 0 failed, 33 skipped (each skip categorised), other steps, and the causes of the three earlier failing runs of this release |
 | `package-smoke.json` | ZIP extracted into a fresh folder: `sha256sum -c`, build IDs, smoke tests |
