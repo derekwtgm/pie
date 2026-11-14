@@ -1,0 +1,45 @@
+2026-11-14T04:36:06Z
+EightMax-Offline.html 1028330 bytes
+native.html 1028354 bytes
+EightMax 5.0 build 9ee5a8be32f5146e
+EightMaxBuild=9ee5a8be32f5146e
+build 146s
+checkpoint.test.js          1.82 s pass 12 fail 0 skip 0 timeout 0
+fgs.test.js                 6.22 s pass 5 fail 0 skip 0 timeout 0
+fingerprint.test.js         0.12 s pass 1 fail 0 skip 0 timeout 0
+information.test.js         0.14 s pass 5 fail 0 skip 0 timeout 0
+mtt.test.js                 3.09 s pass 13 fail 0 skip 0 timeout 0
+multiway.test.js            1.75 s pass 11 fail 0 skip 0 timeout 0
+oracle.test.js             20.36 s pass 3 fail 0 skip 0 timeout 0
+quality.test.js              1.8 s pass 9 fail 0 skip 0 timeout 0
+solver.test.js              2.43 s pass 14 fail 0 skip 0 timeout 0
+upgrades.test.js            2.89 s pass 6 fail 0 skip 0 timeout 0
+v26.test.js                 9.03 s pass 42 fail 0 skip 0 timeout 0
+v27.test.js                  0.8 s pass 9 fail 0 skip 0 timeout 0
+v28.test.js                 0.26 s pass 4 fail 0 skip 0 timeout 0
+v29.test.js                81.52 s pass 31 fail 0 skip 0 timeout 0
+v31.test.js                24.93 s pass 42 fail 0 skip 0 timeout 0
+v33.test.js                54.48 s pass 34 fail 0 skip 0 timeout 0
+v34.test.js                10.86 s pass 14 fail 0 skip 0 timeout 0
+v35.test.js                10.59 s pass 24 fail 0 skip 0 timeout 0
+v36.test.js                15.06 s pass 22 fail 0 skip 0 timeout 0
+v37.test.js                 4.24 s pass 11 fail 0 skip 0 timeout 0
+v38.test.js                 2.76 s pass 8 fail 0 skip 0 timeout 0
+v39.test.js                22.01 s pass 14 fail 0 skip 0 timeout 0
+v40.test.js                23.58 s pass 17 fail 0 skip 0 timeout 0
+v41.test.js                40.41 s pass 15 fail 0 skip 0 timeout 0
+v42.test.js               253.75 s pass 16 fail 0 skip 0 timeout 0
+v43.test.js               313.84 s pass 15 fail 0 skip 0 timeout 0
+v44.test.js                69.26 s pass 15 fail 0 skip 0 timeout 0
+v44_postflop.test.js       31.01 s pass 5 fail 0 skip 0 timeout 0
+v45.test.js               294.04 s pass 10 fail 0 skip 0 timeout 0
+v46.test.js                35.54 s pass 15 fail 0 skip 0 timeout 0
+v47.test.js                31.27 s pass 13 fail 0 skip 0 timeout 0
+v48.test.js               262.89 s pass 21 fail 0 skip 0 timeout 0
+v49.test.js               121.68 s pass 7 fail 0 skip 1 timeout 0
+   SKIPPED: 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions) (running as root: permissions are not enforced)
+v50.test.js                73.87 s pass 7 fail 0 skip 0 timeout 0
+wide.test.js                0.65 s pass 7 fail 0 skip 0 timeout 0
+
+Totals: passed 497 failed 0 skipped 1 timed out 0 | hardware-dependent run 53 skipped 0
+exit 0 tests 1829s
