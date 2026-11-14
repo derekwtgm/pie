@@ -153,6 +153,6 @@ Results, by run:
 
 ## Limitations
 
-- **No GPU in any 5.1 measurement.** The calibration saving on your RTX is expected to be at most the 7.6 / 10.9 ms that your 5.0 report attributes to calibration. That is not verified. Run `Compare processing modes.bat` (now with `-Repeats`) to measure it.
+- **No GPU in any 5.1 measurement.** The calibration saving on your RTX is expected to be at most the 7.6 / 10.9 ms that your 5.0 report attributes to calibration. That is not verified. Run `Compare processing modes.bat` to measure it; in 5.1 it runs 5 interleaved rounds per mode (`test_devices.ps1 -Repeats 5`) and reports medians.
 - **Thread count.** Six-player results used 4 threads. On 24 threads both batched trainers parallelise further. The river3 regression comes from batching without parallelism, so it would not shrink.
 - **Deadline failure.** One failure in 240 trials remains unexplained (section 4).

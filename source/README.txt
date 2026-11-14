@@ -1,3 +1,34 @@
+EightMax Windows 5.1 source
+
+Read ../RELEASE-5.1.md and ../validation/5.1/README.md for 5.1. 5.1 additions and changes:
+  native/route_reuse.hpp     routeMeasureCovers(): reuse window of a CPU or device route measurement
+  native/score_schedule.hpp  route measurements per engine (mode, GPU budget, 256-use expiry, cleared on
+                             failure), recalibration reasons, driver-init / scoring / device seconds,
+                             EM_ROUTE_REUSE=0 (exact size), test-only EM_TEST_CPU_SCORE_NS, EM_TEST_ROUTE_TRACE
+  native/mw.cpp, mw_es_impl.hpp, checkpoint_native.hpp, analytics.hpp
+                             experimental batchSchedule {start, doubleEvery} (deal-weighted; dealsBefore()
+                             consistency check), mw_last_query_telemetry()
+  native/ev_control.hpp, mwcli.cpp  evaluator telemetry in the EM_QUERY_TIMING line (stop observed, longest
+                             check gap with site and time)
+  tests/v51.test.js tests/route51.cpp tests/stall51.c tests/cuda_driver_fixture.cpp (launch/lane costs)
+  tests/v40.test.js          failure messages carry the telemetry (thresholds unchanged)
+  tools/devices51.js convergence51.js decide51.js diagnose51.js deadline51.js sanitize51.sh
+  tools/test_devices.ps1 (-Repeats, medians, reuse fields) tools/run_tests.js (failure details)
+  .github/workflows/windows.yml (packages RELEASE-5.1.md; v51 in the GCC/Clang job)
+Toolchains for 5.1: as 5.0 (Ubuntu 24.04, Node 22, GCC 13.3, Clang 18.1, MinGW-w64 GCC 13.2 posix for the
+release executables, Python 3.12+, Wine 9.0 for tests). Windows CI: MSYS2 UCRT64 GCC. No CUDA toolkit needed.
+Build (from source/), byte-reproducible:
+  node tools/build.js && sh native/build.sh linux && sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+  sh tools/sanitize51.sh . /tmp/san51          (ASan+UBSan and TSan; Linux; includes the 5.0 pass)
+  python3 tools/package36.py .. ../release/EightMax-Windows-5.1.zip   (from source/, after copying the
+                             executables, EightMax-Offline.html and build-info.json to the root)
+Studies (each writes JSON with raw per-seed data):
+  node tools/convergence51.js build/linux/mwcli out.json --arms=default,parallel64,warm-4-256 --seeds=40 --seed-offset=700 ...
+  node tools/decide51.js out.json decision.json        (applies validation/5.1/six-player/preregistration.json)
+  node tools/devices51.js out.json --arm=v5.0:<5.0 mwcli> --arm=v5.1:build/linux/mwcli --fixture-dir=<dir with libcuda.so.1>
+  node tools/deadline51.js build/linux/mwcli out.json --trials=100 --contention=0,8 --stall=<built tests/stall51.c>
+
 EightMax Windows 5.0 source
 
 Read ../RELEASE-5.0.md and ../validation/5.0/README.md for 5.0. 5.0 additions and changes:

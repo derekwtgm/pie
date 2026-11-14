@@ -1,5 +1,25 @@
-EightMax 5.0 - 8-max MTT solver for Windows
+EightMax 5.1 - 8-max MTT solver for Windows
 ============================================
+
+NEW IN 5.1: FEWER CUDA CALIBRATIONS IN GPU PREFERRED AND HYBRID
+  - 5.0 measured CPU against CUDA again for almost every batch: 96 times
+    on the 2,400-deal turn of "Compare processing modes.bat" (7.6 ms and
+    10.9 ms on your RTX 4060 Ti). 5.1 reuses a measurement for nearby
+    batch sizes and measures again when the size moves out of range, the
+    mode or GPU budget changes, or the GPU fails. On the simulated driver
+    the count drops from 96 to 1, and the strategy is the same byte for
+    byte. Most of the GPU modes' extra time on your PC is starting the
+    CUDA driver, which 5.1 does not change. Not measured on a real GPU:
+    run "Compare processing modes.bat" (now 5 rounds per mode).
+  - An experimental growing-batch six-player trainer improved six-player
+    quality at equal time on 40 fresh seeds, but it was worse early on a
+    small three-player river. It is not the default. Strategies,
+    tournament rules and checkpoints are unchanged; 4.9 and 5.0
+    checkpoints resume to the same state.
+Read RELEASE-5.1.md.
+
+EightMax 5.0 - 8-max MTT solver for Windows
+--------------------------------------------
 
 NEW IN 5.0: AUTOMATIC MODE REALLY SKIPS THE GRAPHICS CARD FOR SMALL JOBS
   - 4.9 promised this, but the rule only worked for external-sampling
