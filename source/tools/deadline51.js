@@ -6,7 +6,9 @@
 // (stopObservedMs), the largest gap between its clock checks (maxCheckGapMs), the return delay after the
 // observation, and the status. Each assertion of the test is re-evaluated on every trial so the margin
 // and the would-be failures per assertion are counted.
-// usage: node tools/deadline51.js <mwcli> <out.json> [--trials=20] [--contention=0,8] [--threads=2]
+// --stall=<binary of tests/stall51.c>: an independent process logs every 1 ms sleep that wakes > 15 ms late (CLOCK_MONOTONIC);
+// each query gets the stalls that overlap its longest check gap, separating machine stalls from evaluator code paths.
+// usage: node tools/deadline51.js <mwcli> <out.json> [--trials=20] [--contention=0,8] [--threads=2] [--stall=path]
 'use strict';
 process.env.EM_EV_DIRECT_PATTERNS = '1';   // as tests/v40.test.js (4.1 per-board method keeps the workloads heavy)
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path'), cp = require('node:child_process');
@@ -30,7 +32,7 @@ function query(k, q) {
   const t0 = process.hrtime.bigint(), r = cp.spawnSync(cli, ['--ev', S[k].spec, S[k].state, f], { encoding: 'utf8', maxBuffer: 64 << 20, env: { ...process.env, EM_QUERY_TIMING: '1' }, timeout: 180000 }), wall = Number(process.hrtime.bigint() - t0) / 1e6;
   let timing = null; try { timing = JSON.parse((r.stderr || '').split('\n')[0]); } catch { }
   const json = r.status === 0 ? JSON.parse(r.stdout) : null, ev = timing && timing.evaluator || {};
-  return { study: k, timeLimitMs: q.timeLimitMs, method: q.method, processWallMs: wall, startAndLoadMs: timing ? wall - timing.queryMs : null, queryMs: timing && timing.queryMs, status: timing && timing.status, stopObservedMs: ev.stopObservedMs ?? null, returnAfterObservedMs: timing && ev.stopObservedMs >= 0 ? timing.queryMs - ev.stopObservedMs : null, maxCheckGapMs: json && json.deadline ? json.deadline.maxCheckGapMs : ev.maxCheckGapMs ?? null, checks: ev.checks ?? null, jsonStatus: json && json.status, stoppedEarly: json && json.stoppedEarly, samplesOk: json && json.hands ? json.hands[0].samples >= json.minSamples : null };
+  return { study: k, timeLimitMs: q.timeLimitMs, method: q.method, processWallMs: wall, startAndLoadMs: timing ? wall - timing.queryMs : null, queryMs: timing && timing.queryMs, status: timing && timing.status, stopObservedMs: ev.stopObservedMs ?? null, returnAfterObservedMs: timing && ev.stopObservedMs >= 0 ? timing.queryMs - ev.stopObservedMs : null, maxCheckGapMs: json && json.deadline ? json.deadline.maxCheckGapMs : ev.maxCheckGapMs ?? null, telemetryMaxCheckGapMs: ev.maxCheckGapMs ?? null, maxCheckGapSite: ev.maxCheckGapSite ?? null, maxCheckGapEndMs: ev.maxCheckGapEndMs ?? null, startSteadyNs: ev.startSteadyNs ?? null, stopSite: ev.stopSite ?? null, checks: ev.checks ?? null, jsonStatus: json && json.status, stoppedEarly: json && json.stoppedEarly, samplesOk: json && json.hands ? json.hands[0].samples >= json.minSamples : null };
 }
 // one repetition of the test's assertions
 function trial() {
@@ -49,6 +51,7 @@ function trial() {
   return { rows, fails };
 }
 const q = (a, p) => { const s = a.filter(x => x != null).sort((x, y) => x - y); if (!s.length) return null; const i = (s.length - 1) * p, lo = Math.floor(i); return s[lo] + (s[Math.ceil(i)] - s[lo]) * (i - lo); };
+const stallFile = path.join(dir, 'stalls.txt'); let stallProc = null; if (opt('stall')) stallProc = cp.spawn(path.resolve(opt('stall')), ['15'], { stdio: ['ignore', fs.openSync(stallFile, 'w'), 'ignore'] });
 const report = { tool: 'deadline51', generated: new Date().toISOString(), build: cp.execFileSync(cli, ['--build-id'], { encoding: 'utf8' }).trim(), platform: os.platform() + ' ' + os.release(), cpu: os.cpus()[0].model, logicalCpus: os.cpus().length, trialsPerCondition: trials, test: 'tests/v40.test.js: 4.0 deadlines hold for other limits and games, and the evaluator stays responsive after repeated timeouts', toleranceMs: TOLERANCE_MS, conditions: [] };
 for (const c of contention) {
   // contention: c busy-loop processes for the whole condition (CPU-bound load like a shared runner)
@@ -63,5 +66,10 @@ for (const c of contention) {
     overshootMs: summary(deadlineRows, r => r.queryMs - r.timeLimitMs), stopObservedAfterLimitMs: summary(deadlineRows, r => r.stopObservedMs >= 0 ? r.stopObservedMs - r.timeLimitMs : null), returnAfterObservedMs: summary(deadlineRows, r => r.returnAfterObservedMs), startAndLoadMs: summary(rows, r => r.startAndLoadMs),
     completedMaxCheckGapMs: summary(byKind('completed, maxCheckGapMs < 100'), r => r.maxCheckGapMs), timeoutMaxCheckGapMs: summary(deadlineRows, r => r.maxCheckGapMs), rows });
   console.log('busy', c, 'trials', trials, 'failing trials', report.conditions.at(-1).testFailures, 'overshoot ms', JSON.stringify(report.conditions.at(-1).overshootMs), 'completed max gap ms', JSON.stringify(report.conditions.at(-1).completedMaxCheckGapMs));
+}
+if (stallProc) {
+  stallProc.kill(); const st = (fs.existsSync(stallFile) ? fs.readFileSync(stallFile, 'utf8') : '').trim().split('\n').filter(Boolean).map(l => l.split(' ').map(Number));
+  report.stallDetector = { thresholdMs: 15, stalls: st.length, maxLateMs: st.reduce((m, x) => Math.max(m, x[2]), 0) };
+  for (const c of report.conditions) for (const r of c.rows) if (r.startSteadyNs && r.maxCheckGapEndMs >= 0) { const e = r.startSteadyNs + r.maxCheckGapEndMs * 1e6, b = e - r.telemetryMaxCheckGapMs * 1e6; r.overlappingStallsMs = st.filter(x => x[1] > b && x[0] < e).map(x => x[2]); }
 }
 fs.writeFileSync(out, JSON.stringify(report, null, 1)); fs.rmSync(dir, { recursive: true, force: true });
