@@ -75,13 +75,13 @@ test('4.0 deadlines hold for other limits and games, and the evaluator stays res
   for (const [X, q] of [[S, { path: [], hands: [0], method: 'exact' }], [L, { path: [], hands: [0], method: 'exact' }], [F, { path: [], hands: [0, 1, 2], method: 'exact' }], [F, { path: [], hands: [3], range: true, method: 'sampled', samples: 2000000 }]])
     for (const ms of [100, 250, 600]) {
       const r = X.ev({ ...q, timeLimitMs: ms, maxVisits: 2000000000 });
-      assert.ok(r.timing.queryMs < ms + TOLERANCE_MS, JSON.stringify(q) + ' limit ' + ms + ' took ' + r.timing.queryMs);
+      assert.ok(r.timing.queryMs < ms + TOLERANCE_MS, JSON.stringify(q) + ' limit ' + ms + ' took ' + r.timing.queryMs + ' timing ' + JSON.stringify(r.timing));   // 5.1: telemetry in the message (stop observed, longest gap, its site)
       if (q.method === 'exact') assert.equal(r.timing.status, 408);
       else { assert.equal(r.json.status, 'partial'); assert.equal(r.json.stoppedEarly, true); assert.ok(r.json.hands[0].samples >= r.json.minSamples); }
     }
   // ten consecutive timeouts, then a normal completed evaluation of the same node
-  const times = []; for (let i = 0; i < 10; i++) times.push(S.ev({ path: [1, 1], hands: [0], method: 'exact', timeLimitMs: 100 }).timing.queryMs);
-  assert.ok(Math.max(...times) < 100 + TOLERANCE_MS, times.join(' '));
+  const times = [], tel = []; for (let i = 0; i < 10; i++) { const t = S.ev({ path: [1, 1], hands: [0], method: 'exact', timeLimitMs: 100 }).timing; times.push(t.queryMs); tel.push(t); }
+  assert.ok(Math.max(...times) < 100 + TOLERANCE_MS, times.join(' ') + ' slowest ' + JSON.stringify(tel[times.indexOf(Math.max(...times))]));
   const ok = S.ev({ path: [1, 1], hands: [0], method: 'exact', timeLimitMs: 120000, maxVisits: 2000000000 });
   assert.equal(ok.json.status, 'completed'); assert.ok(ok.json.hands[0].ev.every(Number.isFinite));
   assert.ok(ok.json.deadline.maxCheckGapMs < 100, 'largest gap between deadline checks ' + ok.json.deadline.maxCheckGapMs + ' ms');
