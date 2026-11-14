@@ -76,7 +76,16 @@ test('4.0 deadlines hold for other limits and games, and the evaluator stays res
     for (const ms of [100, 250, 600]) {
       const r = X.ev({ ...q, timeLimitMs: ms, maxVisits: 2000000000 });
       assert.ok(r.timing.queryMs < ms + TOLERANCE_MS, JSON.stringify(q) + ' limit ' + ms + ' took ' + r.timing.queryMs + ' timing ' + JSON.stringify(r.timing));   // 5.1: telemetry in the message (stop observed, longest gap, its site)
-      if (q.method === 'exact') assert.equal(r.timing.status, 408);
+      // 5.1: the push8 exact evaluation takes about 1.4 s with no limit on a 4-CPU Linux machine, so a fast runner can
+      // legitimately finish it inside 250 or 600 ms (Windows CI run 60: status 200 where 408 was expected; very likely
+      // run 53 too). A completed exact result inside the limit is correct behaviour. The deadline path itself is still
+      // required where the work cannot finish: every exact case at 100 ms, and linked8 / icmFinal (about 100 s and
+      // over 10 minutes unlimited) at every limit. The time assertion above is unchanged for every case.
+      if (q.method === 'exact') {
+        const canFinish = X === S && ms >= 250;
+        if (canFinish && r.timing.status === 200) { assert.equal(r.json.status, 'completed', 'push8 ' + ms + ' ms finished: the result must be complete'); assert.ok(r.json.hands[0].ev.every(Number.isFinite)); }
+        else assert.equal(r.timing.status, 408, JSON.stringify(q) + ' limit ' + ms + ': expected a timeout, timing ' + JSON.stringify(r.timing));
+      }
       else { assert.equal(r.json.status, 'partial'); assert.equal(r.json.stoppedEarly, true); assert.ok(r.json.hands[0].samples >= r.json.minSamples); }
     }
   // ten consecutive timeouts, then a normal completed evaluation of the same node

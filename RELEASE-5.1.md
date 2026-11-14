@@ -116,7 +116,7 @@ Results, by run:
 
 | run | trials | failing | overshoot max (p95) | stop observed after limit, max |
 |---|---|---|---|---|
-| idle, first run | 20 | **1** | 162.6 ms (8.7) | 4.3 ms |
+| idle, first run (Linux) | 20 | **1** | 162.6 ms (8.7) | 4.3 ms |
 | 8 busy processes on 4 CPUs | 20 | 0 | 42 ms (18) | 12.9 ms |
 | idle, with stall detector | 100 | 0 | 29.6 ms (8.0) | 0.6 ms |
 | 8 busy processes, with stall detector | 100 | 0 | 51.9 ms (18.1) | 20.7 ms |
@@ -130,6 +130,15 @@ Results, by run:
 - With so few events I cannot attribute it reliably to the app, the test or the runner.
 - No code path produced a gap over 80 ms idle in 200 trials, and the detector saw no machine stall alongside any long gap.
 - The candidates are a worker descheduled by the host (the first run had no detector), or a rare long uninterrupted unit of work.
+
+**Second failure mode, found by CI on the final commit (run 60): a test defect, now fixed.** With the new failure details, the Windows log showed `expected: 408, actual: 200` in the same test. An exact evaluation that the test expected to time out returned a completed result inside its limit. The cause is the test's workload assumption. Unlimited, the push8 exact evaluation takes about 1.4 s here (1.37–1.59 s over 5 runs), so a faster runner can finish it inside 600 ms or even 250 ms. linked8 takes about 100 s and icmFinal over 10 minutes, so those can never finish. A completed exact result inside the limit is correct behaviour, not a missed deadline.
+
+The test now:
+- still requires a timeout (408) for every exact case at 100 ms, and for linked8 and icmFinal at every limit;
+- accepts a completed result for push8 at 250 and 600 ms, provided the result is complete and finite;
+- keeps the time assertion (limit + 150 ms) unchanged for every case.
+
+Run 53's lost assertion was very likely this one: the same test, on a Windows runner. That cannot be proven without its log.
 
 **Action.** The 150 ms tolerance is unchanged. The test now reports the telemetry needed to attribute the next occurrence. The 95 % upper bound on the per-run failure rate of this test on this machine is 2.3 % (1 in 240 trials, Clopper-Pearson).
 
