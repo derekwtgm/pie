@@ -1,0 +1,38 @@
+{
+ "tool": "package smoke 5.0",
+ "generated": "2026-11-14T05:37:10.882Z",
+ "zip": "EightMax-Windows-5.0.zip",
+ "zipSha256": "f011898d1257f3fbc8a24adb6c278502deee575106550d576714fa7ba076fe27",
+ "zipBytes": 15575535,
+ "extractedTo": "fresh empty directory (Linux)",
+ "manifest": {
+  "entries": 1167,
+  "command": "sha256sum -c --quiet SHA256SUMS.txt",
+  "result": "all OK"
+ },
+ "buildIds": {
+  "BUILD-INFO.json": "9ee5a8be32f5146e",
+  "verify_build.js": "9ee5a8be32f5146e",
+  "mwcli.exe --build-id (Wine 9.0)": "9ee5a8be32f5146e"
+ },
+ "executablesSha256Prefix": {
+  "mwcli.exe": "7cad1a4896d22ae4",
+  "EightMax.exe": "ad607c1bf82be2bf",
+  "gpustress.exe": "b8bf5feafcc4763c"
+ },
+ "selftests_wine": {
+  "selftest47": "10/10 passed",
+  "selftest48": "9/9 passed",
+  "selftest49": "15/15 passed"
+ },
+ "resumeFrom49Emz": {
+  "command": "mwcli.exe validation/5.0/fixtures/icm-final8.spec.json 150 4 r300.state 512 validation/5.0/fixtures/v49-150.emz",
+  "result": "exit 0, state sha256 aa80974199182afa... = golden 300-update state"
+ },
+ "packageSmoke": {
+  "command": "node source/tools/package_smoke.js <extracted>",
+  "result": "passed (embedded solves, presets, UI/worker integration)"
+ },
+ "durationSeconds": 31,
+ "note": "Wine is not Windows; the shipped executables were also run by the full regression on the real Windows runner (CI run 54)."
+}

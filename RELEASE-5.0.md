@@ -1,6 +1,6 @@
 # EightMax Windows 5.0
 
-Build **9ee5a8be32f5146e**, commit @@COMMIT@@. EightMax.exe, mwcli.exe, gpustress.exe, BUILD-INFO.json
+Build **9ee5a8be32f5146e**. The last source and test change is commit f3ea133. Later commits add only documentation and evidence, and leave the fingerprint unchanged. EightMax.exe, mwcli.exe, gpustress.exe, BUILD-INFO.json
 and the source fingerprint agree. Two independent Windows builds are byte-identical.
 
 The 4.9 baseline was checked before any work started. The archive's `SHA256SUMS.txt` verified, and the
@@ -14,7 +14,7 @@ records a physical RTX 4060 Ti (compute 8.9, `physicalNvidiaExecution: true`).
 |---|---|
 | Does Automatic now skip CUDA on the exact workload? | **Yes.** The 2,400-deal three-player turn from "Compare processing modes" never loads the CUDA driver library in 5.0 Automatic. The test double records 0 `cuInit` calls (4.9: 1), 0 calibrations and 0 GPU bytes (4.9: 3,979 B, the same figure as your RTX report). It produces the same strategy bytes and RNG as CPU Only. The regression test fails on 4.9 and passes on 5.0. |
 | What changed in training and process time, and on which hardware? | Measured only on a 4-CPU Xeon Linux machine with a **simulated** CUDA driver (no GPU), over 9 interleaved rounds. Turn workload in Automatic mode: training median 0.1169 s on 4.9 vs 0.1096 s on 5.0; process median 0.1321 s vs 0.1242 s. That is about 7 ms here, but this is only the cost of the test double; the real cost of opening CUDA is much larger. **Not measured on your RTX 4060 Ti.** Your 4.9 report shows 172.9 ms Automatic vs 63.2 ms CPU, and 5.0 should land near CPU Only, but that needs your PC to confirm. The 2,560-deal external-sampling workload was already skipped by 4.9 and is unchanged. |
-| Did the final Windows regression pass, and what was skipped? | @@WINANSWER@@ |
+| Did the final Windows regression pass, and what was skipped? | **Yes.** On the final source, Windows CI run 54 (GitHub Actions `windows-latest`, real Windows Server, no GPU) ran the full regression against the shipped `mwcli.exe` and `EightMax.exe`: **465 passed, 0 failed, 33 skipped, 0 timed out**. Every other job step also passed, along with the GCC and Clang compiler jobs. The run before it, run 53 on the same source, had **1 failure**: the wall-clock deadline test in v40 (150 ms tolerance, unchanged since 4.6, and 5.0 does not touch evaluation code). It passed in run 52, in run 54 and on Linux. The failure message could not be retrieved, because the artifact host is blocked from this environment. I report it as an intermittent timing failure, and the test was not weakened. The 33 skips are listed in section 3, each with its reason and alternate coverage. |
 | Do existing checkpoints resume to the same state? | **Yes.** A 150-update state written by 4.9, both raw and EMZ1, resumes in 5.0 to the golden 300-update state `aa80974199182afa…`. Self-tests 47/48/49 pass, covering 150+150, 500+500 and 1000+1000, compressed and uncompressed inputs, corrupted and truncated inputs, the temp-folder fallback and concurrent restores. They pass on Linux, under Wine, on the Windows runner and under ASan+UBSan. A failed restore leaves the existing output unchanged. Training code and state bytes are unchanged from 4.9. |
 | Did the six-player candidate improve strategy quality per second? | **Not demonstrated.** Candidate `parallel64` trains with 64 deals per batch across 4 threads. It cut training time 31–44 % on the six-player flops. At equal time its NashConv was 25 % lower on flop6 and 31 % lower on flop6w at the final budget, but neither result was significant after Holm adjustment (flop6w unadjusted p = 0.02). On fresh seeds it was **worse in 4 of 64 comparisons**: the first checkpoint on river3 and turn4, at equal deals and again at equal time. It was better in 0. **Not promoted; the default trainer is unchanged.** |
 | Which results are physically verified, and which remain unmeasured? | See the last section. |
@@ -100,26 +100,57 @@ so the compiler-dependent tests use exactly that compiler. A separate `compilers
 
 **Skip audit.** Windows CI run 52 (4.9 tests plus v50) had 36 skips, now all named in the log by
 `run_tests.js`. Three of them, the v43 unit programs, the v44 coverage units and the v44 Automatic-arm
-units, now run on Windows through `EM_TEST_CXX`. @@SKIPS@@
+units, now run on Windows through `EM_TEST_CXX`.
 
-**Final runs (after the last source and test change, commit @@COMMIT@@):**
+The remaining 33 skips, each with its reason and alternate coverage:
 
-@@FINALRUNS@@
+| # | Tests | Reason it cannot run on the Windows runner | Alternate coverage |
+|---|---|---|---|
+| 26 | CUDA test-double tests: v29 (1), v31 (3), v34, v35, v36, v40 (1 each), v41 (1), v42 (8), v43 (6), v44 (2), v49 (1) | They load the Linux test double `libcuda.so.1` through `LD_LIBRARY_PATH` and `dlopen`, and several build in-process C++ harnesses against it. The Windows loader takes `nvcuda.dll` from System32 only. | All 26 pass on Linux: the clean checkout, and the v49/v50 subsets in CI's GCC and Clang jobs. On Windows, v50 tests 1–6 use the test-double DLL through `EM_TEST_CUDA_LIBRARY` and pass, covering the scheduling routes, calibrations, fallback and CPU parity. Physical CUDA on your RTX 4060 Ti was confirmed by your 4.9 `hardware-validation.json`; the CUDA code is unchanged in 5.0. |
+| 5 | Sanitizer builds: v41 num_safe, v42 coverage, v43 sanitizers, v44 coverage44, v45 coverage budget | MinGW-w64 GCC ships no AddressSanitizer or ThreadSanitizer runtime. v42 reports this as "compiler unavailable" when its `-fsanitize=address` command fails. | All 5 pass on Linux, plus `tools/sanitize50.sh`. The same unit programs without sanitizers (v43 units, v44 coverage and Automatic-arm units) now run on Windows through `EM_TEST_CXX`. |
+| 1 | v33 allocation fault injection | Uses Linux-only allocation interposition. | Passes on Linux. The rollback paths it covers are platform-independent C++. |
+| 1 | v49 save into a read-only folder | Relies on POSIX permissions (`chmod 555`). It is also skipped on Linux under root, which is why the clean regression shows 1 skip. | **Passed on Linux as an unprivileged user** (`validation/5.0/v49-read-only-folder-as-nonroot.tap`). On Windows, the PowerShell harness check "a failed save exits with code 4 … leaves the previous checkpoint unchanged" passed (126/126). |
+
+**Final runs (after the last source and test change, commit f3ea133, fingerprint 9ee5a8be32f5146e):**
+
+| Run | Where | Binaries | Result | Duration |
+|---|---|---|---|---|
+| Full regression, clean `git clone` of f3ea133 | Linux, Xeon 4 CPUs, GCC 13.3, Node 22.23 | fresh build from the clone (build ID 9ee5a8be32f5146e) | **497 passed, 0 failed, 1 skipped** (read-only folder as root; passed separately as non-root), 0 timed out | 1,829 s |
+| Windows CI run 54 (a625196, same fingerprint) | GitHub `windows-latest` | full regression against the shipped root `mwcli.exe` and `EightMax.exe` | **465 passed, 0 failed, 33 skipped**, 0 timed out | 26.8 min (job 34 min) |
+| Same run: fresh MSYS2 build | `windows-latest`, MSYS2 UCRT64 GCC 16.2.0 | `build/fresh` | PowerShell harness 126/126, 8/8 sections; `--selftest47/48/49` 10/10, 9/9, 15/15; EMZ1 resume with write-denied TMP passed; concurrency stress, PowerShell parsing and hardware validation (CPU paths, Automatic "CUDA not opened") passed | – |
+| Compilers job (run 54) | Ubuntu, GCC and Clang | mwcli built with each | v49 + v50 passed for both | 4 min |
+| Run 53 (f3ea133) | `windows-latest` | as run 54 | 464 passed, **1 failed** (v40 deadline timing, see above), 33 skipped | – |
+| Wine 9.0 (not Windows) | Linux | shipped `mwcli.exe` | `--selftest47/48/49` 10/10, 9/9, 15/15 | 49 s |
+
+**Toolchains.**
+- **Release executables (shipped):** cross-built on Linux by `source/native/build.sh windows` with MinGW-w64 `x86_64-w64-mingw32-g++-posix` 13.2.0 (package 13.2.0-6ubuntu1+26.1), binutils 2.41.90, mingw-w64 headers and CRT 11.0.1, and zlib 1.3.1 (static). Static linking with `-lz -lbcrypt` means there are no DLL dependencies beyond Windows system DLLs. Two independent builds are byte-identical.
+- **Windows runner:** MSYS2 UCRT64 GCC 16.2.0, binutils 2.47, zlib 1.4, Node 24.22, Python 3.14 (`validation/5.0/windows-ci/windows-toolchain-run54.json`). The runner builds and tests a second, fresh executable from the same source, and runs the full regression against the shipped executables.
+
+**Commands.**
+- `node source/tools/build.js`
+- `sh source/native/build.sh linux|windows`
+- `node source/tools/run_tests.js`
+- `sh source/tools/sanitize50.sh source <dir>`
+- `node source/tools/devices50.js`
+- `node source/tools/convergence48.js`
+- `python3 source/tools/package36.py`
+
+**Logs.** `validation/5.0/` holds `regression-linux.*`, `windows-ci/run53-*.log`, `windows-ci/run54-*.log`, `wine/` and `sanitizers/`.
 
 ## 4. Checkpoint recovery (requirement 4)
 
 | Check | Linux | Wine | Windows runner | ASan+UBSan |
 |---|---|---|---|---|
-| `--selftest47` (10) | pass | @@W47@@ | @@CI47@@ | 10/10 |
-| `--selftest48` (9) | pass | @@W48@@ | @@CI48@@ | 9/9 |
-| `--selftest49` (15: EMZ1 levels, 150+150, 500+500, 1000+1000, temp fallback, Unicode/long temp, corrupted/truncated/SHA-mismatch refused, 4 concurrent restores, no leftover) | pass | @@W49@@ | @@CI49@@ | 15/15 |
-| 4.9-written raw + EMZ1 checkpoint → golden (v50 test 7) | pass | – | @@CIV50@@ | pass |
+| `--selftest47` (10) | pass | 10/10 | 10/10 | 10/10 |
+| `--selftest48` (9) | pass | 9/9 | 9/9 | 9/9 |
+| `--selftest49` (15: EMZ1 levels, 150+150, 500+500, 1000+1000, temp fallback, Unicode/long temp, corrupted/truncated/SHA-mismatch refused, 4 concurrent restores, no leftover) | pass | 15/15 | 15/15 | 15/15 |
+| 4.9-written raw + EMZ1 checkpoint → golden (v50 test 7) | pass | – | pass | pass |
 | EMZ1 fuzz, 300 flips/truncations | – | – | – | 300/300 refused, nothing written |
 
 Comparisons cover the canonical state (header-independent body SHA-256), RNG, counters and strategy
 bytes. The 4.9 150-update state `1ff8be8d…` equals `icm45a.state` from your Windows self-test.
 
-**Sanitizer coverage.** `tools/sanitize50.sh`, log at `validation/5.0/sanitizers/` (@@SANSTATUS@@). The
+**Sanitizer coverage.** `tools/sanitize50.sh`, log at `validation/5.0/sanitizers/` (final run on build 9ee5a8be32f5146e: all passed, 0 reports, 21.7 min). The
 pass covers:
 - ASan+UBSan builds of mwcli running the three self-tests, the EMZ1 fuzz, and `v49` plus `v50` against
   the sanitized CLI.
@@ -209,3 +240,24 @@ relevant comparison is the paired one above, and it shows equivalence.
 | Any real CUDA execution, kernels or GPU memory of 5.0 | no GPU; 5.0 does not change the kernels |
 | Timing on a 13th-generation i7 with 24 threads | not available; the six-player speed-up depends on core count |
 | Windows-only code under sanitizers | MinGW has no ASan |
+
+## Limitations
+
+- **No 5.0 timing on your PC or GPU.** The Automatic-mode gain on the RTX 4060 Ti is expected, not measured. "Compare processing modes.bat" now prints the scheduling decision and reason, so one run on your PC settles it.
+- **GPU Preferred and Hybrid are unchanged.** On small sampled-deal jobs they still open CUDA and run up to 96 calibrations, because enumerated batch sizes vary. That is the requested semantics, but it costs time on small jobs.
+- **The threshold is a projection.** It uses CPU time from the first batch, or the cached figure. A job that becomes much larger per update than its first batch suggests may stay on the CPU when CUDA would have been faster. The threshold can be changed with `EM_AUTO_MIN_SCORE_SECONDS`.
+- **Six-player results are from small study abstractions on a 4-CPU machine.** On your 24-thread CPU, `parallel64` would gain more wall-time speed. Whether that turns into better quality per second there is untested, and it remains opt-in.
+- **NashConv is not exploitability.** It is measured inside each abstraction, not in the full game.
+- **Windows-only code is not sanitizer-checked.** MinGW has no ASan.
+- **One v40 wall-clock test failed once on a shared CI runner.** It has passed in every other run.
+
+## Package
+
+`EightMax-Windows-5.0.zip` contains:
+- the executables, the offline page, `BUILD-INFO.json` and the documentation;
+- `source/` (build instructions at the top of `source/README.txt`);
+- `validation/` (machine-readable results and logs for every version, including 5.0);
+- `.github/workflows`;
+- `SHA256SUMS.txt`.
+
+To check it, extract the ZIP into an empty folder and run `sha256sum -c SHA256SUMS.txt` (on Windows, compare against `Get-FileHash`). The release check extracted the final ZIP into a fresh directory, verified every hash, confirmed the build IDs, and ran `mwcli.exe --build-id` plus `--selftest47/48/49` (under Wine) from inside the extracted folder. The results are written after packaging, so they are not inside the ZIP: `release/package-smoke-5.0.json` next to it, and `validation/5.0/package-smoke.json` in the repository.

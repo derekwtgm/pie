@@ -13,7 +13,7 @@
 | `build-linux.log`, `build-windows.log` | Final clean build (build 9ee5a8be32f5146e) |
 | `regression-linux.json`, `.log` | Full Linux regression from a clean checkout of the final commit |
 | `windows-ci/` | Windows CI job logs and totals for the final commit (GitHub Actions `windows-latest`) |
-| `package-smoke.json` | ZIP extracted into a fresh folder: `sha256sum -c`, build IDs and executable smoke tests |
+| `package-smoke.json` | ZIP extracted into a fresh folder: `sha256sum -c`, build IDs and executable smoke tests (written after packaging, so it is in the repository and next to the ZIP, not inside it) |
 
 Machine: Intel Xeon @ 2.10 GHz, 4 logical CPUs, Linux, GCC 13.3, Clang 18.1, Wine 9.0, Node 22. No NVIDIA GPU.
 The "test double" is a simulated CUDA driver (`source/tests/cuda_driver_fixture.cpp`), not a GPU.

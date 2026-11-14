@@ -1,3 +1,23 @@
+EightMax Windows 5.0 source
+
+Read ../RELEASE-5.0.md and ../validation/5.0/README.md for 5.0. 5.0 additions and changes:
+  native/score_schedule.hpp  beginScoringCall() (per-call scheduling state on every training path),
+                             schedulingJson(), autoMinScoreSeconds() (EM_AUTO_MIN_SCORE_SECONDS, default 0.5)
+  native/mw.cpp, mw_es_impl.hpp  beginScoringCall at the start of mw_train / es::train; "scheduling" report block
+  native/cuda_score.hpp      test-only EM_TEST_CUDA_LIBRARY (absolute path) on Windows; normal loading unchanged
+  tests/v50.test.js tests/sched50.cpp tests/cuda_driver_fixture.cpp (cuInitCalls counter, builds as a Windows DLL)
+  tools/devices50.js tools/sanitize50.sh tools/convergence48.js (parallel16/64, --threads, corrected equal time)
+  tools/test_devices.ps1 tools/validate_hardware.ps1 (scheduling fields) tools/run_tests.js (names every skip)
+  .github/workflows/windows.yml (toolchain identification, test-double DLL, EM_TEST_CXX, GCC/Clang job)
+Toolchains for 5.0: Ubuntu 24.04, Node 22.23, GCC 13.3, Clang 18.1, MinGW-w64 GCC 13.2 (posix; release
+executables), Python 3.12+, Wine 9.0 (tests only). Windows CI: MSYS2 UCRT64 GCC 16.2. No CUDA toolkit needed.
+Build (from source/), byte-reproducible:
+  node tools/build.js && sh native/build.sh linux && sh native/build.sh windows
+  EM_TEST_HOST=build/linux/eightmax EM_TEST_MWCLI=build/linux/mwcli node tools/run_tests.js report.json
+  sh tools/sanitize50.sh . /tmp/san50          (ASan+UBSan and TSan; Linux)
+  python3 tools/package36.py .. ../release/EightMax-Windows-5.0.zip   (from source/, after copying the
+                             executables, EightMax-Offline.html and build-info.json to the root)
+
 EightMax Windows 4.5 source
 
 Read ../RELEASE-4.5.md and ../validation/4.5/README.md for 4.5. 4.5 additions and changes:
