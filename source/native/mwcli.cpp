@@ -252,7 +252,8 @@ int main(int argc, char **argv) {
     if (cancelAfter >= 0 || std::getenv("EM_QUERY_TIMING")) {
       std::fprintf(stderr, "{\"queryMs\":%.3f", std::chrono::duration<double, std::milli>(q1 - q0).count());
       if (raised != std::chrono::steady_clock::time_point{}) std::fprintf(stderr, ",\"cancelLatencyMs\":%.3f", std::chrono::duration<double, std::milli>(q1 - raised).count());
-      std::fprintf(stderr, ",\"status\":%d}\n", status);
+      char tel[400]; mw_last_query_telemetry(tel, sizeof tel);   // 5.1: deadline observation and check gaps
+      std::fprintf(stderr, ",\"status\":%d,\"evaluator\":%s}\n", status, tel);
     }
     if (status != 200) { std::fprintf(stderr, "error %d: %s\n", status, err); jb_free(&j); mw_free(m); return 1; }
     std::printf("%.*s\n", (int)j.n, j.s); jb_free(&j); mw_free(m); return 0;

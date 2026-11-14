@@ -34,13 +34,18 @@ for(const f of files){
     if(/failureType: 'testTimeoutFailure'/.test(block)){const n=/(?:not ok) \d+ - (.*)/.exec(block);if(n){row.timeouts.push(n[1]);row.failures=row.failures.filter(x=>x!==n[1]);}}
   if(r.error&&r.error.code==='ETIMEDOUT'){row.timeouts.push('whole file exceeded '+limit+' s; last output: '+tap.trim().split('\n').slice(-1)[0]);}
   // Subtests are counted once: drop parents that only aggregate children (node --test nests describe blocks).
+  // 5.1: keep each failure's diagnostic block (error message, expected/actual, location) in the log and
+  // the report; Windows CI run 53 printed only the name of its one failing test.
+  row.failureDetails={};
+  for(const block of tap.split(/\n(?=\s*(?:not ok|ok) \d+ - )/)){const n=/^\s*not ok \d+ - (.*?)(?: # .*)?$/m.exec(block);if(!n||!row.failures.includes(n[1]))continue;
+    row.failureDetails[n[1]]=block.split('\n').slice(1).filter(l=>/error:|expected:|actual:|operator:|location:|code:|message|at .*test\.js|AssertionError/.test(l)).slice(0,16).map(l=>l.trim().slice(0,400));}
   row.failed=row.failures.length;row.timedOut=row.timeouts.length;
   if(r.status!==0 && !row.failed && !row.timedOut)row.failures.push('process exited with status '+r.status),row.failed=1;
   for(const k of ['passed','failed','skipped','timedOut','todo'])out.totals[k]+=row[k];
   for(const h of row.hardware)h.status==='skipped'?out.totals.hardwareDependentSkipped++:out.totals.hardwareDependentRun++;
   out.files.push(row);
   console.log(f.padEnd(24),String(row.seconds).padStart(7)+' s','pass',row.passed,'fail',row.failed,'skip',row.skipped,'timeout',row.timedOut);
-  for(const x of row.failures)console.log('   FAILED:',x);for(const x of row.timeouts)console.log('   TIMED OUT:',x);
+  for(const x of row.failures){console.log('   FAILED:',x);for(const l of (row.failureDetails[x]||[]))console.log('      |',l);}for(const x of row.timeouts)console.log('   TIMED OUT:',x);
   for(const x of row.skippedTests)console.log('   SKIPPED:',x);   // 5.0: every skip and its reason in the log
 }
 if(perf){

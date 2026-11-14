@@ -67,6 +67,11 @@ inline const char *siteKey(int s) {
 struct EvStop { int code; int site; };
 struct EvBudget {};
 struct EvMemory {};
+// 5.1: telemetry of the last top-level request in this process (deadline investigation): requested
+// limit, when the evaluator first observed a stop condition, the largest gap between clock checks and
+// the number of checks. Written when a request's control is destroyed; read by mw_last_query_telemetry.
+struct EvTelemetry { std::atomic<long long> timeLimitMs{-1}, stopObservedNs{-1}, maxCheckGapNs{0}, checks{0}; std::atomic<int> stopCode{0}, stopSite{-1}; };
+inline EvTelemetry &evTelemetry() { static EvTelemetry t; return t; }
 struct EvControl {
   using Clock = std::chrono::steady_clock;
   volatile int *cancel = nullptr;
@@ -97,6 +102,11 @@ struct EvControl {
   bool validateOnly = false;             // jobs: check the request, do no work
   // fault injection (tests)
   int faultSite = -1; long long faultAt = 0; std::atomic<long long> faultCount{0}; int faultFlag = 0;
+  long long limitMs = -1;
+  ~EvControl() {
+    if (parent) return;
+    EvTelemetry &t = evTelemetry(); t.timeLimitMs = limitMs; t.stopObservedNs = stopNs.load(); t.maxCheckGapNs = maxGapNs.load(); t.checks = checks.load(); t.stopCode = stop.load(); t.stopSite = stopSite.load();
+  }
   EvControl() {
     if (const char *f = std::getenv("EM_EV_FAULT")) {
       const char *colon = std::strchr(f, ':'); std::string site = colon ? std::string(f, (size_t)(colon - f)) : std::string(f);
@@ -104,7 +114,7 @@ struct EvControl {
       faultAt = colon ? std::atoll(colon + 1) : 1; if (faultAt < 1) faultAt = 1;
     }
   }
-  void setDeadline(long long ms) { const auto now = Clock::now(); startTicks.store(now.time_since_epoch().count(), std::memory_order_release); deadline = now + std::chrono::milliseconds(ms); }
+  void setDeadline(long long ms) { limitMs = ms; const auto now = Clock::now(); startTicks.store(now.time_since_epoch().count(), std::memory_order_release); deadline = now + std::chrono::milliseconds(ms); }
   double elapsedMs() const { return std::chrono::duration<double, std::milli>(Clock::now() - start()).count(); }
   // 4.4: when the first stop condition was published, in ms after start (-1: none). Reported in
   // deadline.phasesMs so the time between the stop and the return can be attributed.

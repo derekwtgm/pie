@@ -29,6 +29,7 @@
 #include <pthread.h>
 #include <chrono>
 #include <unordered_map>
+#include <map>
 #include <functional>
 #include <climits>
 #include <bit>
@@ -137,7 +138,7 @@ struct MW {
   std::string mode="cpu",studyId;
   std::string route="CPU scoring"; CudaInfo cuda;
   size_t gpuBudget=512ULL<<20,peakGpuBytes=0;
-  size_t cpuScoreUnits=0;unsigned cpuScoreReuse=0,scoreCalibrations=0;
+  unsigned scoreCalibrations=0;
   long long plannedUpdates=0; double autoProjectedScoreSeconds=-1; bool autoDeviceSkipped=false;   // 4.9: Automatic small-job rule (score_schedule.hpp)
   // 5.0: per-call scheduling diagnostics, reset by beginScoringCall() at the start of EVERY mw_train
   // call on both training paths (4.9 set plannedUpdates only on the external-sampling path, so the
@@ -145,6 +146,12 @@ struct MW {
   std::string trainingPath, scheduleDecision="not applicable", scheduleReason; double autoThresholdSeconds=0.5, callCalibrationSeconds=0;
   unsigned callCalibrations=0; size_t callGpuPeakBytes=0; bool callCudaOpened=false;
   double scoreCalibrationSeconds=0,cpuScoreProbeSeconds=0,bestDeviceScoreSeconds=0;
+  // 5.1: route measurements reused across nearby batch sizes (score_schedule.hpp). Kept on the
+  // engine; they never change scores (every route computes the same values), only where they run.
+  struct RouteMeasure{size_t units=0;int route=0;double cpuSeconds=0,deviceSeconds=0;unsigned uses=0;std::string mode;size_t budget=0;};
+  std::vector<RouteMeasure> routeMeasures;
+  unsigned callCalibrationReuses=0,callBatchesScored=0; size_t callUnitsMin=0,callUnitsMax=0; double callDriverInitSeconds=-1,callScoreSeconds=0,callDeviceSeconds=0;
+  std::map<std::string,unsigned> callRecalibrationReasons;
   int n = 0, startLen = 5, kmax = 1, maxDepth = 1;
   int board[5] = {0, 0, 0, 0, 0};
   es::GroupKeys fullGroups;
@@ -165,6 +172,13 @@ struct MW {
   std::vector<Node> nodes;
   std::vector<int> children;
   std::vector<Terminal> terms;
+  // 5.1 (experimental, opt-in): batch-size warm-up schedule for external sampling. Update t (0-based,
+  // committed updates) uses batchAt(t)=min(batchDeals, start*2^floor(t/doubleEvery)) deals. A pure
+  // function of the committed update count and the spec, so a resumed run replays it exactly; the
+  // committed deal count is dealsBefore(iterations) (= iterations*batchDeals without a schedule).
+  int batchStart = 0; long long batchDoubleEvery = 0; int curBatch = 1;
+  int batchAt(long long t) const { if (!batchStart) return batchDeals; long long b = batchStart; for (long long s = t / batchDoubleEvery; s > 0 && b < batchDeals; s--) b *= 2; return (int)std::min<long long>(b, batchDeals); }
+  long long dealsBefore(long long t) const { if (!batchStart) return t * batchDeals; long long deals = 0, b = batchStart, done = 0; while (done < t) { const long long cur = std::min<long long>(b, batchDeals), span = b >= batchDeals ? t - done : std::min(t - done, batchDoubleEvery); deals += span * cur; done += span; b *= 2; } return deals; }
   int batchDeals = 1; int updates = 0; /* 0 simultaneous, 1 alternating, 2 enumerate */ bool linear = true, plus = false, dcfr = false; double dA = 1.5, dB = 0, dG = 2;
   // state
   Rng rng{17};
@@ -724,6 +738,13 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     if (JV *bdv = jget(root, "batchDeals")) { if (!isInt(bdv) || bdv->num < 1 || bdv->num > 64) return bad("Batch deals must be 1 to 64"); }
     m->batchDeals = (int)jnum(jget(root, "batchDeals"), 1);
     if (m->batchDeals < 1 || m->batchDeals > 64) return bad("Batch deals must be 1 to 64");
+    if (JV *bs = jget(root, "batchSchedule")) {   // 5.1 experimental warm-up schedule (see batchAt)
+      JV *s0 = jget(bs, "start"), *de = jget(bs, "doubleEvery");
+      if (bs->type != J_OBJ || !isInt(s0) || !isInt(de) || s0->num < 1 || s0->num > 64 || de->num < 1 || de->num > 10000000) return bad("batchSchedule needs integer start (1 to 64) and doubleEvery (1 to 10000000)");
+      if (protocol != 4 || !jstr(jget(root, "actionStreams")) || strcmp(jstr(jget(root, "actionStreams")), "deal") || jnum(jget(root, "stratified"), 0) || jget(root, "latin")) return bad("batchSchedule needs external sampling with per-deal action streams (not stratified or Latin deals)");
+      if ((int)s0->num > m->batchDeals) return bad("batchSchedule start exceeds batchDeals");
+      m->batchStart = (int)s0->num; m->batchDoubleEvery = (long long)de->num;
+    }
     const char *up = jstr(jget(root, "updates"));
     if (up && !strcmp(up, "alternating")) m->updates = 1; else if (up && !strcmp(up, "enumerate")) m->updates = 2;
     else if (up && strcmp(up, "simultaneous")) return bad("Unknown update scheme");
@@ -765,7 +786,7 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
     m->dense = m->startLen == 5 && protocol != 4 && !jget(root,"riverGroups");
     if (protocol == 4) {
       m->arena.setLimit((size_t)m->budgetBytes);
-      if (m->trainingDeals!=m->iterations*m->batchDeals) return bad("Inconsistent external checkpoint committed deal count");
+      if (m->trainingDeals!=m->dealsBefore(m->iterations)) return bad("Inconsistent external checkpoint committed deal count");
       if (const char *why = parseRules(m, root)) return bad(why);
       // 3.3: external-sampling DCFR with per-row discount schedules (mw_es.hpp Dcfr).
       if (m->dcfr) { m->es->dcfr = true; m->es->schedule.init(m->dA, m->dB, m->dG); }
@@ -1023,6 +1044,10 @@ extern "C" void mw_root_policy(MW *m,JB *out){
 }
 #include "explorer.hpp"
 #include "ev_control.hpp"
+extern "C" int mw_last_query_telemetry(char *buf, int len) {
+  const es::EvTelemetry &t = es::evTelemetry();
+  return std::snprintf(buf, (size_t)len, "{\"timeLimitMs\":%lld,\"stopObservedMs\":%.3f,\"maxCheckGapMs\":%.3f,\"checks\":%lld,\"stopCode\":%d,\"stopSite\":%d}", t.timeLimitMs.load(), t.stopObservedNs.load() < 0 ? -1.0 : t.stopObservedNs.load() / 1e6, t.maxCheckGapNs.load() / 1e6, t.checks.load(), t.stopCode.load(), t.stopSite.load());
+}
 #include "showdown_table.hpp"
 #include <charconv>
 extern "C" double em_parse_double(const char *s, char **end) {
@@ -1099,6 +1124,7 @@ extern "C" void mw_info(MW *m, JB *out) {
     const double share = g.secProfiled > 0 ? std::min(1.0, g.secScore / g.secProfiled) : 0;
     jb_puts(out,",\"devicePath\":");jb_str(out,m->route.c_str());
     jb_printf(out,",\"requestedDevice\":\"%s\",\"gpuBufferPeakBytes\":%zu,\"gpuStageBound\":{\"scoringShare\":%.4f,\"maxSavingFraction\":%.4f}",m->mode.c_str(),m->peakGpuBytes,share,share);
+    if (m->batchStart) jb_printf(out, ",\"batchSchedule\":{\"start\":%d,\"doubleEvery\":%lld,\"max\":%d,\"nextBatchDeals\":%d}", m->batchStart, m->batchDoubleEvery, m->batchDeals, m->batchAt(m->iterations));
     jb_printf(out, ",\"limitReached\":%s,\"threads\":%d,\"batchDeals\":%d,\"seconds\":{\"deal\":%.4f,\"traverse\":%.4f,\"merge\":%.4f,\"profiledUpdates\":%.4f,\"scoreInProfiledUpdates\":%.4f}}",
       m->limitReached ? "true" : "false", m->lastThreads, m->batchDeals, g.secDeal, g.secTraverse, g.secMerge, g.secProfiled, g.secScore);
     return;
@@ -1357,7 +1383,7 @@ static int esImport(MW *m, const unsigned char *buf, size_t len, char *err, int 
     if(!isInt(v) || v->num<0 || v->num>9007199254740991.0){json_free(h);fail(err,errlen,"Invalid checkpoint counter");return 0;}
   }
   const long long it = (long long)jnum(jget(h, "iterations"), -1), deals = (long long)jnum(jget(h, "trainingDeals"), -1), visits = (long long)jnum(jget(h, "stateVisits"), -1);
-  if (it >= 0 && it <= 10000000 && deals != it*m->batchDeals) { json_free(h); fail(err, errlen, "Inconsistent external checkpoint committed deal count"); return 0; }
+  if (it >= 0 && it <= 10000000 && deals != m->dealsBefore(it)) { json_free(h); fail(err, errlen, "Inconsistent external checkpoint committed deal count"); return 0; }
   const double rs = jnum(jget(h, "rng"), -1), ar = jnum(jget(h, "actionRng"), -1);
   const JV *syncField = jget(h, "rowSync");
   const JV *keysValue = jget(h, "rowKeys"); const bool keysField = keysValue != nullptr;

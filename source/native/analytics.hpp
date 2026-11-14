@@ -145,7 +145,7 @@ inline Distance distance(const Study &A, const Study &B, int seats) {
 
 // ---- spec game identity: two studies are comparable only if every game-defining field is equal.
 inline const char *const IDENTITY_KEYS[] = {"protocol", "algorithm", "n", "board", "anteOf", "hands", "rules", "icm", "groupKeys", "turnGroups", "riverGroups", "abstraction"};
-inline const char *const TRAINER_KEYS[] = {"weighting", "regretMatching", "dcfrAlpha", "dcfrBeta", "dcfrGamma", "dcfrEager", "batchDeals", "actionStreams", "terminalBaseline", "terminalExpectation", "chanceSampling", "opponentExploration", "ownHandEnumeration", "stratified", "updates"};
+inline const char *const TRAINER_KEYS[] = {"weighting", "regretMatching", "dcfrAlpha", "dcfrBeta", "dcfrGamma", "dcfrEager", "batchDeals", "batchSchedule", "actionStreams", "terminalBaseline", "terminalExpectation", "chanceSampling", "opponentExploration", "ownHandEnumeration", "stratified", "updates"};
 inline void canon(std::string &o, const JV *v) {
   if (!v || v->type == J_NULL) { o += "null"; return; }
   if (v->type == J_BOOL) { o += v->num != 0 ? "true" : "false"; return; }

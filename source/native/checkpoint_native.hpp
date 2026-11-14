@@ -101,7 +101,7 @@ static void verify(Reader &r,MW &m,int iterations,const char *dir,int(*stop)(),i
   auto flag=[&](const char *k,bool want){require(want?get(k)&&isInt(get(k))&&get(k)->num==1:!get(k),"Invalid native row format or weighting");};
   require(integer("protocol",1)==1&&integer("specProtocol",4)==4&&jstr(get("studyId"))&&m.studyId==jstr(get("studyId")),"State belongs to a different study");
   const auto updates=integer("iterations",10000000),deals=integer("trainingDeals",9007199254740991ULL);
-  require((iterations<0||updates==(unsigned)iterations)&&deals==updates*m.batchDeals,"Inconsistent committed deal count or update count");
+  require((iterations<0||updates==(unsigned)iterations)&&deals==(uint64_t)m.dealsBefore((long long)updates),"Inconsistent committed deal count or update count");
   const auto rng=integer("rng",UINT32_MAX),actionRng=integer("actionRng",UINT32_MAX),visits=integer("stateVisits",9007199254740991ULL);
   auto checkpoint=[&](){
     if(stop())throw Reject{409,"Checkpoint restoration cancelled"};

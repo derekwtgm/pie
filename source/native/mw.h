@@ -53,6 +53,8 @@ int mw_node_query(MW *m, const char *json, size_t len, JB *out, char *err, int e
 int mw_action_ev(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
 // 3.9: per-seat response gains (exact best response or sampled one-shot deviation).
 int mw_response_gain(MW *m, const char *json, size_t len, JB *out, char *err, int errlen, volatile int *cancel);
+/* 5.1: telemetry of the last evaluation request in this process, as a JSON object (deadline investigation). */
+int mw_last_query_telemetry(char *buf, int len);
 // 4.0: background evaluation tasks. A task carries the cancellation flag, the
 // shared deadline/progress state and the result of one action-EV (kind 0) or
 // response-gain (kind 1) request. mw_eval_run blocks (call it on a worker

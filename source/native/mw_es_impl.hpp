@@ -418,7 +418,7 @@ inline int merge(MW &m, Game &g, Unit &u, bool immediate, Update &update) {
     if (id < 0) return 0;
     resolved[i] = id;
   }
-  const int B = m.batchDeals;
+  const int B = m.curBatch;   // 5.1: the current batch size (a warm-up schedule changes it between updates)
   for (const Inc &inc : u.incs) {
     const int sid = inc.ref >= 0 ? inc.ref : resolved[(size_t)(-inc.ref - 1)];
     const long long r = m.getOrCreate(rowKey((uint32_t)sid, inc.hand, inc.code), sid, inc.k);
@@ -448,37 +448,40 @@ inline int merge(MW &m, Game &g, Unit &u, bool immediate, Update &update) {
 inline double now() { return std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count(); }
 inline int train(MW *m, long long iterations, int threads, volatile int *stop, mw_progress_fn progress, void *ctx, char *err, int errlen) {
   Game &g = *m->es;
-  const int B = m->batchDeals, n = m->n;
-  const bool parallel = B > 1 && g.perDealStreams;
+  const int Bmax = m->batchDeals, n = m->n;   // 5.1: buffers are sized for the largest batch; B is set per update
+  const bool parallel = Bmax > 1 && g.perDealStreams;
   const size_t cap=(size_t)m->budgetBytes;
   const size_t icmBytes=m->tournament.start.empty()?0:Tournament::workspaceBytes(m->tournament.start.size(),m->budgetBytes);
   const size_t fixed=sizeof(Walker)+icmBytes+512;
   const size_t cacheBytes=Walker::edgeEntries(m->budgetBytes)*(sizeof(Walker::Edge)+sizeof(Walker::TermEntry)+16);
   const size_t perWorker=fixed+cacheBytes+(MAX_DEPTH+2)*(sizeof(BS)+3*8*sizeof(double))+4096;
-  const int affordable=(int)std::min<size_t>(B,cap/perWorker);
+  const int affordable=(int)std::min<size_t>(Bmax,cap/perWorker);
   const int T=parallel ? std::max(1,std::min(threads,affordable)) : 1;
   m->lastThreads = T;
   auto failMsg = [&](const char *msg) { if (err && errlen > 0) snprintf(err, (size_t)errlen, "%s", msg); return 0; };
   try {
-    if (cap < fixed*T+B*sizeof(Unit)) throw std::bad_alloc();
-    ScratchBudget budget(cap-fixed*T-B*sizeof(Unit),g.scratchPeak);
+    if (cap < fixed*T+Bmax*sizeof(Unit)) throw std::bad_alloc();
+    ScratchBudget budget(cap-fixed*T-Bmax*sizeof(Unit),g.scratchPeak);
     Workers pool(T);
     ScoreSchedule scorer; beginScoringCall(*m, iterations, "external sampling");
-    const bool routeBatch=m->mode!="cpu" && B*n>=128 && m->startLen!=5;
-    m->route=routeBatch?"CPU (external sampling traversal)":"CPU (external sampling traversal; small batch or CPU scoring)";
+    const bool routeBatchAtMax=m->mode!="cpu" && Bmax*n>=128 && m->startLen!=5;
+    m->route=routeBatchAtMax?"CPU (external sampling traversal)":"CPU (external sampling traversal; small batch or CPU scoring)";
 
     g.setStoreCap(m->budgetBytes); g.extendStore(m->stateVisits);
     std::vector<std::unique_ptr<Walker>> walkers;
     for (int i = 0; i < T; i++) walkers.emplace_back(new Walker(*m, g, budget));
-    std::vector<Unit> units;units.reserve(B);
-    for(int i=0;i<B;i++)units.emplace_back(budget);
+    std::vector<Unit> units;units.reserve(Bmax);
+    for(int i=0;i<Bmax;i++)units.emplace_back(budget);
     // Waking helper threads costs tens of microseconds. A batch is split only
     // when the previous batch's measured state visits make it worthwhile.
     // Results are identical either way.
     double visitsPerDeal = 1e9;
-    g.unitLimitBytes = (size_t)(m->budgetBytes / 4 / B);
+    g.unitLimitBytes = (size_t)(m->budgetBytes / 4 / Bmax);
     for (long long it = 0; it < iterations && !m->limitReached; it++) {
       if (stop && __atomic_load_n(stop, __ATOMIC_RELAXED)) break;
+      const int B = m->batchAt(m->iterations); m->curBatch = B;   // deterministic: depends only on committed updates
+      const bool routeBatch = m->mode != "cpu" && B * n >= 128 && m->startLen != 5;
+      const bool parallel = B > 1 && g.perDealStreams;
       if (g.dcfr) {   // before the journal: the schedule is deterministic and kept on rollback
         // The discount tables grow by 48 bytes per iteration and are charged to the table budget.
         const size_t before = g.schedule.bytes();
@@ -539,7 +542,7 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         m->lastThreads = parallel && T > 1 && visitsPerDeal * B >= 2000.0 ? T : 1;
         double b = now(); g.secTraverse += b - a;
         if (oom) throw std::bad_alloc();
-        for (auto &u : units) if (u.overflow) { status = 0; break; }
+        for (int d = 0; d < B; d++) if (units[(size_t)d].overflow) { status = 0; break; }
         m->touched.clear();
         for (int d = 0; d < B && status == 1; d++) { status = merge(*m, g, units[(size_t)d], false, update); visits += units[(size_t)d].visits; }
         if (status == 1) {

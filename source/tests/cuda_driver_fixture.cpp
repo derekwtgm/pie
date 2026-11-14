@@ -128,6 +128,10 @@ int cuLaunchKernel(void *f,unsigned gx,unsigned,unsigned,unsigned bx,unsigned,un
   return 0;
  }
  auto input=(unsigned char*)*(uint64_t*)args[0];auto output=(int*)*(uint64_t*)args[1];int n=*(int*)args[2];
+ // 5.1: controllable device cost for route-selection tests: EM_FIXTURE_LAUNCH_US per score launch
+ // (fixed overhead) + EM_FIXTURE_LANE_NS per lane, busy-waited. Default 0 (unchanged behaviour).
+ {static const long long fixedUs=std::getenv("EM_FIXTURE_LAUNCH_US")?std::atoll(std::getenv("EM_FIXTURE_LAUNCH_US")):0,laneNs=std::getenv("EM_FIXTURE_LANE_NS")?std::atoll(std::getenv("EM_FIXTURE_LANE_NS")):0;
+  const long long ns=fixedUs*1000+laneNs*(long long)n;if(ns>0){const auto end=std::chrono::steady_clock::now()+std::chrono::nanoseconds(ns);while(std::chrono::steady_clock::now()<end){}}}
  for(int i=0;i<n;i++){blockIdx.x=(unsigned)i/bx;threadIdx.x=(unsigned)i%bx;if(f==(void*)3)score_deals(input,output,n,*(int*)args[3]);else score(input,output,n);}
  if(fault("mismatch"))output[0]^=1;
  return 0;
