@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: 5.1 route rule: reused decisions equal exact measurements under an affine cost model (tests/route51.cpp)
+ok 1 - 5.1 route rule: reused decisions equal exact measurements under an affine cost model (tests/route51.cpp)
+  ---
+  duration_ms: 721.021912
+  type: 'test'
+  ...
+# Subtest: 5.1 original device fixture (2,400-deal turn): GPU Preferred and Hybrid measure once instead of once per batch size; same strategy, RNG and counters as CPU Only
+ok 2 - 5.1 original device fixture (2,400-deal turn): GPU Preferred and Hybrid measure once instead of once per batch size; same strategy, RNG and counters as CPU Only
+  ---
+  duration_ms: 4640.503066
+  type: 'test'
+  ...
+# Subtest: 5.1 clearly GPU-profitable fixture: GPU Preferred uses CUDA and Hybrid a split for every batch after one measurement; same state as CPU Only
+ok 3 - 5.1 clearly GPU-profitable fixture: GPU Preferred uses CUDA and Hybrid a split for every batch after one measurement; same state as CPU Only
+  ---
+  duration_ms: 1422.000706
+  type: 'test'
+  ...
+# Subtest: 5.1 clearly CPU-profitable fixture (2 ms device overhead per launch): one measurement, every batch on the CPU, same state
+ok 4 - 5.1 clearly CPU-profitable fixture (2 ms device overhead per launch): one measurement, every batch on the CPU, same state
+  ---
+  duration_ms: 2189.141302
+  type: 'test'
+  ...
+# Subtest: 5.1 crossover inside one job: the profitable route changes with the batch size and GPU Preferred switches (CPU for small batches, CUDA for large), with few measurements
+ok 5 - 5.1 crossover inside one job: the profitable route changes with the batch size and GPU Preferred switches (CPU for small batches, CUDA for large), with few measurements
+  ---
+  duration_ms: 2589.524842
+  type: 'test'
+  ...
+# Subtest: 5.1 external sampling (2,560 deals, six players): GPU Preferred and Hybrid keep parity; Automatic still skips CUDA
+ok 6 - 5.1 external sampling (2,560 deals, six players): GPU Preferred and Hybrid keep parity; Automatic still skips CUDA
+  ---
+  duration_ms: 1292.141429
+  type: 'test'
+  ...
+# Subtest: 5.1 a device fault after measurements were reused falls back to the CPU with the same state
+ok 7 - 5.1 a device fault after measurements were reused falls back to the CPU with the same state
+  ---
+  duration_ms: 1930.542848
+  type: 'test'
+  ...
+# Subtest: 5.1 warm-up schedule: committed deals follow the schedule; the report shows the next batch size
+ok 8 - 5.1 warm-up schedule: committed deals follow the schedule; the report shows the next batch size
+  ---
+  duration_ms: 490.571435
+  type: 'test'
+  ...
+# Subtest: 5.1 warm-up schedule: deal weighting - a schedule that starts at the full batch reproduces the fixed batch byte for byte (5.0 parallel64 unchanged)
+ok 9 - 5.1 warm-up schedule: deal weighting - a schedule that starts at the full batch reproduces the fixed batch byte for byte (5.0 parallel64 unchanged)
+  ---
+  duration_ms: 250.589903
+  type: 'test'
+  ...
+# Subtest: 5.1 warm-up schedule: save and resume before, at and after every batch-size transition, short final calls, 1 vs 4 workers, raw and EMZ1 = uninterrupted
+ok 10 - 5.1 warm-up schedule: save and resume before, at and after every batch-size transition, short final calls, 1 vs 4 workers, raw and EMZ1 = uninterrupted
+  ---
+  duration_ms: 4878.090162
+  type: 'test'
+  ...
+# Subtest: 5.1 warm-up schedule: cancellation and a memory-budget stop during an uncommitted batch keep exactly the committed updates; continuing from them = uninterrupted
+ok 11 - 5.1 warm-up schedule: cancellation and a memory-budget stop during an uncommitted batch keep exactly the committed updates; continuing from them = uninterrupted
+  ---
+  duration_ms: 2195.662728
+  type: 'test'
+  ...
+# Subtest: 5.1 checkpoints written by 4.9 and 5.0 (raw and EMZ1) resume to the uninterrupted state
+ok 12 - 5.1 checkpoints written by 4.9 and 5.0 (raw and EMZ1) resume to the uninterrupted state
+  ---
+  duration_ms: 4945.142608
+  type: 'test'
+  ...
+# Subtest: 5.1 a checkpoint is refused when the schedule in the spec does not match its committed deals
+ok 13 - 5.1 a checkpoint is refused when the schedule in the spec does not match its committed deals
+  ---
+  duration_ms: 98.836124
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 27723.664667

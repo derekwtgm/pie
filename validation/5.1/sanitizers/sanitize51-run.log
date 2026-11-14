@@ -1,0 +1,35 @@
+== build mwcli with UBSan+ASan
+embedded 1028354 bytes
+embedded 156782 bytes
+sanitized (undefined,float-cast-overflow,address) host: /tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/san51/ub/eightmax, /tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/san51/ub/mwcli
+EightMaxBuild=fd1eb3a48c730b2e
+== UBSan+ASan: mwcli --selftest47
+{"tool":"mwcli selftest47","build":"fd1eb3a48c730b2e","checksPassed":10,"checksFailed":0,"passed":true,"report":"/tmp/cl
+== UBSan+ASan: mwcli --selftest48
+{"tool":"mwcli selftest48","build":"fd1eb3a48c730b2e","passed":9,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c579
+== UBSan+ASan: mwcli --selftest49
+{"tool":"mwcli selftest49","build":"fd1eb3a48c730b2e","passed":15,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c57
+== UBSan+ASan: EMZ1 corruption fuzz (300 cases)
+fuzz (train from a damaged EMZ1): refused 300 accepted 0 other 0
+== UBSan+ASan CLI: tests/v49.test.js and tests/v50.test.js
+# pass 14
+# fail 0
+# skipped 1
+== sched50 harness (consecutive training calls, scheduler) under ASan+UBSan and TSan
+  auto: "bodySha256":"d06244626a72b9ba
+  gpu: "bodySha256":"d06244626a72b9ba
+sanitize50: all passed
+== UBSan+ASan CLI: tests/v51.test.js
+# pass 13
+# fail 0
+# skipped 0
+== route reuse across consecutive calls, crossover cost model (gpu, hybrid) under ASan+UBSan and TSan
+  gpu: "bodySha256":"91786e3aa22cf183 reuses "calibrationReusesThisCall":16 "calibrationReusesThisCall":60 "calibrationReusesThisCall":20 
+  hybrid: "bodySha256":"91786e3aa22cf183 reuses "calibrationReusesThisCall":15 "calibrationReusesThisCall":59 "calibrationReusesThisCall":20 
+== adaptive batch schedule with parallel batches under ASan+UBSan and TSan
+  schedule: "bodySha256":"c2e9d935cba71585 threads used 
+sanitize51: all passed
+
+real	24m13.197s
+user	49m20.643s
+sys	0m31.451s
