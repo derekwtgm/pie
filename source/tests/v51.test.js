@@ -41,8 +41,16 @@ test('5.1 original device fixture (2,400-deal turn): GPU Preferred and Hybrid me
     const r = trainWith(dir, TURN, mode, 100, 4, 1024), exact = trainWith(dir, TURN, mode, 100, 4, 1024, { EM_ROUTE_REUSE: '0' });
     const sc = r.info.scheduling, se = exact.info.scheduling;
     assert.ok(r.driver && r.driver.cuInitCalls >= 1, mode + ': explicit modes still open and probe CUDA'); assert.equal(sc.cudaOpenedThisCall, true);
-    assert.ok(sc.calibrationsThisCall >= 1 && sc.calibrationsThisCall <= 3, mode + ': calibrations ' + sc.calibrationsThisCall);
-    assert.ok(se.calibrationsThisCall > 10 * sc.calibrationsThisCall, mode + ': exact-size reuse measures ' + se.calibrationsThisCall);
+    // How many measurements the reuse rule needs depends on the measured CPU/device ratio (wall clock), so the
+    // count itself is machine-dependent (1 on the development machine, 5 on a GitHub runner where the simulated
+    // device and the CPU are closer and a CPU record is not extended above its own size). Timing-independent
+    // checks instead: every measurement after the first lies outside the window that the rule guarantees for
+    // every earlier measurement (CPU route: at least [u0/4, u0]; device route: at least [u0, 2 u0]), so no
+    // measurement is ever repeated where a reuse was allowed, and the count stays far below one per batch.
+    const ms = r.trace.filter(x => x.measured), covered = (u, m) => m.route === 0 ? (u >= m.u / 4 && u <= m.u) : (u >= m.u && u <= 2 * m.u);
+    ms.forEach((m, i) => { for (const e of ms.slice(0, i)) assert.ok(!covered(m.u, e), mode + ': measured ' + m.u + ' although the measurement at ' + e.u + ' (route ' + e.route + ') covers it'); });
+    assert.ok(sc.calibrationsThisCall >= 1 && sc.calibrationsThisCall <= 16, mode + ': calibrations ' + sc.calibrationsThisCall);
+    assert.ok(se.calibrationsThisCall > 2 * sc.calibrationsThisCall && se.calibrationsThisCall > 10, mode + ': exact-size reuse measures ' + se.calibrationsThisCall + ', nearby ' + sc.calibrationsThisCall);
     assert.equal(sc.batchesScored, 100); assert.equal(sc.calibrationsThisCall + sc.calibrationReusesThisCall, 100);
     assert.ok(sc.batchUnitsMax > sc.batchUnitsMin, 'variable batch sizes'); assert.equal(sc.routeReuseRule, '5.1 nearby batch sizes'); assert.equal(se.routeReuseRule, '5.0 exact batch size');
     assert.equal(sc.recalibrationReasons['first measurement in this job'], 1);

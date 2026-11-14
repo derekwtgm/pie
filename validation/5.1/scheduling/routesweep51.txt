@@ -1,0 +1,14 @@
+cpuNs 0 gpu cal 1 violations 0 rho 3.40@149r0 units 145 173 {"first measurement in this job":1}
+cpuNs 0 hybrid cal 1 violations 0 rho 1.92@149r0 units 145 173 {"first measurement in this job":1}
+cpuNs 50 gpu cal 1 violations 0 rho 1.58@149r0 units 145 173 {"first measurement in this job":1}
+cpuNs 50 hybrid cal 6 violations 0 rho 1.20@149r0 1.17@156r0 1.11@158r0 1.14@164r0 1.16@169r0 1.16@173r0 units 145 173 {"first measurement in this job":1,"no measurement covers this batch size (outside the reuse window)":5}
+cpuNs 100 gpu cal 2 violations 0 rho 1.05@149r0 1.58@156r0 units 145 173 {"first measurement in this job":1,"no measurement covers this batch size (outside the reuse window)":1}
+cpuNs 100 hybrid cal 5 violations 0 rho 1.03@149r0 0.99@156r0 1.00@158r0 0.89@164r3 0.64@159r4 units 145 173 {"first measurement in this job":1,"no measurement covers this batch size (outside the reuse window)":4}
+cpuNs 200 gpu cal 4 violations 0 rho 1.44@149r0 1.03@164r0 0.99@169r0 0.90@173r1 units 145 173 {"first measurement in this job":1,"no measurement covers this batch size (outside the reuse window)":3}
+cpuNs 200 hybrid cal 3 violations 0 rho 0.88@149r3 0.76@148r4 0.70@145r4 units 145 173 {"first measurement in this job":1,"no measurement covers this batch size (outside the reuse window)":2}
+cpuNs 400 gpu cal 1 violations 0 rho 0.44@149r1 units 145 173 {"first measurement in this job":1}
+cpuNs 400 hybrid cal 1 violations 0 rho 0.55@149r4 units 145 173 {"first measurement in this job":1}
+cpuNs 800 gpu cal 1 violations 0 rho 0.26@149r1 units 145 173 {"first measurement in this job":1}
+cpuNs 800 hybrid cal 1 violations 0 rho 0.45@149r4 units 145 173 {"first measurement in this job":1}
+cpuNs 1500 gpu cal 1 violations 0 rho 0.47@149r1 units 145 173 {"first measurement in this job":1}
+cpuNs 1500 hybrid cal 1 violations 0 rho 0.35@149r4 units 145 173 {"first measurement in this job":1}
