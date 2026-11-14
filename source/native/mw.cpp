@@ -1048,7 +1048,7 @@ extern "C" void mw_root_policy(MW *m,JB *out){
 #include "ev_control.hpp"
 extern "C" int mw_last_query_telemetry(char *buf, int len) {
   const es::EvTelemetry &t = es::evTelemetry();
-  return std::snprintf(buf, (size_t)len, "{\"timeLimitMs\":%lld,\"stopObservedMs\":%.3f,\"maxCheckGapMs\":%.3f,\"checks\":%lld,\"stopCode\":%d,\"stopSite\":%d}", t.timeLimitMs.load(), t.stopObservedNs.load() < 0 ? -1.0 : t.stopObservedNs.load() / 1e6, t.maxCheckGapNs.load() / 1e6, t.checks.load(), t.stopCode.load(), t.stopSite.load());
+  return std::snprintf(buf, (size_t)len, "{\"timeLimitMs\":%lld,\"stopObservedMs\":%.3f,\"maxCheckGapMs\":%.3f,\"maxCheckGapEndMs\":%.3f,\"maxCheckGapSite\":%d,\"startSteadyNs\":%lld,\"checks\":%lld,\"stopCode\":%d,\"stopSite\":%d}", t.timeLimitMs.load(), t.stopObservedNs.load() < 0 ? -1.0 : t.stopObservedNs.load() / 1e6, t.maxCheckGapNs.load() / 1e6, t.maxCheckGapEndNs.load() < 0 ? -1.0 : t.maxCheckGapEndNs.load() / 1e6, t.maxCheckGapSite.load(), t.startSteadyNs.load(), t.checks.load(), t.stopCode.load(), t.stopSite.load());
 }
 #include "showdown_table.hpp"
 #include <charconv>

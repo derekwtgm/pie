@@ -70,7 +70,7 @@ struct EvMemory {};
 // 5.1: telemetry of the last top-level request in this process (deadline investigation): requested
 // limit, when the evaluator first observed a stop condition, the largest gap between clock checks and
 // the number of checks. Written when a request's control is destroyed; read by mw_last_query_telemetry.
-struct EvTelemetry { std::atomic<long long> timeLimitMs{-1}, stopObservedNs{-1}, maxCheckGapNs{0}, checks{0}; std::atomic<int> stopCode{0}, stopSite{-1}; };
+struct EvTelemetry { std::atomic<long long> timeLimitMs{-1}, stopObservedNs{-1}, maxCheckGapNs{0}, checks{0}, maxCheckGapEndNs{-1}, startSteadyNs{0}; std::atomic<int> stopCode{0}, stopSite{-1}, maxCheckGapSite{-1}; };
 inline EvTelemetry &evTelemetry() { static EvTelemetry t; return t; }
 struct EvControl {
   using Clock = std::chrono::steady_clock;
@@ -98,7 +98,7 @@ struct EvControl {
   long long maxVisits = LLONG_MAX;       // budget of the current exact unit (hand)
   std::atomic<long long> unitVisits{0};
   // measured deadline behaviour
-  std::atomic<long long> checks{0}, maxGapNs{0};
+  std::atomic<long long> checks{0}, maxGapNs{0}, maxGapEndNs{-1}; std::atomic<int> maxGapSite{-1};   // 5.1: where/when the longest gap ended
   bool validateOnly = false;             // jobs: check the request, do no work
   // fault injection (tests)
   int faultSite = -1; long long faultAt = 0; std::atomic<long long> faultCount{0}; int faultFlag = 0;
@@ -106,6 +106,7 @@ struct EvControl {
   ~EvControl() {
     if (parent) return;
     EvTelemetry &t = evTelemetry(); t.timeLimitMs = limitMs; t.stopObservedNs = stopNs.load(); t.maxCheckGapNs = maxGapNs.load(); t.checks = checks.load(); t.stopCode = stop.load(); t.stopSite = stopSite.load();
+    t.maxCheckGapSite = maxGapSite.load(); t.maxCheckGapEndNs = maxGapEndNs.load(); t.startSteadyNs = std::chrono::duration_cast<std::chrono::nanoseconds>(start().time_since_epoch()).count();
   }
   EvControl() {
     if (const char *f = std::getenv("EM_EV_FAULT")) {
@@ -167,6 +168,7 @@ struct Poller {
     countdown = interval;
     c.checks.fetch_add(1, std::memory_order_relaxed);
     long long m = c.maxGapNs.load(std::memory_order_relaxed); while (gap > m && !c.maxGapNs.compare_exchange_weak(m, gap)) {}
+    if (gap > m) { c.maxGapSite.store(site, std::memory_order_relaxed); c.maxGapEndNs.store(std::chrono::duration_cast<std::chrono::nanoseconds>(now - c.start()).count(), std::memory_order_relaxed); }
     c.stage.store(site, std::memory_order_relaxed);
     if (visits > flushed) { c.visits.fetch_add(visits - flushed, std::memory_order_relaxed); if (c.unitVisits.fetch_add(visits - flushed) + (visits - flushed) > c.maxVisits) c.raise(3, site); flushed = visits; }
     if (c.faultSite == site && c.faultCount.fetch_add(1) + 1 >= c.faultAt) __atomic_store_n(&c.faultFlag, 1, __ATOMIC_RELAXED);
