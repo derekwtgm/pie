@@ -2,49 +2,49 @@ TAP version 13
 # Subtest: 4.9 --selftest49: compressed-checkpoint restoration in every temporary-directory situation (15 checks)
 ok 1 - 4.9 --selftest49: compressed-checkpoint restoration in every temporary-directory situation (15 checks)
   ---
-  duration_ms: 25780.017504
+  duration_ms: 26746.769941
   type: 'test'
   ...
 # Subtest: 4.9 EMZ1 restoration falls back to the checkpoint folder when TMPDIR is unusable, refuses cleanly when no temporary file can be created, and enforces the size limit
 ok 2 - 4.9 EMZ1 restoration falls back to the checkpoint folder when TMPDIR is unusable, refuses cleanly when no temporary file can be created, and enforces the size limit
   ---
-  duration_ms: 1246.852594
+  duration_ms: 1403.661078
   type: 'test'
   ...
 # Subtest: 4.9 compressed and uncompressed restoration give the same canonical state for every inspection command (--state-info, --verify)
 ok 3 - 4.9 compressed and uncompressed restoration give the same canonical state for every inspection command (--state-info, --verify)
   ---
-  duration_ms: 165.61604
+  duration_ms: 183.293352
   type: 'test'
   ...
 # Subtest: 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)
 ok 4 - 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions) # SKIP running as root: permissions are not enforced
   ---
-  duration_ms: 0.281517
+  duration_ms: 0.149296
   type: 'test'
   ...
 # Subtest: 4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)
 ok 5 - 4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): no errors (4.8: Clang rejected an explicit FlatHist construction)
   ---
-  duration_ms: 11209.215364
+  duration_ms: 11835.422503
   type: 'test'
   ...
 # Subtest: 4.9 adaptive small-table cache: exact gains bit-identical to the 4.7 path, evaluation memory below the 4.8 level (weighted six-player flop)
 ok 6 - 4.9 adaptive small-table cache: exact gains bit-identical to the 4.7 path, evaluation memory below the 4.8 level (weighted six-player flop)
   ---
-  duration_ms: 624789.775053
+  duration_ms: 620308.859711
   type: 'test'
   ...
 # Subtest: 4.9 Automatic does not open CUDA for a small training job; GPU Preferred and Hybrid still measure; all modes write the same strategy bytes (Linux CUDA test double, simulated driver)
 ok 7 - 4.9 Automatic does not open CUDA for a small training job; GPU Preferred and Hybrid still measure; all modes write the same strategy bytes (Linux CUDA test double, simulated driver)
   ---
-  duration_ms: 1231.257204
+  duration_ms: 1033.735275
   type: 'test'
   ...
 # Subtest: 4.9 dashboard: ten charts, each with points from a real monitor run where the run provides that measurement
 ok 8 - 4.9 dashboard: ten charts, each with points from a real monitor run where the run provides that measurement
   ---
-  duration_ms: 320.127041
+  duration_ms: 284.65705
   type: 'test'
   ...
 # In file included from /home/user/pie/source/native/mw.cpp:1585:
@@ -57,43 +57,43 @@ ok 8 - 4.9 dashboard: ten charts, each with points from a real monitor run where
 # Subtest: 5.0 Automatic never opens CUDA for the three-player turn of "Compare processing modes" (2,400 deals, below the threshold): no driver load, 0 calibrations, 0 GPU bytes, same state as CPU Only
 ok 9 - 5.0 Automatic never opens CUDA for the three-player turn of "Compare processing modes" (2,400 deals, below the threshold): no driver load, 0 calibrations, 0 GPU bytes, same state as CPU Only
   ---
-  duration_ms: 2250.571853
+  duration_ms: 2099.999238
   type: 'test'
   ...
 # Subtest: 5.0 the same turn above the threshold (EM_AUTO_MIN_SCORE_SECONDS=0): Automatic opens CUDA and measures it, then keeps the CPU result; same state
 ok 10 - 5.0 the same turn above the threshold (EM_AUTO_MIN_SCORE_SECONDS=0): Automatic opens CUDA and measures it, then keeps the CPU result; same state
   ---
-  duration_ms: 2046.051418
+  duration_ms: 1979.761339
   type: 'test'
   ...
 # Subtest: 5.0 GPU Preferred and Hybrid keep their behaviour on the turn: they open the device, measure, may fall back to the CPU, and produce the CPU state
 ok 11 - 5.0 GPU Preferred and Hybrid keep their behaviour on the turn: they open the device, measure, may fall back to the CPU, and produce the CPU state
   ---
-  duration_ms: 3065.097713
+  duration_ms: 3143.673349
   type: 'test'
   ...
 # Subtest: 5.0 the external-sampling shortcut still applies (six-player weighted study, 64-deal batches, 40 updates = 2,560 deals): no driver load, same state
 ok 12 - 5.0 the external-sampling shortcut still applies (six-player weighted study, 64-deal batches, 40 updates = 2,560 deals): no driver load, same state
   ---
-  duration_ms: 652.807002
+  duration_ms: 606.668349
   type: 'test'
   ...
 # Subtest: 5.0 one engine, consecutive short / long / short calls: per-call scheduling diagnostics reset, every call counts only its own updates, state identical to CPU Only after every call
 ok 13 - 5.0 one engine, consecutive short / long / short calls: per-call scheduling diagnostics reset, every call counts only its own updates, state identical to CPU Only after every call
   ---
-  duration_ms: 79458.240569
+  duration_ms: 74214.687635
   type: 'test'
   ...
 # Subtest: 5.0 training reports carry the scheduling block on both paths (path, planned updates, projection, threshold, decision, reason, calibrations, GPU bytes)
 ok 14 - 5.0 training reports carry the scheduling block on both paths (path, planned updates, projection, threshold, decision, reason, calibrations, GPU bytes)
   ---
-  duration_ms: 249.260977
+  duration_ms: 199.329081
   type: 'test'
   ...
 # Subtest: 5.0 checkpoints written by the 4.9 release (raw EMMW4 and EMZ1) resume to the golden 300-update state; a failed restore keeps the existing output
 ok 15 - 5.0 checkpoints written by the 4.9 release (raw EMMW4 and EMZ1) resume to the golden 300-update state; a failed restore keeps the existing output
   ---
-  duration_ms: 1419.231706
+  duration_ms: 1384.517897
   type: 'test'
   ...
 1..15
@@ -104,4 +104,4 @@ ok 15 - 5.0 checkpoints written by the 4.9 release (raw EMMW4 and EMZ1) resume t
 # cancelled 0
 # skipped 1
 # todo 0
-# duration_ms 754321.757185
+# duration_ms 745621.988743
