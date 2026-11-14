@@ -1,0 +1,10 @@
+== wine selftest47
+exit 0 20s
+{"tool":"mwcli selftest47","build":"9ee5a8be32f5146e","checksPassed":10,"checksFailed":0,"passed":true,"report":"Z:\\tmp\\claude-0\\-home-user-pie\\6c579f97-bc78-5249-92f1-543b592f714e\\scratchpad\\wi
+== wine selftest48
+exit 0 17s
+{"tool":"mwcli selftest48","build":"9ee5a8be32f5146e","passed":9,"failed":0,"report":"Z:\\tmp\\claude-0\\-home-user-pie\\6c579f97-bc78-5249-92f1-543b592f714e\\scratchpad\\wine50\\st48\\selftest48.json
+== wine selftest49
+exit 0 12s
+{"tool":"mwcli selftest49","build":"9ee5a8be32f5146e","passed":15,"failed":0,"report":"Z:\\tmp\\claude-0\\-home-user-pie\\6c579f97-bc78-5249-92f1-543b592f714e\\scratchpad\\wine50\\st49\\selftest49.jso
+EightMaxBuild=9ee5a8be32f5146e
