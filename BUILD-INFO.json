@@ -1,6 +1,6 @@
 {
- "version": "4.9",
- "build": "278035e3bb5bcaa6",
+ "version": "5.0",
+ "build": "9ee5a8be32f5146e",
  "files": [
   "../.github/workflows/windows.yml",
   "VERSION",
@@ -121,6 +121,7 @@
   "tools/deadline44.js",
   "tools/desktop_recovery.js",
   "tools/device_benchmark.js",
+  "tools/devices50.js",
   "tools/diagnostics_benchmark.js",
   "tools/equal_time.js",
   "tools/ev_concurrency.cpp",
@@ -169,6 +170,7 @@
   "tools/sanitize46.sh",
   "tools/sanitize47.sh",
   "tools/sanitize48.sh",
+  "tools/sanitize50.sh",
   "tools/scenarios33.js",
   "tools/scenarios34.js",
   "tools/scenarios39.js",

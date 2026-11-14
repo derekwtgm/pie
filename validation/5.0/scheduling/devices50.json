@@ -1,0 +1,1204 @@
+{
+ "tool": "devices50",
+ "generated": "2026-11-14T04:00:30.193Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "rounds": 9,
+ "arms": [
+  {
+   "name": "v4.9",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli49"
+  },
+  {
+   "name": "v5.0",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/cc50/mwcli"
+  }
+ ],
+ "note": "No physical NVIDIA GPU on this machine. \"test-double\" is a simulated CUDA driver: it shows whether the driver is initialised and how many calibrations run, not real GPU cost.",
+ "results": [
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "cpu",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.11439,
+    "iqr": [
+     0.108619,
+     0.117391
+    ],
+    "min": 0.106121,
+    "max": 0.169108,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.128971861,
+    "iqr": [
+     0.12358571,
+     0.132250805
+    ],
+    "min": 0.120931144,
+    "max": 0.184119712,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "cpu",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.111449,
+    "iqr": [
+     0.110148,
+     0.115449
+    ],
+    "min": 0.106343,
+    "max": 0.137514,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.125601046,
+    "iqr": [
+     0.124651421,
+     0.130766998
+    ],
+    "min": 0.120883735,
+    "max": 0.154166999,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring",
+   "decision": "CPU Only requested",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "auto",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.111614,
+    "iqr": [
+     0.107569,
+     0.114095
+    ],
+    "min": 0.106013,
+    "max": 0.120752,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.125603781,
+    "iqr": [
+     0.122386187,
+     0.128008696
+    ],
+    "min": 0.119600637,
+    "max": 0.135848642,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "auto",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.111975,
+    "iqr": [
+     0.110758,
+     0.11386
+    ],
+    "min": 0.105693,
+    "max": 0.117157,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.126880083,
+    "iqr": [
+     0.124714831,
+     0.128669112
+    ],
+    "min": 0.11992112,
+    "max": 0.131620299,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.001 s is below 0.50 s, CUDA not opened)",
+   "decision": "CPU without opening CUDA",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "gpu",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.110283,
+    "iqr": [
+     0.109069,
+     0.111358
+    ],
+    "min": 0.106472,
+    "max": 0.130788,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.12378333,
+    "iqr": [
+     0.123223801,
+     0.125484707
+    ],
+    "min": 0.120882368,
+    "max": 0.144510218,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "gpu",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.113058,
+    "iqr": [
+     0.110809,
+     0.114078
+    ],
+    "min": 0.107566,
+    "max": 0.124137,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.128226326,
+    "iqr": [
+     0.124818191,
+     0.130543304
+    ],
+    "min": 0.122708997,
+    "max": 0.138476079,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": "CPU",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "hybrid",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.110246,
+    "iqr": [
+     0.108204,
+     0.114258
+    ],
+    "min": 0.105961,
+    "max": 0.124589,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.123856631,
+    "iqr": [
+     0.123307534,
+     0.129272642
+    ],
+    "min": 0.120226349,
+    "max": 0.139170239,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "no-driver",
+   "mode": "hybrid",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.110665,
+    "iqr": [
+     0.110066,
+     0.113951
+    ],
+    "min": 0.108778,
+    "max": 0.120188,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.12524288,
+    "iqr": [
+     0.123873818,
+     0.130894773
+    ],
+    "min": 0.123408448,
+    "max": 0.144599057,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": "CPU",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "cpu",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.109437,
+    "iqr": [
+     0.106363,
+     0.113055
+    ],
+    "min": 0.104992,
+    "max": 0.123025,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.123693199,
+    "iqr": [
+     0.119835293,
+     0.126827238
+    ],
+    "min": 0.118486932,
+    "max": 0.138522491,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "cpu",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.108124,
+    "iqr": [
+     0.106641,
+     0.116023
+    ],
+    "min": 0.105004,
+    "max": 0.125129,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.122789884,
+    "iqr": [
+     0.121016574,
+     0.131085228
+    ],
+    "min": 0.118289584,
+    "max": 0.141520318,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring",
+   "decision": "CPU Only requested",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "auto",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.116902,
+    "iqr": [
+     0.116786,
+     0.121842
+    ],
+    "min": 0.113227,
+    "max": 0.12232,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.132141502,
+    "iqr": [
+     0.130417663,
+     0.136552418
+    ],
+    "min": 0.127447419,
+    "max": 0.137094249,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size)",
+   "decision": null,
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 3979,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "auto",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.109629,
+    "iqr": [
+     0.106583,
+     0.110383
+    ],
+    "min": 0.099579,
+    "max": 0.116768,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.124241432,
+    "iqr": [
+     0.12105133,
+     0.124836596
+    ],
+    "min": 0.115490205,
+    "max": 0.131749318,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.001 s is below 0.50 s, CUDA not opened)",
+   "decision": "CPU without opening CUDA",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "gpu",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.138922,
+    "iqr": [
+     0.118696,
+     0.14072
+    ],
+    "min": 0.115969,
+    "max": 0.185032,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.15318357,
+    "iqr": [
+     0.133797301,
+     0.155233558
+    ],
+    "min": 0.1296993,
+    "max": 0.201616165,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size)",
+   "decision": null,
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 3979,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "gpu",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.142835,
+    "iqr": [
+     0.119672,
+     0.157302
+    ],
+    "min": 0.112852,
+    "max": 0.166329,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.158547582,
+    "iqr": [
+     0.134162924,
+     0.173033784
+    ],
+    "min": 0.127164938,
+    "max": 0.181200332,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size)",
+   "decision": "CPU after measuring CUDA",
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 96,
+   "gpuBufferPeakBytes": 3979,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "hybrid",
+   "arm": "v4.9",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.131217,
+    "iqr": [
+     0.115864,
+     0.140381
+    ],
+    "min": 0.114169,
+    "max": 0.177889,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.145793097,
+    "iqr": [
+     0.130553671,
+     0.155786871
+    ],
+    "min": 0.128904055,
+    "max": 0.195413027,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size)",
+   "decision": null,
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": null,
+   "gpuBufferPeakBytes": 2967,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "turn",
+   "environment": "test-double",
+   "mode": "hybrid",
+   "arm": "v5.0",
+   "deals": 2400,
+   "trainingSeconds": {
+    "median": 0.121616,
+    "iqr": [
+     0.117912,
+     0.146564
+    ],
+    "min": 0.116857,
+    "max": 0.15823,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.137850361,
+    "iqr": [
+     0.132833778,
+     0.161659413
+    ],
+    "min": 0.13072623,
+    "max": 0.172723184,
+    "n": 9
+   },
+   "stateBody": "91786e3aa22cf1830df10bbadc72a3e2ae54bb31f0f84ed92dd0cd8c039bede6",
+   "rng": 4225209845,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size)",
+   "decision": "CPU after measuring CUDA",
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 96,
+   "gpuBufferPeakBytes": 2967,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "cpu",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.059885,
+    "iqr": [
+     0.0568,
+     0.062458
+    ],
+    "min": 0.055866,
+    "max": 0.067148,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.095897824,
+    "iqr": [
+     0.092436396,
+     0.099663249
+    ],
+    "min": 0.090016049,
+    "max": 0.105354773,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "cpu",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.060773,
+    "iqr": [
+     0.058489,
+     0.06182
+    ],
+    "min": 0.055155,
+    "max": 0.065988,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.099207597,
+    "iqr": [
+     0.09404202,
+     0.100942292
+    ],
+    "min": 0.091263022,
+    "max": 0.101425567,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "decision": "CPU Only requested",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "auto",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.058906,
+    "iqr": [
+     0.05813,
+     0.059013
+    ],
+    "min": 0.057029,
+    "max": 0.061252,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094796133,
+    "iqr": [
+     0.093188475,
+     0.095239931
+    ],
+    "min": 0.091422167,
+    "max": 0.102438145,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.001 s is below 0.50 s, CUDA not opened)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "auto",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.05982,
+    "iqr": [
+     0.055842,
+     0.060101
+    ],
+    "min": 0.054705,
+    "max": 0.065037,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094482092,
+    "iqr": [
+     0.090581574,
+     0.097197876
+    ],
+    "min": 0.088592136,
+    "max": 0.100679557,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.000 s is below 0.50 s, CUDA not opened)",
+   "decision": "CPU without opening CUDA",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "gpu",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.059612,
+    "iqr": [
+     0.056991,
+     0.06021
+    ],
+    "min": 0.055782,
+    "max": 0.070576,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094275654,
+    "iqr": [
+     0.093022649,
+     0.09683896
+    ],
+    "min": 0.092265765,
+    "max": 0.111905633,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "gpu",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.060987,
+    "iqr": [
+     0.059611,
+     0.071083
+    ],
+    "min": 0.055933,
+    "max": 0.076958,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.097535919,
+    "iqr": [
+     0.096503892,
+     0.112624495
+    ],
+    "min": 0.092291762,
+    "max": 0.123131147,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": "CPU",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "hybrid",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.058032,
+    "iqr": [
+     0.05675,
+     0.060967
+    ],
+    "min": 0.055715,
+    "max": 0.061349,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.095150226,
+    "iqr": [
+     0.092897046,
+     0.096864743
+    ],
+    "min": 0.091967385,
+    "max": 0.099855962,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "no-driver",
+   "mode": "hybrid",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.06185,
+    "iqr": [
+     0.059443,
+     0.063511
+    ],
+    "min": 0.056375,
+    "max": 0.076044,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.099658527,
+    "iqr": [
+     0.096353281,
+     0.104201885
+    ],
+    "min": 0.09221876,
+    "max": 0.117337001,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (CUDA unavailable: NVIDIA driver library not found)",
+   "decision": "CPU",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "cpu",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.063411,
+    "iqr": [
+     0.06132,
+     0.066525
+    ],
+    "min": 0.054982,
+    "max": 0.068616,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.101759901,
+    "iqr": [
+     0.098797058,
+     0.104278448
+    ],
+    "min": 0.090165254,
+    "max": 0.108015505,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "cpu",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.059825,
+    "iqr": [
+     0.05743,
+     0.060735
+    ],
+    "min": 0.054891,
+    "max": 0.066587,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.095493285,
+    "iqr": [
+     0.093549897,
+     0.096504644
+    ],
+    "min": 0.089903237,
+    "max": 0.105917693,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+   "decision": "CPU Only requested",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "auto",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.058762,
+    "iqr": [
+     0.057169,
+     0.060519
+    ],
+    "min": 0.055417,
+    "max": 0.069896,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094662324,
+    "iqr": [
+     0.092868849,
+     0.096015138
+    ],
+    "min": 0.091139161,
+    "max": 0.1062526,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.000 s is below 0.50 s, CUDA not opened)",
+   "decision": null,
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "auto",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.056709,
+    "iqr": [
+     0.056338,
+     0.059143
+    ],
+    "min": 0.056218,
+    "max": 0.059985,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.092854597,
+    "iqr": [
+     0.091716667,
+     0.094250531
+    ],
+    "min": 0.090969712,
+    "max": 0.097700106,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (Automatic: projected scoring work 0.000 s is below 0.50 s, CUDA not opened)",
+   "decision": "CPU without opening CUDA",
+   "driverLoaded": false,
+   "cuInitCalls": 0,
+   "calibrations": 0,
+   "gpuBufferPeakBytes": 0,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "gpu",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.060111,
+    "iqr": [
+     0.057453,
+     0.062
+    ],
+    "min": 0.054362,
+    "max": 0.064736,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.095704608,
+    "iqr": [
+     0.094015222,
+     0.10094088
+    ],
+    "min": 0.090236646,
+    "max": 0.105666481,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size, cached)",
+   "decision": null,
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 1,
+   "gpuBufferPeakBytes": 2624,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "gpu",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.062096,
+    "iqr": [
+     0.058236,
+     0.066375
+    ],
+    "min": 0.056715,
+    "max": 0.074132,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.098860128,
+    "iqr": [
+     0.092875086,
+     0.109562601
+    ],
+    "min": 0.092558708,
+    "max": 0.112701736,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size, cached)",
+   "decision": "CPU",
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 1,
+   "gpuBufferPeakBytes": 2624,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "hybrid",
+   "arm": "v4.9",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.058345,
+    "iqr": [
+     0.058016,
+     0.058812
+    ],
+    "min": 0.057836,
+    "max": 0.071148,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094026172,
+    "iqr": [
+     0.092997942,
+     0.095308531
+    ],
+    "min": 0.092353606,
+    "max": 0.112248776,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size, cached)",
+   "decision": null,
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 1,
+   "gpuBufferPeakBytes": 1968,
+   "sameStateAsCpuOnly": true
+  },
+  {
+   "workload": "es",
+   "environment": "test-double",
+   "mode": "hybrid",
+   "arm": "v5.0",
+   "deals": 2560,
+   "trainingSeconds": {
+    "median": 0.058012,
+    "iqr": [
+     0.056988,
+     0.061069
+    ],
+    "min": 0.054329,
+    "max": 0.064992,
+    "n": 9
+   },
+   "processSeconds": {
+    "median": 0.094610029,
+    "iqr": [
+     0.092738023,
+     0.098312894
+    ],
+    "min": 0.087445407,
+    "max": 0.10214021,
+    "n": 9
+   },
+   "stateBody": "5b0bed07af125ebc26811b04f45c671ecf4435fabef4e4f299ad7e515e4a61c2",
+   "rng": 1841728650,
+   "consistentAcrossRounds": true,
+   "devicePath": "CPU scoring (measured faster than CUDA for this batch size, cached)",
+   "decision": "CPU",
+   "driverLoaded": true,
+   "cuInitCalls": 1,
+   "calibrations": 1,
+   "gpuBufferPeakBytes": 1968,
+   "sameStateAsCpuOnly": true
+  }
+ ]
+}

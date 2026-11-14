@@ -91,3 +91,14 @@ test('5.0 training reports carry the scheduling block on both paths (path, plann
     assert.match(sc.trainingPath, pathRe); assert.equal(sc.plannedUpdates, n); if (deals) assert.equal(JSON.parse(r.stdout).trainingDeals, deals);
   }
 });
+test('5.0 checkpoints written by the 4.9 release (raw EMMW4 and EMZ1) resume to the golden 300-update state; a failed restore keeps the existing output', { skip: (!tool() && 'no native CLI'), timeout: 600000 }, t => {
+  const dir = tmp(t), fx = path.join(__dirname, '..', '..', 'validation', '5.0', 'fixtures'), spec = path.join(fx, 'icm-final8.spec.json');
+  const GOLDEN = 'aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8', sha = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+  for (const input of ['v49-150.state', 'v49-150.emz']) {
+    const out = path.join(dir, input + '.300'), r = cp.spawnSync(tool(), [spec, 150, 4, out, 512, path.join(fx, input)], { encoding: 'utf8' });
+    assert.equal(r.status, 0, r.stderr); assert.equal(sha(out), GOLDEN, input);
+  }
+  const keep = path.join(dir, 'keep.state'); fs.copyFileSync(path.join(fx, 'v49-150.state'), keep); const before = sha(keep);
+  const bad = path.join(dir, 'bad.emz'), b = fs.readFileSync(path.join(fx, 'v49-150.emz')); b[b.length >> 1] ^= 0x20; fs.writeFileSync(bad, b);
+  const r = cp.spawnSync(tool(), [spec, 150, 4, keep, 512, bad], { encoding: 'utf8' }); assert.equal(r.status, 3); assert.equal(sha(keep), before, 'the last committed output is preserved');
+});

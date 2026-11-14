@@ -1,0 +1,187 @@
+{
+ "tool": "brbench48",
+ "generated": "2026-11-14T04:02:59.336Z",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalCpus": 4,
+ "method": "exact",
+ "rounds": 5,
+ "threads": 4,
+ "arms": [
+  {
+   "name": "v4.9",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/mwcli49",
+   "env": {}
+  },
+  {
+   "name": "v5.0",
+   "exe": "/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/cc50/mwcli",
+   "env": {}
+  }
+ ],
+ "games": [
+  {
+   "key": "turn4",
+   "description": "Four-player turn and river, unequal stacks, all-in or check/fold on the turn, half-pot river bet, two hands a seat, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.06875452635681677,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.016702366,
+     "minSec": 0.015770036,
+     "seconds": [
+      0.01728851,
+      0.016702366,
+      0.016282095,
+      0.018765818,
+      0.015770036
+     ],
+     "peakRssMiB": 7.3203125
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.018020749,
+     "minSec": 0.01622584,
+     "seconds": [
+      0.01622584,
+      0.018501622,
+      0.018338316,
+      0.018020749,
+      0.017259237
+     ],
+     "peakRssMiB": 7.45703125,
+     "timeRatioToFirst": 1.042377357035276,
+     "ratio95": [
+      0.9364481401200737,
+      1.160289083729214
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  },
+  {
+   "key": "bubble4",
+   "description": "Four-player bubble push/fold, weighted two-hand ranges, short stack (ICM: 3 paid)",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.000004604457410370367,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.436996566,
+     "minSec": 0.40928147,
+     "seconds": [
+      0.446878109,
+      0.436996566,
+      0.40928147,
+      0.442303308,
+      0.420964037
+     ],
+     "peakRssMiB": 271.42578125
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.405528934,
+     "minSec": 0.396961129,
+     "seconds": [
+      0.445236964,
+      0.402322297,
+      0.396961129,
+      0.421549543,
+      0.405528934
+     ],
+     "peakRssMiB": 271.48828125,
+     "timeRatioToFirst": 0.9603419030601958,
+     "ratio95": [
+      0.9267012436530949,
+      0.9952037693806309
+     ],
+     "supported": "faster"
+    }
+   ]
+  },
+  {
+   "key": "flop5",
+   "description": "Five-player flop, unequal stacks (4 to 40 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.24434707676160783,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.14340011,
+     "minSec": 0.140561299,
+     "seconds": [
+      0.14340011,
+      0.148929284,
+      0.145643745,
+      0.140561299,
+      0.142424402
+     ],
+     "peakRssMiB": 7.80078125
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.145764722,
+     "minSec": 0.140587675,
+     "seconds": [
+      0.148350254,
+      0.167031655,
+      0.145764722,
+      0.140937992,
+      0.140587675
+     ],
+     "peakRssMiB": 7.87109375,
+     "timeRatioToFirst": 1.028226160249113,
+     "ratio95": [
+      0.9645322414468683,
+      1.0961261751444247
+     ],
+     "supported": "no supported difference"
+    }
+   ]
+  },
+  {
+   "key": "flop6",
+   "description": "Six-player flop, unequal stacks (3 to 50 bb), all-in or fold, two hands a seat, side pots, chip EV",
+   "identical": true,
+   "mismatch": null,
+   "nashConv": 0.47493659278170663,
+   "arms": [
+    {
+     "name": "v4.9",
+     "medianSec": 0.653534168,
+     "minSec": 0.627048651,
+     "seconds": [
+      0.653534168,
+      0.664367069,
+      0.665582675,
+      0.646443336,
+      0.627048651
+     ],
+     "peakRssMiB": 11.86328125
+    },
+    {
+     "name": "v5.0",
+     "medianSec": 0.727770268,
+     "minSec": 0.632035864,
+     "seconds": [
+      0.782659987,
+      0.727770268,
+      0.710270992,
+      0.791866205,
+      0.632035864
+     ],
+     "peakRssMiB": 11.8828125,
+     "timeRatioToFirst": 1.1156680314695842,
+     "ratio95": [
+      1.0086825294554327,
+      1.2340009072182636
+     ],
+     "supported": "slower"
+    }
+   ]
+  }
+ ]
+}

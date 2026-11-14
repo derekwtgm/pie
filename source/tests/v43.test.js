@@ -58,9 +58,12 @@ function study(t, name, iterations) {
   cp.execFileSync(cliPath(), [spec, String(iterations), '2', state, '512']);
   return runner(t, spec, state);
 }
+// 5.0: on Windows the CI workflow names the release compiler (EM_TEST_CXX, MSYS2 UCRT64 GCC); -ldl does not
+// exist there and the unit programs are linked statically.
+const winArgs = args => process.platform === 'win32' ? [...args.filter(a => a !== '-ldl'), '-static'] : args;
 function compile(t, name, args) {
-  const dir = tmp(t), exe = path.join(dir, name);
-  try { cp.execFileSync('g++', [...args, '-o', exe], { stdio: 'pipe' }); } catch (e) { return { skip: 'C++ compiler unavailable: ' + String(e.message).split('\n')[0] }; }
+  const dir = tmp(t), exe = path.join(dir, name) + (process.platform === 'win32' ? '.exe' : '');
+  try { cp.execFileSync(process.env.EM_TEST_CXX || 'g++', [...winArgs(args), '-o', exe], { stdio: 'pipe' }); } catch (e) { return { skip: 'C++ compiler unavailable: ' + String(e.message).split('\n')[0] }; }
   return { exe };
 }
 const runJson = (exe, args, env = {}) => { const r = cp.spawnSync(exe, args, { encoding: 'utf8', maxBuffer: 1 << 26, env: { ...process.env, ...env } }); return { status: r.status, out: r.stdout, err: r.stderr, json: (() => { try { return JSON.parse(r.stdout); } catch { return null; } })() }; };

@@ -74,7 +74,7 @@ test('4.9 the native sources compile with Clang and GCC (C++20, -Wall -Wextra): 
 });
 test('4.9 adaptive small-table cache: exact gains bit-identical to the 4.7 path, evaluation memory below the 4.8 level (weighted six-player flop)', { skip, timeout: 900000 }, t => {
   const dir = tmp(t), s = G.spec('flop6w', 5), spec = writeJson(dir, 's.json', s), st = path.join(dir, 's.state');
-  json(cli([spec, 20000, 2, st, 512])); const q = writeJson(dir, 'q.json', { method: 'exact', threads: 4 });
+  json(cli([spec, 20000, 2, st, 512])); const q = writeJson(dir, 'q.json', { method: 'exact', threads: 4, timeLimitMs: 3600000 });   // 5.0: the 4.7 path takes minutes on a 2-core CI runner (default limit 120 s)
   const now = json(cli(['--gain', spec, st, q])), old = json(cli(['--gain', spec, st, q], { EM_EV_NO_RANK_CACHE: '1', EM_BR_NO_HOIST: '1', EM_EV_SMALL_TABLE_CAP: '4', EM_EV_TABLE_CAP: '0' }));
   assert.deepEqual(now.seats.map(x => x.gainBits), old.seats.map(x => x.gainBits));
   const v48 = json(cli(['--gain', spec, st, q], { EM_EV_SMALL_TABLE_CAP: '1024' }));

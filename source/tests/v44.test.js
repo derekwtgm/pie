@@ -83,9 +83,12 @@ function study(t, name, iterations, threads = 2) {
   cp.execFileSync(tool(), [spec, iterations, threads, state, 512].map(String), { encoding: 'utf8' });
   return runner(t, spec, state);
 }
+// 5.0: Windows uses the CI-selected release compiler (EM_TEST_CXX); no -ldl, static link.
+const winArgs = args => process.platform === 'win32' ? [...args.filter(a => a !== '-ldl'), '-static'] : args;
+const unitSkip = !linux && !(process.platform === 'win32' && process.env.EM_TEST_CXX) && 'Linux, or Windows with EM_TEST_CXX (the CI workflow sets it)';
 function compile(t, name, args) {
-  const exe = path.join(tmp(t), name);
-  const r = cp.spawnSync('g++', [...args, '-o', exe], { encoding: 'utf8' });
+  const exe = path.join(tmp(t), name) + (process.platform === 'win32' ? '.exe' : '');
+  const r = cp.spawnSync(process.env.EM_TEST_CXX || 'g++', [...winArgs(args), '-o', exe], { encoding: 'utf8' });
   if (r.error) return { skip: 'C++ compiler unavailable' };
   assert.equal(r.status, 0, r.stderr);
   return { exe };
@@ -305,7 +308,7 @@ test('4.4 coverage: the concurrent set equals the 4.3 merged tables and is ident
   if (capped.distinctCountKind === 'lowerBound') { assert.equal(capped.distinctInformationSets, 32768); assert.ok(capped.distinctEstimates.distinctInformationSets >= 32768); assert.equal(capped.distinctCountCapped, true); }
   else assert.ok(capped.distinctInformationSets <= 32768);
 });
-test('4.4 coverage units: concurrent set vs std::map reference - 1-16 threads, collisions, repeated observations, key limit, stop mid-run, 4.3 merge agreement (compiler)', { skip: !linux && 'Linux', timeout: 600000 }, t => {
+test('4.4 coverage units: concurrent set vs std::map reference - 1-16 threads, collisions, repeated observations, key limit, stop mid-run, 4.3 merge agreement (compiler)', { skip: unitSkip, timeout: 600000 }, t => {
   const b = compile(t, 'coverage44', ['-std=c++20', '-O2', '-I' + native, path.join(__dirname, 'coverage44.cpp'), '-lpthread']); if (b.skip) return t.skip(b.skip);
   const r = runJson(b.exe, ['200000']); assert.equal(r.status, 0, r.out.slice(0, 2000) + r.err); assert.equal(r.json.failures, 0); assert.ok(r.json.checks.length >= 40);
   // the 4.2 / 4.3 coverage units still pass against the same header
@@ -322,7 +325,7 @@ test('4.4 sanitizers: coverage44 under ThreadSanitizer and ASan+UBSan with no re
 });
 
 // ============================== Priority 4: Automatic CPU/GPU arms ==============================
-test('4.4 Automatic arm selection units: exploration, the RTX 4060 Ti report timings, slow device, adaptation (compiler)', { skip: !linux && 'Linux' }, t => {
+test('4.4 Automatic arm selection units: exploration, the RTX 4060 Ti report timings, slow device, adaptation (compiler)', { skip: unitSkip }, t => {
   const b = compile(t, 'auto44', ['-std=c++20', '-O2', '-I' + native, path.join(__dirname, 'auto44.cpp'), '-ldl', '-lpthread']); if (b.skip) return t.skip(b.skip);
   const r = runJson(b.exe); assert.equal(r.status, 0, r.out + r.err); assert.equal(r.json.failures, 0); assert.ok(r.json.checks.length >= 12);
 });

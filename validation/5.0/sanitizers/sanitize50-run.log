@@ -1,0 +1,55 @@
+== build mwcli with UBSan+ASan
+EightMaxBuild=e97b5b9169785449
+== UBSan+ASan: mwcli --selftest47
+{"tool":"mwcli selftest47","build":"e97b5b9169785449","checksPassed":10,"checksFailed":0,"passed":true,"report":"/tmp/cl
+== UBSan+ASan: mwcli --selftest48
+{"tool":"mwcli selftest48","build":"e97b5b9169785449","passed":9,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c579
+== UBSan+ASan: mwcli --selftest49
+{"tool":"mwcli selftest49","build":"e97b5b9169785449","passed":15,"failed":0,"report":"/tmp/claude-0/-home-user-pie/6c57
+== UBSan+ASan: EMZ1 corruption fuzz (300 cases)
+fuzz (train from a damaged EMZ1): refused 300 accepted 0 other 0
+== UBSan+ASan CLI: tests/v49.test.js and tests/v50.test.js
+# pass 14
+# fail 0
+# skipped 1
+== sched50 harness (consecutive training calls, scheduler) under ASan+UBSan and TSan
+In file included from /home/user/pie/source/native/mw.cpp:1585:
+/home/user/pie/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+In file included from /home/user/pie/source/native/mw.cpp:1585:
+/home/user/pie/source/native/checkpoint_native.hpp:24:50: warning: ignoring attributes on template argument 'int (*)(FILE*)' [-Wignored-attributes]
+   24 | using File=std::unique_ptr<FILE,decltype(&fclose)>;
+      |                                                  ^
+/home/user/pie/source/native/checkpoint_native.hpp:67:10: warning: 'cp36::States::Cache' has a field '{anonymous}::es::BS cp36::States::Cache::value' whose type uses the anonymous namespace [-Wsubobject-linkage]
+   67 |   struct Cache{uint32_t id=UINT32_MAX;es::BS value{};};std::array<Cache,256> cache{};
+      |          ^~~~~
+    #9 0x7fa6de898283 in dlopen_doit dlfcn/dlopen.c:56
+    #10 0x7fa6e002151b in __GI__dl_catch_exception elf/dl-catch.c:237
+    #11 0x7fa6e0021668 in _dl_catch_error elf/dl-catch.c:256
+    #12 0x7fa6de897d62 in _dlerror_run dlfcn/dlerror.c:138
+    #13 0x7fa6de89833e in dlopen_implementation dlfcn/dlopen.c:71
+    #14 0x7fa6de89833e in ___dlopen dlfcn/dlopen.c:81
+    #15 0x7fa6df87cf08 in dlopen ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:6341
+    #16 0x56134353deab in CudaScore::open() /home/user/pie/source/native/cuda_score.hpp:170
+    #17 0x561343447319 in run<(anonymous namespace)::DealWork> /home/user/pie/source/native/score_schedule.hpp:56
+    #18 0x561343447319 in mw_train /home/user/pie/source/native/mw.cpp:903
+    #19 0x56134331829c in main /home/user/pie/source/tests/sched50.cpp:25
+    #20 0x7fa6de82a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #21 0x7fa6de82a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #22 0x5613433176c4 in _start (/tmp/claude-0/-home-user-pie/6c579f97-bc78-5249-92f1-543b592f714e/scratchpad/san50/sched50-ub+0x3006c4) (BuildId: a3d46bfaebfbd7944e70ef8b2fd3392afe833bef)
+
+Indirect leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7fa6df8fe548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x7fa6dea2826f  (<unknown module>)
+
+SUMMARY: AddressSanitizer: 360 byte(s) leaked in 8 allocation(s).
+sched50 (auto) failed under ASan+UBSan
+
+real	16m16.412s
+user	37m25.724s
+sys	0m27.349s
+exit 1
