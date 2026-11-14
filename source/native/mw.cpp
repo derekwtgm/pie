@@ -743,6 +743,8 @@ extern "C" MW *mw_create(const char *json, size_t len, double memoryMiB, char *e
       if (bs->type != J_OBJ || !isInt(s0) || !isInt(de) || s0->num < 1 || s0->num > 64 || de->num < 1 || de->num > 10000000) return bad("batchSchedule needs integer start (1 to 64) and doubleEvery (1 to 10000000)");
       if (protocol != 4 || !jstr(jget(root, "actionStreams")) || strcmp(jstr(jget(root, "actionStreams")), "deal") || jnum(jget(root, "stratified"), 0) || jget(root, "latin")) return bad("batchSchedule needs external sampling with per-deal action streams (not stratified or Latin deals)");
       if ((int)s0->num > m->batchDeals) return bad("batchSchedule start exceeds batchDeals");
+      if (s0->num < 2) return bad("batchSchedule start must be at least 2 (one-deal updates are alternating, not frozen batches)");
+      { const char *w = jstr(jget(root, "weighting")); if (w && !strcmp(w, "dcfr")) return bad("batchSchedule is not available with DCFR weighting"); }
       m->batchStart = (int)s0->num; m->batchDoubleEvery = (long long)de->num;
     }
     const char *up = jstr(jget(root, "updates"));

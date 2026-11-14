@@ -112,6 +112,14 @@ test('5.1 warm-up schedule: committed deals follow the schedule; the report show
   for (const u of [1, 4, 5, 6, 14, 15, 16, 22]) { const info = train(spec, u, 2, path.join(dir, 'x.state')); assert.equal(info.iterations, u); assert.equal(info.trainingDeals, dealsAfter(u), 'deals after ' + u); assert.equal(info.batchSchedule.nextBatchDeals, u >= 15 ? 16 : 2 << Math.floor(u / 5)); }
   const bad = run([schedSpec(dir, { actionStreams: 'shared' }), 1, 1, path.join(dir, 'y.state'), 512]); assert.notEqual(bad.status, 0); assert.match(bad.stderr, /batchSchedule needs external sampling with per-deal action streams/);
   const big = run([schedSpec(dir, { batchSchedule: { start: 32, doubleEvery: 5 } }), 1, 1, path.join(dir, 'y.state'), 512]); assert.notEqual(big.status, 0); assert.match(big.stderr, /exceeds batchDeals/);
+  const one = run([schedSpec(dir, { batchSchedule: { start: 1, doubleEvery: 5 } }), 1, 1, path.join(dir, 'y.state'), 512]); assert.notEqual(one.status, 0); assert.match(one.stderr, /at least 2/);
+  const dc = run([schedSpec(dir, { weighting: 'dcfr' }), 1, 1, path.join(dir, 'y.state'), 512]); assert.notEqual(dc.status, 0); assert.match(dc.stderr, /DCFR/);
+});
+test('5.1 warm-up schedule: deal weighting - a schedule that starts at the full batch reproduces the fixed batch byte for byte (5.0 parallel64 unchanged)', { skip: cliSkip, timeout: 600000 }, t => {
+  const dir = tmp(t), fixedSpec = schedSpec(dir, { batchDeals: 16, batchSchedule: undefined }), full = schedSpec(dir, { batchDeals: 16, batchSchedule: { start: 16, doubleEvery: 3 } });
+  const a = path.join(dir, 'a.state'), b = path.join(dir, 'b.state'); train(fixedSpec, 30, 4, a); train(full, 30, 2, b);
+  const body = f => { const x = fs.readFileSync(f), hl = x.readUInt32LE(8); return crypto.createHash('sha256').update(x.subarray(12 + hl)).digest('hex'); };
+  assert.equal(body(a), body(b), 'same tables, RNG and counters');
 });
 test('5.1 warm-up schedule: save and resume before, at and after every batch-size transition, short final calls, 1 vs 4 workers, raw and EMZ1 = uninterrupted', { skip: cliSkip, timeout: 900000 }, t => {
   const dir = tmp(t), spec = schedSpec(dir), ref = path.join(dir, 'ref.state'), full = train(spec, 24, 4, ref), refSha = fileSha(ref);

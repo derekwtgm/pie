@@ -418,7 +418,7 @@ inline int merge(MW &m, Game &g, Unit &u, bool immediate, Update &update) {
     if (id < 0) return 0;
     resolved[i] = id;
   }
-  const int B = m.curBatch;   // 5.1: the current batch size (a warm-up schedule changes it between updates)
+  const int B = m.batchStart ? m.batchDeals : m.curBatch;   // 5.1: with a warm-up schedule, deal-weighted (divide by the full batch)
   for (const Inc &inc : u.incs) {
     const int sid = inc.ref >= 0 ? inc.ref : resolved[(size_t)(-inc.ref - 1)];
     const long long r = m.getOrCreate(rowKey((uint32_t)sid, inc.hand, inc.code), sid, inc.k);
@@ -489,7 +489,10 @@ inline int train(MW *m, long long iterations, int threads, volatile int *stop, m
         m->bytes += (double)g.schedule.bytes() - (double)before;
       }
       Update update(*m,budget); bool groupFull = false; const bool profiled = (m->iterations & 15) == 0;
-      const double step = m->linear ? (double)(m->iterations + 1) : 1.0;
+      // 5.1: with a warm-up schedule each update is weighted by its deals: increments are divided by the
+      // full batch size (merge) and linear weighting counts committed deals in full batches, so a 4-deal
+      // warm-up update carries 4/64 of a full update (an update-count weight overweighted the warm-up).
+      const double step = m->linear ? (m->batchStart ? (double)(m->dealsBefore(m->iterations) + B) / Bmax : (double)(m->iterations + 1)) : 1.0;
       const double avgStep = m->linear ? step : g.dcfrEager ? 1.0 : g.dcfr ? g.schedule.averageWeight((double)(m->iterations + 1)) : 1.0;
       double t0 = now();
       for (int d = 0; d < B; d++) {
