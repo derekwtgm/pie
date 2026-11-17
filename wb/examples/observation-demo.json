@@ -1,0 +1,295 @@
+{
+  "format": "eightmax-observation-sequence",
+  "version": 1,
+  "source": "synthetic",
+  "frames": [
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-0",
+      "sequence": 0,
+      "timeMs": 0,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 0,
+        "bigBlind": 100,
+        "pot": 450,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-1",
+      "sequence": 1,
+      "timeMs": 200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 0,
+        "bigBlind": 100,
+        "pot": 450,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-2",
+      "sequence": 2,
+      "timeMs": 400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 2,
+        "bigBlind": 100,
+        "pot": 550,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-3",
+      "sequence": 3,
+      "timeMs": 600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 2,
+        "bigBlind": 100,
+        "pot": 550,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-4",
+      "sequence": 4,
+      "timeMs": 800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "pot": 550,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": true
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "demo-hand",
+      "frame": "demo-5",
+      "sequence": 5,
+      "timeMs": 1000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "pot": 550,
+        "deadMoney": 50,
+        "seats": [
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 900,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 100,
+            "bet": 0,
+            "folded": true
+          }
+        ]
+      }
+    }
+  ]
+}

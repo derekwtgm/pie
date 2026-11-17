@@ -1,0 +1,23 @@
+{
+  "appVersion": "0.16.0",
+  "nodeVersion": "v24.22.1",
+  "nodeTestCases": 325,
+  "simulationRegressionCases": 20,
+  "separateUIHandlerCheckPassed": true,
+  "javascriptSyntaxFiles": 35,
+  "uniqueStaticControls": 224,
+  "externalScriptOrStylesheetAssets": [],
+  "standaloneBytes": 677711,
+  "unchangedEngineFiles": 91,
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "desktopCSharpCompiled": false,
+  "windowsAcceptanceExecuted": false,
+  "powerShellRestoreExecuted": false,
+  "installerExecuted": false,
+  "visualBrowserExecuted": false,
+  "windowsExecuted": false,
+  "prebuiltSignedInstallerProduced": false,
+  "desktopTransportTests": "controlled HTTP fixtures; no C#/Win32 execution",
+  "workloadTests": "JavaScript ownership logic and actual handlers using an in-memory DOM",
+  "resourceScope": "single dashboard page and observed managed host work; no cross-window arbitration, process RAM/VRAM measurement or capacity certification"
+}

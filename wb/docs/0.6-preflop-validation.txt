@@ -1,0 +1,18 @@
+✔ 8-handed posting anchor has a 2.3 BB pot and UTG acts first (2.57235ms)
+✔ heads-up dealer is small blind and acts first before the flop (0.414454ms)
+✔ incorrect blind, ante, dealt count, short posting and initial fold evidence are refused (3.52837ms)
+✔ preflop sequences reconstruct calls, checks/folds and transition to the proper flop actor (6.973272ms)
+✔ preflop study bridge restores pre-post stacks and matches the actual solver pot (47.374303ms)
+✔ postflop bridge after an 8-seat preflop history preserves six live seats and folded antes (7.179333ms)
+✔ preflop actor and chip movements match the separate simulator on 100 seeded hands (48.292304ms)
+✔ changed posting evidence during a hand is rejected without mutating the round (0.54513ms)
+✔ guided import preview and readable action timeline do not start solver workers (17.223295ms)
+✔ reviewed initial preflop anchor opens an eight-seat solver draft without auto-solving (7.701329ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 291.094656

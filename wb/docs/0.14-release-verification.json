@@ -1,0 +1,16 @@
+{
+  "appVersion": "0.14.0",
+  "javascriptSyntaxFiles": 33,
+  "uniqueStaticControls": 219,
+  "externalScriptOrStylesheetAssets": [],
+  "standaloneBytes": 657153,
+  "unchangedEngineFiles": 91,
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "desktopCSharpCompiled": false,
+  "windowsAcceptanceExecuted": false,
+  "installerExecuted": false,
+  "visualBrowserExecuted": false,
+  "windowsExecuted": false,
+  "prebuiltSignedInstallerProduced": false,
+  "desktopTransportTests": "simulated HTTP; no C#/Win32 execution"
+}

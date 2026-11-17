@@ -1,0 +1,37 @@
+✔ new UI starts a real adapter request and renders frequencies without implicit table execution (87.029822ms)
+✔ study slot drafts are independent and changed input cancels outstanding work (8.17871ms)
+✔ late result handlers cannot overwrite a newer study status (32.021726ms)
+✔ emergency stop cancels analysis and requires reset before new analysis (17.248087ms)
+✔ automatic recovery stores table state and reopens paused (15.881834ms)
+✔ imported display labels are escaped and corrupt session files leave state alone (19.649007ms)
+✔ only one worker runs while ten independent study slots queue (4.124216ms)
+✔ replacing a study terminates the old worker and ignores late replies (0.936213ms)
+✔ deadlines terminate workers and release the next slot (0.404603ms)
+✔ emergency cancellation rejects queued and running work (0.477931ms)
+✔ request state is copied before queueing; one worker error does not lose others (0.439044ms)
+✔ ready, playing and completed sessions roundtrip in paused mode (195.65892ms)
+✔ resumed tables continue with exactly equal decks, RNGs, cards and strategies (649.540284ms)
+✔ restored session cannot reuse a pre-save action request (0.954529ms)
+✔ stop latch, individual pause and error isolation survive recovery (0.690463ms)
+✔ invalid session data is refused before replacing any live session (1.038412ms)
+✔ adapter uses unmodified 5.1 source with exact file hashes (17.324589ms)
+✔ study adapters produce actual stored root policies on river, flop6 and preflop8 (246.67934ms)
+✔ adapter frequencies equal direct EightMax queries with identical settings (45.879938ms)
+✔ unknown rows remain unavailable; probabilities and malformed inputs are rejected (36.909402ms)
+✔ adapter honors time budgets and strategy budgets without calling output exact GTO (3.782565ms)
+✔ native CLI root policies match the browser reference on three real studies (270.381824ms)
+✔ template reader accepts distinctive matches and refuses ambiguous/unseen/blank regions (3.67594ms)
+✔ regions are independent for ten tables, bounded and normalized (0.924926ms)
+✔ image normalization is deterministic and rejects mismatched layouts (4.668404ms)
+✔ calibration roundtrip preserves samples and rejects invalid labels and values (2.374861ms)
+✔ contradictory duplicate cards are rejected across visible fields (3.324855ms)
+✔ actual generated worker bundle solves on an isolated JS thread (253.000657ms)
+✔ worker exports a valid native job, and rejects malformed configuration (152.476571ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1017.690074

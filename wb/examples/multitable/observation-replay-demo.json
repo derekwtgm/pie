@@ -1,0 +1,4927 @@
+{
+ "format": "eightmax-observation-replay",
+ "version": 1,
+ "note": "Structured feed from the offline simulator (seed 2024). Frame 17 has a wrong pot on purpose.",
+ "frames": [
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 0,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 1,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 3,
+   "pot": 230,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 1,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 2,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 4,
+   "pot": 330,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 2,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 3,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 5,
+   "pot": 330,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 3,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 4,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 6,
+   "pot": 430,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 4,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 5,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 7,
+   "pot": 530,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 5,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 6,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 0,
+   "pot": 880,
+   "currentBet": 350,
+   "lastRaise": 250,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 6,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 7,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 1,
+   "pot": 880,
+   "currentBet": 350,
+   "lastRaise": 250,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 7,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 8,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 2,
+   "pot": 1605,
+   "currentBet": 775,
+   "lastRaise": 425,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 8,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 9,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 3,
+   "pot": 3080,
+   "currentBet": 1575,
+   "lastRaise": 800,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 9,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 10,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 5,
+   "pot": 4555,
+   "currentBet": 1575,
+   "lastRaise": 800,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 10,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 11,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 6,
+   "pot": 4555,
+   "currentBet": 1575,
+   "lastRaise": 800,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": true,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 11,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 12,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 7,
+   "pot": 6945,
+   "currentBet": 2490,
+   "lastRaise": 915,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": true,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 12,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 13,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 1,
+   "pot": 9085,
+   "currentBet": 2490,
+   "lastRaise": 915,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1715,
+     "bet": 775,
+     "total": 785,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": true,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 13,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 14,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 2,
+   "pot": 10800,
+   "currentBet": 2490,
+   "lastRaise": 915,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": true,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 14,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 1,
+   "simRevision": 15,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 0,
+   "actor": 3,
+   "pot": 10800,
+   "currentBet": 2490,
+   "lastRaise": 915,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      6,
+      31
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      13,
+      27
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": true,
+     "cards": [
+      8,
+      18
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 915,
+     "bet": 1575,
+     "total": 1585,
+     "folded": false,
+     "cards": [
+      15,
+      9
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      11,
+      51
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": true,
+     "cards": [
+      42,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      34,
+      38
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      29,
+      41
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 15,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 21,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 4,
+   "pot": 230,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 16,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 22,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 5,
+   "pot": 330,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 17,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 23,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 6,
+   "pot": 480,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 18,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 24,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 7,
+   "pot": 730,
+   "currentBet": 300,
+   "lastRaise": 200,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 19,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 25,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 0,
+   "pot": 1030,
+   "currentBet": 300,
+   "lastRaise": 200,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 20,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 26,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 1,
+   "pot": 1830,
+   "currentBet": 800,
+   "lastRaise": 500,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 21,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 27,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 2,
+   "pot": 2630,
+   "currentBet": 800,
+   "lastRaise": 500,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 22,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 28,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 3,
+   "pot": 3380,
+   "currentBet": 800,
+   "lastRaise": 500,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 23,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 29,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 4,
+   "pot": 5755,
+   "currentBet": 2475,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 24,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 30,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 5,
+   "pot": 8130,
+   "currentBet": 2475,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 25,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 31,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 6,
+   "pot": 10520,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 26,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 32,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 7,
+   "pot": 12710,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2190,
+     "bet": 300,
+     "total": 310,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 27,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 33,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 0,
+   "pot": 14900,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 28,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 34,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 1,
+   "pot": 16590,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 29,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 35,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 2,
+   "pot": 18280,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": false,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 30,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 36,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 3,
+   "pot": 18280,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": true,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 31,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 2,
+   "simRevision": 37,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 1,
+   "actor": 4,
+   "pot": 18295,
+   "currentBet": 2490,
+   "lastRaise": 1675,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      26,
+      1
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      14,
+      40
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 1690,
+     "bet": 800,
+     "total": 810,
+     "folded": true,
+     "cards": [
+      30,
+      21
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      35,
+      17
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 15,
+     "bet": 2475,
+     "total": 2485,
+     "folded": false,
+     "cards": [
+      3,
+      33
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      46,
+      19
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      25,
+      23
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 0,
+     "bet": 2490,
+     "total": 2500,
+     "folded": false,
+     "cards": [
+      28,
+      38
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 32,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 43,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 5,
+   "pot": 230,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 33,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 44,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 6,
+   "pot": 330,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 34,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 45,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 7,
+   "pot": 430,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 35,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 46,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 0,
+   "pot": 430,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 36,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 47,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 1,
+   "pot": 530,
+   "currentBet": 100,
+   "lastRaise": 100,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 37,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 48,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 2,
+   "pot": 880,
+   "currentBet": 350,
+   "lastRaise": 250,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 38,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 49,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 3,
+   "pot": 1230,
+   "currentBet": 350,
+   "lastRaise": 250,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2440,
+     "bet": 50,
+     "total": 60,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  },
+  {
+   "format": "eightmax-observation",
+   "version": 1,
+   "table": 1,
+   "seq": 39,
+   "source": "structured-feed",
+   "capturedAt": 0,
+   "layout": {
+    "id": "eightmax-8max-v1",
+    "seats": 8
+   },
+   "hand": 3,
+   "simRevision": 50,
+   "status": "playing",
+   "street": "preflop",
+   "board": [],
+   "button": 2,
+   "actor": 4,
+   "pot": 1530,
+   "currentBet": 350,
+   "lastRaise": 250,
+   "seats": [
+    {
+     "seat": 0,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      37,
+      23
+     ]
+    },
+    {
+     "seat": 1,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      44,
+      25
+     ]
+    },
+    {
+     "seat": 2,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      6,
+      12
+     ]
+    },
+    {
+     "seat": 3,
+     "stack": 2140,
+     "bet": 350,
+     "total": 360,
+     "folded": false,
+     "cards": [
+      41,
+      21
+     ]
+    },
+    {
+     "seat": 4,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      40,
+      50
+     ]
+    },
+    {
+     "seat": 5,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      24,
+      47
+     ]
+    },
+    {
+     "seat": 6,
+     "stack": 2390,
+     "bet": 100,
+     "total": 110,
+     "folded": false,
+     "cards": [
+      20,
+      2
+     ]
+    },
+    {
+     "seat": 7,
+     "stack": 2490,
+     "bet": 0,
+     "total": 10,
+     "folded": true,
+     "cards": [
+      49,
+      8
+     ]
+    }
+   ],
+   "confidence": {
+    "overall": 1,
+    "fields": {
+     "board": 1,
+     "pot": 1,
+     "stacks": 1,
+     "button": 1,
+     "actor": 1,
+     "street": 1
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,254 @@
+{
+  "format": "eightmax-workbench-native-job",
+  "version": 1,
+  "id": "demo",
+  "engine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee"
+  },
+  "config": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "external",
+    "engine": "javascript",
+    "strategyBudgetMiB": 32,
+    "batchDeals": 1,
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "actionStreams": "shared",
+    "evaluationDeals": 128
+  },
+  "iterations": 1000,
+  "threads": 2,
+  "memoryMiB": 256,
+  "timeoutSeconds": 60,
+  "spec": {
+    "protocol": 4,
+    "algorithm": "external",
+    "engine": "EightMax multiway",
+    "n": 3,
+    "board": [
+      47,
+      25,
+      14,
+      0,
+      3
+    ],
+    "anteOf": [
+      0,
+      0,
+      0
+    ],
+    "device": "cpu",
+    "gpuMiB": 128,
+    "hands": [
+      [
+        [
+          801,
+          19,
+          23,
+          1
+        ],
+        [
+          1001,
+          26,
+          27,
+          1
+        ],
+        [
+          1193,
+          35,
+          39,
+          1
+        ],
+        [
+          1267,
+          40,
+          48,
+          1
+        ],
+        [
+          1274,
+          41,
+          45,
+          1
+        ],
+        [
+          1314,
+          46,
+          50,
+          1
+        ]
+      ],
+      [
+        [
+          546,
+          12,
+          13,
+          1
+        ],
+        [
+          894,
+          22,
+          26,
+          1
+        ],
+        [
+          1158,
+          33,
+          37,
+          1
+        ],
+        [
+          1213,
+          36,
+          44,
+          1
+        ],
+        [
+          1278,
+          41,
+          49,
+          1
+        ],
+        [
+          1310,
+          45,
+          51,
+          1
+        ]
+      ],
+      [
+        [
+          694,
+          15,
+          50,
+          1
+        ],
+        [
+          830,
+          20,
+          21,
+          1
+        ],
+        [
+          1065,
+          28,
+          44,
+          1
+        ],
+        [
+          1076,
+          29,
+          33,
+          1
+        ],
+        [
+          1207,
+          36,
+          38,
+          1
+        ],
+        [
+          1262,
+          40,
+          43,
+          1
+        ]
+      ]
+    ],
+    "rules": {
+      "stacks": [
+        30,
+        30,
+        30
+      ],
+      "prior": [
+        0,
+        0,
+        0
+      ],
+      "folded": [],
+      "common": 12,
+      "pot0": 12,
+      "ownAnte": [
+        0,
+        0,
+        0
+      ],
+      "posted": [
+        0,
+        0,
+        0
+      ],
+      "open": [
+        true,
+        true,
+        true
+      ],
+      "pre": false,
+      "shove": false,
+      "noLimp": false,
+      "sizes": {
+        "5": {
+          "cap": 2,
+          "bets": [
+            [
+              2,
+              0.5
+            ],
+            [
+              2,
+              1.25
+            ]
+          ],
+          "raises": [
+            [
+              3,
+              2.5
+            ]
+          ]
+        }
+      }
+    },
+    "batchDeals": 1,
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "actionStreams": "shared",
+    "actionSeed": 1899539351,
+    "state": {
+      "rng": 3,
+      "actionRng": 1899539351,
+      "iterations": 0,
+      "trainingDeals": 0,
+      "stateVisits": 0
+    },
+    "studyId": "ce8e5489027080bd"
+  },
+  "query": {
+    "path": [],
+    "board": [],
+    "offset": 0,
+    "limit": 1326
+  }
+}

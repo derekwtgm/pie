@@ -1,0 +1,18 @@
+✔ checks, bets, calls and action order are reconstructed from a round anchor (4.016353ms)
+✔ short all-ins do not reopen a prior actor; full raises do (0.484359ms)
+✔ illegal raises and premature street changes are rejected transactionally (0.577019ms)
+✔ last call may be combined with a verified street transition (0.585331ms)
+✔ observed betting matches independent simulator rules over seeded postflop rounds (19.934554ms)
+✔ street-start bridge preserves pot, folds and original seat mapping (38.588184ms)
+✔ tracker uses verified betting and bridge UI opens a draft without running a solver (19.465213ms)
+✔ cumulative short raises reopen action after the full-raise threshold (0.215274ms)
+✔ verified tracker pauses on a wrong next actor and keeps its accepted round (1.155238ms)
+✔ round closure evidence cannot name an acting player or use an untyped flag (0.472521ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 249.335142

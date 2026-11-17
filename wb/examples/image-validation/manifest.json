@@ -1,0 +1,110 @@
+{
+  "format": "eightmax-image-dataset",
+  "version": 1,
+  "source": "synthetic",
+  "name": "Synthetic evaluation pipeline — deliberate errors included",
+  "cases": [
+    {
+      "id": "pattern-0",
+      "image": "match-a.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": "As"
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": "100"
+        }
+      ]
+    },
+    {
+      "id": "pattern-1",
+      "image": "match-b.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": "Kd"
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": "200"
+        }
+      ]
+    },
+    {
+      "id": "pattern-2",
+      "image": "blank.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": null
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": null
+        }
+      ]
+    },
+    {
+      "id": "pattern-3",
+      "image": "intentional-wrong.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": "Kd"
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": "200"
+        }
+      ]
+    },
+    {
+      "id": "pattern-4",
+      "image": "must-reject.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": null
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": null
+        }
+      ]
+    },
+    {
+      "id": "pattern-5",
+      "image": "reference-overlap.png",
+      "table": 1,
+      "fields": [
+        {
+          "field": "hero_1",
+          "kind": "card",
+          "expected": "As"
+        },
+        {
+          "field": "pot",
+          "kind": "amount",
+          "expected": "100"
+        }
+      ]
+    }
+  ]
+}

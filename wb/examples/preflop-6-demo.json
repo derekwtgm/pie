@@ -1,0 +1,1121 @@
+{
+  "format": "eightmax-observation-sequence",
+  "version": 1,
+  "source": "synthetic",
+  "frames": [
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-0",
+      "sequence": 0,
+      "timeMs": 0,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 3,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 210,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-1",
+      "sequence": 1,
+      "timeMs": 200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 3,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 210,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-2",
+      "sequence": 2,
+      "timeMs": 400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 4,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 310,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-3",
+      "sequence": 3,
+      "timeMs": 600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 4,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 310,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-4",
+      "sequence": 4,
+      "timeMs": 800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 5,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 410,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-5",
+      "sequence": 5,
+      "timeMs": 1000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 5,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 410,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-6",
+      "sequence": 6,
+      "timeMs": 1200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 0,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 510,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-7",
+      "sequence": 7,
+      "timeMs": 1400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 0,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 510,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2490,
+            "committed": 10,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-8",
+      "sequence": 8,
+      "timeMs": 1600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 610,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-9",
+      "sequence": 9,
+      "timeMs": 1800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 610,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2440,
+            "committed": 60,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-10",
+      "sequence": 10,
+      "timeMs": 2000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 2,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-11",
+      "sequence": 11,
+      "timeMs": 2200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 2,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-12",
+      "sequence": 12,
+      "timeMs": 2400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ],
+        "roundClosed": true
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-13",
+      "sequence": 13,
+      "timeMs": 2600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "preflop",
+        "board": [],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 100,
+            "folded": false
+          }
+        ],
+        "roundClosed": true
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-14",
+      "sequence": 14,
+      "timeMs": 2800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "preflop-demo",
+      "frame": "pre-15",
+      "sequence": 15,
+      "timeMs": 3000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "flop",
+        "board": [
+          "2c",
+          "3d",
+          "4h"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 660,
+        "roundStart": {
+          "dealer": 0,
+          "smallBlind": 1,
+          "bigBlindSeat": 2,
+          "ante": 10,
+          "dealt": 6
+        },
+        "seats": [
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 2390,
+            "committed": 110,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    }
+  ]
+}

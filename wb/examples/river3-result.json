@@ -1,0 +1,173 @@
+{
+  "format": "eightmax-workbench-study-result",
+  "version": 1,
+  "engine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "backend": "javascript-reference-cpu"
+  },
+  "config": {
+    "board": "Ks8d5h2c2s",
+    "common": 12,
+    "stacks": [
+      30,
+      30,
+      30
+    ],
+    "ranges": [
+      "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc",
+      "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd",
+      "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc"
+    ],
+    "streets": {
+      "river": {
+        "bets": "50,125",
+        "raises": "2.5x",
+        "maxBets": 2
+      }
+    },
+    "privateSeed": 3,
+    "privateMode": "sampled",
+    "abstraction": "exact",
+    "traversal": "external",
+    "engine": "javascript",
+    "strategyBudgetMiB": 32,
+    "batchDeals": 1,
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "actionStreams": "shared",
+    "evaluationDeals": 128
+  },
+  "requestedUpdates": 1000,
+  "updates": 1000,
+  "trainingDeals": 1000,
+  "elapsedMs": 45.187805999999995,
+  "stopped": "updates-complete",
+  "diagnostics": {
+    "players": 3,
+    "startStreet": "River",
+    "algorithm": "external-sampling MCCFR",
+    "abstraction": "exact",
+    "batchDeals": 1,
+    "weighting": "linear",
+    "regretMatching": "standard",
+    "handGroups": "exact cards",
+    "measures": {
+      "throughput": "deals per second and state visits per second measure calculation speed only",
+      "quality": "multiway gains are approximate unilateral response estimates, not exact exploitability or a Nash certificate"
+    },
+    "actionStreams": "shared",
+    "utility": "chip EV",
+    "strategyMiB": 0.06326103210449219,
+    "budgetMiB": 32,
+    "iterations": 1000,
+    "trainingDeals": 1000,
+    "stateVisits": 37629,
+    "limitReached": false,
+    "traversalSelection": {
+      "requested": "external",
+      "chosen": "external sampling",
+      "reason": "selected manually"
+    }
+  },
+  "actor": 0,
+  "actions": [
+    {
+      "slot": 0,
+      "label": "Check"
+    },
+    {
+      "slot": 1,
+      "label": "Bet 6"
+    },
+    {
+      "slot": 2,
+      "label": "Bet 15"
+    }
+  ],
+  "hands": [
+    {
+      "cards": [
+        19,
+        23
+      ],
+      "weight": 1,
+      "average": [
+        0.9077648916228135,
+        0.024646106614006926,
+        0.06758900176317964
+      ],
+      "stored": true
+    },
+    {
+      "cards": [
+        26,
+        27
+      ],
+      "weight": 1,
+      "average": [
+        0.20957644772138959,
+        0.03557228645464428,
+        0.7548512658239662
+      ],
+      "stored": true
+    },
+    {
+      "cards": [
+        35,
+        39
+      ],
+      "weight": 1,
+      "average": [
+        0.8133991782033813,
+        0.006153499304770986,
+        0.18044732249184767
+      ],
+      "stored": true
+    },
+    {
+      "cards": [
+        40,
+        48
+      ],
+      "weight": 1,
+      "average": [
+        0.5130160198641609,
+        0.008357653139682206,
+        0.4786263269961569
+      ],
+      "stored": true
+    },
+    {
+      "cards": [
+        41,
+        45
+      ],
+      "weight": 1,
+      "average": [
+        0.3648701262903855,
+        0.0697697533221413,
+        0.5653601203874732
+      ],
+      "stored": true
+    },
+    {
+      "cards": [
+        46,
+        50
+      ],
+      "weight": 1,
+      "average": [
+        0.9215636858976848,
+        0.0050129916687448916,
+        0.07342332243357046
+      ],
+      "stored": true
+    }
+  ],
+  "quality": {
+    "convergenceVerified": false,
+    "evAvailable": false,
+    "description": "Stored root average strategies from sampled training in the configured abstraction. No full-game equilibrium or EV guarantee."
+  }
+}

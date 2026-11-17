@@ -1,0 +1,60 @@
+{
+  "appVersion": "0.23.0",
+  "isVersion1": false,
+  "nodeVersion": "v22.23.5",
+  "nodeTestCasesWithNativeCli": {
+    "tests": 440,
+    "pass": 440,
+    "fail": 0,
+    "skipped": 0
+  },
+  "nodeTestCasesWithoutNativeCli": {
+    "tests": 440,
+    "pass": 422,
+    "fail": 0,
+    "skipped": 18
+  },
+  "baselineTestCases": 367,
+  "newTestCases": 73,
+  "unchangedEngineFiles": true,
+  "engine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee"
+  },
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "prebuiltHostSHA256": "b554d2b0ff6de15f7a528eada03f2f9114fd66767ecb7e3a44c445499476b257",
+  "prebuiltHostBuiltWith": "Mono mcs 6.8 (-target:winexe -platform:x64 -optimize+)",
+  "desktopCSharpTypeChecked": true,
+  "desktopCSharpCompiledWithMono": true,
+  "desktopCSharpExecuted": false,
+  "powerShellParseChecked": {
+    "tool": "PowerShell 7.4.6 System.Management.Automation.Language.Parser",
+    "files": 10,
+    "errors": 0
+  },
+  "powerShellExecuted": false,
+  "windowsExecuted": false,
+  "windowsAcceptanceExecuted": false,
+  "installerExecuted": false,
+  "rollbackExecuted": false,
+  "visualBrowserExecuted": true,
+  "visualBrowser": "Playwright Chromium on Linux (ten-table panel: train, run, e-stop, self-test, hardware view; no page errors)",
+  "edgeOrChromeOnWindowsExecuted": false,
+  "gpuAccelerationClaimed": false,
+  "gpuPathExecuted": false,
+  "gto": "never claimed; certification none; convergence unproven",
+  "tenTableSimulated": {
+    "source": "docs/0.23-benchmark-linux-simulated.json",
+    "hands": 1000,
+    "deadlineMisses": 0,
+    "classification": "simulated tables, Linux, single thread, not target hardware"
+  },
+  "acceptance": {
+    "source": "docs/0.23-acceptance-linux-simulated.json",
+    "criteria": 19,
+    "passed": 19
+  },
+  "realClientScreenshotsTested": false,
+  "qaModeTestedAgainstRealClient": false,
+  "scope": "integration of hand-state, solver service, executor, multi-table scheduler, dashboard panel and hardware validation; see docs/RELEASE-STATUS-0.23.md"
+}

@@ -1,0 +1,498 @@
+{
+  "format": "eightmax-native-batch",
+  "version": 1,
+  "id": "11111111111111111111111111111111",
+  "jobs": [
+    {
+      "format": "eightmax-workbench-native-job",
+      "version": 1,
+      "id": "batch-demo-root",
+      "engine": {
+        "version": "5.1",
+        "build": "7d08acc7eb4577ee"
+      },
+      "config": {
+        "board": "2c3d4h8s9c",
+        "common": 0,
+        "stacks": [
+          10,
+          10
+        ],
+        "prior": [
+          2,
+          2
+        ],
+        "folded": [],
+        "ranges": [
+          "KsKd",
+          "AsAd"
+        ],
+        "streets": {
+          "flop": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          },
+          "turn": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          },
+          "river": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          }
+        },
+        "privateSeed": 17,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "engine": "javascript",
+        "strategyBudgetMiB": 32,
+        "batchDeals": 1,
+        "weighting": "linear",
+        "regretMatching": "standard",
+        "actionStreams": "shared",
+        "evaluationDeals": 128
+      },
+      "iterations": 200,
+      "threads": 2,
+      "memoryMiB": 256,
+      "timeoutSeconds": 60,
+      "spec": {
+        "protocol": 4,
+        "algorithm": "external",
+        "engine": "EightMax multiway",
+        "n": 2,
+        "board": [
+          0,
+          5,
+          10,
+          27,
+          28
+        ],
+        "anteOf": [
+          0,
+          0
+        ],
+        "device": "cpu",
+        "gpuMiB": 128,
+        "hands": [
+          [
+            [
+              1306,
+              45,
+              47,
+              1
+            ]
+          ],
+          [
+            [
+              1324,
+              49,
+              51,
+              1
+            ]
+          ]
+        ],
+        "rules": {
+          "stacks": [
+            10,
+            10
+          ],
+          "prior": [
+            2,
+            2
+          ],
+          "folded": [],
+          "common": 0,
+          "pot0": 4,
+          "ownAnte": [
+            0,
+            0
+          ],
+          "posted": [
+            0,
+            0
+          ],
+          "open": [
+            true,
+            true
+          ],
+          "pre": false,
+          "shove": false,
+          "noLimp": false,
+          "sizes": {
+            "5": {
+              "cap": 2,
+              "bets": [
+                [
+                  2,
+                  0.5
+                ]
+              ],
+              "raises": [
+                [
+                  0,
+                  0
+                ]
+              ]
+            }
+          }
+        },
+        "batchDeals": 1,
+        "weighting": "linear",
+        "regretMatching": "standard",
+        "actionStreams": "shared",
+        "actionSeed": 1899539333,
+        "state": {
+          "rng": 17,
+          "actionRng": 1899539333,
+          "iterations": 0,
+          "trainingDeals": 0,
+          "stateVisits": 0
+        },
+        "studyId": "0e9dc0392f1114fb"
+      },
+      "query": {
+        "path": [],
+        "board": [],
+        "offset": 0,
+        "limit": 1326
+      },
+      "chunkUpdates": 50,
+      "workbench": {
+        "slot": 1,
+        "token": "batch-demo-root"
+      }
+    },
+    {
+      "format": "eightmax-workbench-native-job",
+      "version": 2,
+      "id": "batch-demo-reviewed",
+      "engine": {
+        "version": "5.1",
+        "build": "7d08acc7eb4577ee"
+      },
+      "config": {
+        "board": "2c3d4h8s9c",
+        "common": 0,
+        "stacks": [
+          10,
+          10
+        ],
+        "prior": [
+          2,
+          2
+        ],
+        "folded": [],
+        "ranges": [
+          "KsKd",
+          "AsAd"
+        ],
+        "streets": {
+          "flop": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          },
+          "turn": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          },
+          "river": {
+            "bets": "50",
+            "raises": "a",
+            "maxBets": 2
+          }
+        },
+        "privateSeed": 17,
+        "privateMode": "sampled",
+        "abstraction": "exact",
+        "traversal": "external",
+        "engine": "javascript",
+        "strategyBudgetMiB": 32,
+        "batchDeals": 1,
+        "weighting": "linear",
+        "regretMatching": "standard",
+        "actionStreams": "shared",
+        "evaluationDeals": 128
+      },
+      "iterations": 200,
+      "threads": 2,
+      "memoryMiB": 256,
+      "timeoutSeconds": 60,
+      "spec": {
+        "protocol": 4,
+        "algorithm": "external",
+        "engine": "EightMax multiway",
+        "n": 2,
+        "board": [
+          0,
+          5,
+          10,
+          27,
+          28
+        ],
+        "anteOf": [
+          0,
+          0
+        ],
+        "device": "cpu",
+        "gpuMiB": 128,
+        "hands": [
+          [
+            [
+              1306,
+              45,
+              47,
+              1
+            ]
+          ],
+          [
+            [
+              1324,
+              49,
+              51,
+              1
+            ]
+          ]
+        ],
+        "rules": {
+          "stacks": [
+            10,
+            10
+          ],
+          "prior": [
+            2,
+            2
+          ],
+          "folded": [],
+          "common": 0,
+          "pot0": 4,
+          "ownAnte": [
+            0,
+            0
+          ],
+          "posted": [
+            0,
+            0
+          ],
+          "open": [
+            true,
+            true
+          ],
+          "pre": false,
+          "shove": false,
+          "noLimp": false,
+          "sizes": {
+            "5": {
+              "cap": 2,
+              "bets": [
+                [
+                  2,
+                  0.5
+                ]
+              ],
+              "raises": [
+                [
+                  0,
+                  0
+                ]
+              ]
+            }
+          }
+        },
+        "batchDeals": 1,
+        "weighting": "linear",
+        "regretMatching": "standard",
+        "actionStreams": "shared",
+        "actionSeed": 1899539333,
+        "state": {
+          "rng": 17,
+          "actionRng": 1899539333,
+          "iterations": 0,
+          "trainingDeals": 0,
+          "stateVisits": 0
+        },
+        "studyId": "0e9dc0392f1114fb"
+      },
+      "query": {
+        "path": [
+          1
+        ],
+        "board": [],
+        "offset": 0,
+        "limit": 1326
+      },
+      "reviewed": {
+        "format": "eightmax-reviewed-node",
+        "version": 1,
+        "engine": {
+          "version": "5.1",
+          "build": "7d08acc7eb4577ee"
+        },
+        "rootConfigKey": "{\"abstraction\":\"exact\",\"actionStreams\":\"shared\",\"batchDeals\":1,\"board\":\"2c3d4h8s9c\",\"common\":0,\"engine\":\"javascript\",\"evaluationDeals\":128,\"folded\":[],\"prior\":[2,2],\"privateMode\":\"sampled\",\"privateSeed\":17,\"ranges\":[\"KsKd\",\"AsAd\"],\"regretMatching\":\"standard\",\"stacks\":[10,10],\"strategyBudgetMiB\":32,\"streets\":{\"flop\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"},\"river\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"},\"turn\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"}},\"traversal\":\"external\",\"weighting\":\"linear\"}",
+        "proof": {
+          "format": "eightmax-reviewed-position",
+          "version": 1,
+          "source": "synthetic",
+          "table": 1,
+          "hand": "reviewed-demo",
+          "frames": [
+            1,
+            3
+          ],
+          "states": [
+            {
+              "heroSeat": 0,
+              "roundStart": {
+                "dealer": 0
+              },
+              "street": "river",
+              "board": [
+                "2c",
+                "3d",
+                "4h",
+                "8s",
+                "9c"
+              ],
+              "hero": [
+                "As",
+                "Ad"
+              ],
+              "actor": 1,
+              "bigBlind": 100,
+              "pot": 400,
+              "deadMoney": 0,
+              "seats": [
+                {
+                  "stack": 1000,
+                  "committed": 200,
+                  "bet": 0,
+                  "folded": false
+                },
+                {
+                  "stack": 1000,
+                  "committed": 200,
+                  "bet": 0,
+                  "folded": false
+                }
+              ]
+            },
+            {
+              "heroSeat": 0,
+              "roundStart": {
+                "dealer": 0
+              },
+              "street": "river",
+              "board": [
+                "2c",
+                "3d",
+                "4h",
+                "8s",
+                "9c"
+              ],
+              "hero": [
+                "As",
+                "Ad"
+              ],
+              "actor": 0,
+              "bigBlind": 100,
+              "pot": 600,
+              "deadMoney": 0,
+              "seats": [
+                {
+                  "stack": 1000,
+                  "committed": 200,
+                  "bet": 0,
+                  "folded": false
+                },
+                {
+                  "stack": 800,
+                  "committed": 400,
+                  "bet": 200,
+                  "folded": false
+                }
+              ]
+            }
+          ],
+          "decisionReady": false
+        },
+        "originalSeats": [
+          1,
+          0
+        ],
+        "path": "r1",
+        "steps": [
+          1
+        ],
+        "actor": 1,
+        "originalSeat": 0,
+        "board": [
+          0,
+          5,
+          10,
+          27,
+          28
+        ],
+        "pot": 6,
+        "behind": [
+          8,
+          10
+        ],
+        "actions": [
+          {
+            "slot": 0,
+            "label": "Fold"
+          },
+          {
+            "slot": 1,
+            "label": "Call 2"
+          },
+          {
+            "slot": 2,
+            "label": "All-in to 10"
+          }
+        ],
+        "hands": [
+          {
+            "cards": [
+              49,
+              51
+            ],
+            "weight": 1,
+            "average": null,
+            "stored": false
+          }
+        ],
+        "heroKnown": true,
+        "heroRowIndex": 0,
+        "quality": {
+          "convergenceVerified": false,
+          "evAvailable": false,
+          "rangePosteriorComputed": false
+        },
+        "decisionReady": false,
+        "scope": "Stored policies at an exact matched offline path. Input weights are root assumptions, not posterior probabilities. Missing rows remain unavailable; no EV or convergence certificate."
+      },
+      "rootActions": [
+        {
+          "slot": 0,
+          "label": "Check"
+        },
+        {
+          "slot": 1,
+          "label": "Bet 2"
+        }
+      ],
+      "chunkUpdates": 50,
+      "workbench": {
+        "slot": 2,
+        "token": "batch-demo-reviewed"
+      }
+    }
+  ]
+}

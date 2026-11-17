@@ -1,0 +1,749 @@
+{
+  "format": "eightmax-observation-sequence",
+  "version": 1,
+  "source": "synthetic",
+  "frames": [
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-0",
+      "sequence": 0,
+      "timeMs": 0,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 0,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 300,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 100,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-1",
+      "sequence": 1,
+      "timeMs": 200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 0,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 300,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 100,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-2",
+      "sequence": 2,
+      "timeMs": 400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 400,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-3",
+      "sequence": 3,
+      "timeMs": 600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 400,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-4",
+      "sequence": 4,
+      "timeMs": 800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 2,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 600,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-5",
+      "sequence": 5,
+      "timeMs": 1000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 2,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 600,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 300,
+            "committed": 100,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-6",
+      "sequence": 6,
+      "timeMs": 1200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 800,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          }
+        ],
+        "roundClosed": true
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-7",
+      "sequence": 7,
+      "timeMs": 1400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 800,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          }
+        ],
+        "roundClosed": true
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-8",
+      "sequence": 8,
+      "timeMs": 1600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 800,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          }
+        ],
+        "roundClosed": true,
+        "phase": "showdown",
+        "showdown": [
+          {
+            "seat": 1,
+            "cards": [
+              "Ks",
+              "Kd"
+            ]
+          },
+          {
+            "seat": 2,
+            "cards": [
+              "Qs",
+              "Qd"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-9",
+      "sequence": 9,
+      "timeMs": 1800,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 800,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 0,
+            "committed": 200,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "stack": 0,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 300,
+            "bet": 200,
+            "folded": false
+          }
+        ],
+        "roundClosed": true,
+        "phase": "showdown",
+        "showdown": [
+          {
+            "seat": 1,
+            "cards": [
+              "Ks",
+              "Kd"
+            ]
+          },
+          {
+            "seat": 2,
+            "cards": [
+              "Qs",
+              "Qd"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-10",
+      "sequence": 10,
+      "timeMs": 2000,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 0,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 600,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          }
+        ],
+        "roundClosed": true,
+        "phase": "settled",
+        "showdown": [
+          {
+            "seat": 1,
+            "cards": [
+              "Ks",
+              "Kd"
+            ]
+          },
+          {
+            "seat": 2,
+            "cards": [
+              "Qs",
+              "Qd"
+            ]
+          }
+        ],
+        "awards": [
+          600,
+          200,
+          0
+        ],
+        "refunds": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "sidepot-demo",
+      "frame": "accounting-11",
+      "sequence": 11,
+      "timeMs": 2200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": -1,
+        "bigBlind": 100,
+        "deadMoney": 0,
+        "pot": 0,
+        "roundStart": {
+          "dealer": 2
+        },
+        "seats": [
+          {
+            "stack": 600,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 200,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 100,
+            "committed": 0,
+            "bet": 0,
+            "folded": false
+          }
+        ],
+        "roundClosed": true,
+        "phase": "settled",
+        "showdown": [
+          {
+            "seat": 1,
+            "cards": [
+              "Ks",
+              "Kd"
+            ]
+          },
+          {
+            "seat": 2,
+            "cards": [
+              "Qs",
+              "Qd"
+            ]
+          }
+        ],
+        "awards": [
+          600,
+          200,
+          0
+        ],
+        "refunds": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}
