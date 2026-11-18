@@ -1,0 +1,12 @@
+{
+  "format": "eightmax-qa-authorization",
+  "version": 1,
+  "environment": "EDIT-ME-local-qa-sandbox",
+  "approvedBy": "EDIT-ME approver name",
+  "testEnvironmentOnly": false,
+  "noRealMoney": false,
+  "operatorOwnsTestClient": false,
+  "endpoint": "http://127.0.0.1:0/actions",
+  "expiresAt": 0,
+  "comment": "Template only. It is intentionally invalid: set the three booleans to true only for a test client you own and are authorized to drive, point endpoint at it, and set a near-future expiry (max 8 h)."
+}

@@ -1,0 +1,640 @@
+{
+  "format": "eightmax-laboratory-benchmark",
+  "version": 1,
+  "reports": [
+    {
+      "format": "eightmax-study-benchmark",
+      "version": 1,
+      "engine": {
+        "version": "5.1",
+        "build": "7d08acc7eb4577ee"
+      },
+      "backend": "javascript-reference-cpu",
+      "profile": {
+        "config": {
+          "board": "Ks8d5h2c2s",
+          "common": 12,
+          "stacks": [
+            30,
+            30,
+            30
+          ],
+          "ranges": [
+            "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc",
+            "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd",
+            "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc"
+          ],
+          "streets": {
+            "river": {
+              "bets": "50,125",
+              "raises": "2.5x",
+              "maxBets": 2
+            }
+          },
+          "privateSeed": 3,
+          "privateMode": "sampled",
+          "abstraction": "exact",
+          "traversal": "external",
+          "engine": "javascript",
+          "strategyBudgetMiB": 32,
+          "batchDeals": 1,
+          "weighting": "linear",
+          "regretMatching": "standard",
+          "actionStreams": "shared",
+          "evaluationDeals": 128
+        },
+        "iterations": 1000,
+        "timeMs": 1000
+      },
+      "deadlineMs": 10000,
+      "workerConcurrency": 1,
+      "rounds": [
+        {
+          "tables": 1,
+          "burstMs": 239.119728,
+          "requests": 1,
+          "completed": 1,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 1,
+          "p50Ms": 239.010744,
+          "p95Ms": 239.010744,
+          "maxMs": 239.010744,
+          "maxQueueMs": 0.012118000000000961,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 239.010744,
+              "queueMs": 0.012118000000000961,
+              "runMs": 238.06854600000003,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 2,
+          "burstMs": 315.119479,
+          "requests": 2,
+          "completed": 2,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 2,
+          "p50Ms": 157.51432100000005,
+          "p95Ms": 312.62143000000003,
+          "maxMs": 312.62143000000003,
+          "maxQueueMs": 153.762156,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 157.51432100000005,
+              "queueMs": 0.007712000000026364,
+              "runMs": 156.175477,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 312.62143000000003,
+              "queueMs": 153.762156,
+              "runMs": 158.634366,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 5,
+          "burstMs": 680.0980720000001,
+          "requests": 5,
+          "completed": 5,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 5,
+          "p50Ms": 408.94287699999995,
+          "p95Ms": 679.008532,
+          "maxMs": 679.008532,
+          "maxQueueMs": 544.256055,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 137.34317900000008,
+              "queueMs": 0.02007000000003245,
+              "runMs": 135.94128999999998,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 275.2625750000001,
+              "queueMs": 135.05431399999998,
+              "runMs": 139.319883,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 3,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 408.94287699999995,
+              "queueMs": 274.32328100000007,
+              "runMs": 133.68421799999987,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 4,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 546.86527,
+              "queueMs": 408.01487999999995,
+              "runMs": 136.24884700000007,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 5,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 679.008532,
+              "queueMs": 544.256055,
+              "runMs": 134.53632199999993,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 10,
+          "burstMs": 1327.6485169999999,
+          "requests": 10,
+          "completed": 10,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 10,
+          "p50Ms": 672.1663619999999,
+          "p95Ms": 1326.7434560000002,
+          "maxMs": 1326.7434560000002,
+          "maxQueueMs": 1191.0917759999998,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 134.439255,
+              "queueMs": 0.005368000000089523,
+              "runMs": 133.47825899999998,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 265.104188,
+              "queueMs": 132.73043400000006,
+              "runMs": 131.44107999999983,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 3,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 399.4954799999998,
+              "queueMs": 264.179717,
+              "runMs": 134.31707100000017,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 4,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 532.166195,
+              "queueMs": 398.5098170000001,
+              "runMs": 132.55964799999992,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 5,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 672.1663619999999,
+              "queueMs": 531.073241,
+              "runMs": 140.13565999999992,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 6,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 795.8245979999999,
+              "queueMs": 671.235081,
+              "runMs": 123.60755899999981,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 7,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 928.019751,
+              "queueMs": 794.8467359999997,
+              "runMs": 132.24985600000036,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 8,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 1058.853146,
+              "queueMs": 927.099817,
+              "runMs": 130.83984599999985,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 9,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 1192.0729420000002,
+              "queueMs": 1057.939252,
+              "runMs": 133.14641500000016,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 10,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 1326.7434560000002,
+              "queueMs": 1191.0917759999998,
+              "runMs": 135.50700200000028,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        }
+      ],
+      "scope": "Fresh off-table CPU study bursts only. No capture, OCR, input execution, network or native/GPU work. One burst per count; not a sustained table-capacity certification.",
+      "capacityEstablished": false,
+      "environment": {
+        "platform": "linux",
+        "architecture": "x64",
+        "node": "v24.22.1",
+        "cpu": "AMD EPYC 9V74 80-Core Processor",
+        "logicalProcessors": 9,
+        "scope": "Development host, not the target Windows i7 / RTX 4060 Ti computer"
+      }
+    },
+    {
+      "format": "eightmax-study-benchmark",
+      "version": 1,
+      "engine": {
+        "version": "5.1",
+        "build": "7d08acc7eb4577ee"
+      },
+      "backend": "javascript-reference-cpu",
+      "profile": {
+        "config": {
+          "board": "Ks8d5h2c2s",
+          "common": 12,
+          "stacks": [
+            30,
+            30,
+            30
+          ],
+          "ranges": [
+            "AhKh,KdQd,8s8h,JsTs,7s6s,AcQc",
+            "AsKd,KcJc,5d5c,8h7h,AdQd,JdTd",
+            "Kc9c,QsQc,7d7c,Ah5s,Td9d,JhJc"
+          ],
+          "streets": {
+            "river": {
+              "bets": "50,125",
+              "raises": "2.5x",
+              "maxBets": 2
+            }
+          },
+          "privateSeed": 3,
+          "privateMode": "sampled",
+          "abstraction": "exact",
+          "traversal": "external",
+          "engine": "javascript",
+          "strategyBudgetMiB": 32,
+          "batchDeals": 1,
+          "weighting": "linear",
+          "regretMatching": "standard",
+          "actionStreams": "shared",
+          "evaluationDeals": 128
+        },
+        "iterations": 1000,
+        "timeMs": 1000
+      },
+      "deadlineMs": 10000,
+      "workerConcurrency": 2,
+      "rounds": [
+        {
+          "tables": 1,
+          "burstMs": 140.73676999999998,
+          "requests": 1,
+          "completed": 1,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 1,
+          "p50Ms": 140.68623400000024,
+          "p95Ms": 140.68623400000024,
+          "maxMs": 140.68623400000024,
+          "maxQueueMs": 0.011356999999861728,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 140.68623400000024,
+              "queueMs": 0.011356999999861728,
+              "runMs": 140.55119100000002,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 2,
+          "burstMs": 193.6426779999997,
+          "requests": 2,
+          "completed": 2,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 2,
+          "p50Ms": 177.16705000000002,
+          "p95Ms": 192.998779,
+          "maxMs": 192.998779,
+          "maxQueueMs": 0.0035649999999805004,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 177.16705000000002,
+              "queueMs": 0.0035649999999805004,
+              "runMs": 177.04722000000038,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 192.998779,
+              "queueMs": 0.0024530000000595464,
+              "runMs": 192.88373599999977,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 5,
+          "burstMs": 411.1700100000003,
+          "requests": 5,
+          "completed": 5,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 5,
+          "p50Ms": 272.03988800000025,
+          "p95Ms": 407.02749700000004,
+          "maxMs": 407.02749700000004,
+          "maxQueueMs": 270.3233849999997,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 144.7684559999998,
+              "queueMs": 0.0029039999999440624,
+              "runMs": 142.14479900000015,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 135.6347639999999,
+              "queueMs": 0.0019430000002103043,
+              "runMs": 133.29562499999975,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 3,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 274.126808,
+              "queueMs": 131.35485500000004,
+              "runMs": 142.69463600000017,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 4,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 272.03988800000025,
+              "queueMs": 138.049978,
+              "runMs": 132.26664699999992,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 5,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 407.02749700000004,
+              "queueMs": 270.3233849999997,
+              "runMs": 136.60108800000035,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        },
+        {
+          "tables": 10,
+          "burstMs": 701.1803630000004,
+          "requests": 10,
+          "completed": 10,
+          "failed": 0,
+          "deadlineMisses": 0,
+          "updatesComplete": 10,
+          "p50Ms": 415.23867199999995,
+          "p95Ms": 698.6591309999999,
+          "maxMs": 698.6591309999999,
+          "maxQueueMs": 562.5678809999999,
+          "rows": [
+            {
+              "slot": 1,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 142.54757500000005,
+              "queueMs": 0.003776000000016211,
+              "runMs": 140.56048499999997,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 2,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 144.04437599999983,
+              "queueMs": 0.0023439999999936845,
+              "runMs": 141.94598900000028,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 3,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 279.7281449999996,
+              "queueMs": 138.11798999999974,
+              "runMs": 139.85150900000008,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 4,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 291.2425680000001,
+              "queueMs": 140.13089899999977,
+              "runMs": 150.20561700000007,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 5,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 421.4410039999998,
+              "queueMs": 277.96580300000005,
+              "runMs": 142.5588819999998,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 6,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 415.23867199999995,
+              "queueMs": 290.33377100000007,
+              "runMs": 122.91528699999981,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 7,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 563.4902790000001,
+              "queueMs": 413.25291400000015,
+              "runMs": 149.3205250000001,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 8,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 546.0773599999998,
+              "queueMs": 420.51489100000026,
+              "runMs": 124.12646899999982,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 9,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 698.6591309999999,
+              "queueMs": 544.6466169999999,
+              "runMs": 153.94494199999963,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            },
+            {
+              "slot": 10,
+              "ok": true,
+              "deadlineMiss": false,
+              "endToEndMs": 694.6578709999999,
+              "queueMs": 562.5678809999999,
+              "runMs": 131.96598300000005,
+              "updates": 1000,
+              "stopped": "updates-complete",
+              "strategyMiB": 0.06326103210449219
+            }
+          ]
+        }
+      ],
+      "scope": "Fresh off-table CPU study bursts only. No capture, OCR, input execution, network or native/GPU work. One burst per count; not a sustained table-capacity certification.",
+      "capacityEstablished": false,
+      "environment": {
+        "platform": "linux",
+        "architecture": "x64",
+        "node": "v24.22.1",
+        "cpu": "AMD EPYC 9V74 80-Core Processor",
+        "logicalProcessors": 9,
+        "scope": "Development host, not the target Windows i7 / RTX 4060 Ti computer"
+      }
+    }
+  ]
+}

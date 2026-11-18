@@ -1,0 +1,6387 @@
+{
+  "format": "eightmax-full-hand-scenario",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T03:14:29.046Z",
+  "classification": "SIMULATED controlled table; pixels from the built-in renderer; not a real client",
+  "seed": 2024,
+  "mode": "simulation with labelled scripted fallback",
+  "engine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "backend": "native-cli-cpu (cached state)"
+  },
+  "studies": {
+    "preflop": {
+      "id": "preflop8-linked-100000",
+      "updates": 100000,
+      "convergence": "unproven",
+      "tree": "linked preflop: 8 x 25 BB, SB 0.5, BB 1, ante 0.1, opens 2.2 bb or all-in, up to 3 bets"
+    },
+    "postflop": {
+      "updates": 20000,
+      "convergence": "unproven",
+      "ranges": "ASSUMED range model (not observed ranges): 22+,A2s+,K5s+,Q8s+,J8s+,T8s+,97s+,87s,76s,65s,A7o+,KTo+,QTo+,JTo"
+    }
+  },
+  "summary": {
+    "handsRequested": 30,
+    "handsCompleted": 30,
+    "suspended": 0,
+    "solverActions": 256,
+    "scriptedActions": 28,
+    "solverShare": 0.9014084507042254,
+    "attribution": {
+      "preflop/solver": 228,
+      "preflop/scripted": 27,
+      "flop/solver": 16,
+      "turn/solver": 6,
+      "turn/scripted": 1,
+      "river/solver": 6
+    },
+    "unavailableReasons": [
+      {
+        "reason": "preflop: No stored strategy for this hand at node <path>; the study has not visited it (more training needed; no fallback taken) | postflop: Not a postflop stat",
+        "n": 27
+      },
+      {
+        "reason": "preflop: Preflop study cannot answer a state with community cards | postflop: No stored strategy for this hand at node <path>; the study has not visited it (mor",
+        "n": 1
+      }
+    ],
+    "unavailableCodes": {
+      "no-stored-row": 28
+    },
+    "rejectedFrames": 0,
+    "ackMismatches": 0,
+    "duplicatesBlocked": 0,
+    "chipsConserved": true,
+    "replayAuditIdentical": true,
+    "wallMs": 44608,
+    "latencyMs": {
+      "capture": {
+        "n": 314,
+        "mean": 2.841729573248303,
+        "p50": 2.4326230000006035,
+        "p95": 4.07738099999915,
+        "p99": 11.544546999999511,
+        "max": 23.96450499999628
+      },
+      "recognise": {
+        "n": 314,
+        "mean": 34.488643127388485,
+        "p50": 32.21922800000175,
+        "p95": 51.480884000000515,
+        "p99": 62.226488000000245,
+        "max": 283.5393369999947
+      },
+      "reconstruct": {
+        "n": 314,
+        "mean": 0.23744694585990714,
+        "p50": 0.20469900000171037,
+        "p95": 0.35125800000241725,
+        "p99": 0.6825379999991128,
+        "max": 3.2097240000002785
+      },
+      "solve": {
+        "n": 284,
+        "mean": 115.23992808098598,
+        "p50": 11.0090429999982,
+        "p95": 675.6515379999983,
+        "p99": 2488.3095470000044,
+        "max": 2576.4025189999993
+      },
+      "execute": {
+        "n": 284,
+        "mean": 0.19591845774637245,
+        "p50": 0.0824430000011489,
+        "p95": 0.6676580000057584,
+        "p99": 1.4680669999997917,
+        "max": 14.137516999999207
+      },
+      "cycle": {
+        "n": 284,
+        "mean": 153.61130629225352,
+        "p50": 45.93950700000096,
+        "p95": 726.4243510000015,
+        "p99": 2528.3484620000017,
+        "max": 2615.143157999999
+      }
+    },
+    "postflopStudies": {
+      "built": 26,
+      "hits": 3,
+      "buildMs": 29143,
+      "unavailable": 27,
+      "cached": 24
+    }
+  },
+  "hands": [
+    {
+      "hand": 1,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Kd",
+        "Ah",
+        "3c",
+        "6c",
+        "2c"
+      ],
+      "final": [
+        2490,
+        2440,
+        2390,
+        2490,
+        7700,
+        0,
+        2490,
+        0
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.405,
+            0.014,
+            0.2804,
+            0.3006
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.244,
+            0.0128,
+            0.2556,
+            0.4876
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.3191,
+            0.6809
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r031",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.6861,
+            0.3139
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0310",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.0472,
+            0.9528
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03101",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7041,
+            0.2959
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r031010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0310100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 2,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Jd",
+        "8s",
+        "Ad",
+        "Qs",
+        "2h"
+      ],
+      "final": [
+        2490,
+        2490,
+        2440,
+        2390,
+        2490,
+        5210,
+        2490,
+        0
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8434,
+            0.0499,
+            0,
+            0.1067
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0049,
+            0.1812,
+            0.0108,
+            0.8031
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5916,
+            0.4084
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.0275,
+            0.9725
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0301",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5901,
+            0.4099
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0301000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 3,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2490,
+        2490,
+        2440,
+        2390,
+        2270,
+        2270,
+        3160
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3257,
+            0.016,
+            0.5349,
+            0.1234
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2",
+          "recommended": "Call 2.2",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2651,
+            0.6882,
+            0.0007,
+            0.046
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r21",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.192,
+            0.31,
+            0.0176,
+            0.4804
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r213",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r21300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r213000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2130000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r21300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 22.7"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 4,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "4d",
+        "3s",
+        "9h",
+        "Ks",
+        "7c"
+      ],
+      "final": [
+        2490,
+        2490,
+        5310,
+        2490,
+        2440,
+        2390,
+        2390,
+        0
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0159,
+            0.6123,
+            0.2778,
+            0.094
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1771,
+            0.2378,
+            0.1535,
+            0.4316
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.6251,
+            0.3749
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.8283,
+            0.1717
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.4417,
+            0.5583
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.571,
+            0.429
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13001000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 5,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Ks",
+        "Qs",
+        "Td",
+        "8h",
+        "7c"
+      ],
+      "final": [
+        2490,
+        1790,
+        2490,
+        2490,
+        2490,
+        4670,
+        1790,
+        1790
+      ],
+      "settlementOk": true,
+      "solverActions": 17,
+      "scriptedActions": 3,
+      "actions": [
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1104,
+            0.386,
+            0.4576,
+            0.046
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.6075,
+            0.1566,
+            0.0616,
+            0.1743
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20",
+          "recommended": "Call 2.2",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1898,
+            0.4022,
+            0.1602,
+            0.2478
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r201",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3416,
+            0.1654,
+            0.1624,
+            0.3307
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3494,
+            0.1906,
+            0.2737,
+            0.1864
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 170,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 120,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-38ef49cd",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 3.168",
+            "Bet 7.2"
+          ],
+          "probabilities": [
+            0.7115,
+            0.284,
+            0.0045
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-28e6fcb4",
+          "path": "r0",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 3.168",
+            "Bet 7.2"
+          ],
+          "probabilities": [
+            0.9426,
+            0.0525,
+            0.0048
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-76f91f20",
+          "path": "r00",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 3.168",
+            "Bet 7.2"
+          ],
+          "probabilities": [
+            0.7909,
+            0.0585,
+            0.1506
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-af7f3a8a",
+          "path": "r000",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 3.168",
+            "Bet 7.2"
+          ],
+          "probabilities": [
+            0.6969,
+            0.274,
+            0.0291
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "turn",
+          "type": "bet",
+          "amount": 480,
+          "source": "solver",
+          "study": "postflop-016681eb",
+          "path": "r",
+          "recommended": "Bet 4.8",
+          "labels": [
+            "Check",
+            "Bet 4.8",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.4731,
+            0.5257,
+            0.0012
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "turn",
+          "type": "call",
+          "amount": 480,
+          "source": "solver",
+          "study": "postflop-eaa3825a",
+          "path": "r1",
+          "recommended": "Call 4.8",
+          "labels": [
+            "Fold",
+            "Call 4.8",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.0126,
+            0.8494,
+            0.138
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "turn",
+          "type": "call",
+          "amount": 480,
+          "source": "solver",
+          "study": "postflop-53283592",
+          "path": "r11",
+          "recommended": "Call 4.8",
+          "labels": [
+            "Fold",
+            "Call 4.8",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.0833,
+            0.913,
+            0.0037
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "turn",
+          "type": "call",
+          "amount": 480,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-e6f71869",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 14.4",
+            "All-in to 17.9"
+          ],
+          "probabilities": [
+            0.8415,
+            0.0965,
+            0.062
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-ccfcc860",
+          "path": "r0",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 14.4",
+            "All-in to 17.9"
+          ],
+          "probabilities": [
+            0.6397,
+            0.096,
+            0.2644
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-fa2145c4",
+          "path": "r00",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 14.4",
+            "All-in to 17.9"
+          ],
+          "probabilities": [
+            0.8516,
+            0.006,
+            0.1424
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-f72d72fe",
+          "path": "r000",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 14.4",
+            "All-in to 17.9"
+          ],
+          "probabilities": [
+            0.9413,
+            0.0064,
+            0.0524
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 6,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "3s",
+        "Jh",
+        "Ah",
+        "8c",
+        "3d"
+      ],
+      "final": [
+        2490,
+        2270,
+        0,
+        2490,
+        2490,
+        2490,
+        2440,
+        5330
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 2,
+      "actions": [
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4938,
+            0.3804,
+            0.0538,
+            0.072
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1893,
+            0.0692,
+            0.482,
+            0.2595
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0212,
+            0.0109,
+            0.0744,
+            0.8935
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r023",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5221,
+            0.4779
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0230",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.6313,
+            0.3687
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02300001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 22.7"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 7,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Qh",
+        "3c",
+        "9d",
+        "Qd",
+        "Jh"
+      ],
+      "final": [
+        2390,
+        2390,
+        0,
+        5310,
+        2490,
+        2490,
+        2490,
+        2440
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2307,
+            0.6319,
+            0.1294,
+            0.008
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3565,
+            0.6361,
+            0.0051,
+            0.0022
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r11",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2851,
+            0.1656,
+            0.1656,
+            0.3838
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r113",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5868,
+            0.4132
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r11300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r113000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1130000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r11300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 8,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "5c",
+        "2d",
+        "Ac",
+        "2s",
+        "Ad"
+      ],
+      "final": [
+        2440,
+        2390,
+        0,
+        2490,
+        7700,
+        2490,
+        0,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.022,
+            0.1749,
+            0.09,
+            0.7131
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9968,
+            0.0032
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.1174,
+            0.8826
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r301",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7678,
+            0.2322
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3010",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.2953,
+            0.7047
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30101",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r301010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3010100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 9,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2440,
+        2620,
+        2490,
+        2490,
+        2490,
+        2490,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 6,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3793,
+            0.0698,
+            0.3679,
+            0.1829
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.5662,
+            0.2939,
+            0.1394,
+            0.0005
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4922,
+            0.0446,
+            0.0315,
+            0.4317
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.381,
+            0.2063,
+            0.2063,
+            0.2063
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 10,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "8h",
+        "4s",
+        "4c"
+      ],
+      "final": [
+        2490,
+        2270,
+        2440,
+        2390,
+        2940,
+        2490,
+        2490,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 2,
+      "actions": [
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2792,
+            0.1528,
+            0.4876,
+            0.0803
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.9377,
+            0.0307,
+            0.0093,
+            0.0223
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.7965,
+            0.0618,
+            0.0798,
+            0.0618
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r200",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 220,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r200001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1.7",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "flop",
+          "type": "bet",
+          "amount": 503,
+          "source": "solver",
+          "study": "postflop-f6b1a00d",
+          "path": "r",
+          "recommended": "Bet 5.025",
+          "labels": [
+            "Check",
+            "Bet 2.211",
+            "Bet 5.025"
+          ],
+          "probabilities": [
+            0.0508,
+            0.2175,
+            0.7317
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "flop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-24a8823b",
+          "path": "r2",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 5.025",
+            "Raise to 15.075",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.3556,
+            0.1929,
+            0.3442,
+            0.1073
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 11,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "2c",
+        "Jd",
+        "3s",
+        "6s",
+        "Ac"
+      ],
+      "final": [
+        2490,
+        2490,
+        0,
+        2440,
+        2390,
+        0,
+        7700,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0163,
+            0.5878,
+            0.0019,
+            0.394
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2383,
+            0.1091,
+            0.0685,
+            0.584
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.626,
+            0.374
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9711,
+            0.0289
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13000",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.4654,
+            0.5346
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13000100",
+          "recommended": "Call 23.9",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.161,
+            0.839
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 12,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "6c",
+        "Ks",
+        "Qh",
+        "3c",
+        "7d"
+      ],
+      "final": [
+        2490,
+        10140,
+        0,
+        2490,
+        0,
+        2390,
+        0,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0756,
+            0.053,
+            0.1609,
+            0.7104
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9972,
+            0.0028
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7151,
+            0.2849
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.2016,
+            0.7984
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3001",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.07,
+            0.93
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30011",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5539,
+            0.4461
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2440,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300110",
+          "recommended": "Call 24.4",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.4955,
+            0.5045
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 13,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2490,
+        2940,
+        2490,
+        2490,
+        2440,
+        2390,
+        2270
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4215,
+            0.0139,
+            0.4391,
+            0.1254
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4354,
+            0.1896,
+            0.1269,
+            0.2482
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.6311,
+            0.1604,
+            0.1503,
+            0.0583
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r200",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1464,
+            0.1221,
+            0.2326,
+            0.4989
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2003",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5626,
+            0.4374
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r200300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r2003000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r20030000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 22.7"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 14,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2720,
+        2490,
+        2490,
+        2490,
+        2490,
+        2490,
+        2440,
+        2390
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0937,
+            0.2323,
+            0.1378,
+            0.5363
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.8514,
+            0.1486
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5794,
+            0.4206
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9843,
+            0.0157
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.6486,
+            0.3514
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9996,
+            0.0004
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.9034,
+            0.0966
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.9397,
+            0.0603
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 15,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2390,
+        2490,
+        2720,
+        2490,
+        2490,
+        2490,
+        2490,
+        2440
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.5545,
+            0.0531,
+            0.1969,
+            0.1955
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2595,
+            0.1775,
+            0.3346,
+            0.2283
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.6418,
+            0.2292,
+            0.1231,
+            0.006
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r020",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3393,
+            0.2736,
+            0.2075,
+            0.1795
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0200",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.534,
+            0.157,
+            0.1518,
+            0.1572
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r020000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1.7",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 16,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Qc",
+        "Ac",
+        "9s"
+      ],
+      "final": [
+        2440,
+        2940,
+        2490,
+        2490,
+        2490,
+        2490,
+        2390,
+        2270
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 3,
+      "actions": [
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4483,
+            0.1271,
+            0.2151,
+            0.2095
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.5698,
+            0.0782,
+            0.3415,
+            0.0105
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.7796,
+            0.0252,
+            0.194,
+            0.0012
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0000",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0941,
+            0.8677,
+            0.0191,
+            0.0191
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "raise",
+          "labels": [
+            "raise"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000012",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1.7",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 120,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "flop",
+          "type": "bet",
+          "amount": 503,
+          "source": "solver",
+          "study": "postflop-fb0690a9",
+          "path": "r",
+          "recommended": "Bet 5.025",
+          "labels": [
+            "Check",
+            "Bet 2.211",
+            "Bet 5.025"
+          ],
+          "probabilities": [
+            0.1295,
+            0.3557,
+            0.5148
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "flop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-d2ef2a53",
+          "path": "r2",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 5.025",
+            "Raise to 15.075",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.3859,
+            0.2042,
+            0.3232,
+            0.0867
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 17,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2440,
+        2390,
+        2390,
+        2820,
+        2490,
+        2490,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2863,
+            0.5814,
+            0.0184,
+            0.1139
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0777,
+            0.003,
+            0.2999,
+            0.6194
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9996,
+            0.0004
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.8501,
+            0.1499
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.6245,
+            0.3755
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13000000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.75,
+            0.25
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 18,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "3s",
+        "2c",
+        "Kc",
+        "Qc",
+        "5s"
+      ],
+      "final": [
+        2490,
+        2490,
+        3775,
+        3775,
+        0,
+        2490,
+        2490,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2065,
+            0.0375,
+            0.1659,
+            0.5901
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7083,
+            0.2917
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9993,
+            0.0007
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9076,
+            0.0924
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.8709,
+            0.1291
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9577,
+            0.0423
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2440,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300000",
+          "recommended": "Call 24.4",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.0972,
+            0.9028
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000001",
+          "recommended": "Call 23.9",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.3208,
+            0.6792
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 19,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "2c",
+        "8h",
+        "6h"
+      ],
+      "final": [
+        2490,
+        2490,
+        2490,
+        2390,
+        2232,
+        3028,
+        2390,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 12,
+      "scriptedActions": 2,
+      "actions": [
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1393,
+            0.7531,
+            0.027,
+            0.0807
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2722,
+            0.5598,
+            0.1671,
+            0.0009
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r11",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r110",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3566,
+            0.2145,
+            0.2145,
+            0.2145
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r11000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "call",
+          "amount": 50,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "check",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "check",
+          "labels": [
+            "check"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-caee9fea",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 1.584",
+            "Bet 3.6"
+          ],
+          "probabilities": [
+            0.4396,
+            0.3551,
+            0.2054
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "flop",
+          "type": "bet",
+          "amount": 158,
+          "source": "solver",
+          "study": "postflop-aee58508",
+          "path": "r0",
+          "recommended": "Bet 1.584",
+          "labels": [
+            "Check",
+            "Bet 1.584",
+            "Bet 3.6"
+          ],
+          "probabilities": [
+            0.0175,
+            0.9593,
+            0.0232
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "flop",
+          "type": "allin",
+          "amount": 2390,
+          "source": "solver",
+          "study": "postflop-7804cd7c",
+          "path": "r01",
+          "recommended": "All-in to 23.9",
+          "labels": [
+            "Fold",
+            "Call 1.584",
+            "Raise to 4.752",
+            "All-in to 23.9"
+          ],
+          "probabilities": [
+            0.1149,
+            0.0403,
+            0.1349,
+            0.7098
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "flop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-1adab18b",
+          "path": "r013",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.9906,
+            0.0094
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "flop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-caee9fea",
+          "path": "r0130",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.9653,
+            0.0347
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "flop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-aee58508",
+          "path": "r01300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 22.316"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 20,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "5c",
+        "Th",
+        "2c",
+        "5h",
+        "Qs"
+      ],
+      "final": [
+        2490,
+        2490,
+        3125,
+        2490,
+        2440,
+        1985,
+        2490,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 14,
+      "scriptedActions": 2,
+      "actions": [
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.628,
+            0.1044,
+            0.1854,
+            0.0822
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8644,
+            0.1337,
+            0.0014,
+            0.0004
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3902,
+            0.0805,
+            0.3851,
+            0.1442
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.7519,
+            0.0905,
+            0.0788,
+            0.0788
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0000",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2682,
+            0.2771,
+            0.2272,
+            0.2275
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.3817,
+            0.2453,
+            0.2066,
+            0.1663
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 0.5",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "raise",
+          "labels": [
+            "raise"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 120,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-c2ae7904",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 1.881",
+            "Bet 4.275"
+          ],
+          "probabilities": [
+            0.8855,
+            0.0621,
+            0.0524
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "flop",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-38beb9ba",
+          "path": "r0",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 1.881",
+            "Bet 4.275"
+          ],
+          "probabilities": [
+            0.8544,
+            0.1429,
+            0.0028
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "turn",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-69c0bbef",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 2.85",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.8267,
+            0.1081,
+            0.0652
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "turn",
+          "type": "bet",
+          "amount": 285,
+          "source": "solver",
+          "study": "postflop-d21826c5",
+          "path": "r0",
+          "recommended": "Bet 2.85",
+          "labels": [
+            "Check",
+            "Bet 2.85",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.4287,
+            0.4329,
+            0.1384
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "turn",
+          "type": "call",
+          "amount": 285,
+          "source": "solver",
+          "study": "postflop-69c0bbef",
+          "path": "r01",
+          "recommended": "Call 2.85",
+          "labels": [
+            "Fold",
+            "Call 2.85",
+            "All-in to 22.7"
+          ],
+          "probabilities": [
+            0.001,
+            0.9986,
+            0.0003
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-e63537c4",
+          "path": "r",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 5.7",
+            "All-in to 19.85"
+          ],
+          "probabilities": [
+            0.931,
+            0.0062,
+            0.0628
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "river",
+          "type": "check",
+          "amount": 0,
+          "source": "solver",
+          "study": "postflop-10e08d7a",
+          "path": "r0",
+          "recommended": "Check",
+          "labels": [
+            "Check",
+            "Bet 5.7",
+            "All-in to 19.85"
+          ],
+          "probabilities": [
+            0.8678,
+            0.0893,
+            0.043
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 21,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2820,
+        2490,
+        2490,
+        2490,
+        2440,
+        2390,
+        2390
+      ],
+      "settlementOk": true,
+      "solverActions": 9,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2043,
+            0.4106,
+            0.1787,
+            0.2064
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.5753,
+            0.4101,
+            0.0122,
+            0.0023
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r10",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4174,
+            0.0327,
+            0.1212,
+            0.4287
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r103",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9927,
+            0.0073
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9564,
+            0.0436
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r10300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r103000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1030000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r10300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 22,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Ah",
+        "Qc",
+        "Ac",
+        "7s",
+        "9d"
+      ],
+      "final": [
+        2490,
+        5210,
+        2490,
+        2490,
+        0,
+        2490,
+        2440,
+        2390
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8507,
+            0.0535,
+            0.0594,
+            0.0364
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0623,
+            0.0683,
+            0.2072,
+            0.6622
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5989,
+            0.4011
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.891,
+            0.109
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0300",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.3676,
+            0.6324
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0300100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 23,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2390,
+        2720,
+        2490,
+        2490,
+        2490,
+        2490,
+        2490,
+        2440
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1295,
+            0.0415,
+            0.3895,
+            0.4395
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.8113,
+            0.1887
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5946,
+            0.4054
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.84,
+            0.16
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9003,
+            0.0997
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.873,
+            0.127
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.7168,
+            0.2832
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000000",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.874,
+            0.126
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 24,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "8c",
+        "4h",
+        "Js",
+        "5h",
+        "Ts"
+      ],
+      "final": [
+        2440,
+        2390,
+        2490,
+        0,
+        2490,
+        2490,
+        2490,
+        5210
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 0,
+      "actions": [
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8838,
+            0.0315,
+            0.0322,
+            0.0525
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0108,
+            0.3133,
+            0.0522,
+            0.6237
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7825,
+            0.2175
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.9944,
+            0.0056
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7656,
+            0.2344
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r03000",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.2132,
+            0.7868
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r030001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0300010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 25,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Jc",
+        "9s",
+        "7s",
+        "4d",
+        "Ac"
+      ],
+      "final": [
+        0,
+        2440,
+        2390,
+        2490,
+        2390,
+        2490,
+        2490,
+        5310
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 2,
+      "actions": [
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8604,
+            0.119,
+            0.0167,
+            0.0039
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2334,
+            0.5121,
+            0.0058,
+            0.2486
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r01",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8398,
+            0.0602,
+            0.05,
+            0.05
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r010",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.5136,
+            0.1124,
+            0.3167,
+            0.0573
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0100",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1998,
+            0.1234,
+            0.1234,
+            0.5534
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r010031",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r01003100",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 26,
+      "status": "complete",
+      "reason": null,
+      "board": [],
+      "final": [
+        2490,
+        2490,
+        2440,
+        2390,
+        2490,
+        2490,
+        2490,
+        2720
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.9933,
+            0,
+            0.0055,
+            0.0012
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.6185,
+            0.0003,
+            0.0003,
+            0.3809
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.9541,
+            0.0308,
+            0.0076,
+            0.0076
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1696,
+            0.0852,
+            0.1749,
+            0.5703
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0003",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r00030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r000300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "fold",
+          "labels": [
+            "fold"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 27,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "7c",
+        "Qh",
+        "4s",
+        "3c",
+        "2h"
+      ],
+      "final": [
+        0,
+        0,
+        2490,
+        2440,
+        0,
+        2390,
+        10190,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0017,
+            0.5922,
+            0.4017,
+            0.0044
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.0875,
+            0.0854,
+            0.3756,
+            0.4515
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.2832,
+            0.7168
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r1301",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.4819,
+            0.5181
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13011",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r130110",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r13011001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 28,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "3s",
+        "Jc",
+        "Tc",
+        "9s",
+        "8c"
+      ],
+      "final": [
+        2490,
+        2490,
+        5045,
+        0,
+        2440,
+        0,
+        5045,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 7,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2269,
+            0.113,
+            0.17,
+            0.49
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5037,
+            0.4963
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7575,
+            0.2425
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.7823,
+            0.2177
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r3000",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.3443,
+            0.6557
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r30001",
+          "recommended": "Call 24.9",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.3418,
+            0.6582
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r300011",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.7844,
+            0.2156
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 29,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "Ad",
+        "4s",
+        "Ah",
+        "7d",
+        "9h"
+      ],
+      "final": [
+        0,
+        2490,
+        2490,
+        2490,
+        0,
+        10040,
+        0,
+        2490
+      ],
+      "settlementOk": true,
+      "solverActions": 6,
+      "scriptedActions": 3,
+      "actions": [
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4519,
+            0.1673,
+            0.1705,
+            0.2104
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "raise",
+          "amount": 220,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Raise to 2.2",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2402,
+            0.195,
+            0.3351,
+            0.2297
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8045,
+            0.0101,
+            0.0835,
+            0.1018
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r020",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.4447,
+            0.1561,
+            0.1464,
+            0.2527
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0200",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r02000",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 2.2",
+            "Raise to 6.6",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2118,
+            0.2118,
+            0.2118,
+            0.3645
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2440,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2270,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "hand": 30,
+      "status": "complete",
+      "reason": null,
+      "board": [
+        "5h",
+        "4d",
+        "7d",
+        "6s",
+        "Ac"
+      ],
+      "final": [
+        2490,
+        2390,
+        2490,
+        0,
+        2490,
+        2490,
+        2440,
+        5210
+      ],
+      "settlementOk": true,
+      "solverActions": 8,
+      "scriptedActions": 1,
+      "actions": [
+        {
+          "seat": 0,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.6734,
+            0.1506,
+            0.0008,
+            0.1753
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "call",
+          "amount": 100,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0",
+          "recommended": "Call 1",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.2508,
+            0.3018,
+            0.232,
+            0.2154
+          ]
+        },
+        {
+          "seat": 2,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r01",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.8207,
+            0.0537,
+            0.0515,
+            0.0741
+          ]
+        },
+        {
+          "seat": 3,
+          "street": "preflop",
+          "type": "allin",
+          "amount": 2490,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r010",
+          "recommended": "All-in to 24.9",
+          "labels": [
+            "Fold",
+            "Call 1",
+            "Raise to 2.2",
+            "All-in to 24.9"
+          ],
+          "probabilities": [
+            0.1354,
+            0.0026,
+            0.0026,
+            0.8593
+          ]
+        },
+        {
+          "seat": 4,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r0103",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 5,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r01030",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 6,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r010300",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 24.4"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "seat": 7,
+          "street": "preflop",
+          "type": "call",
+          "amount": 2390,
+          "source": "scripted",
+          "study": null,
+          "path": null,
+          "recommended": "call",
+          "labels": [
+            "call"
+          ],
+          "probabilities": [
+            1
+          ]
+        },
+        {
+          "seat": 1,
+          "street": "preflop",
+          "type": "fold",
+          "amount": 0,
+          "source": "solver",
+          "study": "preflop8-linked-100000",
+          "path": "r01030001",
+          "recommended": "Fold",
+          "labels": [
+            "Fold",
+            "Call 23.9"
+          ],
+          "probabilities": [
+            0.5,
+            0.5
+          ]
+        }
+      ]
+    }
+  ]
+}

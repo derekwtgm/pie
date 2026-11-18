@@ -1,0 +1,714 @@
+{
+  "format": "eightmax-workbench-native-result",
+  "version": 2,
+  "build": "7d08acc7eb4577ee",
+  "job": {
+    "format": "eightmax-workbench-native-job",
+    "version": 2,
+    "id": "reviewed-demo",
+    "engine": {
+      "version": "5.1",
+      "build": "7d08acc7eb4577ee"
+    },
+    "config": {
+      "board": "2c3d4h8s9c",
+      "common": 0,
+      "stacks": [
+        10,
+        10
+      ],
+      "prior": [
+        2,
+        2
+      ],
+      "folded": [],
+      "ranges": [
+        "KsKd",
+        "AsAd"
+      ],
+      "streets": {
+        "flop": {
+          "bets": "50",
+          "raises": "a",
+          "maxBets": 2
+        },
+        "turn": {
+          "bets": "50",
+          "raises": "a",
+          "maxBets": 2
+        },
+        "river": {
+          "bets": "50",
+          "raises": "a",
+          "maxBets": 2
+        }
+      },
+      "privateSeed": 17,
+      "privateMode": "sampled",
+      "abstraction": "exact",
+      "traversal": "external",
+      "engine": "javascript",
+      "strategyBudgetMiB": 32,
+      "batchDeals": 1,
+      "weighting": "linear",
+      "regretMatching": "standard",
+      "actionStreams": "shared",
+      "evaluationDeals": 128
+    },
+    "iterations": 1000,
+    "threads": 2,
+    "memoryMiB": 256,
+    "timeoutSeconds": 60,
+    "spec": {
+      "protocol": 4,
+      "algorithm": "external",
+      "engine": "EightMax multiway",
+      "n": 2,
+      "board": [
+        0,
+        5,
+        10,
+        27,
+        28
+      ],
+      "anteOf": [
+        0,
+        0
+      ],
+      "device": "cpu",
+      "gpuMiB": 128,
+      "hands": [
+        [
+          [
+            1306,
+            45,
+            47,
+            1
+          ]
+        ],
+        [
+          [
+            1324,
+            49,
+            51,
+            1
+          ]
+        ]
+      ],
+      "rules": {
+        "stacks": [
+          10,
+          10
+        ],
+        "prior": [
+          2,
+          2
+        ],
+        "folded": [],
+        "common": 0,
+        "pot0": 4,
+        "ownAnte": [
+          0,
+          0
+        ],
+        "posted": [
+          0,
+          0
+        ],
+        "open": [
+          true,
+          true
+        ],
+        "pre": false,
+        "shove": false,
+        "noLimp": false,
+        "sizes": {
+          "5": {
+            "cap": 2,
+            "bets": [
+              [
+                2,
+                0.5
+              ]
+            ],
+            "raises": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      "batchDeals": 1,
+      "weighting": "linear",
+      "regretMatching": "standard",
+      "actionStreams": "shared",
+      "actionSeed": 1899539333,
+      "state": {
+        "rng": 17,
+        "actionRng": 1899539333,
+        "iterations": 0,
+        "trainingDeals": 0,
+        "stateVisits": 0
+      },
+      "studyId": "0e9dc0392f1114fb"
+    },
+    "query": {
+      "path": [
+        1
+      ],
+      "board": [],
+      "offset": 0,
+      "limit": 1326
+    },
+    "reviewed": {
+      "format": "eightmax-reviewed-node",
+      "version": 1,
+      "engine": {
+        "version": "5.1",
+        "build": "7d08acc7eb4577ee"
+      },
+      "rootConfigKey": "{\"abstraction\":\"exact\",\"actionStreams\":\"shared\",\"batchDeals\":1,\"board\":\"2c3d4h8s9c\",\"common\":0,\"engine\":\"javascript\",\"evaluationDeals\":128,\"folded\":[],\"prior\":[2,2],\"privateMode\":\"sampled\",\"privateSeed\":17,\"ranges\":[\"KsKd\",\"AsAd\"],\"regretMatching\":\"standard\",\"stacks\":[10,10],\"strategyBudgetMiB\":32,\"streets\":{\"flop\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"},\"river\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"},\"turn\":{\"bets\":\"50\",\"maxBets\":2,\"raises\":\"a\"}},\"traversal\":\"external\",\"weighting\":\"linear\"}",
+      "proof": {
+        "format": "eightmax-reviewed-position",
+        "version": 1,
+        "source": "synthetic",
+        "table": 1,
+        "hand": "reviewed-demo",
+        "frames": [
+          1,
+          3
+        ],
+        "states": [
+          {
+            "heroSeat": 0,
+            "roundStart": {
+              "dealer": 0
+            },
+            "street": "river",
+            "board": [
+              "2c",
+              "3d",
+              "4h",
+              "8s",
+              "9c"
+            ],
+            "hero": [
+              "As",
+              "Ad"
+            ],
+            "actor": 1,
+            "bigBlind": 100,
+            "pot": 400,
+            "deadMoney": 0,
+            "seats": [
+              {
+                "stack": 1000,
+                "committed": 200,
+                "bet": 0,
+                "folded": false
+              },
+              {
+                "stack": 1000,
+                "committed": 200,
+                "bet": 0,
+                "folded": false
+              }
+            ]
+          },
+          {
+            "heroSeat": 0,
+            "roundStart": {
+              "dealer": 0
+            },
+            "street": "river",
+            "board": [
+              "2c",
+              "3d",
+              "4h",
+              "8s",
+              "9c"
+            ],
+            "hero": [
+              "As",
+              "Ad"
+            ],
+            "actor": 0,
+            "bigBlind": 100,
+            "pot": 600,
+            "deadMoney": 0,
+            "seats": [
+              {
+                "stack": 1000,
+                "committed": 200,
+                "bet": 0,
+                "folded": false
+              },
+              {
+                "stack": 800,
+                "committed": 400,
+                "bet": 200,
+                "folded": false
+              }
+            ]
+          }
+        ],
+        "decisionReady": false
+      },
+      "originalSeats": [
+        1,
+        0
+      ],
+      "path": "r1",
+      "steps": [
+        1
+      ],
+      "actor": 1,
+      "originalSeat": 0,
+      "board": [
+        0,
+        5,
+        10,
+        27,
+        28
+      ],
+      "pot": 6,
+      "behind": [
+        8,
+        10
+      ],
+      "actions": [
+        {
+          "slot": 0,
+          "label": "Fold"
+        },
+        {
+          "slot": 1,
+          "label": "Call 2"
+        },
+        {
+          "slot": 2,
+          "label": "All-in to 10"
+        }
+      ],
+      "hands": [
+        {
+          "cards": [
+            49,
+            51
+          ],
+          "weight": 1,
+          "average": null,
+          "stored": false
+        }
+      ],
+      "heroKnown": true,
+      "heroRowIndex": 0,
+      "quality": {
+        "convergenceVerified": false,
+        "evAvailable": false,
+        "rangePosteriorComputed": false
+      },
+      "decisionReady": false,
+      "scope": "Stored policies at an exact matched offline path. Input weights are root assumptions, not posterior probabilities. Missing rows remain unavailable; no EV or convergence certificate."
+    },
+    "rootActions": [
+      {
+        "slot": 0,
+        "label": "Check"
+      },
+      {
+        "slot": 1,
+        "label": "Bet 2"
+      }
+    ],
+    "chunkUpdates": 250,
+    "workbench": {
+      "slot": 2,
+      "token": "example-native-reviewed"
+    }
+  },
+  "training": {
+    "protocol": 1,
+    "specProtocol": 4,
+    "algorithm": "external",
+    "actionStreams": "shared",
+    "iterations": 1000,
+    "trainingDeals": 1000,
+    "stateVisits": 15554,
+    "rng": 3819489825,
+    "actionRng": 1354045733,
+    "rows": 6,
+    "states": 6,
+    "tableMiB": 0.059,
+    "weighting": "linear",
+    "trainer": {
+      "estimator": "external sampling MCCFR",
+      "regretMatching": "standard",
+      "weighting": "linear",
+      "opponentExploration": 0.1,
+      "terminalBaseline": false,
+      "terminalExpectation": false,
+      "chanceSampling": "independent",
+      "ownHandEnumeration": false,
+      "experimental": false,
+      "validatedDefault": true
+    },
+    "tablePeakBytes": 63256,
+    "stateCache": {
+      "states": 6,
+      "capStates": 19065,
+      "bytes": 3960,
+      "chargedToTableBudget": false
+    },
+    "tableCapacityBytes": 62184,
+    "scratchPeakBytes": 651352,
+    "scratchBudgetBytes": 268435456,
+    "attemptedDealsThisSession": 1000,
+    "transientLimitPerDealBytes": 67108864,
+    "budgetMiB": 256,
+    "scoreCalibrations": 0,
+    "scoreCalibrationSeconds": 0,
+    "cpuScoreProbeSeconds": 0,
+    "bestDeviceScoreSeconds": 0,
+    "automaticDeviceSkipped": false,
+    "automaticProjectedScoreSeconds": -1,
+    "scheduling": {
+      "trainingPath": "external sampling",
+      "requestedDevice": "cpu",
+      "plannedUpdates": 1000,
+      "projectedCpuScoreSeconds": -1,
+      "thresholdSeconds": 0.5,
+      "automaticSkippedCuda": false,
+      "cudaOpenedThisCall": false,
+      "calibrationsThisCall": 0,
+      "calibrationSecondsThisCall": 0,
+      "gpuBufferPeakBytesThisCall": 0,
+      "decision": "CPU Only requested",
+      "reason": "",
+      "batchesScored": 0,
+      "batchUnitsMin": 0,
+      "batchUnitsMax": 0,
+      "calibrationReusesThisCall": 0,
+      "driverInitSecondsThisCall": -1,
+      "scoringSecondsThisCall": 0,
+      "deviceTransferAndKernelSecondsThisCall": 0,
+      "routeMeasurementsHeld": 0,
+      "routeReuseRule": "5.1 nearby batch sizes",
+      "recalibrationReasons": {}
+    },
+    "studyId": "0e9dc0392f1114fb",
+    "devicePath": "CPU (external sampling traversal; small batch or CPU scoring)",
+    "requestedDevice": "cpu",
+    "gpuBufferPeakBytes": 0,
+    "gpuStageBound": {
+      "scoringShare": 0.0173,
+      "maxSavingFraction": 0.0173
+    },
+    "limitReached": false,
+    "threads": 1,
+    "batchDeals": 1,
+    "seconds": {
+      "deal": 0.0001,
+      "traverse": 0.0014,
+      "merge": 0.0005,
+      "profiledUpdates": 0.0001,
+      "scoreInProfiledUpdates": 0
+    },
+    "wallSeconds": 0.002501,
+    "processPeakRssMiB": 9.4,
+    "cancelled": false,
+    "saveReplaceRetries": 0,
+    "requestedTotalUpdates": 1000
+  },
+  "query": {
+    "engine": "native external sampling",
+    "study": {
+      "players": 2,
+      "startStreet": "river",
+      "updates": 1000,
+      "sampledDeals": 1000,
+      "rows": 6,
+      "states": 6,
+      "abstraction": "exact cards",
+      "weighting": "linear",
+      "regretMatching": "standard",
+      "tournament": false
+    },
+    "node": {
+      "kind": "decision",
+      "street": "river",
+      "length": 5,
+      "stateId": 2,
+      "visited": true,
+      "actor": 1,
+      "facing": true,
+      "price": 2,
+      "pot": 6,
+      "behind": [
+        8,
+        10
+      ],
+      "streetPut": [
+        2,
+        0
+      ],
+      "committed": [
+        2,
+        0
+      ],
+      "prior": [
+        2,
+        2
+      ],
+      "live": [
+        true,
+        true
+      ],
+      "allIn": [
+        false,
+        false
+      ],
+      "effectiveStack": 8,
+      "board": [
+        0,
+        5,
+        10,
+        27,
+        28
+      ]
+    },
+    "history": [
+      {
+        "seat": 0,
+        "street": "river",
+        "slot": 1,
+        "action": "Bet to",
+        "to": 2,
+        "stateId": 0
+      }
+    ],
+    "actions": [
+      {
+        "slot": 0,
+        "name": "Fold",
+        "to": 0,
+        "leadsTo": "terminal",
+        "childVisited": null
+      },
+      {
+        "slot": 1,
+        "name": "Call",
+        "to": 2,
+        "leadsTo": "terminal",
+        "childVisited": null
+      },
+      {
+        "slot": 2,
+        "name": "All-in",
+        "to": 10,
+        "leadsTo": "decision",
+        "childVisited": true
+      }
+    ],
+    "ev": {
+      "available": false,
+      "requested": false,
+      "reason": "Checkpoints store cumulative regrets and average-strategy sums only, so action EVs are not stored. Request them with POST /api/mw/ev (computed from the game model and a named continuation policy)."
+    },
+    "strategyKinds": {
+      "average": "normalized stored average-strategy sums (solver output)",
+      "current": "regret matching of stored cumulative regrets"
+    },
+    "hands": {
+      "seat": 1,
+      "actingSeat": true,
+      "total": 1,
+      "offset": 0,
+      "items": [
+        {
+          "i": 0,
+          "cards": [
+            49,
+            51
+          ],
+          "weight": 1,
+          "blocked": false,
+          "reach": 1,
+          "reachUsesUniform": false,
+          "row": true,
+          "key": {
+            "hand": 0,
+            "code": 366683,
+            "found": true
+          },
+          "average": [
+            0.0000015317681304047834,
+            0.0000015317681304047834,
+            0.9999969364637391
+          ],
+          "current": [
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "aggregate": {
+      "rangeMass": 1,
+      "average": [
+        0.0000015317681304047834,
+        0.0000015317681304047834,
+        0.9999969364637391
+      ],
+      "current": [
+        0,
+        0,
+        1
+      ],
+      "averageCoveredMass": 1,
+      "coverage": {
+        "hands": 1,
+        "blocked": 0,
+        "withRows": 1
+      }
+    }
+  },
+  "rootQuery": {
+    "engine": "native external sampling",
+    "study": {
+      "players": 2,
+      "startStreet": "river",
+      "updates": 1000,
+      "sampledDeals": 1000,
+      "rows": 6,
+      "states": 6,
+      "abstraction": "exact cards",
+      "weighting": "linear",
+      "regretMatching": "standard",
+      "tournament": false
+    },
+    "node": {
+      "kind": "decision",
+      "street": "river",
+      "length": 5,
+      "stateId": 0,
+      "visited": true,
+      "actor": 0,
+      "facing": false,
+      "price": 0,
+      "pot": 4,
+      "behind": [
+        10,
+        10
+      ],
+      "streetPut": [
+        0,
+        0
+      ],
+      "committed": [
+        0,
+        0
+      ],
+      "prior": [
+        2,
+        2
+      ],
+      "live": [
+        true,
+        true
+      ],
+      "allIn": [
+        false,
+        false
+      ],
+      "effectiveStack": 10,
+      "board": [
+        0,
+        5,
+        10,
+        27,
+        28
+      ]
+    },
+    "history": [],
+    "actions": [
+      {
+        "slot": 0,
+        "name": "Check",
+        "to": 0,
+        "leadsTo": "decision",
+        "childVisited": true
+      },
+      {
+        "slot": 1,
+        "name": "Bet to",
+        "to": 2,
+        "leadsTo": "decision",
+        "childVisited": true
+      }
+    ],
+    "ev": {
+      "available": false,
+      "requested": false,
+      "reason": "Checkpoints store cumulative regrets and average-strategy sums only, so action EVs are not stored. Request them with POST /api/mw/ev (computed from the game model and a named continuation policy)."
+    },
+    "strategyKinds": {
+      "average": "normalized stored average-strategy sums (solver output)",
+      "current": "regret matching of stored cumulative regrets"
+    },
+    "hands": {
+      "seat": 0,
+      "actingSeat": true,
+      "total": 1,
+      "offset": 0,
+      "items": [
+        {
+          "i": 0,
+          "cards": [
+            45,
+            47
+          ],
+          "weight": 1,
+          "blocked": false,
+          "reach": 1,
+          "reachUsesUniform": false,
+          "row": true,
+          "key": {
+            "hand": 0,
+            "code": 366683,
+            "found": true
+          },
+          "average": [
+            0.9999849816458732,
+            0.000015018354126794347
+          ],
+          "current": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    "aggregate": {
+      "rangeMass": 1,
+      "average": [
+        0.9999849816458732,
+        0.000015018354126794347
+      ],
+      "current": [
+        1,
+        0
+      ],
+      "averageCoveredMass": 1,
+      "coverage": {
+        "hands": 1,
+        "blocked": 0,
+        "withRows": 1
+      }
+    }
+  },
+  "elapsedMs": 32.950569
+}

@@ -1,0 +1,29 @@
+{
+  "appVersion": "0.17.0",
+  "nodeVersion": "v24.22.1",
+  "nodeTestCases": 353,
+  "simulationRegressionCases": 20,
+  "separateUIHandlerCheckPassed": true,
+  "javascriptSyntaxFiles": 37,
+  "uniqueStaticControls": 245,
+  "externalScriptOrStylesheetAssets": [],
+  "standaloneBytes": 701555,
+  "unchangedEngineFiles": 91,
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "desktopCSharpCompiled": false,
+  "windowsAcceptanceExecuted": false,
+  "powerShellRestoreExecuted": false,
+  "windowsHistoryRestartExecuted": false,
+  "windowsNativeBatchTimerExecuted": false,
+  "windowsAtomicArchiveWriterExecuted": false,
+  "installerExecuted": false,
+  "visualBrowserExecuted": false,
+  "windowsExecuted": false,
+  "prebuiltSignedInstallerProduced": false,
+  "archiveBatchTests": "26 JavaScript protocol/model/in-memory DOM cases plus 2 Linux native engine integrations; no C#/Win32/PowerShell execution",
+  "linuxNativeChecks": [
+    "disk checkpoint opened without mutation and explicitly resumed to matching 300-update policies",
+    "sequential root/reviewed native results saved separately and validated"
+  ],
+  "scope": "persistent host archive/sequential queue implemented in Windows source; engine unchanged; no GPU/parallel capacity or complete-game accuracy claim"
+}

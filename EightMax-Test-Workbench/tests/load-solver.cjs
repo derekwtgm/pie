@@ -1,0 +1,1 @@
+const path=require('node:path');for(const name of ['cards','eval','pots','icm','information','checkpoint','eqdata','pushfold','fgs','runouts','wide','river'])require(path.join(__dirname,'../vendor/eightmax-5.1/lib_'+name+'.js'));module.exports=globalThis.EM;

@@ -1,0 +1,698 @@
+{
+  "format": "eightmax-multitable-benchmark",
+  "version": 1,
+  "appVersion": "0.23.0",
+  "generatedAt": "2026-11-17T23:08:16.331Z",
+  "classification": "SIMULATED TABLES on this machine; single-threaded Node.js; no GPU; not Windows target-hardware results",
+  "machine": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.5",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logicalCpus": 4,
+    "totalMemBytes": 16869134336
+  },
+  "study": {
+    "example": "preflop8 (8 seats, 25 BB, SB 0.5/BB 1/ante 0.1, push/fold)",
+    "trainingUpdates": 500000,
+    "trainingBackend": "native-cli-cpu (cached state)",
+    "convergence": "unproven",
+    "engine": "5.1 build 7d08acc7eb4577ee"
+  },
+  "handsPerTable": 100,
+  "seed": 4127,
+  "runs": [
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 1,
+      "wallMs": 1186.542899,
+      "handsCompleted": 100,
+      "actions": 799,
+      "solverActions": 797,
+      "fallbackActions": 2,
+      "handsPerSecond": 84.27845304563236,
+      "latency": {
+        "observation": {
+          "n": 899,
+          "mean": 0.005378000000001426,
+          "p50": 0.004005000000006476,
+          "p95": 0.008108999999876687,
+          "p99": 0.03718000000003485,
+          "max": 0.17687599999999293
+        },
+        "reconstruction": {
+          "n": 899,
+          "mean": 0.029963993325922506,
+          "p50": 0.023229000000128508,
+          "p95": 0.05243999999993321,
+          "p99": 0.08258200000000215,
+          "max": 0.7596879999999828
+        },
+        "solver": {
+          "n": 797,
+          "mean": 1.2722710163111668,
+          "p50": 0,
+          "p95": 7,
+          "p99": 10,
+          "max": 26
+        },
+        "queueWait": {
+          "n": 797,
+          "mean": 0.0012547051442910915,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 1
+        },
+        "endToEnd": {
+          "n": 797,
+          "mean": 1.3885202785445498,
+          "p50": 0.1292559999999412,
+          "p95": 7.951031999999941,
+          "p99": 9.792190000000005,
+          "max": 27.008117000000084
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 1531.892,
+        "systemMs": 80.336,
+        "utilizationOfOneCore": 1.3587608179685378
+      },
+      "memory": {
+        "rssBytes": 206372864,
+        "peakRssBytes": 212262912,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 796,
+        "cacheBytes": 2129562,
+        "stats": {
+          "submitted": 799,
+          "ok": 797,
+          "unavailable": 2,
+          "cacheHits": 1,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 0
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "solverShare": 0.9974968710888611,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 2,
+      "wallMs": 443.4613979999999,
+      "handsCompleted": 200,
+      "actions": 1598,
+      "solverActions": 1596,
+      "fallbackActions": 2,
+      "handsPerSecond": 450.9975409404181,
+      "latency": {
+        "observation": {
+          "n": 1798,
+          "mean": 0.0024872508342517604,
+          "p50": 0.0021150000000034197,
+          "p95": 0.003973000000087268,
+          "p99": 0.007787999999891326,
+          "max": 0.043197999999847525
+        },
+        "reconstruction": {
+          "n": 1798,
+          "mean": 0.012311768075642274,
+          "p50": 0.009127999999691383,
+          "p95": 0.023969999999962965,
+          "p99": 0.04172700000003715,
+          "max": 0.07596499999999651
+        },
+        "solver": {
+          "n": 1596,
+          "mean": 0.31704260651629074,
+          "p50": 0,
+          "p95": 1,
+          "p99": 6,
+          "max": 8
+        },
+        "queueWait": {
+          "n": 1596,
+          "mean": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "endToEnd": {
+          "n": 1596,
+          "mean": 0.3696361309523768,
+          "p50": 0.10522399999990739,
+          "p95": 0.7010849999996935,
+          "p99": 6.186999000000014,
+          "max": 7.382419000000027
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 533.303,
+        "systemMs": 23.791,
+        "utilizationOfOneCore": 1.2562401203633065
+      },
+      "memory": {
+        "rssBytes": 218824704,
+        "peakRssBytes": 218824704,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1567,
+        "cacheBytes": 4194026,
+        "stats": {
+          "submitted": 1598,
+          "ok": 1596,
+          "unavailable": 2,
+          "cacheHits": 4,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 25
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "solverShare": 0.9987484355444305,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 5,
+      "wallMs": 681.1135140000001,
+      "handsCompleted": 500,
+      "actions": 3994,
+      "solverActions": 3981,
+      "fallbackActions": 13,
+      "handsPerSecond": 734.0920268394498,
+      "latency": {
+        "observation": {
+          "n": 4494,
+          "mean": 0.002142131953711622,
+          "p50": 0.0016449999998258136,
+          "p95": 0.004473999999845546,
+          "p99": 0.00793599999997241,
+          "max": 0.05848599999990256
+        },
+        "reconstruction": {
+          "n": 4494,
+          "mean": 0.011275371384068655,
+          "p50": 0.00907199999983277,
+          "p95": 0.01970100000016828,
+          "p99": 0.04118900000003123,
+          "max": 0.38936499999999796
+        },
+        "solver": {
+          "n": 3981,
+          "mean": 0.4199949761366491,
+          "p50": 0,
+          "p95": 1,
+          "p99": 6,
+          "max": 19
+        },
+        "queueWait": {
+          "n": 3981,
+          "mean": 0.08892238131122833,
+          "p50": 0,
+          "p95": 1,
+          "p99": 1,
+          "max": 9
+        },
+        "endToEnd": {
+          "n": 3981,
+          "mean": 0.4804895963325794,
+          "p50": 0.20285799999965093,
+          "p95": 1.3288510000002134,
+          "p99": 6.610239000000092,
+          "max": 19.479265999999825
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 821.847,
+        "systemMs": 47.837,
+        "utilizationOfOneCore": 1.2768561805396799
+      },
+      "memory": {
+        "rssBytes": 244920320,
+        "peakRssBytes": 244658176,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1566,
+        "cacheBytes": 4192960,
+        "stats": {
+          "submitted": 3994,
+          "ok": 3981,
+          "unavailable": 13,
+          "cacheHits": 7,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 2408
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "solverShare": 0.9967451176765147,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 8,
+      "wallMs": 951.4242719999997,
+      "handsCompleted": 800,
+      "actions": 6390,
+      "solverActions": 6360,
+      "fallbackActions": 30,
+      "handsPerSecond": 840.844640549595,
+      "latency": {
+        "observation": {
+          "n": 7190,
+          "mean": 0.0021293529902634725,
+          "p50": 0.0015149999999266583,
+          "p95": 0.005240999999841733,
+          "p99": 0.0107399999997142,
+          "max": 0.12469699999974182
+        },
+        "reconstruction": {
+          "n": 7190,
+          "mean": 0.010714852294850745,
+          "p50": 0.008602999999766325,
+          "p95": 0.019689000000198575,
+          "p99": 0.038422000000082335,
+          "max": 0.2248250000002372
+        },
+        "solver": {
+          "n": 6360,
+          "mean": 0.8088050314465409,
+          "p50": 1,
+          "p95": 2,
+          "p99": 7,
+          "max": 19
+        },
+        "queueWait": {
+          "n": 6360,
+          "mean": 0.514937106918239,
+          "p50": 0,
+          "p95": 2,
+          "p99": 6,
+          "max": 18
+        },
+        "endToEnd": {
+          "n": 6360,
+          "mean": 0.8665789756289357,
+          "p50": 0.4434220000002824,
+          "p95": 2.574196000000029,
+          "p99": 7.299363999999969,
+          "max": 20.1970409999999
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 1069.516,
+        "systemMs": 71.281,
+        "utilizationOfOneCore": 1.1990413042563206
+      },
+      "memory": {
+        "rssBytes": 266416128,
+        "peakRssBytes": 266416128,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1566,
+        "cacheBytes": 4193774,
+        "stats": {
+          "submitted": 6390,
+          "ok": 6360,
+          "unavailable": 30,
+          "cacheHits": 17,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 4777
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "solverShare": 0.9953051643192489,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 6,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 7,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 8,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 10,
+      "wallMs": 950.0191220000002,
+      "handsCompleted": 1000,
+      "actions": 7988,
+      "solverActions": 7940,
+      "fallbackActions": 48,
+      "handsPerSecond": 1052.6103915622025,
+      "latency": {
+        "observation": {
+          "n": 8988,
+          "mean": 0.0012925792167363579,
+          "p50": 0.0010240000001431326,
+          "p95": 0.0027449999997770647,
+          "p99": 0.0037529999999605934,
+          "max": 0.22006800000053772
+        },
+        "reconstruction": {
+          "n": 8988,
+          "mean": 0.008894962283042788,
+          "p50": 0.007360999999946216,
+          "p95": 0.015755000000353903,
+          "p99": 0.03247400000009293,
+          "max": 0.161525000000438
+        },
+        "solver": {
+          "n": 7940,
+          "mean": 0.8772040302267002,
+          "p50": 1,
+          "p95": 3,
+          "p99": 5,
+          "max": 10
+        },
+        "queueWait": {
+          "n": 7940,
+          "mean": 0.6442065491183879,
+          "p50": 0,
+          "p95": 2,
+          "p99": 4,
+          "max": 9
+        },
+        "endToEnd": {
+          "n": 7940,
+          "mean": 0.9246882380352643,
+          "p50": 0.46503000000029715,
+          "p95": 2.850814000000355,
+          "p99": 4.7680639999998675,
+          "max": 9.501031999999213
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 958.822,
+        "systemMs": 38.247,
+        "utilizationOfOneCore": 1.0495251905045337
+      },
+      "memory": {
+        "rssBytes": 267071488,
+        "peakRssBytes": 267071488,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1566,
+        "cacheBytes": 4192746,
+        "stats": {
+          "submitted": 7988,
+          "ok": 7940,
+          "unavailable": 48,
+          "cacheHits": 24,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 6350
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "solverShare": 0.9939909864797196,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 6,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 7,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 8,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 9,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 10,
+          "status": "done",
+          "hands": 100,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    }
+  ]
+}

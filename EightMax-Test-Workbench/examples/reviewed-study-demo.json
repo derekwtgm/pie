@@ -1,0 +1,126 @@
+{
+  "format": "eightmax-reviewed-study",
+  "version": 1,
+  "config": {
+    "board": "2c3d4h8s9c",
+    "common": 0,
+    "stacks": [
+      10,
+      10
+    ],
+    "prior": [
+      2,
+      2
+    ],
+    "folded": [],
+    "ranges": [
+      "KsKd",
+      "AsAd"
+    ],
+    "streets": {
+      "flop": {
+        "bets": "50",
+        "raises": "a",
+        "maxBets": 2
+      },
+      "turn": {
+        "bets": "50",
+        "raises": "a",
+        "maxBets": 2
+      },
+      "river": {
+        "bets": "50",
+        "raises": "a",
+        "maxBets": 2
+      }
+    },
+    "privateSeed": 17
+  },
+  "proof": {
+    "format": "eightmax-reviewed-position",
+    "version": 1,
+    "source": "synthetic",
+    "table": 1,
+    "hand": "reviewed-demo",
+    "frames": [
+      1,
+      3
+    ],
+    "states": [
+      {
+        "heroSeat": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 1,
+        "bigBlind": 100,
+        "pot": 400,
+        "deadMoney": 0,
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      },
+      {
+        "heroSeat": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "actor": 0,
+        "bigBlind": 100,
+        "pot": 600,
+        "deadMoney": 0,
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 800,
+            "committed": 400,
+            "bet": 200,
+            "folded": false
+          }
+        ]
+      }
+    ],
+    "decisionReady": false
+  },
+  "decisionReady": false
+}

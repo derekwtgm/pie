@@ -1,0 +1,275 @@
+{
+  "format": "eightmax-multitable-benchmark",
+  "version": 2,
+  "appVersion": "0.24.0",
+  "generatedAt": "2026-11-18T00:32:14.955Z",
+  "classification": "SIMULATED TABLES on this machine; not real-client and not Windows target hardware; no GPU",
+  "machine": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.5",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logicalCpus": 4,
+    "totalMemBytes": 16869130240
+  },
+  "handsPerTable": 4,
+  "seed": 4127,
+  "pipeline": {
+    "1": {
+      "oneThread": {
+        "wallMs": 3451.964718,
+        "handsCompleted": 4,
+        "handsPerSecond": 1.1587603949548826,
+        "actions": 79,
+        "actionsPerSecond": 22.88551780035893,
+        "cpuMs": 3579.591,
+        "cpuCoresBusy": 1.0369720702342358,
+        "peakRssBytesSum": 160440320,
+        "decisionCycleMsP50": 41.795884000000115,
+        "decisionCycleMsP95Worst": 49.38532000000032,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 1,
+        "wallMs": 3476.128901,
+        "handsCompleted": 4,
+        "handsPerSecond": 1.1507053144229762,
+        "actions": 79,
+        "actionsPerSecond": 22.726429959853782,
+        "cpuMs": 3596.905,
+        "cpuCoresBusy": 1.034744424743644,
+        "peakRssBytesSum": 279760896,
+        "decisionCycleMsP50": 41.42607400000088,
+        "decisionCycleMsP95Worst": 57.24200500000006,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 0.9930485365508027
+    },
+    "2": {
+      "oneThread": {
+        "wallMs": 6436.539875,
+        "handsCompleted": 8,
+        "handsPerSecond": 1.2429038202765736,
+        "actions": 153,
+        "actionsPerSecond": 23.77053556278947,
+        "cpuMs": 6713.004,
+        "cpuCoresBusy": 1.04295228964149,
+        "peakRssBytesSum": 211550208,
+        "decisionCycleMsP50": 80.92503000000033,
+        "decisionCycleMsP95Worst": 102.41595199999938,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 2,
+        "wallMs": 3563.813431,
+        "handsCompleted": 8,
+        "handsPerSecond": 2.2447864218737212,
+        "actions": 153,
+        "actionsPerSecond": 42.93154031833492,
+        "cpuMs": 14255.565999999999,
+        "cpuCoresBusy": 4.000087624115585,
+        "peakRssBytesSum": 796704768,
+        "decisionCycleMsP50": 41.60283799999888,
+        "decisionCycleMsP95Worst": 63.799322999999276,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 1.8060821644060974
+    },
+    "5": {
+      "oneThread": {
+        "wallMs": 15758.234226,
+        "handsCompleted": 20,
+        "handsPerSecond": 1.2691777335687382,
+        "actions": 371,
+        "actionsPerSecond": 23.54324695770009,
+        "cpuMs": 16619.172,
+        "cpuCoresBusy": 1.0546341526374516,
+        "peakRssBytesSum": 251232256,
+        "decisionCycleMsP50": 202.4483020000007,
+        "decisionCycleMsP95Worst": 257.1048970000011,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 7163.292304,
+        "handsCompleted": 20,
+        "handsPerSecond": 2.792012269111502,
+        "actions": 371,
+        "actionsPerSecond": 51.791827592018365,
+        "cpuMs": 54882.318,
+        "cpuCoresBusy": 7.661605260663952,
+        "peakRssBytesSum": 2115002368,
+        "decisionCycleMsP50": 43.22213099999499,
+        "decisionCycleMsP95Worst": 120.74081199999637,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 2.19985916492624
+    },
+    "8": {
+      "oneThread": {
+        "wallMs": 26106.441794,
+        "handsCompleted": 32,
+        "handsPerSecond": 1.2257511097262788,
+        "actions": 619,
+        "actionsPerSecond": 23.710623028767703,
+        "cpuMs": 27242.972,
+        "cpuCoresBusy": 1.0435344737888106,
+        "peakRssBytesSum": 362278912,
+        "decisionCycleMsP50": 325.0045600000012,
+        "decisionCycleMsP95Worst": 386.5506749999986,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 7573.877692,
+        "handsCompleted": 32,
+        "handsPerSecond": 4.225048423187555,
+        "actions": 619,
+        "actionsPerSecond": 81.72828043603427,
+        "cpuMs": 106181.40400000001,
+        "cpuCoresBusy": 14.019424173188776,
+        "peakRssBytesSum": 2116882432,
+        "decisionCycleMsP50": 84.22687699999369,
+        "decisionCycleMsP95Worst": 128.16408899999806,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 3.4469056480242934
+    },
+    "10": {
+      "oneThread": {
+        "wallMs": 32865.512266,
+        "handsCompleted": 40,
+        "handsPerSecond": 1.2170812880157285,
+        "actions": 782,
+        "actionsPerSecond": 23.793939180707493,
+        "cpuMs": 34010.951,
+        "cpuCoresBusy": 1.0348523012429958,
+        "peakRssBytesSum": 370917376,
+        "decisionCycleMsP50": 407.4557210000057,
+        "decisionCycleMsP95Worst": 482.757071,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 11563.428948,
+        "handsCompleted": 40,
+        "handsPerSecond": 3.4591815438030915,
+        "actions": 782,
+        "actionsPerSecond": 67.62699918135044,
+        "cpuMs": 120104.283,
+        "cpuCoresBusy": 10.386562977132584,
+        "peakRssBytesSum": 2298703872,
+        "decisionCycleMsP50": 118.50643300000229,
+        "decisionCycleMsP95Worst": 194.11555800000497,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 2.842194336454533
+    }
+  },
+  "solving": {
+    "requestsFromRealHands": 16,
+    "jsReferenceInThread": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 3504,
+      "latencyMsP50": 1984,
+      "latencyMsP95": 3504,
+      "latencyMsMax": 3504
+    },
+    "nativeCliAsyncInThread": {
+      "iterations": 20000,
+      "requests": 16,
+      "wallMs": 5048,
+      "latencyMsP50": 882,
+      "latencyMsP95": 4936,
+      "latencyMsMax": 4936
+    },
+    "jsReferenceWorkerThreads1": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 3479,
+      "latencyMsP50": 1500,
+      "latencyMsP95": 3479,
+      "latencyMsMax": 3479,
+      "pool": {
+        "size": 1,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 3479
+      }
+    },
+    "jsReferenceWorkerThreads2": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 2265,
+      "latencyMsP50": 873,
+      "latencyMsP95": 2265,
+      "latencyMsMax": 2265,
+      "pool": {
+        "size": 2,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 4058
+      }
+    },
+    "jsReferenceWorkerThreads4": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 1832,
+      "latencyMsP50": 753,
+      "latencyMsP95": 1832,
+      "latencyMsMax": 1832,
+      "pool": {
+        "size": 4,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 5792
+      }
+    }
+  },
+  "solvingNote": "Re-measured separately (--only=solving) with 16 solvable postflop requests collected from 60 scripted hands; run on an otherwise idle machine. jsReferenceInThread blocks the calling thread while it trains; nativeCliAsyncInThread runs the bundled mwcli as child processes (parallel across requests); WorkerThreads rows use src/solver-pool.js."
+}

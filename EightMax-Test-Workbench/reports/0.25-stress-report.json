@@ -1,0 +1,170 @@
+{
+  "format": "eightmax-stress-report",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T02:53:44.096Z",
+  "classification": "SIMULATED controlled tables on this machine; not real-client; not Windows target hardware",
+  "machine": {
+    "platform": "linux",
+    "node": "v22.23.5",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logicalCpus": 4
+  },
+  "phases": {
+    "p1_pixels_scripted_variable_stacks": {
+      "description": "render -> capture -> recognise -> reconstruct -> execute -> acknowledge; scripted decisions; stacks 2.1-90 BB random per hand",
+      "tables": 8,
+      "handsCompleted": 1000,
+      "handsAttempted": 1000,
+      "suspendedHands": 0,
+      "solverActions": 0,
+      "scriptedActions": 19659,
+      "rejectedFrames": 0,
+      "invalidCaptures": 0,
+      "ackMismatches": 0,
+      "duplicateBlocked": 0,
+      "staleDecisions": 0,
+      "unavailable": 19659,
+      "wallMs": 193947.111209,
+      "attribution": {
+        "preflop/scripted": 11294,
+        "flop/scripted": 4435,
+        "turn/scripted": 2453,
+        "river/scripted": 1477
+      },
+      "unavailableReasons": [
+        {
+          "reason": "no solver in this run",
+          "n": 19659
+        }
+      ],
+      "handsPerSecond": 5.156044829780355
+    },
+    "p2_pixels_eightmax_decisions": {
+      "description": "same path; linked preflop study (100000 updates) + on-demand postflop studies (20000 updates); labelled scripted fallback where unavailable",
+      "tables": 4,
+      "handsCompleted": 48,
+      "handsAttempted": 48,
+      "suspendedHands": 0,
+      "solverActions": 398,
+      "scriptedActions": 49,
+      "rejectedFrames": 0,
+      "invalidCaptures": 0,
+      "ackMismatches": 0,
+      "duplicateBlocked": 0,
+      "staleDecisions": 0,
+      "unavailable": 49,
+      "wallMs": 16106.530494,
+      "attribution": {
+        "preflop/solver": 367,
+        "preflop/scripted": 46,
+        "flop/solver": 28,
+        "flop/scripted": 3,
+        "turn/solver": 3
+      },
+      "unavailableReasons": [
+        {
+          "reason": "preflop: No stored strategy for this hand at node <path>; the study has not visited it (more training needed; no fallback taken) | postflop: Not a postflop stat",
+          "n": 46
+        },
+        {
+          "reason": "preflop: Preflop study cannot answer a state with community cards | postflop: No stored strategy for this hand at node <path>; the study has not visited it (mor",
+          "n": 3
+        }
+      ],
+      "solverShareOfActions": 0.8903803131991052
+    },
+    "p3_ten_tables_structured_lookup": {
+      "description": "structured observation feed, precomputed push/fold lookups, one thread; NOT the image path",
+      "study": {
+        "updates": 500000,
+        "backend": "native-cli-cpu (cached state)"
+      },
+      "tenTables": {
+        "hands": 1000,
+        "actions": 7974,
+        "solverActions": 7910,
+        "fallbackActions": 64,
+        "invalid": 0,
+        "crashes": 0,
+        "deadlineMisses": 0,
+        "wallMs": 2373.937621000019,
+        "endToEndP95Ms": 10.635482000012416
+      },
+      "faults": {
+        "1": "done",
+        "2": "done",
+        "3": "done",
+        "4": "failed",
+        "5": "done",
+        "6": "done",
+        "7": "done",
+        "8": "failed",
+        "9": "done",
+        "10": "done"
+      },
+      "restartIdentical": true
+    },
+    "p4_ledger_differential": {
+      "description": "independent rules ledger vs simulator on random legal betting sequences, variable stacks 2.1-90 BB",
+      "hands": 4000,
+      "actions": 44607,
+      "allInActions": 19483,
+      "multiwayShowdowns": 3920,
+      "mismatches": 0
+    }
+  },
+  "criteria": [
+    {
+      "id": "p1-completed-hands",
+      "pass": true,
+      "detail": "1000 of 1000 requested complete"
+    },
+    {
+      "id": "p1-no-suspensions",
+      "pass": true,
+      "detail": "suspended=0"
+    },
+    {
+      "id": "p1-no-rejected-frames",
+      "pass": true,
+      "detail": "rejected=0 ackMismatch=0 duplicates=0"
+    },
+    {
+      "id": "p2-completed-hands",
+      "pass": true,
+      "detail": "48 complete"
+    },
+    {
+      "id": "p2-attribution-exact",
+      "pass": true,
+      "detail": "solver=398 scripted=49"
+    },
+    {
+      "id": "p2-postflop-solver-actions",
+      "pass": true,
+      "detail": "{\"preflop/solver\":367,\"preflop/scripted\":46,\"flop/solver\":28,\"flop/scripted\":3,\"turn/solver\":3}"
+    },
+    {
+      "id": "p3-ten-table-1000-hands",
+      "pass": true,
+      "detail": "1000 hands, crashes 0"
+    },
+    {
+      "id": "p3-fault-isolation",
+      "pass": true,
+      "detail": "{\"1\":\"done\",\"2\":\"done\",\"3\":\"done\",\"4\":\"failed\",\"5\":\"done\",\"6\":\"done\",\"7\":\"done\",\"8\":\"failed\",\"9\":\"done\",\"10\":\"done\"}"
+    },
+    {
+      "id": "p3-restart-identical",
+      "pass": true,
+      "detail": "checkpoint at 21 hands"
+    },
+    {
+      "id": "p4-ledger-matches-simulator",
+      "pass": true,
+      "detail": "4000 hands, 44607 actions, 19483 all-in actions, 3920 multiway showdowns, mismatches 0"
+    }
+  ],
+  "passed": true
+}

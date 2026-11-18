@@ -1,0 +1,23 @@
+PASS Eight-handed defaults: 2.3 BB pot and independent 0.1 BB antes
+PASS Heads-up: dealer posts SB and acts first preflop
+PASS Checks through river settle chips and finish
+PASS Folded field awards pot without river
+PASS Duplicate and stale requests are rejected before mutation
+PASS Wrong table, expired decision, illegal check and invalid amount
+PASS Pause/resume invalidates previously issued decision
+PASS Short all-in raise does not reopen a previous caller
+PASS Full raise reopens action
+PASS Heads-up all-in runout leaves no pending decision
+PASS Hand evaluator: straight flush > quads > full house; wheel works
+PASS Three side pots and unmatched excess return exactly
+PASS Odd chip goes clockwise from button among tied winners
+PASS Coordinator selects earliest deadline
+PASS One table fault is isolated
+PASS Emergency stop blocks all work until a new coordinator is made
+PASS Deterministic continuation and independent table RNG streams
+  Completed hands: 9884
+PASS 10-table sustained run: 200,000 scheduler ticks, no table faults
+PASS Replay roundtrip; corrupted data and duplicate cards rejected
+PASS External solver is explicitly unavailable
+
+20 tests passed. Platform: linux x64.

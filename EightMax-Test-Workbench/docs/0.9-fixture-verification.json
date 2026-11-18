@@ -1,0 +1,146 @@
+{
+  "scope": "Synthetic PNG fixtures decoded with Pillow on Linux, not actual browser decoding",
+  "complete": true,
+  "summary": {
+    "overall": {
+      "total": 12,
+      "scored": 12,
+      "unscored": 0,
+      "knownExpected": 8,
+      "mustRejectExpected": 4,
+      "knownScored": 8,
+      "mustRejectScored": 4,
+      "acceptedCorrect": 6,
+      "acceptedWrong": 4,
+      "wrongLabel": 2,
+      "falseAccepts": 2,
+      "rejectedKnown": 0,
+      "correctRejections": 2,
+      "exactReferenceOverlap": 2,
+      "acceptedAccuracy": 0.6,
+      "knownCoverage": 1,
+      "knownCorrectRate": 0.75,
+      "falseAcceptanceRate": 0.5
+    },
+    "withoutExactReferenceOverlap": {
+      "total": 10,
+      "scored": 10,
+      "unscored": 0,
+      "knownExpected": 6,
+      "mustRejectExpected": 4,
+      "knownScored": 6,
+      "mustRejectScored": 4,
+      "acceptedCorrect": 4,
+      "acceptedWrong": 4,
+      "wrongLabel": 2,
+      "falseAccepts": 2,
+      "rejectedKnown": 0,
+      "correctRejections": 2,
+      "exactReferenceOverlap": 0,
+      "acceptedAccuracy": 0.5,
+      "knownCoverage": 1,
+      "knownCorrectRate": 0.6666666666666666,
+      "falseAcceptanceRate": 0.5
+    },
+    "byTable": [
+      {
+        "table": 1,
+        "metrics": {
+          "total": 12,
+          "scored": 12,
+          "unscored": 0,
+          "knownExpected": 8,
+          "mustRejectExpected": 4,
+          "knownScored": 8,
+          "mustRejectScored": 4,
+          "acceptedCorrect": 6,
+          "acceptedWrong": 4,
+          "wrongLabel": 2,
+          "falseAccepts": 2,
+          "rejectedKnown": 0,
+          "correctRejections": 2,
+          "exactReferenceOverlap": 2,
+          "acceptedAccuracy": 0.6,
+          "knownCoverage": 1,
+          "knownCorrectRate": 0.75,
+          "falseAcceptanceRate": 0.5
+        }
+      }
+    ],
+    "byField": [
+      {
+        "table": 1,
+        "field": "hero_1",
+        "kind": "card",
+        "metrics": {
+          "total": 6,
+          "scored": 6,
+          "unscored": 0,
+          "knownExpected": 4,
+          "mustRejectExpected": 2,
+          "knownScored": 4,
+          "mustRejectScored": 2,
+          "acceptedCorrect": 3,
+          "acceptedWrong": 2,
+          "wrongLabel": 1,
+          "falseAccepts": 1,
+          "rejectedKnown": 0,
+          "correctRejections": 1,
+          "exactReferenceOverlap": 1,
+          "acceptedAccuracy": 0.6,
+          "knownCoverage": 1,
+          "knownCorrectRate": 0.75,
+          "falseAcceptanceRate": 0.5
+        }
+      },
+      {
+        "table": 1,
+        "field": "pot",
+        "kind": "amount",
+        "metrics": {
+          "total": 6,
+          "scored": 6,
+          "unscored": 0,
+          "knownExpected": 4,
+          "mustRejectExpected": 2,
+          "knownScored": 4,
+          "mustRejectScored": 2,
+          "acceptedCorrect": 3,
+          "acceptedWrong": 2,
+          "wrongLabel": 1,
+          "falseAccepts": 1,
+          "rejectedKnown": 0,
+          "correctRejections": 1,
+          "exactReferenceOverlap": 1,
+          "acceptedAccuracy": 0.6,
+          "knownCoverage": 1,
+          "knownCorrectRate": 0.75,
+          "falseAcceptanceRate": 0.5
+        }
+      }
+    ],
+    "confusions": [
+      {
+        "expected": "Kd",
+        "predicted": "As",
+        "count": 1
+      },
+      {
+        "expected": "200",
+        "predicted": "100",
+        "count": 1
+      },
+      {
+        "expected": null,
+        "predicted": "As",
+        "count": 1
+      },
+      {
+        "expected": null,
+        "predicted": "100",
+        "count": 1
+      }
+    ]
+  },
+  "images": 6
+}

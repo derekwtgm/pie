@@ -1,0 +1,12 @@
+(function(){
+'use strict';const $=id=>document.getElementById(id),S=window.EightMaxSession,key='eightmax-workbench-recovery-v1';let lastSignature='',quotaWarning=false;
+function status(text){$('save-status').textContent=text;}
+function download(name,text){const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('session-nav').onclick=()=>{$('session-panel').hidden=false;$('session-panel').scrollIntoView({behavior:'smooth'});};$('close-session').onclick=()=>{$('session-panel').hidden=true;};
+$('save-checkpoint').onclick=()=>{download('EightMax-session-'+Date.now()+'.json',JSON.stringify(S.save(window.workbench.coordinator)));status('Session file exported, including the rolling replay.');};
+function open(text){const next=S.load(text);if(window.workbench.coordinator.tables.some(t=>t.hand)){if(!confirm('Replace the current simulation with the saved session?'))return;}window.workbench.replaceSession(next);status('Session restored in paused state. Click Resume simulation when ready.');}
+$('load-checkpoint').onclick=()=>$('session-file').click();$('session-file').onchange=async()=>{try{const f=$('session-file').files[0];if(!f)return;if(f.size>S.MAX_BYTES)throw Error('Session exceeds 20 MB');open(await f.text());}catch(e){status('Session was not opened: '+e.message);}$('session-file').value='';};
+$('recover-session').onclick=()=>{try{const saved=localStorage.getItem(key);if(!saved)throw Error('No automatic save is available');open(saved);}catch(e){status('Recovery was not opened: '+e.message);}};
+try{if(localStorage.getItem(key))status('An earlier automatic save is available. Choose Recover automatic save to reopen it.');}catch(e){status('Browser recovery storage is unavailable. Use Save session file.');quotaWarning=true;}
+setInterval(()=>{const c=window.workbench.coordinator;if(!c.tables.some(t=>t.hand))return;const signature=c.tables.map(t=>[t.hand,t.revision,t.paused,t.epoch]).join('|')+'|'+c.stopped;if(signature===lastSignature)return;try{const saved=S.save(c);saved.recording=[];localStorage.setItem(key,JSON.stringify(saved));lastSignature=signature;status('Recovery saved at '+new Date().toLocaleTimeString()+'. Table state only; export replay separately.');}catch(e){if(!quotaWarning){status('Automatic recovery could not save. Use Save session file.');quotaWarning=true;}}},3000);
+})();

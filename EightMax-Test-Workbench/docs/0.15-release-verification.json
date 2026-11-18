@@ -1,0 +1,21 @@
+{
+  "appVersion": "0.15.0",
+  "nodeVersion": "v24.22.1",
+  "nodeTestCases": 303,
+  "simulationRegressionCases": 20,
+  "separateUIHandlerCheckPassed": true,
+  "javascriptSyntaxFiles": 33,
+  "uniqueStaticControls": 222,
+  "externalScriptOrStylesheetAssets": [],
+  "standaloneBytes": 668959,
+  "unchangedEngineFiles": 91,
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "desktopCSharpCompiled": false,
+  "windowsAcceptanceExecuted": false,
+  "installerExecuted": false,
+  "visualBrowserExecuted": false,
+  "windowsExecuted": false,
+  "prebuiltSignedInstallerProduced": false,
+  "desktopTransportTests": "simulated HTTP, JavaScript protocol model and in-memory DOM; no C#/Win32 execution",
+  "recoveryScope": "current job in the same live desktop host session; no automatic training or disk job catalog"
+}

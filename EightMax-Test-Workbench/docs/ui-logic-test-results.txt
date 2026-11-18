@@ -1,0 +1,2 @@
+PASS UI logic: table grid, start/pause/resume, table selection, independent pause, replay, export, emergency stop/reset, table count, background pause and Escape.
+This test checks handlers and generated markup, not browser rendering or Windows launch.

@@ -1,0 +1,11 @@
+{
+  "appVersion": "0.11.0",
+  "javascriptSyntaxFiles": 31,
+  "uniqueStaticControls": 207,
+  "externalScriptOrStylesheetAssets": [],
+  "standaloneBytes": 595520,
+  "unchangedEngineFiles": 91,
+  "windowsNativeSHA256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "visualBrowserExecuted": false,
+  "windowsExecuted": false
+}

@@ -1,0 +1,156 @@
+{
+  "format": "eightmax-acceptance-result",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T03:16:05.018Z",
+  "classification": "SIMULATED TABLES; this machine; not Windows target hardware",
+  "study": {
+    "trainingUpdates": 500000,
+    "backend": "native-cli-cpu (cached state)",
+    "convergence": "unproven",
+    "engine": "5.1 build 7d08acc7eb4577ee"
+  },
+  "handsPerTable": 100,
+  "runs": [
+    {
+      "seed": 4127,
+      "hands": 1000,
+      "actions": 7988,
+      "solverActions": 7940,
+      "fallbackActions": 48,
+      "solverShare": 0.9939909864797196,
+      "invalid": 0,
+      "crashes": 0,
+      "deadlineMisses": 0,
+      "wallMs": 2437.366158,
+      "endToEndP95Ms": 11.939210000000003,
+      "peakRssBytes": 267296768
+    },
+    {
+      "seed": 90001,
+      "hands": 1000,
+      "actions": 7980,
+      "solverActions": 7930,
+      "fallbackActions": 50,
+      "solverShare": 0.993734335839599,
+      "invalid": 0,
+      "crashes": 0,
+      "deadlineMisses": 0,
+      "wallMs": 865.1804809999999,
+      "endToEndP95Ms": 2.0860720000000583,
+      "peakRssBytes": 269262848
+    },
+    {
+      "seed": 777777,
+      "hands": 1000,
+      "actions": 7981,
+      "solverActions": 7930,
+      "fallbackActions": 51,
+      "solverShare": 0.9936098233304097,
+      "invalid": 0,
+      "crashes": 0,
+      "deadlineMisses": 0,
+      "wallMs": 803.1011340000005,
+      "endToEndP95Ms": 2.0979510000006485,
+      "peakRssBytes": 277127168
+    }
+  ],
+  "criteria": [
+    {
+      "id": "ten-tables-complete-seed-4127",
+      "pass": true,
+      "detail": "1000 hands"
+    },
+    {
+      "id": "chip-accounting-seed-4127",
+      "pass": true,
+      "detail": "all 10 tables hold exactly 20000 chips"
+    },
+    {
+      "id": "no-invalid-observations-seed-4127",
+      "pass": true,
+      "detail": "invalid=0 crashes=0"
+    },
+    {
+      "id": "fallback-counted-separately-seed-4127",
+      "pass": true,
+      "detail": "solver=7940 fallback=48"
+    },
+    {
+      "id": "ten-tables-complete-seed-90001",
+      "pass": true,
+      "detail": "1000 hands"
+    },
+    {
+      "id": "chip-accounting-seed-90001",
+      "pass": true,
+      "detail": "all 10 tables hold exactly 20000 chips"
+    },
+    {
+      "id": "no-invalid-observations-seed-90001",
+      "pass": true,
+      "detail": "invalid=0 crashes=0"
+    },
+    {
+      "id": "fallback-counted-separately-seed-90001",
+      "pass": true,
+      "detail": "solver=7930 fallback=50"
+    },
+    {
+      "id": "ten-tables-complete-seed-777777",
+      "pass": true,
+      "detail": "1000 hands"
+    },
+    {
+      "id": "chip-accounting-seed-777777",
+      "pass": true,
+      "detail": "all 10 tables hold exactly 20000 chips"
+    },
+    {
+      "id": "no-invalid-observations-seed-777777",
+      "pass": true,
+      "detail": "invalid=0 crashes=0"
+    },
+    {
+      "id": "fallback-counted-separately-seed-777777",
+      "pass": true,
+      "detail": "solver=7930 fallback=51"
+    },
+    {
+      "id": "fault-crash-recovered",
+      "pass": true,
+      "detail": "done"
+    },
+    {
+      "id": "fault-corrupt-table-isolated",
+      "pass": true,
+      "detail": "failed: Simulator state corrupt: Chip conservation failed"
+    },
+    {
+      "id": "fault-garbage-observation-paused-then-recovered",
+      "pass": true,
+      "detail": "invalid=1"
+    },
+    {
+      "id": "fault-solver-stall-isolated",
+      "pass": true,
+      "detail": "failed"
+    },
+    {
+      "id": "healthy-tables-unaffected",
+      "pass": true,
+      "detail": "tables 1,3,5,7,9,10 finished 6 hands"
+    },
+    {
+      "id": "emergency-stop-halts-all",
+      "pass": true,
+      "detail": "actions frozen at 1918"
+    },
+    {
+      "id": "checkpoint-restart-identical-final-state",
+      "pass": true,
+      "detail": "checkpoint at 20 hands"
+    }
+  ],
+  "passed": true
+}

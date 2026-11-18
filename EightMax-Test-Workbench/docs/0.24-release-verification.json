@@ -1,0 +1,65 @@
+{
+  "format": "eightmax-release-verification",
+  "version": 1,
+  "appVersion": "0.24.0",
+  "generatedAt": "2026-11-18T01:00:34.312Z",
+  "engine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "vendorFilesVerified": true,
+    "vendorFiles": 13,
+    "mwcliExeSha256Unchanged": true
+  },
+  "executables": [
+    {
+      "file": "desktop/bin/EightMaxWorkbench.exe",
+      "bytes": 111104,
+      "sha256": "19a9f8954d03fc5ade1ebe4297289c47f7b0b46faf2727285abd1754857dfe13",
+      "machine": "0x8664",
+      "format": "PE32+",
+      "subsystem": 2
+    },
+    {
+      "file": "desktop/bin/EightMaxCapture.exe",
+      "bytes": 25088,
+      "sha256": "b7f42c6f72c7f67ee896744c88d565fd5d50fc5117193df0acd0e3481b490130",
+      "machine": "0x8664",
+      "format": "PE32+",
+      "subsystem": 3
+    },
+    {
+      "file": "native/mwcli.exe",
+      "bytes": 2553344,
+      "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+      "machine": "0x8664",
+      "format": "PE32+",
+      "subsystem": 3
+    }
+  ],
+  "startHtmlReproducibleFromSources": true,
+  "startHtmlSha256": "2625623077ab1495f78cb6bfa5ba7aa43769d3e29699a92a50cb9dadbc4c13c5",
+  "compile": {
+    "csharp": "Mono mcs 6.8, -platform:x64: host+capture service and capture tool compiled",
+    "powershell": "NOT parsed (PowerShell not installed); structural lint only",
+    "nativeLinux": "g++ 13 C++20 build of native/source succeeded"
+  },
+  "windows": {
+    "executed": false,
+    "statement": "No file in this release has been run on Windows."
+  },
+  "tests": {
+    "withNativeCli": {
+      "total": 542,
+      "pass": 542,
+      "fail": 0,
+      "skipped": 0
+    },
+    "withoutNativeCli": {
+      "total": 542,
+      "pass": 523,
+      "fail": 0,
+      "skipped": 19
+    }
+  },
+  "note": "The SHA-256 of the release ZIP cannot be inside the ZIP; it is in the accompanying .sha256 file."
+}

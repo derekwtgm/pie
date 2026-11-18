@@ -1,0 +1,843 @@
+EIGHTMAX TEST WORKBENCH 0.25.0 — PLATFORM-INDEPENDENT TESTING FOUNDATION (NOT VERSION 1.0)
+
+QUICK START — NO PYTHON OR NODE.JS INSTALLATION
+1. Extract the entire ZIP (Extract All). 2. Double-click START-DESKTOP.cmd (Windows desktop host) or open START.html in current Edge/Chrome.
+3. Open "Platform workspace" in the left menu: Capture, Calibration, Solver, Execution, Performance. "Capture & one-table run" and every older workspace are unchanged.
+4. To check this PC: RUN-RELEASE-ACCEPTANCE.cmd (add -IncludeInstall to test install / rollback / uninstall). Follow docs/WINDOWS-ACCEPTANCE.md.
+
+STATUS, STATED PLAINLY
+- Built and tested on Linux only. NOTHING in this release has been run on Windows: the host, the capture service, the prebuilt x64 executables (rebuilt with Mono for 0.25.0), the installer, rollback and every
+  PowerShell script are unexecuted. PowerShell was not available, so the scripts were not even parsed (a structural lint only). Windows Graphics Capture is NOT implemented (PrintWindow / BitBlt / DWM only).
+- NO EXTERNAL POKER SITE WAS CHOSEN, INSPECTED OR INTEGRATED. The shipped platform profiles describe only this application's own controlled test table. Recognition accuracy was measured only on the
+  built-in renderer, on a real browser's rendering of the same client, and on calibration experiments with that renderer — never on an external client. Compatibility with any site is NOT claimed.
+- Decisions come from EightMax 5.1 studies (linked preflop tree; on-demand flop/turn/river studies with ASSUMED opponent ranges). Training is sampled; convergence is "unproven"; nothing is labelled equilibrium or
+  GTO-certified. Missing strategies are reported as structured "unavailable" results; scripted fallbacks exist only in Simulation mode, are labelled and are counted apart.
+- Authorized QA mode needs a time-limited authorisation record for a test environment you own (docs/QA-INTERFACE.md) and is disabled in the dashboard. No automation of any commercial client exists here.
+- No GPU code path exists or is measured. Target-hardware (i7 + RTX 4060 Ti) performance is NOT measured. Benchmark numbers are from a 4-thread Linux container.
+- The 0.24 CPU/RAM figures were wrong (process-wide numbers summed per worker). 0.25 measures them once per process and validates them: docs/RESOURCE-ACCOUNTING.md.
+
+NEW IN 0.25.0: docs/CHANGELOG.md, docs/RELEASE-STATUS-0.25.md, docs/0.25-validation-report.md (final report), docs/PLATFORM-ARCHITECTURE.md, docs/NEW-PLATFORM-GUIDE.md, docs/RESOURCE-ACCOUNTING.md, reports/.
+
+---- previous release notes follow ----
+
+EIGHTMAX TEST WORKBENCH 0.24.0 — SCREEN CAPTURE, VISION AND ONE-TABLE AUTOMATION (NOT VERSION 1.0)
+
+QUICK START — NO PYTHON OR NODE.JS INSTALLATION
+1. Extract the entire ZIP (Extract All). 2. Double-click START-DESKTOP.cmd (Windows desktop host) or open START.html in current Edge/Chrome.
+3. Open "Capture & one-table run" in the left menu. Press "Play hands" to watch EightMax play the offline controlled client from pixels.
+
+STATUS, STATED PLAINLY
+- Built and tested on Linux only. NOTHING in this release has been run on Windows: the host, the capture service, the prebuilt x64 executables (Mono-built), the installer,
+  rollback and every PowerShell script are unexecuted. PowerShell was not available for parsing in this build; scripts were only structurally linted.
+  On Windows run RUN-CAPTURE-CHECK.cmd and follow docs/WINDOWS-ACCEPTANCE.md.
+- Screen capture on Windows uses PrintWindow / BitBlt / DWM. Windows Graphics Capture is NOT implemented. Capture starts only when you press Start for a window or region you tick consent for.
+- Recognition accuracy was measured on (a) the built-in synthetic renderer and (b) a real browser's rendering of the offline controlled client. It was NOT measured on any external poker client.
+- Decisions come from EightMax 5.1 studies (linked preflop tree; on-demand flop/turn/river studies with ASSUMED opponent ranges). Training is sampled; convergence is "unproven";
+  nothing is labelled equilibrium or GTO-certified. Missing strategies are reported as unavailable; scripted fallbacks are labelled and counted apart.
+- Authorized QA mode needs an authorization record for a test client you own (docs/QA-INTERFACE.md) and is not available in the dashboard. No automation of any commercial client exists here.
+- No GPU code path exists or is measured.
+
+NEW IN 0.24.0: docs/CHANGELOG.md, docs/RELEASE-STATUS-0.24.md, docs/0.24-validation-report.md.
+
+---- previous release notes follow ----
+
+EIGHTMAX TEST WORKBENCH 0.23.0 — TEN-TABLE SOLVER-DRIVEN SIMULATION (NOT VERSION 1.0)
+
+QUICK START — NO PYTHON OR NODE.JS INSTALLATION
+1. Extract the entire ZIP (Extract All). 2. Double-click START-DESKTOP.cmd (Windows desktop host)
+   or open START.html in current Edge/Chrome. 3. Open "Ten-table solver run" in the left menu.
+
+STATUS, STATED PLAINLY
+- Built and tested on Linux only. NOTHING in this release has been run on Windows: the host,
+  prebuilt host exe (Mono-built), installer, rollback and every PowerShell script are unexecuted
+  (all .ps1 files were syntax-parsed with PowerShell 7.4). Follow docs/WINDOWS-ACCEPTANCE.md.
+- Solver decisions come from a trained EightMax 5.1 preflop push/fold study (8 seats, 25 BB).
+  They are never labelled equilibrium or GTO-certified. Convergence shows "unproven".
+- Ten tables run as ten isolated cooperative workers on one thread. Measured on a 4-thread Linux
+  container (docs/MULTI-TABLE.md): 1,000 simulated hands across 10 tables in ~1 s, 0 deadline
+  misses. Target-PC (i7 + RTX 4060 Ti) performance is NOT measured. No GPU code path is used.
+- Study Mode is the default. Authorized QA mode needs an explicit authorization record and an
+  approved local test client and is not available in the dashboard.
+
+NEW IN 0.23.0: see docs/CHANGELOG.md and docs/RELEASE-STATUS-0.23.md.
+Hardware check: RUN-HARDWARE-CHECK.cmd, then load the file in the dashboard.
+Rollback to the previous installed release: ROLLBACK-WINDOWS.cmd.
+
+---- previous release notes follow ----
+
+EIGHTMAX TEST WORKBENCH 0.18.0 — CONVERGENCE CHECKS AND HIGHER TRAINING LIMITS
+
+QUICK START — NO PYTHON OR NODE.JS INSTALLATION
+1. Extract the entire ZIP using Extract All.
+2. Open the extracted EightMax-Test-Workbench folder.
+3. For the Windows desktop candidate, double-click START-DESKTOP.cmd.
+   For the portable workflow, use START.html or START-WINDOWS.cmd in current Edge/Chrome.
+
+NEW IN 0.18.0 — KNOW WHEN A STUDY HAS TRAINED ENOUGH
+1. Native CPU job controls now include a Convergence check (Auto by default), how
+   often to check, a per-check time limit and a target as % of the starting pot.
+2. After training, the engine's own best-response check reports how much each seat
+   could still gain by changing its strategy. Auto uses the exact check, then falls
+   back to restricted or sampled checks on trees that are too big.
+3. Imported results show a verdict:
+   Within target — exact check at or below your target.
+   Keep training — gain is above target; resume with more updates.
+   Not proven — only a lower-bound check ran; it cannot confirm convergence.
+   Unavailable — no check could finish; the training result is still usable.
+4. Set "Check every N checkpoints" above 0 to see a curve of the largest gain.
+5. Limits raised: up to 10,000,000 native updates, 16,384 MiB strategy memory
+   (refused if your PC lacks the RAM), 7-day training time limit, checkpoints up to
+   every 1,000,000 updates. Browser studies may now run up to 10 minutes.
+6. Older jobs, results and workspaces still open. Browser-only studies are not
+   convergence-checked; export them as native jobs to measure.
+See docs/CONVERGENCE.md for how to read the numbers and the exact scope.
+
+384 automated checks passed here (364 Node + 20 core), with the UI handler check
+separately. Native convergence tests ran the Linux build of the supplied engine
+source. The PowerShell runner, C# host, RAM check and Windows binary were NOT run.
+EightMax 5.1 engine files are unchanged.
+
+PREVIOUS 0.17.0 — PERSISTENT NATIVE HISTORY AND SEQUENTIAL BATCHES
+1. Native jobs now save their prepared settings, status and completed checkpoint
+   reference under NativeJobs\Archive. A host restart never starts training.
+2. In Saved native studies, Refresh, select and Inspect a job. Open saved study
+   restores its original slot and validates a completed result without training.
+   An interrupted job offers explicit Resume if its completed checkpoint exists.
+   Opening replaces that original slot's current draft/result and clears CPU state.
+3. Import prior managed folders explicitly indexes up to the newest 64 desktop job
+   folders from older releases. Older/manual folders remain available manually.
+   Nothing is trained, deleted or moved by this import.
+4. Add configured slots or inspected saved studies to Sequential native batch.
+   Current-study preparation checks the root/reviewed path without training.
+   Drafts are snapshots; later study edits do not change submitted work.
+5. Save/Open draft batch uses a separate JSON file. It never starts work. Up to
+   ten unique slots and 1 MB combined prepared job data are accepted. Start creates
+   fresh request bindings, submits once and runs one native CPU study at a time.
+6. The host saves every finished result and advances independently of the browser.
+   Closing the dashboard keeps an accepted batch running. Stop native batch,
+   browser emergency stop and the host Stop/Close control stop remaining work.
+7. A failed/cancelled/partial study or memory-limit outcome halts the batch.
+   Completed files and checkpoints stay available. Results never overwrite study
+   drafts automatically; use Saved native studies to open them explicitly.
+8. A restarted host preserves batch status with queued work stopped. Check batch
+   progress, then Copy unfinished studies to draft for new fresh runs. To CONTINUE
+   an existing checkpoint, open that saved study and Resume it explicitly instead.
+9. Lost submission replies request batch cancellation and prevent delayed duplicate
+   delivery from starting work. Unconfirmed cancellation stays visible and blocks
+   new managed compute work. Old batch requests cannot stop a newer batch identity.
+10. examples/native-batch-demo.json contains separate root/reviewed study snapshots.
+    Open it as a draft; no training starts until Start native batch is chosen.
+
+History lists up to the newest 128 readable summaries from a bounded scan. It can
+include interrupted/stale snapshots; Inspect reads the full record. Changed record
+versions are refused on opening. Checkpoints are checked by the original engine
+when explicitly resumed. Record hashes/context checks do not authenticate policies
+or prove convergence. Native archive JSON is not a portable checkpoint container;
+keep its job folders/checkpoint files together. No old data is deleted automatically.
+
+373 automated checks passed here, with the original UI handler check separately.
+Two new checks use the Linux native engine for disk checkpoint continuation and
+separate sequential root/reviewed result files. Other new tests use simulated HTTP
+and an in-memory DOM. They do NOT execute the C# host, PowerShell, Windows restart/
+process containment, installer or browser visuals. Expanded real Windows acceptance
+is included but remains unrun. EightMax 5.1 engine files are unchanged.
+See docs/NATIVE-HISTORY-BATCHES.md for formats, recovery limits and exact scope.
+
+PREVIOUS 0.16.0 — SHARED COMPUTE ACTIVITY AND NATIVE RESUME REPAIR
+1. Compute activity in Study workspace now shows the current workflow and queued
+   study slots. Browser studies still share one CPU worker across up to ten slots.
+2. Native preparation/recovery, capacity tests, browser checks and image validation
+   reserve the page's compute workflow. Conflicting work is refused before another
+   worker starts. Cancel/finish releases only that operation's own reservation.
+3. In a desktop session, starting browser CPU work first reads the host's current
+   job. A running or unconfirmed native study must be recovered/stopped first.
+   The read itself never starts, resumes or cancels training. If the host cannot be
+   reached, the browser calculation does not start. Portable START.html stays local.
+4. Capacity testing and image validation still stop ordinary queued browser studies.
+   Browser checks can replace ordinary studies, capacity tests or image validation.
+   They now refuse to interrupt a native preparation/run/recovery implicitly.
+5. Stop managed native study now also cancels the browser's preparation step before
+   a host request exists. Emergency stop and workspace replacement prevent late
+   startup-check replies from launching a calculation afterward.
+6. The native Windows runner now retains the original cumulative target during
+   checkpoint restore. It validates restored counters before promoting the checkpoint,
+   instead of briefly reporting a different target that the dashboard would reject.
+   The provided Windows acceptance script checks target/counter consistency on polls.
+
+The activity display and reservations belong to this dashboard page. They are not
+whole-process RAM/VRAM measurements, a cross-window scheduler, a shared native cache
+or a certified ten-table capacity result. Keep one workbench dashboard open for a
+single managed session. Separate manual native runners keep their own controls.
+The resource limits of the underlying studies/checkpoints remain as documented.
+
+No check on your computer is needed to receive this update. The new JavaScript
+ownership and dashboard tests ran here. Windows/PowerShell execution, actual restore
+and process cleanup, installer behavior and browser visuals still await Windows
+acceptance. This release updates workbench behavior; the EightMax 5.1 solver files
+remain unchanged. See docs/COMPUTE-WORKFLOWS.md for exact ownership/cancellation scope.
+
+PREVIOUS 0.15.0 — RECOVER MANAGED STUDIES AND HANDLE LOST REPLIES
+1. After a dashboard reload in the same desktop session, choose Find managed study.
+   This only reads the host's current job. It does not start or resume training.
+2. Check the found slot, captured hand/root, stage and attempt. Recover managed
+   study restores its original slot/settings/reviewed proof and follows its work.
+   A completed result is collected and checked against that job. Interrupted work
+   offers Resume last native job explicitly if a completed checkpoint remains.
+   Recovery replaces that original slot's draft/result and clears its CPU state.
+3. Initial submissions now reuse the same bound job on repeated delivery. A reused
+   binding with different settings, or an older displaced binding, is refused.
+4. Each native attempt has a revision. Cancel and Resume target that revision, so
+   an old request cannot stop or restart a newer resumed attempt. Repeated Resume
+   requests reuse the already-created attempt instead of adding another one.
+5. When a submission reply is lost, the client requests cancellation using the
+   original full job and intended attempt, even before its host ID is known.
+   This also blocks a delayed submission/resume from starting after cancellation.
+6. Unconfirmed cancellation stays visible and blocks another managed run or the
+   capacity test until resolved. Find does not clear uncertain pending work by
+   itself. Stop requests confirmation; recovery resolves it before attaching.
+7. Session bootstrap works with blocked session storage; in that case its private
+   launch fragment is retained for reloads. Credentials are absent from backups.
+
+No checks on your computer are needed to receive this update. The added protocol
+and dashboard tests ran here with simulated HTTP and an in-memory DOM. Windows
+host compilation, actual process cancellation, installer behavior and visual
+browser acceptance remain pending. The real Windows acceptance script now covers
+recovery, duplicate delivery, attempt checks and pre-acknowledgment cancellation.
+The EightMax 5.1 solver is unchanged; this update adds workbench reliability.
+
+Recovery is for the current job in the SAME running host session, not a disk job
+catalog. Close/restart ends the private session; older job files use the manual
+resume/import workflow. There is one managed native job at a time. A host session
+retains at most 256 job bindings and 256 attempt revisions per job; when exhausted,
+close the host and start a new session. No old bindings/fences are silently evicted.
+
+PREVIOUS 0.14.0 — DESKTOP LAUNCH, PER-USER INSTALL AND DIRECT NATIVE CONTROL
+1. Extract the complete ZIP and run START-DESKTOP.cmd on Windows 10/11 x64.
+2. First launch builds the x64 desktop host with built-in Windows PowerShell/.NET
+   components. No Python, Node.js or runtime download is required.
+3. In Study workspace, Check desktop connection then Run native CPU here.
+   The prepared root/reviewed job runs through the headless native manager and
+   returns its validated result directly to the same slot; no manual file exchange.
+4. Stop managed native study requests cancellation. Resume last native job can
+   continue the unchanged last failed/cancelled job from its completed checkpoint.
+5. INSTALL-WINDOWS.cmd adds a per-user Start menu entry and uninstall registration.
+   Close desktop/native managers before install/update/uninstall. Prior release
+   folders and native job/diagnostic data are retained on update.
+6. RUN-DESKTOP-CHECKS.cmd compiles and exercises the real host/native workflow on
+   Windows and writes an importable acceptance report under Diagnostics.
+
+IMPORTANT VALIDATION STATUS
+The desktop C# host has NOT been compiled/executed here. Windows PowerShell, the
+installer/registry/Start menu, host window, process-group cancellation and browser
+rendering have NOT been run in this Linux environment. This release supplies their
+implementation and acceptance workflow; it is not a prebuilt/signed EXE/MSI installer.
+START.html, START-WINDOWS.cmd and the manual native runner remain fallback paths.
+
+The local host binds 127.0.0.1:48713 with a fresh session credential. It accepts only
+prepared CPU jobs and fixed routes; it has no poker-client capture or input interface.
+Input changes and browser emergency stop request cancellation; closing the host
+closes its owned native process group. Separate manual runners keep their own Cancel.
+If cancellation cannot be confirmed over the connection, use the host Stop button.
+The native job folder preserves completed checkpoints. Older jobs/new host sessions
+use the existing manual resume workflow. No saved workspace starts work automatically.
+
+The per-user installer is script-based and keeps NativeJobs, Diagnostics, browser
+recovery and separately saved files on uninstall. Real Windows install/update/
+uninstall acceptance is still needed. A compiled x64 host is generated on first
+launch and cached for later launches; no such binary was built on this Linux host.
+See docs/DESKTOP-WINDOWS.md for limits, entry points and Windows acceptance scope.
+
+PREVIOUS 0.13.0 — SAVE, OPEN AND CONTINUE BROWSER CPU TRAINING
+1. Leave Retain training state enabled and run a fresh CPU root/reviewed study.
+2. The CPU training checkpoints panel shows the last retained committed count.
+3. Increase the total update target, then choose Continue to total update target.
+   This restores the same study and adds only the missing updates. An already-
+   completed target is queried without training; a smaller target is refused.
+4. Save CPU checkpoint downloads a separate .emcpu file. Save before closing.
+5. Open CPU checkpoint validates its container and original engine state in a
+   fresh worker. It loads the saved policies/proof but DOES NOT start training.
+6. Continue explicitly when ready. Ranges, menus, seed, root and captured proof
+   must match. Only the total target and per-invocation time budget may change.
+
+Cancellation/failure keeps the prior retained checkpoint. The current unfinished
+worker chunk is lost; no claim is made that all work since the last result was
+saved. Physical study edits clear that slot's CPU state. Slots remain independent.
+The retained-state byte budget is 96 MiB across slots, including header bytes;
+older states are evicted with feedback. This is not total browser/worker RAM.
+
+Strategy result files, exact-settings cache and whole-workspace backups do NOT
+contain resumable CPU training bytes. They cannot recreate an unavailable state.
+Workspace format stays version 3; existing v1/v2/v3 files still open. Reopening a
+workspace clears in-memory CPU checkpoints; open a separately saved .emcpu file
+when training continuation is needed. The retention checkbox applies to fresh
+browser CPU studies. Continue retains its next completed state explicitly.
+
+The binary format contains normalized inputs, optional reviewed proof and the
+unchanged EightMax EMMW4 state. It checks container CRC32, original engine row
+checksums, study identity, counters and parser bounds. These detect inconsistent
+or damaged files; they do not authenticate supplied strategies or certify GTO.
+Limits: 48 MiB state, 600,000 UTF-8 metadata bytes, 200,000 states, 500,000 rows
+and 128 state-path transitions. Large validation/export operations can occupy the
+page; allocated copies and engine memory exceed accounted retained bytes.
+
+Examples: examples/cpu-root-demo.emcpu and examples/cpu-reviewed-demo.emcpu each
+hold 100 committed updates toward a 300-update target. No new training occurs on
+opening. Resumed examples matched uninterrupted final states byte-for-byte, and
+an exported CPU state continued through the independent Linux native engine.
+See docs/CPU-CHECKPOINTS.md for workflow, format and limits. Windows execution and
+visual browser/file-dialog validation remain pending. This update adds no live
+client integration, GPU scheduling or installer; EightMax 5.1 is unchanged.
+
+PREVIOUS 0.12.0 — RUN A REVIEWED POSITION THROUGH THE NATIVE CPU ENGINE
+1. Prepare a reviewed-position study as described below. Keep its link attached.
+2. Choose Export native job. The browser checks the exact path but does NOT train.
+3. Run RUN-NATIVE-STUDY.cmd and select the newly exported JSON job.
+4. The Windows manager trains/checkpoints the original root study, then queries
+   BOTH the root and the captured decision from the same completed checkpoint.
+5. Import result.native-result.json into the original Study slot. The top panel
+   shows Native CPU frequencies for the reviewed actor; root context stays below.
+6. Save a workspace file to retain the draft, captured proof, result and export
+   binding together. Windows checkpoints remain in the job folder.
+
+RESUME-NATIVE-STUDY.cmd uses the same exported job and a compatible completed
+checkpoint. The existing controls bound CPU threads, strategy-table memory,
+training time and checkpoint interval. A native result is accepted only for the
+latest matching slot/token/job. Changed inputs or a different captured path require
+exporting again. Counter, full action/card history, board/pot/stacks/bets/folds,
+menu and ordered acting-range checks reject contradictory result data.
+
+Only per-hand stored average frequencies are used. Native reach/aggregate estimates
+are not promoted to range posteriors. Native rows without positive average mass
+remain unavailable; browser zero-mass normalization can differ. Tiny input weights
+are retained from the exported spec rather than rounded printed query weights.
+No action EV, convergence bound or measured speedup is claimed.
+
+Root-only version-1 jobs/results remain supported. Reviewed exports/results use
+version 2. Workspace version 3 preserves both the captured proof and native export;
+0.10/v1 and 0.11/v2 workspace files migrate on opening. No restore starts training.
+Native result envelopes are bounded at 6 MB; standalone normalized reports remain
+2 MB and native jobs remain 1 MB. A bound import is a consistency check, not proof
+that supplied frequencies came from a particular checkpoint or trusted computer.
+
+This implementation was exercised with a Linux native CLI and generated workers.
+The Windows PowerShell manager and Windows executable were NOT executed here;
+actual Windows acceptance, visual browser validation, installer/live-client work,
+GPU scheduling and target-PC table-capacity measurements remain pending.
+The EightMax 5.1 libraries, C++ source and Windows binary are unchanged.
+See docs/NATIVE-REVIEWED.md for the workflow, formats and practical limits.
+
+PREVIOUS 0.11.0 — ANALYZE A REVIEWED BETTING POSITION
+1. Open Observation review and Load reviewed-position demo.
+2. Process up to 250 frames. The synthetic opponent bets half-pot and hero faces it.
+3. Choose Prepare reviewed history study. The explicit synthetic ranges are filled
+   by this demo only; enter your own ranges for recorded reviews.
+4. In Study workspace, inspect the captured hand/frame and chosen root settings.
+5. Click Analyze reviewed position (Run CPU study also follows an attached link).
+6. The top report shows the actual acting seat's stored policies at the matched
+   path. Root-study context appears separately below. Export result keeps all rows.
+
+Preparation does not launch a solve. Before training, the worker checks the exact
+public action path against EightMax: boards, pot, stacks, folds, actor and earlier
+contributions. Rounded labels only narrow candidates; exact chip movements decide.
+A missing/off-menu/ambiguous action is refused, not rounded to another size. Edit
+explicit bet/raise menus to represent it, or remove the link for a different root.
+
+You can also select an OPEN accepted step in Completed-hand inspector and choose
+Prepare selected-step study. Later showdown evidence is not copied into earlier
+states. Unknown history, truncated anchors, closed/accounting states and unsupported
+roots cannot be converted into a decision query.
+
+CHOOSE THE STUDY ANCHOR EXPLICITLY
+Original accepted anchor preserves its recorded betting path through later streets.
+Current street start intentionally starts a fresh study at the first accepted state
+of the selected street. Earlier chips/folded contributions carry forward; earlier
+strategy/action conditioning does not. Supply ranges for that chosen anchor. No
+posterior ranges or unknown private cards are inferred. This smaller study can
+reduce later-street exact-card coverage problems. Root guided fields edit its menu;
+Advanced configuration remains available for other streets in a multi-street tree.
+
+The reviewed path supports full-post 2–8-seat preflop roots and 2–6-live-seat postflop
+roots, with at most six live players in reviewed postflop states. Root stacks must
+be 2–250 BB; short posts or all-in players at a fresh anchor remain unsupported.
+An original supported root can follow later short all-ins/reopening through the
+same legal study menus. Current support is CHIP EV only; linked ICM is refused.
+
+FREQUENCIES ARE STORED ROWS, NOT A GTO CERTIFICATE
+The report queries the same trained study's exact hand/public-history key. Missing
+rows remain unavailable. Stored-row normalization follows EightMax 5.1, including
+its zero-average-mass normalization; a returned row does not certify convergence.
+Per-hand input weights belong to the starting range, not a posterior after the
+recorded actions. No action EV, exploitability bound or range posterior is computed.
+Later-street exact-card coverage can be sparse even after many updates. A known
+hero hand outside the chosen range receives no invented row. Reports show up to
+60 hands (known hero first); exported results include every public-board-compatible
+acting-range hand. Later review frames never silently update a captured study.
+
+Reviewed analysis supports a portable CPU worker and captured native CPU jobs.
+Native export retains the reviewed-position link and checks its exact path first.
+Synthetic controlled play still requires removing that link. This release does not
+add live client reading/execution, CUDA study scheduling or a Windows installer. Actual Windows
+and visual browser validation remain pending.
+
+Save/export reviewed draft stores the root inputs and captured snapshots without
+training state. Whole-workspace version 3 preserves slot links, reviewed reports
+and native exports; version-1 and version-2 backups from 0.10/0.11 migrate on
+reading. Restores never start a worker.
+Limits: 128 accepted snapshots, 128 solver transitions, 200,000-character proof;
+reviewed draft files up to 1 MB. Validation has a 4-second check with a parent worker
+watchdog as the outer bound. These are logical bounds, not measured target-PC RAM
+or latency guarantees. Training uses the selected solve budget after path validation.
+
+Examples: examples/reviewed-position-demo.json (observation sequence),
+examples/reviewed-study-demo.json (Open reviewed draft), and
+examples/whole-workspace-demo.json (Open workspace file).
+See docs/REVIEWED-POSITIONS.md for formats, scope and validation limits.
+
+PREVIOUS 0.10.0 — WORKSPACE BACKUP, DIAGNOSTICS AND NATIVE JOB MANAGEMENT
+
+OPEN ON WINDOWS
+Extract the whole ZIP and double-click START-WINDOWS.cmd. The launcher checks the
+release files and opens Edge/Chrome when found. START.html remains the portable
+entry point. No Python, Node.js, downloaded modules or administrator setup is used.
+Windows scripts are implemented but UNEXECUTED in this Linux development session.
+This remains a portable release; a compiled installer and Windows acceptance
+validation remain pending.
+
+RUN DIAGNOSTICS
+1. Double-click RUN-WINDOWS-CHECKS.cmd on your PC.
+2. Its output folder opens with EightMax-Windows-diagnostics.json.
+3. Open Diagnostics in the dashboard and Import Windows report.
+4. Run browser checks for a bounded 20-update CPU-worker execution check.
+5. Export diagnostics when you want to review/share the reports yourself.
+
+The Windows checks cover release hashes, OS/browser discovery, CPU/RAM/graphics
+names, native binary/build execution and optional IEEE/CUDA capability queries.
+They do not benchmark CUDA training, measure whole-process memory or certify table
+capacity. Reports stay on your computer until you choose to share them. Imported
+reports are supplied evidence, not authenticated hardware or accuracy certificates.
+
+SAVE THE WHOLE WORKSPACE
+1. Choose Workspace backup, then Save workspace file.
+2. Include selected screenshot files is enabled for manual backups. Keep it enabled
+   for a self-contained copy of currently available original images.
+3. Open workspace file restores all data with browser processing stopped.
+
+The file includes simulation state/rolling replay, ten study drafts and completed
+results, unfinished guided/Advanced edits, native export bindings/control drafts,
+calibration/templates/region selection, selected screenshot originals, expected
+labels and unfinished label-editor text, historical image/benchmark reports,
+observation-review progress/ranges, and diagnostic reports. The synthetic fixture
+set is regenerated from its fixed patterns. Exact-settings cache is rebuilt only
+from eligible stored results; an in-flight worker/partial training state is not
+saved. Native binary checkpoints remain in their Windows job folders.
+
+Automatic whole-workspace recovery is separate from the older component saves.
+It attempts changed data every 10 seconds, with image REFERENCES only and without
+rolling simulation replay. Startup never replaces an earlier save automatically.
+Recover workspace opens it manually; reselect unavailable originals before using
+image previews or repeating evaluation. A failed write retains the older save and
+manual backup remains available. Browser storage can be unavailable/full or tied
+to the extracted file location. Export before closing. A manual save reports any
+originals still missing instead of claiming they were embedded.
+
+Workspace limits: 220 MB UTF-8 JSON; 110 MB / 101 source-image assets (one calibration
+image plus up to 100 validation images), each at most 10 MB. Existing component
+limits also apply. Base64 image storage increases file size. Large backups can
+briefly occupy the page; these bounds do not establish peak-RAM limits or target-
+PC speed. Restore validates every component before replacement, cancels old browser
+work, and attempts rollback if a component application fails. No image is decoded
+or study launched automatically. Show saved image reopens an embedded calibration
+screenshot only after you choose it.
+
+NATIVE CPU JOBS
+1. In Study workspace, expand Native CPU job controls.
+2. Choose 1–4 threads, 32–256 MiB strategy-table memory, 1–60 seconds of training
+   time per runner invocation, and 1–5,000 updates per completed checkpoint.
+3. Export native job, then double-click RUN-NATIVE-STUDY.cmd and select that file.
+4. The Windows job window shows elapsed time and COMPLETED checkpoint updates.
+   Cancel stops its current child process and retains the last completed checkpoint.
+5. RESUME-NATIVE-STUDY.cmd selects the exported job plus a compatible checkpoint.
+   It finishes the job's TOTAL update target, not that many extra updates. A checkpoint
+   already at target is queried without retraining. A checkpoint beyond the target
+   requires exporting a larger total target. The companion limit is 50,000 updates.
+6. The result folder opens at completion. Import result.native-result.json into
+   the original Study slot. Wrong/stale native bindings are refused.
+
+The job folder contains job/spec JSON, alternating checkpoint files, logs and
+job-status.json. Open native status snapshot reads that file manually; it does not
+establish a live process connection. Changing ordinary/reviewed study inputs or
+loading another example invalidates the old export binding. Native processes are
+separate from the browser; use the Windows window's Cancel button to stop them.
+Training has a total timeout per invocation; build/restore/query have separate
+5/15/30-second limits. Progress updates at completed checkpoint boundaries, with
+elapsed time between them. Smaller checkpoint intervals add process/IO overhead.
+A timeout/failure does not publish a partial strategy result. Engine/source bytes
+remain EightMax 5.1 build 7d08acc7eb4577ee; the CPU manager does not add CUDA solving.
+
+Try examples/whole-workspace-demo.json with Open workspace file. It contains
+synthetic review/validation data and a completed toy CPU study.
+See docs/WORKSPACE-BACKUP.md and docs/WINDOWS-JOBS.md for formats and limits.
+
+PREVIOUS 0.9.0 — LABELED SCREENSHOT VALIDATION
+1. Open Image validation.
+2. Choose Load synthetic validation demo, then Run validation.
+3. Inspect correct/wrong matches, negative examples, unscored fields and reference
+   crop overlap. Choose Export validation report to keep the results.
+
+The SYNTHETIC demo deliberately includes errors. Its 60% accepted-label accuracy
+is an evaluation-pipeline example, NOT KKPoker recognition accuracy. The same six
+pattern PNGs, expected labels and calibration are in examples/image-validation.
+They are mathematical pixel patterns, not samples of a poker client's cards.
+
+TO LABEL YOUR OWN SCREENSHOTS WITHOUT EDITING JSON
+1. Add/load your own regions and references in Image calibration.
+2. Open Image validation and Select PNG/JPEG files.
+3. Expand Create or edit expected labels and choose Create labeled dataset.
+4. Select an image, table and calibrated field. Show selected image previews it.
+5. Choose Known label and enter its exact expected card/amount text, or choose
+   Must reject for an intentionally unreadable/unsupported field.
+6. Add / update expected field. Repeat for the fields/images you want to evaluate.
+   Remove expected field means UNKNOWN/UNSCORED, not an expected rejection.
+7. Export expected labels to preserve your ground truth. Run validation and export
+   the report. Keep images and Image calibration separately before closing.
+
+Existing manifests open with Open labeled manifest. Select their original images;
+filenames must match exactly. The workflow reads selected local files only. It
+never captures a client, infers missing labels, sends packets to observation review
+or launches a solver. The synthetic demo keeps its own isolated calibration; it
+never replaces your Image calibration. A manual manifest/file selection uses your
+current Image calibration, and changing calibration cancels/clears old scores.
+
+Accepted accuracy is correct accepted labels / all accepted labels, including
+false accepts on Must reject fields. Known-field coverage includes EVERY known
+expected field, so a missing file/region lowers coverage. Missing evidence is
+unscored, never a successful rejection. False-accept rate uses only scored negative
+examples. A denominator with no evidence is shown as Unavailable, not perfect.
+
+Reports include per-table/per-field metrics and wrong-label confusion counts.
+They flag normalized crops exactly equal to reference samples and also show
+metrics without that exact overlap. This does NOT prove holdout independence:
+near-duplicate images, related sessions and mislabeled ground truth can still
+mislead. Amount labels use exact spelling: 100 and 100.00 are distinct labels.
+Similarity scores remain heuristic matches, not calibrated probabilities.
+
+Only one dataset image is decoded at a time during validation. Each is bounded to
+10 MB / 20 MP; selected files total 100 MB / 100 images. Manifests allow 200 cases,
+2,000 expected fields and 4 MB UTF-8. These are input bounds, not a measured RAM
+cap. Bitmap size is checked after decode. A pending decoder may finish after Stop,
+but its cancelled result is discarded. No partial report can be exported.
+
+Validation pauses the simulator and cancels portable studies, and blocks new
+simulator/study/capacity runs until it finishes/stops. Global Emergency stop/Escape
+also cancels validation. Separate native jobs are outside browser controls.
+Validation reports omit screenshot and template pixels. Datasets, selected files
+and validation drafts/results are not part of observation/simulation recovery.
+See docs/IMAGE-VALIDATION.md for formats, metric definitions and limitations.
+
+PREVIOUS 0.8.0 — SAVE AND RESUME OBSERVATION REVIEW
+1. Open Observation review and Load side-pot showdown.
+2. Click Next frame three times, then Save review progress.
+3. Reopen START.html and choose Open saved review to select the saved JSON.
+4. Continue with Next frame or Process up to 250 frames.
+5. When the hand completes, use Completed-hand inspector to move through its
+   accepted snapshots. Export selected hand review keeps that inspection report.
+
+The example examples/review-progress-demo.json is already saved at frame 3 of the
+side-pot demo. Open it with Open saved review, then process the remaining frames.
+This is SYNTHETIC evidence, not recognized client footage.
+
+A review file keeps the original observation sequence, cursor, evidence settings
+and ordered reviewed resets. Opening it re-audits the processed prefix rather than
+trusting stored accepted states or payout claims. Collecting candidates, pauses,
+refunds, completed records and original reset boundaries are rebuilt. Nothing
+processes beyond the saved cursor until you click a processing control.
+
+Automatic review recovery uses a separate browser save from simulation recovery.
+Changed reviews are saved every 3 seconds when storage is available. Recover review
+opens that save manually. Startup never resumes a review automatically. Browser
+storage can be unavailable, full, cleared or associated with a different extracted
+location; use Save review progress for a portable copy. A failed automatic write
+leaves the prior save in place. Clear automatic review save removes the stored copy;
+further review changes can create a new one. Closing before a save can lose progress.
+
+Limits: 5,000 source frames / 10 MB sequence; 10,000 total frame/reset operations;
+20 MB UTF-8 review file. Restoring rebuilds the saved prefix synchronously, so a
+large review can briefly occupy the page. These are file/log bounds, not measured
+whole-process RAM limits. A different audit-rules version is refused.
+
+The inspector includes only accepted state changes, with original source-frame
+numbers, anchor street and fixed payout-policy scope. It retains at most the last
+256 accepted steps for a selected hand and labels omissions. Only the most recent
+100 completed records are selectable; all source frames still remain in review
+files within the source limit. Record numbers are local to that review. Reset
+breaks continuous verification even if the same hand label is reused.
+
+Save review progress is the RESUMABLE format. Export audit, Export completed hands
+and Export selected hand review remain READ-ONLY REPORTS. Opening or inspecting
+any of these files does not authenticate their source. Modified source evidence is
+re-audited under the supported rules, not compared against an authenticated original.
+Study drafts/results, entered ranges, image calibration and screenshot pixels are
+not part of review recovery. No solver request or client action is started.
+See docs/REVIEW-SESSIONS.md for exact format details.
+
+PREVIOUS 0.7.0 — COMPLETED HAND ACCOUNTING
+1. Open Observation review.
+2. Click Load completed-hand session, then Process up to 250 frames.
+3. Review the refund, payout and next-hand balance checks in the audit.
+4. Click Export completed hands to keep the full record.
+
+Also try Load side-pot showdown. It demonstrates a main pot paid to one player
+and a side pot paid to another using explicitly exposed cards. The files are:
+  examples/completed-session-demo.json
+  examples/sidepot-showdown-demo.json
+Both are SYNTHETIC, not recognized KKPoker footage.
+
+Accounting requires an already reconstructed CLOSED round. Refunds and final
+payouts use explicit phase fields, payout arrays and observed final stacks.
+The tracker checks uncalled excess, contribution layers, eligibility, exposed
+hand strength, split pots and integer odd chips. Adjacent layers with the same
+eligible seats are merged before rounding. Odd chips go clockwise from dealer.
+This fixed policy may not match every room. No rake/fee deduction is modeled.
+
+Contested pots require a complete river board and explicit cards for ALL eligible
+players, including an explicit hero seat. Mucked or missing hands can prevent
+verification; no hidden cards are invented. An uncontested fold win needs no
+opponent showdown. This accounting uses INTEGER CHIPS, unlike continuous-BB
+controlled solver practice.
+
+The refunds array describes THIS accounting transition, not a cumulative display.
+A separate refund is credited first; a subsequent payout must not credit it again.
+Completed records retain cumulative observed refunds separately from pot awards.
+Awards are gross pot distributions, NOT net profit.
+
+After verified settlement, a different hand ID may start automatically ONLY if
+seat count/blind level remain unchanged, dealer rotates correctly, balances carry
+forward and a full supported preflop posting anchor is supplied. The default new-
+hand gap allowance is 60 seconds; normal within-hand gaps remain capped at 2 seconds.
+Seat moves, bustouts, blind increases, rebuys and unsupported posts still need an
+explicit reviewed reset. Reset breaks continuous-session verification.
+
+Completed records include the initial accepted snapshot, retained action history,
+verified pot allocations, final stacks and their anchor street. A river-start
+record does not certify the earlier streets. At most 100 completed records and
+256 transitions per hand are retained; truncation is marked. Record IDs are local
+to this review run. Export before loading another sequence or closing the page.
+These exports are READ-ONLY REPORTS, not resumable checkpoints or an authenticated
+site hand history. Reopen the original observation sequence to repeat the review.
+The interface displays compact summaries; exports contain full retained details.
+
+Refund/showdown/settlement phases are documented in docs/OBSERVATIONS.md. A combined
+last action and chip payout cannot be guessed; supply a stable closed-round
+observation before the payout. Unknown or contradictory evidence pauses that table.
+Every report remains decisionReady=false. No solver or client action is started.
+
+PREVIOUS PREFLOP-TO-FLOP REVIEW FEATURES
+1. Open Observation review.
+2. Leave Demo seats at 8 and click Load preflop-to-flop demo.
+3. Inspect the import preview, then Process up to 250 frames.
+4. Review the readable action timeline and stable flop snapshot.
+
+The 8-seat synthetic demo folds two seats and reaches the flop with six live
+players. The 2- and 6-seat demos limp/check through preflop. Their JSON examples
+are in examples/preflop-2-demo.json, preflop-6-demo.json and preflop-8-demo.json.
+
+To prepare an INITIAL PREFLOP study, reload the demo and click Next frame twice
+before processing any actions. Enter one explicit range per original seat (random
+is valid if that is the range YOU intend to model), then Prepare reviewed
+street-start study. Stacks are restored to before-post amounts and rotated into
+EightMax action order, with the big blind last. The solver posts blinds and antes
+exactly once. No solve or client action starts automatically.
+
+The new preflop anchor requires dealer, smallBlind, bigBlindSeat, dealt and ante
+inside roundStart. Blinds must follow actual seat order; heads-up dealer is SB.
+It supports full SB=0.5 BB / BB=1 BB and individual ante=0.1 BB per dealt player,
+with no dead money and no action yet. BB chip units must be divisible by 10.
+Every player must still have chips after posting. Short/all-in blind or ante posts,
+missing seats, BBA, straddles, missing position evidence and mid-preflop anchors
+are rejected. Eight dealt players produce the required 2.3 BB initial pot.
+
+After a verified round closes, the tracker can follow a legal flop transition and
+retain the known positions/posts. Reopening/raise and action-order checks continue
+as before. This is still based on caller-supplied complete observations, not a
+trained recognizer or authenticated proof of what happened in a client.
+
+The import preview is an inventory, NOT validation. Frames are validated when
+processed. Timeline output is a bounded review log, not a proprietary poker-site
+hand-history importer or a complete payout/tournament record.
+
+PREVIOUS POSTFLOP BETTING FEATURES
+1. Open Observation review and click Load betting-round demo.
+2. Click Process up to 250 frames. The demo verifies a bet, call and turn transition.
+3. In the solver ranges box enter AA on the first line and KK on the second line.
+4. Click Prepare reviewed street-start study.
+5. Review the study inputs, then click Run CPU study yourself.
+
+No solver is started by the handoff, and no client action is executed.
+The demo file is also supplied as examples/verified-round-demo.json.
+
+For this new mode, a complete postflop anchor needs all current-street bets zero,
+a supplied dealer position in roundStart.dealer, and the expected first actor.
+From there, checks, folds, calls, raises, pending actors, full-raise sizes and short
+all-in reopening rights are tracked. A final call/check can coincide with a new
+street only if it completes the reconstructed betting round. Illegal/missed
+transitions pause that table without replacing its last accepted state.
+
+Older anchors without roundStart retain the conservative 0.4 audit behavior.
+Do not treat a mid-street anchor or an assumed dealer position as verified history.
+Closure snapshots use actor=-1 and roundClosed=true. Payouts, refunds and new hands
+still require review/reset rather than inferred chip movements.
+
+The study bridge accepts only a stable, verified street start with no actions yet,
+2–6 live seats and 2–250 BB behind every live player. Supply one explicit range per
+original seat; put - on folded-seat lines. It preserves prior/folded contributions,
+dead money and seat mapping, converting integer chips to BB without adding antes
+again. Mid-street, all-in/short-stack, preflop and ICM handoffs remain unavailable.
+Betting sizes in the draft are editable defaults, not inferred opponent choices.
+The solver performs its own configuration/range validation when you run the draft.
+
+PREVIOUS OBSERVATION REVIEW FEATURES
+Click Observation review, then Load synthetic demo and Process up to 250 frames.
+The demo stabilizes an anchor, observes a call, then observes a fold. Inspect stable
+snapshots and recent audit events, or export the audit JSON.
+
+You can also open examples/observation-demo.json using Open observation sequence.
+This file is SYNTHETIC; it is not recognized KKPoker footage. Recorded-observation
+files use the same schema (documented in docs/OBSERVATIONS.md). Complete seat,
+turn, identity and ledger data must be supplied by an observation producer.
+
+The audit requires two distinct image/frame identities over at least 100 ms.
+Low evidence, duplicate/reordered frames, long gaps, pot/stack inconsistencies,
+changed known cards and missed actions pause that table for explicit review/reset.
+Bet/raise candidates and turn-only changes also pause: they do not establish full
+raise rights or legal turn order. No audit state is marked ready for decisions.
+
+Read saved regions in Image calibration now also copies the raw field results
+into Observation review. That does NOT invent missing seat states, hand identity,
+actor, stack history or pot contributions. Raw field results alone cannot become a
+complete observation sequence. No solver requests or client inputs are performed.
+
+Reset reviewed table anchor discards that table's current tracking state and starts
+a new manually reviewed anchor; old audit events remain until the rolling log fills.
+New hands and post-showdown payouts require such an explicit reset in this release.
+Export before loading another sequence if you need to retain the current audit.
+
+TRY CONTROLLED SOLVER-DRIVEN PLAY
+1. Click Study workspace.
+2. Choose Heads-up practice in Example, then click Load example.
+3. Click Solve + play study.
+4. Scroll to Controlled solved hand and move the frame slider.
+
+This toy heads-up study is intentionally small so the full hand can be tested.
+Its narrow ranges are known study inputs, not a claim about real opponents.
+For ordinary analysis choose a three-player river, six-player flop, or eight-player
+preflop example and click Run CPU study. No source-code editing is needed.
+
+NEW IN 0.3.0
+- Guided fields for street, board, stacks, ranges, pot and betting sizes.
+- Controlled hands following the SAME trained EightMax study and betting paths.
+- Frame-by-frame practice replay with chip settlement and missing-policy stops.
+- An exact-settings cache for completed CPU studies.
+- A worker pool supporting one or two simultaneous CPU workers.
+- Queue-plus-solve deadlines, queue timing, and late-result rejection.
+- Capacity tests for 1, 2, 5 and 10 simultaneous STUDY REQUESTS.
+- Separate cache-retrieval measurements and exportable capacity reports.
+
+GUIDED SETUP
+Use Guided setup to change ordinary study inputs. Apply setup saves those fields;
+Run CPU study and Solve + play study also apply pending valid changes automatically.
+Seat 1 acts first at the study root. Seats are ordered by action order.
+Stacks and pots are in BB; bet sizes use percentages of pot, raises use x, and a
+means all-in. Preflop opening sizes are BB amounts.
+
+Advanced configuration remains available for previous contributions and ICM.
+When those fields are present, the form locks seat count/street to avoid silently
+changing their meaning. Other advanced fields are preserved. Load a fresh example
+to start a different ordinary setup. The engine validates settings before solving.
+
+Preflop examples post 0.5/1 BB blinds plus 0.1 BB for EACH dealt player: an
+8-handed initial pot is 2.3 BB, with no big blind ante. Postflop studies begin at
+a fresh betting street; do not treat them as an unresolved current-street bet.
+
+WHAT CONTROLLED PLAY DOES
+It trains the configured study, samples a compatible synthetic deal from its
+weighted ranges, then uses each acting seat's available EightMax policy row.
+The same source engine supplies betting transitions and action menus. It stops
+if a policy row is missing instead of inventing a fallback. A blocked hand may
+need narrower ranges or more training. Existing rows follow EightMax's own
+average-policy normalization; a returned uniform policy is not convergence proof.
+
+Practice is reproducible from its seed and does not change the trained strategy.
+It supports chip-EV studies only in this milestone; ICM study analysis remains
+available separately. Pot awards use continuous BB inside the betting abstraction,
+not integer-chip rounding. Practice state is not a full tournament or a live game.
+
+The ten-table dashboard STILL uses its labeled scripted policy. Controlled
+solver-driven play is a separate study mode, not an automatic retrofit of arbitrary
+mid-hand states from the dashboard. Neither mode accesses KKPoker.
+
+EXACT-SETTINGS CACHE
+A completed portable CPU study may be reused only for the same normalized settings,
+source build, update count and time budget. A hit is labeled, with its ORIGINAL
+solve time preserved. It is not new training. Partial, native, reviewed-position
+and practice results are excluded. The in-memory cache is bounded to 32 entries / about 4 MB of accounted
+key/result strings; this is not a total JavaScript heap cap. Closing the page clears it.
+
+CAPACITY TEST — MEASURE ON YOUR COMPUTER
+1. Click Capacity test.
+2. Choose the narrow three-player river or wider six-player flop workload.
+3. Choose one or two CPU workers and the update/time/deadline settings.
+4. Click Run 1 / 2 / 5 / 10 test.
+5. Choose Export report when it finishes.
+
+Each count is one burst of fresh study requests. The report includes completion
+counts, requested-update completion, p50/p95 latency, queue wait and deadline misses.
+It includes worker startup, but excludes capture, OCR, client input, native/GPU
+work and full controlled-hand playback. Cache retrieval is measured separately.
+A successful ten-request burst DOES NOT establish ten-table live-play capacity.
+Percentiles cover completed requests, so review failures and full-update counts too.
+The benchmark does not grade solver convergence or establish a sustained SLA.
+
+The simulator and other portable studies are paused/cancelled during the test.
+Close separate native jobs if you want comparable CPU measurements. Browser hints
+can be rounded/capped and do not measure GPU VRAM or identify your actual hardware.
+The included Linux laboratory report is not a benchmark of your i7 / RTX 4060 Ti PC.
+
+SAVE / RECOVER
+Save / recover opens validated simulation session controls. Sessions restore paused,
+with table pause states and the emergency-stop latch preserved. Automatic local
+recovery saves table state every 3 seconds when browser storage is available; it
+omits replay frames. Export a session file for a durable portable checkpoint.
+Study drafts, cache, results and image calibrations are not part of that automatic
+recovery. Export results/calibrations separately before closing.
+
+OPTIONAL NATIVE WINDOWS WORKFLOW
+1. In Study workspace click Export native job.
+2. Double-click RUN-NATIVE-STUDY.cmd and select the exported job JSON.
+3. When it finishes, import its .native-result.json through Study workspace.
+
+native/demo-native-job.json is a ready-made job. The runner checks the bundled,
+unmodified EightMax 5.1 mwcli.exe hash and build ID. It defaults to 2 CPU threads,
+up to 256 MiB of strategy tables and a 60-second training timeout. One runner is
+allowed at a time. Total process RAM can exceed the table budget. Native logs and
+checkpoints are saved under %LOCALAPPDATA%\EightMax-Test-Workbench\NativeJobs.
+The browser stop cannot stop this separate runner; use its own Cancel button.
+Training/restore/query timeouts retain the last completed checkpoint. The Windows runner has not been executed here.
+
+IMAGE CALIBRATION — STILL EXPERIMENTAL
+Open a permitted PNG/JPEG, drag a fixed card/amount region, select table and field,
+and save the region. Add labeled references (As or 12.50, for example), then read
+saved regions in another image with the same layout. At least two different labels
+per type are required. Save calibration to preserve your regions and pixel samples.
+Those samples can contain parts of your screenshot; review before sharing them.
+This is template matching, not a trained KKPoker OCR model. Scores are not calibrated
+probabilities; ambiguous, low-similarity, blank, mismatched-layout and duplicate-card
+fields are rejected. Real-client recognition accuracy has not been established.
+
+RELEASE STATUS
+373 automated test cases passed, plus the original UI handler check. Native/reference
+comparison and laboratory measurements were performed on Linux. Browser rendering,
+Windows launch, native runner behavior and physical GPU performance remain unverified.
+
+This remains a portable application, not the final .exe installer. It does not
+capture a client, reconstruct live hands, place wagers or execute client inputs.
+See docs/ARCHITECTURE.md and docs/VALIDATION.md for scope and remaining work.

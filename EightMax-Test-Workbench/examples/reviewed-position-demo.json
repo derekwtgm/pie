@@ -1,0 +1,199 @@
+{
+  "format": "eightmax-observation-sequence",
+  "version": 1,
+  "source": "synthetic",
+  "frames": [
+    {
+      "table": 1,
+      "hand": "reviewed-demo",
+      "frame": "reviewed-0",
+      "sequence": 0,
+      "timeMs": 0,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 1,
+        "bigBlind": 100,
+        "pot": 400,
+        "deadMoney": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "reviewed-demo",
+      "frame": "reviewed-1",
+      "sequence": 1,
+      "timeMs": 200,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 1,
+        "bigBlind": 100,
+        "pot": 400,
+        "deadMoney": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "reviewed-demo",
+      "frame": "reviewed-2",
+      "sequence": 2,
+      "timeMs": 400,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 0,
+        "bigBlind": 100,
+        "pot": 600,
+        "deadMoney": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 800,
+            "committed": 400,
+            "bet": 200,
+            "folded": false
+          }
+        ]
+      }
+    },
+    {
+      "table": 1,
+      "hand": "reviewed-demo",
+      "frame": "reviewed-3",
+      "sequence": 3,
+      "timeMs": 600,
+      "quality": {
+        "accepted": true,
+        "minScore": 0.99,
+        "minMargin": 0.1
+      },
+      "state": {
+        "street": "river",
+        "board": [
+          "2c",
+          "3d",
+          "4h",
+          "8s",
+          "9c"
+        ],
+        "hero": [
+          "As",
+          "Ad"
+        ],
+        "heroSeat": 0,
+        "actor": 0,
+        "bigBlind": 100,
+        "pot": 600,
+        "deadMoney": 0,
+        "roundStart": {
+          "dealer": 0
+        },
+        "seats": [
+          {
+            "stack": 1000,
+            "committed": 200,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "stack": 800,
+            "committed": 400,
+            "bet": 200,
+            "folded": false
+          }
+        ]
+      }
+    }
+  ]
+}

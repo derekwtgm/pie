@@ -1,0 +1,884 @@
+{
+  "format": "eightmax-multitable-benchmark",
+  "version": 2,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T02:57:58.087Z",
+  "classification": "SIMULATED TABLES on this machine; not real-client and not Windows target hardware; no GPU",
+  "machine": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.5",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logicalCpus": 4,
+    "totalMemBytes": 16869130240
+  },
+  "handsPerTable": 4,
+  "seed": 4127,
+  "pipeline": {
+    "1": {
+      "oneThread": {
+        "wallMs": 3125.983985,
+        "handsCompleted": 4,
+        "handsPerSecond": 1.279597086611434,
+        "actions": 79,
+        "actionsPerSecond": 25.27204246057582,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 5049.2305049999995,
+          "sampleCount": 28,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 5455.554,
+            "cpuCoresBusy": 1.0804723600155783,
+            "cpuUtilizationOfMachine": 0.2701180900038946,
+            "rssBytesPeak": 158306304,
+            "rssBytesFinal": 158306304,
+            "heapUsedBytesPeak": 28044456
+          },
+          "workers": [
+            {
+              "worker": "main",
+              "heapUsedBytes": 25064976,
+              "heapPeakBytes": 25064976,
+              "busyMsEstimate": 3040.116326000076,
+              "eventLoopUtilization": 1,
+              "sampledAt": 5070.609585
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 25064976,
+          "workerBusyMsEstimateSum": 3040.116326000076,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 36.513678999999684,
+        "decisionCycleMsP95Worst": 50.961219000000256,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 1,
+        "wallMs": 3642.887138,
+        "handsCompleted": 4,
+        "handsPerSecond": 1.0980301745488774,
+        "actions": 79,
+        "actionsPerSecond": 21.686095947340327,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 5412.494423,
+          "sampleCount": 55,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 5867.820999999999,
+            "cpuCoresBusy": 1.084125089360854,
+            "cpuUtilizationOfMachine": 0.2710312723402135,
+            "rssBytesPeak": 328282112,
+            "rssBytesFinal": 279130112,
+            "heapUsedBytesPeak": 25141704
+          },
+          "workers": [
+            {
+              "worker": 1,
+              "heapUsedBytes": 20490872,
+              "heapPeakBytes": 20490872,
+              "busyMsEstimate": 5436.769796000328,
+              "eventLoopUtilization": 1,
+              "sampledAt": 10531.777138
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 20490872,
+          "workerBusyMsEstimateSum": 5436.769796000328,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 42.84582099999898,
+        "decisionCycleMsP95Worst": 63.3743400000003,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 0.8581061851716362
+    },
+    "2": {
+      "oneThread": {
+        "wallMs": 6411.568701,
+        "handsCompleted": 8,
+        "handsPerSecond": 1.2477445650316834,
+        "actions": 153,
+        "actionsPerSecond": 23.863114806230943,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 6412.730658999999,
+          "sampleCount": 45,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 6665.960000000001,
+            "cpuCoresBusy": 1.0394885353004193,
+            "cpuUtilizationOfMachine": 0.2598721338251048,
+            "rssBytesPeak": 279130112,
+            "rssBytesFinal": 230596608,
+            "heapUsedBytesPeak": 28513512
+          },
+          "workers": [
+            {
+              "worker": "main",
+              "heapUsedBytes": 15976848,
+              "heapPeakBytes": 15976848,
+              "busyMsEstimate": 9473.146560000187,
+              "eventLoopUtilization": 0.6351270119560538,
+              "sampledAt": 16945.864234
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 15976848,
+          "workerBusyMsEstimateSum": 9473.146560000187,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 79.99054800000158,
+        "decisionCycleMsP95Worst": 113.55973999999878,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 2,
+        "wallMs": 3458.19656,
+        "handsCompleted": 8,
+        "handsPerSecond": 2.3133445023148136,
+        "actions": 153,
+        "actionsPerSecond": 44.24271360677081,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 5220.143292999997,
+          "sampleCount": 53,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 11293.342,
+            "cpuCoresBusy": 2.1634160914977025,
+            "cpuUtilizationOfMachine": 0.5408540228744256,
+            "rssBytesPeak": 461033472,
+            "rssBytesFinal": 308596736,
+            "heapUsedBytesPeak": 16336248
+          },
+          "workers": [
+            {
+              "worker": 1,
+              "heapUsedBytes": 20495336,
+              "heapPeakBytes": 20495336,
+              "busyMsEstimate": 5240.6325360001065,
+              "eventLoopUtilization": 1,
+              "sampledAt": 22212.9712
+            },
+            {
+              "worker": 2,
+              "heapUsedBytes": 22633896,
+              "heapPeakBytes": 22633896,
+              "busyMsEstimate": 5111.480961000081,
+              "eventLoopUtilization": 1,
+              "sampledAt": 22092.460993
+            }
+          ],
+          "workerCount": 2,
+          "workerHeapBytesSum": 43129232,
+          "workerBusyMsEstimateSum": 10352.113497000188,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 41.0461540000033,
+        "decisionCycleMsP95Worst": 56.4880720000001,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 1.85402090070901
+    },
+    "5": {
+      "oneThread": {
+        "wallMs": 15510.384926,
+        "handsCompleted": 20,
+        "handsPerSecond": 1.2894586495061173,
+        "actions": 371,
+        "actionsPerSecond": 23.919457948338476,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 15511.681788999998,
+          "sampleCount": 79,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 16410.988000000005,
+            "cpuCoresBusy": 1.0579760610895037,
+            "cpuUtilizationOfMachine": 0.2644940152723759,
+            "rssBytesPeak": 308727808,
+            "rssBytesFinal": 257757184,
+            "heapUsedBytesPeak": 28544456
+          },
+          "workers": [
+            {
+              "worker": "main",
+              "heapUsedBytes": 26536552,
+              "heapPeakBytes": 26536552,
+              "busyMsEstimate": 25001.320387000116,
+              "eventLoopUtilization": 0.7004053957625372,
+              "sampledAt": 37726.006347
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 26536552,
+          "workerBusyMsEstimateSum": 25001.320387000116,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 196.12608799999725,
+        "decisionCycleMsP95Worst": 286.7727909999994,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 7129.131563,
+        "handsCompleted": 20,
+        "handsPerSecond": 2.805390786137187,
+        "actions": 371,
+        "actionsPerSecond": 52.039999082844815,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 9528.296237000002,
+          "sampleCount": 96,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 25360.587,
+            "cpuCoresBusy": 2.6616077385923944,
+            "cpuUtilizationOfMachine": 0.6654019346480986,
+            "rssBytesPeak": 663654400,
+            "rssBytesFinal": 409145344,
+            "heapUsedBytesPeak": 26597544
+          },
+          "workers": [
+            {
+              "worker": 1,
+              "heapUsedBytes": 22041448,
+              "heapPeakBytes": 22041448,
+              "busyMsEstimate": 9495.208806000184,
+              "eventLoopUtilization": 1,
+              "sampledAt": 47256.07891
+            },
+            {
+              "worker": 2,
+              "heapUsedBytes": 22489544,
+              "heapPeakBytes": 22489544,
+              "busyMsEstimate": 5396.632580999751,
+              "eventLoopUtilization": 1,
+              "sampledAt": 43168.322232
+            },
+            {
+              "worker": 3,
+              "heapUsedBytes": 22857928,
+              "heapPeakBytes": 22857928,
+              "busyMsEstimate": 5314.685246000066,
+              "eventLoopUtilization": 1,
+              "sampledAt": 43067.962768
+            },
+            {
+              "worker": 4,
+              "heapUsedBytes": 27285288,
+              "heapPeakBytes": 27285288,
+              "busyMsEstimate": 5513.571161000058,
+              "eventLoopUtilization": 1,
+              "sampledAt": 43267.444468
+            }
+          ],
+          "workerCount": 4,
+          "workerHeapBytesSum": 94674208,
+          "workerBusyMsEstimateSum": 25720.09779400006,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 40.901110000006156,
+        "decisionCycleMsP95Worst": 125.47064300000056,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 2.175634548042076
+    },
+    "8": {
+      "oneThread": {
+        "wallMs": 26970.537171,
+        "handsCompleted": 32,
+        "handsPerSecond": 1.1864798908939758,
+        "actions": 619,
+        "actionsPerSecond": 22.950970389480347,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 26972.852118000003,
+          "sampleCount": 86,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 28215.024000000005,
+            "cpuCoresBusy": 1.0460526709065021,
+            "cpuUtilizationOfMachine": 0.26151316772662553,
+            "rssBytesPeak": 401608704,
+            "rssBytesFinal": 295215104,
+            "heapUsedBytesPeak": 29729544
+          },
+          "workers": [
+            {
+              "worker": "main",
+              "heapUsedBytes": 18168912,
+              "heapPeakBytes": 18168912,
+              "busyMsEstimate": 52017.09352199993,
+              "eventLoopUtilization": 0.7204560933058219,
+              "sampledAt": 74230.751338
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 18168912,
+          "workerBusyMsEstimateSum": 52017.09352199993,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 326.3734509999995,
+        "decisionCycleMsP95Worst": 449.40036800000235,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 7603.611149,
+        "handsCompleted": 32,
+        "handsPerSecond": 4.208526629377743,
+        "actions": 619,
+        "actionsPerSecond": 81.40868698702572,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 9834.922310000009,
+          "sampleCount": 99,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 36145.29700000002,
+            "cpuCoresBusy": 3.675199036727316,
+            "cpuUtilizationOfMachine": 0.918799759181829,
+            "rssBytesPeak": 673853440,
+            "rssBytesFinal": 470417408,
+            "heapUsedBytesPeak": 18656248
+          },
+          "workers": [
+            {
+              "worker": 1,
+              "heapUsedBytes": 14093744,
+              "heapPeakBytes": 14093744,
+              "busyMsEstimate": 9517.532999999821,
+              "eventLoopUtilization": 1,
+              "sampledAt": 83793.695613
+            },
+            {
+              "worker": 2,
+              "heapUsedBytes": 18712688,
+              "heapPeakBytes": 18712688,
+              "busyMsEstimate": 9839.376946000382,
+              "eventLoopUtilization": 1,
+              "sampledAt": 84114.630583
+            },
+            {
+              "worker": 3,
+              "heapUsedBytes": 28028288,
+              "heapPeakBytes": 28028288,
+              "busyMsEstimate": 8885.447660000063,
+              "eventLoopUtilization": 1,
+              "sampledAt": 83150.410017
+            },
+            {
+              "worker": 4,
+              "heapUsedBytes": 26852792,
+              "heapPeakBytes": 26852792,
+              "busyMsEstimate": 8743.387887000106,
+              "eventLoopUtilization": 1,
+              "sampledAt": 83008.974682
+            }
+          ],
+          "workerCount": 4,
+          "workerHeapBytesSum": 87687512,
+          "workerBusyMsEstimateSum": 36985.74549300037,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 84.70889400001033,
+        "decisionCycleMsP95Worst": 129.31814599999052,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 3.5470694966492426
+    },
+    "10": {
+      "oneThread": {
+        "wallMs": 30613.716145,
+        "handsCompleted": 40,
+        "handsPerSecond": 1.3066038703221277,
+        "actions": 782,
+        "actionsPerSecond": 25.544105664797595,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 30619.235101000013,
+          "sampleCount": 90,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 31867.838000000018,
+            "cpuCoresBusy": 1.0407783830942017,
+            "cpuUtilizationOfMachine": 0.2601945957735504,
+            "rssBytesPeak": 438366208,
+            "rssBytesFinal": 403742720,
+            "heapUsedBytesPeak": 31434136
+          },
+          "workers": [
+            {
+              "worker": "main",
+              "heapUsedBytes": 31426008,
+              "heapPeakBytes": 31426008,
+              "busyMsEstimate": 82667.61321700015,
+              "eventLoopUtilization": 0.7334793502401752,
+              "sampledAt": 114736.634978
+            }
+          ],
+          "workerCount": 1,
+          "workerHeapBytesSum": 31426008,
+          "workerBusyMsEstimateSum": 82667.61321700015,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 375.0325759999978,
+        "decisionCycleMsP95Worst": 466.3940069999953,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "workerThreads": {
+        "workers": 4,
+        "wallMs": 11546.708682,
+        "handsCompleted": 40,
+        "handsPerSecond": 3.4641906279627053,
+        "actions": 782,
+        "actionsPerSecond": 67.72492677667088,
+        "resources": {
+          "format": "eightmax-resource-report",
+          "version": 1,
+          "units": {
+            "cpu": "ms of CPU time",
+            "cores": "logical-core equivalents (cpuMs / wallMs)",
+            "memory": "bytes",
+            "time": "ms",
+            "interval": "ms"
+          },
+          "sources": {
+            "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+            "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+            "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+            "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+            "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+            "gpu": "not measured: no verified GPU execution path exists in this build"
+          },
+          "elapsedMs": 13849.913298,
+          "sampleCount": 139,
+          "samplingIntervalMs": 100,
+          "logicalCpus": 4,
+          "process": {
+            "cpuMs": 44235.76899999997,
+            "cpuCoresBusy": 3.1939383336347564,
+            "cpuUtilizationOfMachine": 0.7984845834086891,
+            "rssBytesPeak": 678502400,
+            "rssBytesFinal": 493867008,
+            "heapUsedBytesPeak": 31480256
+          },
+          "workers": [
+            {
+              "worker": 1,
+              "heapUsedBytes": 25954920,
+              "heapPeakBytes": 25954920,
+              "busyMsEstimate": 13892.978802999947,
+              "eventLoopUtilization": 1,
+              "sampledAt": 128668.668029
+            },
+            {
+              "worker": 2,
+              "heapUsedBytes": 31385000,
+              "heapPeakBytes": 31385000,
+              "busyMsEstimate": 12670.113934999797,
+              "eventLoopUtilization": 1,
+              "sampledAt": 127444.074368
+            },
+            {
+              "worker": 3,
+              "heapUsedBytes": 21348936,
+              "heapPeakBytes": 21348936,
+              "busyMsEstimate": 8707.046035999898,
+              "eventLoopUtilization": 1,
+              "sampledAt": 123475.500626
+            },
+            {
+              "worker": 4,
+              "heapUsedBytes": 13782016,
+              "heapPeakBytes": 13782016,
+              "busyMsEstimate": 9452.795469000004,
+              "eventLoopUtilization": 1,
+              "sampledAt": 124231.892451
+            }
+          ],
+          "workerCount": 4,
+          "workerHeapBytesSum": 92470872,
+          "workerBusyMsEstimateSum": 44722.93424299965,
+          "nativeSolverRssBytes": null,
+          "gpu": {
+            "supported": false,
+            "measured": false,
+            "memoryBytes": null,
+            "note": "not measured: no verified GPU execution path exists in this build"
+          },
+          "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+          "validation": {
+            "ok": true,
+            "problems": []
+          }
+        },
+        "decisionCycleMsP50": 115.6389569999883,
+        "decisionCycleMsP95Worst": 187.54516800001147,
+        "suspendedHands": 0,
+        "ackMismatches": 0,
+        "rejectedFrames": 0
+      },
+      "speedup": 2.651293713915489
+    }
+  },
+  "solving": {
+    "requestsFromRealHands": 16,
+    "jsReferenceInThread": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 3574,
+      "latencyMsP50": 1879,
+      "latencyMsP95": 3574,
+      "latencyMsMax": 3574
+    },
+    "nativeCliAsyncInThread": {
+      "iterations": 20000,
+      "requests": 16,
+      "wallMs": 4807,
+      "latencyMsP50": 1325,
+      "latencyMsP95": 4552,
+      "latencyMsMax": 4552
+    },
+    "jsReferenceWorkerThreads1": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 3526,
+      "latencyMsP50": 1552,
+      "latencyMsP95": 3526,
+      "latencyMsMax": 3526,
+      "pool": {
+        "size": 1,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 3525
+      }
+    },
+    "jsReferenceWorkerThreads2": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 1967,
+      "latencyMsP50": 697,
+      "latencyMsP95": 1967,
+      "latencyMsMax": 1967,
+      "pool": {
+        "size": 2,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 3442
+      }
+    },
+    "jsReferenceWorkerThreads4": {
+      "iterations": 2500,
+      "requests": 16,
+      "wallMs": 1490,
+      "latencyMsP50": 737,
+      "latencyMsP95": 1490,
+      "latencyMsMax": 1490,
+      "pool": {
+        "size": 4,
+        "busy": 0,
+        "queued": 0,
+        "submitted": 16,
+        "completed": 16,
+        "failed": 0,
+        "timeouts": 0,
+        "crashes": 0,
+        "respawns": 0,
+        "killedStale": 0,
+        "rejectedFull": 0,
+        "busyMs": 4863
+      }
+    }
+  }
+}

@@ -1,0 +1,547 @@
+{
+  "format": "eightmax-recognition-synthetic",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "domain": "synthetic",
+  "note": "Built-in pixel renderer; accuracy here does not transfer to any real client",
+  "generatedAt": "2026-11-18T03:01:18.722Z",
+  "conditions": {
+    "clean 960": {
+      "frames": 175,
+      "readable": 175,
+      "accepted": 175,
+      "rejected": 0,
+      "acceptedStateAccuracy": 1,
+      "falseAcceptanceRate": 0,
+      "falseAcceptances": 0,
+      "rejectionRate": 0,
+      "rejectReasons": {},
+      "categories": {
+        "card": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1400,
+          "correct": 1400,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1400,
+          "correct": 1400,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.9242001075568976,
+      "maxConfidenceWhenWrong": null
+    },
+    "clean 1920": {
+      "frames": 191,
+      "readable": 191,
+      "accepted": 191,
+      "rejected": 0,
+      "acceptedStateAccuracy": 1,
+      "falseAcceptanceRate": 0,
+      "falseAcceptances": 0,
+      "rejectionRate": 0,
+      "rejectReasons": {},
+      "categories": {
+        "card": {
+          "fields": 191,
+          "correct": 191,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1528,
+          "correct": 1528,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1528,
+          "correct": 1528,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 191,
+          "correct": 191,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 191,
+          "correct": 191,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 191,
+          "correct": 191,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.9558823529411289,
+      "maxConfidenceWhenWrong": null
+    },
+    "bilinear 1200 (125% DPI), calibrated at that scale": {
+      "frames": 190,
+      "readable": 190,
+      "accepted": 190,
+      "rejected": 0,
+      "acceptedStateAccuracy": 1,
+      "falseAcceptanceRate": 0,
+      "falseAcceptances": 0,
+      "rejectionRate": 0,
+      "rejectReasons": {},
+      "categories": {
+        "card": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1520,
+          "correct": 1520,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1520,
+          "correct": 1520,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.9205124487850955,
+      "maxConfidenceWhenWrong": null
+    },
+    "bilinear 1440 (150% DPI), calibrated at that scale": {
+      "frames": 232,
+      "readable": 232,
+      "accepted": 232,
+      "rejected": 0,
+      "acceptedStateAccuracy": 1,
+      "falseAcceptanceRate": 0,
+      "falseAcceptances": 0,
+      "rejectionRate": 0,
+      "rejectReasons": {},
+      "categories": {
+        "card": {
+          "fields": 232,
+          "correct": 232,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1856,
+          "correct": 1856,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1856,
+          "correct": 1856,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 232,
+          "correct": 232,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 232,
+          "correct": 232,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 232,
+          "correct": 232,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.9181317069676355,
+      "maxConfidenceWhenWrong": null
+    },
+    "bilinear 1200 (125% DPI), templates from clean 960 only": {
+      "frames": 190,
+      "readable": 190,
+      "accepted": 0,
+      "rejected": 190,
+      "acceptedStateAccuracy": null,
+      "falseAcceptanceRate": null,
+      "falseAcceptances": 0,
+      "rejectionRate": 1,
+      "rejectReasons": {
+        "low-confidence": 10,
+        "missed-hand-start": 3,
+        "untracked-hand": 170,
+        "hand-start-mismatch": 7
+      },
+      "categories": {
+        "card": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1520,
+          "correct": 1520,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1520,
+          "correct": 1520,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 190,
+          "correct": 190,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.7953881043484587,
+      "maxConfidenceWhenWrong": null
+    },
+    "noise ±12": {
+      "frames": 175,
+      "readable": 175,
+      "accepted": 175,
+      "rejected": 0,
+      "acceptedStateAccuracy": 1,
+      "falseAcceptanceRate": 0,
+      "falseAcceptances": 0,
+      "rejectionRate": 0,
+      "rejectReasons": {},
+      "categories": {
+        "card": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "stack": {
+          "fields": 1400,
+          "correct": 1400,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "bet": {
+          "fields": 1400,
+          "correct": 1400,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "pot": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "seat": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        },
+        "action": {
+          "fields": 175,
+          "correct": 175,
+          "wrong": 0,
+          "unread": 0,
+          "accuracyOfRead": 1,
+          "accuracyOverall": 1
+        }
+      },
+      "minConfidenceWhenCorrect": 0.9201477879279811,
+      "maxConfidenceWhenWrong": null
+    },
+    "noise ±40": {
+      "frames": 175,
+      "readable": 0,
+      "accepted": 0,
+      "rejected": 175,
+      "acceptedStateAccuracy": null,
+      "falseAcceptanceRate": null,
+      "falseAcceptances": 0,
+      "rejectionRate": 1,
+      "rejectReasons": {
+        "board card unreadable (score 0.16)": 2,
+        "board card unreadable (score 0.12)": 48,
+        "board card unreadable (score 0.15)": 10,
+        "board card unreadable (score 0.13)": 41,
+        "board card unreadable (score 0.14)": 20,
+        "board card unreadable (score 0.10)": 8,
+        "board card unreadable (score 0.11)": 33,
+        "seat 0 bet": 8,
+        "board card unreadable (score 0.09)": 3,
+        "board card unreadable (score 0.17)": 2
+      },
+      "categories": {
+        "card": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "stack": {
+          "fields": 1400,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 1400,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "bet": {
+          "fields": 1400,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 1400,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "pot": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "seat": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "action": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        }
+      },
+      "minConfidenceWhenCorrect": null,
+      "maxConfidenceWhenWrong": null
+    },
+    "noise ±90 (stress)": {
+      "frames": 175,
+      "readable": 0,
+      "accepted": 0,
+      "rejected": 175,
+      "acceptedStateAccuracy": null,
+      "falseAcceptanceRate": null,
+      "falseAcceptances": 0,
+      "rejectionRate": 1,
+      "rejectReasons": {
+        "board card unreadable (score 0.14)": 18,
+        "board card unreadable (score 0.12)": 48,
+        "board card unreadable (score 0.15)": 10,
+        "board card unreadable (score 0.13)": 42,
+        "board card unreadable (score 0.11)": 30,
+        "pot": 8,
+        "board card unreadable (score 0.10)": 10,
+        "board card unreadable (score 0.17)": 1,
+        "board card unreadable (score 0.16)": 4,
+        "board card unreadable (score 0.84)": 2,
+        "board card unreadable (score 0.85)": 1,
+        "board card unreadable (score 0.09)": 1
+      },
+      "categories": {
+        "card": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "stack": {
+          "fields": 1400,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 1400,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "bet": {
+          "fields": 1400,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 1400,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "pot": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "seat": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        },
+        "action": {
+          "fields": 175,
+          "correct": 0,
+          "wrong": 0,
+          "unread": 175,
+          "accuracyOfRead": null,
+          "accuracyOverall": 0
+        }
+      },
+      "minConfidenceWhenCorrect": null,
+      "maxConfidenceWhenWrong": null
+    }
+  },
+  "realClient": {
+    "frames": 0,
+    "status": "not measured: no genuine authorised client screenshots were available"
+  }
+}

@@ -1,0 +1,664 @@
+EightMax Test Workbench 0.24.0 — automated test results (Linux x64, Node v22.23.5, 2026-11-18T01:00Z)
+Windows was NOT available: no test here ran the C# host, the capture service, PowerShell scripts, the installer or any Windows binary.
+PowerShell was not installed, so .ps1 files were only structurally linted (balanced delimiters), never parsed.
+Chromium (Playwright) and Mono mcs were available and their tests ran.
+
+Run A: node --test tests/*.test.cjs with EIGHTMAX_TEST_CLI = Linux mwcli compiled from native/source (same flags as build.sh)
+  tests 542, pass 542, fail 0, skipped 0   (440 baseline + 102 new)
+Run B: same, without the native CLI
+  tests 542, pass 523, fail 0, skipped 19   (19 skips need the native CLI: environment-dependent, not functional failures)
+New test files: image-codec 7, screen-capture 16, hand-ledger 9, hand-tracker 12, solver-tree 10, executor-024 8, full-hand 14, solver-pool 8, vision-024 11, windows-release 7 (= 102).
+
+----- Run A (with native CLI): test names -----
+ok 1 - benchmark reports all burst counts without establishing live capacity
+ok 2 - statistics show deadline misses and partial-update solves separately
+ok 3 - cancellation refuses a completed report and invalid settings are rejected
+ok 4 - exact-settings cache returns copies and accounts for every material input
+ok 5 - partial, native, mismatched and practice results are not cached
+ok 6 - LRU eviction and byte limits remain bounded
+ok 7 - contradictory imported policies and invalid study metadata are rejected
+ok 8 - convergence settings default for older jobs and reject unknown or out-of-range values
+ok 9 - raised limits: 10M native updates, 16 GiB, 7-day time limit, 1M checkpoint interval; browser 10-minute budget
+ok 10 - runner, host and browser validators agree on the new bounds
+ok 11 - heads-up exact convergence falls with training and reports exploitability
+ok 12 - three-seat exact check reports per-seat gains and keeps training below an unmet target
+ok 13 - auto falls back to a lower bound on trees too large for exact and never claims convergence
+ok 14 - a check that cannot run is reported as unavailable without failing the study
+ok 15 - training continues past the former 50,000-update cap through chunked checkpoints
+ok 16 - tampered or inconsistent convergence blocks are refused
+ok 17 - dashboard exports convergence controls, shows the verdict on import and keeps it in workspace backups
+ok 18 - browser results and pre-0.18 native results say they were not convergence-checked
+ok 4 - tests/core.test.cjs
+ok 20 - binary CPU container round trips metadata and state with standard CRC32
+ok 21 - checkpoints reject bad engine, incompatible settings, counters and malformed containers
+ok 22 - metadata and row-count allocation bounds are checked before native parsing
+ok 23 - correct container CRC does not bypass the original engine row checksum
+ok 24 - different root, seed or captured history cannot resume a checkpoint
+ok 25 - a changed but valid saved configuration is refused by the native study identity
+ok 26 - resume target cannot precede committed updates and restore requires a fresh game
+ok 27 - interrupted root studies resume byte-for-byte on two-, three-, six- and eight-player profiles
+ok 28 - reviewed checkpoint continuation retains the same path and acting-seat policies
+ok 29 - bounded retained-state store evicts the oldest slot and owns its bytes
+ok 30 - runtime checkpoint data never becomes an ordinary strategy report or cached continuation
+ok 31 - fresh UI study retains a state, exports a separate file and keeps report/workspace JSON byte-free
+ok 32 - changing only target/time retains the CPU state and Continue adds only the missing updates
+ok 33 - cancelling continuation retains the previous checkpoint and ignores its late result
+ok 34 - physical draft edits discard the retained CPU state while study slots stay independent
+ok 35 - opening a CPU checkpoint validates in a worker and does not train automatically
+ok 36 - a reviewed file opens with its captured proof and can continue the same non-root position
+ok 37 - bad containers, oversized files and failed engine validation preserve the prior study/state
+ok 38 - stale asynchronous checkpoint reads and worker replies cannot replace later user edits
+ok 39 - workspace restore drops in-memory CPU states and cached reports cannot recreate them
+ok 40 - checkpoint controls exist in generated page and retained state is optional for fresh studies
+ok 41 - exported CPU state also resumes through the independent native engine at the same policy
+ok 42 - desktop page context requires exact loopback origin and a private session token
+ok 43 - health checks do not start jobs and send session credentials only in same-origin headers
+ok 44 - wrong engine, live capability and malformed health replies are refused
+ok 45 - native desktop status is bound to the request and rejects contradictory stages
+ok 46 - client progresses a mocked native job and validates the complete bound result
+ok 47 - wrong-result bindings are refused and cancellation is attempted
+ok 48 - simultaneous submissions cannot pass through the connection gap
+ok 49 - cancellation while submission is in flight cancels the newly acknowledged native job
+ok 50 - cancellation before connection completes never submits native work
+ok 51 - cancelling one study slot does not cancel another slot and resume keeps the binding
+ok 52 - connection failures report when native cancellation cannot be confirmed
+ok 53 - deadline expiry requests cancellation and preserves the last managed checkpoint status
+ok 54 - desktop request and response file limits and route allow-list are enforced
+ok 55 - portable page explains the desktop launcher and does not probe localhost
+ok 56 - dashboard submits reviewed native work and receives its validated result without file exchange
+ok 57 - input changes cancel in-flight managed work and block late policy commits
+ok 58 - browser emergency stop cancels managed native work and rejects its late result
+ok 59 - integrated native root jobs preserve the version-1 result route
+ok 60 - new desktop controls exist in generated markup and portable exports still work
+ok 61 - Windows desktop package supplies first-run compilation, install/uninstall and real acceptance paths
+ok 62 - recovery discovery is read only, handles an empty host and validates both record halves
+ok 63 - reloading a client recovers a completed reviewed result without submitting or resuming
+ok 64 - recovering a running job polls to completion and does not restart training
+ok 65 - interrupted and failed studies are adopted without training; continuation remains explicit
+ok 66 - idempotent submissions accept reordered fields and refuse changes under the same binding
+ok 67 - a lost submission reply fences and cancels work without retrying the training request
+ok 68 - cancelling before submission arrives fences the delayed request before any training starts
+ok 69 - unconfirmed work blocks new submissions until cancellation is confirmed
+ok 70 - finding an empty host does not erase an unconfirmed pending submission
+ok 71 - a stale cancel and its fallback fence cannot stop a newer resumed attempt
+ok 72 - duplicate compare-and-swap resumes launch only one additional attempt
+ok 73 - cancelling an unacknowledged resume skips its attempt and keeps the next resume possible
+ok 74 - recovering uncertain work fences its pending attempt before accepting a current record
+ok 75 - recovery refuses a replaced job and never stops its newer running replacement
+ok 76 - cancellation during recovery preflight cancels the owned existing attempt
+ok 77 - attempt limits and contradictory status revisions are rejected
+ok 78 - an observed running study blocks another submission until it is stopped or recovered
+ok 79 - discovery reconciles stale running state when the host already completed
+ok 80 - a full host ledger refuses new work without forgetting earlier cancellation fences
+ok 81 - a valid fragment session still connects when session storage is blocked
+ok 82 - dashboard discovery is read only and recovery restores the original slot, proof and result
+ok 83 - interrupted dashboard recovery prepares explicit Resume without starting training
+ok 84 - malformed discovery is atomic and does not overwrite the current draft
+ok 85 - editing a draft invalidates a recovery preview and late discovery is ignored
+ok 86 - observed work blocks dashboard capacity tests and emergency Stop cancels it
+ok 87 - portable recovery controls explain the launcher without probing the local host
+ok 88 - dashboard retains an unconfirmed submission, blocks another run and lets emergency Stop resolve it
+ok 89 - a draft edit during recovery preflight cannot be overwritten by the late attachment
+ok 90 - recovery of a legacy root job keeps root results and removes a prior reviewed link
+ok 91 - bet versus raise: an opening postflop wager is a bet, a wager facing one is a raise; tree labels cannot be misused
+ok 92 - every pre-execution check blocks: table, hand, actor, revision, legality, size, freshness, mode, pause, authorization
+ok 93 - duplicate submissions are blocked, including concurrent ones; the table sees exactly one action
+ok 94 - scripted fallback decisions: simulation only, explicitly allowed, labelled, counted apart; never in QA mode
+ok 95 - acknowledgement: an action the next state does not confirm leaves the table paused and unconfirmed
+ok 96 - adapter failures: refusal is recorded, timeout retries then pauses the table as unconfirmed, latency is recorded
+ok 97 - emergency stop aborts an in-flight submission and latches until reset
+ok 98 - QA authorization: needed, time-limited, loopback unless individually allow-listed, every attestation required
+ok 99 - Study Mode is the default and never acts
+ok 100 - Simulation Mode executes a validated solver decision through the simulator and logs it
+ok 101 - stale decisions are rejected: any change to the table after the decision invalidates it
+ok 102 - decisions older than the maximum action age are rejected
+ok 103 - duplicate actions for the same state are refused even if the first call is still in flight
+ok 104 - only EightMax study decisions execute; scripted fallback output and unavailable results never do
+ok 105 - illegal concrete actions are refused from reconstructed legal actions only
+ok 106 - a paused table or ambiguous state blocks execution; unknown tables are unrecognised
+ok 107 - unconfirmed actions retry with the same idempotency key, then pause the table with no further automation
+ok 108 - a retry that succeeds on the second try is confirmed once
+ok 109 - emergency stop blocks everything, aborts in-flight work, and needs an explicit reset
+ok 110 - Authorized QA Mode refuses to start without a complete, current, loopback-scoped authorization
+ok 111 - QA mode drives an approved loopback test client over real HTTP with idempotency keys
+ok 112 - the exported log replays on a fresh simulator to the identical table state
+ok 113 - new UI starts a real adapter request and renders frequencies without implicit table execution
+ok 114 - study slot drafts are independent and changed input cancels outstanding work
+ok 115 - late result handlers cannot overwrite a newer study status
+ok 116 - emergency stop cancels analysis and requires reset before new analysis
+ok 117 - automatic recovery stores table state and reopens paused
+ok 118 - imported display labels are escaped and corrupt session files leave state alone
+ok 119 - guided fields apply without JSON edits and survive switching study slots
+ok 120 - controlled hand UI displays actual trace frames and cancels on input change
+ok 121 - completed studies can reuse exact settings while changed settings create a worker
+ok 122 - capacity UI runs all bursts and exports a report without a live-capacity claim
+ok 123 - emergency stop terminates capacity workers and does not publish a partial report
+ok 124 - guided ordinary settings generate a real supported study
+ok 125 - guided setup preserves advanced contributions and ICM without silently changing seats
+ok 126 - preflop setup posts individual antes through the EightMax model
+ok 127 - bad board, seat count, empty ranges and invalid amounts are rejected
+ok 128 - complete hands from pixels only: preflop to settlement, chips conserved, every action acknowledged (12 hands, scripted decisions isolate the vision/state/execution path)
+ok 129 - the reconstructed history equals what the oracle table really did; replay with the same seed is identical
+ok 130 - real EightMax decisions where available, with exact attribution of everything else (preflop study + on-demand postflop studies)
+ok 131 - strict mode: without an allowed fallback a missing strategy suspends the hand with the reason; nothing is invented
+ok 132 - Study Mode observes and recommends but never executes
+ok 133 - emergency stop halts a hand mid-way: no action executes after it, the table state is frozen and consistent
+ok 134 - restart mid-hand: checkpoint, new process objects, the same hand continues to a correct settlement
+ok 135 - unreadable frames pause the table; consistent frames afterwards recover it and the hand still completes
+ok 136 - a capture that keeps failing suspends the hand instead of acting on an old frame
+ok 137 - animation guard: frames are read only after the screen stops changing
+ok 138 - stale decisions are never executed: a solver that answers for a different state is discarded and the hand is suspended after repeated misses
+ok 139 - decision timeout: a solver that never answers times out, suspends strictly, or falls back with a label when allowed
+ok 140 - Authorized QA mode end to end over HTTP: frames and actions cross a real network boundary, solver decisions only, every action acknowledged by the next frame
+ok 141 - QA interface protocol: idempotent actions, stale revisions refused, wrong hand refused, dropped acknowledgements become unconfirmed
+ok 142 - differential test: ledger and simulator agree on every legal-action view, pot, street and award (400 hands, random stacks 1.5-90 BB)
+ok 143 - blinds, antes and the opening pot: 8-handed 2.3 BB, configurable stakes
+ok 144 - illegal actions are refused: out of turn, check facing a bet, fold for free, short raise, raise above stack
+ok 145 - betting round closes only when everyone matched; the big blind keeps the option; the board is then required
+ok 146 - short all-in raise does not reopen the betting for players who already acted
+ok 147 - multiway side pots, dead money and uncalled-bet refund
+ok 148 - split pots divide exactly and give odd chips to the first seat clockwise from the button
+ok 149 - settlement checks reject impossible outcomes
+ok 150 - ledger checkpoints round-trip and reject tampering
+ok 151 - default tournament structure: eight-handed opening pot is 2.3 BB
+ok 152 - every observation of 300 simulated hands reconstructs exactly and matches the simulator
+ok 153 - explicit rejection of unreadable, missing, contradictory and invalid observations
+ok 154 - opening pot that is not 2.3 BB is rejected rather than repaired
+ok 155 - a hand that moves backwards or rewrites history is contradictory; the table stays paused until consistent frames return
+ok 156 - missing hole cards stay missing and are never invented
+ok 157 - revision changes only when the table content changes (basis of stale-decision rejection)
+ok 158 - card codec round-trips
+ok 159 - shipped example replay: exactly the deliberately corrupted frame is rejected and pauses the table
+ok 160 - example QA authorization template is intentionally invalid
+ok 161 - frame-by-frame: the action history is DERIVED from screens and equals what really happened (60 hands)
+ok 162 - derived contributions, side pots, minimum raise and reopening match the rules (state is decorated)
+ok 163 - gaps: several actions between two readings are recovered when each seat acted once
+ok 164 - a gap across a street change is recovered when the closing actions are forced
+ok 165 - ambiguous gaps are rejected: a seat that acted twice cannot be explained
+ok 166 - a hand first seen mid-way is not guessed at: rejected until the next hand opens, then recovery
+ok 167 - readings that contradict the rules are rejected: pot, controls, board, folded seat coming back, wrong actor
+ok 168 - all-in markers must agree with the stacks
+ok 169 - all-in runouts and short stacks: side pots appear in the reconstructed state and settlement is checked
+ok 170 - impossible settlements are rejected: a folded player cannot win, chips cannot appear
+ok 171 - configurable stakes: 2/4 blinds with 0.25 ante and mixed stacks reconstruct and are checked against the ledger
+ok 172 - checkpoint and restart: the table stays paused until fresh readings agree, then continues the same hand
+ok 173 - a detected NVIDIA GPU with CUDA reported by the driver is NOT reported as GPU acceleration
+ok 174 - GPU acceleration is only reported with executed=true and evidence
+ok 175 - target comparison reports facts and keeps simulation, unsupported and awaiting sections separate
+ok 176 - failed or missing native solver self-test and a hash mismatch are surfaced
+ok 177 - malformed facts are refused and the real collector output on this machine validates
+ok 178 - PNG encode/decode round-trips pixel-exactly
+ok 179 - every PNG scanline filter decodes (sub, up, average, paeth)
+ok 180 - corrupt, truncated and unsupported images are refused
+ok 181 - BMP 24-bit bottom-up and 32-bit top-down decode
+ok 182 - BGRA from GDI converts to RGBA and rejects short buffers
+ok 183 - shipped validation images decode as real PNG files (captured-fixture ingestion)
+ok 184 - resize and crop helpers keep geometry exact
+ok 185 - labeled evaluation measures wrong labels, false accepts and correct negative rejections separately
+ok 186 - exact reference crop overlap is visible without hiding any incorrect accepted results
+ok 187 - missing files remain unscored, make evaluation incomplete and reduce known-field coverage
+ok 188 - missing regions and field-kind mismatches are not counted as successful rejections
+ok 189 - decode failures and malformed/oversized decoded images stay isolated from other files
+ok 190 - fully unavailable evidence reports null accuracy instead of a perfect or zero fabricated score
+ok 191 - known labels that are rejected reduce coverage; all-negative rejected sets have no accepted accuracy
+ok 192 - calibrated aspect mismatches and duplicate visible cards are genuine recognition rejections
+ok 193 - amount labels use exact supported strings, without undocumented numeric coercion
+ok 194 - ten-table reports retain per-field identities and decode a shared screenshot only once
+ok 195 - dataset schemas refuse reused identities, contradictory labels, paths and changing field kinds
+ok 196 - manifest, field and file limits reject oversized inputs before decoding
+ok 197 - cancelling an awaited decoder prevents progress callbacks and completed reports
+ok 198 - an older cancelled run cannot replace or clear the busy state of a newer run
+ok 199 - in-flight calibration and expected-label snapshots survive mutation of caller objects
+ok 200 - one image is decoded at a time and exported reports contain no screenshot or template pixels
+ok 201 - synthetic validation UI exports a report and leaves observation, solver and simulated actions untouched
+ok 202 - manual manifest, calibration and mocked browser image decode use the same pipeline and close bitmaps
+ok 203 - a failed browser decode closes its bitmap, reports missing evidence and continues to other images
+ok 204 - global emergency stop cancels image validation and blocks overlapping CPU workflows
+ok 205 - calibration changes cancel a pending run and remove scores based on the old calibration
+ok 206 - late manifest imports cannot overwrite a newly selected demo and invalid imports preserve completed results
+ok 207 - guided labeling creates, updates and removes expected fields without editing JSON
+ok 208 - guided labels refuse a contradictory duplicate card without replacing saved ground truth
+ok 209 - recorded-image preview uses the selected file, closes its bitmap and clears before evaluation
+ok 210 - empty guided label sets cannot be exported or reported as a completed evaluation
+ok 211 - guided ground truth retains table ten identity and renders dataset names as text
+ok 212 - ten independent seeded tables complete hands with exact chip accounting; every action is a solver decision
+ok 213 - the same seeds reproduce identical results (determinism)
+ok 214 - with partial study coverage, unavailable decisions are reported and not disguised as solver decisions
+ok 215 - a crashing worker is isolated and recovers; other tables are unaffected
+ok 216 - a corrupted table state is permanently suspended; all other tables finish
+ok 217 - garbage and low-confidence observations pause that table without any action on the bad frame
+ok 218 - a table whose solver stalls times out and is suspended without freezing other tables
+ok 219 - emergency stop halts every table immediately and no further actions are executed
+ok 220 - memory budget: pressure holds tables and shrinks the cache but work still finishes sequentially
+ok 221 - capacity limiting: tables beyond the active-table budget are never started
+ok 222 - checkpoint mid-run, restart from the file contents and reach the identical final state
+ok 223 - table checkpoints round-trip exactly for any seed
+ok 224 - percentile statistics are correct
+ok 225 - Study Mode shows recommendations and executes nothing; the simulator never changes
+ok 226 - per-table pause holds a table without affecting others; resume is refused for failed tables
+ok 227 - dashboard decisions require a study: a scheduler without a decision source cannot be built
+ok 228 - saved history lists and inspects bound studies without starting work
+ok 229 - archive validators reject changed identity, counters, stages, duplicate rows and invalid dates
+ok 230 - a saved job opens without training and its completed result passes existing native validation
+ok 231 - interrupted saved jobs are adopted for explicit Resume without starting training
+ok 232 - stale archive record tokens cannot replace the current managed study
+ok 233 - prior-folder import has bounded outcomes and never starts native work
+ok 234 - batch files enforce unique study slots, exact job validation and combined byte/count bounds
+ok 235 - batch outcomes cannot claim simultaneous jobs or partial updates as completed
+ok 236 - batch submission is bound and idempotent rather than replaying completed work
+ok 237 - a lost batch submission reply is cancelled and fenced without retrying training
+ok 238 - cancellation before a delayed batch POST arrives prevents any study launch
+ok 239 - cancelling during batch connection does not submit work later
+ok 240 - unconfirmed batch cancellation stays busy until a later fence is confirmed
+ok 241 - a stale batch poll cannot resurrect work after confirmed cancellation
+ok 242 - a new dashboard observes persisted completed or paused batches without submitting work
+ok 243 - cancelling an older batch identity cannot stop a newer batch
+ok 244 - the UI inspects and opens completed saved studies into their original slot without workers
+ok 245 - an edit during saved-study opening cannot overwrite the changed draft
+ok 246 - batch preparation uses native export mode without training and draft Save/Open remains portable
+ok 247 - a submitted batch excludes other CPU workflows and global Stop confirms its cancellation
+ok 248 - batch result progress does not overwrite a study draft or claim partial completion
+ok 249 - invalid batch imports and stale file reads preserve the existing draft batch
+ok 250 - history and batch controls never probe localhost on a portable page
+ok 251 - runtime batch state and credentials stay outside workspace backups
+ok 252 - a disk-saved native checkpoint reopens without mutation and explicitly resumes to matching policies
+ok 253 - sequential Linux native studies save distinct root/reviewed results accepted by archive readers
+ok 254 - a paused host batch can copy unfinished snapshots into a fresh draft without restarting completed entries
+ok 255 - changing the saved-study selection during Open prevents a late draft replacement
+ok 256 - native controls enforce numeric resource bounds and bind a job to its originating slot
+ok 257 - native status snapshots validate stage, update counts and bounded metadata without executing work
+ok 258 - dashboard exports native resource controls and preserves the bound export in whole-workspace backup
+ok 259 - status import accepts only a snapshot matching the current slot and latest exported token
+ok 260 - native result import refuses wrong bindings and exports invalidated by a newly loaded study
+ok 261 - changing reviewed or ordinary study inputs clears exported native bindings
+ok 262 - native checkpoint chunks/resume reproduce uninterrupted root policies and cumulative targets
+ok 263 - native restore rejects an incompatible study without modifying the last completed checkpoint
+ok 264 - reviewed native export captures the exact path and both menus without training or policy rows
+ok 265 - native query projection retains combined action/card steps and later actor changes
+ok 266 - new native jobs reject changed proof, query, input range, menu and premature policy data
+ok 267 - bound reviewed exports refuse altered specs, tokens and other slots
+ok 268 - native dual-query result keeps root context and the target actor policy separate
+ok 269 - legacy version-1 root results still import while disguised non-root queries are refused
+ok 270 - native existing rows without positive average mass remain unavailable
+ok 271 - native import checks decision actor, board, money, bets, folds and action menu
+ok 272 - native import checks the entire action/card history instead of accepting a matching final pot
+ok 273 - native imports require full ordered acting ranges and validated frequencies
+ok 274 - native root and target queries must share completed counters and the requested total
+ok 275 - native envelope and standalone report file bounds reject oversized imports before state changes
+ok 276 - manual native export and result import keep the captured review and never execute simulator actions
+ok 277 - unbound, stale and wrong-slot reviewed native results are refused without replacing reports
+ok 278 - whole-workspace v3 restores bound reviewed native results paused and migrates 0.10/0.11 files
+ok 279 - worker export completion cannot bind an old job after the user changes the study
+ok 280 - reviewed native status snapshots still require the current slot and export token
+ok 281 - native chunked continuation preserves the non-root policy and full reviewed exchange
+ok 282 - native multi-street exchange retains exact history and excludes new-board blocked hands
+ok 283 - native linked preflop 2/6/8-seat roots reach the same reviewed flop actor
+ok 284 - native exchange preserves tiny explicit input weights instead of rounded printed weights
+ok 285 - two distinct stable frames are required and never certify executable state
+ok 286 - calls and folds are audited from a stable chip ledger
+ok 287 - low evidence, duplicate cards and pot mismatch latch pause
+ok 288 - out-of-order, reused frames, gaps and hand changes require review
+ok 289 - ambiguous turn-only and aggressive changes never advance accepted state
+ok 290 - missed multi-seat actions and chip conservation failures are refused
+ok 291 - street progression preserves known cards and refuses skipped streets
+ok 292 - ten tables stay isolated and reset is explicit
+ok 293 - equivalent field ordering does not interrupt stabilization
+ok 294 - sequence limits and schemas reject invalid files
+ok 295 - review UI runs the demo and exports an audit without executing a hand
+ok 296 - controlled hands use actual EightMax policy rows and conserve all pot awards
+ok 297 - practice is reproducible and leaves training state untouched
+ok 298 - missing policies stop practice rather than selecting a fallback
+ok 299 - all-in runout and weighted joint dealing do not duplicate cards
+ok 300 - incompatible ranges, malformed traces and ICM play are refused
+ok 301 - 8-handed posting anchor has a 2.3 BB pot and UTG acts first
+ok 302 - heads-up dealer is small blind and acts first before the flop
+ok 303 - incorrect blind, ante, dealt count, short posting and initial fold evidence are refused
+ok 304 - preflop sequences reconstruct calls, checks/folds and transition to the proper flop actor
+ok 305 - preflop study bridge restores pre-post stacks and matches the actual solver pot
+ok 306 - postflop bridge after an 8-seat preflop history preserves six live seats and folded antes
+ok 307 - preflop actor and chip movements match the separate simulator on 100 seeded hands
+ok 308 - changed posting evidence during a hand is rejected without mutating the round
+ok 309 - guided import preview and readable action timeline do not start solver workers
+ok 310 - reviewed initial preflop anchor opens an eight-seat solver draft without auto-solving
+ok 311 - only one worker runs while ten independent study slots queue
+ok 312 - replacing a study terminates the old worker and ignores late replies
+ok 313 - deadlines terminate workers and release the next slot
+ok 314 - emergency cancellation rejects queued and running work
+ok 315 - request state is copied before queueing; one worker error does not lose others
+ok 316 - two-worker pool never runs more than two jobs and cancels both
+ok 317 - end-to-end deadlines include queue wait and reject an already late completion
+ok 318 - queued CPU checkpoint bytes and metadata are copied without JSON byte expansion
+ok 319 - invalid checkpoint byte requests do not supersede an existing valid worker
+ok 320 - one application version everywhere
+ok 321 - engine identity is unchanged: vendor files and native build match the provenance record
+ok 322 - every new module is wired into the standalone build and the dashboard
+ok 323 - standalone START.html is exactly what tools/build.py produces from the sources
+ok 324 - Windows scripts and launchers exist; prebuilt host is a 64-bit PE and is referenced by the launcher
+ok 325 - no module in the new code references live-client interaction, process memory or evasion
+ok 326 - every saved frame boundary resumes to the exact uninterrupted audit, including refunds and showdown
+ok 327 - restoring a one-frame candidate preserves stability requirements without processing remaining frames
+ok 328 - custom stability and gap settings survive replay and continue identically
+ok 329 - a failed payout remains paused after restoration and cannot manufacture a completed record
+ok 330 - edited checkpoint source is re-audited rather than inheriting previously completed status
+ok 331 - reviewed resets are journaled at the original position and retain prior failure events
+ok 332 - ten-table recovery preserves a bad-table pause while nine other tables settle
+ok 333 - review files reject reports, incompatible rules, executable claims and malformed settings
+ok 334 - a saved operation history cannot skip, duplicate or reorder source frames or smuggle state
+ok 335 - review storage is bounded by bytes, source frames and operation count
+ok 336 - source and returned inspection data do not alias the working review
+ok 337 - hand inspection replays accepted actions, exposed cards and actual final side-pot balances
+ok 338 - completed-hand inspection separates uncalled refunds from awards and the following hand
+ok 339 - record identity disambiguates repeated table/hand labels after reviewed resets
+ok 340 - archive retention survives checkpoint replay and dropped record IDs cannot be inspected
+ok 341 - long-hand inspection has a bounded tail and explicitly marks omitted accepted steps
+ok 342 - review UI saves a partial candidate and resumes manually with no worker or simulation action
+ok 343 - automatic review recovery is separate from simulation recovery and never runs at startup
+ok 344 - storage quota failures retain the older save and leave manual review export available
+ok 345 - corrupt or oversized review imports leave current progress and completed records intact
+ok 346 - late asynchronous imports cannot overwrite a newly selected demo
+ok 347 - hand inspector controls and export show accepted states while keeping analysis and execution idle
+ok 348 - malformed source frames remain auditable failures rather than crashing import preview
+ok 349 - reviewed half-pot history maps the rotated opponent root to the actual hero decision
+ok 350 - action slots are derived from explicit menus instead of assumed indices
+ok 351 - off-menu bets and one-chip mismatches are refused even when display labels round together
+ok 352 - root ledger, ante, board and chip-EV assumptions cannot silently change
+ok 353 - root-folded money and later folds preserve every original seat mapping
+ok 354 - short all-in history matches the engine without reopening the earlier bettor
+ok 355 - combined final-call/turn snapshots and a later check retain the correct public-card path
+ok 356 - heads-up, six-seat and eight-seat preflop histories enter the verified flop action order
+ok 357 - explicit current-street anchoring carries earlier chips without posting blinds or antes twice
+ok 358 - missing policies remain unavailable and public-board conflicts are not queried as hands
+ok 359 - known hero cards outside the explicit acting range do not get an invented row
+ok 360 - path inspection and node queries leave exported training/RNG state unchanged
+ok 361 - unknown anchors, accounting phases, malformed frames, excessive history and changed cards are refused
+ok 362 - completed-hand selected-step preparation excludes future exposed opponent evidence
+ok 363 - report import validation refuses contradictory context, probabilities, hero labels and chance cards
+ok 364 - mapping has a bounded deadline and reviewed reports never enter the root-only cache
+ok 365 - preparing a reviewed draft is manual, slot-bound and present in actual page markup
+ok 366 - mapped links/reports survive workspace v3 and old version-1 workspaces still open
+ok 367 - later review changes do not silently alter captured study input; explicit new examples detach it
+ok 368 - reviewed draft files reopen without solving and preserve explicit current-street scope
+ok 369 - mapped non-root policies match the separate native engine at the same action path
+ok 370 - checks, bets, calls and action order are reconstructed from a round anchor
+ok 371 - short all-ins do not reopen a prior actor; full raises do
+ok 372 - illegal raises and premature street changes are rejected transactionally
+ok 373 - last call may be combined with a verified street transition
+ok 374 - observed betting matches independent simulator rules over seeded postflop rounds
+ok 375 - street-start bridge preserves pot, folds and original seat mapping
+ok 376 - tracker uses verified betting and bridge UI opens a draft without running a solver
+ok 377 - cumulative short raises reopen action after the full-raise threshold
+ok 378 - verified tracker pauses on a wrong next actor and keeps its accepted round
+ok 379 - round closure evidence cannot name an acting player or use an untyped flag
+ok 380 - frames carry increasing sequence numbers, timestamps, size, hash and target identity
+ok 381 - a failed capture is reported and the previous frame is never reused
+ok 382 - minimised, lost and covered windows are named, not silently captured
+ok 383 - stale frames are rejected: a frozen source does not keep producing "fresh" frames
+ok 384 - resolution changes are detected and withheld until the size settles
+ok 385 - window repositioning and DPI scale changes are carried in the frame metadata
+ok 386 - identity change (handle reused by another process) is refused
+ok 387 - blank, malformed and tiny frames are invalid
+ok 388 - interruption and recovery: repeated failures interrupt, consistent frames recover
+ok 389 - user-controlled start/stop with a real timer: configurable frequency, frames stop after stop()
+ok 390 - a source that cannot open reports it instead of pretending to run
+ok 391 - a hung capture call times out rather than blocking the session
+ok 392 - debug recording is bounded and indexed; recorded PNGs decode back to the frames
+ok 393 - monitor geometry: negative coordinates, multiple monitors, mixed DPI, off-screen regions
+ok 394 - HostCaptureSource speaks the desktop-host protocol (mock host, same JSON as CaptureService.cs)
+ok 395 - DPI-scaled windows: layout is resolution independent but templates are not — calibrated at the capture scale they read exactly; templates from another scale are refused, never misread
+ok 396 - ready, playing and completed sessions roundtrip in paused mode
+ok 397 - resumed tables continue with exactly equal decks, RNGs, cards and strategies
+ok 398 - restored session cannot reuse a pre-save action request
+ok 399 - stop latch, individual pause and error isolation survive recovery
+ok 400 - invalid session data is refused before replacing any live session
+ok 401 - uncalled excess is a refund, not pot winnings; side pots conserve every chip
+ok 402 - common/dead money merges with an identical eligible layer before odd-chip rounding
+ok 403 - tied pots send the odd chip clockwise from the dealer
+ok 404 - missing, duplicated or contradictory exposed cards prevent contested verification
+ok 405 - a fold winner needs no invented showdown cards
+ok 406 - showdown observations verify main/side pot awards and archive a partial street anchor
+ok 407 - wrong payout arrays or stack credits pause without accepting a settlement
+ok 408 - refund changes must exactly match the unmatched current-street contribution
+ok 409 - settlement is refused without an observed closed betting round
+ok 410 - next hand must preserve settled balances, dealer rotation, seat count and blind level
+ok 411 - duplicate stable settlement observations never archive the hand twice
+ok 412 - completed-hand retention is bounded and record IDs stay unique across many hands
+ok 413 - seeded pot allocations agree with EightMax pot layers and independent card ranking
+ok 414 - accounting schema rejects unknown phases and malformed evidence amounts
+ok 415 - review UI exposes completed records and exports them without running a solver
+ok 416 - balanced but wrong winner payments are refused by hand-strength evaluation
+ok 417 - missing or later contradicted showdown evidence cannot silently complete a hand
+ok 418 - dealer and posting evidence cannot change during settlement accounting
+ok 419 - new-hand gaps have a bounded allowance after settlement only
+ok 420 - a failed payout audit is isolated from a second table completing its hand
+ok 421 - worker threads run decisions in parallel on separate cores
+ok 422 - a runaway (never-yielding) solver is terminated and replaced; unrelated tables are unaffected
+ok 423 - the one-thread cooperative scheduler cannot do this: a synchronous runaway blocks the whole thread (why the pool exists)
+ok 424 - stale jobs are really killed: cancelling a running decision terminates the worker, and the pool recovers
+ok 425 - queue bounds: overflow is refused explicitly, and queued jobs are cancelled before they start
+ok 426 - a crashed worker is replaced and only its own request fails
+ok 427 - a factory that fails to initialise is reported, not hidden
+ok 428 - multi-table isolation: one table's solver stalls, the other tables keep completing hands through the same pool
+ok 429 - engine identification refuses unknown builds and falls back to the validated 5.1 build
+ok 430 - capability negotiation checks protocol range and required queries
+ok 431 - request construction refuses states with missing cards or history; validation rejects malformed input
+ok 432 - study decisions use the real EightMax strategy rows; probabilities sum to 1; nothing is certified
+ok 433 - unsupported situations are answered "unavailable", never improvised
+ok 434 - exact-input cache returns copies for identical inputs and misses on any input change
+ok 435 - cache respects its byte budget with LRU eviction, and shrinks under memory pressure
+ok 436 - a decision that finishes after the table state changed is discarded as stale
+ok 437 - a newer request for a table cancels its obsolete queued and running requests
+ok 438 - timeouts free the worker and later requests still succeed (solver timeout recovery)
+ok 439 - bounded queue rejects overflow; urgent priorities run first; concurrency never exceeds the worker budget
+ok 440 - stop() cancels everything and later submissions are refused
+ok 441 - menu labels parse into exact chip amounts and executable actions
+ok 442 - requests from tracked states carry everything the mapping must validate
+ok 443 - postflop: a study is built from the reconstructed state and answers with a legal strategy (EightMax 5.1 engine)
+ok 444 - postflop: the study tree must follow the recorded betting exactly, size by size
+ok 445 - unsupported states are explicit: all-in player at street start, too many live players, preflop request, hero hand outside the study range
+ok 446 - node validation: a pot or stack that disagrees with the tree is never papered over
+ok 447 - preflop linked tree: seat order, history walk, pooling of suit-equivalent hands, honest unavailability
+ok 448 - composite source: first ok wins, otherwise every reason is reported and nothing is substituted
+ok 449 - engine identity: unsupported builds are refused and no newer solver is claimed
+ok 450 - native EightMax CLI trains an on-demand postflop study off-thread and the JS reader returns the same kind of answer
+ok 451 - adapter uses unmodified 5.1 source with exact file hashes
+ok 452 - study adapters produce actual stored root policies on river, flop6 and preflop8
+ok 453 - adapter frequencies equal direct EightMax queries with identical settings
+ok 454 - unknown rows remain unavailable; probabilities and malformed inputs are rejected
+ok 455 - adapter honors time budgets and strategy budgets without calling output exact GTO
+ok 456 - native CLI root policies match the browser reference on three real studies
+ok 38 - tests/ui-logic.test.cjs
+ok 39 - tests/ui.test.cjs
+ok 459 - v2 layout reads hand id, all-in markers, action controls, call amount and minimum raise from pixels
+ok 460 - hero-seat rotation: all eight views of one table decode to the same absolute state
+ok 461 - synthetic accuracy is measured per category, with false-acceptance and rejection rates, and kept apart from other domains
+ok 462 - wrong readings are counted as wrong, not hidden: a corrupted number is a false acceptance only if the state engine accepts it
+ok 463 - misread numbers that are still readable are caught downstream by the rules (accounting + controls)
+ok 464 - conservative rejection is preserved: unreadable cards, blank regions, wrong layout and tiny images are refused with reasons
+ok 465 - temporal filtering: stability gate and reading consensus withhold anything that is still changing
+ok 466 - custom OCR regions are validated before use: missing, off-image and overlapping numeral boxes are refused
+ok 467 - operator calibration from labelled screenshots builds usable templates and reports what it skipped
+ok 468 - genuine PNG files from the repository fixtures ingest through the codec and the observer rejects them cleanly (they are not poker tables)
+ok 469 - REAL BROWSER RASTERISATION (Chromium): calibrate on labelled screenshots, read held-out play at several device pixel ratios, zero false acceptances
+ok 470 - screenshots of a controlled simulator reconstruct to the exact table state at 800, 960, 1440 and 1920 px wide
+ok 471 - an uncalibrated resolution never yields a wrong accepted state
+ok 472 - mild pixel noise keeps zero wrong states; frames it cannot read are rejected rather than guessed
+ok 473 - images below the minimum resolution are rejected explicitly
+ok 474 - severe noise yields rejections, never silent errors
+ok 475 - unrecognised layout, blank image, hidden hero cards and occlusion are explicit rejections
+ok 476 - a misread number that is still readable is caught by the accounting checks
+ok 477 - precision, recall and error-rate reporting counts rejections separately from errors
+ok 478 - digit OCR reads every value 0 to 20000 at several scales, or rejects it
+ok 479 - recorded observation replay reports the exact rejection and pause points
+ok 480 - template reader accepts distinctive matches and refuses ambiguous/unseen/blank regions
+ok 481 - regions are independent for ten tables, bounded and normalized
+ok 482 - image normalization is deterministic and rejects mismatched layouts
+ok 483 - calibration roundtrip preserves samples and rejects invalid labels and values
+ok 484 - contradictory duplicate cards are rejected across visible fields
+ok 485 - capture service uses only documented, ordinary window-capture calls: no memory access, injection, hooks, input synthesis or concealment
+ok 486 - the desktop host exposes capture only behind the session token and explicit consent, and advertises what it really has
+ok 487 - C\# sources compile (Mono mcs, x64): host + capture service and the stand-alone capture tool
+ok 488 - Windows PE metadata: shipped executables are x64 PE32+ images with the right subsystem
+ok 489 - PowerShell scripts: structural lint only (balanced delimiters, strict error handling). This is NOT a PowerShell parse; PowerShell was unavailable here
+ok 490 - launchers point at scripts that exist; the release lists a capture acceptance entry point and a rollback
+ok 491 - no package-manager or runtime install is needed on the target PC: the release carries everything it runs
+ok 492 - actual generated worker bundle solves on an isolated JS thread
+ok 493 - worker exports a valid native job, and rejects malformed configuration
+ok 494 - generated worker solves and plays a controlled hand using actual policies
+ok 495 - generated worker validates the reviewed path before training and returns the non-root actor policies
+ok 496 - generated worker refuses off-menu reviewed bets rather than returning a nearby root policy
+ok 497 - generated worker exports a matched native reviewed job without training
+ok 498 - generated worker refuses an off-menu native export before issuing any job
+ok 499 - generated worker retains a fresh CPU state separately from its strategy report
+ok 500 - generated worker resumes an exact root state toward a cumulative target
+ok 501 - generated worker inspects reviewed checkpoints without training before later continuation
+ok 502 - generated worker refuses corrupted CPU state, smaller targets and implicit checkpoint use
+ok 503 - ten browser study slots share ownership while exclusive workflows are refused
+ok 504 - stale releases and forged tokens cannot remove a newer slot or exclusive owner
+ok 505 - invalid ownership requests are atomic and snapshots contain no mutable leases
+ok 506 - a display failure cannot lose ownership and clearing one slot preserves other jobs
+ok 507 - the activity display shows queued slots and one running study worker
+ok 508 - native preparation excludes studies, diagnostics, image validation and capacity workers before submission
+ok 509 - browser diagnostics retain ownership while studies and native work are refused
+ok 510 - image validation cannot cancel a diagnostic worker, and runs after explicit diagnostic cancellation
+ok 511 - starting capacity testing cancels ordinary queued studies without a stale release clearing its owner
+ok 512 - browser checks can replace a capacity test without its late cleanup stopping the new worker
+ok 513 - CPU checkpoint import is refused before reading a file during exclusive compute work
+ok 514 - a reload discovers host work before a browser study can allocate a worker
+ok 515 - capacity, image validation and diagnostics preflight a newly opened desktop session read-only
+ok 516 - a slow native-idle preflight reserves compute and emergency Stop blocks a late worker start
+ok 517 - stopping a pending capacity preflight cannot resurrect its queue or clear a later owner
+ok 518 - cancelling browser diagnostics during preflight prevents any late diagnostic worker
+ok 519 - cancelling image validation during preflight prevents decoding and clears its owner
+ok 520 - a disconnected host blocks compute startup and releases the failed reservation
+ok 521 - native recovery cannot replace a slot while another CPU study is active
+ok 522 - compute ownership is transient and excluded from saved workspace files
+ok 523 - native restoring status must keep the original job target and bounded counters
+ok 524 - Stop managed native study also cancels browser preparation before the host request exists
+ok 525 - whole-workspace round trip keeps studies, unfinished guided edits, labels, review, calibration and simulation
+ok 526 - unfinished invalid advanced JSON is preserved as a draft without launching a calculation
+ok 527 - manual backups embed image bytes and reopen them as file objects without decoding or executing them
+ok 528 - reference-only workspace restores metadata and clearly reports missing source images
+ok 529 - automatic whole-workspace recovery never overwrites an older save on startup and omits image bytes
+ok 530 - quota failure retains the old automatic save and manual workspace export remains available
+ok 531 - invalid/oversized workspace imports leave simulation and workspace drafts unchanged
+ok 532 - all component schemas are checked before any workspace is replaced
+ok 533 - embedded images enforce canonical base64, byte counts, reference binding and aggregate bounds
+ok 534 - restoring a workspace invalidates a running study and ignores its late handler
+ok 535 - saved recognition aggregates are rebuilt from outcomes and contradictory outcome claims are refused
+ok 536 - late workspace file reads cannot overwrite a later recovery choice
+ok 537 - an unexpected component apply failure rolls back the prior workspace without restarting work
+ok 538 - browser diagnostics run one bounded real-format worker request and do not establish capacity
+ok 539 - cancelling/replacing browser checks cannot publish stale results or stop a newer worker
+ok 540 - Windows diagnostics remain supplied reports and survive workspace backup
+ok 541 - manual workspace bundles retain all selected validation files and their historical report
+ok 542 - a pending calibration-image decode cannot replace a newly restored workspace
+
+----- Run A summary -----
+# Subtest: a check that cannot run is reported as unavailable without failing the study
+# 20 tests passed. Platform: linux x64.
+# Subtest: tests/core.test.cjs
+# Subtest: correct container CRC does not bypass the original engine row checksum
+# Subtest: bad containers, oversized files and failed engine validation preserve the prior study/state
+# Subtest: simultaneous submissions cannot pass through the connection gap
+# Subtest: connection failures report when native cancellation cannot be confirmed
+# Subtest: interrupted and failed studies are adopted without training; continuation remains explicit
+# Subtest: observed work blocks dashboard capacity tests and emergency Stop cancels it
+# Subtest: adapter failures: refusal is recorded, timeout retries then pauses the table as unconfirmed, latency is recorded
+# Subtest: a capture that keeps failing suspends the hand instead of acting on an old frame
+# Subtest: failed or missing native solver self-test and a hash mismatch are surfaced
+# Subtest: decode failures and malformed/oversized decoded images stay isolated from other files
+# Subtest: an older cancelled run cannot replace or clear the busy state of a newer run
+# Subtest: a failed browser decode closes its bitmap, reports missing evidence and continues to other images
+# Subtest: per-table pause holds a table without affecting others; resume is refused for failed tables
+# Subtest: a saved job opens without training and its completed result passes existing native validation
+# Subtest: a lost batch submission reply is cancelled and fenced without retrying training
+# Subtest: missed multi-seat actions and chip conservation failures are refused
+# Subtest: street progression preserves known cards and refuses skipped streets
+# Subtest: a failed payout remains paused after restoration and cannot manufacture a completed record
+# Subtest: reviewed resets are journaled at the original position and retain prior failure events
+# Subtest: storage quota failures retain the older save and leave manual review export available
+# Subtest: malformed source frames remain auditable failures rather than crashing import preview
+# Subtest: a failed capture is reported and the previous frame is never reused
+# Subtest: interruption and recovery: repeated failures interrupt, consistent frames recover
+# Subtest: a failed payout audit is isolated from a second table completing its hand
+# Subtest: queue bounds: overflow is refused explicitly, and queued jobs are cancelled before they start
+# Subtest: a crashed worker is replaced and only its own request fails
+# Subtest: a factory that fails to initialise is reported, not hidden
+# Subtest: tests/ui-logic.test.cjs
+# Subtest: tests/ui.test.cjs
+# Subtest: operator calibration from labelled screenshots builds usable templates and reports what it skipped
+# Subtest: a display failure cannot lose ownership and clearing one slot preserves other jobs
+# Subtest: a disconnected host blocks compute startup and releases the failed reservation
+# Subtest: quota failure retains the old automatic save and manual workspace export remains available
+# Subtest: an unexpected component apply failure rolls back the prior workspace without restarting work
+# tests 542
+# pass 542
+# fail 0
+# cancelled 0
+# skipped 0
+# duration_ms 138971.445937
+
+----- Run B (no native CLI): skipped tests -----
+ok 11 - heads-up exact convergence falls with training and reports exploitability # SKIP
+ok 12 - three-seat exact check reports per-seat gains and keeps training below an unmet target # SKIP
+ok 13 - auto falls back to a lower bound on trees too large for exact and never claims convergence # SKIP
+ok 14 - a check that cannot run is reported as unavailable without failing the study # SKIP
+ok 15 - training continues past the former 50,000-update cap through chunked checkpoints # SKIP
+ok 16 - tampered or inconsistent convergence blocks are refused # SKIP
+ok 17 - dashboard exports convergence controls, shows the verdict on import and keeps it in workspace backups # SKIP
+ok 41 - exported CPU state also resumes through the independent native engine at the same policy # SKIP
+ok 252 - a disk-saved native checkpoint reopens without mutation and explicitly resumes to matching policies # SKIP
+ok 253 - sequential Linux native studies save distinct root/reviewed results accepted by archive readers # SKIP
+ok 262 - native checkpoint chunks/resume reproduce uninterrupted root policies and cumulative targets # SKIP
+ok 263 - native restore rejects an incompatible study without modifying the last completed checkpoint # SKIP
+ok 281 - native chunked continuation preserves the non-root policy and full reviewed exchange # SKIP
+ok 282 - native multi-street exchange retains exact history and excludes new-board blocked hands # SKIP
+ok 283 - native linked preflop 2/6/8-seat roots reach the same reviewed flop actor # SKIP
+ok 284 - native exchange preserves tiny explicit input weights instead of rounded printed weights # SKIP
+ok 369 - mapped non-root policies match the separate native engine at the same action path # SKIP
+ok 450 - native EightMax CLI trains an on-demand postflop study off-thread and the JS reader returns the same kind of answer # SKIP native CLI (EIGHTMAX_TEST_CLI) not available: native postflop training not verified in this run
+ok 456 - native CLI root policies match the browser reference on three real studies # SKIP
+----- Run B summary -----
+# Subtest: a check that cannot run is reported as unavailable without failing the study
+# 20 tests passed. Platform: linux x64.
+# Subtest: tests/core.test.cjs
+# Subtest: correct container CRC does not bypass the original engine row checksum
+# Subtest: bad containers, oversized files and failed engine validation preserve the prior study/state
+# Subtest: simultaneous submissions cannot pass through the connection gap
+# Subtest: connection failures report when native cancellation cannot be confirmed
+# Subtest: interrupted and failed studies are adopted without training; continuation remains explicit
+# Subtest: observed work blocks dashboard capacity tests and emergency Stop cancels it
+# Subtest: adapter failures: refusal is recorded, timeout retries then pauses the table as unconfirmed, latency is recorded
+# Subtest: a capture that keeps failing suspends the hand instead of acting on an old frame
+# Subtest: failed or missing native solver self-test and a hash mismatch are surfaced
+# Subtest: decode failures and malformed/oversized decoded images stay isolated from other files
+# Subtest: an older cancelled run cannot replace or clear the busy state of a newer run
+# Subtest: a failed browser decode closes its bitmap, reports missing evidence and continues to other images
+# Subtest: per-table pause holds a table without affecting others; resume is refused for failed tables
+# Subtest: a saved job opens without training and its completed result passes existing native validation
+# Subtest: a lost batch submission reply is cancelled and fenced without retrying training
+# Subtest: missed multi-seat actions and chip conservation failures are refused
+# Subtest: street progression preserves known cards and refuses skipped streets
+# Subtest: a failed payout remains paused after restoration and cannot manufacture a completed record
+# Subtest: reviewed resets are journaled at the original position and retain prior failure events
+# Subtest: storage quota failures retain the older save and leave manual review export available
+# Subtest: malformed source frames remain auditable failures rather than crashing import preview
+# Subtest: a failed capture is reported and the previous frame is never reused
+# Subtest: interruption and recovery: repeated failures interrupt, consistent frames recover
+# Subtest: a failed payout audit is isolated from a second table completing its hand
+# Subtest: queue bounds: overflow is refused explicitly, and queued jobs are cancelled before they start
+# Subtest: a crashed worker is replaced and only its own request fails
+# Subtest: a factory that fails to initialise is reported, not hidden
+# Subtest: tests/ui-logic.test.cjs
+# Subtest: tests/ui.test.cjs
+# Subtest: operator calibration from labelled screenshots builds usable templates and reports what it skipped
+# Subtest: a display failure cannot lose ownership and clearing one slot preserves other jobs
+# Subtest: a disconnected host blocks compute startup and releases the failed reservation
+# Subtest: quota failure retains the old automatic save and manual workspace export remains available
+# Subtest: an unexpected component apply failure rolls back the prior workspace without restarting work
+# tests 542
+# pass 523
+# fail 0
+# cancelled 0
+# skipped 19
+# duration_ms 124900.43146

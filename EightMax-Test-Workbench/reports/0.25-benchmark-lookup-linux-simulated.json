@@ -1,0 +1,933 @@
+{
+  "format": "eightmax-multitable-benchmark",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T02:57:58.049Z",
+  "classification": "SIMULATED TABLES on this machine; single-threaded Node.js; no GPU; not Windows target-hardware results",
+  "machine": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v22.23.5",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logicalCpus": 4,
+    "totalMemBytes": 16869130240
+  },
+  "study": {
+    "example": "preflop8 (8 seats, 25 BB, SB 0.5/BB 1/ante 0.1, push/fold)",
+    "trainingUpdates": 100000,
+    "trainingBackend": "native-cli-cpu",
+    "convergence": "unproven",
+    "engine": "5.1 build 7d08acc7eb4577ee"
+  },
+  "handsPerTable": 40,
+  "seed": 4127,
+  "runs": [
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 1,
+      "wallMs": 913.784251,
+      "handsCompleted": 40,
+      "actions": 319,
+      "solverActions": 287,
+      "fallbackActions": 32,
+      "handsPerSecond": 43.774008970088936,
+      "latency": {
+        "observation": {
+          "n": 359,
+          "mean": 0.008102401114201128,
+          "p50": 0.006405000000086147,
+          "p95": 0.02068699999972523,
+          "p99": 0.05607899999995425,
+          "max": 0.15114900000025955
+        },
+        "reconstruction": {
+          "n": 359,
+          "mean": 0.03617325905291291,
+          "p50": 0.031727000000046246,
+          "p95": 0.06694999999990614,
+          "p99": 0.11102100000016435,
+          "max": 0.6814589999999043
+        },
+        "solver": {
+          "n": 287,
+          "mean": 2.299651567944251,
+          "p50": 0,
+          "p95": 9,
+          "p99": 12,
+          "max": 24
+        },
+        "queueWait": {
+          "n": 287,
+          "mean": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "endToEnd": {
+          "n": 287,
+          "mean": 2.397417662020909,
+          "p50": 0.16649999999981446,
+          "p95": 9.511598000000049,
+          "p99": 12.141558999999688,
+          "max": 25.267965000000004
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 1146.766,
+        "systemMs": 38.73,
+        "utilizationOfOneCore": 1.297347813450114
+      },
+      "memory": {
+        "rssBytes": 149037056,
+        "peakRssBytes": 149037056,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 287,
+        "cacheBytes": 773378,
+        "stats": {
+          "submitted": 319,
+          "ok": 287,
+          "unavailable": 32,
+          "cacheHits": 0,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 0
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "resources": {
+        "format": "eightmax-resource-report",
+        "version": 1,
+        "units": {
+          "cpu": "ms of CPU time",
+          "cores": "logical-core equivalents (cpuMs / wallMs)",
+          "memory": "bytes",
+          "time": "ms",
+          "interval": "ms"
+        },
+        "sources": {
+          "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+          "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+          "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+          "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+          "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+          "gpu": "not measured: no verified GPU execution path exists in this build"
+        },
+        "elapsedMs": 915.1654779999999,
+        "sampleCount": 10,
+        "samplingIntervalMs": 100,
+        "logicalCpus": 4,
+        "process": {
+          "cpuMs": 1184.7949999999998,
+          "cpuCoresBusy": 1.294623790431046,
+          "cpuUtilizationOfMachine": 0.3236559476077615,
+          "rssBytesPeak": 149037056,
+          "rssBytesFinal": 149037056,
+          "heapUsedBytesPeak": 39594880
+        },
+        "workers": [],
+        "workerCount": 0,
+        "workerHeapBytesSum": null,
+        "workerBusyMsEstimateSum": null,
+        "nativeSolverRssBytes": null,
+        "gpu": {
+          "supported": false,
+          "measured": false,
+          "memoryBytes": null,
+          "note": "not measured: no verified GPU execution path exists in this build"
+        },
+        "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+        "validation": {
+          "ok": true,
+          "problems": []
+        }
+      },
+      "solverShare": 0.8996865203761756,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 2,
+      "wallMs": 352.82234000000017,
+      "handsCompleted": 80,
+      "actions": 636,
+      "solverActions": 577,
+      "fallbackActions": 59,
+      "handsPerSecond": 226.7430117945478,
+      "latency": {
+        "observation": {
+          "n": 716,
+          "mean": 0.0032435754189861794,
+          "p50": 0.0021499999998013664,
+          "p95": 0.007479999999759457,
+          "p99": 0.027111999999760883,
+          "max": 0.061850000000049477
+        },
+        "reconstruction": {
+          "n": 716,
+          "mean": 0.020526448324030194,
+          "p50": 0.016415999999935593,
+          "p95": 0.041806000000178756,
+          "p99": 0.07152200000018638,
+          "max": 0.20314800000005562
+        },
+        "solver": {
+          "n": 577,
+          "mean": 0.43154246100519933,
+          "p50": 0,
+          "p95": 5,
+          "p99": 6,
+          "max": 6
+        },
+        "queueWait": {
+          "n": 577,
+          "mean": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "endToEnd": {
+          "n": 577,
+          "mean": 0.4850057417677627,
+          "p50": 0.12331400000039139,
+          "p95": 5.0802450000001045,
+          "p99": 5.9797569999996085,
+          "max": 6.855956000000333
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 426.764,
+        "systemMs": 15.494,
+        "utilizationOfOneCore": 1.253486386377914
+      },
+      "memory": {
+        "rssBytes": 149954560,
+        "peakRssBytes": 149954560,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 577,
+        "cacheBytes": 1555216,
+        "stats": {
+          "submitted": 636,
+          "ok": 577,
+          "unavailable": 59,
+          "cacheHits": 0,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 0
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "resources": {
+        "format": "eightmax-resource-report",
+        "version": 1,
+        "units": {
+          "cpu": "ms of CPU time",
+          "cores": "logical-core equivalents (cpuMs / wallMs)",
+          "memory": "bytes",
+          "time": "ms",
+          "interval": "ms"
+        },
+        "sources": {
+          "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+          "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+          "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+          "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+          "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+          "gpu": "not measured: no verified GPU execution path exists in this build"
+        },
+        "elapsedMs": 355.01599899999974,
+        "sampleCount": 5,
+        "samplingIntervalMs": 100,
+        "logicalCpus": 4,
+        "process": {
+          "cpuMs": 444.4469999999999,
+          "cpuCoresBusy": 1.2519069598325347,
+          "cpuUtilizationOfMachine": 0.3129767399581337,
+          "rssBytesPeak": 149954560,
+          "rssBytesFinal": 149954560,
+          "heapUsedBytesPeak": 39710152
+        },
+        "workers": [],
+        "workerCount": 0,
+        "workerHeapBytesSum": null,
+        "workerBusyMsEstimateSum": null,
+        "nativeSolverRssBytes": null,
+        "gpu": {
+          "supported": false,
+          "measured": false,
+          "memoryBytes": null,
+          "note": "not measured: no verified GPU execution path exists in this build"
+        },
+        "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+        "validation": {
+          "ok": true,
+          "problems": []
+        }
+      },
+      "solverShare": 0.9072327044025157,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 5,
+      "wallMs": 439.4027960000003,
+      "handsCompleted": 200,
+      "actions": 1592,
+      "solverActions": 1449,
+      "fallbackActions": 143,
+      "handsPerSecond": 455.1632393345077,
+      "latency": {
+        "observation": {
+          "n": 1792,
+          "mean": 0.0025210111607132696,
+          "p50": 0.0020489999997153063,
+          "p95": 0.005353999999897496,
+          "p99": 0.007128999999622465,
+          "max": 0.0457910000004631
+        },
+        "reconstruction": {
+          "n": 1792,
+          "mean": 0.012450683035708414,
+          "p50": 0.010285999999723572,
+          "p95": 0.0246820000002117,
+          "p99": 0.05271100000027218,
+          "max": 0.08514600000034989
+        },
+        "solver": {
+          "n": 1449,
+          "mean": 0.6452726017943409,
+          "p50": 0,
+          "p95": 5,
+          "p99": 7,
+          "max": 15
+        },
+        "queueWait": {
+          "n": 1449,
+          "mean": 0.1808143547273982,
+          "p50": 0,
+          "p95": 1,
+          "p99": 6,
+          "max": 10
+        },
+        "endToEnd": {
+          "n": 1449,
+          "mean": 0.683721939268474,
+          "p50": 0.24253200000021025,
+          "p95": 5.211594999999761,
+          "p99": 7.936714999999822,
+          "max": 15.015869000000748
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 498.714,
+        "systemMs": 12.706,
+        "utilizationOfOneCore": 1.1638979193022696
+      },
+      "memory": {
+        "rssBytes": 155066368,
+        "peakRssBytes": 155066368,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1446,
+        "cacheBytes": 3898964,
+        "stats": {
+          "submitted": 1592,
+          "ok": 1449,
+          "unavailable": 143,
+          "cacheHits": 3,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 0
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "resources": {
+        "format": "eightmax-resource-report",
+        "version": 1,
+        "units": {
+          "cpu": "ms of CPU time",
+          "cores": "logical-core equivalents (cpuMs / wallMs)",
+          "memory": "bytes",
+          "time": "ms",
+          "interval": "ms"
+        },
+        "sources": {
+          "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+          "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+          "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+          "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+          "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+          "gpu": "not measured: no verified GPU execution path exists in this build"
+        },
+        "elapsedMs": 446.1577130000005,
+        "sampleCount": 6,
+        "samplingIntervalMs": 100,
+        "logicalCpus": 4,
+        "process": {
+          "cpuMs": 525.2150000000001,
+          "cpuCoresBusy": 1.1771958316452988,
+          "cpuUtilizationOfMachine": 0.2942989579113247,
+          "rssBytesPeak": 155066368,
+          "rssBytesFinal": 155066368,
+          "heapUsedBytesPeak": 46877368
+        },
+        "workers": [],
+        "workerCount": 0,
+        "workerHeapBytesSum": null,
+        "workerBusyMsEstimateSum": null,
+        "nativeSolverRssBytes": null,
+        "gpu": {
+          "supported": false,
+          "measured": false,
+          "memoryBytes": null,
+          "note": "not measured: no verified GPU execution path exists in this build"
+        },
+        "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+        "validation": {
+          "ok": true,
+          "problems": []
+        }
+      },
+      "solverShare": 0.910175879396985,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 8,
+      "wallMs": 403.0121369999997,
+      "handsCompleted": 320,
+      "actions": 2561,
+      "solverActions": 2326,
+      "fallbackActions": 235,
+      "handsPerSecond": 794.0207517869375,
+      "latency": {
+        "observation": {
+          "n": 2881,
+          "mean": 0.002116160360991902,
+          "p50": 0.0016420000001744484,
+          "p95": 0.004507999999987078,
+          "p99": 0.0065919999997277046,
+          "max": 0.05016299999988405
+        },
+        "reconstruction": {
+          "n": 2881,
+          "mean": 0.009013053106553892,
+          "p50": 0.007464999999683641,
+          "p95": 0.016397000000324624,
+          "p99": 0.032215000000178406,
+          "max": 0.15059699999983422
+        },
+        "solver": {
+          "n": 2326,
+          "mean": 0.8112639724849527,
+          "p50": 1,
+          "p95": 2,
+          "p99": 8,
+          "max": 13
+        },
+        "queueWait": {
+          "n": 2326,
+          "mean": 0.5395528804815133,
+          "p50": 0,
+          "p95": 2,
+          "p99": 7,
+          "max": 13
+        },
+        "endToEnd": {
+          "n": 2326,
+          "mean": 0.841306947979369,
+          "p50": 0.4468910000005053,
+          "p95": 2.215016000000105,
+          "p99": 7.913641000000098,
+          "max": 13.086365000000114
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 548.249,
+        "systemMs": 33.932,
+        "utilizationOfOneCore": 1.4445743603002221
+      },
+      "memory": {
+        "rssBytes": 164241408,
+        "peakRssBytes": 164241408,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1552,
+        "cacheBytes": 4193414,
+        "stats": {
+          "submitted": 2561,
+          "ok": 2326,
+          "unavailable": 235,
+          "cacheHits": 4,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 770
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "resources": {
+        "format": "eightmax-resource-report",
+        "version": 1,
+        "units": {
+          "cpu": "ms of CPU time",
+          "cores": "logical-core equivalents (cpuMs / wallMs)",
+          "memory": "bytes",
+          "time": "ms",
+          "interval": "ms"
+        },
+        "sources": {
+          "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+          "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+          "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+          "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+          "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+          "gpu": "not measured: no verified GPU execution path exists in this build"
+        },
+        "elapsedMs": 413.39679499999966,
+        "sampleCount": 6,
+        "samplingIntervalMs": 100,
+        "logicalCpus": 4,
+        "process": {
+          "cpuMs": 594.3870000000002,
+          "cpuCoresBusy": 1.4378123081481575,
+          "cpuUtilizationOfMachine": 0.3594530770370394,
+          "rssBytesPeak": 164241408,
+          "rssBytesFinal": 164241408,
+          "heapUsedBytesPeak": 59766176
+        },
+        "workers": [],
+        "workerCount": 0,
+        "workerHeapBytesSum": null,
+        "workerBusyMsEstimateSum": null,
+        "nativeSolverRssBytes": null,
+        "gpu": {
+          "supported": false,
+          "measured": false,
+          "memoryBytes": null,
+          "note": "not measured: no verified GPU execution path exists in this build"
+        },
+        "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+        "validation": {
+          "ok": true,
+          "problems": []
+        }
+      },
+      "solverShare": 0.9082389691526748,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 6,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 7,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 8,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    },
+    {
+      "format": "eightmax-multitable-run",
+      "version": 1,
+      "tables": 10,
+      "wallMs": 396.52051800000027,
+      "handsCompleted": 400,
+      "actions": 3208,
+      "solverActions": 2909,
+      "fallbackActions": 299,
+      "handsPerSecond": 1008.7750364534724,
+      "latency": {
+        "observation": {
+          "n": 3608,
+          "mean": 0.0013526865299475033,
+          "p50": 0.0009799999997994746,
+          "p95": 0.0024570000005041948,
+          "p99": 0.0038409999997384148,
+          "max": 0.16806300000007468
+        },
+        "reconstruction": {
+          "n": 3608,
+          "mean": 0.009767751385796383,
+          "p50": 0.0075239999996483675,
+          "p95": 0.019685999999637716,
+          "p99": 0.042237999999997555,
+          "max": 0.1623700000000099
+        },
+        "solver": {
+          "n": 2909,
+          "mean": 0.8679958748710898,
+          "p50": 1,
+          "p95": 2,
+          "p99": 6,
+          "max": 8
+        },
+        "queueWait": {
+          "n": 2909,
+          "mean": 0.6400825025782055,
+          "p50": 0,
+          "p95": 2,
+          "p99": 5,
+          "max": 7
+        },
+        "endToEnd": {
+          "n": 2909,
+          "mean": 0.9062802732897884,
+          "p50": 0.5599240000001373,
+          "p95": 2.4954859999998007,
+          "p99": 6.146962000000713,
+          "max": 8.07972400000017
+        }
+      },
+      "deadlineMs": 1500,
+      "deadlineMisses": 0,
+      "invalidObservations": 0,
+      "droppedObservations": 0,
+      "crashes": 0,
+      "recoveries": 0,
+      "cpu": {
+        "userMs": 459.729,
+        "systemMs": 23.935,
+        "utilizationOfOneCore": 1.2197704230780806
+      },
+      "memory": {
+        "rssBytes": 173547520,
+        "peakRssBytes": 173547520,
+        "budgetBytes": 1610612736,
+        "pressureEvents": 0
+      },
+      "gpu": {
+        "measured": false,
+        "note": "No GPU code path is used or measured by this module"
+      },
+      "solver": {
+        "queued": 0,
+        "active": 0,
+        "cacheEntries": 1552,
+        "cacheBytes": 4193850,
+        "stats": {
+          "submitted": 3208,
+          "ok": 2909,
+          "unavailable": 299,
+          "cacheHits": 3,
+          "cancelled": 0,
+          "stale": 0,
+          "timeout": 0,
+          "rejected": 0,
+          "error": 0,
+          "overflow": 0,
+          "evicted": 1354
+        },
+        "maxConcurrentDecisions": 1,
+        "workers": 2
+      },
+      "resources": {
+        "format": "eightmax-resource-report",
+        "version": 1,
+        "units": {
+          "cpu": "ms of CPU time",
+          "cores": "logical-core equivalents (cpuMs / wallMs)",
+          "memory": "bytes",
+          "time": "ms",
+          "interval": "ms"
+        },
+        "sources": {
+          "processCpu": "process.cpuUsage() sampled by the owning thread (process-wide user+system)",
+          "processRss": "process.memoryUsage().rss sampled by the owning thread (process-wide resident set)",
+          "workerHeap": "v8 heap statistics read inside the worker (that isolate only)",
+          "workerBusy": "worker performance.eventLoopUtilization().active (ESTIMATE of worker CPU; excludes native threads)",
+          "nativeRss": "resident set of the native solver child process (separate process; not part of process RSS)",
+          "gpu": "not measured: no verified GPU execution path exists in this build"
+        },
+        "elapsedMs": 412.59626800000024,
+        "sampleCount": 5,
+        "samplingIntervalMs": 100,
+        "logicalCpus": 4,
+        "process": {
+          "cpuMs": 499.92700000000013,
+          "cpuCoresBusy": 1.211661468542415,
+          "cpuUtilizationOfMachine": 0.30291536713560374,
+          "rssBytesPeak": 173809664,
+          "rssBytesFinal": 173809664,
+          "heapUsedBytesPeak": 60733064
+        },
+        "workers": [],
+        "workerCount": 0,
+        "workerHeapBytesSum": null,
+        "workerBusyMsEstimateSum": null,
+        "nativeSolverRssBytes": null,
+        "gpu": {
+          "supported": false,
+          "measured": false,
+          "memoryBytes": null,
+          "note": "not measured: no verified GPU execution path exists in this build"
+        },
+        "note": "process.* is measured once for the whole process; worker figures are per-isolate and are NEVER added to process RSS; worker busy time is an estimate.",
+        "validation": {
+          "ok": true,
+          "problems": []
+        }
+      },
+      "solverShare": 0.9067955112219451,
+      "perTableSummary": [
+        {
+          "table": 1,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 2,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 3,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 4,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 5,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 6,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 7,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 8,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 9,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        },
+        {
+          "table": 10,
+          "status": "done",
+          "hands": 40,
+          "deadlineMisses": 0,
+          "crashes": 0
+        }
+      ]
+    }
+  ]
+}

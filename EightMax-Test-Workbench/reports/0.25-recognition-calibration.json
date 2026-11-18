@@ -1,0 +1,694 @@
+{
+  "format": "eightmax-calibration-report",
+  "version": 1,
+  "appVersion": "0.25.0",
+  "generatedAt": "2026-11-18T03:13:30.318Z",
+  "trainHandsPerRow": 6,
+  "testHandsPerRow": 3,
+  "domainNote": "All rows are controlled-renderer images. No external client was measured; real-client accuracy is NOT measured.",
+  "realClient": {
+    "frames": 0,
+    "measured": false
+  },
+  "rows": [
+    {
+      "name": "same layout, held-out frames, 960 px",
+      "trainFrames": 125,
+      "learned": {
+        "glyphTemplates": 6476,
+        "cardTemplates": 426,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 56,
+      "accepted": 40,
+      "rejected": 16,
+      "rejectionRate": 0.2857142857142857,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 80,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 320,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 320,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 40,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 80,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 38,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 14079
+    },
+    {
+      "name": "unseen layout unseen-A (calibrated on it), 960 px",
+      "trainFrames": 113,
+      "learned": {
+        "glyphTemplates": 6132,
+        "cardTemplates": 333,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 63,
+      "accepted": 53,
+      "rejected": 10,
+      "rejectionRate": 0.15873015873015872,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 106,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 424,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 424,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 53,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 106,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 43,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 16024
+    },
+    {
+      "name": "unseen layout unseen-B (calibrated on it), 960 px",
+      "trainFrames": 104,
+      "learned": {
+        "glyphTemplates": 5793,
+        "cardTemplates": 274,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 48,
+      "accepted": 37,
+      "rejected": 11,
+      "rejectionRate": 0.22916666666666666,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 74,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 296,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 296,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 37,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 74,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 37,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 11264
+    },
+    {
+      "name": "unseen layout unseen-C (calibrated on it), 960 px",
+      "trainFrames": 109,
+      "learned": {
+        "glyphTemplates": 5757,
+        "cardTemplates": 331,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 63,
+      "accepted": 45,
+      "rejected": 18,
+      "rejectionRate": 0.2857142857142857,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 90,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 360,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 360,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 45,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 90,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 33,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 13134
+    },
+    {
+      "name": "profile calibrated for the original layout, tested on unseen-A",
+      "trainFrames": 125,
+      "learned": {
+        "glyphTemplates": 6485,
+        "cardTemplates": 389,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 72,
+      "accepted": 0,
+      "rejected": 72,
+      "rejectionRate": 1,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": null,
+      "categories": {
+        "card": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 0,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 5981
+    },
+    {
+      "name": "profile calibrated for the original layout, tested on unseen-B",
+      "trainFrames": 114,
+      "learned": {
+        "glyphTemplates": 6144,
+        "cardTemplates": 338,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 48,
+      "accepted": 0,
+      "rejected": 48,
+      "rejectionRate": 1,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": null,
+      "categories": {
+        "card": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 0,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 3908
+    },
+    {
+      "name": "profile calibrated for the original layout, tested on unseen-C",
+      "trainFrames": 109,
+      "learned": {
+        "glyphTemplates": 5583,
+        "cardTemplates": 373,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 55,
+      "accepted": 0,
+      "rejected": 55,
+      "rejectionRate": 1,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": null,
+      "categories": {
+        "card": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 0,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 3687
+    },
+    {
+      "name": "resolution 800 px, calibrated at 800",
+      "trainFrames": 122,
+      "learned": {
+        "glyphTemplates": 6054,
+        "cardTemplates": 442,
+        "complete": false
+      },
+      "testWidth": 800,
+      "frames": 65,
+      "accepted": 60,
+      "rejected": 5,
+      "rejectionRate": 0.07692307692307693,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 120,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 480,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 480,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 60,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 120,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 42,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 14875
+    },
+    {
+      "name": "resolution 800 px, templates from 960 px only",
+      "trainFrames": 118,
+      "learned": {
+        "glyphTemplates": 5922,
+        "cardTemplates": 402,
+        "complete": false
+      },
+      "testWidth": 800,
+      "frames": 55,
+      "accepted": 48,
+      "rejected": 7,
+      "rejectionRate": 0.12727272727272726,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 96,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 384,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 384,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 48,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 96,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 34,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 13594
+    },
+    {
+      "name": "resolution 1440 px, calibrated at 1440",
+      "trainFrames": 117,
+      "learned": {
+        "glyphTemplates": 6272,
+        "cardTemplates": 346,
+        "complete": false
+      },
+      "testWidth": 1440,
+      "frames": 49,
+      "accepted": 33,
+      "rejected": 16,
+      "rejectionRate": 0.32653061224489793,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 66,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 264,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 264,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 33,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 66,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 31,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 12839
+    },
+    {
+      "name": "resolution 1440 px, templates from 960 px only",
+      "trainFrames": 112,
+      "learned": {
+        "glyphTemplates": 5708,
+        "cardTemplates": 410,
+        "complete": false
+      },
+      "testWidth": 1440,
+      "frames": 53,
+      "accepted": 0,
+      "rejected": 53,
+      "rejectionRate": 1,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": null,
+      "categories": {
+        "card": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 0,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 11020
+    },
+    {
+      "name": "resolution 1920 px, calibrated at 1920",
+      "trainFrames": 105,
+      "learned": {
+        "glyphTemplates": 5906,
+        "cardTemplates": 270,
+        "complete": false
+      },
+      "testWidth": 1920,
+      "frames": 61,
+      "accepted": 41,
+      "rejected": 20,
+      "rejectionRate": 0.32786885245901637,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 82,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 328,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 328,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 41,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 82,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 37,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 17572
+    },
+    {
+      "name": "resolution 1920 px, templates from 960 px only",
+      "trainFrames": 120,
+      "learned": {
+        "glyphTemplates": 6245,
+        "cardTemplates": 416,
+        "complete": false
+      },
+      "testWidth": 1920,
+      "frames": 68,
+      "accepted": 63,
+      "rejected": 5,
+      "rejectionRate": 0.07352941176470588,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 126,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 504,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 504,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 63,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 126,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 46,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 21243
+    },
+    {
+      "name": "noise ±12, calibrated clean",
+      "trainFrames": 98,
+      "learned": {
+        "glyphTemplates": 5285,
+        "cardTemplates": 271,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 58,
+      "accepted": 55,
+      "rejected": 3,
+      "rejectionRate": 0.05172413793103448,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": 1,
+      "categories": {
+        "card": {
+          "correct": 110,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 440,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 440,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 55,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 110,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 42,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 13146
+    },
+    {
+      "name": "noise ±40, calibrated clean",
+      "trainFrames": 111,
+      "learned": {
+        "glyphTemplates": 6002,
+        "cardTemplates": 324,
+        "complete": false
+      },
+      "testWidth": 960,
+      "frames": 64,
+      "accepted": 0,
+      "rejected": 64,
+      "rejectionRate": 1,
+      "falseAcceptances": 0,
+      "acceptedStateAccuracy": null,
+      "categories": {
+        "card": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "stack": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "bet": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "pot": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "seat": {
+          "correct": 0,
+          "wrong": 0
+        },
+        "action": {
+          "correct": 0,
+          "wrong": 0
+        }
+      },
+      "domain": "synthetic (controlled renderer)",
+      "realClient": false,
+      "ms": 18588
+    }
+  ],
+  "totals": {
+    "frames": 878,
+    "falseAcceptances": 0
+  }
+}

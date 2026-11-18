@@ -1,0 +1,60 @@
+{
+  "version": "5.1",
+  "build": "7d08acc7eb4577ee",
+  "sourceArchive": "EightMax-Windows-5.1.zip",
+  "archiveSha256": "8c413fc17af6ea7d26a7c4da7de307b7fe209c36e312b2c1c8e7cfea0b071c1f",
+  "files": [
+    {
+      "path": "vendor/eightmax-5.1/lib_cards.js",
+      "sha256": "3596a30a64b6151a2207df7846565678cdcd5e8c1f45be489d8a8344a26f9ba4"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_eval.js",
+      "sha256": "49c4ba8cc99f048af94a6db9bfe7dfa36a6f7eacf817d8db7393b41415d56280"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_pots.js",
+      "sha256": "3f5721cc9b59401b52014f795fde8f4b95b313bf0b911b3da9384a30bb106235"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_icm.js",
+      "sha256": "7ab94c2a5f30a6c6a5ed90d0f56409aec607f780b1b2f585f6b62e6f098b8cca"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_information.js",
+      "sha256": "9925fb40c7883308565e9a0dbdb9a95c4e11b4eafadfe99473c19ed478ab9088"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_checkpoint.js",
+      "sha256": "d897798bbba3ee6684ea4d40629a94caea93db0affaf9672ed05edb70dcbd3d9"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_eqdata.js",
+      "sha256": "262739adae5c9b729a3ee4e06f32fc7d25e97619cae988dce06a7eb5fad1ac5f"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_pushfold.js",
+      "sha256": "cdfca92e091ec694023f70f55edfdf1f0923102cc17b3b583b317c3cd2b94a49"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_fgs.js",
+      "sha256": "75ed65858aca8cefcbe2d957bae8fa3b84c84c5f4295ef300f1976cd361fe6d7"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_runouts.js",
+      "sha256": "fd2095c06df50f7a52e9d00f10a2e23433e5403d792fb024baf40f3b392866b9"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_wide.js",
+      "sha256": "b990630397b97d1504c5bd8c13c142dece9a6d2d4d62aea266091e33534b6c4e"
+    },
+    {
+      "path": "vendor/eightmax-5.1/lib_river.js",
+      "sha256": "b7e590027a5ec570a635a086514553d716e21ef7550bfabd0df6744c096fc861"
+    },
+    {
+      "path": "native/mwcli.exe",
+      "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72"
+    }
+  ]
+}
