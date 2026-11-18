@@ -47,7 +47,8 @@ $env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
 Pop-Location
 Select-String -Path 'C:\em-results\node-tests.txt' -Pattern '^not ok' -Context 0,25 | Select-Object -First 30 | ForEach-Object { Write-Host ($_.Line); $_.Context.PostContext | Where-Object { $_ -match 'error|expected|actual|Error' } | Select-Object -First 6 | ForEach-Object { Write-Host ('    ' + $_) } }
 Section 'RESULTS COLLECTOR'
-& powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'windows\Collect-TestResults.ps1') -NoUi -Destination 'C:\em-results'
-$z = Get-ChildItem 'C:\em-results' -Filter 'EightMax-Windows-Test-Results-*.zip' | Select-Object -First 1
+$roots = @('C:\em-results\release') + (@('ReleaseAcceptance','Diagnostics','CaptureAcceptance','WgcAcceptance','Reports','Logs') | ForEach-Object { Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbench\' + $_) }) + (Join-Path $root 'reports')
+& powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'windows\Collect-TestResults.ps1') -NoUi -Destination 'C:\em-results\zip' -SearchRoot ($roots -join ',')
+$z = Get-ChildItem 'C:\em-results\zip' -Filter 'EightMax-Windows-Test-Results-*.zip' | Select-Object -First 1
 if ($z) { $t = Join-Path $env:TEMP 'collect'; [IO.Compression.ZipFile]::ExtractToDirectory($z.FullName, $t); Show (Join-Path $t 'README-RESULTS.txt') }
 exit 0
