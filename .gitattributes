@@ -1,0 +1,3 @@
+releases/*.zip binary
+releases/*.diff -text
+workbench-ci/*.ps1 -text
