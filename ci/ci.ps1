@@ -37,6 +37,8 @@ Write-Host ('Test-Release exit ' + $LASTEXITCODE + ' after ' + [int]$sw.Elapsed.
 Show (Join-Path $out 'critical-acceptance.json'); Show (Join-Path $out 'release-acceptance.json')
 foreach ($f in Get-ChildItem $out -Recurse -File -Include *.json,*.log,*.txt -ErrorAction SilentlyContinue | Where-Object { $_.Length -lt 200000 -and $_.Name -notin @('critical-acceptance.json','release-acceptance.json') -and $_.Name -notlike '*.png' }) { Show $f.FullName }
 $logs = Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\Logs'; Get-ChildItem $logs -File -ErrorAction SilentlyContinue | ForEach-Object { Show $_.FullName }
+Section 'NATIVE JOB FILES'
+Get-ChildItem (Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\NativeJobs') -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Length -lt 20000 -and $_.Extension -in '.txt','.log','.json' } | Select-Object -First 25 | ForEach-Object { Show $_.FullName }
 Section 'LEFTOVER PROCESSES'
 Get-Process -Name mwcli,EightMaxWorkbench,EightMaxCapture,EightMaxWgc -ErrorAction SilentlyContinue | Format-Table Id,ProcessName,StartTime | Out-String | Write-Host
 Section 'NODE REGRESSION SUITE (bundled runtime\node\node.exe, Windows)'
