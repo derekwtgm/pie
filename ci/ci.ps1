@@ -47,7 +47,7 @@ $files = (Get-ChildItem tests -Filter *.test.cjs | ForEach-Object { 'tests\' + $
 $env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
 & (Join-Path $root 'runtime\node\node.exe') --test --test-concurrency=2 @files 2>&1 | Tee-Object -FilePath 'C:\em-results\node-tests.txt' | Select-String -Pattern '^(not ok|# (tests|pass|fail|skipped|cancelled))' | ForEach-Object { Write-Host $_.Line }
 Pop-Location
-Select-String -Path 'C:\em-results\node-tests.txt' -Pattern '^not ok' -Context 0,25 | Select-Object -First 30 | ForEach-Object { Write-Host ($_.Line); $_.Context.PostContext | Where-Object { $_ -match 'error|expected|actual|Error' } | Select-Object -First 6 | ForEach-Object { Write-Host ('    ' + $_) } }
+Select-String -Path 'C:\em-results\node-tests.txt' -Pattern '^not ok' -Context 0,45 | Select-Object -First 30 | ForEach-Object { Write-Host ($_.Line); $_.Context.PostContext | Select-Object -First 45 | ForEach-Object { Write-Host ('    ' + $_) } }
 Section 'RESULTS COLLECTOR'
 $roots = @('C:\em-results\release') + (@('ReleaseAcceptance','Diagnostics','CaptureAcceptance','WgcAcceptance','Reports','Logs') | ForEach-Object { Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbench\' + $_) }) + (Join-Path $root 'reports')
 & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'windows\Collect-TestResults.ps1') -NoUi -Destination 'C:\em-results\zip' -SearchRoot ($roots -join ',')
