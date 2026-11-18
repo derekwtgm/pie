@@ -1,0 +1,26 @@
+name: EightMax Test Workbench - Windows validation
+# Workbench-only workflow on this branch (the default branch's workflow builds the older EightMax 2.x project).
+# Validates the exact candidate ZIP in candidate/ on a real Windows x64 runner. Hosted runner: no GPU, virtual display.
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate candidate release on Windows
+        shell: powershell
+        run: |
+          $zip = Get-ChildItem candidate -Filter 'EightMax-Test-Workbench-*.zip' | Select-Object -First 1
+          ./ci/ci.ps1 -Zip $zip.FullName
+      - name: Keep results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workbench-windows-results
+          path: C:\em-results
+          if-no-files-found: warn
