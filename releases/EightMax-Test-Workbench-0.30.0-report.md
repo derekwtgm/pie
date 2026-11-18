@@ -113,14 +113,22 @@ plus hero hand). B and A replay the D hands, so they show retrieval cost, not co
 Deadline mode at a 20 s request deadline trains often and has multi-second tails; it is not suitable for live timing.
 
 ## I. Windows reliability
-Performed here: host and capture tool rebuilt with Mono 6.8 against .NET Framework 4.8 reference assemblies, WGC helper with
-.NET SDK 8.0.134 (`tools/build-windows-binaries.sh`, hashes in `evidence/build-evidence.json`); IL guard, HTTP corpus replay,
-capture-session, WinForms and PowerShell 7 tests run under Linux. `desktop/COMPONENT-VERSIONS.json` is generated from evidence:
-mwcli.exe and node.exe are unchanged and validated in Windows CI (mwcli also ran on the target PC with 0.26); the three rebuilt
-executables are built and cross-compiled only, until a Windows run records their hashes. A Windows CI workflow for this ZIP
-(`.github/workflows/workbench-windows.yml`, `workbench-ci/ci.ps1`, adds library catalogue/precompute/verify/export and a 1–2
-table library benchmark) is committed with the release; see the delivery note for its outcome. GPU-composited capture, 150 % DPI,
-multi-monitor, antivirus and the i7-13700F are **not verified**.
+**Performed on Windows** — GitHub Actions run 44417377797 (job 135201096707), Windows Server 2025 runner (no GPU, 1024×768 virtual display),
+testing the exact 0.30.0 ZIP (SHA-256 `7ee96893…df243c`; the driver refuses a mismatching ZIP):
+* RUN-RELEASE-ACCEPTANCE (`Test-Release.ps1 -IncludeInstall`): **PASS**. Capture acceptance 14/14 (self-test 8 stages, 0 failed),
+  WGC acceptance PASS (13-stage self-test, 0 failed; bad arguments refused), desktop acceptance PASS, hardware check PASS;
+  results collector: 5 reports passed, **153 checks passed, 0 failed**. (The fetched log tail did not contain the per-check total of the
+  acceptance report, so the 0.29-style "81 of 81" figure is not restated here.)
+* Node suite with the bundled Windows node.exe: **734 tests, 709 pass, 0 fail, 25 skipped** (the Linux-only compile/shell/Playwright tests).
+* Strategy library on Windows: flop catalogue → precompute of 8 studies in 9 s with mwcli.exe → verify 8 of 8 intact → export bundle →
+  library benchmark D/B/A/C at 1–2 tables, all exit 0, all hands completed.
+* Built here: host and capture tool with Mono 6.8 against the .NET Framework 4.8 reference assemblies, WGC helper with .NET SDK 8.0.134
+  (`tools/build-windows-binaries.sh`, `evidence/build-evidence.json`).
+`desktop/COMPONENT-VERSIONS.json` is generated from `evidence/` by hash: all five executables are now *validated in Windows CI*;
+only mwcli.exe has run on the target PC (with 0.26). The ZIP delivered differs from the CI-tested ZIP only in
+`desktop/COMPONENT-VERSIONS.json`, `evidence/windows-ci-runs.json`, this report and `SHA256SUMS.txt` (no executable or script changed).
+**Not verified:** Windows 11 Home, the i7-13700F, GPU-composited capture on the RTX 4060 Ti, 150 % DPI, multiple monitors, antivirus,
+long sessions, a real rollback between two installed releases.
 
 ## J. Memory
 Snapshot records: heads-up ≈ 0.6 MB raw / 0.1 MB stored, 3-way ≈ 2.4 MB raw / 0.5 MB stored. Shared host at 10 tables held
