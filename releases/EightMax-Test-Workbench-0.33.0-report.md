@@ -132,13 +132,16 @@ outputs: branch `claude/workbench-0.33.0-ci-results`; facts in `evidence/windows
   **Node suite on Windows: 848 tests, 822 pass, 0 fail, 26 skipped** (Mono 13, FFmpeg 6, Playwright 4, Linux-only stubs 3; the
   PowerShell and .NET tests that are skipped on Linux ran here). 0.33 tools on Windows: preflop modes A/B/B169 (state sizes identical to
   Linux), flop solver (3 boards, 0.28–0.38 % of the pot), multiway cross-check (60.750 %), state anatomy, research summary — all exit 0.
-* **Not passed on the candidate:** (1) `strategy-library ranges` exit 1 — `EPERM mkdir 'C:\'` because the CI library lives at a drive
-  root (fixed in the final release; not re-run on that candidate). (2) `Test-LongDuration -Quick` exit 1 — the run stopped in stage 6
-  (ten-table simulation) and its report still said "passed": a pre-existing reporting defect, fixed (an aborted run now records a failed
-  "all acceptance stages completed" check); the stage-6 error text was not in the log, so its cause is **unresolved**.
-* The final ZIP differs from the validated candidate in documentation, evidence, `windows/Test-LongDuration.ps1` and
-  `tools/strategy-library.cjs`; executables are identical (same SHA-256). The final ZIP was pushed for a second validation run (see the
-  repository report `releases/EightMax-Test-Workbench-0.33.0-report.md`).
+* **Not passed on the candidate:** (1) `strategy-library ranges` exit 1 — `EPERM mkdir 'C:\\'` because the CI library lives at a drive
+  root. (2) `Test-LongDuration -Quick` exit 1 while its report said "passed" (pre-existing reporting defect: a stage threw and the report
+  listed only finished checks).
+* **Second validation, run 44581998216** (pre-final ZIP `c8a6f312…`): release acceptance PASS, Node suite again 848 / 822 / 0 / 26.
+  The reporting fix worked — the long-duration report now **fails** and names the cause: a pre-existing `Substring` length error in the
+  stage-5 quality check (output was trimmed, then cut with the untrimmed length). `ranges` exited 1 again with "Unknown command" — a
+  regression from my own first fix (a `//` comment cut the rest of a one-line handler). Both are fixed in the final ZIP; `ranges` is now
+  covered by a test that runs the command end to end (it passed here). **The final ZIP's fixes to these two scripts have not yet run on
+  Windows**: a third validation run was started on the final ZIP (see the repository report).
+* The final ZIP's executables are identical (same SHA-256) to those validated in both runs.
 * **Target-PC checks not run** (cannot be on hosted runners): 3840 x 2160 at 150 %, RTX 4060 Ti, long-duration capture, ten-table memory
   pressure on 16 GB, sustained solver load, worker recovery under load → `RUN-033-ACCEPTANCE.cmd`, `RUN-LONG-ACCEPTANCE.cmd`,
   `RUN-RELEASE-ACCEPTANCE.cmd`, then `COLLECT-TEST-RESULTS.cmd`.
@@ -146,8 +149,8 @@ outputs: branch `claude/workbench-0.33.0-ci-results`; facts in `evidence/windows
 ## L. Regression testing
 `docs/0.33-test-results.txt` (final run, `xvfb-run node --test --test-concurrency=4 tests/*.test.cjs`, native CLI, Playwright; no Mono, .NET
 or PowerShell here): **848 tests: 827 pass, 0 fail, 0 cancelled, 21 skipped** (6 PowerShell 7, 15 Mono/.NET SDK — the same 21 as the
-unmodified 0.32 baseline in this container: 823 / 802 / 0 / 21, `reports/0.33-baseline-tests-0.32.txt`), 258 s. **New tests: 25** in
-tests/preflop-033 (5), flop-033 (7), multiway-033 (8), release-033 (5). **Removed: none.** Changed older tests only where they assert
+unmodified 0.32 baseline in this container: 823 / 802 / 0 / 21, `reports/0.33-baseline-tests-0.32.txt`), 258 s. **New tests: 26** in
+tests/preflop-033 (5), flop-033 (7), multiway-033 (8), release-033 (6; the `ranges` end-to-end test was added after this run and passed on its own). **Removed: none.** Changed older tests only where they assert
 the current version (release-031, release-032, wgc-027, wgc-028, windows-025, pwsh/Common.Tests), the Windows-execution status (now
 evidence-based, release-032) and the compiler description (netfx-029: Linux cross-build → Windows .NET Framework compiler). The
 Windows validation stage runs the whole suite on Windows with the bundled Node runtime and PowerShell (section K). Coverage of the
