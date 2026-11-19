@@ -1,0 +1,42 @@
+{
+    "format":  "eightmax-build-evidence",
+    "version":  1,
+    "builtAt":  "2026-11-19T13:16:22.8780504Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "ci":  {
+               "runId":  "44531610774",
+               "runner":  "GitHub Actions 1000000112",
+               "repository":  "derekwtgm/pie",
+               "sha":  "8bb5c1632eec5e127f158bccc19cb417cd8cd159"
+           },
+    "outputs":  {
+                    "desktop/bin/EightMaxWorkbench.exe":  {
+                                                              "sha256":  "6efb020891f1468c71d3313a2589763d820bdcfcbf8c15cf4eff81937b0e2634",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+                                                              "sources":  [
+                                                                              "desktop/DesktopHost.cs",
+                                                                              "desktop/CaptureService.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          },
+                    "desktop/bin/EightMaxCapture.exe":  {
+                                                            "sha256":  "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978",
+                                                            "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                            "sources":  [
+                                                                            "desktop/capture/EightMaxCapture.cs",
+                                                                            "desktop/CaptureService.cs"
+                                                                        ],
+                                                            "crossCompiled":  false
+                                                        },
+                    "desktop/bin/EightMaxWgc.exe":  {
+                                                        "sha256":  "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb",
+                                                        "compiler":  ".NET SDK 10.0.403 on Windows, win-x64 self-contained single file",
+                                                        "sources":  [
+                                                                        "desktop/wgc/Program.cs",
+                                                                        "desktop/wgc/SelfTest.cs",
+                                                                        "desktop/wgc/PngWriter.cs"
+                                                                    ],
+                                                        "crossCompiled":  false
+                                                    }
+                }
+}

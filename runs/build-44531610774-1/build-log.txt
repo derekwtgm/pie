@@ -1,0 +1,112 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261119131540
+Username: runnervmm7ud1\runneradmin
+RunAs User: runnervmm7ud1\runneradmin
+Configuration Name: 
+Machine: runnervmm7ud1 (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command . 'D:\a\_temp\0d644686-1982-4269-96e9-390440172b6b.ps1'
+Process ID: 3080
+PSVersion: 5.1.26100.33648
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.33648
+BuildVersion: 10.0.26100.33648
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+OS: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CPU: AMD EPYC 9V74 80-Core Processor                ; RAM 16 GiB
+GPU: Microsoft Hyper-V Video
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:winexe /out:C:\em-build\bin\EightMaxWorkbench.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Workbench.DesktopHost D:\a\pie\pie\workbench-src\desktop\DesktopHost.cs D:\a\pie\pie\workbench-src\desktop\CaptureService.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:exe /out:C:\em-build\bin\EightMaxCapture.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll D:\a\pie\pie\workbench-src\desktop\capture\EightMaxCapture.cs D:\a\pie\pie\workbench-src\desktop\CaptureService.cs
+  Determining projects to restore...
+  Restored C:\Users\runneradmin\AppData\Local\Temp\em-wgc-58b2c1558df44d9caf4cd3fa70df6cd5\EightMaxWgc.csproj (in 9.42 sec).
+  EightMaxWgc -> C:\Users\runneradmin\AppData\Local\Temp\em-wgc-58b2c1558df44d9caf4cd3fa70df6cd5\bin\Release\net8.0-windows10.0.22000.0\win-x64\EightMaxWgc.dll
+  EightMaxWgc -> C:\Users\runneradmin\AppData\Local\Temp\em-wgc-58b2c1558df44d9caf4cd3fa70df6cd5\out\
+{
+    "format":  "eightmax-build-evidence",
+    "version":  1,
+    "builtAt":  "2026-11-19T13:16:22.8780504Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "ci":  {
+               "runId":  "44531610774",
+               "runner":  "GitHub Actions 1000000112",
+               "repository":  "derekwtgm/pie",
+               "sha":  "8bb5c1632eec5e127f158bccc19cb417cd8cd159"
+           },
+    "outputs":  {
+                    "desktop/bin/EightMaxWorkbench.exe":  {
+                                                              "sha256":  "6efb020891f1468c71d3313a2589763d820bdcfcbf8c15cf4eff81937b0e2634",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+                                                              "sources":  [
+                                                                              "desktop/DesktopHost.cs",
+                                                                              "desktop/CaptureService.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          },
+                    "desktop/bin/EightMaxCapture.exe":  {
+                                                            "sha256":  "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978",
+                                                            "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                            "sources":  [
+                                                                            "desktop/capture/EightMaxCapture.cs",
+                                                                            "desktop/CaptureService.cs"
+                                                                        ],
+                                                            "crossCompiled":  false
+                                                        },
+                    "desktop/bin/EightMaxWgc.exe":  {
+                                                        "sha256":  "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb",
+                                                        "compiler":  ".NET SDK 10.0.403 on Windows, win-x64 self-contained single file",
+                                                        "sources":  [
+                                                                        "desktop/wgc/Program.cs",
+                                                                        "desktop/wgc/SelfTest.cs",
+                                                                        "desktop/wgc/PngWriter.cs"
+                                                                    ],
+                                                        "crossCompiled":  false
+                                                    }
+                }
+}
+Build-Executables result 0
+---- capture version exit 0
+{"tool":"EightMaxCapture","version":"0.33.0","dpiAwareness":"per-monitor-v2 (thread)"}
+---- capture list-monitors exit 0
+{"format":"eightmax-capture-monitors","version":1,"virtual":{"x":0,"y":0,"width":1024,"height":768},"monitors":[{"id":0,"name":"\\\\.\\DISPLAY1","x":0,"y":0,"width":1024,"height":768,"dpiScale":1,"primary":true}]}
+---- capture selftest exit 0
+PASS create-window - hwnd=0x200a4 client=640x400 visible=True
+PASS capture-original - saved .\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400
+PASS verify-original-pixels - 640x400
+PASS capture-resized - saved .\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500
+PASS verify-resized-pixels - 800x500
+PASS detect-minimized - reply code=target-minimized
+PASS capture-after-restore - 800x500
+PASS detect-closed - original handle 0x200a4 IsWindow=False reply code=target-lost
+SELFTEST PASS
+---- wgc version exit 0
+{"tool":"EightMaxWgc","version":"0.33.0","backend":"windows-graphics-capture","os":"Microsoft Windows NT 10.0.26100.0"}
+---- wgc probe exit 0
+{"ok":true,"tool":"EightMaxWgc","version":"0.33.0","backend":"windows-graphics-capture","supported":true,"os":"Microsoft Windows NT 10.0.26100.0","detail":""}
+---- wgc selftest exit 0
+EightMaxWgc.exe : PASS create-window - hwnd=0x40118 dpiScale=1
+At D:\a\pie\pie\workbench-ci\build.ps1:15 char:43
++ function Probe($name, $exe, $argv) { $o = & $exe @argv 2>&1 | Out-Str ...
++                                           ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (PASS create-win...0118 dpiScale=1:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+PASS session-start - device=hardware size=640x400
+PASS first-frame - seq=1 640x400 ageMs=13.406 latencyMs=29.694
+PASS verify-original-pixels - 640x400 (expected 640x400)
+PASS resize-detected - resizes=1 frame=800x500
+PASS verify-resized-pixels - 800x500
+PASS refuse-wrong-process - refusal=target-identity-changed (handle checked against another process id)
+PASS detect-minimized - IsIconic=True refusal=target-minimized
+PASS recover-after-restore - seq=4 800x500
+PASS frame-sequence - first=1 latest=4 dropped=0 blank=0
+PASS repeated-sessions-and-cleanup - 5/5 sessions produced a frame; working-set growth 0 MiB (limit 64)
+PASS detect-closed - IsWindow=False itemClosedEvent=False
+PASS refuse-closed-handle - refusal=target-lost
+{"format":"eightmax-wgc-selftest","version":1,"toolVersion":"0.33.0","os":"Microsoft Windows NT 10.0.26100.0","stages":[{"stage":"create-window","status":"pass","detail":"hwnd=0x40118 dpiScale=1","ms":23.834},{"stage":"session-start","status":"pass","detail":"device=hardware size=640x400","ms":123.458},{"stage":"first-frame","status":"pass","detail":"seq=1 640x400 ageMs=13.406 latencyMs=29.694","ms":29.695},{"stage":"verify-original-pixels","status":"pass","detail":"640x400 (expected 640x400)","ms":0},{"stage":"resize-detected","status":"pass","detail":"resizes=1 frame=800x500","ms":53.013},{"stage":"verify-resized-pixels","status":"pass","detail":"800x500","ms":0},{"stage":"refuse-wrong-process","status":"pass","detail":"refusal=target-identity-changed (handle checked against another process id)","ms":0.483},{"stage":"detect-minimized","status":"pass","detail":"IsIconic=True refusal=target-minimized","ms":402.66},{"stage":"recover-after-restore","status":"pass","detail":"seq=4 800x500","ms":82.471},{"stage":"frame-sequence","status":"pass","detail":"first=1 latest=4 dropped=0 blank=0","ms":0},{"stage":"repeated-sessions-and-cleanup","status":"pass","detail":"5/5 sessions produced a frame; working-set growth 0 MiB (limit 64)","ms":191.908},{"stage":"detect-closed","status":"pass","detail":"IsWindow=False itemClosedEvent=False","ms":354.848},{"stage":"refuse-closed-handle","status":"pass","detail":"refusal=target-lost","ms":0.42}],"missingStages":[],"failures":0,"harnessErrors":0,"passed":true,"durationMs":1582}
+**********************
+Windows PowerShell transcript end
+End time: 20261119131628
+**********************

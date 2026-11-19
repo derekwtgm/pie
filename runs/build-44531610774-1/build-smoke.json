@@ -1,0 +1,52 @@
+{
+    "format":  "eightmax-ci-build",
+    "version":  1,
+    "runId":  "44531610774",
+    "sha":  "8bb5c1632eec5e127f158bccc19cb417cd8cd159",
+    "os":  "Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "buildExit":  0,
+    "smoke":  {
+                  "capture version":  {
+                                          "exit":  0,
+                                          "output":  "{\"tool\":\"EightMaxCapture\",\"version\":\"0.33.0\",\"dpiAwareness\":\"per-monitor-v2 (thread)\"}"
+                                      },
+                  "capture list-monitors":  {
+                                                "exit":  0,
+                                                "output":  "{\"format\":\"eightmax-capture-monitors\",\"version\":1,\"virtual\":{\"x\":0,\"y\":0,\"width\":1024,\"height\":768},\"monitors\":[{\"id\":0,\"name\":\"\\\\\\\\.\\\\DISPLAY1\",\"x\":0,\"y\":0,\"width\":1024,\"height\":768,\"dpiScale\":1,\"primary\":true}]}"
+                                            },
+                  "capture selftest":  {
+                                           "exit":  0,
+                                           "output":  "PASS create-window - hwnd=0x200a4 client=640x400 visible=True\r\nPASS capture-original - saved .\\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400\r\nPASS verify-original-pixels - 640x400\r\nPASS capture-resized - saved .\\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500\r\nPASS verify-resized-pixels - 800x500\r\nPASS detect-minimized - reply code=target-minimized\r\nPASS capture-after-restore - 800x500\r\nPASS detect-closed - original handle 0x200a4 IsWindow=False reply code=target-lost\r\nSELFTEST PASS"
+                                       },
+                  "wgc version":  {
+                                      "exit":  0,
+                                      "output":  "{\"tool\":\"EightMaxWgc\",\"version\":\"0.33.0\",\"backend\":\"windows-graphics-capture\",\"os\":\"Microsoft Windows NT 10.0.26100.0\"}"
+                                  },
+                  "wgc probe":  {
+                                    "exit":  0,
+                                    "output":  "{\"ok\":true,\"tool\":\"EightMaxWgc\",\"version\":\"0.33.0\",\"backend\":\"windows-graphics-capture\",\"supported\":true,\"os\":\"Microsoft Windows NT 10.0.26100.0\",\"detail\":\"\"}"
+                                },
+                  "wgc selftest":  {
+                                       "exit":  0,
+                                       "output":  "EightMaxWgc.exe : PASS create-window - hwnd=0x40118 dpiScale=1\r\nAt D:\\a\\pie\\pie\\workbench-ci\\build.ps1:15 char:43\r\n+ function Probe($name, $exe, $argv) { $o = \u0026 $exe @argv 2\u003e\u00261 | Out-Str ...\r\n+                                           ~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (PASS create-win...0118 dpiScale=1:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\nPASS session-start - device=hardware size=640x400\r\nPASS first-frame - seq=1 640x400 ageMs=13.406 latencyMs=29.694\r\nPASS verify-original-pixels - 640x400 (expected 640x400)\r\nPASS resize-detected - resizes=1 frame=800x500\r\nPASS verify-resized-pixels - 800x500\r\nPASS refuse-wrong-process - refusal=target-identity-changed (handle checked against another process id)\r\nPASS detect-minimized - IsIconic=True refusal=target-minimized\r\nPASS recover-after-restore - seq=4 800x500\r\nPASS frame-sequence - first=1 latest=4 dropped=0 blank=0\r\nPASS repeated-sessions-and-cleanup - 5/5 sessions produced a frame; working-set growth 0 MiB (limit 64)\r\nPASS detect-closed - IsWindow=False itemClosedEvent=False\r\nPASS refuse-closed-handle - refusal=target-lost\r\n{\"format\":\"eightmax-wgc-selftest\",\"version\":1,\"toolVersion\":\"0.33.0\",\"os\":\"Microsoft Windows NT 10.0.26100.0\",\"stages\":[{\"stage\":\"create-window\",\"status\":\"pass\",\"detail\":\"hwnd=0x40118 dpiScale=1\",\"ms\":23.834},{\"stage\":\"session-start\",\"status\":\"pass\",\"detail\":\"device=hardware size=640x400\",\"ms\":123.458},{\"stage\":\"first-frame\",\"status\":\"pass\",\"detail\":\"seq=1 640x400 ageMs=13.406 latencyMs=29.694\",\"ms\":29.695},{\"stage\":\"verify-original-pixels\",\"status\":\"pass\",\"detail\":\"640x400 (expected 640x400)\",\"ms\":0},{\"stage\":\"resize-detected\",\"status\":\"pass\",\"detail\":\"resizes=1 frame=800x500\",\"ms\":53.013},{\"stage\":\"verify-resized-pixels\",\"status\":\"pass\",\"detail\":\"800x500\",\"ms\":0},{\"stage\":\"refuse-wrong-process\",\"status\":\"pass\",\"detail\":\"refusal=target-identity-changed (handle checked against another process id)\",\"ms\":0.483},{\"stage\":\"detect-min"
+                                   },
+                  "file EightMaxWorkbench.exe":  {
+                                                     "productVersion":  "0.33.0",
+                                                     "fileVersion":  "0.33.0.0",
+                                                     "bytes":  146432,
+                                                     "sha256":  "6efb020891f1468c71d3313a2589763d820bdcfcbf8c15cf4eff81937b0e2634"
+                                                 },
+                  "file EightMaxCapture.exe":  {
+                                                   "productVersion":  "0.33.0",
+                                                   "fileVersion":  "0.33.0.0",
+                                                   "bytes":  41472,
+                                                   "sha256":  "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978"
+                                               },
+                  "file EightMaxWgc.exe":  {
+                                               "productVersion":  "0.33.0",
+                                               "fileVersion":  "0.33.0.0",
+                                               "bytes":  41652312,
+                                               "sha256":  "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb"
+                                           }
+              }
+}
