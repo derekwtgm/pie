@@ -7,8 +7,9 @@ $os = Get-CimInstance Win32_OperatingSystem; $cpu = Get-CimInstance Win32_Proces
 Write-Host ('OS: ' + $os.Caption + ' ' + $os.Version + ' build ' + $os.BuildNumber + '; CPU: ' + $cpu.Name + '; RAM ' + [math]::Round($os.TotalVisibleMemorySize/1MB,1) + ' GiB')
 Write-Host ('GPU: ' + ((Get-CimInstance Win32_VideoController | ForEach-Object { $_.Name }) -join '; '))
 $src = (Resolve-Path 'workbench-src').Path; $bin = Join-Path $out 'bin'
-& powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $src 'windows\Build-Executables.ps1') -Root $src -OutDir $bin
-$buildExit = $LASTEXITCODE; Write-Host ('Build-Executables exit ' + $buildExit)
+$buildExit = 0
+try { & (Join-Path $src 'windows\Build-Executables.ps1') -Root $src -OutDir $bin } catch { $buildExit = 1; Write-Host ('BUILD FAILED: ' + $_.Exception.Message); Write-Host $_.ScriptStackTrace }
+$ErrorActionPreference = 'Continue'; Write-Host ('Build-Executables result ' + $buildExit)
 Copy-Item (Join-Path $src 'evidence\build-evidence.json') $out -ErrorAction SilentlyContinue
 $smoke = [ordered]@{}
 function Probe($name, $exe, $argv) { $o = & $exe @argv 2>&1 | Out-String; $code = $LASTEXITCODE; Write-Host ('---- ' + $name + ' exit ' + $code); Write-Host $o; $smoke[$name] = [ordered]@{ exit = $code; output = $o.Trim().Substring(0, [math]::Min(2000, $o.Trim().Length)) } }

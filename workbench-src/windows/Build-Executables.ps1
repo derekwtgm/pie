@@ -16,21 +16,25 @@ if (-not (Test-Path -LiteralPath $csc)) { throw 'The .NET Framework 4.x C# compi
 $refs = @('System.dll','System.Core.dll','System.Web.Extensions.dll','System.Windows.Forms.dll','System.Drawing.dll') | ForEach-Object { '/r:' + (Join-Path $fw $_) }
 function Compile([string]$target, [string]$out, [string[]]$sources, [string]$main) {
   $args2 = @('/nologo','/langversion:5','/platform:x64','/optimize+','/target:' + $target,'/out:' + $out) + $refs + $(if ($main) { @('/main:' + $main) } else { @() }) + $sources
-  $o = & $csc @args2 2>&1; $o | ForEach-Object { Write-Host $_ }
-  if ($LASTEXITCODE -ne 0) { throw ('csc failed for ' + $out + ' (exit ' + $LASTEXITCODE + ')') }
+  Write-Host ('csc ' + ($args2 -join ' '))
+  $prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'   # Windows PowerShell 5.1 turns native stderr into errors under Stop
+  $o = & $csc @args2 2>&1 | ForEach-Object { "$_" }; $code = $LASTEXITCODE; $ErrorActionPreference = $prev
+  $o | ForEach-Object { Write-Host $_ }
+  if ($code -ne 0) { throw ('csc failed for ' + $out + ' (exit ' + $code + ')') }
 }
 $hostOut = Join-Path $OutDir 'EightMaxWorkbench.exe'; $capOut = Join-Path $OutDir 'EightMaxCapture.exe'; $wgcOut = Join-Path $OutDir 'EightMaxWgc.exe'
 Compile 'winexe' $hostOut @((Join-Path $Root 'desktop\DesktopHost.cs'), (Join-Path $Root 'desktop\CaptureService.cs')) 'EightMax.Workbench.DesktopHost'
 Compile 'exe' $capOut @((Join-Path $Root 'desktop\capture\EightMaxCapture.cs'), (Join-Path $Root 'desktop\CaptureService.cs')) $null
-$cscVersion = ((& $csc /help 2>&1 | Select-Object -First 1) -join ' ').Trim()
+$prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; $cscVersion = ((& $csc /help 2>&1 | ForEach-Object { "$_" } | Select-Object -First 1) -join ' ').Trim(); $ErrorActionPreference = $prev
 $dotnetVersion = $null
 if (-not $SkipWgc) {
   $dotnet = Get-Command dotnet -ErrorAction SilentlyContinue; if (-not $dotnet) { throw 'The .NET 8 SDK (dotnet) is needed for the WGC helper; use -SkipWgc to keep the shipped helper.' }
-  $dotnetVersion = (& dotnet --version).Trim()
+  $prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; $dotnetVersion = ((& dotnet --version 2>&1 | ForEach-Object { "$_" }) -join ' ').Trim(); $ErrorActionPreference = $prev
   $tmp = Join-Path $env:TEMP ('em-wgc-' + [guid]::NewGuid().ToString('N')); Copy-Item -Recurse (Join-Path $Root 'desktop\wgc') $tmp
   $env:DOTNET_CLI_TELEMETRY_OPTOUT = '1'; $env:DOTNET_NOLOGO = '1'
-  & dotnet publish (Join-Path $tmp 'EightMaxWgc.csproj') -c Release -o (Join-Path $tmp 'out') -p:SelfContained=true -p:EnableCompressionInSingleFile=true 2>&1 | ForEach-Object { Write-Host $_ }
-  if ($LASTEXITCODE -ne 0) { throw ('dotnet publish failed (exit ' + $LASTEXITCODE + ')') }
+  $prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+  & dotnet publish (Join-Path $tmp 'EightMaxWgc.csproj') -c Release -o (Join-Path $tmp 'out') -p:SelfContained=true -p:EnableCompressionInSingleFile=true 2>&1 | ForEach-Object { Write-Host "$_" }; $code = $LASTEXITCODE; $ErrorActionPreference = $prev
+  if ($code -ne 0) { throw ('dotnet publish failed (exit ' + $code + ')') }
   Copy-Item -Force (Join-Path $tmp 'out\EightMaxWgc.exe') $wgcOut; Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 }
 $os = Get-CimInstance Win32_OperatingSystem
