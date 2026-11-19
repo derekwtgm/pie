@@ -1,0 +1,20 @@
+wgc-tool-version                               PASS  {"tool":"EightMaxWgc","version":"0.33.0","backend":"windows-graphics-capture","os":"Microsoft Windows NT 10.0.26100.0"}
+wgc-supported                                  PASS  Windows Graphics Capture is supported on Microsoft Windows NT 10.0.26100.0
+wgc:create-window                              PASS  hwnd=0x40234 dpiScale=1
+wgc:session-start                              PASS  device=hardware size=640x400
+wgc:first-frame                                PASS  seq=1 640x400 ageMs=12.832 latencyMs=30.069
+wgc:verify-original-pixels                     PASS  640x400 (expected 640x400)
+wgc:resize-detected                            PASS  resizes=1 frame=800x500
+wgc:verify-resized-pixels                      PASS  800x500
+wgc:refuse-wrong-process                       PASS  refusal=target-identity-changed (handle checked against another process id)
+wgc:detect-minimized                           PASS  IsIconic=True refusal=target-minimized
+wgc:recover-after-restore                      PASS  seq=3 800x500
+wgc:frame-sequence                             PASS  first=1 latest=3 dropped=0 blank=0
+wgc:repeated-sessions-and-cleanup              PASS  5/5 sessions produced a frame; working-set growth 0 MiB (limit 64)
+wgc:detect-closed                              PASS  IsWindow=False itemClosedEvent=False
+wgc:refuse-closed-handle                       PASS  refusal=target-lost
+wgc-selftest-completed                         PASS  exit 0, 13 stages, 0 failed, 2268 ms
+wgc-invalid-handle-refused                     PASS  invalid window is refused: exit 1: {"ok":false,"backend":"windows-graphics-capture","code":"target-lost","reason":"The window no longer exists."}
+wgc-bad-arguments-refused                      PASS  exit 2: {"ok":false,"backend":"windows-graphics-capture","code":"bad-arguments","reason":"Unknown argument --nonsense"}
+wgc-process-cleanup                            PASS  No helper process left running.
+Windows Graphics Capture acceptance PASSED (19 passed, 0 failed) - report: C:\em-results\release\wgc\wgc-acceptance.json

@@ -1,0 +1,45 @@
+{
+ "format": "eightmax-workbench-study-meta",
+ "version": 1,
+ "name": "preflop8-linked",
+ "continuedFrom": null,
+ "status": "complete",
+ "updatesRequested": 2000000,
+ "updatesDone": 2000000,
+ "budgetMiB": 4096,
+ "bytes": 1176224469,
+ "sha256": "a6c1e3d7c202e1a604795dde2ab419fb29a6029665c2eb7b9da506735940a930",
+ "studyId": "236bcccdb8ed4011",
+ "tableMiB": 2718.548,
+ "processPeakRssMiB": 2740.4,
+ "history": [
+  {
+   "budgetMiB": 1024,
+   "status": "memory-limited",
+   "updatesDone": 317106,
+   "resumed": false,
+   "wallMs": 31381,
+   "processPeakRssMiB": 805.5,
+   "tableMiB": 687.297
+  },
+  {
+   "budgetMiB": 2048,
+   "status": "memory-limited",
+   "updatesDone": 1088406,
+   "resumed": true,
+   "wallMs": 85610,
+   "processPeakRssMiB": 1739.4,
+   "tableMiB": 1460.995
+  },
+  {
+   "budgetMiB": 4096,
+   "status": "complete",
+   "updatesDone": 2000000,
+   "resumed": true,
+   "wallMs": 124173,
+   "processPeakRssMiB": 2740.4,
+   "tableMiB": 2718.548
+  }
+ ],
+ "reason": null
+}

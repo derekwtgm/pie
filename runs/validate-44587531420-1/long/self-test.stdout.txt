@@ -1,0 +1,448 @@
+TAP version 13
+# Subtest: every mapping is defined with what it preserves and loses; none is enabled for decisions by default
+ok 1 - every mapping is defined with what it preserves and loses; none is enabled for decisions by default
+  ---
+  duration_ms: 1.4553
+  type: 'test'
+  ...
+# Subtest: suit isomorphism is exact: the relabelled strategy has the source solution's (tiny) exploitability in the target
+ok 2 - suit isomorphism is exact: the relabelled strategy has the source solution's (tiny) exploitability in the target
+  ---
+  duration_ms: 1281.6436
+  type: 'test'
+  ...
+# Subtest: an approximate mapping is measured, not assumed: a 5 bb stack shift shows a positive EV loss
+ok 3 - an approximate mapping is measured, not assumed: a 5 bb stack shift shows a positive EV loss
+  ---
+  duration_ms: 628.0212
+  type: 'test'
+  ...
+# Subtest: incompatible trees are refused (different menu shape), never silently translated
+ok 4 - incompatible trees are refused (different menu shape), never silently translated
+  ---
+  duration_ms: 46.8019
+  type: 'test'
+  ...
+# Subtest: river-blank substitution only produces boards with the same structure, or refuses
+ok 5 - river-blank substitution only produces boards with the same structure, or refuses
+  ---
+  duration_ms: 0.6431
+  type: 'test'
+  ...
+# Subtest: coverage accounting keeps exact, abstracted, solved-on-demand and unavailable apart (previously unseen hands)
+ok 6 - coverage accounting keeps exact, abstracted, solved-on-demand and unavailable apart (previously unseen hands)
+  ---
+  duration_ms: 0.3761
+  type: 'test'
+  ...
+# Subtest: quality-targeted Study Mode stores a VALIDATED heads-up river; decision use accepts it and reports its quality
+ok 7 - quality-targeted Study Mode stores a VALIDATED heads-up river; decision use accepts it and reports its quality
+  ---
+  duration_ms: 1399.4128
+  type: 'test'
+  ...
+# Subtest: the gate refuses a strategy that FAILED its quality check, for decisions and for simulation; policy "off" restores 0.30 behaviour
+ok 8 - the gate refuses a strategy that FAILED its quality check, for decisions and for simulation; policy "off" restores 0.30 behaviour
+  ---
+  duration_ms: 473.3787
+  type: 'test'
+  ...
+# Subtest: an UNVERIFIED strategy is usable only in labelled simulation experiments, never silently promoted
+ok 9 - an UNVERIFIED strategy is usable only in labelled simulation experiments, never silently promoted
+  ---
+  duration_ms: 97.5156
+  type: 'test'
+  ...
+# Subtest: on-demand heads-up river: a miss in Decision Mode is solved exactly in the decision and labelled "solved-on-demand"
+ok 10 - on-demand heads-up river: a miss in Decision Mode is solved exactly in the decision and labelled "solved-on-demand"
+  ---
+  duration_ms: 529.5333
+  type: 'test'
+  ...
+# Subtest: exact matching remains the default: one chip of difference is a different study, never substituted
+ok 11 - exact matching remains the default: one chip of difference is a different study, never substituted
+  ---
+  duration_ms: 582.8226
+  type: 'test'
+  ...
+# Subtest: strategy service (v2): exact identity served from shared memory; directory answers misses without a round trip
+ok 12 - strategy service (v2): exact identity served from shared memory; directory answers misses without a round trip
+  ---
+  duration_ms: 261.8337
+  type: 'test'
+  ...
+# Subtest: strategy service (v2): four threads fetch concurrently and all read the same bytes; memory is shared once
+ok 13 - strategy service (v2): four threads fetch concurrently and all read the same bytes; memory is shared once
+  ---
+  duration_ms: 507.5922
+  type: 'test'
+  ...
+# Subtest: strategy service (v2): a corrupted record is refused (checksum) and never served; a silent service times out as a miss
+ok 14 - strategy service (v2): a corrupted record is refused (checksum) and never served; a silent service times out as a miss
+  ---
+  duration_ms: 239.7844
+  type: 'test'
+  ...
+# Subtest: strategy directory: lock-free set semantics, no false negatives for stored keys, capacity guard
+ok 15 - strategy directory: lock-free set semantics, no false negatives for stored keys, capacity guard
+  ---
+  duration_ms: 0.8728
+  type: 'test'
+  ...
+# Subtest: ten simulated tables with the library, the quality gate and the v2 service: all hands complete, no stale or duplicate actions
+ok 16 - ten simulated tables with the library, the quality gate and the v2 service: all hands complete, no stale or duplicate actions
+  ---
+  duration_ms: 11206.2486
+  type: 'test'
+  ...
+# Subtest: queue: priority order, de-duplication, already-stored detection, only completed studies stored
+ok 17 - queue: priority order, de-duplication, already-stored detection, only completed studies stored
+  ---
+  duration_ms: 403.6039
+  type: 'test'
+  ...
+# Subtest: worker-thread mode: jobs train in their own threads, results identical to in-thread training, cancellation still works
+ok 18 - worker-thread mode: jobs train in their own threads, results identical to in-thread training, cancellation still works
+  ---
+  duration_ms: 624.3807
+  type: 'test'
+  ...
+# Subtest: cancellation: a queued job is cancelled; a running job is aborted and nothing is stored
+ok 19 - cancellation: a queued job is cancelled; a running job is aborted and nothing is stored
+  ---
+  duration_ms: 112.5583
+  type: 'test'
+  ...
+# Subtest: throttling: nothing starts while free memory is below reserve + job budget or while the decision workload asks for priority
+ok 20 - throttling: nothing starts while free memory is below reserve + job budget or while the decision workload asks for priority
+  ---
+  duration_ms: 195.3783
+  type: 'test'
+  ...
+# Subtest: persistent queue: a job interrupted mid-training resumes from its checkpoint after a restart (native engine)
+ok 21 - persistent queue: a job interrupted mid-training resumes from its checkpoint after a restart (native engine)
+  ---
+  duration_ms: 4675.2566
+  type: 'test'
+  ...
+# Subtest: native training is deterministic for a given identity (repeated-seed reproducibility)
+ok 22 - native training is deterministic for a given identity (repeated-seed reproducibility)
+  ---
+  duration_ms: 1588.5068
+  type: 'test'
+  ...
+# Subtest: planFromMisses queues the most frequent missing situations first
+ok 23 - planFromMisses queues the most frequent missing situations first
+  ---
+  duration_ms: 29.1328
+  type: 'test'
+  ...
+# Subtest: shared strategy memory: three worker threads read one copy of a record loaded by the host
+ok 24 - shared strategy memory: three worker threads read one copy of a record loaded by the host
+  ---
+  duration_ms: 295.6442
+  type: 'test'
+  ...
+# Subtest: simulator: a Study Mode pass fills the library; the Decision Mode replay of the same seeded hands trains nothing and is answered entirely from the library
+ok 25 - simulator: a Study Mode pass fills the library; the Decision Mode replay of the same seeded hands trains nothing and is answered entirely from the library
+  ---
+  duration_ms: 63804.4573
+  type: 'test'
+  ...
+# Subtest: exact exploitability: vectorised evaluator equals the independent per-deal evaluator (two games, 1e-9)
+ok 26 - exact exploitability: vectorised evaluator equals the independent per-deal evaluator (two games, 1e-9)
+  ---
+  duration_ms: 492.5367
+  type: 'test'
+  ...
+# Subtest: reference CFR+: vectorised and per-deal implementations follow the same trajectory and converge
+ok 27 - reference CFR+: vectorised and per-deal implementations follow the same trajectory and converge
+  ---
+  duration_ms: 2032.7152
+  type: 'test'
+  ...
+# Subtest: NashConv for a three-player river is exact and is never reported as a two-player exploitability
+ok 28 - NashConv for a three-player river is exact and is never reported as a two-player exploitability
+  ---
+  duration_ms: 3167.329
+  type: 'test'
+  ...
+# Subtest: quality classification: heads-up exploitability and multiway NashConv use separate thresholds
+ok 29 - quality classification: heads-up exploitability and multiway NashConv use separate thresholds
+  ---
+  duration_ms: 0.7556
+  type: 'test'
+  ...
+# Subtest: quality gate: decision use accepts only the policy's statuses; simulation experiments may use labelled unverified strategies
+ok 30 - quality gate: decision use accepts only the policy's statuses; simulation experiments may use labelled unverified strategies
+  ---
+  duration_ms: 0.3525
+  type: 'test'
+  ...
+# Subtest: quality ledger: entries are bound to the exact record bytes; stale and damaged entries are ignored; decisions are reproducible
+ok 31 - quality ledger: entries are bound to the exact record bytes; stale and damaged entries are ignored; decisions are reproducible
+  ---
+  duration_ms: 56.6129
+  type: 'test'
+  ...
+# Subtest: statistical summaries: t-based 95% interval over seeds
+ok 32 - statistical summaries: t-based 95% interval over seeds
+  ---
+  duration_ms: 1.9633
+  type: 'test'
+  ...
+# Subtest: adaptive training (heads-up river, full-width CFR+): stops at the target, is validated from the stored bytes, and stores its quality
+ok 33 - adaptive training (heads-up river, full-width CFR+): stops at the target, is validated from the stored bytes, and stores its quality
+  ---
+  duration_ms: 155.0154
+  type: 'test'
+  ...
+# Subtest: adaptive training (EightMax JavaScript engine): measures after each doubling block and reports why it stopped
+ok 34 - adaptive training (EightMax JavaScript engine): measures after each doubling block and reports why it stopped
+  ---
+  duration_ms: 124.0132
+  type: 'test'
+  ...
+# Subtest: a completed training job is not automatically validated: a flop study stays unverified
+ok 35 - a completed training job is not automatically validated: a flop study stays unverified
+  ---
+  duration_ms: 161.8642
+  type: 'test'
+  ...
+# Subtest: training cancellation: an aborted signal stops adaptive training with code cancelled and nothing is returned for storage
+ok 36 - training cancellation: an aborted signal stops adaptive training with code cancelled and nothing is returned for storage
+  ---
+  duration_ms: 2.4534
+  type: 'test'
+  ...
+# Subtest: continued refinement replaces a record only with a better one and keeps the old bytes in superseded/
+ok 37 - continued refinement replaces a record only with a better one and keeps the old bytes in superseded/
+  ---
+  duration_ms: 218.8501
+  type: 'test'
+  ...
+# Subtest: precompute queue: quality-targeted jobs store quality; Continue Training refines from the stored identity
+ok 38 - precompute queue: quality-targeted jobs store quality; Continue Training refines from the stored identity
+  ---
+  duration_ms: 32059.2644
+  type: 'test'
+  ...
+# Subtest: native checkpoint continuation: adaptive training resumes from a kept checkpoint instead of starting again
+ok 39 - native checkpoint continuation: adaptive training resumes from a kept checkpoint instead of starting again
+  ---
+  duration_ms: 405.0357
+  type: 'test'
+  ...
+# Subtest: precompute queue: pausing while jobs are still queued lets drain() resolve (time budgets, Ctrl+C)
+ok 40 - precompute queue: pausing while jobs are still queued lets drain() resolve (time budgets, Ctrl+C)
+  ---
+  duration_ms: 84.8789
+  type: 'test'
+  ...
+# Subtest: combination order, classes and card ids are identical to EightMax 5.1
+ok 41 - combination order, classes and card ids are identical to EightMax 5.1
+  ---
+  duration_ms: 2.0932
+  type: 'test'
+  ...
+# Subtest: weighted preflop ranges: class weights, text weights and the study text round trip
+ok 42 - weighted preflop ranges: class weights, text weights and the study text round trip
+  ---
+  duration_ms: 3.1328
+  type: 'test'
+  ...
+# Subtest: position-specific ranges and the raise update are exact Bayes under the stored strategy
+ok 43 - position-specific ranges and the raise update are exact Bayes under the stored strategy
+  ---
+  duration_ms: 23.322
+  type: 'test'
+  ...
+# Subtest: call and fold updates; folded players keep a (fold-conditioned) range but are not live
+ok 44 - call and fold updates; folded players keep a (fold-conditioned) range but are not live
+  ---
+  duration_ms: 16.5305
+  type: 'test'
+  ...
+# Subtest: card removal: board and known cards remove exactly the combinations that contain them
+ok 45 - card removal: board and known cards remove exactly the combinations that contain them
+  ---
+  duration_ms: 1.2367
+  type: 'test'
+  ...
+# Subtest: multiway tracking: three and four players stay separate and only their own actions condition them
+ok 46 - multiway tracking: three and four players stay separate and only their own actions condition them
+  ---
+  duration_ms: 12.1566
+  type: 'test'
+  ...
+# Subtest: street continuity: flop actions condition the turn ranges with the stored flop strategy (with a suit permutation)
+ok 47 - street continuity: flop actions condition the turn ranges with the stored flop strategy (with a suit permutation)
+  ---
+  duration_ms: 5.904
+  type: 'test'
+  ...
+# Subtest: invalid ranges are rejected: impossible observed action, likelihood outside [0,1], NaN weights
+ok 48 - invalid ranges are rejected: impossible observed action, likelihood outside [0,1], NaN weights
+  ---
+  duration_ms: 0.8672
+  type: 'test'
+  ...
+# Subtest: unsupported combinations (no stored row) keep their prior weight and are reported, never invented
+ok 49 - unsupported combinations (no stored row) keep their prior weight and are reported, never invented
+  ---
+  duration_ms: 12.0695
+  type: 'test'
+  ...
+# Subtest: off-tree preflop history gives an UNKNOWN range with the reason
+ok 50 - off-tree preflop history gives an UNKNOWN range with the reason
+  ---
+  duration_ms: 1.8884
+  type: 'test'
+  ...
+# Subtest: provenance ordering and observed-tendency estimates are labelled with an interval
+ok 51 - provenance ordering and observed-tendency estimates are labelled with an interval
+  ---
+  duration_ms: 20.9161
+  type: 'test'
+  ...
+# Subtest: derived model vs any-two-cards: comparison is measurable and the derived range is narrower
+ok 52 - derived model vs any-two-cards: comparison is measurable and the derived range is narrower
+  ---
+  duration_ms: 15.7749
+  type: 'test'
+  ...
+# Subtest: library range model: preflop line -> flop -> turn with continuity, fallback and unavailable modes
+ok 53 - library range model: preflop line -> flop -> turn with continuity, fallback and unavailable modes
+  ---
+  duration_ms: 28.9672
+  type: 'test'
+  ...
+# Subtest: range view for the dashboard removes the viewer's known cards and the board from opponents' ranges
+ok 54 - range view for the dashboard removes the viewer's known cards and the board from opponents' ranges
+  ---
+  duration_ms: 14.4058
+  type: 'test'
+  ...
+# Subtest: street-conditioned (per-combination) ranges are accepted by the study builder and train
+ok 55 - street-conditioned (per-combination) ranges are accepted by the study builder and train
+  ---
+  duration_ms: 29.9183
+  type: 'test'
+  ...
+# Subtest: SHA-256 (pure JS) equals node:crypto and the canonical encoding is key-order independent
+ok 56 - SHA-256 (pure JS) equals node:crypto and the canonical encoding is key-order independent
+  ---
+  duration_ms: 2.3906
+  type: 'test'
+  ...
+# Subtest: every game-defining input changes the fingerprint; nothing hand- or table-specific is part of it
+ok 57 - every game-defining input changes the fingerprint; nothing hand- or table-specific is part of it
+  ---
+  duration_ms: 9.9235
+  type: 'test'
+  ...
+# Subtest: suit isomorphism is exact and is disabled by suit-specific ranges
+ok 58 - suit isomorphism is exact and is disabled by suit-specific ranges
+  ---
+  duration_ms: 0.7676
+  type: 'test'
+  ...
+# Subtest: 1,755 suit-canonical flops
+ok 59 - 1,755 suit-canonical flops
+  ---
+  duration_ms: 141.3425
+  type: 'test'
+  ...
+# Subtest: snapshot answers averageAt() and node geometry exactly like the trained game (every node, every row)
+ok 60 - snapshot answers averageAt() and node geometry exactly like the trained game (every node, every row)
+  ---
+  duration_ms: 1407.2486
+  type: 'test'
+  ...
+# Subtest: exact retrieval after restart; different configuration is a miss; damaged, truncated and foreign records are refused
+ok 61 - exact retrieval after restart; different configuration is a miss; damaged, truncated and foreign records are refused
+  ---
+  duration_ms: 156.5397
+  type: 'test'
+  ...
+# Subtest: engine version mismatch: a library opened for another engine build refuses stored strategies
+ok 62 - engine version mismatch: a library opened for another engine build refuses stored strategies
+  ---
+  duration_ms: 44.6019
+  type: 'test'
+  ...
+# Subtest: interrupted writes: a crash before the rename leaves no record (temp file removed on reopen); a crash before the index update is recovered
+ok 63 - interrupted writes: a crash before the rename leaves no record (temp file removed on reopen); a crash before the index update is recovered
+  ---
+  duration_ms: 487.9338
+  type: 'test'
+  ...
+# Subtest: stale write lock of a dead process is taken over; a live lock times out cleanly
+ok 64 - stale write lock of a dead process is taken over; a live lock times out cleanly
+  ---
+  duration_ms: 102.2182
+  type: 'test'
+  ...
+# Subtest: cache: byte budget, LRU eviction, hit/miss counters, run-time budget change, nothing larger than the budget is cached
+ok 65 - cache: byte budget, LRU eviction, hit/miss counters, run-time budget change, nothing larger than the budget is cached
+  ---
+  duration_ms: 179.137
+  type: 'test'
+  ...
+# Subtest: import/export bundle round trip; damaged bundles and foreign-engine records are rejected
+ok 66 - import/export bundle round trip; damaged bundles and foreign-engine records are rejected
+  ---
+  duration_ms: 167.0281
+  type: 'test'
+  ...
+# Subtest: concurrent reads from four threads return identical, verified strategies
+ok 67 - concurrent reads from four threads return identical, verified strategies
+  ---
+  duration_ms: 549.592
+  type: 'test'
+  ...
+# Subtest: resource plan reads the machine and never assumes 16 GB is free
+ok 68 - resource plan reads the machine and never assumes 16 GB is free
+  ---
+  duration_ms: 3.493
+  type: 'test'
+  ...
+# Subtest: Decision Mode never trains: a miss is "unavailable" with the missing configuration, logged for training, no probabilities invented
+ok 69 - Decision Mode never trains: a miss is "unavailable" with the missing configuration, logged for training, no probabilities invented
+  ---
+  duration_ms: 28.6845
+  type: 'test'
+  ...
+# Subtest: Study Mode trains, stores and answers; the stored strategy is then served from disk to Decision Mode with the same probabilities
+ok 70 - Study Mode trains, stores and answers; the stored strategy is then served from disk to Decision Mode with the same probabilities
+  ---
+  duration_ms: 92.4302
+  type: 'test'
+  ...
+# Subtest: deadline policy: inline training only when the measured estimate fits the remaining deadline
+ok 71 - deadline policy: inline training only when the measured estimate fits the remaining deadline
+  ---
+  duration_ms: 106.3613
+  type: 'test'
+  ...
+# Subtest: invalid observations and unsupported states are refused before any lookup
+ok 72 - invalid observations and unsupported states are refused before any lookup
+  ---
+  duration_ms: 19.1177
+  type: 'test'
+  ...
+# Subtest: tree profile: heads-up and three-way keep the 0.29 menus; 4 players one size two bets; 5-6 players one size one bet
+ok 73 - tree profile: heads-up and three-way keep the 0.29 menus; 4 players one size two bets; 5-6 players one size one bet
+  ---
+  duration_ms: 0.2651
+  type: 'test'
+  ...
+1..73
+# tests 73
+# suites 0
+# pass 73
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 115238.7

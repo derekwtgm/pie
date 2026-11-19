@@ -1,0 +1,15 @@
+capture-tool-version                           PASS  EightMaxCapture 0.33.0; {"tool":"EightMaxCapture","version":"0.33.0","dpiAwareness":"per-monitor-v2 (thread)"}
+monitors-listed                                PASS  monitors=1 virtual=1024x768 dpiScale(primary)=1
+display-scaling-recorded                       PASS  Primary display scaling 100 %. Other scaling factors are only tested if you change Windows display scaling and run this check again.
+windows-listed                                 PASS  visible titled windows=2
+selftest:create-window                         PASS  hwnd=0x10236 client=640x400 visible=True
+selftest:capture-original                      PASS  saved C:\em-results\release\capture\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400
+selftest:verify-original-pixels                PASS  640x400
+selftest:capture-resized                       PASS  saved C:\em-results\release\capture\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500
+selftest:verify-resized-pixels                 PASS  800x500
+selftest:detect-minimized                      PASS  reply code=target-minimized
+selftest:capture-after-restore                 PASS  800x500
+selftest:detect-closed                         PASS  original handle 0x10236 IsWindow=False reply code=target-lost
+selftest-completed                             PASS  exit 0, 8 stages, 0 failed, dpiScale 1, 2252 ms
+capture-tool-exited                            PASS  No capture tool process left running.
+Capture acceptance PASSED (14 passed, 0 failed, 0 skipped) - report: C:\em-results\release\capture\capture-acceptance.json

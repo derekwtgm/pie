@@ -1,0 +1,9 @@
+{
+    "format":  "eightmax-long-duration-targets",
+    "version":  1,
+    "appVersion":  "0.33.0",
+    "note":  "Development targets, not acceptance criteria.",
+    "items":  [
+
+              ]
+}

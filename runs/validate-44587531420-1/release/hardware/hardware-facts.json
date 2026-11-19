@@ -1,0 +1,47 @@
+{
+    "format":  "eightmax-hardware-facts",
+    "version":  1,
+    "collector":  "powershell-cim",
+    "collectedAt":  "2026-11-19T18:27:15.2961193Z",
+    "os":  {
+               "name":  "Microsoft Windows Server 2025 Datacenter",
+               "version":  "10.0.26100",
+               "build":  "26100",
+               "arch":  "x64"
+           },
+    "cpu":  {
+                "model":  "AMD EPYC 9V74 80-Core Processor",
+                "cores":  2,
+                "logical":  4
+            },
+    "memory":  {
+                   "totalBytes":  17174360064,
+                   "availableBytes":  14141456384
+               },
+    "gpus":  [
+                 {
+                     "name":  "Microsoft Hyper-V Video",
+                     "vramBytes":  null,
+                     "driver":  "10.0.26100.1150",
+                     "vramSource":  "Win32_VideoController (capped at 4 GiB)"
+                 }
+             ],
+    "nvidiaSmi":  {
+                      "present":  false,
+                      "cudaVersion":  null
+                  },
+    "nativeSolver":  {
+                         "present":  true,
+                         "hashMatches":  true,
+                         "selfTest":  {
+                                          "ran":  true,
+                                          "passed":  true,
+                                          "detail":  "exit 0, 2000 updates in 52 ms"
+                                      }
+                     },
+    "gpuAcceleration":  {
+                            "executed":  false,
+                            "evidence":  null,
+                            "note":  "No GPU code path is executed by this tool."
+                        }
+}

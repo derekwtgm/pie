@@ -1,0 +1,2 @@
+{"event":"started","backend":"windows-graphics-capture","device":"hardware","width":1024,"height":768,"fps":5,"queue":4}
+{"event":"summary","end":"stopped","delivered":0,"arrived":0,"dropped":0,"throttled":0,"blank":0,"resizes":0,"ageP50Ms":0,"ageP95Ms":0,"peakWorkingSetMiB":0,"durationMs":9.858}

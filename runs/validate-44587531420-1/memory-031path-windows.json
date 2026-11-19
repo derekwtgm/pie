@@ -1,0 +1,661 @@
+{
+ "format": "eightmax-benchmark-031",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T18:31:14.340Z",
+ "classification": "SIMULATED TABLES, complete pipeline, real native solver; this machine only; not a real client; not the Windows target PC; no GPU",
+ "machine": {
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v22.23.5",
+  "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+  "logicalCpus": 4,
+  "totalMemBytes": 17174360064
+ },
+ "settings": {
+  "handsPerTable": 6,
+  "workers": 4,
+  "seed": 4127,
+  "unseenSeed": 9001,
+  "preflopUpdates": 200000,
+  "sharedCache": "v2",
+  "adaptive": {
+   "maxUpdates": 320000,
+   "adaptiveMaxTimeMs": 8000
+  },
+  "workloads": [
+   "B"
+  ]
+ },
+ "runs": {
+  "1": {
+   "B": {
+    "workload": "B",
+    "tables": 1,
+    "workers": 1,
+    "seed": 9001,
+    "mode": "decision",
+    "rangeModel": "any-two",
+    "adaptiveTraining": false,
+    "qualityPolicy": {
+     "policy": "research",
+     "use": "simulation-experiment"
+    },
+    "sharedCache": "v2",
+    "prewarmed": false,
+    "wallMs": 23344,
+    "handsRequested": 6,
+    "handsCompleted": 6,
+    "decisions": 51,
+    "decisionsPerSecond": 2.185,
+    "solverDecisions": 47,
+    "scriptedFallbackDecisions": 4,
+    "postflop": {
+     "decisions": 0,
+     "fromLibraryExact": 0,
+     "trainedNow": 0,
+     "abstractedApproximate": 0,
+     "unavailable": 0,
+     "qualityOfUsedStrategies": {},
+     "rangeModelOfUsedStrategies": {}
+    },
+    "library": {
+     "memoryHits": 0,
+     "sharedHits": 0,
+     "diskHits": 0,
+     "misses": 0,
+     "refused": 0,
+     "qualityRejected": 0,
+     "qualityByStatusAtLookup": {},
+     "rangeFallbacks": 0,
+     "rangeUnavailable": 0,
+     "trainedInline": 0,
+     "coalesced": 0,
+     "cacheHitRate": 0,
+     "rangeModel": [],
+     "libraryHitRate": 0
+    },
+    "latencyMs": {
+     "endToEndCycle": {
+      "n": 51,
+      "p50": 32.916,
+      "p95": 64.341,
+      "p99": 102.828,
+      "max": 102.828,
+      "mean": 34.089
+     },
+     "decision": {
+      "n": 51,
+      "p50": 10.413,
+      "p95": 40.402,
+      "p99": 54.447,
+      "max": 54.447,
+      "mean": 11.356
+     },
+     "postflopDecision": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "postflopLibraryHit": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "sharedFetch": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLookupMemory": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLoadDisk": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "solverComputation": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "decisionCycleP95WorstTable": 64.34130000000005
+    },
+    "staleDecisions": 0,
+    "ackMismatches": 0,
+    "suspendedHands": 0,
+    "duplicateActionsBlocked": 0,
+    "decisionTimeouts": 0,
+    "workerErrors": 0,
+    "unavailableCodes": {
+     "no-stored-row": 4
+    },
+    "coverage": {
+     "street:preflop": {
+      "solver": 47,
+      "fallback": 4,
+      "solverShare": 0.9216
+     }
+    },
+    "resources": {
+     "cpuCoresBusy": 0.23401371745239544,
+     "cpuUtilizationOfMachine": 0.05850342936309886,
+     "rssBytesPeak": 306229248,
+     "nativeRssBytesPeak": null
+    },
+    "sharedHost": {
+     "kind": "v2-service-thread"
+    }
+   },
+   "libraryE": {
+    "format": "eightmax-strategy-library-status",
+    "version": 1,
+    "dir": "C:\\em-bench31\\lib-E-1",
+    "engine": {
+     "version": "5.1",
+     "build": "7d08acc7eb4577ee"
+    },
+    "records": 0,
+    "storageBytes": 0,
+    "rawBytes": 0,
+    "byStreet": {},
+    "byPlayers": {},
+    "byStackCategory": {},
+    "byConvergence": {},
+    "byQuality": {},
+    "byRangeModel": {},
+    "cache": {
+     "entries": 0,
+     "bytes": 0,
+     "budgetBytes": 268435456
+    },
+    "stats": {
+     "lookups": 0,
+     "memoryHits": 0,
+     "diskHits": 0,
+     "misses": 0,
+     "refused": 0,
+     "evictions": 0,
+     "writes": 0,
+     "duplicateWrites": 0,
+     "loadMs": 0,
+     "loadMsMax": 0,
+     "peakCacheBytes": 0,
+     "refusedByCode": {}
+    },
+    "pendingMisses": 0
+   }
+  },
+  "5": {
+   "B": {
+    "workload": "B",
+    "tables": 5,
+    "workers": 4,
+    "seed": 9001,
+    "mode": "decision",
+    "rangeModel": "any-two",
+    "adaptiveTraining": false,
+    "qualityPolicy": {
+     "policy": "research",
+     "use": "simulation-experiment"
+    },
+    "sharedCache": "v2",
+    "prewarmed": false,
+    "wallMs": 10175,
+    "handsRequested": 30,
+    "handsCompleted": 30,
+    "decisions": 300,
+    "decisionsPerSecond": 29.484,
+    "solverDecisions": 239,
+    "scriptedFallbackDecisions": 61,
+    "postflop": {
+     "decisions": 46,
+     "fromLibraryExact": 0,
+     "trainedNow": 0,
+     "abstractedApproximate": 0,
+     "unavailable": 46,
+     "qualityOfUsedStrategies": {},
+     "rangeModelOfUsedStrategies": {}
+    },
+    "library": {
+     "memoryHits": 0,
+     "sharedHits": 0,
+     "diskHits": 0,
+     "misses": 46,
+     "refused": 0,
+     "qualityRejected": 0,
+     "qualityByStatusAtLookup": {},
+     "rangeFallbacks": 0,
+     "rangeUnavailable": 0,
+     "trainedInline": 0,
+     "coalesced": 0,
+     "cacheHitRate": 0,
+     "rangeModel": [],
+     "libraryHitRate": 0
+    },
+    "latencyMs": {
+     "endToEndCycle": {
+      "n": 300,
+      "p50": 64.704,
+      "p95": 177.535,
+      "p99": 267.433,
+      "max": 344.426,
+      "mean": 78.887
+     },
+     "decision": {
+      "n": 300,
+      "p50": 23.645,
+      "p95": 117.268,
+      "p99": 147.667,
+      "max": 211.764,
+      "mean": 35.064
+     },
+     "postflopDecision": {
+      "n": 46,
+      "p50": 7.736,
+      "p95": 104.635,
+      "p99": 131.801,
+      "max": 131.801,
+      "mean": 27.022
+     },
+     "postflopLibraryHit": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "sharedFetch": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLookupMemory": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLoadDisk": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "solverComputation": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "decisionCycleP95WorstTable": 211.0040999999983
+    },
+    "staleDecisions": 0,
+    "ackMismatches": 0,
+    "suspendedHands": 0,
+    "duplicateActionsBlocked": 0,
+    "decisionTimeouts": 0,
+    "workerErrors": 0,
+    "unavailableCodes": {
+     "no-stored-row": 15,
+     "library-miss": 46
+    },
+    "coverage": {
+     "street:preflop": {
+      "solver": 239,
+      "fallback": 15,
+      "solverShare": 0.9409
+     },
+     "street:flop": {
+      "solver": 0,
+      "fallback": 18,
+      "solverShare": 0
+     },
+     "postflop:multiway": {
+      "solver": 0,
+      "fallback": 44,
+      "solverShare": 0
+     },
+     "postflop-stack:standard (20-40 bb)": {
+      "solver": 0,
+      "fallback": 19,
+      "solverShare": 0
+     },
+     "postflop:all": {
+      "solver": 0,
+      "fallback": 46,
+      "solverShare": 0
+     },
+     "street:turn": {
+      "solver": 0,
+      "fallback": 16,
+      "solverShare": 0
+     },
+     "street:river": {
+      "solver": 0,
+      "fallback": 12,
+      "solverShare": 0
+     },
+     "postflop:heads-up": {
+      "solver": 0,
+      "fallback": 2,
+      "solverShare": 0
+     },
+     "postflop-stack:medium (10-20 bb)": {
+      "solver": 0,
+      "fallback": 22,
+      "solverShare": 0
+     },
+     "postflop-stack:short (<10 bb)": {
+      "solver": 0,
+      "fallback": 5,
+      "solverShare": 0
+     }
+    },
+    "resources": {
+     "cpuCoresBusy": 3.3329482243241233,
+     "cpuUtilizationOfMachine": 0.8332370560810308,
+     "rssBytesPeak": 1087918080,
+     "nativeRssBytesPeak": null
+    },
+    "sharedHost": {
+     "kind": "v2-service-thread"
+    }
+   },
+   "libraryE": {
+    "format": "eightmax-strategy-library-status",
+    "version": 1,
+    "dir": "C:\\em-bench31\\lib-E-5",
+    "engine": {
+     "version": "5.1",
+     "build": "7d08acc7eb4577ee"
+    },
+    "records": 0,
+    "storageBytes": 0,
+    "rawBytes": 0,
+    "byStreet": {},
+    "byPlayers": {},
+    "byStackCategory": {},
+    "byConvergence": {},
+    "byQuality": {},
+    "byRangeModel": {},
+    "cache": {
+     "entries": 0,
+     "bytes": 0,
+     "budgetBytes": 268435456
+    },
+    "stats": {
+     "lookups": 0,
+     "memoryHits": 0,
+     "diskHits": 0,
+     "misses": 0,
+     "refused": 0,
+     "evictions": 0,
+     "writes": 0,
+     "duplicateWrites": 0,
+     "loadMs": 0,
+     "loadMsMax": 0,
+     "peakCacheBytes": 0,
+     "refusedByCode": {}
+    },
+    "pendingMisses": 11
+   }
+  },
+  "10": {
+   "B": {
+    "workload": "B",
+    "tables": 10,
+    "workers": 4,
+    "seed": 9001,
+    "mode": "decision",
+    "rangeModel": "any-two",
+    "adaptiveTraining": false,
+    "qualityPolicy": {
+     "policy": "research",
+     "use": "simulation-experiment"
+    },
+    "sharedCache": "v2",
+    "prewarmed": false,
+    "wallMs": 15232,
+    "handsRequested": 60,
+    "handsCompleted": 60,
+    "decisions": 600,
+    "decisionsPerSecond": 39.391,
+    "solverDecisions": 469,
+    "scriptedFallbackDecisions": 131,
+    "postflop": {
+     "decisions": 91,
+     "fromLibraryExact": 0,
+     "trainedNow": 0,
+     "abstractedApproximate": 0,
+     "unavailable": 91,
+     "qualityOfUsedStrategies": {},
+     "rangeModelOfUsedStrategies": {}
+    },
+    "library": {
+     "memoryHits": 0,
+     "sharedHits": 0,
+     "diskHits": 0,
+     "misses": 91,
+     "refused": 0,
+     "qualityRejected": 0,
+     "qualityByStatusAtLookup": {},
+     "rangeFallbacks": 0,
+     "rangeUnavailable": 0,
+     "trainedInline": 0,
+     "coalesced": 0,
+     "cacheHitRate": 0,
+     "rangeModel": [],
+     "libraryHitRate": 0
+    },
+    "latencyMs": {
+     "endToEndCycle": {
+      "n": 600,
+      "p50": 139.651,
+      "p95": 258.188,
+      "p99": 372.074,
+      "max": 449.609,
+      "mean": 148.442
+     },
+     "decision": {
+      "n": 600,
+      "p50": 98.021,
+      "p95": 200.879,
+      "p99": 263.767,
+      "max": 399.662,
+      "mean": 103.104
+     },
+     "postflopDecision": {
+      "n": 91,
+      "p50": 77.052,
+      "p95": 155.174,
+      "p99": 213.078,
+      "max": 213.078,
+      "mean": 79.383
+     },
+     "postflopLibraryHit": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "sharedFetch": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLookupMemory": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "strategyLoadDisk": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "solverComputation": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "max": null,
+      "mean": null
+     },
+     "decisionCycleP95WorstTable": 333.1895999999979
+    },
+    "staleDecisions": 0,
+    "ackMismatches": 0,
+    "suspendedHands": 0,
+    "duplicateActionsBlocked": 0,
+    "decisionTimeouts": 0,
+    "workerErrors": 0,
+    "unavailableCodes": {
+     "no-stored-row": 40,
+     "library-miss": 91
+    },
+    "coverage": {
+     "street:preflop": {
+      "solver": 469,
+      "fallback": 40,
+      "solverShare": 0.9214
+     },
+     "street:flop": {
+      "solver": 0,
+      "fallback": 44,
+      "solverShare": 0
+     },
+     "postflop:multiway": {
+      "solver": 0,
+      "fallback": 76,
+      "solverShare": 0
+     },
+     "postflop-stack:standard (20-40 bb)": {
+      "solver": 0,
+      "fallback": 49,
+      "solverShare": 0
+     },
+     "postflop:all": {
+      "solver": 0,
+      "fallback": 91,
+      "solverShare": 0
+     },
+     "street:turn": {
+      "solver": 0,
+      "fallback": 25,
+      "solverShare": 0
+     },
+     "street:river": {
+      "solver": 0,
+      "fallback": 22,
+      "solverShare": 0
+     },
+     "postflop:heads-up": {
+      "solver": 0,
+      "fallback": 15,
+      "solverShare": 0
+     },
+     "postflop-stack:medium (10-20 bb)": {
+      "solver": 0,
+      "fallback": 32,
+      "solverShare": 0
+     },
+     "postflop-stack:short (<10 bb)": {
+      "solver": 0,
+      "fallback": 10,
+      "solverShare": 0
+     }
+    },
+    "resources": {
+     "cpuCoresBusy": 3.3873036316257075,
+     "cpuUtilizationOfMachine": 0.8468259079064269,
+     "rssBytesPeak": 1083621376,
+     "nativeRssBytesPeak": null
+    },
+    "sharedHost": {
+     "kind": "v2-service-thread"
+    }
+   },
+   "libraryE": {
+    "format": "eightmax-strategy-library-status",
+    "version": 1,
+    "dir": "C:\\em-bench31\\lib-E-10",
+    "engine": {
+     "version": "5.1",
+     "build": "7d08acc7eb4577ee"
+    },
+    "records": 0,
+    "storageBytes": 0,
+    "rawBytes": 0,
+    "byStreet": {},
+    "byPlayers": {},
+    "byStackCategory": {},
+    "byConvergence": {},
+    "byQuality": {},
+    "byRangeModel": {},
+    "cache": {
+     "entries": 0,
+     "bytes": 0,
+     "budgetBytes": 268435456
+    },
+    "stats": {
+     "lookups": 0,
+     "memoryHits": 0,
+     "diskHits": 0,
+     "misses": 0,
+     "refused": 0,
+     "evictions": 0,
+     "writes": 0,
+     "duplicateWrites": 0,
+     "loadMs": 0,
+     "loadMsMax": 0,
+     "peakCacheBytes": 0,
+     "refusedByCode": {}
+    },
+    "pendingMisses": 24
+   }
+  }
+ }
+}

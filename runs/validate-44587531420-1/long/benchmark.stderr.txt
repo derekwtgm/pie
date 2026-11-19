@@ -1,0 +1,12 @@
+E 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 37.38/65.316/119.632 ms, shared fetch p50/p95/p99 null/null/null, rss 1212 MiB
+A 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 37.02/63.044/117.321 ms, shared fetch p50/p95/p99 null/null/null, rss 1018 MiB
+B 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 36.021/68.502/107.365 ms, shared fetch p50/p95/p99 null/null/null, rss 1223 MiB
+C 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 36.962/65.028/117.822 ms, shared fetch p50/p95/p99 null/null/null, rss 1024 MiB
+C-replay 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 36.868/71.522/117.038 ms, shared fetch p50/p95/p99 null/null/null, rss 1216 MiB
+D 1t: hands 4/4, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 37.214/74.501/125.072 ms, shared fetch p50/p95/p99 null/null/null, rss 1206 MiB
+E 2t: hands 8/8, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 47.634/89.709/152.715 ms, shared fetch p50/p95/p99 null/null/null, rss 2025 MiB
+A 2t: hands 8/8, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 46.975/87.614/156.491 ms, shared fetch p50/p95/p99 null/null/null, rss 2207 MiB
+B 2t: hands 8/8, postflop lib/trained/unavail 0/0/12, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 40.37/91.047/157.847 ms, shared fetch p50/p95/p99 null/null/null, rss 2313 MiB
+C 2t: hands 8/8, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 43.581/92.455/189.272 ms, shared fetch p50/p95/p99 null/null/null, rss 2379 MiB
+C-replay 2t: hands 8/8, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 44.746/89.435/159.552 ms, shared fetch p50/p95/p99 null/null/null, rss 2192 MiB
+D 2t: hands 8/8, postflop lib/trained/unavail 0/0/0, quality {}, ranges {}, gate-refused 0, cycle p50/p95/p99 42.953/92.093/203.629 ms, shared fetch p50/p95/p99 null/null/null, rss 2201 MiB

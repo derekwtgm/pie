@@ -1,0 +1,409 @@
+{
+ "format": "eightmax-preflop-research",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T18:32:42.790Z",
+ "mode": "fast",
+ "modeLabel": "Fast Reference Study",
+ "machine": {
+  "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+  "logicalCpus": 4,
+  "totalMemBytes": 17174360064,
+  "node": "v22.23.5",
+  "platform": "win32"
+ },
+ "game": "eight seats, equal 25 BB stacks, SB 0.5 / BB 1 / ante 0.1 BB per player, chip EV, linked preflop tree (fold / call / open 2.2 / all-in, up to 3 bets) continuing to the river with single-size postflop menus; every seat starts from all 1,326 combinations",
+ "classifications": {
+  "coverage": "exact count of stored rows (native state)",
+  "reach": "sampled estimate (Monte-Carlo line sampling, fixed seed)",
+  "rangeSupport": "sampled estimate (same method as 0.31)",
+  "gains": "restricted best response = LOWER BOUND, evaluated by sampling (95% interval); sampled = one-decision deviation estimate",
+  "fullGameExploitability": "unavailable (not computed; never reported as zero)"
+ },
+ "runs": [
+  {
+   "variant": "baseline",
+   "variantSettings": "EightMax 5.1 default (0.31)",
+   "seed": 8,
+   "updates": 100000,
+   "requestedUpdates": 100000,
+   "complete": true,
+   "trainOrLoadMs": 15607,
+   "stateFile": "preflop8-linked-baseline-s8-100000.state",
+   "stateBytes": 89856381,
+   "snapshot": {
+    "bytes": 32863498,
+    "fingerprint": {
+     "studyId": "preflop8-linked-100000",
+     "bodySha256": "19538fc71b992254029a829ad974ea2823beb79c26f4a48ec4871db3577bb135",
+     "iterations": 100000
+    }
+   },
+   "coverage": {
+    "format": "eightmax-preflop-coverage",
+    "version": 1,
+    "iterations": 100000,
+    "exactCounts": {
+     "preflopDecisionStates": 371646,
+     "storedRows": 976339,
+     "possibleRows": 492802596,
+     "unweightedComboCoverage": 0.001981,
+     "statesWithAllClasses": 68,
+     "statesWithNoRow": 253581
+    },
+    "sampled": {
+     "method": "Monte-Carlo line sampling from the stored average strategy (class-pooled for line generation; uniform where a class has no row)",
+     "deals": 2000,
+     "seed": 4242,
+     "dealsReachingFlop": 169,
+     "lookups": 18106,
+     "lookupsWithoutOwnRow": 7228,
+     "shareOfDecisionsWithoutOwnRow": 0.399205,
+     "reachWeightedComboCoverage": 0.599457,
+     "reachWeightedClassCoverage": 0.796621,
+     "reachedStates": 3741
+    },
+    "perSeat": [
+     {
+      "seat": 0,
+      "position": "UTG",
+      "decisionStates": 30932,
+      "reachWeightedComboCoverage": 0.790232,
+      "reachWeightedClassCoverage": 0.880032,
+      "reachedStatesWithMissingClasses": 112
+     },
+     {
+      "seat": 1,
+      "position": "UTG+1 (early position)",
+      "decisionStates": 29531,
+      "reachWeightedComboCoverage": 0.825544,
+      "reachWeightedClassCoverage": 0.872549,
+      "reachedStatesWithMissingClasses": 43
+     },
+     {
+      "seat": 2,
+      "position": "MP (middle position)",
+      "decisionStates": 32441,
+      "reachWeightedComboCoverage": 0.856053,
+      "reachWeightedClassCoverage": 0.889106,
+      "reachedStatesWithMissingClasses": 13
+     },
+     {
+      "seat": 3,
+      "position": "HJ (hijack)",
+      "decisionStates": 39967,
+      "reachWeightedComboCoverage": 0.748247,
+      "reachWeightedClassCoverage": 0.892945,
+      "reachedStatesWithMissingClasses": 33
+     },
+     {
+      "seat": 4,
+      "position": "CO (cutoff)",
+      "decisionStates": 50256,
+      "reachWeightedComboCoverage": 0.569791,
+      "reachWeightedClassCoverage": 0.86157,
+      "reachedStatesWithMissingClasses": 117
+     },
+     {
+      "seat": 5,
+      "position": "BTN (button)",
+      "decisionStates": 59998,
+      "reachWeightedComboCoverage": 0.409785,
+      "reachWeightedClassCoverage": 0.752914,
+      "reachedStatesWithMissingClasses": 237
+     },
+     {
+      "seat": 6,
+      "position": "SB (small blind)",
+      "decisionStates": 65421,
+      "reachWeightedComboCoverage": 0.27938,
+      "reachWeightedClassCoverage": 0.639225,
+      "reachedStatesWithMissingClasses": 276
+     },
+     {
+      "seat": 7,
+      "position": "BB (big blind)",
+      "decisionStates": 63100,
+      "reachWeightedComboCoverage": 0.174442,
+      "reachWeightedClassCoverage": 0.519523,
+      "reachedStatesWithMissingClasses": 314
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r001",
+      "position": "HJ",
+      "reach": 0.029,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1087,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r023",
+      "position": "HJ",
+      "reach": 0.024,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 952,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r300001",
+      "position": "SB",
+      "reach": 0.021,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 959,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r03001",
+      "position": "BTN",
+      "reach": 0.0185,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 897,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r03100",
+      "position": "BTN",
+      "reach": 0.0185,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 968,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r030000",
+      "position": "SB",
+      "reach": 0.0185,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 946,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00300",
+      "position": "BTN",
+      "reach": 0.018,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 884,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0003",
+      "position": "CO",
+      "reach": 0.016,
+      "classesStored": 166,
+      "classesInRange": 169,
+      "combosStored": 805,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r30110",
+      "position": "BTN",
+      "reach": 0.016,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 874,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r03010",
+      "position": "BTN",
+      "reach": 0.0155,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 895,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r31010",
+      "position": "BTN",
+      "reach": 0.0155,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 957,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r231",
+      "position": "HJ",
+      "reach": 0.014,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 926,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0230",
+      "position": "CO",
+      "reach": 0.014,
+      "classesStored": 165,
+      "classesInRange": 169,
+      "combosStored": 665,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0311",
+      "position": "CO",
+      "reach": 0.014,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 829,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r30011",
+      "position": "BTN",
+      "reach": 0.014,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 854,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0031",
+      "position": "CO",
+      "reach": 0.0135,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 803,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r1310",
+      "position": "CO",
+      "reach": 0.0135,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 770,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000",
+      "position": "CO",
+      "reach": 0.0135,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 912,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r102",
+      "position": "HJ",
+      "reach": 0.0125,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 810,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r120",
+      "position": "HJ",
+      "reach": 0.0125,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 798,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r3001000",
+      "position": "BB",
+      "reach": 0.012,
+      "classesStored": 165,
+      "classesInRange": 169,
+      "combosStored": 783,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r101",
+      "position": "HJ",
+      "reach": 0.012,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 803,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r03011",
+      "position": "BTN",
+      "reach": 0.0115,
+      "classesStored": 154,
+      "classesInRange": 169,
+      "combosStored": 597,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r1301",
+      "position": "CO",
+      "reach": 0.0115,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 808,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r031000",
+      "position": "SB",
+      "reach": 0.0115,
+      "classesStored": 165,
+      "classesInRange": 169,
+      "combosStored": 728,
+      "combosInRange": 1326
+     }
+    ],
+    "reachFloor": 0.001,
+    "incomplete": true,
+    "note": "Coverage is a necessary condition for a usable strategy table, not evidence of accuracy (see restricted gains)."
+   },
+   "rangeSupport": {
+    "method": "same as tools/range-support-031.cjs (Monte-Carlo line sampling; each distinct line analysed exactly with RE.preflopRanges)",
+    "sampledDeals": 2000,
+    "dealsReachingFlop": 163,
+    "distinctFlopLines": 161,
+    "analysisMs": 36915,
+    "unsupportedLimit": 0.25,
+    "shareOfFlopsAllRangesFullySupported": 0,
+    "shareOfFlopsWithinLimit": 0,
+    "byPlayers": {
+     "2": {
+      "shareOfFlops": 0.2147,
+      "withinLimit": 0
+     },
+     "3": {
+      "shareOfFlops": 0.319,
+      "withinLimit": 0
+     },
+     "4": {
+      "shareOfFlops": 0.3067,
+      "withinLimit": 0
+     },
+     "5": {
+      "shareOfFlops": 0.1043,
+      "withinLimit": 0
+     }
+    },
+    "withinLimitCi95": [
+     0,
+     0
+    ]
+   },
+   "gains": [],
+   "assessment": {
+    "mode": "fast",
+    "label": "Fast Reference Study",
+    "statements": [
+     "Coverage: 79.66% reach-weighted hand-class coverage (sampled reach), 253581 decision states without any stored row (exact count)",
+     "Restricted best-response gains: not available for this study",
+     "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+    ],
+    "targetsMet": null
+   }
+  }
+ ],
+ "comparisons": []
+}

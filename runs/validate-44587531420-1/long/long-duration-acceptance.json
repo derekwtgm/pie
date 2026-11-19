@@ -1,0 +1,338 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "long-duration-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T18:39:19.2947979Z",
+    "completedAt":  "2026-11-19T18:51:04.5970923Z",
+    "executables":  {
+                        "native\\mwcli.exe":  "n/a sha256:b3e675bfe2ae231e",
+                        "runtime\\node\\node.exe":  "22.23.5 sha256:247e9693d316da98",
+                        "desktop\\bin\\EightMaxWgc.exe":  "0.33.0 sha256:99b8ba4876d1b71f",
+                        "desktop\\bin\\EightMaxCapture.exe":  "0.33.0 sha256:101a3aae95e4d727",
+                        "desktop\\bin\\EightMaxWorkbench.exe":  "0.33.0 sha256:6efb020891f1468c"
+                    },
+    "checks":  [
+                   {
+                       "check":  "hardware facts",
+                       "stage":  "hardware",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:39:21.0301448Z",
+                       "completedAt":  "2026-11-19T18:39:23.4923757Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hardware-facts.json written",
+                       "files":  [
+                                     "C:\\em-results\\long\\hardware-facts.json"
+                                 ]
+                   },
+                   {
+                       "check":  "0.31 component self-test",
+                       "stage":  "self-test",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:39:23.5180690Z",
+                       "completedAt":  "2026-11-19T18:41:19.5329724Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "pass 73, fail 0, exit 0, 115947 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\self-test.stdout.txt",
+                                     "C:\\em-results\\long\\self-test.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "mathematical validation (quick, exact small games)",
+                       "stage":  "math",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:41:19.5355118Z",
+                       "completedAt":  "2026-11-19T18:43:34.1311185Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 134590 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\math-validation.json",
+                                     "C:\\em-results\\long\\math-validation.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "sustained precomputation (2 min)",
+                       "stage":  "precompute",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:43:34.5552957Z",
+                       "completedAt":  "2026-11-19T18:45:35.4956775Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "studies completed 143, failed/memory-limited 0, 121 s",
+                       "files":  [
+                                     "C:\\em-results\\long\\precompute.stdout.txt",
+                                     "C:\\em-results\\long\\precompute.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "strategy library integrity (every record)",
+                       "stage":  "library",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:45:35.4956775Z",
+                       "completedAt":  "2026-11-19T18:45:36.0917313Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 594 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\verify.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "strategy quality evaluation",
+                       "stage":  "quality",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:45:36.0937402Z",
+                       "completedAt":  "2026-11-19T18:45:36.6508253Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0; { \"records\": 143, \"byStatus\": { \"unverified\": 143 }, \"policy\": \"research\" } ",
+                       "files":  [
+                                     "C:\\em-results\\long\\quality.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload E",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9485268Z",
+                       "completedAt":  "2026-11-19T18:51:03.9485268Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 65.316 ms, peak RSS 1212 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload A",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9505354Z",
+                       "completedAt":  "2026-11-19T18:51:03.9505354Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 63.044 ms, peak RSS 1018 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload B",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9525453Z",
+                       "completedAt":  "2026-11-19T18:51:03.9525453Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 68.502 ms, peak RSS 1223 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload C",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9525453Z",
+                       "completedAt":  "2026-11-19T18:51:03.9525453Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 65.028 ms, peak RSS 1024 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload C-replay",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9545570Z",
+                       "completedAt":  "2026-11-19T18:51:03.9545570Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 71.522 ms, peak RSS 1216 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 1 tables, workload D",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9565715Z",
+                       "completedAt":  "2026-11-19T18:51:03.9565715Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 4/4, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 74.501 ms, peak RSS 1206 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload E",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9565715Z",
+                       "completedAt":  "2026-11-19T18:51:03.9565715Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 89.709 ms, peak RSS 2025 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload A",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9585921Z",
+                       "completedAt":  "2026-11-19T18:51:03.9585921Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 87.614 ms, peak RSS 2207 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload B",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9606039Z",
+                       "completedAt":  "2026-11-19T18:51:03.9606039Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 91.047 ms, peak RSS 2313 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload C",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9623602Z",
+                       "completedAt":  "2026-11-19T18:51:03.9623602Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 92.455 ms, peak RSS 2379 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload C-replay",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9623602Z",
+                       "completedAt":  "2026-11-19T18:51:03.9623602Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 89.435 ms, peak RSS 2192 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "simulation 2 tables, workload D",
+                       "stage":  "simulation",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9643722Z",
+                       "completedAt":  "2026-11-19T18:51:03.9643722Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hands 8/8, stale 0, ack mismatches 0, duplicates blocked 0, cycle p95 92.093 ms, peak RSS 2201 MiB",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "continuous Windows Graphics Capture (1 min, 5 fps)",
+                       "stage":  "capture",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:03.9671511Z",
+                       "completedAt":  "2026-11-19T18:51:04.3982063Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0; {\"event\":\"started\",\"backend\":\"windows-graphics-capture\",\"device\":\"hardware\",\"width\":1024,\"height\":768,\"fps\":5,\"queue\":4} {\"event\":\"summary\",\"end\":\"stopped\",\"delivered\":0,\"arrived\":0,\"dropped\":0,\"throttled\":0,\"blank\":0,\"resizes\":0,\"ageP50Ms\":0,\"ageP95Ms\":0,\"peakWorkingSetMiB\":0,\"durationMs\":9.858} ",
+                       "files":  [
+                                     "C:\\em-results\\long\\wgc-session.stdout.txt",
+                                     "C:\\em-results\\long\\wgc-session.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "GPU-accelerated solver training",
+                       "stage":  "gpu",
+                       "status":  "skip",
+                       "passed":  false,
+                       "startedAt":  "2026-11-19T18:51:04.4008090Z",
+                       "completedAt":  "2026-11-19T18:51:04.4008090Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Not available: the bundled EightMax 5.1 native CLI trains on the CPU only. GPU facts are recorded in hardware-facts.json.",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "memory stayed controlled",
+                       "stage":  "memory",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:04.5792413Z",
+                       "completedAt":  "2026-11-19T18:51:04.5792413Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "peak workbench working set 2791 MiB of 16379 MiB; lowest free 10985 MiB",
+                       "files":  [
+                                     "C:\\em-results\\long\\memory-samples.csv"
+                                 ]
+                   },
+                   {
+                       "check":  "no leftover solver processes",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:51:04.5852759Z",
+                       "completedAt":  "2026-11-19T18:51:04.5852759Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "mwcli processes left: 0",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  22,
+                   "passed":  21,
+                   "failed":  0,
+                   "skipped":  1
+               },
+    "passed":  true
+}
