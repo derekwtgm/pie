@@ -1,4 +1,4 @@
-name: EightMax Test Workbench 0.31 - Windows validation
+name: EightMax Test Workbench 0.32 - Windows validation
 # Validates the exact release ZIP in releases/ on a GitHub-hosted Windows x64 runner (no GPU, virtual display: NOT the target PC).
 on:
   push:
@@ -20,12 +20,12 @@ jobs:
       - name: Validate release on Windows
         shell: powershell
         run: |
-          $zip = Get-ChildItem releases -Filter 'EightMax-Test-Workbench-0.31*.zip' | Select-Object -First 1
+          $zip = Get-ChildItem releases -Filter 'EightMax-Test-Workbench-0.32*.zip' | Select-Object -First 1
           ./workbench-ci/ci.ps1 -Zip $zip.FullName
       - name: Keep results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: workbench-0.31-windows-results
+          name: workbench-0.32-windows-results
           path: C:\em-results
           if-no-files-found: warn

@@ -1,4 +1,4 @@
-﻿# EightMax Test Workbench 0.31 - Windows CI validation driver (adds quality, range, shared-service and long-duration checks to the 0.30 driver) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
+﻿# EightMax Test Workbench 0.32 - Windows CI validation driver (adds shared preflop memory, linked studies, the turn solver and preflop research checks to the 0.31 driver) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
 # Tests the EXACT candidate release ZIP: verifies its checksum, extracts it, runs RUN-RELEASE-ACCEPTANCE's script with the install
 # cycle, the Node.js regression suite with the bundled runtime, and the results collector; prints every report into the log.
 # A hosted runner has no GPU and a virtual display; capture results here are NOT the target PC (RTX 4060 Ti, 3840x2160 @ 150 %).
@@ -60,6 +60,14 @@ Show 'C:\em-lib\quality-summary.json'
 & $node tools\shared-cache-benchmark-031.cjs --lib=C:\em-lib --tables=1,2,5,8,10 --seconds=10 --out=C:\em-results\shared-cache-windows.json 2>&1 | Write-Host; Write-Host ('shared cache benchmark exit ' + $LASTEXITCODE)
 & $node tools\strategy-library.cjs ranges --hands=12 --updates=200000 --cache=C:\em-study-cache 2>&1 | Select-Object -Last 20 | Write-Host; Write-Host ('ranges exit ' + $LASTEXITCODE)
 Show (Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\ranges-latest.json')
+Pop-Location
+Section '0.32: SHARED PREFLOP MEMORY, LINKED STUDIES, TURN SOLVER, PREFLOP RESEARCH ON WINDOWS'
+Push-Location $root
+$env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
+& $node tools\benchmark-032.cjs --tables=1,5,10 --hands=6 --workers=4 --updates=200000 --workloads=B --sharedPreflop=1 --work=C:\em-bench32 --out=C:\em-results\memory-shared-windows.json 2>&1 | Write-Host; Write-Host ('shared preflop benchmark exit ' + $LASTEXITCODE)
+& $node tools\benchmark-031.cjs --tables=1,5,10 --hands=6 --workers=4 --updates=200000 --workloads=B --work=C:\em-bench31 --out=C:\em-results\memory-031path-windows.json 2>&1 | Write-Host; Write-Host ('0.31-path benchmark exit ' + $LASTEXITCODE)
+& $node tools\turn-solver-benchmark-032.cjs --quick --maxMs=20000 --out=C:\em-results\turn-solver-windows.json 2>&1 | Write-Host; Write-Host ('turn solver benchmark exit ' + $LASTEXITCODE)
+& $node tools\preflop-research-032.cjs --mode=fast --updates=100000 --seeds=8 --cache=C:\em-pf32 --lineSamples=2000 --rangeSamples=2000 --out=C:\em-results\preflop-research-windows.json 2>&1 | Write-Host; Write-Host ('preflop research exit ' + $LASTEXITCODE)
 Pop-Location
 Section 'LONG-DURATION ACCEPTANCE, QUICK PROFILE (windows\Test-LongDuration.ps1 -Quick)'
 $sw = [Diagnostics.Stopwatch]::StartNew()
