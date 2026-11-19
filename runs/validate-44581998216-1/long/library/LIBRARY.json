@@ -1,0 +1,9 @@
+{
+ "format": "eightmax-strategy-library",
+ "version": 1,
+ "engine": {
+  "version": "5.1",
+  "build": "7d08acc7eb4577ee"
+ },
+ "createdAt": "2026-11-19T18:12:23.018Z"
+}

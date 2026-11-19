@@ -1,0 +1,1160 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "release-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T17:54:08.4337396Z",
+    "completedAt":  "2026-11-19T17:55:44.4106430Z",
+    "executables":  {
+                        "native\\mwcli.exe":  "n/a sha256:b3e675bfe2ae231e",
+                        "runtime\\node\\node.exe":  "22.23.5 sha256:247e9693d316da98",
+                        "desktop\\bin\\EightMaxWgc.exe":  "0.33.0 sha256:99b8ba4876d1b71f",
+                        "desktop\\bin\\EightMaxCapture.exe":  "0.33.0 sha256:101a3aae95e4d727",
+                        "desktop\\bin\\EightMaxWorkbench.exe":  "0.33.0 sha256:6efb020891f1468c"
+                    },
+    "checks":  [
+                   {
+                       "check":  "release-integrity",
+                       "stage":  "integrity",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:08.7318676Z",
+                       "completedAt":  "2026-11-19T17:54:09.8425204Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Every file matches SHA256SUMS.txt.",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "powershell-parse-all-scripts",
+                       "stage":  "parse",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:09.8610065Z",
+                       "completedAt":  "2026-11-19T17:54:09.9014567Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "All shipped .ps1 files parse in Windows PowerShell 5.1.26100.33648",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "dashboard-version-markers",
+                       "stage":  "dashboard",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:09.9130576Z",
+                       "completedAt":  "2026-11-19T17:54:09.9130576Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "START.html contains the platform and test-results workspaces and version 0.33.0.",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "executable-versions",
+                       "stage":  "versions",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:11.4729293Z",
+                       "completedAt":  "2026-11-19T17:54:11.4729293Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Host, capture and WGC executables all identify themselves as 0.33.0 (components file: 0.33.0).",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "capture/capture-tool-version",
+                       "stage":  "version",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.4952847Z",
+                       "completedAt":  "2026-11-19T17:54:15.4952847Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "EightMaxCapture 0.33.0; {\"tool\":\"EightMaxCapture\",\"version\":\"0.33.0\",\"dpiAwareness\":\"per-monitor-v2 (thread)\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/monitors-listed",
+                       "stage":  "list-monitors",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.4973014Z",
+                       "completedAt":  "2026-11-19T17:54:15.4973014Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "monitors=1 virtual=1024x768 dpiScale(primary)=1",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/display-scaling-recorded",
+                       "stage":  "dpi",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.4973014Z",
+                       "completedAt":  "2026-11-19T17:54:15.4973014Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Primary display scaling 100 %. Other scaling factors are only tested if you change Windows display scaling and run this check again.",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/windows-listed",
+                       "stage":  "list-windows",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.4993152Z",
+                       "completedAt":  "2026-11-19T17:54:15.4993152Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "visible titled windows=2",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:create-window",
+                       "stage":  "create-window",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.4993152Z",
+                       "completedAt":  "2026-11-19T17:54:15.4993152Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hwnd=0x40174 client=640x400 visible=True",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:capture-original",
+                       "stage":  "capture-original",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5013342Z",
+                       "completedAt":  "2026-11-19T17:54:15.5013342Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "saved C:\\em-results\\release\\capture\\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:verify-original-pixels",
+                       "stage":  "verify-original-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5013342Z",
+                       "completedAt":  "2026-11-19T17:54:15.5013342Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:capture-resized",
+                       "stage":  "capture-resized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5036067Z",
+                       "completedAt":  "2026-11-19T17:54:15.5036067Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "saved C:\\em-results\\release\\capture\\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:verify-resized-pixels",
+                       "stage":  "verify-resized-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5051118Z",
+                       "completedAt":  "2026-11-19T17:54:15.5051118Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:detect-minimized",
+                       "stage":  "detect-minimized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5056175Z",
+                       "completedAt":  "2026-11-19T17:54:15.5056175Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "reply code=target-minimized",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:capture-after-restore",
+                       "stage":  "capture-after-restore",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5071283Z",
+                       "completedAt":  "2026-11-19T17:54:15.5071283Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest:detect-closed",
+                       "stage":  "detect-closed",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5076370Z",
+                       "completedAt":  "2026-11-19T17:54:15.5076370Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "original handle 0x40174 IsWindow=False reply code=target-lost",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/selftest-completed",
+                       "stage":  "selftest",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5091406Z",
+                       "completedAt":  "2026-11-19T17:54:15.5091406Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 8 stages, 0 failed, dpiScale 1, 2214 ms",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture/capture-tool-exited",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.5096575Z",
+                       "completedAt":  "2026-11-19T17:54:15.5096575Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No capture tool process left running.",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\capture-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-tool-version",
+                       "stage":  "version",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7400818Z",
+                       "completedAt":  "2026-11-19T17:54:20.7400818Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "{\"tool\":\"EightMaxWgc\",\"version\":\"0.33.0\",\"backend\":\"windows-graphics-capture\",\"os\":\"Microsoft Windows NT 10.0.26100.0\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-supported",
+                       "stage":  "probe",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7400818Z",
+                       "completedAt":  "2026-11-19T17:54:20.7400818Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Windows Graphics Capture is supported on Microsoft Windows NT 10.0.26100.0",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:create-window",
+                       "stage":  "create-window",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7420981Z",
+                       "completedAt":  "2026-11-19T17:54:20.7420981Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hwnd=0x40182 dpiScale=1",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:session-start",
+                       "stage":  "session-start",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7420981Z",
+                       "completedAt":  "2026-11-19T17:54:20.7420981Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "device=hardware size=640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:first-frame",
+                       "stage":  "first-frame",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7441097Z",
+                       "completedAt":  "2026-11-19T17:54:20.7441097Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "seq=1 640x400 ageMs=15.758 latencyMs=41.391",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:verify-original-pixels",
+                       "stage":  "verify-original-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7441097Z",
+                       "completedAt":  "2026-11-19T17:54:20.7441097Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "640x400 (expected 640x400)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:resize-detected",
+                       "stage":  "resize-detected",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7461313Z",
+                       "completedAt":  "2026-11-19T17:54:20.7461313Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "resizes=1 frame=800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:verify-resized-pixels",
+                       "stage":  "verify-resized-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7461313Z",
+                       "completedAt":  "2026-11-19T17:54:20.7461313Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:refuse-wrong-process",
+                       "stage":  "refuse-wrong-process",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7481439Z",
+                       "completedAt":  "2026-11-19T17:54:20.7481439Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "refusal=target-identity-changed (handle checked against another process id)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:detect-minimized",
+                       "stage":  "detect-minimized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7501599Z",
+                       "completedAt":  "2026-11-19T17:54:20.7501599Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "IsIconic=True refusal=target-minimized",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:recover-after-restore",
+                       "stage":  "recover-after-restore",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7619635Z",
+                       "completedAt":  "2026-11-19T17:54:20.7619635Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "seq=3 160x28",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:frame-sequence",
+                       "stage":  "frame-sequence",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7619635Z",
+                       "completedAt":  "2026-11-19T17:54:20.7619635Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "first=1 latest=3 dropped=0 blank=0",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:repeated-sessions-and-cleanup",
+                       "stage":  "repeated-sessions-and-cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7639753Z",
+                       "completedAt":  "2026-11-19T17:54:20.7639753Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "5/5 sessions produced a frame; working-set growth 3 MiB (limit 64)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:detect-closed",
+                       "stage":  "detect-closed",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7647401Z",
+                       "completedAt":  "2026-11-19T17:54:20.7647401Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "IsWindow=False itemClosedEvent=False",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc:refuse-closed-handle",
+                       "stage":  "refuse-closed-handle",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7659894Z",
+                       "completedAt":  "2026-11-19T17:54:20.7659894Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "refusal=target-lost",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-selftest-completed",
+                       "stage":  "selftest",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7667579Z",
+                       "completedAt":  "2026-11-19T17:54:20.7667579Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 13 stages, 0 failed, 1906 ms",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-invalid-handle-refused",
+                       "stage":  "refusal",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7677545Z",
+                       "completedAt":  "2026-11-19T17:54:20.7677545Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "invalid window is refused: exit 1: {\"ok\":false,\"backend\":\"windows-graphics-capture\",\"code\":\"target-lost\",\"reason\":\"The window no longer exists.\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-bad-arguments-refused",
+                       "stage":  "refusal",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7677545Z",
+                       "completedAt":  "2026-11-19T17:54:20.7677545Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 2: {\"ok\":false,\"backend\":\"windows-graphics-capture\",\"code\":\"bad-arguments\",\"reason\":\"Unknown argument --nonsense\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc/wgc-process-cleanup",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:20.7697774Z",
+                       "completedAt":  "2026-11-19T17:54:20.7697774Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No helper process left running.",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Release integrity",
+                       "stage":  "release-integrity",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4763411Z",
+                       "completedAt":  "2026-11-19T17:55:35.4763411Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Release files match their manifest.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Windows PowerShell parsing",
+                       "stage":  "release-integrity",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4783610Z",
+                       "completedAt":  "2026-11-19T17:55:35.4783610Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Windows scripts parsed without errors.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Private session initialised",
+                       "stage":  "host-launch",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4783610Z",
+                       "completedAt":  "2026-11-19T17:55:35.4783610Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Host process 7632 wrote its private session (app 0.33.0).",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Raw protocol probe (health)",
+                       "stage":  "protocol-probe",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4803695Z",
+                       "completedAt":  "2026-11-19T17:55:35.4803695Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "HTTP 200: {\"format\":\"eightmax-desktop-health\",\"version\":1,\"appVersion\":\"0.33.0\",\"build\":\"7d08acc7eb4577ee\",\"nativeCPU\":true,\"liveClientConnected\":false,\"screenCapture\":true,\"captureMethods\":[\"print-window\",\"screen-copy\",\"windows-graphics-capture\"],\"testResults\":true,\"strategyLibrary\":true,\"strategyQuality\":true,\"opponentRanges\":true,\"launchTools\":[\"capture-check\",\"wgc-check\",\"hardware-check\",\"windows-checks",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Expect: 100-continue accepted (0.26 HTTP 400 regression)",
+                       "stage":  "protocol-probe",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4803695Z",
+                       "completedAt":  "2026-11-19T17:55:35.4803695Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "HTTP 400 (a validation refusal of the empty job is expected; a framing refusal is the 0.26 defect): {\"error\":\"Unsupported native job.\",\"code\":\"invalid-request\",\"status\":400,\"method\":\"POST\",\"path\":\"/api/native/cancel-intent\",\"step\":null,\"requestId\":\"r2\",\"appVersion\":\"0.33.0\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Loopback proxy bypass",
+                       "stage":  "loopback-proxy",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4823837Z",
+                       "completedAt":  "2026-11-19T17:55:35.4823837Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "The Windows/.NET proxy settings send 127.0.0.1 directly (no proxy).",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Security software (information)",
+                       "stage":  "loopback-proxy",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4823837Z",
+                       "completedAt":  "2026-11-19T17:55:35.4823837Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No product listed in Windows Security Center (or not readable).",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/First-request diagnosis (0.26 HTTP 400)",
+                       "stage":  "loopback-proxy",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4838315Z",
+                       "completedAt":  "2026-11-19T17:55:35.4838315Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "All three request paths succeeded: the 0.26 first-request HTTP 400 does not occur with this build.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Desktop build and local health",
+                       "stage":  "health",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4843938Z",
+                       "completedAt":  "2026-11-19T17:55:35.4843938Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Compiled host launched and answered its authenticated local protocol.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Screen-capture service answers",
+                       "stage":  "capture-enumeration",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4857738Z",
+                       "completedAt":  "2026-11-19T17:55:35.4857738Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Monitors and windows were enumerated through documented Win32 calls. Capture methods offered: print-window, screen-copy, windows-graphics-capture.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Capture needs explicit consent",
+                       "stage":  "capture-authorization",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4857738Z",
+                       "completedAt":  "2026-11-19T17:55:35.4857738Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A capture request without operator consent was refused.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Unauthenticated API refusal",
+                       "stage":  "capture-authorization",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4874165Z",
+                       "completedAt":  "2026-11-19T17:55:35.4874165Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "API requests require the current private desktop session.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Foreign origin refusal",
+                       "stage":  "capture-authorization",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4877836Z",
+                       "completedAt":  "2026-11-19T17:55:35.4877836Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A foreign Origin was refused; no external network request was made.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Host capture: PrintWindow frame of an own window",
+                       "stage":  "capture-session",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4877836Z",
+                       "completedAt":  "2026-11-19T17:55:35.4877836Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "method print-window 480x300 dpiScale 1",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Host capture: Windows Graphics Capture persistent session",
+                       "stage":  "capture-session",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4897959Z",
+                       "completedAt":  "2026-11-19T17:55:35.4897959Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "4 frames through ONE session: frameIds 1,1,2,2; fresh 2; active sessions 1; first frame 346.2229 ms",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Host capture: session closes and its helper exits",
+                       "stage":  "capture-session",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4897959Z",
+                       "completedAt":  "2026-11-19T17:55:35.4897959Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "closed 1; active after close 0; helper exited True",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Host capture: closed window reported, session ended",
+                       "stage":  "capture-session",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4914360Z",
+                       "completedAt":  "2026-11-19T17:55:35.4914360Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "reopened frame ok=True; after close: target-lost",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Idempotent native submission",
+                       "stage":  "native-submission",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4918127Z",
+                       "completedAt":  "2026-11-19T17:55:35.4918127Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A repeated bound submission returned its existing attempt.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Read-only current study recovery",
+                       "stage":  "native-submission",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4918127Z",
+                       "completedAt":  "2026-11-19T17:55:35.4918127Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Current study discovery returned the bound job without submitting or resuming it.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Managed reviewed CPU workflow",
+                       "stage":  "native-submission",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4938248Z",
+                       "completedAt":  "2026-11-19T17:55:35.4938248Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Real Windows native execution returned separate root/target queries at the captured actor and completed count.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Native cancellation and checkpoint retention",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4938248Z",
+                       "completedAt":  "2026-11-19T17:55:35.4938248Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Managed process group stopped and retained a completed checkpoint.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Cancel resume before acknowledgment",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4954587Z",
+                       "completedAt":  "2026-11-19T17:55:35.4954587Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A fenced resume attempt was skipped without losing its completed checkpoint.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Idempotent checkpoint resume",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4958332Z",
+                       "completedAt":  "2026-11-19T17:55:35.4958332Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Repeating the same resume revision returned its already-created attempt.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Stale attempt cancellation refusal",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4958332Z",
+                       "completedAt":  "2026-11-19T17:55:35.4958332Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "An older attempt could not cancel its resumed successor.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Stable restore and training targets",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4978415Z",
+                       "completedAt":  "2026-11-19T17:55:35.4978415Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Every observed restore/training status retained the job target and bounded committed counters.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Native resume to cumulative target",
+                       "stage":  "native-cancel-resume",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4978415Z",
+                       "completedAt":  "2026-11-19T17:55:35.4978415Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Resume completed the same bound job without modifying its input checkpoint.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Cancel before submission acknowledgment",
+                       "stage":  "native-fenced-submission",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4994779Z",
+                       "completedAt":  "2026-11-19T17:55:35.4994779Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A cancelled binding was refused when its delayed initial submission arrived.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Persistent native result history",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4998580Z",
+                       "completedAt":  "2026-11-19T17:55:35.4998580Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "The completed managed result was retained after another study replaced the current job.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/History restart is idle",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.4998580Z",
+                       "completedAt":  "2026-11-19T17:55:35.4998580Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A fresh host credential was created; no saved study started and checkpoint bytes stayed unchanged.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Open archived checkpoint without training",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5012370Z",
+                       "completedAt":  "2026-11-19T17:55:35.5012370Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Archive selection restored the same job/binding without changing checkpoint bytes.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Resume archived checkpoint after host restart",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5012370Z",
+                       "completedAt":  "2026-11-19T17:55:35.5012370Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Explicit resume reached the original target and preserved its input checkpoint.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Stale archive record refusal",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "completedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A changed saved revision could not be opened with its previous record token.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Idempotent sequential batch submission",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "completedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Repeated delivery returned the same two-study batch.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Sequential native batch saved results",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "completedAt":  "2026-11-19T17:55:35.5032469Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Two root/reviewed studies completed sequentially with distinct saved result identities.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Batch cancellation before delivery",
+                       "stage":  "native-history",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5052570Z",
+                       "completedAt":  "2026-11-19T17:55:35.5052570Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "A cancelled batch identity could not start when its delayed submission arrived.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Desktop acceptance completed",
+                       "stage":  "acceptance-complete",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5052570Z",
+                       "completedAt":  "2026-11-19T17:55:35.5052570Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Every desktop protocol and native step above ran to completion.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Graceful desktop shutdown",
+                       "stage":  "shutdown",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5072702Z",
+                       "completedAt":  "2026-11-19T17:55:35.5072702Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Shutdown accepted (nativeWorkStopped=False). Host exited by itself (exit code 0).",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "desktop/Native process cleanup",
+                       "stage":  "shutdown",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:35.5072702Z",
+                       "completedAt":  "2026-11-19T17:55:35.5072702Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No mwcli.exe started by this test is left running.",
+                       "files":  [
+                                     "C:\\em-results\\release\\desktop\\EightMax-desktop-acceptance.json"
+                                 ]
+                   },
+                   {
+                       "check":  "no-orphaned-processes",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:36.0286573Z",
+                       "completedAt":  "2026-11-19T17:55:36.0286573Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No mwcli.exe, desktop host, capture or WGC process started by this run is still running.",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "hardware-check",
+                       "stage":  "hardware",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:38.5005183Z",
+                       "completedAt":  "2026-11-19T17:55:38.5005183Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0; facts in C:\\em-results\\release\\hardware",
+                       "files":  [
+                                     "C:\\em-results\\release\\hardware-check.log"
+                                 ]
+                   },
+                   {
+                       "check":  "install",
+                       "stage":  "install",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:43.3326497Z",
+                       "completedAt":  "2026-11-19T17:55:43.3326497Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0; log C:\\em-results\\release\\install.log",
+                       "files":  [
+                                     "C:\\em-results\\release\\install.log"
+                                 ]
+                   },
+                   {
+                       "check":  "rollback",
+                       "stage":  "rollback",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:43.7172887Z",
+                       "completedAt":  "2026-11-19T17:55:43.7172887Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 1 (exit 1 is expected when only one release is installed); log C:\\em-results\\release\\rollback.log",
+                       "files":  [
+                                     "C:\\em-results\\release\\rollback.log"
+                                 ]
+                   },
+                   {
+                       "check":  "uninstall",
+                       "stage":  "uninstall",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:44.3831351Z",
+                       "completedAt":  "2026-11-19T17:55:44.3831351Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0; log C:\\em-results\\release\\uninstall.log",
+                       "files":  [
+                                     "C:\\em-results\\release\\uninstall.log"
+                                 ]
+                   },
+                   {
+                       "check":  "user-data-preserved-after-uninstall",
+                       "stage":  "uninstall",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:55:44.3871539Z",
+                       "completedAt":  "2026-11-19T17:55:44.3871539Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Before uninstall: NativeJobs, Logs; still present after: NativeJobs, Logs",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  81,
+                   "passed":  81,
+                   "failed":  0,
+                   "skipped":  0
+               },
+    "passed":  true
+}

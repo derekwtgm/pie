@@ -1,0 +1,2 @@
+Hardware facts written to C:\em-results\release\hardware\hardware-facts.json
+Open the dashboard, choose "Hardware validation" and load this file to see the classified report.

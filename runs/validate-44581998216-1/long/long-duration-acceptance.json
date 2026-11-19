@@ -1,0 +1,141 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "long-duration-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T18:08:05.5336926Z",
+    "completedAt":  "2026-11-19T18:14:24.9397403Z",
+    "executables":  {
+                        "native\\mwcli.exe":  "n/a sha256:b3e675bfe2ae231e",
+                        "runtime\\node\\node.exe":  "22.23.5 sha256:247e9693d316da98",
+                        "desktop\\bin\\EightMaxWgc.exe":  "0.33.0 sha256:99b8ba4876d1b71f",
+                        "desktop\\bin\\EightMaxCapture.exe":  "0.33.0 sha256:101a3aae95e4d727",
+                        "desktop\\bin\\EightMaxWorkbench.exe":  "0.33.0 sha256:6efb020891f1468c"
+                    },
+    "checks":  [
+                   {
+                       "check":  "hardware facts",
+                       "stage":  "hardware",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:08:07.0189338Z",
+                       "completedAt":  "2026-11-19T18:08:09.5574318Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hardware-facts.json written",
+                       "files":  [
+                                     "C:\\em-results\\long\\hardware-facts.json"
+                                 ]
+                   },
+                   {
+                       "check":  "0.31 component self-test",
+                       "stage":  "self-test",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:08:09.5830566Z",
+                       "completedAt":  "2026-11-19T18:10:03.5355505Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "pass 73, fail 0, exit 0, 113888 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\self-test.stdout.txt",
+                                     "C:\\em-results\\long\\self-test.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "mathematical validation (quick, exact small games)",
+                       "stage":  "math",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:10:03.5375653Z",
+                       "completedAt":  "2026-11-19T18:12:22.9400890Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 139400 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\math-validation.json",
+                                     "C:\\em-results\\long\\math-validation.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "sustained precomputation (2 min)",
+                       "stage":  "precompute",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:12:23.2874233Z",
+                       "completedAt":  "2026-11-19T18:14:23.7142395Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "studies completed 144, failed/memory-limited 0, 120 s",
+                       "files":  [
+                                     "C:\\em-results\\long\\precompute.stdout.txt",
+                                     "C:\\em-results\\long\\precompute.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "strategy library integrity (every record)",
+                       "stage":  "library",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:14:23.7162509Z",
+                       "completedAt":  "2026-11-19T18:14:24.2229930Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 505 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\verify.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "all acceptance stages completed",
+                       "stage":  "harness",
+                       "status":  "fail",
+                       "passed":  false,
+                       "startedAt":  "2026-11-19T18:14:24.7362434Z",
+                       "completedAt":  "2026-11-19T18:14:24.7362434Z",
+                       "errorClass":  "aborted",
+                       "errorCode":  "all-acceptance-stages-completed-failed",
+                       "detail":  "The run stopped before every stage finished: Exception calling \"Substring\" with \"2\" argument(s): \"Index and length must refer to a location within the string.\r\nParameter name: length\"",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "memory stayed controlled",
+                       "stage":  "memory",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:14:24.9121055Z",
+                       "completedAt":  "2026-11-19T18:14:24.9121055Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "peak workbench working set 760 MiB of 16379 MiB; lowest free 12806 MiB",
+                       "files":  [
+                                     "C:\\em-results\\long\\memory-samples.csv"
+                                 ]
+                   },
+                   {
+                       "check":  "no leftover solver processes",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T18:14:24.9178954Z",
+                       "completedAt":  "2026-11-19T18:14:24.9178954Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "mwcli processes left: 0",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  8,
+                   "passed":  7,
+                   "failed":  1,
+                   "skipped":  0
+               },
+    "passed":  false
+}

@@ -1,0 +1,980 @@
+{
+ "format": "eightmax-preflop-modes",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T18:03:12.634Z",
+ "machine": {
+  "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+  "logicalCpus": 4,
+  "totalMemBytes": 17174360064,
+  "node": "v22.23.5",
+  "platform": "win32"
+ },
+ "engine": "EightMax 5.1 mwcli (unchanged; single-thread shared action stream)",
+ "modes": {
+  "B169": {
+   "mode": "B169",
+   "name": "checkdown-class",
+   "seats": 8,
+   "stacksBB": [
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "blinds": "SB 0.5 / BB 1",
+   "ante": "classic 0.1 BB per player",
+   "objective": "chip EV",
+   "preflop": {
+    "mode": "linked",
+    "opens": "2.2,a",
+    "maxBets": 3
+   },
+   "postflop": "none (check-down to showdown)",
+   "keys": "169 preflop hand classes (lossless by suit symmetry in this game)",
+   "accuracyClass": "approximate (compact continuation: check-down); class keys lossless for this game"
+  },
+  "B": {
+   "mode": "B",
+   "name": "checkdown",
+   "seats": 8,
+   "stacksBB": [
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "blinds": "SB 0.5 / BB 1",
+   "ante": "classic 0.1 BB per player",
+   "objective": "chip EV",
+   "preflop": {
+    "mode": "linked",
+    "opens": "2.2,a",
+    "maxBets": 3
+   },
+   "postflop": "none (check-down to showdown)",
+   "keys": "exact private hands (1,326)",
+   "accuracyClass": "approximate (compact continuation: check-down)"
+  },
+  "A": {
+   "mode": "A",
+   "name": "full-linked",
+   "seats": 8,
+   "stacksBB": [
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "blinds": "SB 0.5 / BB 1",
+   "ante": "classic 0.1 BB per player",
+   "objective": "chip EV",
+   "preflop": {
+    "mode": "linked",
+    "opens": "2.2,a",
+    "maxBets": 3
+   },
+   "postflop": "study menus on flop, turn and river",
+   "keys": "exact private hands (1,326)",
+   "accuracyClass": "research model (sampled continuation; convergence not proven)"
+  }
+ },
+ "classifications": {
+  "resources": "measured on this machine",
+  "coverage": "exact counts from the state file",
+  "distances": "exact between two stored strategies; NOT accuracy (8-player equilibria need not be unique)",
+  "gains": "sampled estimate of a lower bound (one-decision deviation at the first-in node, later play follows the same study and the same continuation model)",
+  "exploitability": "unavailable for the eight-player game (never reported as 0)"
+ },
+ "runs": [
+  {
+   "mode": "B169",
+   "seed": 8,
+   "updates": 200000,
+   "stackBB": 25,
+   "training": {
+    "updates": 200000,
+    "requested": 200000,
+    "status": "complete",
+    "continuedFrom": 0,
+    "wallMs": 20432,
+    "segmentUpdates": 200000,
+    "updatesPerSecond": 9789,
+    "peakRssMiB": 321.4,
+    "tableMiB": 254.097,
+    "rows": 1174519,
+    "states": 2102461,
+    "stateBytes": 72657248,
+    "sha256": "c2d7ef00f16016b9d1b3464460aad80739c3f163dc260ee3bd41a3727ddbe17e"
+   },
+   "anatomy": {
+    "postflopRowShare": 0,
+    "streets": {
+     "preflop": {
+      "states": 579536,
+      "rows": 1174519,
+      "diskBytes": 53734879
+     },
+     "flop": {
+      "states": 550757,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     },
+     "turn": {
+      "states": 550757,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     },
+     "river": {
+      "states": 421411,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     }
+    }
+   },
+   "coverage": {
+    "preflopRows": 1174519,
+    "preflopStatesWithRows": 161631,
+    "byPosition": [
+     {
+      "position": "UTG",
+      "seat": 0,
+      "statesWithRows": 19471,
+      "statesAllClasses": 22,
+      "classCoverageMean": 0.062,
+      "classCoverageMassWeighted": 0.0329,
+      "combosStored": 204117,
+      "firstInPath": "r",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "UTG+1",
+      "seat": 1,
+      "statesWithRows": 20316,
+      "statesAllClasses": 17,
+      "classCoverageMean": 0.0574,
+      "classCoverageMassWeighted": 0.018,
+      "combosStored": 197085,
+      "firstInPath": "r0",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "MP",
+      "seat": 2,
+      "statesWithRows": 21395,
+      "statesAllClasses": 20,
+      "classCoverageMean": 0.0483,
+      "classCoverageMassWeighted": 0.0269,
+      "combosStored": 174748,
+      "firstInPath": "r00",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "HJ",
+      "seat": 3,
+      "statesWithRows": 22767,
+      "statesAllClasses": 29,
+      "classCoverageMean": 0.037,
+      "classCoverageMassWeighted": 0.0219,
+      "combosStored": 142537,
+      "firstInPath": "r000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "CO",
+      "seat": 4,
+      "statesWithRows": 22849,
+      "statesAllClasses": 37,
+      "classCoverageMean": 0.0312,
+      "classCoverageMassWeighted": 0.0242,
+      "combosStored": 120655,
+      "firstInPath": "r0000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "BTN",
+      "seat": 5,
+      "statesWithRows": 21398,
+      "statesAllClasses": 31,
+      "classCoverageMean": 0.0306,
+      "classCoverageMassWeighted": 0.0261,
+      "combosStored": 110834,
+      "firstInPath": "r00000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "SB",
+      "seat": 6,
+      "statesWithRows": 18402,
+      "statesAllClasses": 19,
+      "classCoverageMean": 0.0354,
+      "classCoverageMassWeighted": 0.0128,
+      "combosStored": 109946,
+      "firstInPath": "r000000",
+      "firstInClassesStored": 167,
+      "firstInMissingClasses": 2
+     },
+     {
+      "position": "BB",
+      "seat": 7,
+      "statesWithRows": 15033,
+      "statesAllClasses": 11,
+      "classCoverageMean": 0.0451,
+      "classCoverageMassWeighted": 0.0225,
+      "combosStored": 114597,
+      "firstInPath": "r0000001",
+      "firstInClassesStored": 105,
+      "firstInMissingClasses": 64
+     }
+    ]
+   },
+   "firstIn": [
+    {
+     "position": "UTG",
+     "path": "r",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.6075,
+      0.1519,
+      0.0897,
+      0.1509
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "UTG+1",
+     "path": "r0",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.5963,
+      0.1124,
+      0.093,
+      0.1983
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "MP",
+     "path": "r00",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.5093,
+      0.1369,
+      0.1149,
+      0.239
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "HJ",
+     "path": "r000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.461,
+      0.1609,
+      0.1419,
+      0.2362
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "CO",
+     "path": "r0000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.4031,
+      0.1857,
+      0.1592,
+      0.252
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "BTN",
+     "path": "r00000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.29,
+      0.1972,
+      0.1937,
+      0.319
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "SB",
+     "path": "r000000",
+     "labels": [
+      "Fold",
+      "Call 0.5",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.204,
+      0.1996,
+      0.2407,
+      0.3557
+     ],
+     "combosWithoutRows": 8
+    },
+    {
+     "position": "BB",
+     "path": "r0000001",
+     "labels": [
+      "Check",
+      "Bet 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.327,
+      0.2993,
+      0.3737
+     ],
+     "combosWithoutRows": 322
+    }
+   ],
+   "checkpoint": {
+    "emzBytes": 34740977,
+    "ratio": 0.478,
+    "ms": 7643
+   }
+  },
+  {
+   "mode": "B",
+   "seed": 8,
+   "updates": 200000,
+   "stackBB": 25,
+   "training": {
+    "updates": 200000,
+    "requested": 200000,
+    "status": "complete",
+    "continuedFrom": 0,
+    "wallMs": 16510,
+    "segmentUpdates": 200000,
+    "updatesPerSecond": 12114,
+    "peakRssMiB": 332.6,
+    "tableMiB": 279.364,
+    "rows": 1783696,
+    "states": 2258374,
+    "stateBytes": 106265430,
+    "sha256": "5f8e12b458c502a38c87c5aa522054115bb72e6e56815b26a3e0a8c777e6fa80"
+   },
+   "anatomy": {
+    "postflopRowShare": 0,
+    "streets": {
+     "preflop": {
+      "states": 617806,
+      "rows": 1783696,
+      "diskBytes": 85939856
+     },
+     "flop": {
+      "states": 592747,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     },
+     "turn": {
+      "states": 592747,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     },
+     "river": {
+      "states": 455074,
+      "rows": 0,
+      "diskBytes": 0,
+      "singleRowContextShare": 0
+     }
+    }
+   },
+   "coverage": {
+    "preflopRows": 1783696,
+    "preflopStatesWithRows": 168151,
+    "byPosition": [
+     {
+      "position": "UTG",
+      "seat": 0,
+      "statesWithRows": 19976,
+      "statesAllClasses": 16,
+      "classCoverageMean": 0.0639,
+      "classCoverageMassWeighted": 0.0294,
+      "combosStored": 360695,
+      "firstInPath": "r",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "UTG+1",
+      "seat": 1,
+      "statesWithRows": 20434,
+      "statesAllClasses": 5,
+      "classCoverageMean": 0.0588,
+      "classCoverageMassWeighted": 0.0253,
+      "combosStored": 282876,
+      "firstInPath": "r0",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "MP",
+      "seat": 2,
+      "statesWithRows": 21925,
+      "statesAllClasses": 14,
+      "classCoverageMean": 0.0461,
+      "classCoverageMassWeighted": 0.0174,
+      "combosStored": 220535,
+      "firstInPath": "r00",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "HJ",
+      "seat": 3,
+      "statesWithRows": 23451,
+      "statesAllClasses": 35,
+      "classCoverageMean": 0.0338,
+      "classCoverageMassWeighted": 0.0154,
+      "combosStored": 189418,
+      "firstInPath": "r000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "CO",
+      "seat": 4,
+      "statesWithRows": 24251,
+      "statesAllClasses": 32,
+      "classCoverageMean": 0.0271,
+      "classCoverageMassWeighted": 0.0208,
+      "combosStored": 184366,
+      "firstInPath": "r0000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "BTN",
+      "seat": 5,
+      "statesWithRows": 23052,
+      "statesAllClasses": 26,
+      "classCoverageMean": 0.0265,
+      "classCoverageMassWeighted": 0.0201,
+      "combosStored": 181545,
+      "firstInPath": "r00000",
+      "firstInClassesStored": 167,
+      "firstInMissingClasses": 2
+     },
+     {
+      "position": "SB",
+      "seat": 6,
+      "statesWithRows": 19392,
+      "statesAllClasses": 23,
+      "classCoverageMean": 0.0323,
+      "classCoverageMassWeighted": 0.0256,
+      "combosStored": 181204,
+      "firstInPath": "r000000",
+      "firstInClassesStored": 132,
+      "firstInMissingClasses": 37
+     },
+     {
+      "position": "BB",
+      "seat": 7,
+      "statesWithRows": 15670,
+      "statesAllClasses": 15,
+      "classCoverageMean": 0.0428,
+      "classCoverageMassWeighted": 0.0177,
+      "combosStored": 183057,
+      "firstInPath": "r0000001",
+      "firstInClassesStored": 48,
+      "firstInMissingClasses": 121
+     }
+    ]
+   },
+   "firstIn": [
+    {
+     "position": "UTG",
+     "path": "r",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.4344,
+      0.1715,
+      0.1195,
+      0.2746
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "UTG+1",
+     "path": "r0",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3861,
+      0.183,
+      0.1428,
+      0.2881
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "MP",
+     "path": "r00",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3453,
+      0.1808,
+      0.1713,
+      0.3026
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "HJ",
+     "path": "r000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.357,
+      0.1728,
+      0.1822,
+      0.2881
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "CO",
+     "path": "r0000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3146,
+      0.2011,
+      0.1987,
+      0.2855
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "BTN",
+     "path": "r00000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.2647,
+      0.237,
+      0.2353,
+      0.263
+     ],
+     "combosWithoutRows": 8
+    },
+    {
+     "position": "SB",
+     "path": "r000000",
+     "labels": [
+      "Fold",
+      "Call 0.5",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.2393,
+      0.2479,
+      0.2502,
+      0.2626
+     ],
+     "combosWithoutRows": 192
+    },
+    {
+     "position": "BB",
+     "path": "r0000001",
+     "labels": [
+      "Check",
+      "Bet 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3315,
+      0.3315,
+      0.337
+     ],
+     "combosWithoutRows": 892
+    }
+   ],
+   "checkpoint": {
+    "emzBytes": 51343641,
+    "ratio": 0.483,
+    "ms": 9459
+   }
+  },
+  {
+   "mode": "A",
+   "seed": 8,
+   "updates": 200000,
+   "stackBB": 25,
+   "training": {
+    "updates": 200000,
+    "requested": 200000,
+    "status": "complete",
+    "continuedFrom": 0,
+    "wallMs": 21894,
+    "segmentUpdates": 200000,
+    "updatesPerSecond": 9135,
+    "peakRssMiB": 419.4,
+    "tableMiB": 397.638,
+    "rows": 2783477,
+    "states": 3358412,
+    "stateBytes": 159957992,
+    "sha256": "1aaea27be64ab7ef773e644dd47a6097f7ffb59ead0fe16803ada97934316fd1"
+   },
+   "anatomy": {
+    "postflopRowShare": 0.3656,
+    "streets": {
+     "preflop": {
+      "states": 616935,
+      "rows": 1765705,
+      "diskBytes": 84950108
+     },
+     "flop": {
+      "states": 1401135,
+      "rows": 589947,
+      "diskBytes": 25957668,
+      "singleRowContextShare": 0.9998
+     },
+     "turn": {
+      "states": 840474,
+      "rows": 247168,
+      "diskBytes": 10875392,
+      "singleRowContextShare": 1
+     },
+     "river": {
+      "states": 499868,
+      "rows": 180657,
+      "diskBytes": 7948908,
+      "singleRowContextShare": 1
+     }
+    }
+   },
+   "coverage": {
+    "preflopRows": 1765705,
+    "preflopStatesWithRows": 166996,
+    "byPosition": [
+     {
+      "position": "UTG",
+      "seat": 0,
+      "statesWithRows": 19815,
+      "statesAllClasses": 16,
+      "classCoverageMean": 0.0636,
+      "classCoverageMassWeighted": 0.0265,
+      "combosStored": 358791,
+      "firstInPath": "r",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "UTG+1",
+      "seat": 1,
+      "statesWithRows": 20188,
+      "statesAllClasses": 5,
+      "classCoverageMean": 0.0595,
+      "classCoverageMassWeighted": 0.0298,
+      "combosStored": 282409,
+      "firstInPath": "r0",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "MP",
+      "seat": 2,
+      "statesWithRows": 21540,
+      "statesAllClasses": 14,
+      "classCoverageMean": 0.0461,
+      "classCoverageMassWeighted": 0.0176,
+      "combosStored": 216179,
+      "firstInPath": "r00",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "HJ",
+      "seat": 3,
+      "statesWithRows": 23642,
+      "statesAllClasses": 33,
+      "classCoverageMean": 0.0329,
+      "classCoverageMassWeighted": 0.0181,
+      "combosStored": 186478,
+      "firstInPath": "r000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "CO",
+      "seat": 4,
+      "statesWithRows": 24124,
+      "statesAllClasses": 34,
+      "classCoverageMean": 0.0266,
+      "classCoverageMassWeighted": 0.017,
+      "combosStored": 181113,
+      "firstInPath": "r0000",
+      "firstInClassesStored": 169,
+      "firstInMissingClasses": 0
+     },
+     {
+      "position": "BTN",
+      "seat": 5,
+      "statesWithRows": 22898,
+      "statesAllClasses": 26,
+      "classCoverageMean": 0.0263,
+      "classCoverageMassWeighted": 0.0059,
+      "combosStored": 179351,
+      "firstInPath": "r00000",
+      "firstInClassesStored": 165,
+      "firstInMissingClasses": 4
+     },
+     {
+      "position": "SB",
+      "seat": 6,
+      "statesWithRows": 19660,
+      "statesAllClasses": 18,
+      "classCoverageMean": 0.0316,
+      "classCoverageMassWeighted": 0.0147,
+      "combosStored": 180043,
+      "firstInPath": "r000000",
+      "firstInClassesStored": 118,
+      "firstInMissingClasses": 51
+     },
+     {
+      "position": "BB",
+      "seat": 7,
+      "statesWithRows": 15129,
+      "statesAllClasses": 11,
+      "classCoverageMean": 0.0435,
+      "classCoverageMassWeighted": 0.0167,
+      "combosStored": 181341,
+      "firstInPath": "r0000001",
+      "firstInClassesStored": 50,
+      "firstInMissingClasses": 119
+     }
+    ]
+   },
+   "firstIn": [
+    {
+     "position": "UTG",
+     "path": "r",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.421,
+      0.1718,
+      0.1283,
+      0.2789
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "UTG+1",
+     "path": "r0",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3806,
+      0.1701,
+      0.1482,
+      0.301
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "MP",
+     "path": "r00",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3488,
+      0.1688,
+      0.1787,
+      0.3037
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "HJ",
+     "path": "r000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.351,
+      0.1794,
+      0.1742,
+      0.2955
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "CO",
+     "path": "r0000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3075,
+      0.1968,
+      0.2025,
+      0.2932
+     ],
+     "combosWithoutRows": 0
+    },
+    {
+     "position": "BTN",
+     "path": "r00000",
+     "labels": [
+      "Fold",
+      "Call 1",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.2654,
+      0.2397,
+      0.2299,
+      0.265
+     ],
+     "combosWithoutRows": 18
+    },
+    {
+     "position": "SB",
+     "path": "r000000",
+     "labels": [
+      "Fold",
+      "Call 0.5",
+      "Raise to 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.2511,
+      0.2433,
+      0.2458,
+      0.2598
+     ],
+     "combosWithoutRows": 286
+    },
+    {
+     "position": "BB",
+     "path": "r0000001",
+     "labels": [
+      "Check",
+      "Bet 2.2",
+      "All-in to 24.9"
+     ],
+     "frequencies": [
+      0.3385,
+      0.3414,
+      0.3202
+     ],
+     "combosWithoutRows": 828
+    }
+   ],
+   "checkpoint": {
+    "emzBytes": 71793974,
+    "ratio": 0.449,
+    "ms": 13507
+   }
+  }
+ ],
+ "comparisons": []
+}

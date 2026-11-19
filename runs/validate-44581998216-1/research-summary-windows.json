@@ -1,0 +1,5846 @@
+{
+ "format": "eightmax-research-summary",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "writtenAt": "2026-11-19T18:08:05.232Z",
+ "preflop": {
+  "available": true,
+  "source": "release measurement on the build machine (Linux container), not this computer",
+  "file": "reports/0.32-preflop-research.json",
+  "mode": "Standard Research Study",
+  "game": "eight seats, equal 25 BB stacks, SB 0.5 / BB 1 / ante 0.1 BB per player, chip EV, linked preflop tree (fold / call / open 2.2 / all-in, up to 3 bets) continuing to the river with single-size postflop menus; every seat starts from all 1,326 combinations",
+  "classifications": {
+   "coverage": "exact count of stored rows (native state)",
+   "reach": "sampled estimate (Monte-Carlo line sampling, fixed seed)",
+   "rangeSupport": "sampled estimate (same method as 0.31)",
+   "gains": "restricted best response = LOWER BOUND, evaluated by sampling (95% interval); sampled = one-decision deviation estimate",
+   "fullGameExploitability": "unavailable (not computed; never reported as zero)"
+  },
+  "runs": [
+   {
+    "variant": "baseline",
+    "seed": 8,
+    "updates": 500000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.912322,
+    "reachWeightedComboCoverage": 0.793493,
+    "statesWithNoRow": 386707,
+    "decisionStates": 641023,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.959014,
+      "missingStates": 1
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.94365,
+      "missingStates": 3
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.934346,
+      "missingStates": 1
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.936427,
+      "missingStates": 1
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.935096,
+      "missingStates": 40
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.916693,
+      "missingStates": 103
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.863691,
+      "missingStates": 118
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.787382,
+      "missingStates": 164
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r000030",
+      "position": "SB",
+      "reach": 0.00575,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1060,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r3010010",
+      "position": "BB",
+      "reach": 0.004917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1187,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0210",
+      "position": "CO",
+      "reach": 0.004917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1083,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00010",
+      "position": "BTN",
+      "reach": 0.004917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1047,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0300101",
+      "position": "BB",
+      "reach": 0.00475,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1032,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r3100010",
+      "position": "BB",
+      "reach": 0.00475,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1149,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00001",
+      "position": "BTN",
+      "reach": 0.004333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1045,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00023",
+      "position": "BTN",
+      "reach": 0.00425,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 971,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00203",
+      "position": "BTN",
+      "reach": 0.00425,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 968,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0031001",
+      "position": "BB",
+      "reach": 0.00425,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 901,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.0503,
+    "rangeSupportCi95": [
+     0.0288,
+     0.0718
+    ],
+    "deviations": [
+     {
+      "position": "UTG",
+      "gainBB": 0.3846702936379329,
+      "ci95": [
+       -0.6703193591813457,
+       1.4396599464572115
+      ],
+      "conditionalGainBB": 0.3846702936379329,
+      "reach": 1,
+      "fallbackShare": 0.3219,
+      "error": null
+     },
+     {
+      "position": "UTG+1",
+      "gainBB": 0.36686496856377,
+      "ci95": [
+       -0.20354235172038954,
+       0.9372722888479295
+      ],
+      "conditionalGainBB": 0.7166471749907554,
+      "reach": 0.5119185302984031,
+      "fallbackShare": 0.3627,
+      "error": null
+     },
+     {
+      "position": "MP",
+      "gainBB": 0.1415793369161206,
+      "ci95": [
+       -0.10535350086946854,
+       0.38851217470170973
+      ],
+      "conditionalGainBB": 0.6277764305733595,
+      "reach": 0.22552509145144814,
+      "fallbackShare": 0.417,
+      "error": null
+     },
+     {
+      "position": "HJ",
+      "gainBB": 0.17236775236396312,
+      "ci95": [
+       0.08184731317797954,
+       0.2628881915499467
+      ],
+      "conditionalGainBB": 2.0160614107964294,
+      "reach": 0.08549727277199884,
+      "fallbackShare": 0.5138,
+      "error": null
+     },
+     {
+      "position": "CO",
+      "gainBB": 0.03844121002665869,
+      "ci95": [
+       0.00836755727514828,
+       0.06851486277816911
+      ],
+      "conditionalGainBB": 1.3499451984484299,
+      "reach": 0.028476126342640726,
+      "fallbackShare": 0.629,
+      "error": null
+     },
+     {
+      "position": "BTN",
+      "gainBB": 0.015206717821256582,
+      "ci95": [
+       0.007219940095933351,
+       0.02319349554657981
+      ],
+      "conditionalGainBB": 1.7943045717480293,
+      "reach": 0.00847499251837833,
+      "fallbackShare": 0.7647,
+      "error": null
+     },
+     {
+      "position": "SB",
+      "gainBB": 0.002644872179276735,
+      "ci95": [
+       0.0019348668209934255,
+       0.0033548775375600443
+      ],
+      "conditionalGainBB": 1.1347958910232623,
+      "reach": 0.0023307029926692936,
+      "fallbackShare": 0.993,
+      "error": null
+     },
+     {
+      "position": "BB",
+      "gainBB": 0.0005942834162387027,
+      "ci95": [
+       0.00040280205179189386,
+       0.0007857647806855116
+      ],
+      "conditionalGainBB": 1.1234827711517326,
+      "reach": 0.0005289653134862728,
+      "fallbackShare": 0.9954,
+      "error": null
+     }
+    ],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 91.23% reach-weighted hand-class coverage (sampled reach), 386707 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "baseline",
+    "seed": 8,
+    "updates": 2000000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.959894,
+    "reachWeightedComboCoverage": 0.891115,
+    "statesWithNoRow": 483828,
+    "decisionStates": 931179,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.983859,
+      "missingStates": 0
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.979266,
+      "missingStates": 0
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.970035,
+      "missingStates": 0
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.9638,
+      "missingStates": 0
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.961133,
+      "missingStates": 1
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.959024,
+      "missingStates": 2
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.942637,
+      "missingStates": 10
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.909284,
+      "missingStates": 32
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r1030010",
+      "position": "BB",
+      "reach": 0.002083,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1240,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r2310001",
+      "position": "BB",
+      "reach": 0.001917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1074,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000020",
+      "position": "BB",
+      "reach": 0.001917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1009,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0002002",
+      "position": "BB",
+      "reach": 0.0015,
+      "classesStored": 165,
+      "classesInRange": 169,
+      "combosStored": 776,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r021301",
+      "position": "SB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 970,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000011",
+      "position": "BB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 958,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r1213",
+      "position": "CO",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1047,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0001003",
+      "position": "BB",
+      "reach": 0.001333,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 933,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r010020",
+      "position": "SB",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 921,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0031101",
+      "position": "BB",
+      "reach": 0.00125,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1196,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.5366,
+    "rangeSupportCi95": [
+     0.4912,
+     0.582
+    ],
+    "deviations": [
+     {
+      "position": "UTG",
+      "gainBB": 0.20314248703373367,
+      "ci95": [
+       -0.906310516366317,
+       1.3125954904337844
+      ],
+      "conditionalGainBB": 0.20314248703373367,
+      "reach": 1,
+      "fallbackShare": 0.1998,
+      "error": null
+     },
+     {
+      "position": "UTG+1",
+      "gainBB": -0.2346957370851466,
+      "ci95": [
+       -0.870953045236965,
+       0.4015615710666719
+      ],
+      "conditionalGainBB": -0.37156571125860294,
+      "reach": 0.6316399225594922,
+      "fallbackShare": 0.2088,
+      "error": null
+     },
+     {
+      "position": "MP",
+      "gainBB": 0.20220558386615523,
+      "ci95": [
+       -0.16516817182016824,
+       0.5695793395524786
+      ],
+      "conditionalGainBB": 0.5522221491332683,
+      "reach": 0.3661671017425213,
+      "fallbackShare": 0.2204,
+      "error": null
+     },
+     {
+      "position": "HJ",
+      "gainBB": 0.1422010726026531,
+      "ci95": [
+       -0.023691407458644592,
+       0.3080935526639508
+      ],
+      "conditionalGainBB": 0.7248133940626571,
+      "reach": 0.19618990731614488,
+      "fallbackShare": 0.2427,
+      "error": null
+     },
+     {
+      "position": "CO",
+      "gainBB": 0.032751799886635014,
+      "ci95": [
+       -0.04093481367323844,
+       0.10643841344650846
+      ],
+      "conditionalGainBB": 0.3692965466978966,
+      "reach": 0.08868699201086128,
+      "fallbackShare": 0.2803,
+      "error": null
+     },
+     {
+      "position": "BTN",
+      "gainBB": 0.0526048846200374,
+      "ci95": [
+       0.026996843259376912,
+       0.07821292598069789
+      ],
+      "conditionalGainBB": 1.6694919110872113,
+      "reach": 0.031509517518883874,
+      "fallbackShare": 0.3497,
+      "error": null
+     },
+     {
+      "position": "SB",
+      "gainBB": 0.005929010896890785,
+      "ci95": [
+       0.001944996536431245,
+       0.009913025257350324
+      ],
+      "conditionalGainBB": 0.6111900674565031,
+      "reach": 0.009700764479967173,
+      "fallbackShare": 0.9652,
+      "error": null
+     },
+     {
+      "position": "BB",
+      "gainBB": 0.0026663690084130715,
+      "ci95": [
+       0.001495184301845871,
+       0.0038375537149802717
+      ],
+      "conditionalGainBB": 1.2865242165932556,
+      "reach": 0.0020725369752259116,
+      "fallbackShare": 0.9731,
+      "error": null
+     }
+    ],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 95.99% reach-weighted hand-class coverage (sampled reach), 483828 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "baseline",
+    "seed": 108,
+    "updates": 500000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.911409,
+    "reachWeightedComboCoverage": 0.79024,
+    "statesWithNoRow": 385789,
+    "decisionStates": 640054,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.958546,
+      "missingStates": 1
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.941861,
+      "missingStates": 2
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.931892,
+      "missingStates": 0
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.936139,
+      "missingStates": 3
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.934745,
+      "missingStates": 40
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.91814,
+      "missingStates": 109
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.862125,
+      "missingStates": 146
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.784681,
+      "missingStates": 158
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r0031000",
+      "position": "BB",
+      "reach": 0.006583,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1174,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r000030",
+      "position": "SB",
+      "reach": 0.005417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 986,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0003100",
+      "position": "BB",
+      "reach": 0.004917,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 895,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r130001",
+      "position": "SB",
+      "reach": 0.00475,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1060,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r301101",
+      "position": "SB",
+      "reach": 0.004667,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1097,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r1230",
+      "position": "CO",
+      "reach": 0.0045,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1123,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r001300",
+      "position": "SB",
+      "reach": 0.0045,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 978,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r230000",
+      "position": "SB",
+      "reach": 0.004333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1141,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0123",
+      "position": "CO",
+      "reach": 0.004167,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 971,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0003001",
+      "position": "BB",
+      "reach": 0.004167,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 926,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.0819,
+    "rangeSupportCi95": [
+     0.0555,
+     0.1083
+    ],
+    "deviations": [
+     {
+      "position": "UTG",
+      "gainBB": -0.10199193206438832,
+      "ci95": [
+       -1.3343067511503566,
+       1.13032288702158
+      ],
+      "conditionalGainBB": -0.10199193206438832,
+      "reach": 1,
+      "fallbackShare": 0.3231,
+      "error": null
+     },
+     {
+      "position": "UTG+1",
+      "gainBB": -0.01666147556402121,
+      "ci95": [
+       -0.5482667034839079,
+       0.5149437523558655
+      ],
+      "conditionalGainBB": -0.03277503193566928,
+      "reach": 0.5083587896031435,
+      "fallbackShare": 0.3627,
+      "error": null
+     },
+     {
+      "position": "MP",
+      "gainBB": -0.06014988680043115,
+      "ci95": [
+       -0.30470133040529124,
+       0.1844015568044289
+      ],
+      "conditionalGainBB": -0.27050655762064213,
+      "reach": 0.2223601798400216,
+      "fallbackShare": 0.4183,
+      "error": null
+     },
+     {
+      "position": "HJ",
+      "gainBB": 0.06577674930450621,
+      "ci95": [
+       -0.03093088039949672,
+       0.16248437900850915
+      ],
+      "conditionalGainBB": 0.758483775307278,
+      "reach": 0.08672136629139976,
+      "fallbackShare": 0.5075,
+      "error": null
+     },
+     {
+      "position": "CO",
+      "gainBB": 0.053582255726989124,
+      "ci95": [
+       0.022711178301912764,
+       0.08445333315206549
+      ],
+      "conditionalGainBB": 1.9397170101542642,
+      "reach": 0.027623748952290608,
+      "fallbackShare": 0.6274,
+      "error": null
+     },
+     {
+      "position": "BTN",
+      "gainBB": 0.017443536856865907,
+      "ci95": [
+       0.009394249117989365,
+       0.02549282459574245
+      ],
+      "conditionalGainBB": 1.9887824821529736,
+      "reach": 0.008770962643427076,
+      "fallbackShare": 0.7582,
+      "error": null
+     },
+     {
+      "position": "SB",
+      "gainBB": 0.0026568480853867375,
+      "ci95": [
+       0.0019607428750220623,
+       0.0033529532957514126
+      ],
+      "conditionalGainBB": 1.12738004003527,
+      "reach": 0.0023566570198489747,
+      "fallbackShare": 0.9928,
+      "error": null
+     },
+     {
+      "position": "BB",
+      "gainBB": 0.0005720638352315714,
+      "ci95": [
+       0.0003639028001909679,
+       0.000780224870272175
+      ],
+      "conditionalGainBB": 0.9929172847068012,
+      "reach": 0.0005761445027120223,
+      "fallbackShare": 0.9954,
+      "error": null
+     }
+    ],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 91.14% reach-weighted hand-class coverage (sampled reach), 385789 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "baseline",
+    "seed": 108,
+    "updates": 2000000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.960766,
+    "reachWeightedComboCoverage": 0.891958,
+    "statesWithNoRow": 486089,
+    "decisionStates": 934550,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.984243,
+      "missingStates": 0
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.979233,
+      "missingStates": 0
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.970425,
+      "missingStates": 0
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.965317,
+      "missingStates": 0
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.962995,
+      "missingStates": 0
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.958046,
+      "missingStates": 6
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.946639,
+      "missingStates": 14
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.909721,
+      "missingStates": 22
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r001020",
+      "position": "SB",
+      "reach": 0.002167,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1127,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0001031",
+      "position": "BB",
+      "reach": 0.002,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1113,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000200",
+      "position": "BB",
+      "reach": 0.001833,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 946,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r000202",
+      "position": "SB",
+      "reach": 0.001667,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1016,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r01203",
+      "position": "BTN",
+      "reach": 0.0015,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1170,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000201",
+      "position": "BB",
+      "reach": 0.0015,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 909,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r020001",
+      "position": "SB",
+      "reach": 0.0015,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 915,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000023",
+      "position": "BB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1097,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0200030",
+      "position": "BB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 883,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0230011",
+      "position": "BB",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1054,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.5136,
+    "rangeSupportCi95": [
+     0.4688,
+     0.5584
+    ],
+    "deviations": [
+     {
+      "position": "UTG",
+      "gainBB": 0.47731201665399237,
+      "ci95": [
+       -0.6475361650752913,
+       1.602160198383276
+      ],
+      "conditionalGainBB": 0.47731201665399237,
+      "reach": 1,
+      "fallbackShare": 0.2024,
+      "error": null
+     },
+     {
+      "position": "UTG+1",
+      "gainBB": 0.21083964327551102,
+      "ci95": [
+       -0.42507679496695544,
+       0.8467560815179775
+      ],
+      "conditionalGainBB": 0.3310368036412905,
+      "reach": 0.6369069570402679,
+      "fallbackShare": 0.2102,
+      "error": null
+     },
+     {
+      "position": "MP",
+      "gainBB": -0.06292648374848499,
+      "ci95": [
+       -0.422163163093126,
+       0.29631019559615607
+      ],
+      "conditionalGainBB": -0.1693243494777532,
+      "reach": 0.37163280970852114,
+      "fallbackShare": 0.2197,
+      "error": null
+     },
+     {
+      "position": "HJ",
+      "gainBB": 0.027016228407169506,
+      "ci95": [
+       -0.15254306391842762,
+       0.2065755207327666
+      ],
+      "conditionalGainBB": 0.13637059851878294,
+      "reach": 0.19810889371031423,
+      "fallbackShare": 0.2409,
+      "error": null
+     },
+     {
+      "position": "CO",
+      "gainBB": 0.09541073448452572,
+      "ci95": [
+       0.011630550018028485,
+       0.17919091895102296
+      ],
+      "conditionalGainBB": 1.0700994785246858,
+      "reach": 0.08916062141817474,
+      "fallbackShare": 0.2805,
+      "error": null
+     },
+     {
+      "position": "BTN",
+      "gainBB": 0.04070836011439759,
+      "ci95": [
+       0.014250421903694313,
+       0.06716629832510086
+      ],
+      "conditionalGainBB": 1.2383812389540454,
+      "reach": 0.03287223581389238,
+      "fallbackShare": 0.3465,
+      "error": null
+     },
+     {
+      "position": "SB",
+      "gainBB": 0.007515271673369877,
+      "ci95": [
+       0.0036419093152183783,
+       0.011388634031521376
+      ],
+      "conditionalGainBB": 0.7413080948664867,
+      "reach": 0.010137851893716895,
+      "fallbackShare": 0.9641,
+      "error": null
+     },
+     {
+      "position": "BB",
+      "gainBB": 0.0031333504240442685,
+      "ci95": [
+       0.001898544912101754,
+       0.004368155935986783
+      ],
+      "conditionalGainBB": 1.4123902885644986,
+      "reach": 0.0022184734980222006,
+      "fallbackShare": 0.972,
+      "error": null
+     }
+    ],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 96.08% reach-weighted hand-class coverage (sampled reach), 486089 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "explore20",
+    "seed": 8,
+    "updates": 500000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.909345,
+    "reachWeightedComboCoverage": 0.785215,
+    "statesWithNoRow": 397481,
+    "decisionStates": 660933,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.957086,
+      "missingStates": 1
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.939844,
+      "missingStates": 4
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.928529,
+      "missingStates": 3
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.933978,
+      "missingStates": 2
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.932011,
+      "missingStates": 43
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.919353,
+      "missingStates": 122
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.860089,
+      "missingStates": 126
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.780397,
+      "missingStates": 166
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r1230",
+      "position": "CO",
+      "reach": 0.005167,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1103,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0300101",
+      "position": "BB",
+      "reach": 0.005083,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1049,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00200",
+      "position": "BTN",
+      "reach": 0.005,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 905,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0301010",
+      "position": "BB",
+      "reach": 0.004917,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 999,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0030100",
+      "position": "BB",
+      "reach": 0.004833,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1039,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0300011",
+      "position": "BB",
+      "reach": 0.004833,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1040,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r00131",
+      "position": "BTN",
+      "reach": 0.004667,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 994,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r001300",
+      "position": "SB",
+      "reach": 0.00425,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 809,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r013001",
+      "position": "SB",
+      "reach": 0.00425,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 931,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0003000",
+      "position": "BB",
+      "reach": 0.00425,
+      "classesStored": 166,
+      "classesInRange": 169,
+      "combosStored": 811,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.0719,
+    "rangeSupportCi95": [
+     0.0471,
+     0.0967
+    ],
+    "deviations": [],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 90.93% reach-weighted hand-class coverage (sampled reach), 397481 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "explore20",
+    "seed": 8,
+    "updates": 2000000,
+    "complete": true,
+    "reachWeightedClassCoverage": 0.963243,
+    "reachWeightedComboCoverage": 0.896437,
+    "statesWithNoRow": 496702,
+    "decisionStates": 962215,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.986362,
+      "missingStates": 0
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.980664,
+      "missingStates": 0
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.972436,
+      "missingStates": 0
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.966965,
+      "missingStates": 0
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.964484,
+      "missingStates": 0
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.960822,
+      "missingStates": 3
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.94877,
+      "missingStates": 8
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.916582,
+      "missingStates": 19
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r0000003",
+      "position": "BB",
+      "reach": 0.002083,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1007,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r000213",
+      "position": "SB",
+      "reach": 0.00175,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1049,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000203",
+      "position": "BB",
+      "reach": 0.001667,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 814,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0002030",
+      "position": "BB",
+      "reach": 0.0015,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 1057,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0001031",
+      "position": "BB",
+      "reach": 0.0015,
+      "classesStored": 167,
+      "classesInRange": 169,
+      "combosStored": 931,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r000220",
+      "position": "SB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 891,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r010002",
+      "position": "SB",
+      "reach": 0.001417,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 826,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r0000002",
+      "position": "BB",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 896,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r000211",
+      "position": "SB",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 835,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r001020",
+      "position": "SB",
+      "reach": 0.001333,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 983,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.4571,
+    "rangeSupportCi95": [
+     0.408,
+     0.5062
+    ],
+    "deviations": [],
+    "assessment": {
+     "mode": "standard",
+     "label": "Standard Research Study",
+     "statements": [
+      "Coverage: 96.32% reach-weighted hand-class coverage (sampled reach), 496702 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made."
+     ],
+     "targetsMet": null
+    }
+   },
+   {
+    "variant": "baseline",
+    "seed": 8,
+    "updates": 3804370,
+    "complete": false,
+    "reachWeightedClassCoverage": 0.97444,
+    "reachWeightedComboCoverage": 0.925079,
+    "statesWithNoRow": 519083,
+    "decisionStates": 1083488,
+    "perSeat": [
+     {
+      "position": "UTG",
+      "classCoverage": 0.990727,
+      "missingStates": 0
+     },
+     {
+      "position": "UTG+1 (early position)",
+      "classCoverage": 0.987889,
+      "missingStates": 0
+     },
+     {
+      "position": "MP (middle position)",
+      "classCoverage": 0.98218,
+      "missingStates": 0
+     },
+     {
+      "position": "HJ (hijack)",
+      "classCoverage": 0.97692,
+      "missingStates": 0
+     },
+     {
+      "position": "CO (cutoff)",
+      "classCoverage": 0.97482,
+      "missingStates": 0
+     },
+     {
+      "position": "BTN (button)",
+      "classCoverage": 0.970116,
+      "missingStates": 1
+     },
+     {
+      "position": "SB (small blind)",
+      "classCoverage": 0.96217,
+      "missingStates": 0
+     },
+     {
+      "position": "BB (big blind)",
+      "classCoverage": 0.943856,
+      "missingStates": 1
+     }
+    ],
+    "missingBranches": [
+     {
+      "path": "r0002010",
+      "position": "BB",
+      "reach": 0.001167,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1101,
+      "combosInRange": 1326
+     },
+     {
+      "path": "r02113",
+      "position": "BTN",
+      "reach": 0.001083,
+      "classesStored": 168,
+      "classesInRange": 169,
+      "combosStored": 1083,
+      "combosInRange": 1326
+     }
+    ],
+    "rangeSupportWithinLimit": 0.7074,
+    "rangeSupportCi95": [
+     0.6696,
+     0.7452
+    ],
+    "deviations": [
+     {
+      "position": "UTG",
+      "gainBB": 0.47672285586471214,
+      "ci95": [
+       -0.6350971636282241,
+       1.5885428753576483
+      ],
+      "conditionalGainBB": 0.47672285586471214,
+      "reach": 1,
+      "fallbackShare": 0.1624,
+      "error": null
+     },
+     {
+      "position": "UTG+1",
+      "gainBB": -0.05792934376430624,
+      "ci95": [
+       -0.6308490896757918,
+       0.5149904021471793
+      ],
+      "conditionalGainBB": -0.08558934393051056,
+      "reach": 0.6768289264062908,
+      "fallbackShare": 0.1662,
+      "error": null
+     },
+     {
+      "position": "MP",
+      "gainBB": 0.2647713057541506,
+      "ci95": [
+       -0.10776056122412941,
+       0.6373031727324305
+      ],
+      "conditionalGainBB": 0.6099890789161942,
+      "reach": 0.43405909204896964,
+      "fallbackShare": 0.1714,
+      "error": null
+     },
+     {
+      "position": "HJ",
+      "gainBB": -0.1025734427499085,
+      "ci95": [
+       -0.29424153169955736,
+       0.08909464619974038
+      ],
+      "conditionalGainBB": -0.3852683181217976,
+      "reach": 0.2662389766434966,
+      "fallbackShare": 0.1869,
+      "error": null
+     },
+     {
+      "position": "CO",
+      "gainBB": 0.09462461750194325,
+      "ci95": [
+       -0.021574446337692246,
+       0.21082368134157875
+      ],
+      "conditionalGainBB": 0.6565421416393945,
+      "reach": 0.14412573314130958,
+      "fallbackShare": 0.2193,
+      "error": null
+     },
+     {
+      "position": "BTN",
+      "gainBB": 0.05666425896229614,
+      "ci95": [
+       0.007195019879780475,
+       0.10613349804481181
+      ],
+      "conditionalGainBB": 0.8437999991094661,
+      "reach": 0.06715366084628911,
+      "fallbackShare": 0.2797,
+      "error": null
+     },
+     {
+      "position": "SB",
+      "gainBB": 0.014297280162103897,
+      "ci95": [
+       0.0037814365450593683,
+       0.024813123779148426
+      ],
+      "conditionalGainBB": 0.562373971147701,
+      "reach": 0.02542308302947556,
+      "fallbackShare": 0.9529,
+      "error": null
+     },
+     {
+      "position": "BB",
+      "gainBB": 0.005483460756294853,
+      "ci95": [
+       0.0024388626519168234,
+       0.008528058860672882
+      ],
+      "conditionalGainBB": 0.9757863410153114,
+      "reach": 0.005619530142827456,
+      "fallbackShare": 0.9612,
+      "error": null
+     }
+    ],
+    "assessment": {
+     "mode": "high-accuracy",
+     "label": "High-Accuracy Research Study",
+     "statements": [
+      "Coverage: 97.44% reach-weighted hand-class coverage (sampled reach), 519083 decision states without any stored row (exact count)",
+      "Restricted best-response gains: not available for this study",
+      "Full eight-handed exploitability / NashConv: not computed (unavailable, not zero). No equilibrium claim is made.",
+      "High-accuracy targets ({\"reachWeightedClassCoverage\":0.995,\"maxRestrictedGainUpperBB\":0.05}): NOT met (coverage below target, restricted gains not available (not evaluated or not feasible))"
+     ],
+     "targetsMet": false
+    }
+   }
+  ],
+  "validationStatus": "not validated: no full eight-handed accuracy measure exists; coverage and deviation gains are partial evidence (see classifications)"
+ },
+ "library": {
+  "available": false,
+  "message": "No strategy library yet (C:\\Users\\runneradmin\\AppData\\Local\\EightMax-Test-Workbench\\StrategyLibrary)."
+ },
+ "coverage": {
+  "available": true,
+  "source": "release measurement on the build machine (Linux container), not this computer",
+  "file": "reports/0.32-coverage.json",
+  "outOfSampleExact": {
+   "decisions": 410,
+   "exact": 9,
+   "abstracted": 0,
+   "solvedOnDemand": 0,
+   "unavailable": 401,
+   "exactShare": 0.022,
+   "exactShareCi95": [
+    0.0116,
+    0.0412
+   ],
+   "anyStrategyShare": 0.022,
+   "anyStrategyShareCi95": [
+    0.0116,
+    0.0412
+   ],
+   "byStreet": {
+    "flop heads-up": {
+     "decisions": 75,
+     "exact": 2,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 73
+    },
+    "turn heads-up": {
+     "decisions": 76,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 76
+    },
+    "river heads-up": {
+     "decisions": 56,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 56
+    },
+    "flop multiway": {
+     "decisions": 134,
+     "exact": 7,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 127
+    },
+    "turn multiway": {
+     "decisions": 49,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 49
+    },
+    "river multiway": {
+     "decisions": 20,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 20
+    }
+   }
+  },
+  "outOfSampleWithApproximations": {
+   "decisions": 410,
+   "exact": 9,
+   "abstracted": 0,
+   "solvedOnDemand": 0,
+   "unavailable": 401,
+   "exactShare": 0.022,
+   "exactShareCi95": [
+    0.0116,
+    0.0412
+   ],
+   "anyStrategyShare": 0.022,
+   "anyStrategyShareCi95": [
+    0.0116,
+    0.0412
+   ],
+   "byStreet": {
+    "flop heads-up": {
+     "decisions": 75,
+     "exact": 2,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 73
+    },
+    "turn heads-up": {
+     "decisions": 76,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 76
+    },
+    "river heads-up": {
+     "decisions": 56,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 56
+    },
+    "flop multiway": {
+     "decisions": 134,
+     "exact": 7,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 127
+    },
+    "turn multiway": {
+     "decisions": 49,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 49
+    },
+    "river multiway": {
+     "decisions": 20,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 20
+    }
+   }
+  },
+  "outOfSampleWithOnDemandRivers": {
+   "decisions": 423,
+   "exact": 39,
+   "abstracted": 0,
+   "solvedOnDemand": 26,
+   "unavailable": 358,
+   "exactShare": 0.0922,
+   "exactShareCi95": [
+    0.0682,
+    0.1236
+   ],
+   "anyStrategyShare": 0.1537,
+   "anyStrategyShareCi95": [
+    0.1224,
+    0.1911
+   ],
+   "byStreet": {
+    "flop heads-up": {
+     "decisions": 80,
+     "exact": 1,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 79
+    },
+    "turn heads-up": {
+     "decisions": 73,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 73
+    },
+    "river heads-up": {
+     "decisions": 64,
+     "exact": 33,
+     "abstracted": 0,
+     "solvedOnDemand": 26,
+     "unavailable": 5
+    },
+    "flop multiway": {
+     "decisions": 117,
+     "exact": 5,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 112
+    },
+    "turn multiway": {
+     "decisions": 51,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 51
+    },
+    "river multiway": {
+     "decisions": 38,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 38
+    }
+   }
+  },
+  "outOfSampleWithOnDemandRiversTurnsAndApproximations": {
+   "decisions": 421,
+   "exact": 40,
+   "abstracted": 0,
+   "solvedOnDemand": 25,
+   "unavailable": 356,
+   "exactShare": 0.095,
+   "exactShareCi95": [
+    0.0706,
+    0.1268
+   ],
+   "anyStrategyShare": 0.1544,
+   "anyStrategyShareCi95": [
+    0.123,
+    0.192
+   ],
+   "byStreet": {
+    "flop heads-up": {
+     "decisions": 78,
+     "exact": 1,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 77
+    },
+    "turn heads-up": {
+     "decisions": 74,
+     "exact": 8,
+     "abstracted": 0,
+     "solvedOnDemand": 5,
+     "unavailable": 61
+    },
+    "river heads-up": {
+     "decisions": 51,
+     "exact": 26,
+     "abstracted": 0,
+     "solvedOnDemand": 20,
+     "unavailable": 5
+    },
+    "flop multiway": {
+     "decisions": 128,
+     "exact": 5,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 123
+    },
+    "turn multiway": {
+     "decisions": 51,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 51
+    },
+    "river multiway": {
+     "decisions": 39,
+     "exact": 0,
+     "abstracted": 0,
+     "solvedOnDemand": 0,
+     "unavailable": 39
+    }
+   }
+  },
+  "extraUnseenSeeds": {
+   "seeds": [
+    904,
+    905,
+    906
+   ],
+   "exactOnly": {
+    "decisions": 390,
+    "exact": 6,
+    "abstracted": 0,
+    "solvedOnDemand": 0,
+    "unavailable": 384,
+    "exactShare": 0.0154,
+    "exactShareCi95": [
+     0.0071,
+     0.0332
+    ],
+    "anyStrategyShare": 0.0154,
+    "anyStrategyShareCi95": [
+     0.0071,
+     0.0332
+    ],
+    "byStreet": {
+     "flop heads-up": {
+      "decisions": 56,
+      "exact": 1,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 55
+     },
+     "turn heads-up": {
+      "decisions": 59,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 59
+     },
+     "river heads-up": {
+      "decisions": 58,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 58
+     },
+     "flop multiway": {
+      "decisions": 124,
+      "exact": 5,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 119
+     },
+     "turn multiway": {
+      "decisions": 61,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 61
+     },
+     "river multiway": {
+      "decisions": 32,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 32
+     }
+    }
+   },
+   "withOnDemandAndApproximations": {
+    "decisions": 391,
+    "exact": 41,
+    "abstracted": 0,
+    "solvedOnDemand": 28,
+    "unavailable": 322,
+    "exactShare": 0.1049,
+    "exactShareCi95": [
+     0.0782,
+     0.1392
+    ],
+    "anyStrategyShare": 0.1765,
+    "anyStrategyShareCi95": [
+     0.1419,
+     0.2174
+    ],
+    "byStreet": {
+     "flop heads-up": {
+      "decisions": 61,
+      "exact": 1,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 60
+     },
+     "turn heads-up": {
+      "decisions": 59,
+      "exact": 6,
+      "abstracted": 0,
+      "solvedOnDemand": 6,
+      "unavailable": 47
+     },
+     "river heads-up": {
+      "decisions": 53,
+      "exact": 29,
+      "abstracted": 0,
+      "solvedOnDemand": 22,
+      "unavailable": 2
+     },
+     "flop multiway": {
+      "decisions": 126,
+      "exact": 5,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 121
+     },
+     "turn multiway": {
+      "decisions": 67,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 67
+     },
+     "river multiway": {
+      "decisions": 25,
+      "exact": 0,
+      "abstracted": 0,
+      "solvedOnDemand": 0,
+      "unavailable": 25
+     }
+    }
+   }
+  },
+  "build": {
+   "studies": 799,
+   "storageBytes": 389694138,
+   "elapsedMs": 902637
+  },
+  "missingOnUnseenHands": {
+   "distinctSituations": 369,
+   "byKind": {
+    "flop 5p": {
+     "distinct": 11,
+     "occurrences": 128
+    },
+    "flop 6p": {
+     "distinct": 2,
+     "occurrences": 24
+    },
+    "flop 4p": {
+     "distinct": 21,
+     "occurrences": 165
+    },
+    "river 4p": {
+     "distinct": 4,
+     "occurrences": 29
+    },
+    "river 3p": {
+     "distinct": 27,
+     "occurrences": 139
+    },
+    "flop 3p": {
+     "distinct": 50,
+     "occurrences": 289
+    },
+    "turn 3p": {
+     "distinct": 41,
+     "occurrences": 210
+    },
+    "turn 5p": {
+     "distinct": 2,
+     "occurrences": 26
+    },
+    "flop 2p": {
+     "distinct": 70,
+     "occurrences": 280
+    },
+    "turn 2p": {
+     "distinct": 81,
+     "occurrences": 299
+    },
+    "turn 4p": {
+     "distinct": 9,
+     "occurrences": 49
+    },
+    "turn 6p": {
+     "distinct": 1,
+     "occurrences": 6
+    },
+    "river 2p": {
+     "distinct": 50,
+     "occurrences": 114
+    }
+   },
+   "estimatedTrainingHoursToCoverExactly": 0.23,
+   "note": "Exact coverage of these specific situations does not carry over to new hands: turn and river boards almost never repeat. The estimate is single-thread time for these situations only."
+  },
+  "baseline031": {
+   "source": "reports/0.31-coverage.json",
+   "outOfSampleExact": "9 of 410 (2.2%)",
+   "outOfSampleWithOnDemandRivers": "65 of 423 (15.4%)",
+   "note": "historical report figures; the 0.32 rows above are new runs"
+  }
+ },
+ "turnSolver": {
+  "available": true,
+  "source": "release measurement on the build machine (Linux container), not this computer",
+  "file": "reports/0.32-turn-solver-benchmark.json",
+  "rows": [
+   {
+    "ranges": "narrow (42 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 1.5",
+    "iterations": 50,
+    "solveMs": 888,
+    "exploitabilityPctPot": 0.3624,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 0.8,
+    "error": null
+   },
+   {
+    "ranges": "narrow (42 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 4",
+    "iterations": 60,
+    "solveMs": 831,
+    "exploitabilityPctPot": 0.3953,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 0.8,
+    "error": null
+   },
+   {
+    "ranges": "narrow (42 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 1.5",
+    "iterations": 100,
+    "solveMs": 1826,
+    "exploitabilityPctPot": 0.3468,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 1.2,
+    "error": null
+   },
+   {
+    "ranges": "narrow (42 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 4",
+    "iterations": 180,
+    "solveMs": 4514,
+    "exploitabilityPctPot": 0.3994,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 1.9,
+    "error": null
+   },
+   {
+    "ranges": "medium (109 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 1.5",
+    "iterations": 60,
+    "solveMs": 1732,
+    "exploitabilityPctPot": 0.3149,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 2,
+    "error": null
+   },
+   {
+    "ranges": "medium (109 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 4",
+    "iterations": 60,
+    "solveMs": 1433,
+    "exploitabilityPctPot": 0.3347,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 2,
+    "error": null
+   },
+   {
+    "ranges": "medium (109 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 1.5",
+    "iterations": 90,
+    "solveMs": 2711,
+    "exploitabilityPctPot": 0.3694,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 3,
+    "error": null
+   },
+   {
+    "ranges": "medium (109 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 4",
+    "iterations": 190,
+    "solveMs": 9137,
+    "exploitabilityPctPot": 0.3757,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 5,
+    "error": null
+   },
+   {
+    "ranges": "wide (216 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 1.5",
+    "iterations": 50,
+    "solveMs": 1997,
+    "exploitabilityPctPot": 0.368,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 3.9,
+    "error": null
+   },
+   {
+    "ranges": "wide (216 combos after the board)",
+    "menu": "restricted (1 size)",
+    "stacks": "SPR 4",
+    "iterations": 60,
+    "solveMs": 3506,
+    "exploitabilityPctPot": 0.3747,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 3.9,
+    "error": null
+   },
+   {
+    "ranges": "wide (216 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 1.5",
+    "iterations": 90,
+    "solveMs": 7801,
+    "exploitabilityPctPot": 0.3452,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 5.9,
+    "error": null
+   },
+   {
+    "ranges": "wide (216 combos after the board)",
+    "menu": "library (2 sizes)",
+    "stacks": "SPR 4",
+    "iterations": 190,
+    "solveMs": 22283,
+    "exploitabilityPctPot": 0.3772,
+    "stopped": "target-reached",
+    "memoryEstimateMiB": 9.9,
+    "error": null
+   }
+  ]
+ },
+ "memory": {
+  "live": {
+   "totalBytes": 17174360064,
+   "freeBytes": 14337818624,
+   "usedShare": 0.165,
+   "pressure": "normal",
+   "thisProcessRssBytes": 28643328,
+   "measuredAt": "2026-11-19T18:08:05.236Z"
+  },
+  "comparison": {
+   "source": "release measurement on the build machine (Linux container), not this computer",
+   "file": "reports/0.32-memory-comparison.json",
+   "rows": [
+    {
+     "tables": 1,
+     "workers": 1,
+     "peakRssMiB": {
+      "0.31": 1274,
+      "0.32": 474
+     },
+     "identicalDecisions": true,
+     "decisions": 86,
+     "solverDecisions": 85,
+     "decisionLatencyMs": {
+      "0.31": {
+       "n": 86,
+       "p50": 10.719,
+       "p95": 31.721,
+       "p99": 55.735,
+       "max": 55.735,
+       "mean": 10.86
+      },
+      "0.32": {
+       "n": 86,
+       "p50": 7.163,
+       "p95": 20.265,
+       "p99": 45.733,
+       "max": 45.733,
+       "mean": 7.83
+      }
+     },
+     "cycleLatencyMs": {
+      "0.31": {
+       "n": 86,
+       "p50": 35.492,
+       "p95": 65.553,
+       "p99": 130.685,
+       "max": 130.685,
+       "mean": 36.137
+      },
+      "0.32": {
+       "n": 86,
+       "p50": 31.078,
+       "p95": 49.615,
+       "p99": 102.649,
+       "max": 102.649,
+       "mean": 32.675
+      }
+     },
+     "staleDecisions": [
+      0,
+      0
+     ],
+     "ackMismatches": [
+      0,
+      0
+     ],
+     "duplicateActionsBlocked": [
+      0,
+      0
+     ]
+    },
+    {
+     "tables": 2,
+     "workers": 2,
+     "peakRssMiB": {
+      "0.31": 2382,
+      "0.32": 670
+     },
+     "identicalDecisions": true,
+     "decisions": 181,
+     "solverDecisions": 168,
+     "decisionLatencyMs": {
+      "0.31": {
+       "n": 181,
+       "p50": 19.561,
+       "p95": 72.536,
+       "p99": 139.654,
+       "max": 142.206,
+       "mean": 22.382
+      },
+      "0.32": {
+       "n": 181,
+       "p50": 6.823,
+       "p95": 21.772,
+       "p99": 48.099,
+       "max": 73.802,
+       "mean": 7.647
+      }
+     },
+     "cycleLatencyMs": {
+      "0.31": {
+       "n": 181,
+       "p50": 68.739,
+       "p95": 138.977,
+       "p99": 278.709,
+       "max": 284.136,
+       "mean": 73.373
+      },
+      "0.32": {
+       "n": 181,
+       "p50": 29.103,
+       "p95": 51.716,
+       "p99": 111.597,
+       "max": 145.865,
+       "mean": 31.788
+      }
+     },
+     "staleDecisions": [
+      0,
+      0
+     ],
+     "ackMismatches": [
+      0,
+      0
+     ],
+     "duplicateActionsBlocked": [
+      0,
+      0
+     ]
+    },
+    {
+     "tables": 5,
+     "workers": 4,
+     "peakRssMiB": {
+      "0.31": 4286,
+      "0.32": 955
+     },
+     "identicalDecisions": true,
+     "decisions": 454,
+     "solverDecisions": 424,
+     "decisionLatencyMs": {
+      "0.31": {
+       "n": 454,
+       "p50": 31.849,
+       "p95": 158.971,
+       "p99": 203.687,
+       "max": 305.391,
+       "mean": 45.962
+      },
+      "0.32": {
+       "n": 454,
+       "p50": 16.278,
+       "p95": 81.383,
+       "p99": 120.442,
+       "max": 169.742,
+       "mean": 26.503
+      }
+     },
+     "cycleLatencyMs": {
+      "0.31": {
+       "n": 454,
+       "p50": 75.108,
+       "p95": 232.496,
+       "p99": 302.988,
+       "max": 444.705,
+       "mean": 94.552
+      },
+      "0.32": {
+       "n": 454,
+       "p50": 50.131,
+       "p95": 127.926,
+       "p99": 178.598,
+       "max": 326.949,
+       "mean": 59.015
+      }
+     },
+     "staleDecisions": [
+      0,
+      0
+     ],
+     "ackMismatches": [
+      0,
+      0
+     ],
+     "duplicateActionsBlocked": [
+      0,
+      0
+     ]
+    },
+    {
+     "tables": 8,
+     "workers": 4,
+     "peakRssMiB": {
+      "0.31": 4468,
+      "0.32": 937
+     },
+     "identicalDecisions": true,
+     "decisions": 727,
+     "solverDecisions": 684,
+     "decisionLatencyMs": {
+      "0.31": {
+       "n": 727,
+       "p50": 163.674,
+       "p95": 412.923,
+       "p99": 542.953,
+       "max": 657.36,
+       "mean": 186.976
+      },
+      "0.32": {
+       "n": 727,
+       "p50": 51.66,
+       "p95": 121.603,
+       "p99": 154.001,
+       "max": 210.07,
+       "mean": 58.511
+      }
+     },
+     "cycleLatencyMs": {
+      "0.31": {
+       "n": 727,
+       "p50": 260.692,
+       "p95": 577.715,
+       "p99": 877.173,
+       "max": 1116.11,
+       "mean": 292.453
+      },
+      "0.32": {
+       "n": 727,
+       "p50": 83.23,
+       "p95": 172.081,
+       "p99": 275.355,
+       "max": 348.987,
+       "mean": 94.642
+      }
+     },
+     "staleDecisions": [
+      0,
+      0
+     ],
+     "ackMismatches": [
+      0,
+      0
+     ],
+     "duplicateActionsBlocked": [
+      0,
+      0
+     ]
+    },
+    {
+     "tables": 10,
+     "workers": 4,
+     "peakRssMiB": {
+      "0.31": 4463,
+      "0.32": 938
+     },
+     "identicalDecisions": true,
+     "decisions": 924,
+     "solverDecisions": 851,
+     "decisionLatencyMs": {
+      "0.31": {
+       "n": 924,
+       "p50": 113.04,
+       "p95": 284.296,
+       "p99": 366.725,
+       "max": 490.982,
+       "mean": 130.417
+      },
+      "0.32": {
+       "n": 924,
+       "p50": 70.764,
+       "p95": 168.691,
+       "p99": 218.979,
+       "max": 255.039,
+       "mean": 80.636
+      }
+     },
+     "cycleLatencyMs": {
+      "0.31": {
+       "n": 924,
+       "p50": 167.825,
+       "p95": 375.513,
+       "p99": 514.773,
+       "max": 640.073,
+       "mean": 183.804
+      },
+      "0.32": {
+       "n": 924,
+       "p50": 104.429,
+       "p95": 223.233,
+       "p99": 296.531,
+       "max": 393.006,
+       "mean": 115.711
+      }
+     },
+     "staleDecisions": [
+      0,
+      0
+     ],
+     "ackMismatches": [
+      0,
+      0
+     ],
+     "duplicateActionsBlocked": [
+      0,
+      0
+     ]
+    }
+   ],
+   "sharedPreflop": {
+    "bytes": 263942784,
+    "fingerprint": {
+     "studyId": "preflop8-linked-2000000",
+     "bodySha256": "eb25d932460f19db09275bcbcb19d21c1a5a73b8dd8ba9c61b089225b310eb6e",
+     "iterations": 2000000
+    },
+    "loadMs": 490,
+    "buildMs": 0,
+    "file": "/home/user/bench/w32/preflop-cache/preflop8-linked-2000000.state.emps",
+    "note": "one SharedArrayBuffer in the main thread; workers receive it through workerData without copying"
+   }
+  },
+  "trainingLimits": {
+   "nativeStudyBudgetMiB": "per study, planner-checked (src/strategy-budget.js); the 2,000,000-update preflop study needs about 2.8 GB while training",
+   "turnSolverMaxBytes": 805306368,
+   "linkedRecordMaxBytes": 268435456
+  }
+ },
+ "disclaimer": "Research measurements under stated assumptions. Nothing here is a GTO certification; eight-handed equilibrium is not established.",
+ "v033": {
+  "preflopModes": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-preflop-modes.json)",
+   "modes": {
+    "A": {
+     "mode": "A",
+     "name": "full-linked",
+     "seats": 8,
+     "stacksBB": [
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25
+     ],
+     "blinds": "SB 0.5 / BB 1",
+     "ante": "classic 0.1 BB per player",
+     "objective": "chip EV",
+     "preflop": {
+      "mode": "linked",
+      "opens": "2.2,a",
+      "maxBets": 3
+     },
+     "postflop": "study menus on flop, turn and river",
+     "keys": "exact private hands (1,326)",
+     "accuracyClass": "research model (sampled continuation; convergence not proven)"
+    },
+    "B": {
+     "mode": "B",
+     "name": "checkdown",
+     "seats": 8,
+     "stacksBB": [
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25
+     ],
+     "blinds": "SB 0.5 / BB 1",
+     "ante": "classic 0.1 BB per player",
+     "objective": "chip EV",
+     "preflop": {
+      "mode": "linked",
+      "opens": "2.2,a",
+      "maxBets": 3
+     },
+     "postflop": "none (check-down to showdown)",
+     "keys": "exact private hands (1,326)",
+     "accuracyClass": "approximate (compact continuation: check-down)"
+    },
+    "B169": {
+     "mode": "B169",
+     "name": "checkdown-class",
+     "seats": 8,
+     "stacksBB": [
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25
+     ],
+     "blinds": "SB 0.5 / BB 1",
+     "ante": "classic 0.1 BB per player",
+     "objective": "chip EV",
+     "preflop": {
+      "mode": "linked",
+      "opens": "2.2,a",
+      "maxBets": 3
+     },
+     "postflop": "none (check-down to showdown)",
+     "keys": "169 preflop hand classes (lossless by suit symmetry in this game)",
+     "accuracyClass": "approximate (compact continuation: check-down); class keys lossless for this game"
+    },
+    "C": {
+     "mode": "C",
+     "name": "restricted-flop",
+     "seats": 8,
+     "stacksBB": [
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25,
+      25
+     ],
+     "blinds": "SB 0.5 / BB 1",
+     "ante": "classic 0.1 BB per player",
+     "objective": "chip EV",
+     "preflop": {
+      "mode": "linked",
+      "opens": "2.2,a",
+      "maxBets": 3
+     },
+     "postflop": "flop menu of Mode A, then check-down",
+     "keys": "exact private hands (1,326)",
+     "accuracyClass": "approximate (restricted continuation)"
+    }
+   },
+   "classifications": {
+    "resources": "measured on this machine",
+    "coverage": "exact counts from the state file",
+    "distances": "exact between two stored strategies; NOT accuracy (8-player equilibria need not be unique)",
+    "gains": "sampled estimate of a lower bound (one-decision deviation at the first-in node, later play follows the same study and the same continuation model)",
+    "exploitability": "unavailable for the eight-player game (never reported as 0)"
+   },
+   "runs": [
+    {
+     "mode": "A",
+     "seed": 8,
+     "updates": 2000000,
+     "accuracy": "research model (sampled continuation; convergence not proven)",
+     "peakRssMiB": 2864.4,
+     "stateBytes": 1176224469,
+     "updatesPerSecond": 7503,
+     "checkpointBytes": 501133034,
+     "postflopRowShare": 0.5129,
+     "preflopRows": 11359094,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 63242,
+       "classCoverage": 0.0698,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 55110,
+       "classCoverage": 0.0894,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51959,
+       "classCoverage": 0.0973,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52311,
+       "classCoverage": 0.0902,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55362,
+       "classCoverage": 0.0737,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 58350,
+       "classCoverage": 0.0581,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 58436,
+       "classCoverage": 0.0507,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 52581,
+       "classCoverage": 0.0555,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": [
+      {
+       "position": "UTG",
+       "gainBB": 0.03792619707316387,
+       "ci95": [
+        -0.7429983107595799,
+        0.8188507049059077
+       ],
+       "error": null
+      },
+      {
+       "position": "UTG+1",
+       "gainBB": -0.34491651138127455,
+       "ci95": [
+        -0.7919372246004324,
+        0.10210420183788327
+       ],
+       "error": null
+      },
+      {
+       "position": "MP",
+       "gainBB": 0.04063838948713783,
+       "ci95": [
+        -0.21971471833721362,
+        0.3009914973114893
+       ],
+       "error": null
+      },
+      {
+       "position": "HJ",
+       "gainBB": 0.05506430529572394,
+       "ci95": [
+        -0.06152136042232033,
+        0.17164997101376822
+       ],
+       "error": null
+      },
+      {
+       "position": "CO",
+       "gainBB": 0.05108114730444516,
+       "ci95": [
+        -0.0023091291236158676,
+        0.10447142373250617
+       ],
+       "error": null
+      },
+      {
+       "position": "BTN",
+       "gainBB": 0.03949329431574168,
+       "ci95": [
+        0.021313113577657087,
+        0.05767347505382628
+       ],
+       "error": null
+      },
+      {
+       "position": "SB",
+       "gainBB": 0.006486089338642128,
+       "ci95": [
+        0.0036977956416773075,
+        0.009274383035606949
+       ],
+       "error": null
+      },
+      {
+       "position": "BB",
+       "gainBB": 0.0025589499748766126,
+       "ci95": [
+        0.0017277247369705008,
+        0.003390175212782724
+       ],
+       "error": null
+      }
+     ]
+    },
+    {
+     "mode": "A",
+     "seed": 108,
+     "updates": 2000000,
+     "accuracy": "research model (sampled continuation; convergence not proven)",
+     "peakRssMiB": 2864.2,
+     "stateBytes": 1185256491,
+     "updatesPerSecond": 7397,
+     "checkpointBytes": 504463558,
+     "postflopRowShare": 0.5148,
+     "preflopRows": 11406891,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 63884,
+       "classCoverage": 0.0693,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 55112,
+       "classCoverage": 0.0894,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51734,
+       "classCoverage": 0.0978,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52577,
+       "classCoverage": 0.0903,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55518,
+       "classCoverage": 0.0738,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 58252,
+       "classCoverage": 0.0584,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 58404,
+       "classCoverage": 0.0511,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 52980,
+       "classCoverage": 0.0556,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "B",
+     "seed": 8,
+     "updates": 2000000,
+     "accuracy": "approximate (compact continuation: check-down)",
+     "peakRssMiB": 1487.5,
+     "stateBytes": 605433295,
+     "updatesPerSecond": 8752,
+     "checkpointBytes": 301013136,
+     "postflopRowShare": 0,
+     "preflopRows": 11563496,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 65017,
+       "classCoverage": 0.0697,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 56175,
+       "classCoverage": 0.0891,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 52300,
+       "classCoverage": 0.098,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52851,
+       "classCoverage": 0.0908,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55788,
+       "classCoverage": 0.0746,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 59004,
+       "classCoverage": 0.0589,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 59332,
+       "classCoverage": 0.0514,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 53852,
+       "classCoverage": 0.0556,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "B",
+     "seed": 108,
+     "updates": 2000000,
+     "accuracy": "approximate (compact continuation: check-down)",
+     "peakRssMiB": 1498.9,
+     "stateBytes": 605131171,
+     "updatesPerSecond": 8447,
+     "checkpointBytes": 301048305,
+     "postflopRowShare": 0,
+     "preflopRows": 11563626,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 64717,
+       "classCoverage": 0.0697,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 55921,
+       "classCoverage": 0.0897,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51771,
+       "classCoverage": 0.0987,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52516,
+       "classCoverage": 0.0915,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55594,
+       "classCoverage": 0.0747,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 58706,
+       "classCoverage": 0.0593,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 59102,
+       "classCoverage": 0.0515,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 53509,
+       "classCoverage": 0.0559,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "B169",
+     "seed": 8,
+     "updates": 2000000,
+     "accuracy": "approximate (compact continuation: check-down); class keys lossless for this game",
+     "peakRssMiB": 904.3,
+     "stateBytes": 310391830,
+     "updatesPerSecond": 6830,
+     "checkpointBytes": 153163484,
+     "preflopRows": 5852884,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 56979,
+       "classCoverage": 0.0778,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 52624,
+       "classCoverage": 0.0942,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51132,
+       "classCoverage": 0.1002,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 50999,
+       "classCoverage": 0.0961,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 52385,
+       "classCoverage": 0.0847,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 54466,
+       "classCoverage": 0.0719,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 53406,
+       "classCoverage": 0.0658,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 48564,
+       "classCoverage": 0.069,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": [
+      {
+       "position": "UTG",
+       "gainBB": -0.23438966759877136,
+       "ci95": [
+        -0.8169976441229658,
+        0.34821830892542316
+       ],
+       "error": null
+      },
+      {
+       "position": "UTG+1",
+       "gainBB": -0.7219615804332311,
+       "ci95": [
+        -1.1416799936939612,
+        -0.30224316717250094
+       ],
+       "error": null
+      },
+      {
+       "position": "MP",
+       "gainBB": -0.18366526644163503,
+       "ci95": [
+        -0.45797558348651213,
+        0.09064505060324204
+       ],
+       "error": null
+      },
+      {
+       "position": "HJ",
+       "gainBB": -0.09478095487110767,
+       "ci95": [
+        -0.2794644528786581,
+        0.08990254313644279
+       ],
+       "error": null
+      },
+      {
+       "position": "CO",
+       "gainBB": -0.10001375089890636,
+       "ci95": [
+        -0.2118471619497364,
+        0.011819660151923664
+       ],
+       "error": null
+      },
+      {
+       "position": "BTN",
+       "gainBB": 0.0103121625557683,
+       "ci95": [
+        -0.029639249401891977,
+        0.050263574513428576
+       ],
+       "error": null
+      },
+      {
+       "position": "SB",
+       "gainBB": -0.020526737525941183,
+       "ci95": [
+        -0.04258507967708342,
+        0.0015316046252010565
+       ],
+       "error": null
+      },
+      {
+       "position": "BB",
+       "gainBB": 0.006425658319212825,
+       "ci95": [
+        -0.003936478191360171,
+        0.01678779482978582
+       ],
+       "error": null
+      }
+     ]
+    },
+    {
+     "mode": "B169",
+     "seed": 108,
+     "updates": 2000000,
+     "accuracy": "approximate (compact continuation: check-down); class keys lossless for this game",
+     "peakRssMiB": 901.1,
+     "stateBytes": 310666383,
+     "updatesPerSecond": 6786,
+     "checkpointBytes": 153166042,
+     "preflopRows": 5849495,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 56516,
+       "classCoverage": 0.0769,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 53184,
+       "classCoverage": 0.0933,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51952,
+       "classCoverage": 0.0986,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 51163,
+       "classCoverage": 0.0963,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 53075,
+       "classCoverage": 0.0842,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 54962,
+       "classCoverage": 0.0713,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 54258,
+       "classCoverage": 0.0649,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 49157,
+       "classCoverage": 0.0681,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "C",
+     "seed": 8,
+     "updates": 2000000,
+     "accuracy": "approximate (restricted continuation)",
+     "peakRssMiB": 2654.3,
+     "stateBytes": 891424245,
+     "updatesPerSecond": 8079,
+     "checkpointBytes": 410812642,
+     "postflopRowShare": 0.3451,
+     "preflopRows": 11439268,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 64324,
+       "classCoverage": 0.0693,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 55378,
+       "classCoverage": 0.0894,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 52040,
+       "classCoverage": 0.0976,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52545,
+       "classCoverage": 0.0904,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55491,
+       "classCoverage": 0.0738,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 58525,
+       "classCoverage": 0.0583,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 58786,
+       "classCoverage": 0.0509,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 53284,
+       "classCoverage": 0.0554,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "C",
+     "seed": 108,
+     "updates": 2000000,
+     "accuracy": "approximate (restricted continuation)",
+     "peakRssMiB": 2654.4,
+     "stateBytes": 891597702,
+     "updatesPerSecond": 7833,
+     "checkpointBytes": 410247772,
+     "postflopRowShare": 0.3453,
+     "preflopRows": 11436458,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 64738,
+       "classCoverage": 0.069,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 55384,
+       "classCoverage": 0.0893,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 51978,
+       "classCoverage": 0.0979,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 52316,
+       "classCoverage": 0.0907,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 55564,
+       "classCoverage": 0.0737,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 58744,
+       "classCoverage": 0.0583,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 58802,
+       "classCoverage": 0.0509,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 53375,
+       "classCoverage": 0.0553,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": []
+    },
+    {
+     "mode": "B169",
+     "seed": 8,
+     "updates": 8000000,
+     "accuracy": "approximate (compact continuation: check-down); class keys lossless for this game",
+     "peakRssMiB": 1414.7,
+     "stateBytes": 557372090,
+     "updatesPerSecond": 6284,
+     "postflopRowShare": 0,
+     "preflopRows": 11011477,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 87581,
+       "classCoverage": 0.094,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 79571,
+       "classCoverage": 0.113,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 73928,
+       "classCoverage": 0.1268,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 70141,
+       "classCoverage": 0.1309,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 70826,
+       "classCoverage": 0.1213,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 73549,
+       "classCoverage": 0.1054,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 74823,
+       "classCoverage": 0.0905,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 71887,
+       "classCoverage": 0.0872,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": [
+      {
+       "position": "UTG",
+       "gainBB": -0.23601037136516445,
+       "ci95": [
+        -0.6431942676418081,
+        0.17117352491147914
+       ],
+       "error": null
+      },
+      {
+       "position": "UTG+1",
+       "gainBB": -0.18160251240194622,
+       "ci95": [
+        -0.5147385721575574,
+        0.1515335473536649
+       ],
+       "error": null
+      },
+      {
+       "position": "MP",
+       "gainBB": 0.03468065455099916,
+       "ci95": [
+        -0.19416467927687645,
+        0.26352598837887475
+       ],
+       "error": null
+      },
+      {
+       "position": "HJ",
+       "gainBB": -0.165742774387763,
+       "ci95": [
+        -0.3216443406079408,
+        -0.009841208167585186
+       ],
+       "error": null
+      },
+      {
+       "position": "CO",
+       "gainBB": -0.08796858977755947,
+       "ci95": [
+        -0.21911764782633347,
+        0.04318046827121452
+       ],
+       "error": null
+      },
+      {
+       "position": "BTN",
+       "gainBB": -0.014925295021534953,
+       "ci95": [
+        -0.0769430259929401,
+        0.0470924359498702
+       ],
+       "error": null
+      },
+      {
+       "position": "SB",
+       "gainBB": -0.03086497675692012,
+       "ci95": [
+        -0.06992289244944788,
+        0.00819293893560765
+       ],
+       "error": null
+      },
+      {
+       "position": "BB",
+       "gainBB": 0.006233999654826821,
+       "ci95": [
+        -0.018996843474816803,
+        0.03146484278447045
+       ],
+       "error": null
+      }
+     ]
+    },
+    {
+     "mode": "B169",
+     "seed": 8,
+     "updates": 10000000,
+     "accuracy": "approximate (compact continuation: check-down); class keys lossless for this game",
+     "peakRssMiB": 1733.6,
+     "stateBytes": 602744290,
+     "updatesPerSecond": 5730,
+     "postflopRowShare": 0,
+     "preflopRows": 11973938,
+     "positions": [
+      {
+       "position": "UTG",
+       "statesWithRows": 92628,
+       "classCoverage": 0.097,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "UTG+1",
+       "statesWithRows": 84026,
+       "classCoverage": 0.1159,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "MP",
+       "statesWithRows": 77720,
+       "classCoverage": 0.1305,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "HJ",
+       "statesWithRows": 73334,
+       "classCoverage": 0.1359,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "CO",
+       "statesWithRows": 73667,
+       "classCoverage": 0.1274,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BTN",
+       "statesWithRows": 76471,
+       "classCoverage": 0.1107,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "SB",
+       "statesWithRows": 78080,
+       "classCoverage": 0.0944,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      },
+      {
+       "position": "BB",
+       "statesWithRows": 75489,
+       "classCoverage": 0.0901,
+       "firstInClasses": 169,
+       "firstInMissing": 0
+      }
+     ],
+     "gains": [
+      {
+       "position": "UTG",
+       "gainBB": -0.062400343559261245,
+       "ci95": [
+        -0.4397099765250396,
+        0.3149092894065172
+       ],
+       "error": null
+      },
+      {
+       "position": "UTG+1",
+       "gainBB": 0.10116406213020046,
+       "ci95": [
+        -0.21575195531007213,
+        0.41808007957047305
+       ],
+       "error": null
+      },
+      {
+       "position": "MP",
+       "gainBB": -0.06409832429862307,
+       "ci95": [
+        -0.283994547863817,
+        0.15579789926657084
+       ],
+       "error": null
+      },
+      {
+       "position": "HJ",
+       "gainBB": 0.05022116761657381,
+       "ci95": [
+        -0.1164750185412749,
+        0.2169173537744225
+       ],
+       "error": null
+      },
+      {
+       "position": "CO",
+       "gainBB": -0.05271049255894397,
+       "ci95": [
+        -0.17913399184890852,
+        0.07371300673102057
+       ],
+       "error": null
+      },
+      {
+       "position": "BTN",
+       "gainBB": 0.010751544592729093,
+       "ci95": [
+        -0.050711139842404065,
+        0.07221422902786225
+       ],
+       "error": null
+      },
+      {
+       "position": "SB",
+       "gainBB": -0.03284771326592188,
+       "ci95": [
+        -0.0674598159800879,
+        0.0017643894482441483
+       ],
+       "error": null
+      },
+      {
+       "position": "BB",
+       "gainBB": -0.014221015333613668,
+       "ci95": [
+        -0.04077541724445431,
+        0.012333386577226976
+       ],
+       "error": null
+      }
+     ]
+    }
+   ],
+   "comparisons": [
+    {
+     "kind": "seed-noise",
+     "mode": "A",
+     "seeds": [
+      8,
+      108
+     ],
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0776,
+       "maxClassTotalVariation": 0.5483
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0859,
+       "maxClassTotalVariation": 0.5013
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.108,
+       "maxClassTotalVariation": 0.4563
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1434,
+       "maxClassTotalVariation": 0.7399
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1691,
+       "maxClassTotalVariation": 0.6428
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.177,
+       "maxClassTotalVariation": 0.5679
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1775,
+       "maxClassTotalVariation": 0.6149
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1314,
+       "maxClassTotalVariation": 0.4084
+      }
+     ]
+    },
+    {
+     "kind": "seed-noise",
+     "mode": "B",
+     "seeds": [
+      8,
+      108
+     ],
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0741,
+       "maxClassTotalVariation": 0.4131
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0939,
+       "maxClassTotalVariation": 0.5074
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1168,
+       "maxClassTotalVariation": 0.6188
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1366,
+       "maxClassTotalVariation": 0.4771
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.157,
+       "maxClassTotalVariation": 0.531
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1773,
+       "maxClassTotalVariation": 0.5869
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1753,
+       "maxClassTotalVariation": 0.6843
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1326,
+       "maxClassTotalVariation": 0.82
+      }
+     ]
+    },
+    {
+     "kind": "seed-noise",
+     "mode": "B169",
+     "seeds": [
+      8,
+      108
+     ],
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0954,
+       "maxClassTotalVariation": 0.7524
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1196,
+       "maxClassTotalVariation": 0.8703
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1453,
+       "maxClassTotalVariation": 0.9198
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1442,
+       "maxClassTotalVariation": 0.917
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1907,
+       "maxClassTotalVariation": 0.8436
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2193,
+       "maxClassTotalVariation": 0.9555
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3339,
+       "maxClassTotalVariation": 0.966
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.264,
+       "maxClassTotalVariation": 0.9449
+      }
+     ]
+    },
+    {
+     "kind": "seed-noise",
+     "mode": "C",
+     "seeds": [
+      8,
+      108
+     ],
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0753,
+       "maxClassTotalVariation": 0.4925
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.089,
+       "maxClassTotalVariation": 0.4375
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1075,
+       "maxClassTotalVariation": 0.4951
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1332,
+       "maxClassTotalVariation": 0.5513
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1598,
+       "maxClassTotalVariation": 0.5097
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1739,
+       "maxClassTotalVariation": 0.6579
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1787,
+       "maxClassTotalVariation": 0.6553
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1373,
+       "maxClassTotalVariation": 0.6209
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "B"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0809,
+       "maxClassTotalVariation": 0.4318
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0854,
+       "maxClassTotalVariation": 0.4644
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1027,
+       "maxClassTotalVariation": 0.5081
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1251,
+       "maxClassTotalVariation": 0.5905
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.147,
+       "maxClassTotalVariation": 0.524
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1723,
+       "maxClassTotalVariation": 0.5217
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1782,
+       "maxClassTotalVariation": 0.6357
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1407,
+       "maxClassTotalVariation": 0.8096
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "B169"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2456,
+       "maxClassTotalVariation": 0.9187
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2804,
+       "maxClassTotalVariation": 0.8865
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3283,
+       "maxClassTotalVariation": 0.8982
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3801,
+       "maxClassTotalVariation": 0.8697
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4309,
+       "maxClassTotalVariation": 0.8011
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.469,
+       "maxClassTotalVariation": 0.8775
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4569,
+       "maxClassTotalVariation": 0.7454
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4561,
+       "maxClassTotalVariation": 0.8521
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "C"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0758,
+       "maxClassTotalVariation": 0.3939
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0825,
+       "maxClassTotalVariation": 0.4123
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.105,
+       "maxClassTotalVariation": 0.5009
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1302,
+       "maxClassTotalVariation": 0.8275
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1629,
+       "maxClassTotalVariation": 0.4674
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1834,
+       "maxClassTotalVariation": 0.5507
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1774,
+       "maxClassTotalVariation": 0.5906
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1342,
+       "maxClassTotalVariation": 0.5352
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B",
+      "B169"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2379,
+       "maxClassTotalVariation": 0.9215
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2729,
+       "maxClassTotalVariation": 0.8487
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3328,
+       "maxClassTotalVariation": 0.8573
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3824,
+       "maxClassTotalVariation": 0.9044
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4362,
+       "maxClassTotalVariation": 0.8415
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4721,
+       "maxClassTotalVariation": 0.8327
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4428,
+       "maxClassTotalVariation": 0.8474
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4407,
+       "maxClassTotalVariation": 0.8722
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B",
+      "C"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0761,
+       "maxClassTotalVariation": 0.5172
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0869,
+       "maxClassTotalVariation": 0.4872
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1009,
+       "maxClassTotalVariation": 0.4326
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1283,
+       "maxClassTotalVariation": 0.5533
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1458,
+       "maxClassTotalVariation": 0.5464
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1732,
+       "maxClassTotalVariation": 0.5064
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1736,
+       "maxClassTotalVariation": 0.5138
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1293,
+       "maxClassTotalVariation": 0.7471
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B169",
+      "C"
+     ],
+     "seed": 8,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2298,
+       "maxClassTotalVariation": 0.8895
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2767,
+       "maxClassTotalVariation": 0.8852
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3402,
+       "maxClassTotalVariation": 0.9166
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3765,
+       "maxClassTotalVariation": 0.8731
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4307,
+       "maxClassTotalVariation": 0.8106
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4776,
+       "maxClassTotalVariation": 0.8711
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4484,
+       "maxClassTotalVariation": 0.8253
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4479,
+       "maxClassTotalVariation": 0.811
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "B"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0744,
+       "maxClassTotalVariation": 0.5151
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.088,
+       "maxClassTotalVariation": 0.3973
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1067,
+       "maxClassTotalVariation": 0.4702
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1232,
+       "maxClassTotalVariation": 0.5107
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1605,
+       "maxClassTotalVariation": 0.5222
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1668,
+       "maxClassTotalVariation": 0.5122
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1794,
+       "maxClassTotalVariation": 0.6488
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1398,
+       "maxClassTotalVariation": 0.8158
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "B169"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2263,
+       "maxClassTotalVariation": 0.9379
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2839,
+       "maxClassTotalVariation": 0.8764
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3115,
+       "maxClassTotalVariation": 0.863
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3845,
+       "maxClassTotalVariation": 0.8731
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4356,
+       "maxClassTotalVariation": 0.8556
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4791,
+       "maxClassTotalVariation": 0.8646
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4144,
+       "maxClassTotalVariation": 0.8032
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4501,
+       "maxClassTotalVariation": 0.756
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "A",
+      "C"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0702,
+       "maxClassTotalVariation": 0.413
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.085,
+       "maxClassTotalVariation": 0.4775
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1051,
+       "maxClassTotalVariation": 0.4094
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1275,
+       "maxClassTotalVariation": 0.4548
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1556,
+       "maxClassTotalVariation": 0.6121
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1637,
+       "maxClassTotalVariation": 0.5025
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1783,
+       "maxClassTotalVariation": 0.564
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1333,
+       "maxClassTotalVariation": 0.5124
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B",
+      "B169"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2255,
+       "maxClassTotalVariation": 0.855
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2881,
+       "maxClassTotalVariation": 0.876
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3122,
+       "maxClassTotalVariation": 0.9079
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3771,
+       "maxClassTotalVariation": 0.8258
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.434,
+       "maxClassTotalVariation": 0.9199
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.5004,
+       "maxClassTotalVariation": 0.8761
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.431,
+       "maxClassTotalVariation": 0.9031
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4569,
+       "maxClassTotalVariation": 0.8858
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B",
+      "C"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0696,
+       "maxClassTotalVariation": 0.4134
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.0871,
+       "maxClassTotalVariation": 0.5709
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1046,
+       "maxClassTotalVariation": 0.5822
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1206,
+       "maxClassTotalVariation": 0.445
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1547,
+       "maxClassTotalVariation": 0.4674
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1672,
+       "maxClassTotalVariation": 0.5446
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1813,
+       "maxClassTotalVariation": 0.5421
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.1401,
+       "maxClassTotalVariation": 0.6488
+      }
+     ]
+    },
+    {
+     "kind": "model-difference",
+     "modes": [
+      "B169",
+      "C"
+     ],
+     "seed": 108,
+     "updates": 2000000,
+     "nodes": [
+      {
+       "path": "r",
+       "position": "UTG",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2334,
+       "maxClassTotalVariation": 0.926
+      },
+      {
+       "path": "r0",
+       "position": "UTG+1",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.2883,
+       "maxClassTotalVariation": 0.8514
+      },
+      {
+       "path": "r00",
+       "position": "MP",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3142,
+       "maxClassTotalVariation": 0.8935
+      },
+      {
+       "path": "r000",
+       "position": "HJ",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.3891,
+       "maxClassTotalVariation": 0.8098
+      },
+      {
+       "path": "r0000",
+       "position": "CO",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4341,
+       "maxClassTotalVariation": 0.8311
+      },
+      {
+       "path": "r00000",
+       "position": "BTN",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4863,
+       "maxClassTotalVariation": 0.8258
+      },
+      {
+       "path": "r000000",
+       "position": "SB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4382,
+       "maxClassTotalVariation": 0.827
+      },
+      {
+       "path": "r0000001",
+       "position": "BB",
+       "classesCompared": 169,
+       "meanTotalVariation": 0.4458,
+       "maxClassTotalVariation": 0.868
+      }
+     ]
+    }
+   ],
+   "fullGame": "Eight-handed exploitability / NashConv: unavailable (not computed; never 0)."
+  },
+  "calibration": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-checkdown-calibration.json)",
+   "line": "BTN opens 2.2 (Raise to 2.2), SB folds, BB calls (Call 1.2)",
+   "game": "heads-up flop, pot 5.7 bb, 22.7 bb behind each, BB (seat 0) first to act, menu 50% pot / all-in raise / 1 bet per street on flop, turn and river; chip EV; exact private hands and runouts",
+   "flops": [
+    {
+     "flop": "As7d2h",
+     "exploitabilityPctPot": 0.3846,
+     "players": [
+      {
+       "player": "BB (out of position)",
+       "equilibriumValueBB": 1.46539,
+       "checkdownValueBB": 2.24477,
+       "differenceBB": -0.77938,
+       "differencePctPot": -13.673,
+       "realisation": 0.6528
+      },
+      {
+       "player": "BTN (in position)",
+       "equilibriumValueBB": 4.23461,
+       "checkdownValueBB": 3.45523,
+       "differenceBB": 0.77938,
+       "differencePctPot": 13.673,
+       "realisation": 1.2256
+      }
+     ]
+    },
+    {
+     "flop": "Kh9h4c",
+     "exploitabilityPctPot": 0.4131,
+     "players": [
+      {
+       "player": "BB (out of position)",
+       "equilibriumValueBB": 1.19653,
+       "checkdownValueBB": 2.12819,
+       "differenceBB": -0.93166,
+       "differencePctPot": -16.345,
+       "realisation": 0.5622
+      },
+      {
+       "player": "BTN (in position)",
+       "equilibriumValueBB": 4.50347,
+       "checkdownValueBB": 3.57181,
+       "differenceBB": 0.93166,
+       "differencePctPot": 16.345,
+       "realisation": 1.2608
+      }
+     ]
+    },
+    {
+     "flop": "8s8d3c",
+     "exploitabilityPctPot": 0.4129,
+     "players": [
+      {
+       "player": "BB (out of position)",
+       "equilibriumValueBB": 1.97477,
+       "checkdownValueBB": 2.36395,
+       "differenceBB": -0.38919,
+       "differencePctPot": -6.828,
+       "realisation": 0.8354
+      },
+      {
+       "player": "BTN (in position)",
+       "equilibriumValueBB": 3.72523,
+       "checkdownValueBB": 3.33605,
+       "differenceBB": 0.38919,
+       "differencePctPot": 6.828,
+       "realisation": 1.1167
+      }
+     ]
+    }
+   ],
+   "summary": {
+    "flops": 3,
+    "meanAbsDifferencePctPot": [
+     12.282,
+     12.282
+    ],
+    "meanRealisation": [
+     0.6835,
+     1.201
+    ],
+    "players": [
+     "BB (out of position)",
+     "BTN (in position)"
+    ]
+   }
+  },
+  "flopSolver": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-flop-solver-benchmark.json)",
+   "game": "heads-up flop subgame, pot 6 bb, flop + every turn and river card enumerated, exact private hands, chip EV; both players use the same range",
+   "evaluator": "src/fast-multistreet.js exact best response (independent code path)",
+   "results": [
+    {
+     "board": "As7d2h",
+     "ranges": "narrow (~45 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 2",
+     "combos": [
+      46,
+      46
+     ],
+     "iterations": 75,
+     "exploitabilityPctPot": 0.3753,
+     "wallMs": 21735,
+     "memoryMiB": 66.9,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "Th9h4c",
+     "ranges": "narrow (~45 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 2",
+     "combos": [
+      54,
+      54
+     ],
+     "iterations": 75,
+     "exploitabilityPctPot": 0.2751,
+     "wallMs": 24808,
+     "memoryMiB": 78.5,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "8s8d3c",
+     "ranges": "narrow (~45 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 2",
+     "combos": [
+      56,
+      56
+     ],
+     "iterations": 75,
+     "exploitabilityPctPot": 0.3283,
+     "wallMs": 24926,
+     "memoryMiB": 81.4,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "As7d2h",
+     "ranges": "narrow (~45 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 4",
+     "combos": [
+      46,
+      46
+     ],
+     "iterations": 100,
+     "exploitabilityPctPot": 0.4681,
+     "wallMs": 46055,
+     "memoryMiB": 119.7,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "As7d2h",
+     "ranges": "narrow (~45 combos)",
+     "menu": "33% or all-in, all-in raise, 2 bets/street",
+     "stacks": "SPR 2",
+     "combos": [
+      46,
+      46
+     ],
+     "iterations": 150,
+     "exploitabilityPctPot": 0.3939,
+     "wallMs": 157275,
+     "memoryMiB": 299.2,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "Th9h4c",
+     "ranges": "medium (~110 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 2",
+     "combos": [
+      112,
+      112
+     ],
+     "iterations": 50,
+     "exploitabilityPctPot": 0.4272,
+     "wallMs": 28493,
+     "memoryMiB": 162.8,
+     "meetsTarget": true,
+     "missingRows": 0
+    },
+    {
+     "board": "As7d2h",
+     "ranges": "wide (~200 combos)",
+     "menu": "75% pot, all-in raise, 1 bet/street",
+     "stacks": "SPR 2",
+     "combos": [
+      169,
+      169
+     ],
+     "iterations": 75,
+     "exploitabilityPctPot": 0.4067,
+     "wallMs": 58229,
+     "memoryMiB": 245.7,
+     "meetsTarget": true,
+     "missingRows": 0
+    }
+   ],
+   "checks": {
+    "checkpointResume": {
+     "iterations": "15 + 15 vs 30",
+     "identical": true,
+     "checkpointBytes": 70705747
+    },
+    "threads": {
+     "iterations": 40,
+     "runs": [
+      {
+       "threads": 1,
+       "wallMs": 14181,
+       "exploitabilityBB": 0.06127366271330148
+      },
+      {
+       "threads": 2,
+       "wallMs": 10365,
+       "exploitabilityBB": 0.06125688629061998
+      }
+     ],
+     "relativeDifference": 0.0002737950032462342,
+     "speedup": 1.37,
+     "note": "includes one independent evaluation per run; results differ only by floating-point summation order of the flop regret increments"
+    },
+    "thirdEvaluator": {
+     "game": "Kd8s3c, 28 vs 28 combos",
+     "geometry": {
+      "nodes": 81,
+      "mismatches": 0
+     },
+     "fastMultiStreet": {
+      "exploitabilityBB": 0.061245370154487944,
+      "values": [
+       2.859522531294912,
+       3.140477468705086
+      ]
+     },
+     "independentEval": {
+      "exploitabilityBB": 0.06124537015448661,
+      "values": [
+       2.859522531294913,
+       3.1404774687050874
+      ],
+      "missingRows": 0,
+      "ms": 36308
+     },
+     "absoluteDifference": 1.3322676295501878e-15
+    }
+   }
+  },
+  "multiway": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-multiway-validation.json)",
+   "evaluator": "src/independent-eval.js (independent of the EightMax engine and of the workbench solvers: own betting rules, side pots, 7-card evaluator, state-file reader and best response)",
+   "meaning": "NashConv = sum of the unilateral best-response gains. With three players it is NOT an exploitability; 0 = Nash equilibrium (not unique, not coalition-proof). Restricted to the defined betting abstraction.",
+   "references": [
+    {
+     "game": "2-player Kuhn, equilibrium alpha = 0.0000",
+     "pass": true,
+     "measured": {
+      "player1Value": -0.05555555555555558,
+      "nashConv": 0
+     }
+    },
+    {
+     "game": "2-player Kuhn, equilibrium alpha = 0.2000",
+     "pass": true,
+     "measured": {
+      "player1Value": -0.05555555555555558,
+      "nashConv": 0
+     }
+    },
+    {
+     "game": "2-player Kuhn, equilibrium alpha = 0.3333",
+     "pass": true,
+     "measured": {
+      "player1Value": -0.05555555555555566,
+      "nashConv": 7.632783294297951e-17
+     }
+    },
+    {
+     "game": "3-player Kuhn, check / fold to bets",
+     "pass": true,
+     "measured": {
+      "gains": [
+       2,
+       2,
+       2
+      ],
+      "nashConv": 6
+     }
+    },
+    {
+     "game": "3-player hold'em river (pot 6), check / fold to bets",
+     "pass": true,
+     "measured": {
+      "nashConv": 12,
+      "valueSum": 6,
+      "values": [
+       4.269230769230769,
+       0.9807692307692307,
+       0.75
+      ]
+     }
+    },
+    {
+     "game": "3-player Kuhn, independent vanilla CFR 100 iterations",
+     "pass": null,
+     "measured": {
+      "nashConv": 0.08952130377076947,
+      "values": [
+       -0.0345551138409379,
+       -0.013749053679933324,
+       0.04830416752087122
+      ],
+      "ms": 79
+     }
+    },
+    {
+     "game": "3-player Kuhn, independent vanilla CFR 1000 iterations",
+     "pass": null,
+     "measured": {
+      "nashConv": 0.016571312847565522,
+      "values": [
+       -0.029327510901796305,
+       -0.018609668214203772,
+       0.047937179116000074
+      ],
+      "ms": 283
+     }
+    },
+    {
+     "game": "3-player Kuhn, independent vanilla CFR 5000 iterations",
+     "pass": null,
+     "measured": {
+      "nashConv": 0.004862530649207091,
+      "values": [
+       -0.028425313686462134,
+       -0.02003909138540072,
+       0.048464405071863004
+      ],
+      "ms": 1171
+     }
+    }
+   ],
+   "crossCheck": [
+    {
+     "updates": 20000,
+     "independentPctPot": 60.74980605625829,
+     "enginePctPot": 60.74980605625829,
+     "agree": true,
+     "missingRows": 36545,
+     "meetsLimit": false
+    },
+    {
+     "updates": 80000,
+     "independentPctPot": 27.662345035194907,
+     "enginePctPot": 27.662345035194907,
+     "agree": true,
+     "missingRows": 16080,
+     "meetsLimit": false
+    },
+    {
+     "updates": 320000,
+     "independentPctPot": 13.724954773987532,
+     "enginePctPot": 13.724954773987541,
+     "agree": true,
+     "missingRows": 4085,
+     "meetsLimit": false
+    },
+    {
+     "updates": 1280000,
+     "independentPctPot": 7.518790640618707,
+     "enginePctPot": 7.518790640618703,
+     "agree": true,
+     "missingRows": 770,
+     "meetsLimit": false
+    }
+   ]
+  },
+  "coverage": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-coverage.json)",
+   "columns": null,
+   "summary": {
+    "rows": [
+     {
+      "name": "0.32 any-two ranges (Mode A 500k preflop): stored only (seeds 901-903)",
+      "decisions": 410,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0093
+      ],
+      "unverifiedUsed": 9,
+      "exactShare": 0.022,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.978,
+      "anyShare": 0.022,
+      "anyCi95": [
+       0.0116,
+       0.0412
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 75,
+        "anyShare": 0.0267
+       },
+       "turn heads-up": {
+        "decisions": 76,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 56,
+        "anyShare": 0
+       },
+       "flop multiway": {
+        "decisions": 134,
+        "anyShare": 0.0522
+       },
+       "turn multiway": {
+        "decisions": 49,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 20,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.32 any-two ranges (Mode A 500k preflop): + on-demand rivers/turns + approximations",
+      "decisions": 421,
+      "validatedShare": 0.1401,
+      "validatedCi95": [
+       0.1102,
+       0.1766
+      ],
+      "unverifiedUsed": 6,
+      "exactShare": 0.095,
+      "approximateShare": 0,
+      "onDemandShare": 0.0594,
+      "unavailableShare": 0.8456,
+      "anyShare": 0.1544,
+      "anyCi95": [
+       0.123,
+       0.192
+      ],
+      "gateRefusals": 59,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 78,
+        "anyShare": 0.0128
+       },
+       "turn heads-up": {
+        "decisions": 74,
+        "anyShare": 0.1757
+       },
+       "river heads-up": {
+        "decisions": 51,
+        "anyShare": 0.902
+       },
+       "flop multiway": {
+        "decisions": 128,
+        "anyShare": 0.0391
+       },
+       "turn multiway": {
+        "decisions": 51,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 39,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.32 any-two ranges (Mode A 500k preflop): new unseen seeds 904-906, exactOnly",
+      "decisions": 390,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0098
+      ],
+      "unverifiedUsed": 6,
+      "exactShare": 0.0154,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.9846,
+      "anyShare": 0.0154,
+      "anyCi95": [
+       0.0071,
+       0.0332
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 56,
+        "anyShare": 0.0179
+       },
+       "turn heads-up": {
+        "decisions": 59,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 58,
+        "anyShare": 0
+       },
+       "flop multiway": {
+        "decisions": 124,
+        "anyShare": 0.0403
+       },
+       "turn multiway": {
+        "decisions": 61,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 32,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.32 any-two ranges (Mode A 500k preflop): new unseen seeds 904-906, withOnDemandAndApproximations",
+      "decisions": 391,
+      "validatedShare": 0.1611,
+      "validatedCi95": [
+       0.128,
+       0.2008
+      ],
+      "unverifiedUsed": 6,
+      "exactShare": 0.1049,
+      "approximateShare": 0,
+      "onDemandShare": 0.0716,
+      "unavailableShare": 0.8235,
+      "anyShare": 0.1765,
+      "anyCi95": [
+       0.1419,
+       0.2174
+      ],
+      "gateRefusals": 44,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 61,
+        "anyShare": 0.0164
+       },
+       "turn heads-up": {
+        "decisions": 59,
+        "anyShare": 0.2034
+       },
+       "river heads-up": {
+        "decisions": 53,
+        "anyShare": 0.9623
+       },
+       "flop multiway": {
+        "decisions": 126,
+        "anyShare": 0.0397
+       },
+       "turn multiway": {
+        "decisions": 67,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 25,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode A 500k preflop (fell back to any-two): stored only (seeds 901-903)",
+      "decisions": 410,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0093
+      ],
+      "unverifiedUsed": 9,
+      "exactShare": 0.022,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.978,
+      "anyShare": 0.022,
+      "anyCi95": [
+       0.0116,
+       0.0412
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 75,
+        "anyShare": 0.0267
+       },
+       "turn heads-up": {
+        "decisions": 76,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 56,
+        "anyShare": 0
+       },
+       "flop multiway": {
+        "decisions": 134,
+        "anyShare": 0.0522
+       },
+       "turn multiway": {
+        "decisions": 49,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 20,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode A 500k preflop (fell back to any-two): + on-demand rivers/turns + approximations",
+      "decisions": 421,
+      "validatedShare": 0.1401,
+      "validatedCi95": [
+       0.1102,
+       0.1766
+      ],
+      "unverifiedUsed": 6,
+      "exactShare": 0.095,
+      "approximateShare": 0,
+      "onDemandShare": 0.0594,
+      "unavailableShare": 0.8456,
+      "anyShare": 0.1544,
+      "anyCi95": [
+       0.123,
+       0.192
+      ],
+      "gateRefusals": 59,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 78,
+        "anyShare": 0.0128
+       },
+       "turn heads-up": {
+        "decisions": 74,
+        "anyShare": 0.1757
+       },
+       "river heads-up": {
+        "decisions": 51,
+        "anyShare": 0.902
+       },
+       "flop multiway": {
+        "decisions": 128,
+        "anyShare": 0.0391
+       },
+       "turn multiway": {
+        "decisions": 51,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 39,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode A 500k preflop (fell back to any-two): new unseen seeds 904-906, exactOnly",
+      "decisions": 385,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0099
+      ],
+      "unverifiedUsed": 9,
+      "exactShare": 0.0234,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.9766,
+      "anyShare": 0.0234,
+      "anyCi95": [
+       0.0123,
+       0.0438
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 58,
+        "anyShare": 0.0172
+       },
+       "turn heads-up": {
+        "decisions": 64,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 58,
+        "anyShare": 0
+       },
+       "flop multiway": {
+        "decisions": 121,
+        "anyShare": 0.0661
+       },
+       "turn multiway": {
+        "decisions": 52,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 32,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode A 500k preflop (fell back to any-two): new unseen seeds 904-906, withOnDemandAndApproximations",
+      "decisions": 385,
+      "validatedShare": 0.1584,
+      "validatedCi95": [
+       0.1254,
+       0.1983
+      ],
+      "unverifiedUsed": 9,
+      "exactShare": 0.1117,
+      "approximateShare": 0,
+      "onDemandShare": 0.0701,
+      "unavailableShare": 0.8182,
+      "anyShare": 0.1818,
+      "anyCi95": [
+       0.1465,
+       0.2234
+      ],
+      "gateRefusals": 45,
+      "byStreet": {
+       "flop heads-up": {
+        "decisions": 61,
+        "anyShare": 0.0164
+       },
+       "turn heads-up": {
+        "decisions": 57,
+        "anyShare": 0.1754
+       },
+       "river heads-up": {
+        "decisions": 53,
+        "anyShare": 0.9623
+       },
+       "flop multiway": {
+        "decisions": 130,
+        "anyShare": 0.0615
+       },
+       "turn multiway": {
+        "decisions": 59,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 25,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode B169 2M preflop (approximate strategy-derived): stored only (seeds 901-903)",
+      "decisions": 1505,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0025
+      ],
+      "unverifiedUsed": 81,
+      "exactShare": 0.0538,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.9462,
+      "anyShare": 0.0538,
+      "anyCi95": [
+       0.0435,
+       0.0664
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop multiway": {
+        "decisions": 227,
+        "anyShare": 0
+       },
+       "turn multiway": {
+        "decisions": 142,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 95,
+        "anyShare": 0
+       },
+       "flop heads-up": {
+        "decisions": 399,
+        "anyShare": 0.203
+       },
+       "turn heads-up": {
+        "decisions": 341,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 301,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode B169 2M preflop (approximate strategy-derived): + on-demand rivers/turns + approximations",
+      "decisions": 1575,
+      "validatedShare": 0.214,
+      "validatedCi95": [
+       0.1944,
+       0.2349
+      ],
+      "unverifiedUsed": 81,
+      "exactShare": 0.1771,
+      "approximateShare": 0,
+      "onDemandShare": 0.0883,
+      "unavailableShare": 0.7346,
+      "anyShare": 0.2654,
+      "anyCi95": [
+       0.2442,
+       0.2878
+      ],
+      "gateRefusals": 321,
+      "byStreet": {
+       "flop multiway": {
+        "decisions": 233,
+        "anyShare": 0
+       },
+       "turn multiway": {
+        "decisions": 176,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 94,
+        "anyShare": 0
+       },
+       "flop heads-up": {
+        "decisions": 392,
+        "anyShare": 0.2066
+       },
+       "turn heads-up": {
+        "decisions": 342,
+        "anyShare": 0.0292
+       },
+       "river heads-up": {
+        "decisions": 338,
+        "anyShare": 0.9675
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode B169 2M preflop (approximate strategy-derived): new unseen seeds 904-906, exactOnly",
+      "decisions": 1615,
+      "validatedShare": 0,
+      "validatedCi95": [
+       0,
+       0.0024
+      ],
+      "unverifiedUsed": 87,
+      "exactShare": 0.0539,
+      "approximateShare": 0,
+      "onDemandShare": 0,
+      "unavailableShare": 0.9461,
+      "anyShare": 0.0539,
+      "anyCi95": [
+       0.0439,
+       0.066
+      ],
+      "gateRefusals": 0,
+      "byStreet": {
+       "flop multiway": {
+        "decisions": 197,
+        "anyShare": 0
+       },
+       "turn multiway": {
+        "decisions": 153,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 107,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 346,
+        "anyShare": 0
+       },
+       "flop heads-up": {
+        "decisions": 432,
+        "anyShare": 0.2014
+       },
+       "turn heads-up": {
+        "decisions": 380,
+        "anyShare": 0
+       }
+      }
+     },
+     {
+      "name": "0.33 derived ranges, Mode B169 2M preflop (approximate strategy-derived): new unseen seeds 904-906, withOnDemandAndApproximations",
+      "decisions": 1577,
+      "validatedShare": 0.2378,
+      "validatedCi95": [
+       0.2174,
+       0.2594
+      ],
+      "unverifiedUsed": 87,
+      "exactShare": 0.1966,
+      "approximateShare": 0,
+      "onDemandShare": 0.0964,
+      "unavailableShare": 0.707,
+      "anyShare": 0.293,
+      "anyCi95": [
+       0.271,
+       0.3159
+      ],
+      "gateRefusals": 350,
+      "byStreet": {
+       "flop multiway": {
+        "decisions": 209,
+        "anyShare": 0
+       },
+       "turn multiway": {
+        "decisions": 119,
+        "anyShare": 0
+       },
+       "river multiway": {
+        "decisions": 68,
+        "anyShare": 0
+       },
+       "river heads-up": {
+        "decisions": 350,
+        "anyShare": 0.9886
+       },
+       "flop heads-up": {
+        "decisions": 444,
+        "anyShare": 0.1959
+       },
+       "turn heads-up": {
+        "decisions": 387,
+        "anyShare": 0.0749
+       }
+      }
+     }
+    ]
+   }
+  },
+  "performance": {
+   "available": true,
+   "source": "release measurement on the build machine (0.33-benchmark-ten-table-linux-simulated.json)",
+   "summary": {
+    "rows": [
+     {
+      "workload": "Mode A linked preflop (2M, exact hands)",
+      "tables": 1,
+      "hands": "10/10",
+      "decisions": 86,
+      "decisionsPerSecond": 17.43,
+      "p50": 33.259,
+      "p95": 50.582,
+      "p99": 114.055,
+      "decisionP95": 23.498,
+      "postflopDecisions": 0,
+      "postflopUnavailable": 0,
+      "peakRssMiB": 469,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 1.15
+     },
+     {
+      "workload": "Mode A linked preflop (2M, exact hands)",
+      "tables": 2,
+      "hands": "20/20",
+      "decisions": 181,
+      "decisionsPerSecond": 36.551,
+      "p50": 28.142,
+      "p95": 49.557,
+      "p99": 94.806,
+      "decisionP95": 20.464,
+      "postflopDecisions": 12,
+      "postflopUnavailable": 12,
+      "peakRssMiB": 604,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 2.14
+     },
+     {
+      "workload": "Mode A linked preflop (2M, exact hands)",
+      "tables": 5,
+      "hands": "50/50",
+      "decisions": 454,
+      "decisionsPerSecond": 48.608,
+      "p50": 42.528,
+      "p95": 115.081,
+      "p99": 188.701,
+      "decisionP95": 69.587,
+      "postflopDecisions": 25,
+      "postflopUnavailable": 25,
+      "peakRssMiB": 888,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 2.74
+     },
+     {
+      "workload": "Mode A linked preflop (2M, exact hands)",
+      "tables": 8,
+      "hands": "80/80",
+      "decisions": 727,
+      "decisionsPerSecond": 74.91,
+      "p50": 64.446,
+      "p95": 126.176,
+      "p99": 232.928,
+      "decisionP95": 84.417,
+      "postflopDecisions": 35,
+      "postflopUnavailable": 35,
+      "peakRssMiB": 880,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 3.59
+     },
+     {
+      "workload": "Mode A linked preflop (2M, exact hands)",
+      "tables": 10,
+      "hands": "100/100",
+      "decisions": 924,
+      "decisionsPerSecond": 73.549,
+      "p50": 86.809,
+      "p95": 156.205,
+      "p99": 219.135,
+      "decisionP95": 120.843,
+      "postflopDecisions": 61,
+      "postflopUnavailable": 61,
+      "peakRssMiB": 899,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 3.28
+     },
+     {
+      "workload": "Mode B169 compact preflop (2M, 169 classes, approximate)",
+      "tables": 1,
+      "hands": "10/10",
+      "decisions": 118,
+      "decisionsPerSecond": 20.87,
+      "p50": 32.005,
+      "p95": 55.1,
+      "p99": 57.749,
+      "decisionP95": 20.67,
+      "postflopDecisions": 28,
+      "postflopUnavailable": 28,
+      "peakRssMiB": 502,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 1.15
+     },
+     {
+      "workload": "Mode B169 compact preflop (2M, 169 classes, approximate)",
+      "tables": 2,
+      "hands": "20/20",
+      "decisions": 232,
+      "decisionsPerSecond": 40.021,
+      "p50": 31.188,
+      "p95": 51.579,
+      "p99": 89.105,
+      "decisionP95": 21.703,
+      "postflopDecisions": 53,
+      "postflopUnavailable": 53,
+      "peakRssMiB": 717,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 2.21
+     },
+     {
+      "workload": "Mode B169 compact preflop (2M, 169 classes, approximate)",
+      "tables": 5,
+      "hands": "50/50",
+      "decisions": 550,
+      "decisionsPerSecond": 68.561,
+      "p50": 37.573,
+      "p95": 79.38,
+      "p99": 132.617,
+      "decisionP95": 53.947,
+      "postflopDecisions": 102,
+      "postflopUnavailable": 102,
+      "peakRssMiB": 813,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 3.18
+     },
+     {
+      "workload": "Mode B169 compact preflop (2M, 169 classes, approximate)",
+      "tables": 8,
+      "hands": "80/80",
+      "decisions": 931,
+      "decisionsPerSecond": 88.038,
+      "p50": 59.904,
+      "p95": 113.804,
+      "p99": 193.706,
+      "decisionP95": 78.407,
+      "postflopDecisions": 216,
+      "postflopUnavailable": 216,
+      "peakRssMiB": 816,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 3.72
+     },
+     {
+      "workload": "Mode B169 compact preflop (2M, 169 classes, approximate)",
+      "tables": 10,
+      "hands": "100/100",
+      "decisions": 1136,
+      "decisionsPerSecond": 75.043,
+      "p50": 84.622,
+      "p95": 165.892,
+      "p99": 214.713,
+      "decisionP95": 121.756,
+      "postflopDecisions": 238,
+      "postflopUnavailable": 238,
+      "peakRssMiB": 865,
+      "stale": 0,
+      "ackMismatches": 0,
+      "duplicatesBlocked": 0,
+      "timeouts": 0,
+      "workerErrors": 0,
+      "errors": 0,
+      "cpuCoresBusy": 3.28
+     }
+    ]
+   }
+  },
+  "machine": {
+   "cpus": 4,
+   "totalMemBytes": 17174360064,
+   "freeMemBytes": 14340931584,
+   "platform": "win32"
+  },
+  "generatedAt": "2026-11-19T18:08:05.258Z",
+  "appVersion": "0.33.0"
+ }
+}

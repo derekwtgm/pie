@@ -1,0 +1,39 @@
+Release integrity                                  PASS  Release files match their manifest.
+Windows PowerShell parsing                         PASS  Windows scripts parsed without errors.
+Private session initialised                        PASS  Host process 7632 wrote its private session (app 0.33.0).
+Raw protocol probe (health)                        PASS  HTTP 200: {"format":"eightmax-desktop-health","version":1,"appVersion":"0.33.0","build":"7d08acc7eb4577ee","nativeCPU":true,"liveClientConnected":false,"screenCapture":true,"captureMethods":["print-window","screen-copy","windows-graphics-capture"],"testResults":true,"strategyLibrary":true,"strategyQuality":true,"opponentRanges":true,"launchTools":["capture-check","wgc-check","hardware-check","windows-checks
+Expect: 100-continue accepted (0.26 HTTP 400 regression) PASS  HTTP 400 (a validation refusal of the empty job is expected; a framing refusal is the 0.26 defect): {"error":"Unsupported native job.","code":"invalid-request","status":400,"method":"POST","path":"/api/native/cancel-intent","step":null,"requestId":"r2","appVersion":"0.33.0"}
+Loopback proxy bypass                              PASS  The Windows/.NET proxy settings send 127.0.0.1 directly (no proxy).
+Security software (information)                    PASS  No product listed in Windows Security Center (or not readable).
+First-request diagnosis (0.26 HTTP 400)            PASS  All three request paths succeeded: the 0.26 first-request HTTP 400 does not occur with this build.
+Desktop build and local health                     PASS  Compiled host launched and answered its authenticated local protocol.
+Screen-capture service answers                     PASS  Monitors and windows were enumerated through documented Win32 calls. Capture methods offered: print-window, screen-copy, windows-graphics-capture.
+Capture needs explicit consent                     PASS  A capture request without operator consent was refused.
+Unauthenticated API refusal                        PASS  API requests require the current private desktop session.
+Foreign origin refusal                             PASS  A foreign Origin was refused; no external network request was made.
+Host capture: PrintWindow frame of an own window   PASS  method print-window 480x300 dpiScale 1
+Host capture: Windows Graphics Capture persistent session PASS  4 frames through ONE session: frameIds 1,1,2,2; fresh 2; active sessions 1; first frame 346.2229 ms
+Host capture: session closes and its helper exits  PASS  closed 1; active after close 0; helper exited True
+Host capture: closed window reported, session ended PASS  reopened frame ok=True; after close: target-lost
+Idempotent native submission                       PASS  A repeated bound submission returned its existing attempt.
+Read-only current study recovery                   PASS  Current study discovery returned the bound job without submitting or resuming it.
+Managed reviewed CPU workflow                      PASS  Real Windows native execution returned separate root/target queries at the captured actor and completed count.
+Native cancellation and checkpoint retention       PASS  Managed process group stopped and retained a completed checkpoint.
+Cancel resume before acknowledgment                PASS  A fenced resume attempt was skipped without losing its completed checkpoint.
+Idempotent checkpoint resume                       PASS  Repeating the same resume revision returned its already-created attempt.
+Stale attempt cancellation refusal                 PASS  An older attempt could not cancel its resumed successor.
+Stable restore and training targets                PASS  Every observed restore/training status retained the job target and bounded committed counters.
+Native resume to cumulative target                 PASS  Resume completed the same bound job without modifying its input checkpoint.
+Cancel before submission acknowledgment            PASS  A cancelled binding was refused when its delayed initial submission arrived.
+Persistent native result history                   PASS  The completed managed result was retained after another study replaced the current job.
+History restart is idle                            PASS  A fresh host credential was created; no saved study started and checkpoint bytes stayed unchanged.
+Open archived checkpoint without training          PASS  Archive selection restored the same job/binding without changing checkpoint bytes.
+Resume archived checkpoint after host restart      PASS  Explicit resume reached the original target and preserved its input checkpoint.
+Stale archive record refusal                       PASS  A changed saved revision could not be opened with its previous record token.
+Idempotent sequential batch submission             PASS  Repeated delivery returned the same two-study batch.
+Sequential native batch saved results              PASS  Two root/reviewed studies completed sequentially with distinct saved result identities.
+Batch cancellation before delivery                 PASS  A cancelled batch identity could not start when its delayed submission arrived.
+Desktop acceptance completed                       PASS  Every desktop protocol and native step above ran to completion.
+Graceful desktop shutdown                          PASS  Shutdown accepted (nativeWorkStopped=False). Host exited by itself (exit code 0).
+Native process cleanup                             PASS  No mwcli.exe started by this test is left running.
+Acceptance report: C:\em-results\release\desktop\EightMax-desktop-acceptance.json

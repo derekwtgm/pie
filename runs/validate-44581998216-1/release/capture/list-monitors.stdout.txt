@@ -1,0 +1,1 @@
+{"format":"eightmax-capture-monitors","version":1,"virtual":{"x":0,"y":0,"width":1024,"height":768},"monitors":[{"id":0,"name":"\\\\.\\DISPLAY1","x":0,"y":0,"width":1024,"height":768,"dpiScale":1,"primary":true}]}

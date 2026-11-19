@@ -1,0 +1,236 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "capture-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T17:54:11.8371719Z",
+    "completedAt":  "2026-11-19T17:54:15.1291750Z",
+    "executables":  {
+                        "EightMaxCapture.exe":  "0.33.0 sha256:101a3aae95e4d727 tool:0.33.0"
+                    },
+    "checks":  [
+                   {
+                       "check":  "capture-tool-version",
+                       "stage":  "version",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:11.9685569Z",
+                       "completedAt":  "2026-11-19T17:54:12.1201507Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "EightMaxCapture 0.33.0; {\"tool\":\"EightMaxCapture\",\"version\":\"0.33.0\",\"dpiAwareness\":\"per-monitor-v2 (thread)\"}",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "monitors-listed",
+                       "stage":  "list-monitors",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.2553878Z",
+                       "completedAt":  "2026-11-19T17:54:12.3659848Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "monitors=1 virtual=1024x768 dpiScale(primary)=1",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "display-scaling-recorded",
+                       "stage":  "dpi",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.2553878Z",
+                       "completedAt":  "2026-11-19T17:54:12.3838675Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Primary display scaling 100 %. Other scaling factors are only tested if you change Windows display scaling and run this check again.",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "windows-listed",
+                       "stage":  "list-windows",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.3896423Z",
+                       "completedAt":  "2026-11-19T17:54:12.4667810Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "visible titled windows=2",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:create-window",
+                       "stage":  "create-window",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:14.9618294Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hwnd=0x40174 client=640x400 visible=True",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:capture-original",
+                       "stage":  "capture-original",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:14.9827042Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "saved C:\\em-results\\release\\capture\\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:verify-original-pixels",
+                       "stage":  "verify-original-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0065662Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:capture-resized",
+                       "stage":  "capture-resized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0658253Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "saved C:\\em-results\\release\\capture\\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:verify-resized-pixels",
+                       "stage":  "verify-resized-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0718573Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:detect-minimized",
+                       "stage":  "detect-minimized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0796617Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "reply code=target-minimized",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:capture-after-restore",
+                       "stage":  "capture-after-restore",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0856937Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest:detect-closed",
+                       "stage":  "detect-closed",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.0934837Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "original handle 0x40174 IsWindow=False reply code=target-lost",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "selftest-completed",
+                       "stage":  "selftest",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:12.4735995Z",
+                       "completedAt":  "2026-11-19T17:54:15.1035543Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 8 stages, 0 failed, dpiScale 1, 2214 ms",
+                       "files":  [
+                                     "C:\\em-results\\release\\capture\\selftest.stdout.txt",
+                                     "C:\\em-results\\release\\capture\\selftest.stderr.txt",
+                                     "C:\\em-results\\release\\capture\\selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "capture-tool-exited",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:54:15.1173793Z",
+                       "completedAt":  "2026-11-19T17:54:15.1173793Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No capture tool process left running.",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  14,
+                   "passed":  14,
+                   "failed":  0,
+                   "skipped":  0
+               },
+    "passed":  true
+}

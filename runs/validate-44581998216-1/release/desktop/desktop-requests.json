@@ -1,0 +1,2762 @@
+[
+    {
+        "step":  "loopback-proxy",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  31,
+        "at":  "2026-11-19T17:54:24.6260197Z"
+    },
+    {
+        "step":  "loopback-proxy",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:24.6674587Z"
+    },
+    {
+        "step":  "health",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:24.6913131Z"
+    },
+    {
+        "step":  "capture-enumeration",
+        "method":  "GET",
+        "path":  "/api/capture/monitors",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:24.7190128Z"
+    },
+    {
+        "step":  "capture-enumeration",
+        "method":  "GET",
+        "path":  "/api/capture/windows",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:24.7446507Z"
+    },
+    {
+        "step":  "capture-authorization",
+        "method":  "POST",
+        "path":  "/api/capture/open",
+        "status":  400,
+        "code":  null,
+        "error":  "",
+        "ms":  76,
+        "at":  "2026-11-19T17:54:24.7823631Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  65,
+        "at":  "2026-11-19T17:54:26.9943876Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/open",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:54:27.0815054Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  372,
+        "at":  "2026-11-19T17:54:27.3493401Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  1023,
+        "at":  "2026-11-19T17:54:27.9752507Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  21,
+        "at":  "2026-11-19T17:54:29.2515859Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  1022,
+        "at":  "2026-11-19T17:54:29.5228828Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:30.5459994Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/close",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  136,
+        "at":  "2026-11-19T17:54:30.5815958Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:30.7172858Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  373,
+        "at":  "2026-11-19T17:54:30.7429098Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "POST",
+        "path":  "/api/capture/frame",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:31.4869410Z"
+    },
+    {
+        "step":  "capture-session",
+        "method":  "GET",
+        "path":  "/api/desktop/health",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:31.5025673Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "POST",
+        "path":  "/api/native/jobs",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:54:31.5337403Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "POST",
+        "path":  "/api/native/jobs",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  25,
+        "at":  "2026-11-19T17:54:31.5698957Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/current",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:31.6178575Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  8,
+        "at":  "2026-11-19T17:54:31.6554284Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:31.8692679Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:32.0879424Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:32.3056795Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  31,
+        "at":  "2026-11-19T17:54:32.5266600Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  69,
+        "at":  "2026-11-19T17:54:32.7620279Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:33.0467823Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:54:33.2683490Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:33.4858290Z"
+    },
+    {
+        "step":  "native-submission",
+        "method":  "GET",
+        "path":  "/api/native/jobs/f3ea8dd79f8849249b7b3055b8165596/result",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  47,
+        "at":  "2026-11-19T17:54:33.5021495Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  23,
+        "at":  "2026-11-19T17:54:33.6064877Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  8,
+        "at":  "2026-11-19T17:54:33.6306708Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:33.7413938Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:33.8684016Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:33.9872253Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  20,
+        "at":  "2026-11-19T17:54:34.1120899Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:34.2387983Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:34.3644277Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:54:34.4860665Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/cancel",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  42,
+        "at":  "2026-11-19T17:54:34.5197845Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/cancel-intent",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  28,
+        "at":  "2026-11-19T17:54:34.6383577Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/resume",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:34.6700175Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/resume",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:34.6916047Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/resume",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:34.7217928Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "POST",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/cancel",
+        "status":  409,
+        "code":  null,
+        "error":  "",
+        "ms":  1,
+        "at":  "2026-11-19T17:54:34.7454680Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  6,
+        "at":  "2026-11-19T17:54:34.7598271Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:34.9833739Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:35.2147918Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:35.4362802Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:54:35.6584458Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  37,
+        "at":  "2026-11-19T17:54:35.8961281Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:36.1357384Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:54:36.3709573Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  194,
+        "at":  "2026-11-19T17:54:36.5924789Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  43,
+        "at":  "2026-11-19T17:54:36.9876285Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:37.2326546Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  79,
+        "at":  "2026-11-19T17:54:37.4778361Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:54:37.7622122Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:54:37.9957662Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:38.2528566Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:54:38.4902040Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  28,
+        "at":  "2026-11-19T17:54:38.7273420Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:54:38.9652730Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:39.1959357Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:54:39.4156771Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  38,
+        "at":  "2026-11-19T17:54:39.6331387Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:39.8727388Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  64,
+        "at":  "2026-11-19T17:54:40.1030632Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  66,
+        "at":  "2026-11-19T17:54:40.3683401Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  61,
+        "at":  "2026-11-19T17:54:40.6372126Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  61,
+        "at":  "2026-11-19T17:54:40.8999434Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  56,
+        "at":  "2026-11-19T17:54:41.1618796Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  77,
+        "at":  "2026-11-19T17:54:41.4234212Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  76,
+        "at":  "2026-11-19T17:54:41.7154750Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  35,
+        "at":  "2026-11-19T17:54:41.9931243Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  21,
+        "at":  "2026-11-19T17:54:42.2378928Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:42.4746264Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  44,
+        "at":  "2026-11-19T17:54:42.6962354Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:42.9488244Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:43.1860680Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:43.4173494Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  76,
+        "at":  "2026-11-19T17:54:43.6485969Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  28,
+        "at":  "2026-11-19T17:54:43.9271641Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  45,
+        "at":  "2026-11-19T17:54:44.1832832Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:54:44.4357300Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  63,
+        "at":  "2026-11-19T17:54:44.6889335Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:54:44.9579886Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  31,
+        "at":  "2026-11-19T17:54:45.1955138Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  86,
+        "at":  "2026-11-19T17:54:45.4329347Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  118,
+        "at":  "2026-11-19T17:54:45.7328512Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:46.0655669Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  26,
+        "at":  "2026-11-19T17:54:46.3031995Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  40,
+        "at":  "2026-11-19T17:54:46.5394504Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  43,
+        "at":  "2026-11-19T17:54:46.7809703Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:54:47.0245191Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  50,
+        "at":  "2026-11-19T17:54:47.2514128Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  54,
+        "at":  "2026-11-19T17:54:47.5045672Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:54:47.7581114Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:54:47.9963039Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:54:48.2335979Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  31,
+        "at":  "2026-11-19T17:54:48.4714226Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:54:48.7244621Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  57,
+        "at":  "2026-11-19T17:54:48.9608894Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  59,
+        "at":  "2026-11-19T17:54:49.2299116Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:49.4988998Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:54:49.7204091Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  80,
+        "at":  "2026-11-19T17:54:49.9737260Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  63,
+        "at":  "2026-11-19T17:54:50.2582733Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  87,
+        "at":  "2026-11-19T17:54:50.5269033Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:54:50.8140661Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:51.0598214Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:51.2911934Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  54,
+        "at":  "2026-11-19T17:54:51.5246951Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:54:51.7795322Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  27,
+        "at":  "2026-11-19T17:54:52.0096669Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:54:52.2517157Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  169,
+        "at":  "2026-11-19T17:54:52.4901118Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  42,
+        "at":  "2026-11-19T17:54:52.8703658Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  80,
+        "at":  "2026-11-19T17:54:53.1230177Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  144,
+        "at":  "2026-11-19T17:54:53.4080564Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  81,
+        "at":  "2026-11-19T17:54:53.7558848Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  120,
+        "at":  "2026-11-19T17:54:54.0403133Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  84,
+        "at":  "2026-11-19T17:54:54.3627827Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  123,
+        "at":  "2026-11-19T17:54:54.6510795Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  96,
+        "at":  "2026-11-19T17:54:54.9885486Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  227,
+        "at":  "2026-11-19T17:54:55.2833755Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  130,
+        "at":  "2026-11-19T17:54:55.7125976Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:54:56.0485890Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:56.2698014Z"
+    },
+    {
+        "step":  "native-cancel-resume",
+        "method":  "GET",
+        "path":  "/api/native/jobs/02f7dae2f34c484ebf168af6d93214da/result",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  58,
+        "at":  "2026-11-19T17:54:56.2838667Z"
+    },
+    {
+        "step":  "native-fenced-submission",
+        "method":  "POST",
+        "path":  "/api/native/cancel-intent",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:56.3845534Z"
+    },
+    {
+        "step":  "native-fenced-submission",
+        "method":  "POST",
+        "path":  "/api/native/jobs",
+        "status":  409,
+        "code":  null,
+        "error":  "",
+        "ms":  1,
+        "at":  "2026-11-19T17:54:56.4024221Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/history",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  21,
+        "at":  "2026-11-19T17:54:56.4282415Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/history/f3ea8dd79f8849249b7b3055b8165596",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:56.4497794Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/jobs",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  20,
+        "at":  "2026-11-19T17:54:56.5136276Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:54:56.5355703Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:56.6658354Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:56.7926431Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:56.9105785Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:57.0365565Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:57.1613875Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:54:57.2879140Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:54:57.4121255Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  8,
+        "at":  "2026-11-19T17:54:57.5516344Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02/cancel",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  45,
+        "at":  "2026-11-19T17:54:57.5607181Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/desktop/shutdown",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:54:57.6070833Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/current",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  35,
+        "at":  "2026-11-19T17:54:59.4467385Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/history/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  36,
+        "at":  "2026-11-19T17:54:59.4896886Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/history/22d71412201f48c1a2d3c367500e6c02/open",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:54:59.5271233Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02/resume",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  35,
+        "at":  "2026-11-19T17:54:59.5512623Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:59.5875871Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:54:59.8068787Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:55:00.0277307Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:55:00.2475838Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  124,
+        "at":  "2026-11-19T17:55:00.4738602Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:00.8013009Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:55:01.0292750Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:55:01.2469681Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  27,
+        "at":  "2026-11-19T17:55:01.4784976Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  31,
+        "at":  "2026-11-19T17:55:01.7067738Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:55:01.9505300Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  27,
+        "at":  "2026-11-19T17:55:02.1846432Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  42,
+        "at":  "2026-11-19T17:55:02.4144970Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  53,
+        "at":  "2026-11-19T17:55:02.6595610Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  37,
+        "at":  "2026-11-19T17:55:02.9169204Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:55:03.1673364Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  39,
+        "at":  "2026-11-19T17:55:03.4149454Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:03.6692667Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:55:03.8887496Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:55:04.1379796Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:55:04.3706264Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  28,
+        "at":  "2026-11-19T17:55:04.6014311Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:55:04.8311031Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:55:05.0757970Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:55:05.3113787Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:55:05.5276542Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  96,
+        "at":  "2026-11-19T17:55:05.7582688Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  40,
+        "at":  "2026-11-19T17:55:06.0550658Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  27,
+        "at":  "2026-11-19T17:55:06.2971725Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  60,
+        "at":  "2026-11-19T17:55:06.5261418Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  192,
+        "at":  "2026-11-19T17:55:06.7995378Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:55:07.1954082Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:55:07.4329178Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:07.6552362Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  30,
+        "at":  "2026-11-19T17:55:07.8725855Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  57,
+        "at":  "2026-11-19T17:55:08.1033300Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:08.3670071Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:08.5887935Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  64,
+        "at":  "2026-11-19T17:55:08.8099407Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  98,
+        "at":  "2026-11-19T17:55:09.0792373Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  370,
+        "at":  "2026-11-19T17:55:09.3787435Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  95,
+        "at":  "2026-11-19T17:55:09.9497054Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:55:10.2468334Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  728,
+        "at":  "2026-11-19T17:55:10.4727200Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  958,
+        "at":  "2026-11-19T17:55:11.4010034Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  217,
+        "at":  "2026-11-19T17:55:12.5620942Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  1115,
+        "at":  "2026-11-19T17:55:12.9881285Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  55,
+        "at":  "2026-11-19T17:55:14.3068631Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  91,
+        "at":  "2026-11-19T17:55:14.5650739Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:55:14.8579281Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  847,
+        "at":  "2026-11-19T17:55:15.0774190Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  64,
+        "at":  "2026-11-19T17:55:16.1267585Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  269,
+        "at":  "2026-11-19T17:55:16.4066864Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  369,
+        "at":  "2026-11-19T17:55:16.8811213Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  417,
+        "at":  "2026-11-19T17:55:17.4515515Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  715,
+        "at":  "2026-11-19T17:55:18.0708844Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  382,
+        "at":  "2026-11-19T17:55:18.9885018Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:55:19.5727268Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:19.7950470Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  66,
+        "at":  "2026-11-19T17:55:20.0171183Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  72,
+        "at":  "2026-11-19T17:55:20.2864298Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  70,
+        "at":  "2026-11-19T17:55:20.5708170Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  23,
+        "at":  "2026-11-19T17:55:20.8554211Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  260,
+        "at":  "2026-11-19T17:55:21.0803998Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  145,
+        "at":  "2026-11-19T17:55:21.5416513Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  63,
+        "at":  "2026-11-19T17:55:21.8988745Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  90,
+        "at":  "2026-11-19T17:55:22.1633377Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  41,
+        "at":  "2026-11-19T17:55:22.4676370Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  68,
+        "at":  "2026-11-19T17:55:22.7212219Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  226,
+        "at":  "2026-11-19T17:55:22.9894001Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  65,
+        "at":  "2026-11-19T17:55:23.4171797Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  64,
+        "at":  "2026-11-19T17:55:23.6858917Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:55:23.9530766Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  98,
+        "at":  "2026-11-19T17:55:24.2011890Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  28,
+        "at":  "2026-11-19T17:55:24.5085942Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  231,
+        "at":  "2026-11-19T17:55:24.7460518Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:55:25.1898294Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  68,
+        "at":  "2026-11-19T17:55:25.4105242Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  16,
+        "at":  "2026-11-19T17:55:25.6949741Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:25.9108860Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:55:26.1381323Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  27,
+        "at":  "2026-11-19T17:55:26.3875855Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  19,
+        "at":  "2026-11-19T17:55:26.6278928Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  60,
+        "at":  "2026-11-19T17:55:26.8482297Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  61,
+        "at":  "2026-11-19T17:55:27.1188895Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  46,
+        "at":  "2026-11-19T17:55:27.3822034Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:27.6416667Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  35,
+        "at":  "2026-11-19T17:55:27.8629427Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  64,
+        "at":  "2026-11-19T17:55:28.1004441Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  60,
+        "at":  "2026-11-19T17:55:28.3658530Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  21,
+        "at":  "2026-11-19T17:55:28.6375875Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  19,
+        "at":  "2026-11-19T17:55:28.8744856Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:55:29.0962169Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  35,
+        "at":  "2026-11-19T17:55:29.3336379Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  86,
+        "at":  "2026-11-19T17:55:29.5702048Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:55:29.8719345Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:55:30.1087933Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  54,
+        "at":  "2026-11-19T17:55:30.3303920Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  29,
+        "at":  "2026-11-19T17:55:30.5993780Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:30.8371248Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  57,
+        "at":  "2026-11-19T17:55:31.0553346Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/jobs/22d71412201f48c1a2d3c367500e6c02",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:31.3269676Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/history/22d71412201f48c1a2d3c367500e6c02/open",
+        "status":  409,
+        "code":  null,
+        "error":  "",
+        "ms":  3,
+        "at":  "2026-11-19T17:55:31.3501581Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/batch",
+        "status":  202,
+        "code":  null,
+        "error":  null,
+        "ms":  190,
+        "at":  "2026-11-19T17:55:31.3664671Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  25,
+        "at":  "2026-11-19T17:55:31.5574620Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  20,
+        "at":  "2026-11-19T17:55:31.5969747Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:55:31.8209468Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  18,
+        "at":  "2026-11-19T17:55:32.0535521Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  32,
+        "at":  "2026-11-19T17:55:32.2747778Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  66,
+        "at":  "2026-11-19T17:55:32.5103144Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  19,
+        "at":  "2026-11-19T17:55:32.7811366Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  33,
+        "at":  "2026-11-19T17:55:33.0033704Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:33.2394881Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:33.4574987Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:33.6835886Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  87,
+        "at":  "2026-11-19T17:55:33.9033034Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  34,
+        "at":  "2026-11-19T17:55:34.2056506Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  17,
+        "at":  "2026-11-19T17:55:34.4432195Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/batch",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:34.6643524Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/history/5aa8b794b41d4b7595680072f551eb96",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:55:34.6882739Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "GET",
+        "path":  "/api/native/history/d79116abc88e45f8b877503e67440fdf",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  15,
+        "at":  "2026-11-19T17:55:34.7074980Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/batch/9882c57dabf74dff93746a8354d5673a/cancel",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:34.7233243Z"
+    },
+    {
+        "step":  "native-history",
+        "method":  "POST",
+        "path":  "/api/native/batch",
+        "status":  409,
+        "code":  null,
+        "error":  "",
+        "ms":  1,
+        "at":  "2026-11-19T17:55:34.7391519Z"
+    },
+    {
+        "step":  "shutdown",
+        "method":  "GET",
+        "path":  "/api/desktop/requests",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  20,
+        "at":  "2026-11-19T17:55:34.7549741Z"
+    },
+    {
+        "step":  "shutdown",
+        "method":  "POST",
+        "path":  "/api/desktop/shutdown",
+        "status":  200,
+        "code":  null,
+        "error":  null,
+        "ms":  14,
+        "at":  "2026-11-19T17:55:34.7805843Z"
+    }
+]

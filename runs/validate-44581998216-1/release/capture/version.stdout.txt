@@ -1,0 +1,1 @@
+{"tool":"EightMaxCapture","version":"0.33.0","dpiAwareness":"per-monitor-v2 (thread)"}

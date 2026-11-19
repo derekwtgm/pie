@@ -1,0 +1,953 @@
+{
+ "format": "eightmax-turn-solver-benchmark",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T18:00:24.196Z",
+ "machine": {
+  "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+  "logicalCpus": 4,
+  "node": "v22.23.5"
+ },
+ "game": "heads-up turn subgame (board AsKd7h4c), pot 4 bb, turn + every river card enumerated, chip EV, exact private hands",
+ "stopRule": "exploitability <= 0.016 bb (0.4% of the pot) or 20000 ms",
+ "results": [
+  {
+   "ranges": "narrow (42 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    42,
+    42
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 0.8,
+   "iterations": 50,
+   "stopped": "target-reached",
+   "solveMs": 647,
+   "msPerIteration": 12.9,
+   "exploitabilityBB": 0.014495,
+   "exploitabilityPctPot": 0.3624,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.014495,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 103923,
+   "exportMs": 70,
+   "evalMs": 128,
+   "curve": [
+    [
+     10,
+     0.19083,
+     308
+    ],
+    [
+     20,
+     0.06598,
+     386
+    ],
+    [
+     30,
+     0.03696,
+     459
+    ],
+    [
+     40,
+     0.02149,
+     532
+    ],
+    [
+     50,
+     0.0145,
+     599
+    ]
+   ]
+  },
+  {
+   "ranges": "narrow (42 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 4",
+   "combos": [
+    42,
+    42
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 0.8,
+   "iterations": 60,
+   "stopped": "target-reached",
+   "solveMs": 583,
+   "msPerIteration": 9.7,
+   "exploitabilityBB": 0.01581,
+   "exploitabilityPctPot": 0.3953,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.01581,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 96022,
+   "exportMs": 67,
+   "evalMs": 115,
+   "curve": [
+    [
+     10,
+     0.24941,
+     183
+    ],
+    [
+     20,
+     0.08316,
+     266
+    ],
+    [
+     30,
+     0.03811,
+     336
+    ],
+    [
+     40,
+     0.02858,
+     411
+    ],
+    [
+     50,
+     0.02265,
+     481
+    ],
+    [
+     60,
+     0.01581,
+     552
+    ]
+   ]
+  },
+  {
+   "ranges": "narrow (42 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    42,
+    42
+   ],
+   "decisionNodes": 24,
+   "memoryEstimateMiB": 1.2,
+   "iterations": 100,
+   "stopped": "target-reached",
+   "solveMs": 1265,
+   "msPerIteration": 12.7,
+   "exploitabilityBB": 0.01387,
+   "exploitabilityPctPot": 0.3468,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.01387,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 171457,
+   "exportMs": 61,
+   "evalMs": 128,
+   "curve": [
+    [
+     10,
+     0.39761,
+     240
+    ],
+    [
+     20,
+     0.16876,
+     358
+    ],
+    [
+     30,
+     0.09462,
+     463
+    ],
+    [
+     40,
+     0.05381,
+     581
+    ],
+    [
+     50,
+     0.04151,
+     683
+    ],
+    [
+     60,
+     0.03111,
+     799
+    ],
+    [
+     70,
+     0.02406,
+     900
+    ],
+    [
+     80,
+     0.02031,
+     1013
+    ],
+    [
+     90,
+     0.01662,
+     1116
+    ],
+    [
+     100,
+     0.01387,
+     1229
+    ]
+   ]
+  },
+  {
+   "ranges": "narrow (42 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 4",
+   "combos": [
+    42,
+    42
+   ],
+   "decisionNodes": 32,
+   "memoryEstimateMiB": 1.9,
+   "iterations": 180,
+   "stopped": "target-reached",
+   "solveMs": 3103,
+   "msPerIteration": 17.2,
+   "exploitabilityBB": 0.015975,
+   "exploitabilityPctPot": 0.3994,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.015975,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 316800,
+   "exportMs": 81,
+   "evalMs": 147,
+   "curve": [
+    [
+     10,
+     0.76881,
+     244
+    ],
+    [
+     20,
+     0.36202,
+     417
+    ],
+    [
+     30,
+     0.20688,
+     634
+    ],
+    [
+     40,
+     0.12974,
+     800
+    ],
+    [
+     50,
+     0.0864,
+     973
+    ],
+    [
+     60,
+     0.06771,
+     1137
+    ],
+    [
+     70,
+     0.05187,
+     1297
+    ],
+    [
+     80,
+     0.04301,
+     1460
+    ],
+    [
+     90,
+     0.03636,
+     1624
+    ],
+    [
+     100,
+     0.03169,
+     1794
+    ],
+    [
+     110,
+     0.02874,
+     1959
+    ],
+    [
+     120,
+     0.02615,
+     2115
+    ],
+    [
+     130,
+     0.02354,
+     2267
+    ],
+    [
+     140,
+     0.02093,
+     2434
+    ],
+    [
+     150,
+     0.019,
+     2598
+    ],
+    [
+     160,
+     0.01814,
+     2754
+    ],
+    [
+     170,
+     0.01695,
+     2914
+    ],
+    [
+     180,
+     0.01598,
+     3071
+    ]
+   ]
+  },
+  {
+   "ranges": "medium (109 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    109,
+    109
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 2,
+   "iterations": 60,
+   "stopped": "target-reached",
+   "solveMs": 1016,
+   "msPerIteration": 16.9,
+   "exploitabilityBB": 0.012594,
+   "exploitabilityPctPot": 0.3149,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.012594,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 508617,
+   "exportMs": 64,
+   "evalMs": 248,
+   "curve": [
+    [
+     10,
+     0.16865,
+     323
+    ],
+    [
+     20,
+     0.07085,
+     466
+    ],
+    [
+     30,
+     0.03723,
+     602
+    ],
+    [
+     40,
+     0.02386,
+     730
+    ],
+    [
+     50,
+     0.01624,
+     869
+    ],
+    [
+     60,
+     0.01259,
+     994
+    ]
+   ]
+  },
+  {
+   "ranges": "medium (109 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 4",
+   "combos": [
+    109,
+    109
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 2,
+   "iterations": 60,
+   "stopped": "target-reached",
+   "solveMs": 985,
+   "msPerIteration": 16.4,
+   "exploitabilityBB": 0.013387,
+   "exploitabilityPctPot": 0.3347,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.013387,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 502436,
+   "exportMs": 73,
+   "evalMs": 253,
+   "curve": [
+    [
+     10,
+     0.29066,
+     301
+    ],
+    [
+     20,
+     0.09488,
+     431
+    ],
+    [
+     30,
+     0.04225,
+     573
+    ],
+    [
+     40,
+     0.02492,
+     709
+    ],
+    [
+     50,
+     0.01728,
+     843
+    ],
+    [
+     60,
+     0.01339,
+     968
+    ]
+   ]
+  },
+  {
+   "ranges": "medium (109 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    109,
+    109
+   ],
+   "decisionNodes": 24,
+   "memoryEstimateMiB": 3,
+   "iterations": 90,
+   "stopped": "target-reached",
+   "solveMs": 2007,
+   "msPerIteration": 22.3,
+   "exploitabilityBB": 0.014776,
+   "exploitabilityPctPot": 0.3694,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.014776,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 820360,
+   "exportMs": 93,
+   "evalMs": 298,
+   "curve": [
+    [
+     10,
+     0.3436,
+     374
+    ],
+    [
+     20,
+     0.13269,
+     587
+    ],
+    [
+     30,
+     0.07541,
+     784
+    ],
+    [
+     40,
+     0.04958,
+     972
+    ],
+    [
+     50,
+     0.03627,
+     1175
+    ],
+    [
+     60,
+     0.02807,
+     1363
+    ],
+    [
+     70,
+     0.02215,
+     1556
+    ],
+    [
+     80,
+     0.01784,
+     1763
+    ],
+    [
+     90,
+     0.01478,
+     1978
+    ]
+   ]
+  },
+  {
+   "ranges": "medium (109 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 4",
+   "combos": [
+    109,
+    109
+   ],
+   "decisionNodes": 32,
+   "memoryEstimateMiB": 5,
+   "iterations": 190,
+   "stopped": "target-reached",
+   "solveMs": 6185,
+   "msPerIteration": 32.6,
+   "exploitabilityBB": 0.015027,
+   "exploitabilityPctPot": 0.3757,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.015027,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 1542079,
+   "exportMs": 145,
+   "evalMs": 331,
+   "curve": [
+    [
+     10,
+     0.75869,
+     515
+    ],
+    [
+     20,
+     0.32416,
+     842
+    ],
+    [
+     30,
+     0.18873,
+     1174
+    ],
+    [
+     40,
+     0.12917,
+     1483
+    ],
+    [
+     50,
+     0.09438,
+     1839
+    ],
+    [
+     60,
+     0.0739,
+     2152
+    ],
+    [
+     70,
+     0.06181,
+     2474
+    ],
+    [
+     80,
+     0.05169,
+     2786
+    ],
+    [
+     90,
+     0.04362,
+     3091
+    ],
+    [
+     100,
+     0.03759,
+     3413
+    ],
+    [
+     110,
+     0.03314,
+     3733
+    ],
+    [
+     120,
+     0.02947,
+     4043
+    ],
+    [
+     130,
+     0.02615,
+     4331
+    ],
+    [
+     140,
+     0.02344,
+     4615
+    ],
+    [
+     150,
+     0.02121,
+     4917
+    ],
+    [
+     160,
+     0.0193,
+     5227
+    ],
+    [
+     170,
+     0.01771,
+     5531
+    ],
+    [
+     180,
+     0.01632,
+     5834
+    ],
+    [
+     190,
+     0.01503,
+     6143
+    ]
+   ]
+  },
+  {
+   "ranges": "wide (216 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    216,
+    216
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 3.9,
+   "iterations": 50,
+   "stopped": "target-reached",
+   "solveMs": 1528,
+   "msPerIteration": 30.6,
+   "exploitabilityBB": 0.014718,
+   "exploitabilityPctPot": 0.368,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.014718,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 1522038,
+   "exportMs": 106,
+   "evalMs": 505,
+   "curve": [
+    [
+     10,
+     0.16711,
+     598
+    ],
+    [
+     20,
+     0.06893,
+     832
+    ],
+    [
+     30,
+     0.0337,
+     1058
+    ],
+    [
+     40,
+     0.02064,
+     1285
+    ],
+    [
+     50,
+     0.01472,
+     1504
+    ]
+   ]
+  },
+  {
+   "ranges": "wide (216 combos after the board)",
+   "menu": "restricted (1 size)",
+   "stacks": "SPR 4",
+   "combos": [
+    216,
+    216
+   ],
+   "decisionNodes": 16,
+   "memoryEstimateMiB": 3.9,
+   "iterations": 60,
+   "stopped": "target-reached",
+   "solveMs": 1795,
+   "msPerIteration": 29.9,
+   "exploitabilityBB": 0.014989,
+   "exploitabilityPctPot": 0.3747,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.014989,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 1508455,
+   "exportMs": 111,
+   "evalMs": 488,
+   "curve": [
+    [
+     10,
+     0.26238,
+     633
+    ],
+    [
+     20,
+     0.08715,
+     865
+    ],
+    [
+     30,
+     0.04222,
+     1085
+    ],
+    [
+     40,
+     0.02727,
+     1303
+    ],
+    [
+     50,
+     0.01927,
+     1540
+    ],
+    [
+     60,
+     0.01499,
+     1770
+    ]
+   ]
+  },
+  {
+   "ranges": "wide (216 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 1.5",
+   "combos": [
+    216,
+    216
+   ],
+   "decisionNodes": 24,
+   "memoryEstimateMiB": 5.9,
+   "iterations": 90,
+   "stopped": "target-reached",
+   "solveMs": 3743,
+   "msPerIteration": 41.6,
+   "exploitabilityBB": 0.013809,
+   "exploitabilityPctPot": 0.3452,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.013809,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 2413012,
+   "exportMs": 150,
+   "evalMs": 559,
+   "curve": [
+    [
+     10,
+     0.32476,
+     741
+    ],
+    [
+     20,
+     0.12473,
+     1119
+    ],
+    [
+     30,
+     0.07174,
+     1497
+    ],
+    [
+     40,
+     0.04416,
+     1860
+    ],
+    [
+     50,
+     0.03109,
+     2256
+    ],
+    [
+     60,
+     0.02456,
+     2634
+    ],
+    [
+     70,
+     0.02027,
+     2987
+    ],
+    [
+     80,
+     0.01661,
+     3350
+    ],
+    [
+     90,
+     0.01381,
+     3709
+    ]
+   ]
+  },
+  {
+   "ranges": "wide (216 combos after the board)",
+   "menu": "library (2 sizes)",
+   "stacks": "SPR 4",
+   "combos": [
+    216,
+    216
+   ],
+   "decisionNodes": 32,
+   "memoryEstimateMiB": 9.9,
+   "iterations": 190,
+   "stopped": "target-reached",
+   "solveMs": 12559,
+   "msPerIteration": 66.1,
+   "exploitabilityBB": 0.015089,
+   "exploitabilityPctPot": 0.3772,
+   "meetsResearch1Pct": true,
+   "meetsStrict05Pct": true,
+   "storedBytesReevaluated": {
+    "exploitabilityBB": 0.015089,
+    "missingRows": 0,
+    "equalToSolver": true
+   },
+   "linkedBytes": 4183585,
+   "exportMs": 273,
+   "evalMs": 780,
+   "curve": [
+    [
+     10,
+     0.71534,
+     1024
+    ],
+    [
+     20,
+     0.30173,
+     1706
+    ],
+    [
+     30,
+     0.17125,
+     2363
+    ],
+    [
+     40,
+     0.11445,
+     2990
+    ],
+    [
+     50,
+     0.08244,
+     3604
+    ],
+    [
+     60,
+     0.0633,
+     4235
+    ],
+    [
+     70,
+     0.05145,
+     4875
+    ],
+    [
+     80,
+     0.04368,
+     5504
+    ],
+    [
+     90,
+     0.03812,
+     6130
+    ],
+    [
+     100,
+     0.03366,
+     6751
+    ],
+    [
+     110,
+     0.02985,
+     7365
+    ],
+    [
+     120,
+     0.02676,
+     7978
+    ],
+    [
+     130,
+     0.02408,
+     8659
+    ],
+    [
+     140,
+     0.02189,
+     9336
+    ],
+    [
+     150,
+     0.02007,
+     10002
+    ],
+    [
+     160,
+     0.01854,
+     10605
+    ],
+    [
+     170,
+     0.01721,
+     11217
+    ],
+    [
+     180,
+     0.01608,
+     11838
+    ],
+    [
+     190,
+     0.01509,
+     12514
+    ]
+   ]
+  }
+ ]
+}
