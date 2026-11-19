@@ -13,9 +13,9 @@ if (-not $OutDir) { $OutDir = Join-Path $Root 'desktop\bin' }
 $fw = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319'
 $csc = Join-Path $fw 'csc.exe'
 if (-not (Test-Path -LiteralPath $csc)) { throw 'The .NET Framework 4.x C# compiler was not found at ' + $csc }
-$refs = @('System.dll','System.Core.dll','System.Web.Extensions.dll','System.Windows.Forms.dll','System.Drawing.dll') | ForEach-Object { '/r:' + (Join-Path $fw $_) }
+$refs = @('System.dll','System.Core.dll','System.Web.Extensions.dll','System.Windows.Forms.dll','System.Drawing.dll') | ForEach-Object { "/r:$(Join-Path $fw $_)" }
 function Compile([string]$target, [string]$out, [string[]]$sources, [string]$main) {
-  $args2 = @('/nologo','/langversion:5','/platform:x64','/optimize+','/target:' + $target,'/out:' + $out) + $refs + $(if ($main) { @('/main:' + $main) } else { @() }) + $sources
+  $args2 = @('/nologo', '/langversion:5', '/platform:x64', '/optimize+', "/target:$target", "/out:$out") + $refs + $(if ($main) { @("/main:$main") } else { @() }) + $sources   # interpolation: in @(a, 'x' + y) the comma binds tighter than +
   Write-Host ('csc ' + ($args2 -join ' '))
   $prev = $ErrorActionPreference; $ErrorActionPreference = 'Continue'   # Windows PowerShell 5.1 turns native stderr into errors under Stop
   $o = & $csc @args2 2>&1 | ForEach-Object { "$_" }; $code = $LASTEXITCODE; $ErrorActionPreference = $prev
