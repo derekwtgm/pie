@@ -1,4 +1,4 @@
-# EightMax Test Workbench 0.30 - Windows CI validation driver (adds strategy-library checks to the 0.29 driver) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
+﻿# EightMax Test Workbench 0.31 - Windows CI validation driver (adds quality, range, shared-service and long-duration checks to the 0.30 driver) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
 # Tests the EXACT candidate release ZIP: verifies its checksum, extracts it, runs RUN-RELEASE-ACCEPTANCE's script with the install
 # cycle, the Node.js regression suite with the bundled runtime, and the results collector; prints every report into the log.
 # A hosted runner has no GPU and a virtual display; capture results here are NOT the target PC (RTX 4060 Ti, 3840x2160 @ 150 %).
@@ -53,6 +53,19 @@ $sw = [Diagnostics.Stopwatch]::StartNew(); & $node tools\strategy-library.cjs pr
 & $node tools\library-benchmark-030.cjs --tables=1,2 --hands=4 --updates=100000 --post=20000 --workloads=D,B,A,C --work=C:\em-bench --out=C:\em-results\library-benchmark-windows.json 2>&1 | Write-Host; Write-Host ('library benchmark exit ' + $LASTEXITCODE)
 Pop-Location
 Show 'C:\em-lib\status.json'
+Section 'STRATEGY QUALITY, RANGES AND SHARED SERVICE (0.31) ON WINDOWS'
+Push-Location $root
+& $node tools\strategy-library.cjs quality 2>&1 | Write-Host; Write-Host ('quality exit ' + $LASTEXITCODE)
+Show 'C:\em-lib\quality-summary.json'
+& $node tools\shared-cache-benchmark-031.cjs --lib=C:\em-lib --tables=1,2,5,8,10 --seconds=10 --out=C:\em-results\shared-cache-windows.json 2>&1 | Write-Host; Write-Host ('shared cache benchmark exit ' + $LASTEXITCODE)
+& $node tools\strategy-library.cjs ranges --hands=12 --updates=200000 --cache=C:\em-study-cache 2>&1 | Select-Object -Last 20 | Write-Host; Write-Host ('ranges exit ' + $LASTEXITCODE)
+Show (Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\ranges-latest.json')
+Pop-Location
+Section 'LONG-DURATION ACCEPTANCE, QUICK PROFILE (windows\Test-LongDuration.ps1 -Quick)'
+$sw = [Diagnostics.Stopwatch]::StartNew()
+& powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -STA -File (Join-Path $root 'windows\Test-LongDuration.ps1') -Quick -NoCollect -OutDir 'C:\em-results\long'
+Write-Host ('Test-LongDuration exit ' + $LASTEXITCODE + ' after ' + [int]$sw.Elapsed.TotalSeconds + ' s')
+Show 'C:\em-results\long\long-duration-acceptance.json'; Show 'C:\em-results\long\long-duration-targets.json'
 Section 'NODE REGRESSION SUITE (bundled runtime\node\node.exe, Windows)'
 Push-Location $root
 $files = (Get-ChildItem tests -Filter *.test.cjs | ForEach-Object { 'tests\' + $_.Name })
@@ -61,7 +74,7 @@ $env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
 Pop-Location
 Select-String -Path 'C:\em-results\node-tests.txt' -Pattern '^not ok' -Context 0,45 | Select-Object -First 30 | ForEach-Object { Write-Host ($_.Line); $_.Context.PostContext | Select-Object -First 45 | ForEach-Object { Write-Host ('    ' + $_) } }
 Section 'RESULTS COLLECTOR'
-$roots = @('C:\em-results\release') + (@('ReleaseAcceptance','Diagnostics','CaptureAcceptance','WgcAcceptance','Reports','Logs') | ForEach-Object { Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbench\' + $_) }) + (Join-Path $root 'reports')
+$roots = @('C:\em-results\release','C:\em-results\long') + (@('ReleaseAcceptance','Diagnostics','CaptureAcceptance','WgcAcceptance','Reports','Logs','LongAcceptance') | ForEach-Object { Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbench\' + $_) }) + (Join-Path $root 'reports')
 & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'windows\Collect-TestResults.ps1') -NoUi -Destination 'C:\em-results\zip' -SearchRoot ($roots -join ',')
 $z = Get-ChildItem 'C:\em-results\zip' -Filter 'EightMax-Windows-Test-Results-*.zip' | Select-Object -First 1
 if ($z) { $t = Join-Path $env:TEMP 'collect'; [IO.Compression.ZipFile]::ExtractToDirectory($z.FullName, $t); Show (Join-Path $t 'README-RESULTS.txt') }
