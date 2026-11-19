@@ -1,9 +1,10 @@
-﻿# EightMax Test Workbench 0.32 - Windows CI validation driver (adds shared preflop memory, linked studies, the turn solver and preflop research checks to the 0.31 driver) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
+﻿# EightMax Test Workbench 0.33 - Windows CI validation driver (adds preflop solver modes, the flop solver, the independent multiway evaluator and the state anatomy to the 0.32 driver; the log is kept as C:\em-results\ci-log.txt) (GitHub Actions windows-latest). Runs in Windows PowerShell 5.1.
 # Tests the EXACT candidate release ZIP: verifies its checksum, extracts it, runs RUN-RELEASE-ACCEPTANCE's script with the install
 # cycle, the Node.js regression suite with the bundled runtime, and the results collector; prints every report into the log.
 # A hosted runner has no GPU and a virtual display; capture results here are NOT the target PC (RTX 4060 Ti, 3840x2160 @ 150 %).
 param([string]$Zip)
 $ErrorActionPreference = 'Continue'
+New-Item -ItemType Directory -Force 'C:\em-results' | Out-Null; Start-Transcript -Path 'C:\em-results\ci-log.txt' -Force | Out-Null
 function Section($t) { Write-Host ''; Write-Host ('==== ' + $t + ' ====') }
 function Show($p) { if (Test-Path -LiteralPath $p) { Write-Host ('---- ' + $p); Get-Content -LiteralPath $p -Raw | Write-Host } else { Write-Host ('(missing) ' + $p) } }
 Section 'ENVIRONMENT'
@@ -61,13 +62,22 @@ Show 'C:\em-lib\quality-summary.json'
 & $node tools\strategy-library.cjs ranges --hands=12 --updates=200000 --cache=C:\em-study-cache 2>&1 | Select-Object -Last 20 | Write-Host; Write-Host ('ranges exit ' + $LASTEXITCODE)
 Show (Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\ranges-latest.json')
 Pop-Location
-Section '0.32: SHARED PREFLOP MEMORY, LINKED STUDIES, TURN SOLVER, PREFLOP RESEARCH ON WINDOWS'
+Section '0.32 CHECKS (unchanged): SHARED PREFLOP MEMORY, LINKED STUDIES, TURN SOLVER, PREFLOP RESEARCH ON WINDOWS'
 Push-Location $root
 $env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
 & $node tools\benchmark-032.cjs --tables=1,5,10 --hands=6 --workers=4 --updates=200000 --workloads=B --sharedPreflop=1 --work=C:\em-bench32 --out=C:\em-results\memory-shared-windows.json 2>&1 | Write-Host; Write-Host ('shared preflop benchmark exit ' + $LASTEXITCODE)
 & $node tools\benchmark-031.cjs --tables=1,5,10 --hands=6 --workers=4 --updates=200000 --workloads=B --work=C:\em-bench31 --out=C:\em-results\memory-031path-windows.json 2>&1 | Write-Host; Write-Host ('0.31-path benchmark exit ' + $LASTEXITCODE)
 & $node tools\turn-solver-benchmark-032.cjs --quick --maxMs=20000 --out=C:\em-results\turn-solver-windows.json 2>&1 | Write-Host; Write-Host ('turn solver benchmark exit ' + $LASTEXITCODE)
 & $node tools\preflop-research-032.cjs --mode=fast --updates=100000 --seeds=8 --cache=C:\em-pf32 --lineSamples=2000 --rangeSamples=2000 --out=C:\em-results\preflop-research-windows.json 2>&1 | Write-Host; Write-Host ('preflop research exit ' + $LASTEXITCODE)
+Pop-Location
+Section '0.33: PREFLOP SOLVER MODES, FLOP SOLVER, INDEPENDENT MULTIWAY EVALUATOR ON WINDOWS'
+Push-Location $root
+$env:EIGHTMAX_TEST_CLI = Join-Path $root 'native\mwcli.exe'
+$sw = [Diagnostics.Stopwatch]::StartNew(); & $node tools\preflop-modes-033.cjs --modes=B169,B,A --seeds=8 --updates=200000 --emz --budgetMiB=4000 --cache=C:\em-pf33 --out=C:\em-results\preflop-modes-windows.json 2>&1 | Write-Host; Write-Host ('preflop modes exit ' + $LASTEXITCODE + ' after ' + [int]$sw.Elapsed.TotalSeconds + ' s')
+& $node tools\state-anatomy-033.cjs (Get-ChildItem C:\em-pf33 -Filter 'pf033-A-*.state' | Select-Object -First 1).FullName 2>&1 | Out-File -Encoding utf8 C:\em-results\state-anatomy-windows.json; Write-Host ('state anatomy exit ' + $LASTEXITCODE)
+$sw = [Diagnostics.Stopwatch]::StartNew(); & $node tools\flop-solver-benchmark-033.cjs --quick --maxMs=150000 --threads=4 --out=C:\em-results\flop-solver-windows.json 2>&1 | Write-Host; Write-Host ('flop solver exit ' + $LASTEXITCODE + ' after ' + [int]$sw.Elapsed.TotalSeconds + ' s')
+$sw = [Diagnostics.Stopwatch]::StartNew(); & $node tools\multiway-validation-033.cjs --quick --out=C:\em-results\multiway-validation-windows.json 2>&1 | Write-Host; Write-Host ('multiway validation exit ' + $LASTEXITCODE + ' after ' + [int]$sw.Elapsed.TotalSeconds + ' s')
+& $node tools\research-summary-033.cjs --out=C:\em-results\research-summary-windows.json 2>&1 | Write-Host; Write-Host ('research summary exit ' + $LASTEXITCODE)
 Pop-Location
 Section 'LONG-DURATION ACCEPTANCE, QUICK PROFILE (windows\Test-LongDuration.ps1 -Quick)'
 $sw = [Diagnostics.Stopwatch]::StartNew()
@@ -86,4 +96,5 @@ $roots = @('C:\em-results\release','C:\em-results\long') + (@('ReleaseAcceptance
 & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'windows\Collect-TestResults.ps1') -NoUi -Destination 'C:\em-results\zip' -SearchRoot ($roots -join ',')
 $z = Get-ChildItem 'C:\em-results\zip' -Filter 'EightMax-Windows-Test-Results-*.zip' | Select-Object -First 1
 if ($z) { $t = Join-Path $env:TEMP 'collect'; [IO.Compression.ZipFile]::ExtractToDirectory($z.FullName, $t); Show (Join-Path $t 'README-RESULTS.txt') }
+Stop-Transcript | Out-Null
 exit 0

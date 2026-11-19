@@ -1,0 +1,37 @@
+name: EightMax Test Workbench 0.33 - Windows build stage
+# Compiles the host, capture tool and WGC helper ON a GitHub-hosted Windows x64 runner from workbench-src/, smoke-tests them, and
+# publishes the executables, build evidence and log to the branch claude/workbench-0.33.0-ci-results (readable without an Actions token).
+# Hosted runner: no GPU, virtual display, Windows Server - NOT the target PC.
+on:
+  push:
+    paths:
+      - 'workbench-src/**'
+      - 'workbench-ci/build.ps1'
+      - '.github/workflows/workbench-windows-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: Build and smoke-test on Windows
+        shell: powershell
+        run: ./workbench-ci/build.ps1
+      - name: Publish evidence to the results branch
+        if: always()
+        shell: powershell
+        env:
+          GH_PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./workbench-ci/publish.ps1 -Source C:\em-build -Stage build
+      - name: Keep results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workbench-0.33-windows-build
+          path: C:\em-build
+          if-no-files-found: warn

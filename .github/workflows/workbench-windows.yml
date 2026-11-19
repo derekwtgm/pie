@@ -1,4 +1,4 @@
-name: EightMax Test Workbench 0.32 - Windows validation
+name: EightMax Test Workbench 0.33 - Windows validation
 # Validates the exact release ZIP in releases/ on a GitHub-hosted Windows x64 runner (no GPU, virtual display: NOT the target PC).
 on:
   push:
@@ -8,11 +8,11 @@ on:
       - '.github/workflows/workbench-windows.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   windows:
     runs-on: windows-latest
-    timeout-minutes: 150
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,12 +20,22 @@ jobs:
       - name: Validate release on Windows
         shell: powershell
         run: |
-          $zip = Get-ChildItem releases -Filter 'EightMax-Test-Workbench-0.32*.zip' | Select-Object -First 1
+          $zip = Get-ChildItem releases -Filter 'EightMax-Test-Workbench-0.33*.zip' -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $zip) { Write-Host 'No 0.33 release ZIP in releases/ yet: nothing to validate.'; New-Item -ItemType Directory -Force C:\em-results | Out-Null; Set-Content C:\em-results\no-candidate.txt 'No 0.33 release ZIP was present in this commit.'; exit 0 }
           ./workbench-ci/ci.ps1 -Zip $zip.FullName
+      - name: Publish results to the results branch
+        if: always()
+        shell: powershell
+        env:
+          GH_PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $pub = 'C:\em-pub'; New-Item -ItemType Directory -Force $pub | Out-Null
+          Get-ChildItem C:\em-results -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Length -lt 3MB -and $_.Extension -in '.json','.txt','.log','.md','.csv' } | ForEach-Object { $rel = $_.FullName.Substring(14); $d = Join-Path $pub (Split-Path $rel -Parent); New-Item -ItemType Directory -Force $d | Out-Null; Copy-Item $_.FullName (Join-Path $pub $rel) }
+          ./workbench-ci/publish.ps1 -Source $pub -Stage validate
       - name: Keep results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: workbench-0.32-windows-results
+          name: workbench-0.33-windows-results
           path: C:\em-results
           if-no-files-found: warn
