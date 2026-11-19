@@ -1,0 +1,38 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261119131421
+Username: runnervmm7ud1\runneradmin
+RunAs User: runnervmm7ud1\runneradmin
+Configuration Name: 
+Machine: runnervmm7ud1 (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command . 'D:\a\_temp\49b47142-5d09-4140-8542-ec9fe8e3c7e7.ps1'
+Process ID: 3648
+PSVersion: 5.1.26100.33648
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.33648
+BuildVersion: 10.0.26100.33648
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+OS: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CPU: AMD EPYC 7763 64-Core Processor                ; RAM 16 GiB
+GPU: Microsoft Hyper-V Video
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target: winexe /out: C:\em-build\bin\EightMaxWorkbench.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Workbench.DesktopHost D:\a\pie\pie\workbench-src\desktop\DesktopHost.cs D:\a\pie\pie\workbench-src\desktop\CaptureService.cs
+fatal error CS2019: Invalid target type for /target: must specify 'exe', 'winexe', 'library', 'module', 'appcontainerexe' or 'winmdobj'
+error CS2001: Source file 'winexe' could not be found
+fatal error CS2005: Missing file specification for '/out:' option
+warning CS2008: No source files specified
+PS>TerminatingError(): "csc failed for C:\em-build\bin\EightMaxWorkbench.exe (exit 1)"
+>> TerminatingError(): "csc failed for C:\em-build\bin\EightMaxWorkbench.exe (exit 1)"
+BUILD FAILED: csc failed for C:\em-build\bin\EightMaxWorkbench.exe (exit 1)
+at Compile, D:\a\pie\pie\workbench-src\windows\Build-Executables.ps1: line 23
+at <ScriptBlock>, D:\a\pie\pie\workbench-src\windows\Build-Executables.ps1: line 26
+at <ScriptBlock>, D:\a\pie\pie\workbench-ci\build.ps1: line 11
+at <ScriptBlock>, D:\a\_temp\49b47142-5d09-4140-8542-ec9fe8e3c7e7.ps1: line 2
+at <ScriptBlock>, <No file>: line 1
+Build-Executables result 1
+**********************
+Windows PowerShell transcript end
+End time: 20261119131424
+**********************
