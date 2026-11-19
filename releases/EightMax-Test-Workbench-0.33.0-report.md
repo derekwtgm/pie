@@ -176,3 +176,11 @@ release-033 (manifest, metadata).
 
 ## N. Final archive
 `EightMax-Test-Workbench-0.33.0.zip` with `SHA256SUMS.txt` (every file) and the ZIP's own `.sha256`.
+
+## Addendum (after packaging): third Windows validation on the FINAL ZIP
+Run 44587531420 (results branch `claude/workbench-0.33.0-ci-results`, `runs/validate-44587531420-1`), final ZIP SHA-256
+`024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78` (checksum MATCH): release acceptance PASS (critical acceptance
+passed); `strategy-library ranges` exit 0; `Test-LongDuration -Quick` exit 0 — 22 checks: 21 pass, 0 fail, 1 skip (GPU training is not
+available in EightMax 5.1); preflop modes, flop solver, multiway validation exit 0; **Node suite on Windows: 849 tests, 823 pass, 0 fail,
+26 skipped**. Both fixes described in section K are therefore confirmed on Windows. The ZIP was not changed after this run (its own
+section K still says the third run "was started"). Hosted Windows Server runner, no GPU — the target-PC checks remain outstanding.
