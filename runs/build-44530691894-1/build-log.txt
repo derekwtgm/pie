@@ -1,0 +1,26 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261119130956
+Username: runnervmbpeip\runneradmin
+RunAs User: runnervmbpeip\runneradmin
+Configuration Name: 
+Machine: runnervmbpeip (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command . 'D:\a\_temp\2b283f13-fcfa-4515-b13b-5cd3fa2fb2f6.ps1'
+Process ID: 7972
+PSVersion: 5.1.26100.33822
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.33822
+BuildVersion: 10.0.26100.33822
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+OS: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CPU: AMD EPYC 9V74 80-Core Processor                ; RAM 16 GiB
+GPU: Microsoft Hyper-V Video
+
+Build-Executables exit 1
+**********************
+Windows PowerShell transcript end
+End time: 20261119131000
+**********************

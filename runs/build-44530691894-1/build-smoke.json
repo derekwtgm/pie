@@ -1,0 +1,11 @@
+{
+    "format":  "eightmax-ci-build",
+    "version":  1,
+    "runId":  "44530691894",
+    "sha":  "c9e93cc837174e095defb815363e91a0c0609234",
+    "os":  "Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "buildExit":  1,
+    "smoke":  {
+
+              }
+}
