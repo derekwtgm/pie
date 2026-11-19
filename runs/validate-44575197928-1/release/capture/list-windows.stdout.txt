@@ -1,0 +1,1 @@
+{"format":"eightmax-capture-windows","version":1,"windows":[{"hwnd":"0x901d0","pid":10072,"title":"C:\\ProgramData\\GitHub\\HostedComputeAgent\\hosted-compute-agent","className":"CASCADIA_HOSTING_WINDOW_CLASS","x":18,"y":26,"width":1044,"height":635,"clientWidth":1028,"clientHeight":627,"minimized":false,"cloaked":false,"dpiScale":1}]}

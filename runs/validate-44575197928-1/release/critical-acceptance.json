@@ -1,0 +1,130 @@
+{
+    "format":  "eightmax-release-acceptance-summary",
+    "version":  1,
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "generatedAt":  "2026-11-19T17:17:53.1287859Z",
+    "criticalAcceptancePassed":  true,
+    "critical":  [
+                     {
+                         "criterion":  "Archive integrity",
+                         "status":  "pass",
+                         "checks":  [
+                                        "release-integrity"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "PowerShell parsing",
+                         "status":  "pass",
+                         "checks":  [
+                                        "powershell-parse-all-scripts"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Monitor detection",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/monitors-listed"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Window enumeration",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/windows-listed"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Capture and resize",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/selftest:capture-original",
+                                        "capture/selftest:verify-original-pixels",
+                                        "capture/selftest:capture-resized",
+                                        "capture/selftest:verify-resized-pixels"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Minimized-window detection",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/selftest:detect-minimized"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Closed-window detection",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/selftest:detect-closed"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Capture acceptance completion",
+                         "status":  "pass",
+                         "checks":  [
+                                        "capture/selftest-completed"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Desktop local API communication",
+                         "status":  "pass",
+                         "checks":  [
+                                        "desktop/Desktop build and local health",
+                                        "desktop/Expect: 100-continue accepted (0.26 HTTP 400 regression)",
+                                        "desktop/Desktop acceptance completed"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Native solver startup",
+                         "status":  "pass",
+                         "checks":  [
+                                        "desktop/Managed reviewed CPU workflow"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Authenticated graceful shutdown",
+                         "status":  "pass",
+                         "checks":  [
+                                        "desktop/Graceful desktop shutdown"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Native process cleanup",
+                         "status":  "pass",
+                         "checks":  [
+                                        "desktop/Native process cleanup",
+                                        "no-orphaned-processes"
+                                    ],
+                         "detail":  ""
+                     },
+                     {
+                         "criterion":  "Persistent capture session through the host (0.29)",
+                         "status":  "pass",
+                         "checks":  [
+                                        "desktop/Host capture: Windows Graphics Capture persistent session",
+                                        "desktop/Host capture: session closes and its helper exits",
+                                        "desktop/Host capture: closed window reported, session ended"
+                                    ],
+                         "detail":  ""
+                     }
+                 ],
+    "counts":  {
+                   "total":  81,
+                   "passed":  81,
+                   "failed":  0,
+                   "skipped":  0
+               },
+    "report":  "release-acceptance.json"
+}

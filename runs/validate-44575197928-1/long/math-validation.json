@@ -1,0 +1,1348 @@
+{
+ "format": "eightmax-math-validation",
+ "version": 2,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T17:34:53.308Z",
+ "environment": {
+  "platform": "win32",
+  "cpu": "AMD EPYC 7763 64-Core Processor                ",
+  "cpus": 4,
+  "node": "v22.23.5",
+  "nativeEngine": "mwcli built from the bundled EightMax 5.1 source (build 7d08acc7eb4577ee)"
+ },
+ "scope": "EXACT evaluations of small single-street (river) games. Heads-up: exploitability (constant-sum). Three or more players: NashConv (sum of unilateral gains; not an exploitability, not a safety guarantee). These games check the solver, the stored strategies and the evaluation code; they do NOT measure accuracy of the full eight-handed tournament game (preflop to river), which is not computed anywhere.",
+ "classifications": {
+  "exact": "complete evaluation of the defined game",
+  "estimated": "sampled evaluation with a stated confidence interval",
+  "restricted": "limited response set or abstraction",
+  "unverified": "no evidence"
+ },
+ "sections": {
+  "headsUpReferenceGames": {
+   "classification": "exact",
+   "games": {
+    "HU narrow, pot 10, stacks 20, 1 size + all-in, 2 bets": {
+     "config": {
+      "board": "Kh9s5c3d2h",
+      "common": 10,
+      "stacks": [
+       20,
+       20
+      ],
+      "ranges": [
+       "TT+,AJs+,KTs+,QJs,AQo+,KQo",
+       "TT+,AJs+,KTs+,QJs,AQo+,KQo"
+      ],
+      "streets": {
+       "river": {
+        "bets": "50,a",
+        "raises": "a",
+        "maxBets": 2
+       }
+      }
+     },
+     "hands": [
+      81,
+      81
+     ],
+     "treeNodes": 21,
+     "reference": {
+      "algorithm": "vectorised full-width CFR+ (alternating, RM+, linear averaging)",
+      "iterations": 300,
+      "exploitabilityBB": 0.0034853234509268916,
+      "exploitabilityPctPot": 0.034853234509268916,
+      "gameValueSeat0BB": 4.7207606584417,
+      "curve": [
+       {
+        "iterations": 100,
+        "exploitability": 0.026029531410332485
+       },
+       {
+        "iterations": 200,
+        "exploitability": 0.008360596633534723
+       },
+       {
+        "iterations": 300,
+        "exploitability": 0.0034853234509268916
+       }
+      ],
+      "ms": 466
+     },
+     "native": [
+      {
+       "updates": 5000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.759846,
+        "sd": 0.031688,
+        "variance": 0.00100413,
+        "ci95": [
+         0.475144,
+         1.044547
+        ],
+        "min": 0.737439,
+        "max": 0.782252
+       },
+       "exploitabilityPctPot": 7.5985,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 4.647317,
+        "sd": 0.127309,
+        "variance": 0.01620761,
+        "ci95": [
+         3.503509,
+         5.791126
+        ],
+        "min": 4.557296,
+        "max": 4.737338
+       },
+       "valueGapToReferenceBB": -0.073444,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.489113,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.489113,
+        "max": 0.489113
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.561682,
+        "sd": 0.012725,
+        "variance": 0.00016193,
+        "ci95": [
+         0.447351,
+         0.676013
+        ],
+        "min": 0.552684,
+        "max": 0.570681
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 44.5,
+        "sd": 3.535534,
+        "variance": 12.5,
+        "ci95": [
+         12.735,
+         76.265
+        ],
+        "min": 42,
+        "max": 47
+       }
+      },
+      {
+       "updates": 50000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.179228,
+        "sd": 0.00426,
+        "variance": 0.00001815,
+        "ci95": [
+         0.140953,
+         0.217503
+        ],
+        "min": 0.176216,
+        "max": 0.182241
+       },
+       "exploitabilityPctPot": 1.7923,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 4.736279,
+        "sd": 0.009124,
+        "variance": 0.00008324,
+        "ci95": [
+         4.654307,
+         4.818251
+        ],
+        "min": 4.729827,
+        "max": 4.74273
+       },
+       "valueGapToReferenceBB": 0.015518,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.335241,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.335241,
+        "max": 0.335241
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.327195,
+        "sd": 0.001972,
+        "variance": 0.00000389,
+        "ci95": [
+         0.309474,
+         0.344915
+        ],
+        "min": 0.3258,
+        "max": 0.328589
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 122,
+        "sd": 0,
+        "variance": 0,
+        "ci95": [
+         122,
+         122
+        ],
+        "min": 122,
+        "max": 122
+       }
+      }
+     ],
+     "monotoneMeanDecrease": true
+    },
+    "HU any-two, pot 6, stacks 24 (library river menu)": {
+     "config": {
+      "board": "Kh9s5c3d2h",
+      "common": 6,
+      "stacks": [
+       24,
+       24
+      ],
+      "ranges": [
+       "random",
+       "random"
+      ],
+      "streets": {
+       "river": {
+        "bets": "50,a",
+        "raises": "a",
+        "maxBets": 2
+       }
+      }
+     },
+     "hands": [
+      1081,
+      1081
+     ],
+     "treeNodes": 21,
+     "reference": {
+      "algorithm": "vectorised full-width CFR+ (alternating, RM+, linear averaging)",
+      "iterations": 300,
+      "exploitabilityBB": 0.005208296185229555,
+      "exploitabilityPctPot": 0.08680493642049258,
+      "gameValueSeat0BB": 2.8144178484663978,
+      "curve": [
+       {
+        "iterations": 100,
+        "exploitability": 0.019317646515350617
+       },
+       {
+        "iterations": 200,
+        "exploitability": 0.008360381004016704
+       },
+       {
+        "iterations": 300,
+        "exploitability": 0.005208296185229555
+       }
+      ],
+      "ms": 2394
+     },
+     "native": [
+      {
+       "updates": 5000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 3.271591,
+        "sd": 0.066111,
+        "variance": 0.00437062,
+        "ci95": [
+         2.67762,
+         3.865562
+        ],
+        "min": 3.224843,
+        "max": 3.318338
+       },
+       "exploitabilityPctPot": 54.5265,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 3.276199,
+        "sd": 0.052675,
+        "variance": 0.00277463,
+        "ci95": [
+         2.802943,
+         3.749455
+        ],
+        "min": 3.238953,
+        "max": 3.313446
+       },
+       "valueGapToReferenceBB": 0.461781,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.453546,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.453546,
+        "max": 0.453546
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.994232,
+        "sd": 0.005083,
+        "variance": 0.00002584,
+        "ci95": [
+         0.948561,
+         1.039903
+        ],
+        "min": 0.990637,
+        "max": 0.997826
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 86.5,
+        "sd": 0.707107,
+        "variance": 0.5,
+        "ci95": [
+         80.147,
+         92.853
+        ],
+        "min": 86,
+        "max": 87
+       }
+      },
+      {
+       "updates": 50000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.869719,
+        "sd": 0.011483,
+        "variance": 0.00013187,
+        "ci95": [
+         0.766545,
+         0.972892
+        ],
+        "min": 0.861599,
+        "max": 0.877839
+       },
+       "exploitabilityPctPot": 14.4953,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 2.75874,
+        "sd": 0.014828,
+        "variance": 0.00021987,
+        "ci95": [
+         2.625517,
+         2.891962
+        ],
+        "min": 2.748254,
+        "max": 2.769225
+       },
+       "valueGapToReferenceBB": -0.055678,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.550334,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.550334,
+        "max": 0.550334
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.645655,
+        "sd": 0.009274,
+        "variance": 0.000086,
+        "ci95": [
+         0.562337,
+         0.728973
+        ],
+        "min": 0.639098,
+        "max": 0.652213
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 186.5,
+        "sd": 23.334524,
+        "variance": 544.5,
+        "ci95": [
+         -23.149,
+         396.149
+        ],
+        "min": 170,
+        "max": 203
+       }
+      }
+     ],
+     "monotoneMeanDecrease": true
+    },
+    "HU medium/wide, pot 5.5, stacks 45, 2 sizes, 3 bets (deeper betting history)": {
+     "config": {
+      "board": "Qd8c5h4s2c",
+      "common": 5.5,
+      "stacks": [
+       45,
+       45
+      ],
+      "ranges": [
+       "22+,A2s+,K9s+,Q9s+,J9s+,T9s,98s,ATo+,KJo+",
+       "22-JJ,A2s-AJs,K9s+,Q9s+,J9s+,T8s+,97s+,86s+,75s+,65s,54s,A9o-AJo,KTo+,QTo+,JTo"
+      ],
+      "streets": {
+       "river": {
+        "bets": "33,75",
+        "raises": "a",
+        "maxBets": 3
+       }
+      }
+     },
+     "hands": [
+      211,
+      247
+     ],
+     "treeNodes": 27,
+     "reference": {
+      "algorithm": "vectorised full-width CFR+ (alternating, RM+, linear averaging)",
+      "iterations": 300,
+      "exploitabilityBB": 0.010848330473055778,
+      "exploitabilityPctPot": 0.1972423722373778,
+      "gameValueSeat0BB": 3.0016337410399183,
+      "curve": [
+       {
+        "iterations": 100,
+        "exploitability": 0.0402596932927759
+       },
+       {
+        "iterations": 200,
+        "exploitability": 0.01826452526846367
+       },
+       {
+        "iterations": 300,
+        "exploitability": 0.010848330473055778
+       }
+      ],
+      "ms": 402
+     },
+     "native": [
+      {
+       "updates": 5000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 2.125758,
+        "sd": 0.158015,
+        "variance": 0.02496864,
+        "ci95": [
+         0.706075,
+         3.545441
+        ],
+        "min": 2.014025,
+        "max": 2.237491
+       },
+       "exploitabilityPctPot": 38.6501,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 3.537679,
+        "sd": 0.001454,
+        "variance": 0.00000212,
+        "ci95": [
+         3.524612,
+         3.550746
+        ],
+        "min": 3.53665,
+        "max": 3.538707
+       },
+       "valueGapToReferenceBB": 0.536045,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.647234,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.647234,
+        "max": 0.647234
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.944943,
+        "sd": 0.009313,
+        "variance": 0.00008673,
+        "ci95": [
+         0.861272,
+         1.028615
+        ],
+        "min": 0.938358,
+        "max": 0.951528
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 47.5,
+        "sd": 2.12132,
+        "variance": 4.5,
+        "ci95": [
+         28.441,
+         66.559
+        ],
+        "min": 46,
+        "max": 49
+       }
+      },
+      {
+       "updates": 50000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.309275,
+        "sd": 0.002137,
+        "variance": 0.00000456,
+        "ci95": [
+         0.29008,
+         0.328471
+        ],
+        "min": 0.307764,
+        "max": 0.310786
+       },
+       "exploitabilityPctPot": 5.6232,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 2.983336,
+        "sd": 0.0005,
+        "variance": 2.5e-7,
+        "ci95": [
+         2.978844,
+         2.987829
+        ],
+        "min": 2.982983,
+        "max": 2.98369
+       },
+       "valueGapToReferenceBB": -0.018298,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.498048,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.498048,
+        "max": 0.498048
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.49343,
+        "sd": 0.016129,
+        "variance": 0.00026014,
+        "ci95": [
+         0.348521,
+         0.63834
+        ],
+        "min": 0.482025,
+        "max": 0.504835
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 140.5,
+        "sd": 2.12132,
+        "variance": 4.5,
+        "ci95": [
+         121.441,
+         159.559
+        ],
+        "min": 139,
+        "max": 142
+       }
+      }
+     ],
+     "monotoneMeanDecrease": true
+    },
+    "HU short, pot 8, stacks 6 / 14 (uneven, all-in dominated)": {
+     "config": {
+      "board": "Ac7d7h3c2s",
+      "common": 8,
+      "stacks": [
+       6,
+       14
+      ],
+      "ranges": [
+       "random",
+       "22+,A2s+,K2s+,Q8s+,J8s+,T8s+,A2o+,K9o+,QTo+"
+      ],
+      "streets": {
+       "river": {
+        "bets": "50,a",
+        "raises": "a",
+        "maxBets": 2
+       }
+      }
+     },
+     "hands": [
+      1081,
+      344
+     ],
+     "treeNodes": 21,
+     "reference": {
+      "algorithm": "vectorised full-width CFR+ (alternating, RM+, linear averaging)",
+      "iterations": 300,
+      "exploitabilityBB": 0.001915887099380953,
+      "exploitabilityPctPot": 0.02394858874226191,
+      "gameValueSeat0BB": 2.575870406127181,
+      "curve": [
+       {
+        "iterations": 100,
+        "exploitability": 0.010229778760597608
+       },
+       {
+        "iterations": 200,
+        "exploitability": 0.003671098731836908
+       },
+       {
+        "iterations": 300,
+        "exploitability": 0.001915887099380953
+       }
+      ],
+      "ms": 777
+     },
+     "native": [
+      {
+       "updates": 5000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 1.336711,
+        "sd": 0.031148,
+        "variance": 0.00097022,
+        "ci95": [
+         1.056858,
+         1.616564
+        ],
+        "min": 1.314686,
+        "max": 1.358736
+       },
+       "exploitabilityPctPot": 16.7089,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 1.995039,
+        "sd": 0.045148,
+        "variance": 0.00203837,
+        "ci95": [
+         1.589404,
+         2.400674
+        ],
+        "min": 1.963114,
+        "max": 2.026963
+       },
+       "valueGapToReferenceBB": -0.580831,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.536755,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.536755,
+        "max": 0.536755
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.923493,
+        "sd": 0.00012,
+        "variance": 1e-8,
+        "ci95": [
+         0.922415,
+         0.924572
+        ],
+        "min": 0.923409,
+        "max": 0.923578
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 66.5,
+        "sd": 0.707107,
+        "variance": 0.5,
+        "ci95": [
+         60.147,
+         72.853
+        ],
+        "min": 66,
+        "max": 67
+       }
+      },
+      {
+       "updates": 50000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.27418,
+        "sd": 0.000851,
+        "variance": 7.2e-7,
+        "ci95": [
+         0.266538,
+         0.281823
+        ],
+        "min": 0.273579,
+        "max": 0.274782
+       },
+       "exploitabilityPctPot": 3.4272,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 2.433848,
+        "sd": 0.00217,
+        "variance": 0.00000471,
+        "ci95": [
+         2.414355,
+         2.453342
+        ],
+        "min": 2.432314,
+        "max": 2.435383
+       },
+       "valueGapToReferenceBB": -0.142022,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.472663,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.472663,
+        "max": 0.472663
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.523325,
+        "sd": 0.011135,
+        "variance": 0.00012399,
+        "ci95": [
+         0.42328,
+         0.623369
+        ],
+        "min": 0.515451,
+        "max": 0.531198
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 160,
+        "sd": 2.828427,
+        "variance": 8,
+        "ci95": [
+         134.588,
+         185.412
+        ],
+        "min": 158,
+        "max": 162
+       }
+      }
+     ],
+     "monotoneMeanDecrease": true
+    },
+    "HU polar vs condensed, pot 12, stacks 30, 3 sizes, 1 bet": {
+     "config": {
+      "board": "JdTd4c3s2h",
+      "common": 12,
+      "stacks": [
+       30,
+       30
+      ],
+      "ranges": [
+       "AA,KK,QQ,JJ,TT,44,33,22,AdKd,AdQd,9d8d,8d7d",
+       "AJ,KJ,QJ,JTs,J9s,AT,KT,QT,T9s"
+      ],
+      "streets": {
+       "river": {
+        "bets": "33,75,150",
+        "raises": "a",
+        "maxBets": 1
+       }
+      }
+     },
+     "hands": [
+      37,
+      81
+     ],
+     "treeNodes": 21,
+     "reference": {
+      "algorithm": "vectorised full-width CFR+ (alternating, RM+, linear averaging)",
+      "iterations": 300,
+      "exploitabilityBB": 0.0033002800649130637,
+      "exploitabilityPctPot": 0.02750233387427553,
+      "gameValueSeat0BB": 11.714934310695213,
+      "curve": [
+       {
+        "iterations": 100,
+        "exploitability": 0.01123971191753978
+       },
+       {
+        "iterations": 200,
+        "exploitability": 0.007024684817226429
+       },
+       {
+        "iterations": 300,
+        "exploitability": 0.0033002800649130637
+       }
+      ],
+      "ms": 99
+     },
+     "native": [
+      {
+       "updates": 5000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.314554,
+        "sd": 0.000509,
+        "variance": 2.6e-7,
+        "ci95": [
+         0.309977,
+         0.319132
+        ],
+        "min": 0.314194,
+        "max": 0.314915
+       },
+       "exploitabilityPctPot": 2.6213,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 12.031563,
+        "sd": 0.053627,
+        "variance": 0.00287582,
+        "ci95": [
+         11.549755,
+         12.513372
+        ],
+        "min": 11.993644,
+        "max": 12.069483
+       },
+       "valueGapToReferenceBB": 0.316629,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.320141,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.320141,
+        "max": 0.320141
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.350649,
+        "sd": 0.013046,
+        "variance": 0.0001702,
+        "ci95": [
+         0.233438,
+         0.46786
+        ],
+        "min": 0.341424,
+        "max": 0.359874
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 34.5,
+        "sd": 2.12132,
+        "variance": 4.5,
+        "ci95": [
+         15.441,
+         53.559
+        ],
+        "min": 33,
+        "max": 36
+       }
+      },
+      {
+       "updates": 50000,
+       "exploitabilityBB": {
+        "n": 2,
+        "mean": 0.039007,
+        "sd": 0.009127,
+        "variance": 0.00008331,
+        "ci95": [
+         -0.042995,
+         0.12101
+        ],
+        "min": 0.032554,
+        "max": 0.045461
+       },
+       "exploitabilityPctPot": 0.3251,
+       "seat0ValueBB": {
+        "n": 2,
+        "mean": 11.71126,
+        "sd": 0.001856,
+        "variance": 0.00000345,
+        "ci95": [
+         11.694581,
+         11.727939
+        ],
+        "min": 11.709948,
+        "max": 11.712573
+       },
+       "valueGapToReferenceBB": -0.003674,
+       "seedToSeedStrategyL1": {
+        "n": 1,
+        "mean": 0.158864,
+        "sd": 0,
+        "variance": 0,
+        "ci95": null,
+        "min": 0.158864,
+        "max": 0.158864
+       },
+       "distanceToReferenceL1": {
+        "n": 2,
+        "mean": 0.141442,
+        "sd": 0.009266,
+        "variance": 0.00008585,
+        "ci95": [
+         0.058196,
+         0.224688
+        ],
+        "min": 0.13489,
+        "max": 0.147994
+       },
+       "trainMs": {
+        "n": 2,
+        "mean": 110,
+        "sd": 4.242641,
+        "variance": 18,
+        "ci95": [
+         71.882,
+         148.118
+        ],
+        "min": 107,
+        "max": 113
+       }
+      }
+     ],
+     "monotoneMeanDecrease": true
+    }
+   }
+  },
+  "multiplayerNashConv": {
+   "classification": "exact",
+   "caveat": "NashConv is the sum of each player's best unilateral gain. With three or more players a NashConv of zero does not imply safety against coalitions; equilibria are neither unique nor interchangeable; heads-up exploitability thresholds are not applied.",
+   "games": {
+    "3-way river, pot 9, stacks 20": {
+     "config": {
+      "board": "Qd8c5h4s2c",
+      "common": 9,
+      "stacks": [
+       20,
+       20,
+       20
+      ],
+      "ranges": [
+       "TT+,AQs+",
+       "99+,AJs+,KQs",
+       "88+,ATs+"
+      ],
+      "streets": {
+       "river": {
+        "bets": "50",
+        "raises": "a",
+        "maxBets": 1
+       }
+      }
+     },
+     "curve": [
+      {
+       "updates": 5000,
+       "nashConvBB": {
+        "n": 2,
+        "mean": 0.559472,
+        "sd": 0.034259,
+        "variance": 0.00117366,
+        "ci95": [
+         0.251675,
+         0.86727
+        ],
+        "min": 0.535248,
+        "max": 0.583697
+       },
+       "nashConvPctPot": 6.216,
+       "perPlayerGainMeanBB": [
+        0.15237,
+        0.20407,
+        0.20304
+       ]
+      },
+      {
+       "updates": 50000,
+       "nashConvBB": {
+        "n": 2,
+        "mean": 0.142093,
+        "sd": 0.026323,
+        "variance": 0.00069289,
+        "ci95": [
+         -0.094404,
+         0.37859
+        ],
+        "min": 0.12348,
+        "max": 0.160706
+       },
+       "nashConvPctPot": 1.579,
+       "perPlayerGainMeanBB": [
+        0.04917,
+        0.05234,
+        0.04059
+       ]
+      }
+     ]
+    },
+    "4-way river, pot 12, stacks 15": {
+     "config": {
+      "board": "Kc9h6d3s2s",
+      "common": 12,
+      "stacks": [
+       15,
+       15,
+       15,
+       15
+      ],
+      "ranges": [
+       "QQ+,AK",
+       "JJ+,AQs+",
+       "TT+,AJs+",
+       "99+,KQs"
+      ],
+      "streets": {
+       "river": {
+        "bets": "50",
+        "raises": "a",
+        "maxBets": 1
+       }
+      }
+     },
+     "curve": [
+      {
+       "updates": 5000,
+       "nashConvBB": {
+        "n": 2,
+        "mean": 1.040241,
+        "sd": 0.031428,
+        "variance": 0.0009877,
+        "ci95": [
+         0.757879,
+         1.322602
+        ],
+        "min": 1.018018,
+        "max": 1.062463
+       },
+       "nashConvPctPot": 8.669,
+       "perPlayerGainMeanBB": [
+        0.31939,
+        0.24989,
+        0.20834,
+        0.26263
+       ]
+      },
+      {
+       "updates": 50000,
+       "nashConvBB": {
+        "n": 2,
+        "mean": 0.261513,
+        "sd": 0.018689,
+        "variance": 0.00034929,
+        "ci95": [
+         0.093599,
+         0.429427
+        ],
+        "min": 0.248298,
+        "max": 0.274728
+       },
+       "nashConvPctPot": 2.179,
+       "perPlayerGainMeanBB": [
+        0.09355,
+        0.0637,
+        0.05308,
+        0.05118
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "libraryTrainingOutcomes": {
+   "classification": "exact",
+   "policy": {
+    "name": "research",
+    "headsUp": {
+     "maxExploitabilityPctPot": 1,
+     "maxExploitabilityBB": null
+    },
+    "multiway": {
+     "maxNashConvPctPot": 2.5
+    },
+    "decisionStatuses": [
+     "validated"
+    ],
+    "simulationStatuses": [
+     "validated",
+     "estimated",
+     "unverified"
+    ]
+   },
+   "rows": [
+    {
+     "situation": "HU river any-two (0.30 library default ranges)",
+     "fixed20000_030": {
+      "trainMs": 139,
+      "evaluation": {
+       "type": "exact",
+       "method": "vectorised exact (sorted showdown, inclusion-exclusion card removal)",
+       "players": 2,
+       "potBB": 6,
+       "exploitabilityBB": 1.7214922098158545,
+       "nashConvBB": 3.442984419631709,
+       "values": [
+        2.621199702090984,
+        3.378800297909019
+       ],
+       "missingRows": 66,
+       "ms": 104
+      },
+      "status": "failed-quality-check"
+     },
+     "vector-cfr-plus": {
+      "updates": 75,
+      "trainMs": 577,
+      "stoppedBecause": "quality-target-met",
+      "status": "validated",
+      "reason": "Exact exploitability 0.0287 bb (0.48% of pot) is within the research limit 0.0600 bb (1.00% of pot)",
+      "curve": [
+       {
+        "updates": 25,
+        "exploitabilityBB": 0.127298,
+        "ms": 231
+       },
+       {
+        "updates": 50,
+        "exploitabilityBB": 0.050997,
+        "ms": 348
+       },
+       {
+        "updates": 75,
+        "exploitabilityBB": 0.028732,
+        "ms": 465
+       }
+      ]
+     },
+     "eightmax-native": {
+      "updates": 2560000,
+      "trainMs": 7054,
+      "stoppedBecause": "update-limit",
+      "status": "validated",
+      "reason": "Exact exploitability 0.0529 bb (0.88% of pot) is within the research limit 0.0600 bb (1.00% of pot)",
+      "curve": [
+       {
+        "updates": 20000,
+        "measureBB": 1.70872,
+        "measureKind": "exploitability",
+        "stabilityL1": null,
+        "ms": 243
+       },
+       {
+        "updates": 40000,
+        "measureBB": 1.061565,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.385296,
+        "ms": 497
+       },
+       {
+        "updates": 80000,
+        "measureBB": 0.597222,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.338155,
+        "ms": 818
+       },
+       {
+        "updates": 160000,
+        "measureBB": 0.319337,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.277284,
+        "ms": 1176
+       },
+       {
+        "updates": 320000,
+        "measureBB": 0.205018,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.236896,
+        "ms": 1746
+       },
+       {
+        "updates": 640000,
+        "measureBB": 0.137189,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.211642,
+        "ms": 2616
+       },
+       {
+        "updates": 1280000,
+        "measureBB": 0.08251,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.193465,
+        "ms": 4169
+       },
+       {
+        "updates": 2560000,
+        "measureBB": 0.05291,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.180322,
+        "ms": 7053
+       }
+      ]
+     }
+    },
+    {
+     "situation": "HU river medium ranges",
+     "fixed20000_030": {
+      "trainMs": 97,
+      "evaluation": {
+       "type": "exact",
+       "method": "vectorised exact (sorted showdown, inclusion-exclusion card removal)",
+       "players": 2,
+       "potBB": 5.5,
+       "exploitabilityBB": 0.6877870843722527,
+       "nashConvBB": 1.3755741687445053,
+       "values": [
+        2.8533201081604815,
+        2.646679891839519
+       ],
+       "missingRows": 0,
+       "ms": 24
+      },
+      "status": "failed-quality-check"
+     },
+     "vector-cfr-plus": {
+      "updates": 125,
+      "trainMs": 200,
+      "stoppedBecause": "quality-target-met",
+      "status": "validated",
+      "reason": "Exact exploitability 0.0350 bb (0.64% of pot) is within the research limit 0.0550 bb (1.00% of pot)",
+      "curve": [
+       {
+        "updates": 25,
+        "exploitabilityBB": 0.205999,
+        "ms": 69
+       },
+       {
+        "updates": 50,
+        "exploitabilityBB": 0.097154,
+        "ms": 94
+       },
+       {
+        "updates": 75,
+        "exploitabilityBB": 0.066024,
+        "ms": 118
+       },
+       {
+        "updates": 100,
+        "exploitabilityBB": 0.048614,
+        "ms": 145
+       },
+       {
+        "updates": 125,
+        "exploitabilityBB": 0.034975,
+        "ms": 169
+       }
+      ]
+     },
+     "eightmax-native": {
+      "updates": 1280000,
+      "trainMs": 2897,
+      "stoppedBecause": "quality-target-met",
+      "status": "validated",
+      "reason": "Exact exploitability 0.0434 bb (0.79% of pot) is within the research limit 0.0550 bb (1.00% of pot)",
+      "curve": [
+       {
+        "updates": 20000,
+        "measureBB": 0.753264,
+        "measureKind": "exploitability",
+        "stabilityL1": null,
+        "ms": 114
+       },
+       {
+        "updates": 40000,
+        "measureBB": 0.339778,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.292315,
+        "ms": 224
+       },
+       {
+        "updates": 80000,
+        "measureBB": 0.197671,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.229383,
+        "ms": 374
+       },
+       {
+        "updates": 160000,
+        "measureBB": 0.142859,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.188319,
+        "ms": 595
+       },
+       {
+        "updates": 320000,
+        "measureBB": 0.087356,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.180383,
+        "ms": 960
+       },
+       {
+        "updates": 640000,
+        "measureBB": 0.05743,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.154865,
+        "ms": 1621
+       },
+       {
+        "updates": 1280000,
+        "measureBB": 0.043386,
+        "measureKind": "exploitability",
+        "stabilityL1": 0.14203,
+        "ms": 2896
+       }
+      ]
+     }
+    },
+    {
+     "situation": "3-way river",
+     "fixed20000_030": {
+      "trainMs": 123,
+      "evaluation": {
+       "type": "exact",
+       "method": "joint-deal enumeration (exploitability.js)",
+       "players": 3,
+       "potBB": 9,
+       "nashConvBB": 0.8595301426658164,
+       "gains": [
+        0.26707853951842386,
+        0.26019686941858744,
+        0.3322547337288051
+       ],
+       "values": [
+        3.519818903872917,
+        2.344972818341614,
+        3.13520827778609
+       ],
+       "deals": 47280,
+       "missingRows": 1,
+       "ms": 7552
+      },
+      "status": "failed-quality-check"
+     },
+     "eightmax-native": {
+      "updates": 40000,
+      "trainMs": 15403,
+      "stoppedBecause": "time-limit",
+      "status": "failed-quality-check",
+      "reason": "Exact NashConv (multiway; not a two-player exploitability) 0.7126 bb (7.92% of pot) exceeds the research limit 0.2250 bb (2.50% of pot)",
+      "curve": [
+       {
+        "updates": 20000,
+        "measureBB": 1.097849,
+        "measureKind": "nashconv",
+        "stabilityL1": null,
+        "ms": 7637
+       },
+       {
+        "updates": 40000,
+        "measureBB": 0.712603,
+        "measureKind": "nashconv",
+        "stabilityL1": 0.188039,
+        "ms": 15402
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "relatedReports": {
+   "trainingVariants": "reports/0.31-training-variants.json",
+   "abstraction": "reports/0.31-abstraction-validation.json",
+   "rangeSupport": "reports/0.31-range-support.json"
+  }
+ },
+ "elapsedMs": 175494
+}

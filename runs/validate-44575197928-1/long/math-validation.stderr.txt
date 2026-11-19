@@ -1,0 +1,10 @@
+A HU narrow, pot 10, stacks 20, 1 size + all-in, 2 bets: ref 3.49e-3 bb; native 5k 0.7598, 50k 0.1792
+A HU any-two, pot 6, stacks 24 (library river menu): ref 5.21e-3 bb; native 5k 3.2716, 50k 0.8697
+A HU medium/wide, pot 5.5, stacks 45, 2 sizes, 3 bets (deeper betting history): ref 1.08e-2 bb; native 5k 2.1258, 50k 0.3093
+A HU short, pot 8, stacks 6 / 14 (uneven, all-in dominated): ref 1.92e-3 bb; native 5k 1.3367, 50k 0.2742
+A HU polar vs condensed, pot 12, stacks 30, 3 sizes, 1 bet: ref 3.30e-3 bb; native 5k 0.3146, 50k 0.0390
+B 3-way river, pot 9, stacks 20: 5k 0.5595, 50k 0.1421
+B 4-way river, pot 12, stacks 15: 5k 1.0402, 50k 0.2615
+C HU river any-two (0.30 library default ranges): {"fixed20000_030":"failed-quality-check 1.7215","vector-cfr-plus":"validated 75","eightmax-native":"validated 2560000"}
+C HU river medium ranges: {"fixed20000_030":"failed-quality-check 0.6878","vector-cfr-plus":"validated 125","eightmax-native":"validated 1280000"}
+C 3-way river: {"fixed20000_030":"failed-quality-check 0.8595","eightmax-native":"failed-quality-check 40000"}

@@ -1,0 +1,513 @@
+{
+ "format": "eightmax-shared-cache-benchmark",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T17:18:47.378Z",
+ "machine": {
+  "cpu": "AMD EPYC 7763 64-Core Processor                ",
+  "logicalCpus": 4,
+  "node": "v22.23.5"
+ },
+ "settings": {
+  "library": {
+   "records": 8,
+   "storageBytes": 2128954,
+   "rawBytes": 6095210
+  },
+  "seconds": 10,
+  "workMsPerCycle": 30,
+  "missShare": 0.2,
+  "workersPerRun": "min(4, tables)"
+ },
+ "targets": {
+  "p50Ms": 10,
+  "p95Ms": 25,
+  "p99Ms": 50
+ },
+ "runs": {
+  "v1": {
+   "1": {
+    "kind": "v1",
+    "tables": 1,
+    "workers": 1,
+    "wallMs": 10048,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 253,
+     "p50": 0.703,
+     "p95": 0.868,
+     "p99": 1.047,
+     "max": 1.599
+    },
+    "missFetch": {
+     "n": 73,
+     "p50": 0.369,
+     "p95": 0.464,
+     "p99": 0.961,
+     "max": 0.961
+    },
+    "allFetches": {
+     "n": 326,
+     "p50": 0.678,
+     "p95": 0.846,
+     "p99": 1.013,
+     "max": 1.599
+    },
+    "wrongAnswers": 0,
+    "hits": 253,
+    "misses": 73,
+    "tableCycles": 326,
+    "rssBytesAfter": 54022144,
+    "rssGrowthBytes": 5378048,
+    "host": {
+     "kind": "v1-main-thread-host",
+     "requests": 326,
+     "served": 253,
+     "misses": 73,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8
+    },
+    "targetsMet": true
+   },
+   "2": {
+    "kind": "v1",
+    "tables": 2,
+    "workers": 2,
+    "wallMs": 10068,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 515,
+     "p50": 0.739,
+     "p95": 1.093,
+     "p99": 1.244,
+     "max": 2.248
+    },
+    "missFetch": {
+     "n": 137,
+     "p50": 0.38,
+     "p95": 0.518,
+     "p99": 0.592,
+     "max": 0.626
+    },
+    "allFetches": {
+     "n": 652,
+     "p50": 0.717,
+     "p95": 1.062,
+     "p99": 1.226,
+     "max": 2.248
+    },
+    "wrongAnswers": 0,
+    "hits": 515,
+    "misses": 137,
+    "tableCycles": 652,
+    "rssBytesAfter": 71421952,
+    "rssGrowthBytes": 7983104,
+    "host": {
+     "kind": "v1-main-thread-host",
+     "requests": 652,
+     "served": 515,
+     "misses": 137,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8
+    },
+    "targetsMet": true
+   },
+   "5": {
+    "kind": "v1",
+    "tables": 5,
+    "workers": 4,
+    "wallMs": 10084,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 1023,
+     "p50": 1.15,
+     "p95": 32.194,
+     "p99": 33.991,
+     "max": 43.89
+    },
+    "missFetch": {
+     "n": 246,
+     "p50": 0.445,
+     "p95": 31.282,
+     "p99": 31.82,
+     "max": 33.497
+    },
+    "allFetches": {
+     "n": 1269,
+     "p50": 1.103,
+     "p95": 32.007,
+     "p99": 33.497,
+     "max": 43.89
+    },
+    "wrongAnswers": 0,
+    "hits": 1023,
+    "misses": 246,
+    "tableCycles": 1269,
+    "rssBytesAfter": 55394304,
+    "rssGrowthBytes": -15548416,
+    "host": {
+     "kind": "v1-main-thread-host",
+     "requests": 1269,
+     "served": 1023,
+     "misses": 246,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8
+    },
+    "targetsMet": false
+   },
+   "8": {
+    "kind": "v1",
+    "tables": 8,
+    "workers": 4,
+    "wallMs": 10095,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 1018,
+     "p50": 31.724,
+     "p95": 32.748,
+     "p99": 38.146,
+     "max": 58.669
+    },
+    "missFetch": {
+     "n": 268,
+     "p50": 30.944,
+     "p95": 32.694,
+     "p99": 40.414,
+     "max": 44.218
+    },
+    "allFetches": {
+     "n": 1286,
+     "p50": 31.286,
+     "p95": 32.723,
+     "p99": 38.905,
+     "max": 58.669
+    },
+    "wrongAnswers": 0,
+    "hits": 1018,
+    "misses": 268,
+    "tableCycles": 1286,
+    "rssBytesAfter": 108752896,
+    "rssGrowthBytes": 36458496,
+    "host": {
+     "kind": "v1-main-thread-host",
+     "requests": 1286,
+     "served": 1018,
+     "misses": 268,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8
+    },
+    "targetsMet": false
+   },
+   "10": {
+    "kind": "v1",
+    "tables": 10,
+    "workers": 4,
+    "wallMs": 10115,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 1033,
+     "p50": 31.833,
+     "p95": 63.06,
+     "p99": 68.366,
+     "max": 87.7
+    },
+    "missFetch": {
+     "n": 249,
+     "p50": 31.038,
+     "p95": 62.728,
+     "p99": 66.048,
+     "max": 71.294
+    },
+    "allFetches": {
+     "n": 1282,
+     "p50": 31.801,
+     "p95": 62.958,
+     "p99": 68.366,
+     "max": 87.7
+    },
+    "wrongAnswers": 0,
+    "hits": 1033,
+    "misses": 249,
+    "tableCycles": 1282,
+    "rssBytesAfter": 99749888,
+    "rssGrowthBytes": 15896576,
+    "host": {
+     "kind": "v1-main-thread-host",
+     "requests": 1282,
+     "served": 1033,
+     "misses": 249,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8
+    },
+    "targetsMet": false
+   }
+  },
+  "v2": {
+   "1": {
+    "kind": "v2",
+    "tables": 1,
+    "workers": 1,
+    "wallMs": 10051,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 253,
+     "p50": 0.748,
+     "p95": 0.919,
+     "p99": 1.225,
+     "max": 2.152
+    },
+    "missFetch": {
+     "n": 73,
+     "p50": 0.015,
+     "p95": 0.026,
+     "p99": 0.498,
+     "max": 0.498
+    },
+    "allFetches": {
+     "n": 326,
+     "p50": 0.706,
+     "p95": 0.893,
+     "p99": 1.205,
+     "max": 2.152
+    },
+    "wrongAnswers": 0,
+    "hits": 253,
+    "misses": 73,
+    "tableCycles": 326,
+    "rssBytesAfter": 104181760,
+    "rssGrowthBytes": 7626752,
+    "host": {
+     "requests": 253,
+     "served": 253,
+     "misses": 0,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "refreshes": 1,
+     "serviceMsP50": 0.013,
+     "serviceMsP95": 0.028,
+     "serviceMsP99": 0.051,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8,
+     "directoryEntries": 8
+    },
+    "targetsMet": true
+   },
+   "2": {
+    "kind": "v2",
+    "tables": 2,
+    "workers": 2,
+    "wallMs": 10065,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 509,
+     "p50": 0.733,
+     "p95": 1.272,
+     "p99": 7.24,
+     "max": 20.179
+    },
+    "missFetch": {
+     "n": 136,
+     "p50": 0.014,
+     "p95": 0.039,
+     "p99": 0.294,
+     "max": 0.393
+    },
+    "allFetches": {
+     "n": 645,
+     "p50": 0.71,
+     "p95": 1.205,
+     "p99": 7.167,
+     "max": 20.179
+    },
+    "wrongAnswers": 0,
+    "hits": 509,
+    "misses": 136,
+    "tableCycles": 645,
+    "rssBytesAfter": 88825856,
+    "rssGrowthBytes": -8228864,
+    "host": {
+     "requests": 509,
+     "served": 509,
+     "misses": 0,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "refreshes": 1,
+     "serviceMsP50": 0.01,
+     "serviceMsP95": 0.02,
+     "serviceMsP99": 0.04,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8,
+     "directoryEntries": 8
+    },
+    "targetsMet": true
+   },
+   "5": {
+    "kind": "v2",
+    "tables": 5,
+    "workers": 4,
+    "wallMs": 10100,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 1014,
+     "p50": 1.027,
+     "p95": 5.352,
+     "p99": 14.353,
+     "max": 24.021
+    },
+    "missFetch": {
+     "n": 246,
+     "p50": 0.016,
+     "p95": 0.039,
+     "p99": 0.138,
+     "max": 33.499
+    },
+    "allFetches": {
+     "n": 1260,
+     "p50": 0.997,
+     "p95": 4.285,
+     "p99": 13.072,
+     "max": 33.499
+    },
+    "wrongAnswers": 0,
+    "hits": 1014,
+    "misses": 246,
+    "tableCycles": 1260,
+    "rssBytesAfter": 90374144,
+    "rssGrowthBytes": -6205440,
+    "host": {
+     "requests": 1014,
+     "served": 1014,
+     "misses": 0,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "refreshes": 1,
+     "serviceMsP50": 0.008,
+     "serviceMsP95": 0.016,
+     "serviceMsP99": 0.036,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8,
+     "directoryEntries": 8
+    },
+    "targetsMet": true
+   },
+   "8": {
+    "kind": "v2",
+    "tables": 8,
+    "workers": 4,
+    "wallMs": 10092,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 990,
+     "p50": 1.066,
+     "p95": 6.785,
+     "p99": 16.773,
+     "max": 39.145
+    },
+    "missFetch": {
+     "n": 263,
+     "p50": 0.019,
+     "p95": 0.043,
+     "p99": 5.385,
+     "max": 34.473
+    },
+    "allFetches": {
+     "n": 1253,
+     "p50": 1.034,
+     "p95": 5.779,
+     "p99": 16.418,
+     "max": 39.145
+    },
+    "wrongAnswers": 0,
+    "hits": 990,
+    "misses": 263,
+    "tableCycles": 1253,
+    "rssBytesAfter": 90157056,
+    "rssGrowthBytes": -6852608,
+    "host": {
+     "requests": 990,
+     "served": 990,
+     "misses": 0,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "refreshes": 1,
+     "serviceMsP50": 0.009,
+     "serviceMsP95": 0.018,
+     "serviceMsP99": 0.042,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8,
+     "directoryEntries": 8
+    },
+    "targetsMet": true
+   },
+   "10": {
+    "kind": "v2",
+    "tables": 10,
+    "workers": 4,
+    "wallMs": 10109,
+    "prewarmedRecords": 8,
+    "hitFetch": {
+     "n": 1017,
+     "p50": 1.122,
+     "p95": 6.568,
+     "p99": 15.499,
+     "max": 73.403
+    },
+    "missFetch": {
+     "n": 238,
+     "p50": 0.022,
+     "p95": 0.056,
+     "p99": 0.182,
+     "max": 80.111
+    },
+    "allFetches": {
+     "n": 1255,
+     "p50": 1.078,
+     "p95": 5.736,
+     "p99": 15.422,
+     "max": 80.111
+    },
+    "wrongAnswers": 0,
+    "hits": 1017,
+    "misses": 238,
+    "tableCycles": 1255,
+    "rssBytesAfter": 89694208,
+    "rssGrowthBytes": -7237632,
+    "host": {
+     "requests": 1017,
+     "served": 1017,
+     "misses": 0,
+     "refused": 0,
+     "sharedBytes": 6095210,
+     "sharedRecords": 8,
+     "refreshes": 1,
+     "serviceMsP50": 0.009,
+     "serviceMsP95": 0.02,
+     "serviceMsP99": 0.097,
+     "cacheBytes": 6127978,
+     "cacheEntries": 8,
+     "directoryEntries": 8
+    },
+    "targetsMet": true
+   }
+  }
+ }
+}

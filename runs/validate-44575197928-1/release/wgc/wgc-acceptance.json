@@ -1,0 +1,316 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "wgc-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T17:16:32.6610447Z",
+    "completedAt":  "2026-11-19T17:16:36.6559680Z",
+    "executables":  {
+                        "EightMaxWgc.exe":  "0.33.0 sha256:99b8ba4876d1b71f"
+                    },
+    "checks":  [
+                   {
+                       "check":  "wgc-tool-version",
+                       "stage":  "version",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:32.8828808Z",
+                       "completedAt":  "2026-11-19T17:16:33.2151553Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "{\"tool\":\"EightMaxWgc\",\"version\":\"0.33.0\",\"backend\":\"windows-graphics-capture\",\"os\":\"Microsoft Windows NT 10.0.26100.0\"}",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "wgc-supported",
+                       "stage":  "probe",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.2509565Z",
+                       "completedAt":  "2026-11-19T17:16:33.5849117Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "Windows Graphics Capture is supported on Microsoft Windows NT 10.0.26100.0",
+                       "files":  [
+
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:create-window",
+                       "stage":  "create-window",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.8455444Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hwnd=0x30186 dpiScale=1",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:session-start",
+                       "stage":  "session-start",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.8562969Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "device=hardware size=640x400",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:first-frame",
+                       "stage":  "first-frame",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.8665130Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "seq=1 640x400 ageMs=16.724 latencyMs=52.107",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:verify-original-pixels",
+                       "stage":  "verify-original-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.8807857Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "640x400 (expected 640x400)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:resize-detected",
+                       "stage":  "resize-detected",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.8986591Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "resizes=1 frame=800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:verify-resized-pixels",
+                       "stage":  "verify-resized-pixels",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9076897Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:refuse-wrong-process",
+                       "stage":  "refuse-wrong-process",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9187662Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "refusal=target-identity-changed (handle checked against another process id)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:detect-minimized",
+                       "stage":  "detect-minimized",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9288935Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "IsIconic=True refusal=target-minimized",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:recover-after-restore",
+                       "stage":  "recover-after-restore",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9387543Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "seq=4 800x500",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:frame-sequence",
+                       "stage":  "frame-sequence",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9493153Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "first=1 latest=4 dropped=0 blank=0",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:repeated-sessions-and-cleanup",
+                       "stage":  "repeated-sessions-and-cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9697572Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "5/5 sessions produced a frame; working-set growth 1 MiB (limit 64)",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:detect-closed",
+                       "stage":  "detect-closed",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9812371Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "IsWindow=False itemClosedEvent=False",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc:refuse-closed-handle",
+                       "stage":  "refuse-closed-handle",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:35.9990719Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "refusal=target-lost",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc-selftest-completed",
+                       "stage":  "selftest",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:33.5929590Z",
+                       "completedAt":  "2026-11-19T17:16:36.0157097Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 13 stages, 0 failed, 1743 ms",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stdout.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest.stderr.txt",
+                                     "C:\\em-results\\release\\wgc\\wgc-selftest-result.json"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc-invalid-handle-refused",
+                       "stage":  "refusal",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:36.0247135Z",
+                       "completedAt":  "2026-11-19T17:16:36.3277844Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "invalid window is refused: exit 1: {\"ok\":false,\"backend\":\"windows-graphics-capture\",\"code\":\"target-lost\",\"reason\":\"The window no longer exists.\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-invalid-handle.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc-bad-arguments-refused",
+                       "stage":  "refusal",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:36.3358609Z",
+                       "completedAt":  "2026-11-19T17:16:36.6235265Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 2: {\"ok\":false,\"backend\":\"windows-graphics-capture\",\"code\":\"bad-arguments\",\"reason\":\"Unknown argument --nonsense\"}",
+                       "files":  [
+                                     "C:\\em-results\\release\\wgc\\wgc-bad-arguments.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "wgc-process-cleanup",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:16:36.6431385Z",
+                       "completedAt":  "2026-11-19T17:16:36.6431385Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "No helper process left running.",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  19,
+                   "passed":  19,
+                   "failed":  0,
+                   "skipped":  0
+               },
+    "passed":  true
+}

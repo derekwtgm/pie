@@ -1,0 +1,1 @@
+{"ok":true,"tool":"EightMaxWgc","version":"0.33.0","backend":"windows-graphics-capture","supported":true,"os":"Microsoft Windows NT 10.0.26100.0","detail":""}

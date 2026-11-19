@@ -1,0 +1,51 @@
+{
+ "format": "eightmax-strategy-library-status",
+ "version": 1,
+ "dir": "C:\\em-results\\long\\library",
+ "engine": {
+  "version": "5.1",
+  "build": "7d08acc7eb4577ee"
+ },
+ "records": 118,
+ "storageBytes": 31547704,
+ "rawBytes": 90424776,
+ "byStreet": {
+  "flop": 118
+ },
+ "byPlayers": {
+  "heads-up": 118
+ },
+ "byStackCategory": {
+  "standard (20-40 bb)": 118
+ },
+ "byConvergence": {
+  "unproven": 118
+ },
+ "byQuality": {
+  "unverified": 118
+ },
+ "byRangeModel": {
+  "any-two-cards-v1": 118
+ },
+ "cache": {
+  "entries": 0,
+  "bytes": 0,
+  "budgetBytes": 67108864
+ },
+ "stats": {
+  "lookups": 0,
+  "memoryHits": 0,
+  "diskHits": 0,
+  "misses": 0,
+  "refused": 0,
+  "evictions": 0,
+  "writes": 0,
+  "duplicateWrites": 0,
+  "loadMs": 0,
+  "loadMsMax": 0,
+  "peakCacheBytes": 0,
+  "refusedByCode": {}
+ },
+ "pendingMisses": 0,
+ "writtenAt": "2026-11-19T17:39:51.473Z"
+}

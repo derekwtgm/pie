@@ -1,0 +1,9 @@
+PASS create-window - hwnd=0x30184 client=640x400 visible=True
+PASS capture-original - saved C:\em-results\release\capture\selftest-0.png 640x400 method=print-window dpiScale=1 expected=640x400
+PASS verify-original-pixels - 640x400
+PASS capture-resized - saved C:\em-results\release\capture\selftest-1.png 800x500 method=print-window dpiScale=1 expected=800x500
+PASS verify-resized-pixels - 800x500
+PASS detect-minimized - reply code=target-minimized
+PASS capture-after-restore - 800x500
+PASS detect-closed - original handle 0x30184 IsWindow=False reply code=target-lost
+SELFTEST PASS

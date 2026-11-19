@@ -1,0 +1,102 @@
+﻿{
+ "layout": "exact rows",
+ "file": "pf033-A-s8-b25-200000.state",
+ "fileBytes": 159957992,
+ "iterations": 200000,
+ "trainingDeals": 200000,
+ "stateVisits": 47935769,
+ "stateTableBytes": 30225708,
+ "states": 3358412,
+ "rows": 2783477,
+ "engineModel": {
+  "perRow": "16 B per action (regret + average f64) + 24 B row metadata + 24 B row-hash share (2 x 12 B buckets)",
+  "perState": "9 B state table + 24 B state-hash share"
+ },
+ "streets": {
+  "preflop": {
+   "states": 616935,
+   "decisionStates": 479231,
+   "rows": 1765705,
+   "rowShare": 0.6344,
+   "diskBytes": 84950108,
+   "diskShare": 0.6548,
+   "meanActions": 2.257,
+   "engineBytesEstimate": 168874343,
+   "averageMassQuantiles": {
+    "p01": 0,
+    "p10": 0,
+    "p50": 2831000,
+    "p90": 221200000,
+    "p99": 10860000000
+   },
+   "rowsBelow1PctOfMedianMass": 0.2785
+  },
+  "flop": {
+   "states": 1401135,
+   "decisionStates": 1269892,
+   "rows": 589947,
+   "rowShare": 0.2119,
+   "diskBytes": 25957668,
+   "diskShare": 0.2001,
+   "meanActions": 2,
+   "engineBytesEstimate": 93433215,
+   "averageMassQuantiles": {
+    "p01": 0,
+    "p10": 0,
+    "p50": 38080000,
+    "p90": 5539000000,
+    "p99": 254300000000
+   },
+   "rowsBelow1PctOfMedianMass": 0.3304,
+   "contexts": 589857,
+   "meanRowsPerContext": 1,
+   "singleRowContextShare": 0.9998,
+   "contextsTruncated": false
+  },
+  "turn": {
+   "states": 840474,
+   "decisionStates": 716158,
+   "rows": 247168,
+   "rowShare": 0.0888,
+   "diskBytes": 10875392,
+   "diskShare": 0.0838,
+   "meanActions": 2,
+   "engineBytesEstimate": 47509082,
+   "averageMassQuantiles": {
+    "p01": 0,
+    "p10": 0,
+    "p50": 57800000,
+    "p90": 8867000000,
+    "p99": 452700000000
+   },
+   "rowsBelow1PctOfMedianMass": 0.3078,
+   "contexts": 247168,
+   "meanRowsPerContext": 1,
+   "singleRowContextShare": 1,
+   "contextsTruncated": false
+  },
+  "river": {
+   "states": 499868,
+   "decisionStates": 499868,
+   "rows": 180657,
+   "rowShare": 0.0649,
+   "diskBytes": 7948908,
+   "diskShare": 0.0613,
+   "meanActions": 2,
+   "engineBytesEstimate": 30948204,
+   "averageMassQuantiles": {
+    "p01": 0,
+    "p10": 0,
+    "p50": 54160000,
+    "p90": 8004000000,
+    "p99": 428300000000
+   },
+   "rowsBelow1PctOfMedianMass": 0.2835,
+   "contexts": 180657,
+   "meanRowsPerContext": 1,
+   "singleRowContextShare": 1,
+   "contextsTruncated": false
+  }
+ },
+ "postflopRowShare": 0.3656
+}

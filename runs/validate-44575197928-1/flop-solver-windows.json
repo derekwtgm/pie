@@ -1,0 +1,211 @@
+{
+ "format": "eightmax-flop-solver-benchmark",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T17:28:10.185Z",
+ "machine": {
+  "cpu": "AMD EPYC 7763 64-Core Processor                ",
+  "logicalCpus": 4,
+  "node": "v22.23.5",
+  "totalMemBytes": 17174360064
+ },
+ "game": "heads-up flop subgame, pot 6 bb, flop + every turn and river card enumerated, exact private hands, chip EV; both players use the same range",
+ "solver": "src/flop-solver.js full-width CFR+ (alternating, RM+, linear averaging)",
+ "evaluator": "src/fast-multistreet.js exact best response (independent code path)",
+ "stopRule": "exploitability <= 0.5 % of the pot or 150000 ms",
+ "results": [
+  {
+   "board": "As7d2h",
+   "ranges": "narrow (~45 combos)",
+   "menu": "75% pot, all-in raise, 1 bet/street",
+   "stacks": "SPR 2",
+   "combos": [
+    46,
+    46
+   ],
+   "decisionNodes": 36,
+   "threads": 4,
+   "iterations": 75,
+   "stopped": "target-reached",
+   "wallMs": 20514,
+   "msPerIteration": 264.7,
+   "memoryEstimateMiB": 66.9,
+   "exploitabilityBB": 0.022518,
+   "exploitabilityPctPot": 0.3753,
+   "meetsTarget": true,
+   "curve": [
+    [
+     25,
+     2.187,
+     9058
+    ],
+    [
+     50,
+     0.7151,
+     14591
+    ],
+    [
+     75,
+     0.3753,
+     19853
+    ]
+   ],
+   "linkedRecord": {
+    "bytes": 27403905,
+    "exportMs": 1332,
+    "storedRows": 2015168,
+    "missingRows": 0,
+    "impossibleRows": 175904,
+    "boards": 2402,
+    "reEvaluatedExploitabilityBB": 0.022518447185200685,
+    "reEvaluationMs": 7748,
+    "equalToSolverEvaluation": true
+   }
+  },
+  {
+   "board": "Th9h4c",
+   "ranges": "narrow (~45 combos)",
+   "menu": "75% pot, all-in raise, 1 bet/street",
+   "stacks": "SPR 2",
+   "combos": [
+    54,
+    54
+   ],
+   "decisionNodes": 36,
+   "threads": 4,
+   "iterations": 75,
+   "stopped": "target-reached",
+   "wallMs": 24312,
+   "msPerIteration": 318.6,
+   "memoryEstimateMiB": 78.5,
+   "exploitabilityBB": 0.016508,
+   "exploitabilityPctPot": 0.2751,
+   "meetsTarget": true,
+   "curve": [
+    [
+     25,
+     1.4587,
+     10042
+    ],
+    [
+     50,
+     0.5112,
+     16147
+    ],
+    [
+     75,
+     0.2751,
+     23893
+    ]
+   ],
+   "linkedRecord": {
+    "bytes": 31122291,
+    "exportMs": 1387,
+    "storedRows": 2365632,
+    "missingRows": 0,
+    "impossibleRows": 206496,
+    "boards": 2402,
+    "reEvaluatedExploitabilityBB": 0.01650770142633773,
+    "reEvaluationMs": 8655,
+    "equalToSolverEvaluation": true
+   }
+  },
+  {
+   "board": "8s8d3c",
+   "ranges": "narrow (~45 combos)",
+   "menu": "75% pot, all-in raise, 1 bet/street",
+   "stacks": "SPR 2",
+   "combos": [
+    56,
+    56
+   ],
+   "decisionNodes": 36,
+   "threads": 4,
+   "iterations": 75,
+   "stopped": "target-reached",
+   "wallMs": 23116,
+   "msPerIteration": 301.3,
+   "memoryEstimateMiB": 81.4,
+   "exploitabilityBB": 0.019687,
+   "exploitabilityPctPot": 0.3281,
+   "meetsTarget": true,
+   "curve": [
+    [
+     25,
+     2.082,
+     10136
+    ],
+    [
+     50,
+     0.6417,
+     16399
+    ],
+    [
+     75,
+     0.3281,
+     22599
+    ]
+   ],
+   "linkedRecord": {
+    "bytes": 33002371,
+    "exportMs": 1424,
+    "storedRows": 2453248,
+    "missingRows": 0,
+    "impossibleRows": 214144,
+    "boards": 2402,
+    "reEvaluatedExploitabilityBB": 0.019687086827084643,
+    "reEvaluationMs": 8883,
+    "equalToSolverEvaluation": true
+   }
+  }
+ ],
+ "checks": {
+  "checkpointResume": {
+   "iterations": "15 + 15 vs 30",
+   "identical": true,
+   "checkpointBytes": 70705747
+  },
+  "threads": {
+   "iterations": 40,
+   "runs": [
+    {
+     "threads": 1,
+     "wallMs": 16939,
+     "exploitabilityBB": 0.06127366271330148
+    },
+    {
+     "threads": 4,
+     "wallMs": 11504,
+     "exploitabilityBB": 0.0612562614387564
+    }
+   ],
+   "relativeDifference": 0.0002839927266385499,
+   "speedup": 1.47,
+   "note": "includes one independent evaluation per run; results differ only by floating-point summation order of the flop regret increments"
+  },
+  "thirdEvaluator": {
+   "game": "Kd8s3c, 28 vs 28 combos",
+   "geometry": {
+    "nodes": 81,
+    "mismatches": 0
+   },
+   "fastMultiStreet": {
+    "exploitabilityBB": 0.061245370154487944,
+    "values": [
+     2.859522531294912,
+     3.140477468705086
+    ]
+   },
+   "independentEval": {
+    "exploitabilityBB": 0.06124537015448661,
+    "values": [
+     2.859522531294913,
+     3.1404774687050874
+    ],
+    "missingRows": 0,
+    "ms": 45335
+   },
+   "absoluteDifference": 1.3322676295501878e-15
+  }
+ }
+}

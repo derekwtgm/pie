@@ -1,0 +1,179 @@
+{
+ "format": "eightmax-multiway-validation",
+ "version": 1,
+ "appVersion": "0.33.0",
+ "generatedAt": "2026-11-19T17:31:32.715Z",
+ "machine": {
+  "cpu": "AMD EPYC 7763 64-Core Processor                ",
+  "logicalCpus": 4,
+  "node": "v22.23.5"
+ },
+ "evaluator": "src/independent-eval.js (independent of the EightMax engine and of the workbench solvers: own betting rules, side pots, 7-card evaluator, state-file reader and best response)",
+ "meaning": "NashConv = sum of the unilateral best-response gains. With three players it is NOT an exploitability; 0 = Nash equilibrium (not unique, not coalition-proof). Restricted to the defined betting abstraction.",
+ "references": [
+  {
+   "game": "2-player Kuhn, equilibrium alpha = 0.0000",
+   "expected": {
+    "player1Value": -0.05555555555555555,
+    "nashConv": 0
+   },
+   "measured": {
+    "player1Value": -0.05555555555555558,
+    "nashConv": 0
+   },
+   "pass": true
+  },
+  {
+   "game": "2-player Kuhn, equilibrium alpha = 0.2000",
+   "expected": {
+    "player1Value": -0.05555555555555555,
+    "nashConv": 0
+   },
+   "measured": {
+    "player1Value": -0.05555555555555558,
+    "nashConv": 0
+   },
+   "pass": true
+  },
+  {
+   "game": "2-player Kuhn, equilibrium alpha = 0.3333",
+   "expected": {
+    "player1Value": -0.05555555555555555,
+    "nashConv": 0
+   },
+   "measured": {
+    "player1Value": -0.05555555555555566,
+    "nashConv": 7.632783294297951e-17
+   },
+   "pass": true
+  },
+  {
+   "game": "3-player Kuhn, check / fold to bets",
+   "expected": {
+    "gains": [
+     2,
+     2,
+     2
+    ],
+    "nashConv": 6
+   },
+   "measured": {
+    "gains": [
+     2,
+     2,
+     2
+    ],
+    "nashConv": 6
+   },
+   "pass": true
+  },
+  {
+   "game": "3-player hold'em river (pot 6), check / fold to bets",
+   "expected": {
+    "nashConv": 12,
+    "valueSum": 6
+   },
+   "measured": {
+    "nashConv": 12,
+    "valueSum": 6,
+    "values": [
+     4.269230769230769,
+     0.9807692307692307,
+     0.75
+    ]
+   },
+   "pass": true
+  },
+  {
+   "game": "3-player Kuhn, independent vanilla CFR 100 iterations",
+   "expected": "NashConv decreasing toward 0 (CFR in 3-player Kuhn is known to approach equilibrium empirically; not guaranteed)",
+   "measured": {
+    "nashConv": 0.08952130377076947,
+    "values": [
+     -0.0345551138409379,
+     -0.013749053679933324,
+     0.04830416752087122
+    ],
+    "ms": 91
+   },
+   "pass": null
+  },
+  {
+   "game": "3-player Kuhn, independent vanilla CFR 1000 iterations",
+   "expected": "NashConv decreasing toward 0 (CFR in 3-player Kuhn is known to approach equilibrium empirically; not guaranteed)",
+   "measured": {
+    "nashConv": 0.016571312847565522,
+    "values": [
+     -0.029327510901796305,
+     -0.018609668214203772,
+     0.047937179116000074
+    ],
+    "ms": 415
+   },
+   "pass": null
+  },
+  {
+   "game": "3-player Kuhn, independent vanilla CFR 5000 iterations",
+   "expected": "NashConv decreasing toward 0 (CFR in 3-player Kuhn is known to approach equilibrium empirically; not guaranteed)",
+   "measured": {
+    "nashConv": 0.004862530649207091,
+    "values": [
+     -0.028425313686462134,
+     -0.02003909138540072,
+     0.048464405071863004
+    ],
+    "ms": 1981
+   },
+   "pass": null
+  }
+ ],
+ "engineCrossCheck": [
+  {
+   "seed": 3,
+   "updates": 20000,
+   "trainMs": 214,
+   "geometry": {
+    "nodesCompared": 179,
+    "mismatches": 0
+   },
+   "reconstruction": {
+    "rowsCompared": 5000,
+    "maxProbabilityDifference": 0
+   },
+   "engineInternal": {
+    "gainsBB": [
+     1.1428274225837964,
+     1.0949266025170319,
+     1.407234338274669
+    ],
+    "nashConvBB": 3.6449883633754974,
+    "nashConvPctPot": 60.74980605625829,
+    "ms": 4023,
+    "classification": "exact inside the abstraction, engine-internal (not independent)"
+   },
+   "independent": {
+    "gainsBB": [
+     1.1428274225837964,
+     1.0949266025170319,
+     1.407234338274669
+    ],
+    "nashConvBB": 3.6449883633754974,
+    "nashConvPctPot": 60.74980605625829,
+    "values": [
+     2.2494642087769097,
+     2.053838278231237,
+     1.6966975129918538
+    ],
+    "valueSum": 6,
+    "missingRows": 36545,
+    "classification": "exact evaluation of an INCOMPLETE strategy (missing rows played uniformly)",
+    "ms": 56049
+   },
+   "agreement": {
+    "maxGainDifferenceBB": 0,
+    "withinTolerance1e9": true
+   },
+   "meetsResearchLimit2_5Pct": false
+  }
+ ]
+}

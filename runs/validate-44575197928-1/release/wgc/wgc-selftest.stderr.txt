@@ -1,0 +1,13 @@
+PASS create-window - hwnd=0x30186 dpiScale=1
+PASS session-start - device=hardware size=640x400
+PASS first-frame - seq=1 640x400 ageMs=16.724 latencyMs=52.107
+PASS verify-original-pixels - 640x400 (expected 640x400)
+PASS resize-detected - resizes=1 frame=800x500
+PASS verify-resized-pixels - 800x500
+PASS refuse-wrong-process - refusal=target-identity-changed (handle checked against another process id)
+PASS detect-minimized - IsIconic=True refusal=target-minimized
+PASS recover-after-restore - seq=4 800x500
+PASS frame-sequence - first=1 latest=4 dropped=0 blank=0
+PASS repeated-sessions-and-cleanup - 5/5 sessions produced a frame; working-set growth 1 MiB (limit 64)
+PASS detect-closed - IsWindow=False itemClosedEvent=False
+PASS refuse-closed-handle - refusal=target-lost

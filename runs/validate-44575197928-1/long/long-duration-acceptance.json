@@ -1,0 +1,127 @@
+{
+    "format":  "eightmax-test-report",
+    "version":  2,
+    "test":  "long-duration-acceptance",
+    "appVersion":  "0.33.0",
+    "machine":  "runnervmm7ud1",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "startedAt":  "2026-11-19T17:32:36.6022445Z",
+    "completedAt":  "2026-11-19T17:39:51.7696474Z",
+    "executables":  {
+                        "native\\mwcli.exe":  "n/a sha256:b3e675bfe2ae231e",
+                        "runtime\\node\\node.exe":  "22.23.5 sha256:247e9693d316da98",
+                        "desktop\\bin\\EightMaxWgc.exe":  "0.33.0 sha256:99b8ba4876d1b71f",
+                        "desktop\\bin\\EightMaxCapture.exe":  "0.33.0 sha256:101a3aae95e4d727",
+                        "desktop\\bin\\EightMaxWorkbench.exe":  "0.33.0 sha256:6efb020891f1468c"
+                    },
+    "checks":  [
+                   {
+                       "check":  "hardware facts",
+                       "stage":  "hardware",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:32:38.1341251Z",
+                       "completedAt":  "2026-11-19T17:32:40.9779520Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "hardware-facts.json written",
+                       "files":  [
+                                     "C:\\em-results\\long\\hardware-facts.json"
+                                 ]
+                   },
+                   {
+                       "check":  "0.31 component self-test",
+                       "stage":  "self-test",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:32:41.0275650Z",
+                       "completedAt":  "2026-11-19T17:34:53.1865793Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "pass 73, fail 0, exit 0, 132079 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\self-test.stdout.txt",
+                                     "C:\\em-results\\long\\self-test.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "mathematical validation (quick, exact small games)",
+                       "stage":  "math",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:34:53.1891159Z",
+                       "completedAt":  "2026-11-19T17:37:48.8417039Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 175649 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\math-validation.json",
+                                     "C:\\em-results\\long\\math-validation.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "sustained precomputation (2 min)",
+                       "stage":  "precompute",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:37:49.3333097Z",
+                       "completedAt":  "2026-11-19T17:39:50.4605601Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "studies completed 118, failed/memory-limited 0, 121 s",
+                       "files":  [
+                                     "C:\\em-results\\long\\precompute.stdout.txt",
+                                     "C:\\em-results\\long\\precompute.stderr.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "strategy library integrity (every record)",
+                       "stage":  "library",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:39:50.4605601Z",
+                       "completedAt":  "2026-11-19T17:39:51.0017631Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "exit 0, 539 ms",
+                       "files":  [
+                                     "C:\\em-results\\long\\verify.stdout.txt"
+                                 ]
+                   },
+                   {
+                       "check":  "memory stayed controlled",
+                       "stage":  "memory",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:39:51.7340116Z",
+                       "completedAt":  "2026-11-19T17:39:51.7340116Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "peak workbench working set 780 MiB of 16379 MiB; lowest free 12722 MiB",
+                       "files":  [
+                                     "C:\\em-results\\long\\memory-samples.csv"
+                                 ]
+                   },
+                   {
+                       "check":  "no leftover solver processes",
+                       "stage":  "cleanup",
+                       "status":  "pass",
+                       "passed":  true,
+                       "startedAt":  "2026-11-19T17:39:51.7418238Z",
+                       "completedAt":  "2026-11-19T17:39:51.7418238Z",
+                       "errorClass":  null,
+                       "errorCode":  null,
+                       "detail":  "mwcli processes left: 0",
+                       "files":  [
+
+                                 ]
+                   }
+               ],
+    "counts":  {
+                   "total":  7,
+                   "passed":  7,
+                   "failed":  0,
+                   "skipped":  0
+               },
+    "passed":  true
+}

@@ -1,0 +1,1 @@
+{"ok":false,"backend":"windows-graphics-capture","code":"bad-arguments","reason":"Unknown argument --nonsense"}
