@@ -1,0 +1,44 @@
+﻿{
+    "format":  "eightmax-ci-035",
+    "version":  1,
+    "runId":  "44773047062",
+    "sha":  "83e9fc7e61de7488bc2cc42fadcabe50d17a0e6a",
+    "stages":  {
+                   "base":  {
+                                "exit":  0,
+                                "detail":  "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+                            },
+                   "build":  {
+                                 "exit":  0,
+                                 "detail":  null
+                             },
+                   "input-selftest":  {
+                                          "exit":  0,
+                                          "detail":  null
+                                      },
+                   "node-tests-035":  {
+                                          "exit":  0,
+                                          "detail":  null
+                                      },
+                   "input-acceptance":  {
+                                            "exit":  0,
+                                            "detail":  null
+                                        },
+                   "simulator-benchmark":  {
+                                               "exit":  0,
+                                               "detail":  null
+                                           }
+               },
+    "environment":  {
+                        "os":  "Microsoft Windows Server 2025 Datacenter 10.0.26100",
+                        "cpu":  "AMD EPYC 9V74 80-Core Processor                ",
+                        "logical":  4,
+                        "ramGiB":  16,
+                        "session":  2,
+                        "interactive":  true
+                    },
+    "display":  {
+                    "before":  "{X=0,Y=0,Width=1024,Height=768}",
+                    "after":  "{X=0,Y=0,Width=1920,Height=1080}"
+                }
+}
