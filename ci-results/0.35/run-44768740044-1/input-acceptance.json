@@ -1,0 +1,489 @@
+{
+  "format": "eightmax-input-acceptance",
+  "version": 1,
+  "app": "0.35.0",
+  "at": "2026-11-20T16:02:08.836Z",
+  "seconds": 25,
+  "environment": {
+    "platform": "win32",
+    "node": "v22.23.5",
+    "host": "****",
+    "driver": {
+      "version": "0.35.0",
+      "platform": "win32",
+      "capabilities": {
+        "operations": [
+          "cursor",
+          "monitors",
+          "list-windows",
+          "window-info",
+          "exe-identity",
+          "register-target",
+          "unregister-target",
+          "focus",
+          "move",
+          "move-click",
+          "click",
+          "double-click",
+          "mouse-down",
+          "mouse-up",
+          "key",
+          "type",
+          "clear-field",
+          "read-text",
+          "enter-text",
+          "uia-controls",
+          "wait"
+        ],
+        "sendInput": true,
+        "virtual": false,
+        "uiAutomation": true,
+        "rawInputOverride": true,
+        "hotkey": "Ctrl+Alt+F12",
+        "hotkeyRegistered": true,
+        "maxQueue": 8,
+        "dpiAwareness": "per-monitor-v2",
+        "note": ""
+      }
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ],
+    "virtualScreen": {
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 1080
+    },
+    "fixture": [
+      {
+        "table": 1,
+        "client": {
+          "x": 28,
+          "y": 41,
+          "w": 960,
+          "h": 600
+        },
+        "dpi": 96
+      },
+      {
+        "table": 2,
+        "client": {
+          "x": 64,
+          "y": 69,
+          "w": 960,
+          "h": 600
+        },
+        "dpi": 96
+      }
+    ],
+    "movementSample": {
+      "independent": {
+        "samples": 71,
+        "ok": true,
+        "problems": [],
+        "start": {
+          "x": 58,
+          "y": 81
+        },
+        "end": {
+          "x": 928,
+          "y": 591
+        },
+        "travel": 1010.66,
+        "durationMs": 1149.8,
+        "peakSpeed": 1597.1,
+        "peakAccel": 9950.2,
+        "maxStepPx": 25.55,
+        "intervalMs": {
+          "min": 14,
+          "median": 16,
+          "mean": 16.43,
+          "max": 48.4
+        },
+        "buttonDownSamples": 0,
+        "allowance": {
+          "speed": 1790.5,
+          "accel": 19062.5,
+          "note": "limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"
+        },
+        "stepLimitPx": 34,
+        "targetError": 0
+      },
+      "commanded": {
+        "samples": 75,
+        "ok": true,
+        "problems": [],
+        "start": {
+          "x": 58,
+          "y": 81
+        },
+        "end": {
+          "x": 928,
+          "y": 591
+        },
+        "travel": 1010.66,
+        "durationMs": 1181.79,
+        "peakSpeed": 1600.1,
+        "peakAccel": 6199.4,
+        "maxStepPx": 25.55,
+        "intervalMs": {
+          "min": 15.97,
+          "median": 15.97,
+          "mean": 15.97,
+          "max": 15.97
+        },
+        "buttonDownSamples": 0,
+        "allowance": {
+          "speed": 1790.6,
+          "accel": 19091.7,
+          "note": "limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"
+        },
+        "stepLimitPx": 34,
+        "targetError": 0
+      },
+      "timing": {
+        "min": 15.59,
+        "median": 15.98,
+        "mean": 15.98,
+        "max": 16.24
+      }
+    },
+    "driverStats": {
+      "ops": 33,
+      "moves": 414,
+      "clicks": 9,
+      "keys": 6,
+      "chars": 8,
+      "refused": 7,
+      "cancelled": 2,
+      "errors": 0,
+      "corrections": 0,
+      "maxCorrectionPx": 0,
+      "doubleClickGuards": 1
+    },
+    "oracle": [
+      {
+        "table": 1,
+        "counts": {
+          "mouseDown": 9,
+          "mouseUp": 9,
+          "downOutsideControls": 0,
+          "downOnDisabled": 0,
+          "doubleClicks": 0,
+          "rightClicks": 0,
+          "keys": 14,
+          "actions": 4,
+          "accepted": 3,
+          "staleClicks": 0,
+          "illegal": 0,
+          "wagerRejected": 1,
+          "byType": {
+            "call": 1,
+            "raise": 1,
+            "fold": 1
+          }
+        }
+      },
+      {
+        "table": 2,
+        "counts": {
+          "mouseDown": 0,
+          "mouseUp": 0,
+          "downOutsideControls": 0,
+          "downOnDisabled": 0,
+          "doubleClicks": 0,
+          "rightClicks": 0,
+          "keys": 0,
+          "actions": 0,
+          "accepted": 0,
+          "staleClicks": 0,
+          "illegal": 0,
+          "wagerRejected": 0,
+          "byType": {}
+        }
+      }
+    ]
+  },
+  "passed": 29,
+  "total": 29,
+  "ok": true,
+  "checks": [
+    {
+      "name": "driver starts, authenticates and reports SendInput + DPI awareness",
+      "ok": true,
+      "detail": {
+        "dpi": "per-monitor-v2",
+        "uia": true,
+        "hotkey": "Ctrl+Alt+F12",
+        "hotkeyRegistered": true,
+        "rawInput": true,
+        "note": ""
+      }
+    },
+    {
+      "name": "input to an unregistered window is refused",
+      "ok": true,
+      "detail": "target-not-registered"
+    },
+    {
+      "name": "registration refused for a different executable hash",
+      "ok": true,
+      "detail": "The program's SHA-256 (45d09141d848dd93073de7943bad0bdc8f22c694e9f934997732d5759bd9edbe) differs from the authorised executable."
+    },
+    {
+      "name": "driver hashes the target executable exactly like the file on disk",
+      "ok": true,
+      "detail": "45d09141d848dd93073de7943bad0bdc8f22c694e9f934997732d5759bd9edbe"
+    },
+    {
+      "name": "UI Automation lists the table buttons and the wager field",
+      "ok": true,
+      "detail": "Fold:Button, Check:Button, Call:Button, Raise:Button, All-in:Button, Wager amount:Edit, Minimize:Button, Maximize:Button, Close:Button"
+    },
+    {
+      "name": "movement is continuous (independent 1 ms sampler: no step larger than max speed x update interval, no button down) and ends exactly on target",
+      "ok": true,
+      "detail": {
+        "problems": [],
+        "rawSamples": 631,
+        "positions": 71,
+        "travel": 1010.66,
+        "maxStepPx": 25.55,
+        "stepLimitPx": 34,
+        "targetError": 0,
+        "buttonDownSamples": 0,
+        "measuredPeakSpeed": 1597.1
+      }
+    },
+    {
+      "name": "commanded path follows the minimum-jerk plan and respects the speed and acceleration limits",
+      "ok": true,
+      "detail": {
+        "matchesPlan": true,
+        "peakSpeed": 1600.1,
+        "peakAccel": 6199.4,
+        "limits": {
+          "maxSpeed": 1600,
+          "maxAccel": 9000
+        },
+        "allowance": {
+          "speed": 1790.6,
+          "accel": 19091.7,
+          "note": "limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"
+        },
+        "problems": []
+      }
+    },
+    {
+      "name": "movement takes its planned time (not faster) at ~60 updates per second",
+      "ok": true,
+      "detail": {
+        "plannedMs": 1181.79,
+        "actualMs": 1184.75,
+        "medianIntervalMs": 15.98,
+        "maxIntervalMs": 16.24,
+        "maxTimingErrorMs": 0.61
+      }
+    },
+    {
+      "name": "Call: exactly one press, on the Call button, inside the validated region",
+      "ok": true,
+      "detail": {
+        "downs": [
+          "call@840,573"
+        ],
+        "region": {
+          "x": 847,
+          "y": 605,
+          "w": 42,
+          "h": 18
+        },
+        "clickedAt": {
+          "x": 868,
+          "y": 614
+        }
+      }
+    },
+    {
+      "name": "Call: the table accepted exactly one call",
+      "ok": true,
+      "detail": [
+        "call:accepted"
+      ]
+    },
+    {
+      "name": "the button was down only for the click itself (no press while moving)",
+      "ok": true,
+      "detail": "24 samples (2 ms) with the button down"
+    },
+    {
+      "name": "wager typed key by key and read back exactly before submitting",
+      "ok": true,
+      "detail": {
+        "read": "450",
+        "field": "0x20174"
+      }
+    },
+    {
+      "name": "Raise: the table applied a raise to exactly the typed amount",
+      "ok": true,
+      "detail": {
+        "result": "accepted",
+        "applied": {
+          "hand": 1,
+          "seat": 4,
+          "control": "raise",
+          "type": "raise",
+          "amount": 450,
+          "rev": 3
+        },
+        "wager": "450",
+        "before": 1
+      }
+    },
+    {
+      "name": "an invalid wager (below the minimum) is refused by the table and the state does not change",
+      "ok": true,
+      "detail": {
+        "result": "wager-rejected",
+        "reason": "outside 800..2490"
+      }
+    },
+    {
+      "name": "after the window moved and was resized, the old coordinates are refused (layout-changed)",
+      "ok": true,
+      "detail": "layout-changed"
+    },
+    {
+      "name": "fresh coordinates after move+resize land on the intended control",
+      "ok": true,
+      "detail": {
+        "control": "fold",
+        "client": {
+          "x": 268,
+          "y": 171,
+          "w": 1120,
+          "h": 700
+        },
+        "rev": 4,
+        "check": {
+          "x": 1095,
+          "y": 829,
+          "w": 71,
+          "h": 21
+        }
+      }
+    },
+    {
+      "name": "a click on a covered control is refused when bringing windows to the front is not allowed",
+      "ok": true,
+      "detail": "target-covered"
+    },
+    {
+      "name": "with bring-to-front the covered window is raised first and only it receives the click",
+      "ok": true,
+      "detail": {
+        "foreground": true,
+        "t1": 1,
+        "t2": 0,
+        "hit": "WindowsForms10.EDIT.app.0.34f5582_r6_ad1"
+      }
+    },
+    {
+      "name": "keyboard entry stops when the simulator loses focus (no keys typed into another window)",
+      "ok": true,
+      "detail": "focus-lost: The simulator window is not in the foreground; keyboard input refused."
+    },
+    {
+      "name": "the other window received no keystrokes",
+      "ok": true,
+      "detail": "0 keys"
+    },
+    {
+      "name": "cancel interrupts a movement; the cursor does not move afterwards",
+      "ok": true,
+      "detail": {
+        "code": "cancelled",
+        "maxDisplacementAfter": 0,
+        "cancelMs": 415
+      }
+    },
+    {
+      "name": "a minimised simulator window is refused",
+      "ok": true,
+      "detail": "window-minimized"
+    },
+    {
+      "name": "a closed simulator window is detected and refused",
+      "ok": true,
+      "detail": "window-gone"
+    },
+    {
+      "name": "emergency stop latches: queued and new input refused until an explicit reset",
+      "ok": true,
+      "detail": "emergency-stop"
+    },
+    {
+      "name": "automation cannot be re-enabled while the stop is latched",
+      "ok": true,
+      "detail": "emergency-stop"
+    },
+    {
+      "name": "no mouse button or key held by the driver",
+      "ok": true,
+      "detail": {
+        "heldButtons": false,
+        "heldKeys": 0
+      }
+    },
+    {
+      "name": "the table never received a click on an old frame (no duplicate or late action)",
+      "ok": true,
+      "detail": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "no press outside a control and no double-click reached the table (consecutive clicks on one spot are spaced beyond the double-click time)",
+      "ok": true,
+      "detail": {
+        "perTable": [
+          {
+            "outside": 0,
+            "doubleClicks": 0
+          },
+          {
+            "outside": 0,
+            "doubleClicks": 0
+          }
+        ],
+        "guards": 1
+      }
+    },
+    {
+      "name": "the driver process exits on shutdown (no orphan)",
+      "ok": true,
+      "detail": "INFO: No tasks are running which match the specified criteria."
+    }
+  ],
+  "oracleDir": "C:\\em035-results\\oracle"
+}
