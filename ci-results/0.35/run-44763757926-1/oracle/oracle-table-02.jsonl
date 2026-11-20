@@ -1,0 +1,9 @@
+{"t":1795188631292,"table":2,"kind":"ready","hwnd":"0x500B6","client":{"x":64,"y":69,"w":960,"h":600},"dpi":96}
+{"t":1795188631293,"table":2,"kind":"hand-start","rev":1,"state":{"hand":1,"status":"playing","street":"preflop","actor":3,"revision":1,"currentBet":100,"pot":230,"stacks":[2490,2440,2390,2490,2490,2490,2490,2490],"bets":[0,50,100,0,0,0,0,0],"folded":[false,false,false,false,false,false,false,false]}}
+{"t":1795188642011,"table":2,"kind":"moved","x":248,"y":151}
+{"t":1795188642019,"table":2,"kind":"moved","x":248,"y":151}
+{"t":1795188642019,"table":2,"kind":"resize","w":1120,"h":700,"rev":2}
+{"t":1795188647015,"table":2,"kind":"moved","x":-32000,"y":-32000}
+{"t":1795188647015,"table":2,"kind":"minimized"}
+{"t":1795188647623,"table":2,"kind":"moved","x":248,"y":151}
+{"t":1795188648116,"table":2,"kind":"closed"}

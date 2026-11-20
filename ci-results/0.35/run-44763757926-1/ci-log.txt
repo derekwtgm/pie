@@ -1,0 +1,206 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120152934
+Username: runnervmbpeip\runneradmin
+RunAs User: runnervmbpeip\runneradmin
+Configuration Name: 
+Machine: runnervmbpeip (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command . 'D:\a\_temp\f94f9790-3505-4264-86fc-ea9c7c26ba75.ps1'
+Process ID: 8580
+PSVersion: 5.1.26100.33822
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.33822
+BuildVersion: 10.0.26100.33822
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+==== ENVIRONMENT ====
+OS: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CPU: AMD EPYC 9V74 80-Core Processor                 (4 logical); RAM 16 GiB
+GPU/display: Microsoft Hyper-V Video 1024x768
+UserInteractive: True; session: 2; user: runneradmin
+
+==== DISPLAY RESOLUTION ====
+virtual screen before: {X=0,Y=0,Width=1024,Height=768}
+
+Set-DisplayResolution 1920x1080 done
+virtual screen after: {X=0,Y=0,Width=1920,Height=1080}
+
+==== BASE 0.33.0 ZIP ====
+
+base sha256 024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78
+overlay robocopy exit 3
+STAGE base exit 0
+
+==== BUILD ON WINDOWS ====
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:winexe /out:C:\em035\x\EightMax-Test-Workbench\desktop\bin\EightMaxWorkbench.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Workbench.DesktopHost C:\em035\x\EightMax-Test-Workbench\desktop\DesktopHost.cs C:\em035\x\EightMax-Test-Workbench\desktop\CaptureService.cs C:\em035\x\EightMax-Test-Workbench\desktop\InputBroker.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:exe /out:C:\em035\x\EightMax-Test-Workbench\desktop\bin\EightMaxCapture.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll C:\em035\x\EightMax-Test-Workbench\desktop\capture\EightMaxCapture.cs C:\em035\x\EightMax-Test-Workbench\desktop\CaptureService.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:exe /out:C:\em035\x\EightMax-Test-Workbench\desktop\bin\EightMaxInput.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Input.Program /define:UIA /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\UIAutomationClient.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\UIAutomationTypes.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\WindowsBase.dll /win32manifest:C:\em035\x\EightMax-Test-Workbench\desktop\input\app.manifest C:\em035\x\EightMax-Test-Workbench\desktop\input\Driver.cs C:\em035\x\EightMax-Test-Workbench\desktop\input\Motion.cs C:\em035\x\EightMax-Test-Workbench\desktop\input\Platform.cs C:\em035\x\EightMax-Test-Workbench\desktop\input\Program.cs C:\em035\x\EightMax-Test-Workbench\desktop\input\Safety.cs C:\em035\x\EightMax-Test-Workbench\desktop\input\Uia.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:winexe /out:C:\em035\x\EightMax-Test-Workbench\desktop\bin\EightMaxTestTable.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.TestTable.Program /win32manifest:C:\em035\x\EightMax-Test-Workbench\desktop\testtable\app.manifest C:\em035\x\EightMax-Test-Workbench\desktop\testtable\EightMaxTestTable.cs
+c:\em035\x\EightMax-Test-Workbench\desktop\testtable\EightMaxTestTable.cs(94,11): warning CS0108: 'EightMax.TestTable.TableForm.DeviceDpi()' hides inherited member 'System.Windows.Forms.Control.DeviceDpi'. Use the new keyword if hiding was intended.
+c:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll: (Location of symbol related to previous warning)
+{
+    "format":  "eightmax-build-evidence",
+    "version":  1,
+    "builtAt":  "2026-11-20T15:30:08.0060784Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "ci":  {
+               "runId":  "44763757926",
+               "runner":  "GitHub Actions 1000000124",
+               "repository":  "derekwtgm/pie",
+               "sha":  "42a71e4fc97ed916566323101522c82053d6814d"
+           },
+    "outputs":  {
+                    "desktop/bin/EightMaxWorkbench.exe":  {
+                                                              "sha256":  "8bc76b562e8832c43b1f02e5c34b9c12d606af889b715cb3a4ab1b92380cc133",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+                                                              "sources":  [
+                                                                              "desktop/DesktopHost.cs",
+                                                                              "desktop/CaptureService.cs",
+                                                                              "desktop/InputBroker.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          },
+                    "desktop/bin/EightMaxCapture.exe":  {
+                                                            "sha256":  "a67e83b95c4cf2ed4caf455622462f57cacfb98c53311060331f324d75695797",
+                                                            "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                            "sources":  [
+                                                                            "desktop/capture/EightMaxCapture.cs",
+                                                                            "desktop/CaptureService.cs"
+                                                                        ],
+                                                            "crossCompiled":  false
+                                                        },
+                    "desktop/bin/EightMaxInput.exe":  {
+                                                          "sha256":  "7c410e25d0e0e6518f47f01e44d7e5ae802edc3a696d6137c702785af439f94f",
+                                                          "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /define:UIA, UIAutomationClient)",
+                                                          "sources":  [
+                                                                          "desktop/input/Driver.cs",
+                                                                          "desktop/input/Motion.cs",
+                                                                          "desktop/input/Platform.cs",
+                                                                          "desktop/input/Program.cs",
+                                                                          "desktop/input/Safety.cs",
+                                                                          "desktop/input/Uia.cs"
+                                                                      ],
+                                                          "crossCompiled":  false
+                                                      },
+                    "desktop/bin/EightMaxTestTable.exe":  {
+                                                              "sha256":  "e095578e99f4e9ea4c11893365727acaea5bfb11222ba2738d6dd96c6ed0a190",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                              "sources":  [
+                                                                              "desktop/testtable/EightMaxTestTable.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          }
+                }
+}
+EightMaxWorkbench.exe 0.35.0 8bc76b562e8832c43b1f02e5c34b9c12d606af889b715cb3a4ab1b92380cc133
+EightMaxCapture.exe 0.33.0 a67e83b95c4cf2ed4caf455622462f57cacfb98c53311060331f324d75695797
+EightMaxInput.exe 0.35.0 7c410e25d0e0e6518f47f01e44d7e5ae802edc3a696d6137c702785af439f94f
+EightMaxTestTable.exe 0.35.0 e095578e99f4e9ea4c11893365727acaea5bfb11222ba2738d6dd96c6ed0a190
+STAGE build exit 0
+
+==== INPUT DRIVER SELF-TEST (real SendInput into the driver's own form) ====
+
+
+STAGE input-selftest exit 1
+---- C:\em035-results\input-selftest.json
+{"format":"eightmax-input-selftest","version":1,"driver":"0.35.0","dpiAwareness":"per-monitor-v2","checks":[{"name":"authenticated hello","ok":true,"detail":""},{"name":"input refused for an unregistered window","ok":true,"detail":"target-not-registered"},{"name":"register own test window with an executable-bound authorization","ok":true,"detail":"{\"id\":4,\"ok\":true,\"window\":{\"hwnd\":\"0x30184\",\"pid\":1864,\"processStart\":\"134396622090097042\",\"title\":\"EightMax input self-test\",\"className\":\"WindowsForms10.Window.8.app.0.2c040a7_r6_ad1\",\"exe\":\"C:\\\\em035\\\\x\\\\EightMax-Test-Workbench\\\\desktop\\\\bin\\\\EightMaxInput.exe\",\"window\":{\"x\":82,\"y\":80,\"w\":562,\"h\""},{"name":"move-click lands one click on the button","ok":true,"detail":"clicks=1 planned 571.46 ms, actual 574.99 ms, steps 36, final error 0"},{"name":"independently sampled path is continuous (no jump larger than max speed x update interval)","ok":false,"detail":"280 samples, largest step 857 px (limit 1600 px/s x 16 ms + margin = 34 px)"},{"name":"enter-text clears \u002799\u0027, types 1250 key by key and reads it back","ok":true,"detail":"field=1250 verified"},{"name":"stale coordinates refused after the window moved (layout-changed)","ok":true,"detail":"layout-changed"},{"name":"cancel stops a movement and the cursor stays still afterwards","ok":false,"detail":"{\"id\":11,\"ok\":false,\"code\":\"manual-override\",\"error\":\"The cursor was moved by someone else; automation yielded.\"} drift=0"},{"name":"emergency hotkey Ctrl+Alt+F12 latches a stop and further input is refused","ok":true,"detail":"registered=True latched=True next=emergency-stop"},{"name":"no mouse button or modifier key left pressed","ok":true,"detail":"all released"},{"name":"raw-input manual override available","ok":true,"detail":""}],"passed":9,"total":11,"fatal":null,"ok":false,"virtualScreen":{"x":0,"y":0,"w":1920,"h":1080}}
+
+==== NODE TESTS: 0.35 input tests ====
+  ...
+# Subtest: a decision that cannot be executed in time at the configured speed is refused, never rushed
+ok 15 - a decision that cannot be executed in time at the configured speed is refused, never rushed
+  ---
+  duration_ms: 56.4388
+  type: 'test'
+  ...
+# Subtest: scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+ok 16 - scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+  ---
+  duration_ms: 1.4742
+  type: 'test'
+  ...
+# Subtest: wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+ok 17 - wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+  ---
+  duration_ms: 0.3178
+  type: 'test'
+  ...
+# Subtest: UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+ok 18 - UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+  ---
+  duration_ms: 0.7348
+  type: 'test'
+  ...
+# Subtest: calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+ok 19 - calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+  ---
+  duration_ms: 2.8039
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17552.5538
+STAGE node-tests-035 exit 0
+
+==== INPUT ACCEPTANCE (real cursor, controlled test tables) ====
+PASS driver starts, authenticates and reports SendInput + DPI awareness - {"dpi":"per-monitor-v2","uia":true,"hotkey":"Ctrl+Alt+F12","hotkeyRegistered":true,"rawInput":true,"note":""}
+PASS input to an unregistered window is refused - target-not-registered
+PASS registration refused for a different executable hash - The program's SHA-256 (e095578e99f4e9ea4c11893365727acaea5bfb11222ba2738d6dd96c6ed0a190) differs from the authorised executable.
+PASS driver hashes the target executable exactly like the file on disk - e095578e99f4e9ea4c11893365727acaea5bfb11222ba2738d6dd96c6ed0a190
+PASS UI Automation lists the table buttons and the wager field - Fold:Button, Check:Button, Call:Button, Raise:Button, All-in:Button, Wager amount:Edit, Minimize:Button, Maximize:Button, Close:Button
+PASS movement is continuous (independent 1 ms sampler: no step larger than max speed x update interval, no button down) and ends exactly on target - {"problems":[],"rawSamples":653,"positions":71,"travel":1010.66,"maxStepPx":25.55,"stepLimitPx":34,"targetError":0,"buttonDownSamples":0,"measuredPeakSpeed":1740.1}
+PASS commanded path follows the minimum-jerk plan and respects the speed and acceleration limits - {"matchesPlan":true,"peakSpeed":1600.1,"peakAccel":6199.4,"limits":{"maxSpeed":1600,"maxAccel":9000},"allowance":{"speed":1790.6,"accel":19091.7,"note":"limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"},"problems":[]}
+PASS movement takes its planned time (not faster) at ~60 updates per second - {"plannedMs":1181.79,"actualMs":1185.1,"medianIntervalMs":15.97,"maxIntervalMs":16.18,"maxTimingErrorMs":0.36}
+PASS Call: exactly one press, on the Call button, inside the validated region - {"downs":["call@840,573"],"region":{"x":847,"y":605,"w":42,"h":18},"clickedAt":{"x":868,"y":614}}
+PASS Call: the table accepted exactly one call - ["call:accepted"]
+PASS the button was down only for the click itself (no press while moving) - 26 samples (2 ms) with the button down
+PASS wager typed key by key and read back exactly before submitting - {"read":"450","field":"0x10222"}
+PASS Raise: the table applied a raise to exactly the typed amount - {"result":"accepted","applied":{"hand":1,"seat":4,"control":"raise","type":"raise","amount":450,"rev":3},"wager":"450","before":1}
+PASS an invalid wager (below the minimum) is refused by the table and the state does not change - {"result":"wager-rejected","reason":"outside 800..2490"}
+PASS after the window moved and was resized, the old coordinates are refused (layout-changed) - layout-changed
+PASS fresh coordinates after move+resize land on the intended control - {"control":"fold","client":{"x":268,"y":171,"w":1120,"h":700},"rev":4,"check":{"x":1095,"y":829,"w":71,"h":21}}
+PASS a click on a covered control is refused when bringing windows to the front is not allowed - target-covered
+PASS with bring-to-front the covered window is raised first and only it receives the click - {"foreground":true,"t1":1,"t2":0,"hit":"WindowsForms10.EDIT.app.0.34f5582_r6_ad1"}
+PASS keyboard entry stops when the simulator loses focus (no keys typed into another window) - focus-lost: The simulator window is not in the foreground; keyboard input refused.
+PASS the other window received no keystrokes - 0 keys
+PASS cancel interrupts a movement; the cursor does not move afterwards - {"code":"cancelled","maxDisplacementAfter":0,"cancelMs":417}
+PASS a minimised simulator window is refused - window-minimized
+PASS a closed simulator window is detected and refused - window-gone
+PASS emergency stop latches: queued and new input refused until an explicit reset - emergency-stop
+PASS automation cannot be re-enabled while the stop is latched - emergency-stop
+PASS no mouse button or key held by the driver - {"heldButtons":false,"heldKeys":0}
+PASS the table never received a click on an old frame (no duplicate or late action) - [0,0]
+PASS no press outside a control and no double-click reached the table (consecutive clicks on one spot are spaced beyond the double-click time) - {"perTable":[{"outside":0,"doubleClicks":0},{"outside":0,"doubleClicks":0}],"guards":1}
+PASS the driver process exits on shutdown (no orphan) - INFO: No tasks are running which match the specified criteria.
+input acceptance: 29/29 passed -> C:\em035-results\input-acceptance.json
+STAGE input-acceptance exit 0
+
+==== END-TO-END: capture -> recognition -> decision -> input -> confirmation, 1/2/5/8/10 tables ====
+--- 1 table(s), 75 s
+{"tables":1,"actions":{"attempted":16,"confirmed":15,"rejected":0,"ambiguous":1,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":16.6},"correctness":{"matchedToOracle":15,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":1},"deadlines":0,"reliable":false}
+--- 2 table(s), 75 s
+{"tables":2,"actions":{"attempted":44,"confirmed":44,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":33.8},"correctness":{"matchedToOracle":44,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- 5 table(s), 75 s
+{"tables":5,"actions":{"attempted":78,"confirmed":78,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":59.3},"correctness":{"matchedToOracle":78,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- 8 table(s), 75 s
+{"tables":8,"actions":{"attempted":82,"confirmed":80,"rejected":2,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":58.3},"correctness":{"matchedToOracle":80,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":2,"reliable":false}
+--- 10 table(s), 75 s
+{"tables":10,"actions":{"attempted":88,"confirmed":88,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":63},"correctness":{"matchedToOracle":88,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+sustainable tables: 0 -> C:\em035-results\simulator-benchmark.json
+STAGE simulator-benchmark exit 0
+
+==== LEFTOVER PROCESSES ====
+
+**********************
+Windows PowerShell transcript end
+End time: 20261120153837
+**********************
