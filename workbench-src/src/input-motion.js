@@ -56,7 +56,9 @@
    * measured over three-sample windows and compared with a stated quantisation allowance, reported separately.
    */
   function analyse(samples, o = {}) {
-    const p = o.profile || DEFAULT_PROFILE, pts = (samples || []).filter((q) => Number.isFinite(q.t) && Number.isFinite(q.x) && Number.isFinite(q.y));
+    const p = o.profile || DEFAULT_PROFILE; let pts = (samples || []).filter((q) => Number.isFinite(q.t) && Number.isFinite(q.x) && Number.isFinite(q.y));
+    // An independent sampler polls much faster than the cursor is updated: keep the first sample of every new position (and button state).
+    if (o.dedupe) pts = pts.filter((q, i) => i === 0 || q.x !== pts[i - 1].x || q.y !== pts[i - 1].y || !!q.down !== !!pts[i - 1].down);
     const r = { samples: pts.length, ok: false, problems: [] };
     if (pts.length < 2) { r.problems.push('fewer than two samples'); return r; }
     let travel = 0, maxStep = 0, maxDt = 0, minDt = Infinity, peakV = 0, peakA = 0, downs = 0; const dts = [], v = [];
@@ -74,13 +76,22 @@
     // Allowances: rounding to whole pixels adds up to 1 px per interval of speed noise and 2 px per interval^2 of acceleration noise.
     const typDt = (med || p.intervalMs) / 1000, vAllow = p.maxSpeed * 1.08 + 1 / typDt, aAllow = p.maxAccel * 1.25 + 2 / (typDt * typDt);
     r.allowance = { speed: +vAllow.toFixed(1), accel: +aAllow.toFixed(1), note: 'limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter' };
-    const jumpLimit = o.maxStepPx !== undefined ? o.maxStepPx : Math.max(8, p.maxSpeed * (maxDt / 1000) * 1.2 + 2);
+    // Continuity: between two updates the cursor may move at most max speed x update interval (+25 % timer jitter, +2 px rounding).
+    const jumpLimit = o.maxStepPx !== undefined ? o.maxStepPx : p.maxSpeed * (p.intervalMs / 1000) * 1.25 + 2; r.stepLimitPx = +jumpLimit.toFixed(2);
     if (maxStep > jumpLimit) r.problems.push('discontinuity: a ' + maxStep.toFixed(1) + ' px jump between samples (limit ' + jumpLimit.toFixed(1) + ' px)');
     if (o.checkLimits !== false) { if (peakV > vAllow) r.problems.push('speed ' + peakV.toFixed(0) + ' px/s exceeds ' + vAllow.toFixed(0)); if (peakA > aAllow) r.problems.push('acceleration ' + peakA.toFixed(0) + ' px/s^2 exceeds ' + aAllow.toFixed(0)); }
     if (o.target) { r.targetError = +Math.hypot(last.x - o.target.x, last.y - o.target.y).toFixed(2); if (r.targetError > (o.targetTolerancePx || 0)) r.problems.push('ended ' + r.targetError + ' px from the target'); }
     if (o.region) { const g = o.region, inside = last.x >= g.x && last.y >= g.y && last.x < g.x + g.w && last.y < g.y + g.h; r.endsInRegion = inside; if (!inside) r.problems.push('ended outside the validated control region'); }
     if (o.expectNoButton && downs) r.problems.push(downs + ' samples with the mouse button down during a movement');
     r.ok = r.problems.length === 0; return r;
+  }
+  /** The driver's step log at its PLANNED times (what was commanded): limits are judged on this; execution jitter separately. */
+  function commanded(driverReply, p = DEFAULT_PROFILE) {
+    const pl = plan(driverReply.from, driverReply.to, p), steps = driverReply.samples || [];
+    const same = pl.points.length === steps.length && pl.points.every((q, i) => q.x === steps[i].x && q.y === steps[i].y);
+    const pts = [{ t: 0, x: driverReply.from.x, y: driverReply.from.y }, ...steps.map((q, i) => ({ t: pl.points[i] ? pl.points[i].t : q.t, x: q.x, y: q.y }))];
+    let jitter = 0; steps.forEach((q, i) => { if (pl.points[i]) jitter = Math.max(jitter, Math.abs(q.t - pl.points[i].t)); });
+    return { matchesPlan: same, points: pts, maxTimingErrorMs: +jitter.toFixed(2) };
   }
   /** After a cancel: the cursor must not move again (samples taken after cancelAt). */
   function movedAfter(samples, tMs, tolerancePx = 0) {
@@ -90,5 +101,5 @@
   /** Cursor-monitor rows from the driver are [t*10, x, y, down]. */
   const fromMonitor = (rows) => rows.map((r) => ({ t: r[0] / 10, x: r[1], y: r[2], down: r[3] === 1 }));
 
-  return { DEFAULT_PROFILE, DEFAULT_TIMING, LIMITS, profile, s, durationMs, steps, at, plan, analyse, movedAfter, fromMonitor, velocityFactor, accelFactor };
+  return { DEFAULT_PROFILE, DEFAULT_TIMING, LIMITS, profile, s, durationMs, steps, at, plan, analyse, commanded, movedAfter, fromMonitor, velocityFactor, accelFactor };
 });

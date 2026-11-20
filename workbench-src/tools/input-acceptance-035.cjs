@@ -61,11 +61,12 @@ async function main() {
     await s.call('move', { hwnd: T1.hwnd, to: a, expectClient: w.client }); await s.call('monitor-start', { intervalMs: 1 });
     const r = await s.call('move', { hwnd: T1.hwnd, to: b, expectClient: w.client }); await sleep(30); const mr = await s.call('monitor-stop');
     const samples = M.fromMonitor(mr.samples), moving = samples.filter((q, i) => i === 0 || q.x !== samples[i - 1].x || q.y !== samples[i - 1].y);
-    const an = M.analyse(samples, { profile: M.DEFAULT_PROFILE, target: b, expectNoButton: true }), dr = M.analyse(r.samples, { profile: M.DEFAULT_PROFILE, target: b });
-    check('movement is continuous (independent 1 ms sampler; no jump, no button down) and ends exactly on target', an.ok, { problems: an.problems, samples: an.samples, distinct: moving.length, travel: an.travel, maxStepPx: an.maxStepPx, targetError: an.targetError, buttonDownSamples: an.buttonDownSamples });
-    check('movement respects the speed and acceleration limits (driver step log)', dr.ok, { peakSpeed: dr.peakSpeed, peakAccel: dr.peakAccel, allowance: dr.allowance, interval: dr.intervalMs, plannedMs: r.plannedMs, actualMs: r.actualMs, steps: r.steps });
-    check('movement takes its planned time (not faster) at ~60 updates per second', r.actualMs >= r.plannedMs - 2 && dr.intervalMs.median >= 12 && dr.intervalMs.median <= 25, { plannedMs: r.plannedMs, actualMs: r.actualMs, medianIntervalMs: dr.intervalMs.median, maxIntervalMs: dr.intervalMs.max });
-    env.movementSample = { analyse: an, driver: dr };
+    const an = M.analyse(samples, { profile: M.DEFAULT_PROFILE, target: b, expectNoButton: true, dedupe: true, checkLimits: false });
+    const cmdPath = M.commanded(r, M.DEFAULT_PROFILE), dr = M.analyse(cmdPath.points, { profile: M.DEFAULT_PROFILE, target: b }), timing = M.analyse([{ t: 0, x: r.from.x, y: r.from.y }, ...r.samples], { profile: M.DEFAULT_PROFILE, checkLimits: false });
+    check('movement is continuous (independent 1 ms sampler: no step larger than max speed x update interval, no button down) and ends exactly on target', an.ok, { problems: an.problems, rawSamples: samples.length, positions: an.samples, travel: an.travel, maxStepPx: an.maxStepPx, stepLimitPx: an.stepLimitPx, targetError: an.targetError, buttonDownSamples: an.buttonDownSamples, measuredPeakSpeed: an.peakSpeed });
+    check('commanded path follows the minimum-jerk plan and respects the speed and acceleration limits', cmdPath.matchesPlan && dr.ok, { matchesPlan: cmdPath.matchesPlan, peakSpeed: dr.peakSpeed, peakAccel: dr.peakAccel, limits: { maxSpeed: M.DEFAULT_PROFILE.maxSpeed, maxAccel: M.DEFAULT_PROFILE.maxAccel }, allowance: dr.allowance, problems: dr.problems });
+    check('movement takes its planned time (not faster) at ~60 updates per second', r.actualMs >= r.plannedMs - 2 && timing.intervalMs.median >= 12 && timing.intervalMs.median <= 25, { plannedMs: r.plannedMs, actualMs: r.actualMs, medianIntervalMs: timing.intervalMs.median, maxIntervalMs: timing.intervalMs.max, maxTimingErrorMs: cmdPath.maxTimingErrorMs });
+    env.movementSample = { independent: an, commanded: dr, timing: timing.intervalMs };
   }
   // ---- 2. click targeting: one click on the intended control, inside its region, accepted by the table ----
   { const before = await legalNow(T1); const t = await target(T1, 'call'); await s.call('monitor-start', { intervalMs: 2 });
@@ -135,7 +136,7 @@ async function main() {
   }
   const sum = await fx.summary(); env.oracle = sum.map((t) => ({ table: t.table, counts: t.counts }));
   check('the table never received a click on an old frame (no duplicate or late action)', sum.every((t) => t.counts.staleClicks === 0), sum.map((t) => t.counts.staleClicks));
-  check('no press outside a control and no double-click reached the table', sum.every((t) => t.counts.downOutsideControls === 0 && t.counts.doubleClicks === 0), sum.map((t) => [t.counts.downOutsideControls, t.counts.doubleClicks]));
+  check('no press outside a control and no double-click reached the table (consecutive clicks on one spot are spaced beyond the double-click time)', sum.every((t) => t.counts.downOutsideControls === 0 && t.counts.doubleClicks === 0), { perTable: sum.map((t) => ({ outside: t.counts.downOutsideControls, doubleClicks: t.counts.doubleClicks })), guards: env.driverStats && env.driverStats.doubleClickGuards });
   await fx.stop(); await s.close(); await sleep(500);
   const leftover = cp.spawnSync('tasklist', ['/FI', 'IMAGENAME eq EightMaxInput.exe', '/NH'], { encoding: 'utf8' }).stdout || ''; check('the driver process exits on shutdown (no orphan)', !/EightMaxInput\.exe/i.test(leftover), leftover.trim().slice(0, 200));
   return finish(env);

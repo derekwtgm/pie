@@ -3,7 +3,9 @@
 /* EightMax Test Workbench 0.35.0: run the CONTROLLED WINDOWS TEST TABLES (fixture) - one dealer process, N table windows.
  *
  *   node tools/test-table-035.cjs --tables 2 [--width 960] [--layout cascade|grid|stack] [--convention raise-to|raise-by]
- *        [--oracle-dir DIR] [--seed 7] [--hand-gap 600] [--exe desktop/bin/EightMaxTestTable.exe]
+ *        [--oracle-dir DIR] [--seed 7] [--hand-gap 600] [--turn-delay 0] [--exe desktop/bin/EightMaxTestTable.exe]
+ *   --turn-delay: after each action the table shows no controls for this long (the other players 'think'), so a table needs
+ *   input only on its own turn - the realistic multi-table load. 0 = every frame needs an action (maximum load).
  *
  * Prints one JSON line {"type":"ready","tables":[{table,hwnd,pid,client,controls}]} when every window is up, then serves JSON
  * commands on stdin (one per line, replies on stdout):
@@ -18,7 +20,7 @@ const FD = require(path.join(ROOT, 'src', 'fixture-dealer.js'));
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 && i + 1 < process.argv.length ? process.argv[i + 1] : d; };
 const N = Math.max(1, Math.min(10, Number(arg('tables', '1')))), W = Number(arg('width', '960')), layout = arg('layout', 'cascade'), convention = arg('convention', 'raise-to');
 const oracleDir = arg('oracle-dir', null), seed = Number(arg('seed', '7')), gap = Number(arg('hand-gap', '600')), exe = arg('exe', path.join(ROOT, 'desktop', 'bin', 'EightMaxTestTable.exe'));
-const screenW = Number(arg('screen-width', '1920')), screenH = Number(arg('screen-height', '1080'));
+const screenW = Number(arg('screen-width', '1920')), screenH = Number(arg('screen-height', '1080')), turnDelay = Number(arg('turn-delay', '0'));
 if (oracleDir) fs.mkdirSync(oracleDir, { recursive: true });
 const out = (o) => process.stdout.write(JSON.stringify(o) + '\n');
 
@@ -33,7 +35,7 @@ for (let i = 0; i < N; i++) {
   const id = i + 1, pos = position(i), oracle = oracleDir ? fs.openSync(path.join(oracleDir, 'oracle-table-' + String(id).padStart(2, '0') + '.jsonl'), 'w') : null;
   const child = cp.spawn(exe, ['--table', String(id), '--x', String(pos.x), '--y', String(pos.y), '--width', String(W)], { stdio: ['pipe', 'pipe', 'inherit'] });
   const rec = { id, child, ready: null, dealer: null, buf: '' };
-  rec.dealer = new FD.TableDealer({ table: id, seed: seed * 1000 + id, convention, handGapMs: gap, send: (m) => { try { child.stdin.write(JSON.stringify(m) + '\n'); } catch (e) { /* window gone */ } },
+  rec.dealer = new FD.TableDealer({ table: id, seed: seed * 1000 + id, convention, handGapMs: gap, turnDelayMs: turnDelay, send: (m) => { try { child.stdin.write(JSON.stringify(m) + '\n'); } catch (e) { /* window gone */ } },
     record: (e) => { if (oracle !== null) fs.writeSync(oracle, JSON.stringify({ t: Date.now(), table: id, ...e }) + '\n'); } });
   child.stdout.setEncoding('utf8');
   child.stdout.on('data', (d) => { rec.buf += d; let k; while ((k = rec.buf.indexOf('\n')) >= 0) { const line = rec.buf.slice(0, k); rec.buf = rec.buf.slice(k + 1); let m; try { m = JSON.parse(line); } catch (e) { continue; }

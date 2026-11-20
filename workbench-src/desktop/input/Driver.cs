@@ -68,12 +68,12 @@ public sealed class Driver {
     // Latched safety states. estop: emergency stop (hotkey or command); yielded: a person used the mouse/keyboard; manual: operator chose manual control.
     volatile string estop, yielded; volatile bool manual, armed; long armedAt;
     readonly HashSet<ushort> heldKeys = new HashSet<ushort>(); readonly bool[] heldButtons = new bool[2];
-    int lastX = int.MinValue, lastY = int.MinValue;
+    int lastX = int.MinValue, lastY = int.MinValue; long lastClickAt; int lastClickX, lastClickY;
     public string HotkeySpec = "Ctrl+Alt+F12"; public volatile bool HotkeyRegistered; public volatile bool RawInputActive; public string SafetyNote = "";
     public int OverrideGraceMs = 1500, OverrideTolerancePx = 6;
     readonly Stats stats = new Stats();
     CursorMonitor monitor;
-    sealed class Stats { public long Ops, Moves, Clicks, Keys, Chars, Refused, Cancelled, Errors, Corrections, MaxCorrection; }
+    sealed class Stats { public long Ops, Moves, Clicks, Keys, Chars, Refused, Cancelled, Errors, Corrections, MaxCorrection, DoubleClickGuards; }
 
     public Driver(IPlatform platform, string token, TextWriter output) { os = platform; this.token = token; this.output = output; }
     public IPlatform Platform { get { return os; } }
@@ -170,7 +170,7 @@ public sealed class Driver {
         Op c = current; r["busy"] = c != null; r["currentOp"] = c == null ? null : (object)c.Id; lock (qGate) r["queued"] = queue.Count;
         lock (heldKeys) { r["heldButtons"] = heldButtons[0] || heldButtons[1]; r["heldKeys"] = heldKeys.Count; }
         r["targets"] = targets.Count; r["capabilities"] = Capabilities();
-        Dictionary<string, object> s = new Dictionary<string, object>(); s["ops"] = stats.Ops; s["moves"] = stats.Moves; s["clicks"] = stats.Clicks; s["keys"] = stats.Keys; s["chars"] = stats.Chars; s["refused"] = stats.Refused; s["cancelled"] = stats.Cancelled; s["errors"] = stats.Errors; s["corrections"] = stats.Corrections; s["maxCorrectionPx"] = stats.MaxCorrection; r["stats"] = s;
+        Dictionary<string, object> s = new Dictionary<string, object>(); s["ops"] = stats.Ops; s["moves"] = stats.Moves; s["clicks"] = stats.Clicks; s["keys"] = stats.Keys; s["chars"] = stats.Chars; s["refused"] = stats.Refused; s["cancelled"] = stats.Cancelled; s["errors"] = stats.Errors; s["corrections"] = stats.Corrections; s["maxCorrectionPx"] = stats.MaxCorrection; s["doubleClickGuards"] = stats.DoubleClickGuards; r["stats"] = s;
         return r;
     }
 
@@ -213,7 +213,7 @@ public sealed class Driver {
             case "move-click": { Target t = Check(a); MoveTo(o, t, a, r); ClickAt(o, t, a, r, 1); return r; }
             case "click": { Target t = Check(a); ClickAt(o, t, a, r, 1); return r; }
             case "double-click": { Target t = Check(a); if (!(Json.Get(a, "authorized") is bool) || !(bool)Json.Get(a, "authorized")) throw new DriverError("double-click-not-authorized", "Double-click only when the control's profile says it needs one (authorized: true)."); ClickAt(o, t, a, r, 2); return r; }
-            case "mouse-down": { Target t = Check(a); int x, y; os.GetCursor(out x, out y); HitCheck(t, a, x, y); Down(Btn(a)); NoteInput(); stats.Clicks++; return r; }
+            case "mouse-down": { Target t = Check(a); int x, y; os.GetCursor(out x, out y); HitCheck(t, a, x, y); Down(Btn(a)); NoteInput(); stats.Clicks++; lastClickAt = os.Ticks(); lastClickX = x; lastClickY = y; return r; }
             case "mouse-up": { Up(Btn(a)); NoteInput(); return r; }
             case "key": { Target t = Check(a); RequireForeground(t); PressKey(o, t, a); return r; }
             case "type": { Target t = Check(a); RequireForeground(t); TypeText(o, t, Json.Str(a, "text", 64), Json.Num(a, "keyIntervalMs", 45, 0, 2000), Json.Num(a, "keyHoldMs", 12, 0, 500)); return r; }
@@ -335,11 +335,16 @@ public sealed class Driver {
         int x, y; os.GetCursor(out x, out y); Gate(o); HitCheck(t, a, x, y);   // revalidate right before pressing
         long child = os.ChildAt(x, y); r["hit"] = Json.Hex(child); r["hitClass"] = os.ControlClass(child);
         string want = Json.Get(a, "expectClass") as string; if (want != null && want.Length > 0 && os.ControlClass(child).IndexOf(want, StringComparison.OrdinalIgnoreCase) < 0) throw new DriverError("unexpected-control", "The control under the cursor is a " + os.ControlClass(child) + ", not the expected " + want + ".");
+        // Two separate single clicks on the same spot within the system double-click time are a DOUBLE-click to Windows
+        // (found by the 0.35 Windows acceptance). Unless a double-click was asked for, wait until a new press cannot pair up.
+        int dw, dh; os.DoubleClickSize(out dw, out dh); long since = os.Ticks() - lastClickAt;
+        if (count == 1 && lastClickAt > 0 && Math.Abs(x - lastClickX) <= dw && Math.Abs(y - lastClickY) <= dh && since < os.DoubleClickMs() + 40) { long wait = os.DoubleClickMs() + 40 - since; r["doubleClickGuardMs"] = wait; stats.DoubleClickGuards++; Sleep(o, wait); HitCheck(t, a, x, y); }
         for (int i = 0; i < count; i++) {
             Gate(o); Down(b); stats.Clicks++;
             try { Thread.Sleep((int)hold); } finally { Up(b); }   // the button is released even if a stop arrives during the hold
             if (i + 1 < count) Thread.Sleep((int)gap);
         }
+        lastClickAt = os.Ticks(); lastClickX = x; lastClickY = y;
         RememberCursor(); r["clickedAt"] = Pt(x, y); r["clicks"] = count; r["holdMs"] = hold;
     }
 

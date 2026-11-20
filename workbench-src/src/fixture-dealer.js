@@ -21,20 +21,22 @@
     /** o: table (1..10), seed, convention, handGapMs, maxHands, now(), send(msg) -> to the window, record(event) -> oracle sink */
     constructor(o) {
       this.id = o.table; this.t = new EM.Table(o.table, o.seed || o.table * 7919); this.convention = o.convention || 'raise-to'; if (!CONVENTIONS.includes(this.convention)) throw new Error('Unknown wager convention');
-      this.gap = o.handGapMs === undefined ? 600 : o.handGapMs; this.maxHands = o.maxHands || Infinity; this.now = o.now || Date.now; this.send = o.send; this.record = o.record || (() => {});
+      this.gap = o.handGapMs === undefined ? 600 : o.handGapMs; this.turnDelay = o.turnDelayMs || 0; this.holdUntil = 0; this.holdTimer = null; this.maxHands = o.maxHands || Infinity; this.now = o.now || Date.now; this.send = o.send; this.record = o.record || (() => {});
       this.rev = 0; this.view = 0; this.w = 0; this.h = 0; this.timer = null; this.closed = false; this.hands = 0;
       this.counts = { mouseDown: 0, mouseUp: 0, downOutsideControls: 0, downOnDisabled: 0, doubleClicks: 0, rightClicks: 0, keys: 0, actions: 0, accepted: 0, staleClicks: 0, illegal: 0, wagerRejected: 0, byType: {} };
       this.accepted = [];
     }
     get playing() { return this.t.status === 'playing'; }
+    get holding() { return this.turnDelay > 0 && this.now() < this.holdUntil; }
     legal() {
-      const l = this.playing ? this.t.legal() : null; if (!l) return { fold: false, check: false, call: false, raise: false, allin: false };
+      const l = this.playing && !this.holding ? this.t.legal() : null; if (!l) return { fold: false, check: false, call: false, raise: false, allin: false };
       return { fold: l.toCall > 0, check: l.canCheck, call: l.toCall > 0, raise: l.canRaise, allin: l.canRaise || l.toCall > 0 };
     }
     /** The image the window shows (RGBA), at the window's current client size. */
     frame() {
-      if (this.playing && this.t.actor >= 0) this.view = this.t.actor;
-      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view });
+      // While the other players "think" (turn delay) the table shows no action controls and the view stays put.
+      if (this.playing && this.t.actor >= 0 && !this.holding) this.view = this.t.actor;
+      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view });
       if (img.height !== this.h) { /* the window keeps 1.6:1; a 1 px rounding difference is padded/cropped */ const out = { width: this.w, height: this.h, data: new Uint8ClampedArray(this.w * this.h * 4) }; for (let y = 0; y < this.h; y++) { const sy = Math.min(img.height - 1, y); out.data.set(img.data.subarray(sy * this.w * 4, (sy + 1) * this.w * 4), y * this.w * 4); } SS.draw(out, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev }); return out; }
       return SS.draw(img, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev });
     }
@@ -78,6 +80,7 @@
       this.counts.accepted++; this.counts.byType[m.control] = (this.counts.byType[m.control] || 0) + 1; this.rev++;
       const rec = { hand: t.hand, seat: actor, control: m.control, type, amount: type === 'call' ? lg.callAmount : amount, rev: this.rev }; this.accepted.push(rec); if (this.accepted.length > 5000) this.accepted.shift();
       ev.result = 'accepted'; ev.applied = rec; ev.after = this.snapshot(); this.record(ev);
+      if (this.turnDelay > 0 && t.status === 'playing') { this.holdUntil = this.now() + this.turnDelay; clearTimeout(this.holdTimer); this.holdTimer = setTimeout(() => { if (this.closed) return; this.rev++; this.push(); }, this.turnDelay + 5); }
       this.push({ clearWager: m.control === 'raise' });
       if (t.status === 'complete') { this.record({ kind: 'hand-complete', hand: t.hand, state: this.snapshot() }); if (this.hands < this.maxHands) this.timer = setTimeout(() => { if (this.closed) return; this.start(); this.push(); }, this.gap); }
     }

@@ -1,5 +1,5 @@
 ﻿<# EightMax Test Workbench 0.35.0 - build the Windows executables ON WINDOWS from the shipped C# sources.
-   desktop\DesktopHost.cs + desktop\CaptureService.cs  -> EightMaxWorkbench.exe (.NET Framework 4.x C# compiler, x64, winexe)
+   desktop\DesktopHost.cs + CaptureService.cs + InputBroker.cs (0.35) -> EightMaxWorkbench.exe (.NET Framework 4.x C# compiler, x64, winexe)
    desktop\capture\EightMaxCapture.cs + CaptureService -> EightMaxCapture.exe   (.NET Framework 4.x C# compiler, x64, exe)
    desktop\wgc\EightMaxWgc.csproj                      -> EightMaxWgc.exe       (.NET 8 SDK, win-x64 self-contained single file)
    desktop\input\*.cs (0.35)                          -> EightMaxInput.exe     (.NET Framework 4.x C# compiler, x64, exe; /define:UIA + UI Automation; PerMonitorV2 manifest)
@@ -25,7 +25,7 @@ function Compile([string]$target, [string]$out, [string[]]$sources, [string]$mai
   if ($code -ne 0) { throw ('csc failed for ' + $out + ' (exit ' + $code + ')') }
 }
 $hostOut = Join-Path $OutDir 'EightMaxWorkbench.exe'; $capOut = Join-Path $OutDir 'EightMaxCapture.exe'; $wgcOut = Join-Path $OutDir 'EightMaxWgc.exe'
-Compile 'winexe' $hostOut @((Join-Path $Root 'desktop\DesktopHost.cs'), (Join-Path $Root 'desktop\CaptureService.cs')) 'EightMax.Workbench.DesktopHost'
+Compile 'winexe' $hostOut @((Join-Path $Root 'desktop\DesktopHost.cs'), (Join-Path $Root 'desktop\CaptureService.cs'), (Join-Path $Root 'desktop\InputBroker.cs')) 'EightMax.Workbench.DesktopHost'
 Compile 'exe' $capOut @((Join-Path $Root 'desktop\capture\EightMaxCapture.cs'), (Join-Path $Root 'desktop\CaptureService.cs')) $null
 # 0.35.0: input driver (UI Automation assemblies live in the WPF folder of the .NET Framework) and the controlled test table
 $inOut = Join-Path $OutDir 'EightMaxInput.exe'; $ttOut = Join-Path $OutDir 'EightMaxTestTable.exe'; $wpf = Join-Path $fw 'WPF'
@@ -47,7 +47,7 @@ if (-not $SkipWgc) {
 $os = Get-CimInstance Win32_OperatingSystem
 $sha = { param($p) (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant() }
 $outputs = [ordered]@{
-  'desktop/bin/EightMaxWorkbench.exe' = [ordered]@{ sha256 = (& $sha $hostOut); compiler = $cscVersion + ' (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)'; sources = @('desktop/DesktopHost.cs','desktop/CaptureService.cs'); crossCompiled = $false }
+  'desktop/bin/EightMaxWorkbench.exe' = [ordered]@{ sha256 = (& $sha $hostOut); compiler = $cscVersion + ' (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)'; sources = @('desktop/DesktopHost.cs','desktop/CaptureService.cs','desktop/InputBroker.cs'); crossCompiled = $false }
   'desktop/bin/EightMaxCapture.exe' = [ordered]@{ sha256 = (& $sha $capOut); compiler = $cscVersion + ' (.NET Framework 4.x)'; sources = @('desktop/capture/EightMaxCapture.cs','desktop/CaptureService.cs'); crossCompiled = $false }
   'desktop/bin/EightMaxInput.exe' = [ordered]@{ sha256 = (& $sha $inOut); compiler = $cscVersion + ' (.NET Framework 4.x, /define:UIA, UIAutomationClient)'; sources = @($inputSources | ForEach-Object { 'desktop/input/' + (Split-Path $_ -Leaf) }); crossCompiled = $false }
   'desktop/bin/EightMaxTestTable.exe' = [ordered]@{ sha256 = (& $sha $ttOut); compiler = $cscVersion + ' (.NET Framework 4.x)'; sources = @('desktop/testtable/EightMaxTestTable.cs'); crossCompiled = $false }

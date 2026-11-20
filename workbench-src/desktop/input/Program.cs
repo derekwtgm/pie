@@ -20,10 +20,19 @@ public static class Program {
     [DllImport("shcore.dll")] static extern int SetProcessDpiAwareness(int v);
     [DllImport("user32.dll")] static extern bool SetProcessDPIAware();
     [DllImport("winmm.dll")] static extern uint timeBeginPeriod(uint ms);
+    [DllImport("user32.dll")] static extern IntPtr GetThreadDpiAwarenessContext();
+    [DllImport("user32.dll")] static extern int GetAwarenessFromDpiAwarenessContext(IntPtr c);
+    [DllImport("user32.dll")] static extern bool AreDpiAwarenessContextsEqual(IntPtr a, IntPtr b);
+    /// <summary>The executable's manifest asks for PerMonitorV2; the calls below only matter if it was ignored. Reports what is in effect.</summary>
     static void MakeDpiAware() {
-        try { if (SetProcessDpiAwarenessContext(new IntPtr(-4))) { DpiAwareness = "per-monitor-v2"; return; } } catch (Exception) { }
-        try { if (SetProcessDpiAwareness(2) == 0) { DpiAwareness = "per-monitor"; return; } } catch (Exception) { }
-        try { if (SetProcessDPIAware()) DpiAwareness = "system"; } catch (Exception) { }
+        if (Current() == "unaware") { try { SetProcessDpiAwarenessContext(new IntPtr(-4)); } catch (Exception) { } }
+        if (Current() == "unaware") { try { SetProcessDpiAwareness(2); } catch (Exception) { } }
+        if (Current() == "unaware") { try { SetProcessDPIAware(); } catch (Exception) { } }
+        DpiAwareness = Current();
+    }
+    static string Current() {
+        try { IntPtr c = GetThreadDpiAwarenessContext(); if (AreDpiAwarenessContextsEqual(c, new IntPtr(-4))) return "per-monitor-v2"; int a = GetAwarenessFromDpiAwarenessContext(c); return a == 2 ? "per-monitor" : a == 1 ? "system" : "unaware"; }
+        catch (Exception) { return "unknown (Windows older than 10 1607)"; }
     }
     [STAThread] public static int Main(string[] args) {
         string backend = "win32", desk = null, hotkey = "Ctrl+Alt+F12", outFile = null; int parent = 0; bool self = false;
@@ -89,9 +98,9 @@ public static class SelfTest {
             r = call(mc, 10000); Dictionary<string, object> mon = call(cmd("monitor-stop"), 3000); Thread.Sleep(200);
             int clicks = 0; f.Invoke((Action)delegate { clicks = f.Clicks; });
             checks.Add(Check("move-click lands one click on the button", r != null && (bool)r["ok"] && clicks == 1, "clicks=" + clicks + " " + (r == null ? "no reply" : (bool)r["ok"] ? "planned " + r["plannedMs"] + " ms, actual " + r["actualMs"] + " ms, steps " + r["steps"] + ", final error " + r["finalError"] : (string)r["error"])));
-            int maxJump = 0, n = 0; object[] ss = mon == null ? new object[0] : (object[])((System.Collections.ArrayList)mon["samples"]).ToArray(); int px = int.MinValue, py = 0;
-            foreach (object o in ss) { System.Collections.ArrayList s = (System.Collections.ArrayList)o; int x = Convert.ToInt32(s[1]), y = Convert.ToInt32(s[2]); if (px != int.MinValue) maxJump = Math.Max(maxJump, Math.Max(Math.Abs(x - px), Math.Abs(y - py))); px = x; py = y; n++; }
-            checks.Add(Check("independently sampled path is continuous (no jump > 60 px between 2 ms samples)", n > 20 && maxJump <= 60, n + " samples, largest step " + maxJump + " px"));
+            int maxJump = 0, n = 0; System.Collections.IList ss = mon == null ? (System.Collections.IList)new object[0] : (System.Collections.IList)mon["samples"]; int px = int.MinValue, py = 0;
+            foreach (object o in ss) { System.Collections.IList s = (System.Collections.IList)o; int x = Convert.ToInt32(s[1]), y = Convert.ToInt32(s[2]); if (px != int.MinValue) maxJump = Math.Max(maxJump, Math.Max(Math.Abs(x - px), Math.Abs(y - py))); px = x; py = y; n++; }
+            checks.Add(Check("independently sampled path is continuous (no jump larger than max speed x update interval)", n > 20 && maxJump <= 34, n + " samples, largest step " + maxJump + " px (limit 1600 px/s x 16 ms + margin = 34 px)"));
             // 2. wager entry and read-back
             Dictionary<string, object> et = cmd("enter-text"); et["hwnd"] = hex; et["to"] = P(tb.X + tb.Width / 2, tb.Y + tb.Height / 2); et["region"] = Json.Box(new Rect(tb.X, tb.Y, tb.Width, tb.Height)); et["text"] = "1250"; et["expectClient"] = Json.Box(w.Client);
             f.Invoke((Action)delegate { f.Box.Text = "99"; }); r = call(et, 15000); string boxText = ""; f.Invoke((Action)delegate { boxText = f.Box.Text; });

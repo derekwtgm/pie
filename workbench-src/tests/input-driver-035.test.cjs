@@ -47,7 +47,8 @@ test('driver: smooth movement follows the minimum-jerk plan, respects limits and
     assert.equal(r.steps, plan.steps); assert.ok(Math.abs(r.plannedMs - plan.durationMs) < 0.05, 'C# and JS plan the same duration');
     assert.deepEqual(r.samples.map((q) => [q.x, q.y]), plan.points.map((q) => [q.x, q.y]), 'C# and JS command the same pixels');
     assert.equal(r.finalError, 0); assert.ok(r.actualMs >= r.plannedMs - 2, 'never faster than planned');
-    const a = M.analyse(r.samples.map((q) => ({ t: q.t, x: q.x, y: q.y })), { profile: M.profile(motion), target: p, region: p.region }); assert.equal(a.ok, true, a.problems.join('; '));
+    const c = M.commanded(r, M.profile(motion)); assert.equal(c.matchesPlan, true);
+    const a = M.analyse(c.points, { profile: M.profile(motion), target: p, region: p.region }); assert.equal(a.ok, true, a.problems.join('; '));
     assert.ok(plan.peakSpeed <= 1600 + 1e-6 && plan.peakAccel <= 9000 + 1e-6, 'the analytic peaks are within the limits');
     const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('move ')); assert.equal(ev.length, r.steps, 'one SendInput per step, no instantaneous jump');
   } finally { await x.close(); }

@@ -47,6 +47,8 @@ public interface IPlatform {
     List<MonitorInfo> Monitors();
     string ExeSha256(int pid);
     long Ticks();                              // monotonic milliseconds
+    int DoubleClickMs();                       // GetDoubleClickTime
+    void DoubleClickSize(out int w, out int h);// SM_CXDOUBLECLK / SM_CYDOUBLECLK
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -66,6 +68,7 @@ public sealed class Win32Platform : IPlatform {
     [DllImport("user32.dll")] static extern bool SetCursorPos(int x, int y);
     [DllImport("user32.dll")] static extern int GetSystemMetrics(int i);
     [DllImport("user32.dll")] static extern short GetAsyncKeyState(int vk);
+    [DllImport("user32.dll")] static extern uint GetDoubleClickTime();
     [DllImport("user32.dll")] static extern bool IsWindow(IntPtr h);
     [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
     [DllImport("user32.dll")] static extern bool IsWindowEnabled(IntPtr h);
@@ -104,6 +107,8 @@ public sealed class Win32Platform : IPlatform {
     static readonly int InputSize = Marshal.SizeOf(typeof(INPUT));
     static readonly Stopwatch clock = Stopwatch.StartNew();
     public long Ticks() { return clock.ElapsedMilliseconds; }
+    public int DoubleClickMs() { return (int)GetDoubleClickTime(); }
+    public void DoubleClickSize(out int w, out int h) { w = GetSystemMetrics(36); h = GetSystemMetrics(37); }
     public Rect VirtualScreen() { return new Rect(GetSystemMetrics(76), GetSystemMetrics(77), GetSystemMetrics(78), GetSystemMetrics(79)); }
     public void GetCursor(out int x, out int y) { POINT p; GetCursorPos(out p); x = p.X; y = p.Y; }
     void Send(INPUT i) { if (SendInput(1, new INPUT[] { i }, InputSize) != 1) throw new DriverError("sendinput-failed", "SendInput was refused (error " + Marshal.GetLastWin32Error() + "): another program may be blocking input, or the target runs with higher privileges (UIPI)."); }
@@ -187,6 +192,7 @@ public sealed class VirtualPlatform : IPlatform {
     public readonly List<VWindow> Windows = new List<VWindow>(); public readonly List<string> Events = new List<string>();
     public Rect Screen = new Rect(0, 0, 1920, 1080); int cx = 10, cy = 10; long foreground; readonly HashSet<ushort> keys = new HashSet<ushort>(); readonly bool[] buttons = new bool[2];
     readonly Stopwatch clock = Stopwatch.StartNew(); public long Ticks() { return clock.ElapsedMilliseconds; }
+    public int DoubleClickMs() { return 500; } public void DoubleClickSize(out int w, out int h) { w = 4; h = 4; }
     public int Dropped; public bool RefuseForeground;   // test knobs
     public Rect VirtualScreen() { return Screen; }
     public void GetCursor(out int x, out int y) { lock (this) { x = cx; y = cy; } }
