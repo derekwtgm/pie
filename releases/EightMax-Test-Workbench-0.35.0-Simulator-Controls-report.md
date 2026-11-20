@@ -159,5 +159,15 @@ driver does not improve strategy accuracy.
 ## L. Final archive
 `EightMax-Test-Workbench-0.35.0-Simulator-Controls.zip` with `SHA256SUMS.txt` (every file) and the ZIP's own `.sha256`.
 
-## Addendum: validation of the FINAL ZIP on Windows
-Pending: workflow `workbench-035-validate.yml` runs on this exact ZIP (SHA-256 cdf207506cb2aef763198e40716e3d42ef25d382bef25cab8e1c7eb4dfa69b7e).
+## Addendum: validation of the FINAL ZIP on Windows (run 44776051617)
+Workflow `workbench-035-validate.yml` on the exact ZIP, no rebuild (results: `ci-results/0.35/run-44776051617-1/`):
+* ZIP SHA-256 `cdf207506cb2aef763198e40716e3d42ef25d382bef25cab8e1c7eb4dfa69b7e` - **MATCH**; manifest: **0 mismatches**.
+* Input self-test **11/11**; input acceptance **29/29**.
+* Benchmark (both workloads, 1/2/5/8/10 tables): 421 confirmed of 424 attempted; **0 ambiguous, 0 timed out, 0 incorrect clicks,
+  0 incorrect wagers**; 3 actions refused by the scheduler at 8 tables (deadline) - sustainable **5 tables** in both workloads,
+  as in the build runs.
+* Release acceptance with install/uninstall/rollback (`windows/Test-Release.ps1 -IncludeInstall`): **exit 0**.
+* **Whole Node suite on Windows with the bundled runtime: 876 tests, 849 pass, 0 fail, 27 skipped.**
+The ZIP was not changed after this run (its own docs/0.35-validation-report.md section I therefore says this run "follows").
+Hosted runner (Windows Server, 1920x1080 at 100 %, no GPU) - the target-PC checks (150 %, 4K, multi-monitor, a person at the mouse,
+your simulator) remain outstanding: run RUN-035-ACCEPTANCE.cmd, then COLLECT-TEST-RESULTS.cmd.
