@@ -14,7 +14,9 @@ ev['note'] = (ev.get('note') or '') + ' 0.35: records "0.35.0 ..." come from wor
 runs = sorted([d for d in ci.iterdir() if d.is_dir() and d.name.startswith('run-')], key=lambda d: int(d.name.split('-')[1]))
 latest = {}
 for d in runs:
-    rid = int(d.name.split('-')[1]); summ = load(d / 'ci-summary.json') or {}; stages = summ.get('stages', {})
+    rid = int(d.name.split('-')[1]); summ = load(d / 'ci-summary.json')
+    if not summ: continue   # cancelled or incomplete run: no evidence
+    stages = summ.get('stages', {})
     st = lambda k: (stages.get(k, {}) or {}).get('exit') if isinstance(stages.get(k), dict) else stages.get(k)
     sel = load(d / 'input-selftest.json'); acc = load(d / 'input-acceptance.json'); bench = load(d / 'simulator-benchmark.json')
     if bench and 'workloads' not in bench and 'runs' in bench: bench = {**bench, 'workloads': [{'name': 'stress', 'runs': bench['runs'], 'sustainableTables': bench.get('sustainableTables')}]}

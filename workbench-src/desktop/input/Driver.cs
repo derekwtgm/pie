@@ -377,7 +377,14 @@ public sealed class Driver {
         if (cur.Length == 0) return; if (cur.Length > 32) throw new DriverError("field-unexpected", "The wager field holds " + cur.Length + " characters; refusing to clear it blind.");
         Dictionary<string, object> k = new Dictionary<string, object>(a); k["key"] = "end"; k["repeat"] = 1; PressKey(o, t, k);
         k["key"] = "backspace"; k["repeat"] = cur.Length + 1; PressKey(o, t, k);
-        string after = os.ControlText(f); if (after == null || after.Length != 0) throw new DriverError("clear-failed", "The wager field still shows '" + after + "' after clearing.");
+        // The target window processes keystrokes asynchronously: wait (bounded) for the field to show the result before judging it.
+        string after = WaitText(o, f, "", 600); if (after == null || after.Length != 0) throw new DriverError("clear-failed", "The wager field still shows '" + after + "' after clearing.");
+    }
+    /// <summary>Read the field until it shows `want` or `ms` pass; returns the last text read (null when unreadable).</summary>
+    string WaitText(Op o, long f, string want, int ms) {
+        long end = os.Ticks() + ms; string t = os.ControlText(f);
+        while (t != want && os.ControlText(f) != null && os.Ticks() < end) { Gate(o); Thread.Sleep(15); t = os.ControlText(f); }
+        return t;
     }
     /// <summary>Click the calibrated field, verify it has the focus, clear it, type sequentially, read it back. Nothing is submitted here.</summary>
     Dictionary<string, object> EnterText(Op o, Dictionary<string, object> a, Dictionary<string, object> r) {
@@ -388,7 +395,7 @@ public sealed class Driver {
         MoveTo(o, t, a, r); ClickAt(o, t, a, r, 1); Sleep(o, settle);
         RequireForeground(t); long f = FocusedField(t, a); r["field"] = Json.Hex(f);
         Clear(o, t, f, a); TypeText(o, t, text, gap, hold); Sleep(o, Math.Max(30, gap));
-        string seen = os.ControlText(f); r["typed"] = text; r["read"] = seen; r["verified"] = seen == text;
+        string seen = WaitText(o, f, text, 600); r["typed"] = text; r["read"] = seen; r["verified"] = seen == text;
         if (seen != text) { try { Clear(o, t, f, a); } catch (DriverError) { } throw new DriverError("verify-mismatch", "The wager field shows '" + seen + "' instead of '" + text + "'; it was cleared and nothing was submitted."); }
         return r;
     }
