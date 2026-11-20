@@ -10,7 +10,7 @@ test('dashboard Solver research panel, host allow-list, launchers (CRLF, existin
   for (const id of ['r33-nav', 'r33-panel', 'r33-pf-rows', 'r33-pf-pos', 'r33-pf-gains', 'r33-pf-cmp', 'r33-cal-rows', 'r33-flop-rows', 'r33-mw-refs', 'r33-mw-cross', 'r33-cov-rows', 'r33-perf-rows', 'r33-run-modes', 'r33-run-flop', 'r33-run-mw', 'r33-train', 'r33-continue', 'r33-validate', 'r33-precompute', 'r33-ranges', 'r33-hardware', 'r33-selftest', 'r33-collect']) { assert.ok(dash.includes('id="' + id + '"'), id); assert.ok(ui.includes("'" + id + "'"), 'ui uses ' + id); }
   for (const [tool, cmd] of [['preflop-modes', 'RUN-PREFLOP-MODES.cmd'], ['flop-solver-check', 'RUN-FLOP-SOLVER-CHECK.cmd'], ['multiway-validation', 'RUN-MULTIWAY-VALIDATION.cmd'], ['research-summary', 'REFRESH-RESEARCH-SUMMARY.cmd']]) {
     assert.ok(host.includes('{"' + tool + '","' + cmd + '"}'), tool); assert.ok(ui.includes("'" + tool + "'"), 'ui launches ' + tool);
-    const c = fs.readFileSync(path.join(root, cmd), 'latin1'); assert.ok(c.includes('\r\n') && !/[^\r]\n/.test(c), cmd + ' uses CRLF'); assert.match(c, /0\.33\.0/);
+    const c = fs.readFileSync(path.join(root, cmd), 'latin1'); assert.ok(c.includes('\r\n') && !/[^\r]\n/.test(c), cmd + ' uses CRLF'); assert.match(c, /0\.35\.0/);
     const m = /tools\\([\w.-]+\.cjs)/.exec(c); assert.ok(m && fs.existsSync(path.join(root, 'tools', m[1])), cmd + ' names an existing tool'); }
   for (const id of ['start', 'stop', 'rs-train', 'rs-continue', 'rs-validate', 'rg-play', 'tr-nav', 'rs-nav']) assert.ok(dash.includes('id="' + id + '"'), 'preserved control ' + id);
   assert.ok(read('tools/build.py').includes("'research033-view.js','research033-ui.js'"), 'START.html inlines the 0.33 panel');

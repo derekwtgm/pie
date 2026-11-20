@@ -69,7 +69,8 @@ async function registerWindow() {
     const id = await call('exe-identity', { hwnd }), exeName = w.exe.split('\\').pop();
     let prof = st.profile; if (/^EightMaxTestTable\.exe$/i.test(exeName)) prof = SP.fixtureProfile({ exeSha256: id.exeSha256 });
     if (!prof) return say('Calibrate the controls first (or load a profile) - the profile binds the simulator executable.', true);
-    const sim = prof.execution.simulator; if (sim.exeSha256 && (sim.exeFileName.toLowerCase() !== exeName.toLowerCase() || sim.exeSha256 !== id.exeSha256)) return say('This window belongs to ' + exeName + ' (' + id.exeSha256.slice(0, 12) + '…), not the executable the profile was calibrated for.', true);
+    const sim = prof.execution.simulator; if (sim.exeFileName.toLowerCase() !== exeName.toLowerCase() || (sim.exeSha256 && sim.exeSha256 !== id.exeSha256)) return say('This window belongs to ' + exeName + ' (' + id.exeSha256.slice(0, 12) + '…), not the executable the profile was calibrated for.', true);
+    if (!sim.exeSha256) { prof = JSON.parse(JSON.stringify(prof)); prof.execution.simulator.exeSha256 = id.exeSha256; st.profile = prof; try { localStorage.setItem('eightmax-sim-profile', PP.saveProfile(prof)); } catch (e) { /* private window */ } }
     const hours = Math.min(8, Math.max(0.25, Number($('simc-hours').value) || 2)), auth = SC.authorizations({ environment: 'operator-simulator', approvedBy: ($('simc-approver').value || 'operator').slice(0, 60), exeFileName: exeName, exeSha256: id.exeSha256, hours });
     await call('register-target', { hwnd, authorization: auth.simulator, label: w.title });
     const cap = await st.api.request('/api/capture/open', { target: { kind: 'window', hwnd, pid: w.pid, title: w.title, method: $('simc-capture').value }, consent: true }); if (!cap.ok) throw new Error(cap.reason || 'capture refused');

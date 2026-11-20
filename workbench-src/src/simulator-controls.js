@@ -27,7 +27,7 @@
     async _slot() { if (this.slots > 0) { this.slots--; return; } await new Promise((r) => this.waiters.push(r)); }
     _free() { const w = this.waiters.shift(); if (w) w(); else this.slots++; }
     async request(path, body, timeoutMs) {
-      ok(/^\/api\/(input\/(command|status|estop|restart|stop|settings)|capture\/(windows|monitors|open|frame|close)|desktop\/health)$/.test(path), 'Route not used by Simulator Controls: ' + path);
+      ok(/^\/api\/(input\/(command|status|estop|restart|stop|settings)|capture\/(windows|monitors|open|frame|close)|desktop\/(health|launch))$/.test(path), 'Route not used by Simulator Controls: ' + path);
       await this._slot();
       try {
         const ctl = typeof AbortController === 'function' ? new AbortController() : null, timer = ctl ? setTimeout(() => ctl.abort(), (timeoutMs || this.timeoutMs) + 5000) : null;

@@ -23,7 +23,7 @@ test('dashboard panels, host routes, launch tools and launchers agree (0.31)', (
   assert.ok(html.includes('WorkbenchResearchView') && html.includes('WorkbenchRangeEngine')); assert.ok(!html.includes('<script src="src/'), 'START.html is self-contained');
   const host = read('desktop/DesktopHost.cs'); assert.match(host, /r\.Path=="\/api\/library\/quality"/); assert.match(host, /r\.Path=="\/api\/ranges\/latest"/); assert.match(host, /strategyQuality=true,opponentRanges=true/);
   for (const [tool, cmd] of [['library-validate', 'VALIDATE-STRATEGIES.cmd'], ['library-continue', 'CONTINUE-TRAINING.cmd'], ['library-precompute-common', 'PRECOMPUTE-COMMON-HANDS.cmd'], ['self-test', 'RUN-SELF-TEST.cmd'], ['long-acceptance', 'RUN-LONG-ACCEPTANCE.cmd'], ['view-ranges', 'VIEW-OPPONENT-RANGES.cmd']]) {
-    assert.ok(host.includes('{"' + tool + '","' + cmd + '"}'), tool); const c = fs.readFileSync(path.join(root, cmd), 'latin1'); assert.ok(c.includes('\r\n') && !/[^\r]\n/.test(c), cmd + ' uses CRLF'); assert.match(c, /0\.33\.0/);
+    assert.ok(host.includes('{"' + tool + '","' + cmd + '"}'), tool); const c = fs.readFileSync(path.join(root, cmd), 'latin1'); assert.ok(c.includes('\r\n') && !/[^\r]\n/.test(c), cmd + ' uses CRLF'); assert.match(c, /0\.35\.0/);
   }
   for (const t of ['tests\\range-engine-031.test.cjs', 'tests\\quality-031.test.cjs', 'tests\\library-031.test.cjs', 'tests\\abstraction-031.test.cjs']) { assert.ok(read('RUN-SELF-TEST.cmd').includes(t)); assert.ok(fs.existsSync(path.join(root, t.replace('\\', '/')))); }
   assert.ok(fs.existsSync(path.join(root, 'windows/Test-LongDuration.ps1'))); assert.match(read('windows/Collect-TestResults.ps1'), /'LongAcceptance'/);
@@ -31,7 +31,7 @@ test('dashboard panels, host routes, launch tools and launchers agree (0.31)', (
 
 test('release metadata: one version everywhere, honest component statuses, new reports and docs present', () => {
   const v = require('../src/engine.js').VERSION; assert.equal(v, '0.35.0');
-  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.33\.0'/); assert.match(read('desktop/DesktopHost.cs'), /Version="0\.33\.0"/); assert.match(read('desktop/wgc/EightMaxWgc.csproj'), /0\.33\.0/);
+  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.35\.0'/); assert.match(read('desktop/DesktopHost.cs'), /Version="0\.35\.0"/); assert.match(read('desktop/wgc/EightMaxWgc.csproj'), /0\.35\.0/);
   const comp = JSON.parse(read('desktop/COMPONENT-VERSIONS.json')); assert.equal(comp.appVersion, v);
   for (const [f, c] of Object.entries(comp.components)) if (c.status.builtFromSourceForThisRelease) assert.equal(c.status.executedOnWindows, JSON.parse(read('evidence/windows-ci-runs.json')).runs.some((r) => r.executables[f] === c.sha256), f + ': a rebuilt file claims Windows execution only with matching evidence');
   for (const f of ['reports/0.31-training-variants.json', 'reports/0.31-abstraction-validation.json', 'reports/0.31-range-support.json']) { const d = JSON.parse(read(f)); assert.ok(d.format && d.generatedAt, f); }
