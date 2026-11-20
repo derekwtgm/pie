@@ -1,0 +1,53 @@
+{
+    "format":  "eightmax-build-evidence",
+    "version":  1,
+    "builtAt":  "2026-11-20T15:14:18.9714072Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "ci":  {
+               "runId":  "44761098673",
+               "runner":  "GitHub Actions 1000000122",
+               "repository":  "derekwtgm/pie",
+               "sha":  "5bf42da46ec46eecdd3130e3ee09c402f1168b13"
+           },
+    "outputs":  {
+                    "desktop/bin/EightMaxWorkbench.exe":  {
+                                                              "sha256":  "180c0ba968939af6d300f333e6e0cd9e7d3e36de7b1cb019aeac2476641a4561",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+                                                              "sources":  [
+                                                                              "desktop/DesktopHost.cs",
+                                                                              "desktop/CaptureService.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          },
+                    "desktop/bin/EightMaxCapture.exe":  {
+                                                            "sha256":  "5801422c4f6f57ba7dd3ec0dd2853d990e7671fd4e2a72693fbf9cfdcbc00729",
+                                                            "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                            "sources":  [
+                                                                            "desktop/capture/EightMaxCapture.cs",
+                                                                            "desktop/CaptureService.cs"
+                                                                        ],
+                                                            "crossCompiled":  false
+                                                        },
+                    "desktop/bin/EightMaxInput.exe":  {
+                                                          "sha256":  "e9a285e9d9a108ae545375d66fa66253d58f73ac974c9f4db5e39e77bb827cc4",
+                                                          "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /define:UIA, UIAutomationClient)",
+                                                          "sources":  [
+                                                                          "desktop/input/Driver.cs",
+                                                                          "desktop/input/Motion.cs",
+                                                                          "desktop/input/Platform.cs",
+                                                                          "desktop/input/Program.cs",
+                                                                          "desktop/input/Safety.cs",
+                                                                          "desktop/input/Uia.cs"
+                                                                      ],
+                                                          "crossCompiled":  false
+                                                      },
+                    "desktop/bin/EightMaxTestTable.exe":  {
+                                                              "sha256":  "efbb1faef451e4fb3312998805d4c1e40fd7f3561cc419713a4add1a193861d0",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                              "sources":  [
+                                                                              "desktop/testtable/EightMaxTestTable.cs"
+                                                                          ],
+                                                              "crossCompiled":  false
+                                                          }
+                }
+}
