@@ -62,6 +62,14 @@ test('one table: every executed action is read back from the screen and matches 
   assert.ok(t.log.every((e) => e.source === 'scripted-fallback'), 'decisions are labelled scripted');
 });
 
+test('while another player is to act the table shows no controls: the controller waits, and confirms from the very next frame', async () => {
+  const host = fakeHost(1, { turnDelayMs: 400 }), b = build(host); const [t] = b.tables;
+  await runUntil(b.tables, (x) => x.m.confirmed >= 4, 20000);
+  const d = host.tables.values().next().value.dealer; assert.ok(t.m.confirmed >= 4); assert.equal(t.m.ambiguous + t.m.timedOut + t.m.rejected, 0);
+  assert.equal(d.counts.illegal + d.counts.staleClicks + d.counts.downOnDisabled, 0, 'never clicked while controls were off');
+  assert.ok(Math.max(...t.m.confirmMs) < 350, 'confirmation came from the hold frame, not after the turn delay: ' + t.m.confirmMs.map(Math.round));
+});
+
 test('three tables share one cursor: input never overlaps, every table progresses', async () => {
   const host = fakeHost(3, { turnDelayMs: 30 }), b = build(host);
   await runUntil(b.tables, (x) => x.m.confirmed >= 6, 25000);

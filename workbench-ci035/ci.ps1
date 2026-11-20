@@ -31,10 +31,10 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem; [IO.Compression.ZipFile
 $root = 'C:\em035\x\EightMax-Test-Workbench'; robocopy (Resolve-Path 'workbench-src').Path $root /E /NFL /NDL /NJH /NJS /NP | Out-Null; Write-Host ('overlay robocopy exit ' + $LASTEXITCODE)
 Stage 'base' 0 $h
 Section 'BUILD ON WINDOWS'
-$buildExit = 0; try { & (Join-Path $root 'windows\Build-Executables.ps1') -Root $root -OutDir (Join-Path $root 'desktop\bin') -SkipWgc } catch { $buildExit = 1; Write-Host ('BUILD FAILED: ' + $_.Exception.Message) }
+$buildExit = 0; try { & (Join-Path $root 'windows\Build-Executables.ps1') -Root $root -OutDir (Join-Path $root 'desktop\bin') } catch { $buildExit = 1; Write-Host ('BUILD FAILED: ' + $_.Exception.Message) }
 $ErrorActionPreference = 'Continue'
 New-Item -ItemType Directory -Force (Join-Path $res 'bin') | Out-Null
-foreach ($e in 'EightMaxWorkbench.exe','EightMaxCapture.exe','EightMaxInput.exe','EightMaxTestTable.exe') { $p = Join-Path $root ('desktop\bin\' + $e); if (Test-Path $p) { Copy-Item $p (Join-Path $res 'bin'); Write-Host ($e + ' ' + (Get-Item $p).VersionInfo.ProductVersion + ' ' + (Get-FileHash $p -Algorithm SHA256).Hash.ToLowerInvariant()) } }
+foreach ($e in 'EightMaxWorkbench.exe','EightMaxCapture.exe','EightMaxWgc.exe','EightMaxInput.exe','EightMaxTestTable.exe') { $p = Join-Path $root ('desktop\bin\' + $e); if (Test-Path $p) { Copy-Item $p (Join-Path $res 'bin'); Write-Host ($e + ' ' + (Get-Item $p).VersionInfo.ProductVersion + ' ' + (Get-FileHash $p -Algorithm SHA256).Hash.ToLowerInvariant()) } }
 Copy-Item (Join-Path $root 'evidence\build-evidence.json') $res -ErrorAction SilentlyContinue
 Stage 'build' $buildExit $null
 if ($buildExit -ne 0) { $summary | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $res 'ci-summary.json'); Stop-Transcript | Out-Null; exit 0 }
@@ -57,7 +57,7 @@ if (Test-Path (Join-Path $root 'tools\simulator-benchmark-035.cjs')) {
   & $node tools\simulator-benchmark-035.cjs --out (Join-Path $res 'simulator-benchmark.json') --work (Join-Path $res 'bench') 2>&1 | Write-Host; Stage 'simulator-benchmark' $LASTEXITCODE $null
   Pop-Location
 }
-if ($Stage -eq 'all') {
+if ($Stage -eq 'all' -or $Stage -eq 'release') {
   Section 'FULL NODE REGRESSION SUITE (bundled runtime)'
   Push-Location $root
   & $node --test --test-concurrency=2 (Get-ChildItem tests -Filter '*.test.cjs' | ForEach-Object { $_.FullName }) 2>&1 | Out-File -Encoding utf8 (Join-Path $res 'node-tests-all.txt'); Stage 'node-tests-all' $LASTEXITCODE $null

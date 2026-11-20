@@ -1,0 +1,14 @@
+@echo off
+rem EightMax Test Workbench 0.35.0 - collect the latest research results (preflop modes, flop solver, multiway validation, linked studies, coverage, memory) for the dashboard.
+rem Strategy library: %LOCALAPPDATA%\EightMax-Test-Workbench\StrategyLibrary (set EIGHTMAX_STRATEGY_LIBRARY to use another folder).
+setlocal
+set "HERE=%~dp0"
+if not exist "%HERE%runtime\node\node.exe" ( echo runtime\node\node.exe is missing; re-extract the ZIP. & pause & exit /b 3 )
+if "%EIGHTMAX_TEST_CLI%"=="" set "EIGHTMAX_TEST_CLI=%HERE%native\mwcli.exe"
+cd /d "%HERE%"
+echo Collecting research results. Nothing is trained.
+"%HERE%runtime\node\node.exe" tools\research-summary-033.cjs %*
+set "RC=%ERRORLEVEL%"
+echo.
+if "%NOPAUSE%"=="" pause
+exit /b %RC%

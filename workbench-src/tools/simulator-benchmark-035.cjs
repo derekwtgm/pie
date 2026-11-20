@@ -2,7 +2,7 @@
 'use strict';
 /* EightMax Test Workbench 0.35.0: END-TO-END MULTI-TABLE BENCHMARK with REAL screen capture and REAL visible input.
  *
- *   node tools/simulator-benchmark-035.cjs [--tables 1,2,5,8,10] [--seconds 75] [--turn-delay 2500] [--window 10000]
+ *   node tools/simulator-benchmark-035.cjs [--tables 1,2,5,8,10] [--seconds 60] [--workloads stress:2500,realistic:8000] [--window 10000]
  *        [--width 800] [--out reports/0.35-simulator-benchmark.json] [--work DIR]
  *
  * Starts a private desktop host (headless), the controlled test tables and the full loop for every table count:
@@ -15,7 +15,9 @@ const path = require('path'), fs = require('fs'), cp = require('child_process'),
 const ROOT = path.join(__dirname, '..'), src = (m) => require(path.join(ROOT, 'src', m));
 const SC = src('simulator-controls.js'), SP = src('simulator-profiles.js'), SCH = src('input-scheduler.js'), XA = src('execution-adapters.js'), M = src('input-motion.js');
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 && i + 1 < process.argv.length ? process.argv[i + 1] : d; };
-const COUNTS = arg('tables', '1,2,5,8,10').split(',').map(Number), SECONDS = Number(arg('seconds', '75')), TURN = Number(arg('turn-delay', '2500')), WINDOW = Number(arg('window', '10000')), WIDTH = Number(arg('width', '800'));
+const COUNTS = arg('tables', '1,2,5,8,10').split(',').map(Number), SECONDS = Number(arg('seconds', '60')), WINDOW = Number(arg('window', '10000')), WIDTH = Number(arg('width', '960'));
+// stress: the operator holds every seat, a decision is due 2.5 s after each action; realistic: ~8 s between the operator's turns.
+const WORKLOADS = arg('workloads', 'stress:2500,realistic:8000').split(',').map((w) => { const [name, ms] = w.split(':'); return { name, turnDelayMs: Number(ms) }; }); let TURN = WORKLOADS[0].turnDelayMs;
 const OUT = arg('out', path.join(ROOT, 'reports', '0.35-simulator-benchmark.json')), WORK = arg('work', path.join(os.tmpdir(), 'em035-bench-' + Date.now()));
 const BIN = path.join(ROOT, 'desktop', 'bin'), sleep = (ms) => new Promise((r) => setTimeout(r, ms)), mono = () => performance.now();
 fs.mkdirSync(WORK, { recursive: true });
@@ -97,15 +99,19 @@ async function main() {
   const host = startHost(), info = await waitReady(host.ready), api = new SC.HostApi({ token: info.token, fetch, maxConcurrent: 6 }), session = SC.hostSession(api);
   const health = await api.request('/api/desktop/health'); env.host = { appVersion: health.appVersion, inputDriver: health.inputDriver };
   const st = await session.request('status'); env.driver = st && st.capabilities; const mon = await session.request('monitors'); env.monitors = mon.monitors;
-  const runs = [];
-  for (const n of COUNTS) { console.log('--- ' + n + ' table(s), ' + SECONDS + ' s'); let r; try { r = await runCount(n, api, session, host); } catch (e) { r = { tables: n, error: e.stack }; } runs.push(r); console.log(JSON.stringify({ tables: n, actions: r.actions, correctness: r.correctness, deadlines: r.deadlines && r.deadlines.missed, reliable: r.reliable, error: r.error && r.error.slice(0, 300) })); }
-  const reliableCounts = runs.filter((r) => r.reliable).map((r) => r.tables), sustainable = COUNTS.filter((n) => runs.find((r) => r.tables === n && r.reliable)).reduce((a, n) => (COUNTS.slice(0, COUNTS.indexOf(n) + 1).every((m) => reliableCounts.includes(m)) ? n : a), 0);
-  const doc = { format: 'eightmax-simulator-benchmark', version: 1, app: '0.35.0', at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', turnDelayMs: TURN, decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: 'cascade (overlapping windows; the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow' },
-    sustainableTables: sustainable, note: 'sustainable = the largest count for which this and every smaller count had zero ambiguous/timed-out actions, zero incorrect clicks or wagers, zero missed deadlines, zero driver/focus errors and no paused table', runs };
+  const workloads = [];
+  for (const w of WORKLOADS) {
+    TURN = w.turnDelayMs; const runs = [];
+    for (const n of COUNTS) { console.log('--- ' + w.name + ': ' + n + ' table(s), ' + SECONDS + ' s'); let r; try { r = await runCount(n, api, session, host); } catch (e) { r = { tables: n, error: e.stack }; } runs.push(r); console.log(JSON.stringify({ workload: w.name, tables: n, actions: r.actions, correctness: r.correctness, deadlines: r.deadlines && r.deadlines.missed, reliable: r.reliable, error: r.error && r.error.slice(0, 300) })); }
+    const reliableCounts = runs.filter((r) => r.reliable).map((r) => r.tables), sustainable = COUNTS.reduce((a, n) => (COUNTS.slice(0, COUNTS.indexOf(n) + 1).every((m) => reliableCounts.includes(m)) ? n : a), 0);
+    workloads.push({ name: w.name, turnDelayMs: w.turnDelayMs, sustainableTables: sustainable, runs });
+  }
+  const doc = { format: 'eightmax-simulator-benchmark', version: 2, app: '0.35.0', at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: 'cascade (overlapping windows; the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow', workloads: WORKLOADS },
+    sustainableTables: Object.fromEntries(workloads.map((w) => [w.name, w.sustainableTables])), note: 'sustainable = the largest count for which this and every smaller count had zero ambiguous/timed-out actions, zero incorrect clicks or wagers, zero missed deadlines, zero driver/focus errors and no paused table', workloads };
   try { await api.request('/api/input/stop', {}); } catch (e) { /* host may already stop */ }
   try { await fetch('http://127.0.0.1:48713/api/desktop/shutdown', { method: 'POST', headers: { 'X-EightMax-Session': info.token } }); } catch (e) { /* closing */ }
   await sleep(3000); try { host.child.kill(); } catch (e) { /* gone */ }
-  fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(doc, null, 2)); console.log('sustainable tables: ' + sustainable + ' -> ' + OUT);
-  process.exitCode = runs.every((r) => !r.error) ? 0 : 1;
+  fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(doc, null, 2)); console.log('sustainable tables: ' + JSON.stringify(doc.sustainableTables) + ' -> ' + OUT);
+  process.exitCode = workloads.every((w) => w.runs.every((r) => !r.error)) ? 0 : 1;
 }
 main().catch((e) => { console.error(e.stack); process.exitCode = 1; });

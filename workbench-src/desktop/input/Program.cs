@@ -94,7 +94,8 @@ public static class SelfTest {
             r = call(cmd("arm"), 2000); WinInfo w = os.Window(hwnd);
             Rectangle bb = Rectangle.Empty, tb = Rectangle.Empty; f.Invoke((Action)delegate { bb = f.RectangleToScreen(f.Btn.Bounds); tb = f.RectangleToScreen(f.Box.Bounds); });
             // 1. smooth movement + click, sampled independently
-            call(cmd("monitor-start"), 2000); os.MoveAbsolute(w.Client.X + 20, w.Client.Y + 20); Thread.Sleep(60); Dictionary<string, object> mc = cmd("move-click"); mc["hwnd"] = hex; mc["to"] = P(bb.X + bb.Width / 2, bb.Y + bb.Height / 2); mc["region"] = Json.Box(new Rect(bb.X, bb.Y, bb.Width, bb.Height)); mc["expectClient"] = Json.Box(w.Client);
+            Dictionary<string, object> home = cmd("move"); home["hwnd"] = hex; home["to"] = P(w.Client.X + 20, w.Client.Y + 20); call(home, 8000); Thread.Sleep(60);
+            call(cmd("monitor-start"), 2000); Dictionary<string, object> mc = cmd("move-click"); mc["hwnd"] = hex; mc["to"] = P(bb.X + bb.Width / 2, bb.Y + bb.Height / 2); mc["region"] = Json.Box(new Rect(bb.X, bb.Y, bb.Width, bb.Height)); mc["expectClient"] = Json.Box(w.Client);
             r = call(mc, 10000); Dictionary<string, object> mon = call(cmd("monitor-stop"), 3000); Thread.Sleep(200);
             int clicks = 0; f.Invoke((Action)delegate { clicks = f.Clicks; });
             checks.Add(Check("move-click lands one click on the button", r != null && (bool)r["ok"] && clicks == 1, "clicks=" + clicks + " " + (r == null ? "no reply" : (bool)r["ok"] ? "planned " + r["plannedMs"] + " ms, actual " + r["actualMs"] + " ms, steps " + r["steps"] + ", final error " + r["finalError"] : (string)r["error"])));
@@ -109,7 +110,7 @@ public static class SelfTest {
             Dictionary<string, object> lg = cmd("move"); lg["hwnd"] = hex; lg["to"] = P(bb.X + 5, bb.Y + 5); Rect moved = w.Client; moved.X += 7; lg["expectClient"] = Json.Box(moved); r = call(lg, 5000);
             checks.Add(Check("stale coordinates refused after the window moved (layout-changed)", r != null && !(bool)r["ok"] && (string)r["code"] == "layout-changed", r == null ? "no reply" : (string)r["code"]));
             // 4. cancellation mid-movement: nothing moves afterwards
-            os.MoveAbsolute(w.Client.X + 10, w.Client.Y + 10); Thread.Sleep(50); Dictionary<string, object> slow = cmd("move"); slow["hwnd"] = hex; slow["to"] = P(w.Client.X + w.Client.W - 20, w.Client.Y + w.Client.H - 20); Dictionary<string, object> mo = new Dictionary<string, object>(); mo["maxSpeed"] = 200.0; mo["maxAccel"] = 2000.0; slow["motion"] = mo;
+            Dictionary<string, object> home2 = cmd("move"); home2["hwnd"] = hex; home2["to"] = P(w.Client.X + 10, w.Client.Y + 10); call(home2, 8000); Thread.Sleep(50); Dictionary<string, object> slow = cmd("move"); slow["hwnd"] = hex; slow["to"] = P(w.Client.X + w.Client.W - 20, w.Client.Y + w.Client.H - 20); Dictionary<string, object> mo = new Dictionary<string, object>(); mo["maxSpeed"] = 200.0; mo["maxAccel"] = 2000.0; mo["maxDurationMs"] = 20000.0; slow["motion"] = mo;
             long sid = seq + 1; slow["id"] = sid; seq = sid; input.Push(js.Serialize(slow)); Thread.Sleep(350); Dictionary<string, object> c = cmd("cancel"); c["op"] = sid; call(c, 2000); string sl = outp.WaitFor(sid, 5000);
             int ax, ay; os.GetCursor(out ax, out ay); Thread.Sleep(300); int bx2, by2; os.GetCursor(out bx2, out by2);
             checks.Add(Check("cancel stops a movement and the cursor stays still afterwards", sl != null && sl.Contains("\"cancelled\"") && ax == bx2 && ay == by2, (sl ?? "no reply").Substring(0, Math.Min(160, (sl ?? "no reply").Length)) + " drift=" + (Math.Abs(bx2 - ax) + Math.Abs(by2 - ay))));

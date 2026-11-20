@@ -48,12 +48,12 @@
 
   /** Window capture through the host: returns {ok, image, bounds, title, frameId, at} after decoding and size checks. */
   class HostWindowCapture {
-    constructor(api, target, o = {}) { this.api = api; this.target = { kind: 'window', hwnd: target.hwnd, pid: target.pid, title: target.title, method: o.method || 'print-window' }; this.opened = false; this.frames = 0; this.failures = 0; }
+    constructor(api, target, o = {}) { this.api = api; this.target = { kind: 'window', hwnd: target.hwnd, pid: target.pid, title: target.title, method: o.method || 'print-window' }; this.opened = false; this.frames = 0; this.failures = 0; this.decode = o.decode || (async (png) => IC.decodePng(b64(png))); }
     async open() { const r = await this.api.request('/api/capture/open', { target: this.target, consent: true }); this.opened = !!(r && r.ok); return r; }
     async grab() {
       const t0 = mono(); let r; try { r = await this.api.request('/api/capture/frame', { target: this.target }); } catch (e) { this.failures++; return { ok: false, code: e.code || 'capture-failed', reason: e.message }; }
       if (!r || r.ok !== true) { this.failures++; return { ok: false, code: r && r.code || 'capture-failed', reason: r && r.reason || 'no frame', minimized: r && r.minimized }; }
-      let image; try { image = IC.decodePng(b64(r.png)); } catch (e) { this.failures++; return { ok: false, code: 'decode-failed', reason: e.message }; }
+      let image; try { image = await this.decode(r.png); } catch (e) { this.failures++; return { ok: false, code: 'decode-failed', reason: e.message }; }
       if (image.width !== r.width || image.height !== r.height) return { ok: false, code: 'size-mismatch', reason: 'decoded size differs' };
       this.frames++; return { ok: true, image, bounds: r.bounds, title: r.title || (r.target && r.target.title), frameId: r.frameId, method: r.method, dpiScale: r.dpiScale, at: mono(), captureMs: mono() - t0 };
     }
@@ -74,7 +74,7 @@
   class SimulatorTable {
     constructor(o) {
       this.id = o.id; this.win = o.window; this.profile = o.profile; this.api = o.api; this.s = o.session; this.sched = o.scheduler; this.rec = o.recorder || null; this.opt = { ...DEFAULTS, ...(o.options || {}) };
-      this.capture = new HostWindowCapture(o.api, o.window, { method: o.captureMethod });
+      this.capture = new HostWindowCapture(o.api, o.window, { method: o.captureMethod, decode: o.decode });
       this.reader = tableReader(o.id, 8); this.engine = new HS.HandStateEngine(o.id, { track: true, seats: 8, expectedLayout: 'eightmax-8max-v2' });
       this.strip = !!(o.profile.layout && o.profile.layout.statusStrip);
       this.lastFrame = null; this.state = null; this.paused = null; this.stopped = false; this.rng = new EM.RNG((o.seed || 1) * 7 + o.id);
@@ -105,7 +105,7 @@
       const x = this.engine.ingest(r.observation);
       if (!x.accepted) { this.m.rejectedFrames++; this._diag('state', { ok: false, issues: x.issues.slice(0, 3) }); return { reject: 'state: ' + x.issues.map((i) => i.code).join(', '), issues: x.issues }; }
       this.lastFrame = frame; this.state = x.state; this._diag('state', { ok: true, frameId: g.frameId, actor: x.state.actor, status: x.state.status, captureMs: g.captureMs });
-      return { state: x.state, frame };
+      return { state: x.state, frame, observation: r.observation, viewSeat: view };
     }
     /** Re-capture inside the lease: the screen must still show the observed frame (same revision, same hand, same actor, same layout). */
     async _revalidate(st, frame) {
@@ -154,8 +154,9 @@
       if (this.stopped) return { kind: 'stopped' }; if (this.paused) return { kind: 'paused', reason: this.paused };
       const v = await this.look(); if (!v.state) return { kind: 'no-reading', reason: v.reject };
       const st = v.state; if (st.status !== 'playing' || !(st.actor >= 0)) return { kind: 'waiting' };
-      const l = st.legal || {}; if (!(l.canFold || l.canCheck || l.canCall || l.canRaise)) return { kind: 'waiting', reason: 'no action controls on screen' };
-      const heroOnly = this.profile.layout.heroSeat !== undefined && !this.strip; if (heroOnly && st.actor !== this.profile.layout.heroSeat) return { kind: 'waiting' };
+      // Act only when the SCREEN offers this seat an action: the viewer must be the player to act and enabled controls must be visible.
+      if (v.viewSeat !== st.actor) return { kind: 'waiting', reason: 'another player is to act' };
+      const c = v.observation && v.observation.controls; if (!c || !(c.fold || c.check || c.call || c.raise)) return { kind: 'waiting', reason: 'no action controls on screen' };
       const decision = this._decision(st); if (!decision) { this.pause('no EightMax decision for this state and no fallback allowed'); return { kind: 'unavailable' }; }
       this.m.decisions++; const deadline = v.frame.at + this.opt.decisionWindowMs, before = st, frame = v.frame;
       this._diag('decision', { source: decision.source, recommended: decision.recommended, label: decision.label, frameId: frame.frameId });
