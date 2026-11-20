@@ -1,0 +1,42 @@
+name: EightMax Test Workbench 0.35 - Windows input automation
+# Builds EightMaxInput.exe / EightMaxTestTable.exe / the desktop host ON a GitHub-hosted Windows x64 runner and runs the input
+# acceptance with REAL mouse and keyboard input on the runner's (virtual) desktop. Results are committed to ci-results/0.35/ on
+# the same branch. Hosted runner: Windows Server, no GPU, virtual display - NOT the target PC.
+on:
+  push:
+    paths:
+      - 'workbench-src/**'
+      - 'workbench-ci035/**'
+      - '.github/workflows/workbench-035.yml'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'all or quick'
+        required: false
+        default: 'all'
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: Build and test on Windows
+        shell: powershell
+        run: ./workbench-ci035/ci.ps1 -Stage "${{ github.event.inputs.stage || 'quick' }}"
+      - name: Publish results to ci-results/0.35 on this branch
+        if: always()
+        shell: powershell
+        env:
+          GH_PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./workbench-ci035/publish.ps1 -Source C:\em035-results
+      - name: Keep results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workbench-0.35-windows
+          path: C:\em035-results
+          if-no-files-found: warn
