@@ -1,0 +1,119 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261120164241
+Username: runnervmbpeip\runneradmin
+RunAs User: runnervmbpeip\runneradmin
+Configuration Name: 
+Machine: runnervmbpeip (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command . 'D:\a\_temp\383a834f-d739-4bc5-99ac-e55f7dd05533.ps1'
+Process ID: 7292
+PSVersion: 5.1.26100.33822
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.33822
+BuildVersion: 10.0.26100.33822
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+OS: Microsoft Windows Server 2025 Datacenter 10.0.26100
+
+virtual screen: {X=0,Y=0,Width=1920,Height=1080}
+
+==== CANDIDATE ====
+zip sha256 cdf207506cb2aef763198e40716e3d42ef25d382bef25cab8e1c7eb4dfa69b7e expected cdf207506cb2aef763198e40716e3d42ef25d382bef25cab8e1c7eb4dfa69b7e -> MATCH
+desktop\bin\EightMaxWorkbench.exe 0.35.0 6fbf0d80a69ea5c61badede0db40b3906de0fd0172b4b4e49c223e072306fd66
+desktop\bin\EightMaxCapture.exe 0.35.0 8782f0a80dcf48a3505e58bdd4098595989843b8823fb78ec8846fb452e8c437
+desktop\bin\EightMaxWgc.exe 0.35.0 bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1
+desktop\bin\EightMaxInput.exe 0.35.0 fb39c91a2238de5e8c4ef95a99c0078d3b3e99d3258c61196d25e60f448afb5e
+desktop\bin\EightMaxTestTable.exe 0.35.0 b5eacb98064fe1e969a0d8cbdafbe4a77bf9c6424459123d67da8465b4c3dc85
+native\mwcli.exe  b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+runtime\node\node.exe 22.23.5 247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a
+
+==== MANIFEST ====
+manifest mismatches: 0
+STAGE manifest exit 0
+
+==== INPUT SELF-TEST ====
+STAGE input-selftest exit 0
+
+==== INPUT ACCEPTANCE ====
+PASS driver starts, authenticates and reports SendInput + DPI awareness - {"dpi":"per-monitor-v2","uia":true,"hotkey":"Ctrl+Alt+F12","hotkeyRegistered":true,"rawInput":true,"note":""}
+PASS input to an unregistered window is refused - target-not-registered
+PASS registration refused for a different executable hash - The program's SHA-256 (b5eacb98064fe1e969a0d8cbdafbe4a77bf9c6424459123d67da8465b4c3dc85) differs from the authorised executable.
+PASS driver hashes the target executable exactly like the file on disk - b5eacb98064fe1e969a0d8cbdafbe4a77bf9c6424459123d67da8465b4c3dc85
+PASS UI Automation lists the table buttons and the wager field - Fold:Button, Check:Button, Call:Button, Raise:Button, All-in:Button, Wager amount:Edit, Minimize:Button, Maximize:Button, Close:Button
+PASS movement is continuous (independent 1 ms sampler: no step larger than max speed x update interval, no button down) and ends exactly on target - {"problems":[],"rawSamples":710,"positions":71,"travel":1010.66,"maxStepPx":25.55,"stepLimitPx":34,"targetError":0,"buttonDownSamples":0,"measuredPeakSpeed":1727.6}
+PASS commanded path follows the minimum-jerk plan and respects the speed and acceleration limits - {"matchesPlan":true,"peakSpeed":1600.1,"peakAccel":6199.4,"limits":{"maxSpeed":1600,"maxAccel":9000},"allowance":{"speed":1790.6,"accel":19091.7,"note":"limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"},"problems":[]}
+PASS movement takes its planned time (not faster) at ~60 updates per second - {"plannedMs":1181.79,"actualMs":1184.95,"medianIntervalMs":15.97,"maxIntervalMs":16.21,"maxTimingErrorMs":0.39}
+PASS Call: exactly one press, on the Call button, inside the validated region - {"downs":["call@840,573"],"region":{"x":847,"y":605,"w":42,"h":18},"clickedAt":{"x":868,"y":614}}
+PASS Call: the table accepted exactly one call - ["call:accepted"]
+PASS the button was down only for the click itself (no press while moving) - 29 samples (2 ms) with the button down
+PASS wager typed key by key and read back exactly before submitting - {"read":"450","field":"0x10232"}
+PASS Raise: the table applied a raise to exactly the typed amount - {"result":"accepted","applied":{"hand":1,"seat":4,"control":"raise","type":"raise","amount":450,"rev":3},"wager":"450","before":1}
+PASS an invalid wager (below the minimum) is refused by the table and the state does not change - {"result":"wager-rejected","reason":"outside 800..2490"}
+PASS after the window moved and was resized, the old coordinates are refused (layout-changed) - layout-changed
+PASS fresh coordinates after move+resize land on the intended control - {"control":"fold","client":{"x":268,"y":171,"w":1120,"h":700},"rev":4,"check":{"x":1095,"y":829,"w":71,"h":21}}
+PASS a click on a covered control is refused when bringing windows to the front is not allowed - target-covered
+PASS with bring-to-front the covered window is raised first and only it receives the click - {"foreground":true,"t1":1,"t2":0,"hit":"WindowsForms10.EDIT.app.0.34f5582_r6_ad1"}
+PASS keyboard entry stops when the simulator loses focus (no keys typed into another window) - focus-lost: The simulator window is not in the foreground; keyboard input refused.
+PASS the other window received no keystrokes - 0 keys
+PASS cancel interrupts a movement; the cursor does not move afterwards - {"code":"cancelled","maxDisplacementAfter":0,"cancelMs":417}
+PASS a minimised simulator window is refused - window-minimized
+PASS a closed simulator window is detected and refused - window-gone
+PASS emergency stop latches: queued and new input refused until an explicit reset - emergency-stop
+PASS automation cannot be re-enabled while the stop is latched - emergency-stop
+PASS no mouse button or key held by the driver - {"heldButtons":false,"heldKeys":0}
+PASS the table never received a click on an old frame (no duplicate or late action) - [0,0]
+PASS no press outside a control and no double-click reached the table (consecutive clicks on one spot are spaced beyond the double-click time) - {"perTable":[{"outside":0,"doubleClicks":0},{"outside":0,"doubleClicks":0}],"guards":1}
+PASS the driver process exits on shutdown (no orphan) - INFO: No tasks are running which match the specified criteria.
+input acceptance: 29/29 passed -> C:\em035-results\input-acceptance.json
+STAGE input-acceptance exit 0
+
+==== SIMULATOR BENCHMARK ====
+--- stress: 1 table(s), 60 s
+{"workload":"stress","tables":1,"actions":{"attempted":19,"confirmed":19,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":18.8},"correctness":{"matchedToOracle":19,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- stress: 2 table(s), 60 s
+{"workload":"stress","tables":2,"actions":{"attempted":36,"confirmed":36,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":35.5},"correctness":{"matchedToOracle":36,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- stress: 5 table(s), 60 s
+{"workload":"stress","tables":5,"actions":{"attempted":70,"confirmed":70,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":67.5},"correctness":{"matchedToOracle":70,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- stress: 8 table(s), 60 s
+{"workload":"stress","tables":8,"actions":{"attempted":71,"confirmed":69,"rejected":2,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":62.9},"correctness":{"matchedToOracle":69,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":2,"reliable":false}
+--- stress: 10 table(s), 60 s
+{"workload":"stress","tables":10,"actions":{"attempted":81,"confirmed":81,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":75},"correctness":{"matchedToOracle":81,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- realistic: 1 table(s), 60 s
+{"workload":"realistic","tables":1,"actions":{"attempted":7,"confirmed":7,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":6.9},"correctness":{"matchedToOracle":7,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- realistic: 2 table(s), 60 s
+{"workload":"realistic","tables":2,"actions":{"attempted":14,"confirmed":14,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":13.8},"correctness":{"matchedToOracle":14,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- realistic: 5 table(s), 60 s
+{"workload":"realistic","tables":5,"actions":{"attempted":35,"confirmed":35,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":34},"correctness":{"matchedToOracle":35,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+--- realistic: 8 table(s), 60 s
+{"workload":"realistic","tables":8,"actions":{"attempted":51,"confirmed":49,"rejected":1,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":1,"perMinute":47.9},"correctness":{"matchedToOracle":49,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":1,"reliable":false}
+--- realistic: 10 table(s), 60 s
+{"workload":"realistic","tables":10,"actions":{"attempted":60,"confirmed":60,"rejected":0,"ambiguous":0,"timedOut":0,"cancelled":0,"blocked":0,"perMinute":58.5},"correctness":{"matchedToOracle":60,"incorrectClicks":0,"incorrectWagers":0,"oracleActionsWithoutConfirmation":0},"deadlines":0,"reliable":true}
+sustainable tables: {"stress":5,"realistic":5} -> C:\em035-results\simulator-benchmark.json
+STAGE simulator-benchmark exit 0
+
+==== RELEASE ACCEPTANCE (windows\Test-Release.ps1 -IncludeInstall) ====
+
+STAGE release-acceptance exit 0
+
+==== NODE SUITE (bundled runtime) ====
+STAGE node-tests-all exit 0
+  duration_ms: 12.6537
+  type: 'test'
+  ...
+1..876
+# tests 876
+# suites 0
+# pass 849
+# fail 0
+# cancelled 0
+# skipped 27
+# todo 0
+# duration_ms 352791.9212
+
+**********************
+Windows PowerShell transcript end
+End time: 20261120170231
+**********************

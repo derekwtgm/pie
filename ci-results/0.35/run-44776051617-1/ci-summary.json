@@ -1,0 +1,25 @@
+﻿{
+    "format":  "eightmax-ci-035-validate",
+    "version":  1,
+    "runId":  "44776051617",
+    "sha":  "3e73c080271180a3c02738625d3e92a10ea3bb5c",
+    "stages":  {
+                   "manifest":  0,
+                   "input-selftest":  0,
+                   "input-acceptance":  0,
+                   "simulator-benchmark":  0,
+                   "release-acceptance":  0,
+                   "node-tests-all":  0
+               },
+    "zipSha256":  "cdf207506cb2aef763198e40716e3d42ef25d382bef25cab8e1c7eb4dfa69b7e",
+    "checksumMatch":  true,
+    "executables":  {
+                        "desktop/bin/EightMaxWorkbench.exe":  "6fbf0d80a69ea5c61badede0db40b3906de0fd0172b4b4e49c223e072306fd66",
+                        "desktop/bin/EightMaxCapture.exe":  "8782f0a80dcf48a3505e58bdd4098595989843b8823fb78ec8846fb452e8c437",
+                        "desktop/bin/EightMaxWgc.exe":  "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+                        "desktop/bin/EightMaxInput.exe":  "fb39c91a2238de5e8c4ef95a99c0078d3b3e99d3258c61196d25e60f448afb5e",
+                        "desktop/bin/EightMaxTestTable.exe":  "b5eacb98064fe1e969a0d8cbdafbe4a77bf9c6424459123d67da8465b4c3dc85",
+                        "native/mwcli.exe":  "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+                        "runtime/node/node.exe":  "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+                    }
+}
