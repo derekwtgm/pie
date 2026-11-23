@@ -1,0 +1,881 @@
+{
+ "archive": "EightMax-Windows-5.7.zip",
+ "archiveBytes": 79168498,
+ "archiveSha256": "283df7c4464b37524f9682cf715c8895dc97e16a0493f2f835f36e0293ef9d5e",
+ "version": "5.7",
+ "build": "e4668abe7903f8b0",
+ "sourceFingerprint": "e4668abe7903f8b0",
+ "sourceFingerprintNote": "the build identifier is the first 16 hex digits of the SHA-256 over source/VERSION and every file of source/native, web, wasm, tools, tests, studies and the CI workflow (373 files); verify_build.js recomputed it from the extracted source and found it in the three executables and the interface",
+ "manifestEntries": 4534,
+ "archiveMembers": 4535,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "347aec3a15778c291744ca2e229a013f3f9f52b51979ec04640eb5193746658a",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 4980736,
+   "sha256": "83c090cf63defa0444dbae2b324af8d86ff1ccd95c6488c6e88f7b0167e671b9"
+  },
+  "mwcli.exe": {
+   "bytes": 2904576,
+   "sha256": "eb599ea01702c1bdd487958c030790d4d8cb843b1a9cd6222f8a28cd09db384c"
+  },
+  "gpustress.exe": {
+   "bytes": 2314240,
+   "sha256": "f8f6f9f34ea3b6dcba990c1e3e77693939455d368d63a3ed8cfc5a51e357c5b1"
+  }
+ },
+ "interfaceSha256": "25215f123a46e68c48f9b2031d78d92088b4f3baa45927d75471f40d0534c324",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=e4668abe7903f8b0",
+   "EightMax.exe": "EightMaxBuild=e4668abe7903f8b0",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "e4668abe7903f8b0",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "e4668abe7903f8b0"
+  },
+  "host": {
+   "build": "e4668abe7903f8b0",
+   "version": "5.7",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "d547bca59018c61bb8790e9005d5007f0de84cc95a5220af6eff501b61474d03",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 1
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 27.2
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 2.69,
+     "seconds1024MiB": 2.74,
+     "seconds55Paths1024MiB": 2.7,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 2.46,
+     "seconds1024MiB": 2.46,
+     "seconds55Paths1024MiB": 3.54,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "trainingsDisagree",
+    "bestActionDeclared": false,
+    "warnings": [
+     "trainingsDisagree",
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "checks57": {
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "build": "e4668abe7903f8b0",
+    "seconds": 36.0,
+    "checks": [
+     "card code equals the 5.6 function for every flop in every order, on every street",
+     "worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller)",
+     "deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals)",
+     "thread choice settles on the fastest measured count",
+     "stage spreading is kept when it is faster and dropped when it is slower",
+     "flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "btn25-open-small-sampled: the trained state is the state of the 5.6 binary",
+     "btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop3-kings-sampled: the trained state is the state of the 5.6 binary",
+     "flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-sampled: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop6-jack-small-exact: the trained state is the state of the 5.6 binary",
+     "flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative)"
+    ]
+   },
+   "frozenBatchThreads": {
+    "1": {
+     "threadsUsed": 1,
+     "wallSeconds": 0.12707,
+     "identicalToThe56State": true
+    },
+    "4": {
+     "threadsUsed": 4,
+     "wallSeconds": 0.141947,
+     "identicalToThe56State": true
+    }
+   },
+   "cpuFallback": {
+    "modes": [
+     "auto",
+     "cpu",
+     "gpu",
+     "hybrid"
+    ],
+    "allOnTheCpu": true,
+    "sameMeasurementsAsCpuOnly": true,
+    "measurementPointsCompared": 16,
+    "trainingDevicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+   },
+   "invalidConfigurations": {
+    "invalidSpec": {
+     "exit": 1,
+     "message": "error: Native engine needs 2 to 8 seats"
+    },
+    "unreadableSpec": {
+     "exit": 2
+    },
+    "unknownStudyOption": {
+     "exit": 2,
+     "message": "error: unknown option 'nonsense'"
+    },
+    "invalidStudyOptionValue": {
+     "exit": 1,
+     "message": "error 400: study options: seeds must be a count from 1 to 64 or an explicit list"
+    },
+    "selftestWithoutArguments": {
+     "exit": 2
+    }
+   }
+  },
+  "passed": true
+ },
+ "validationStatus": {
+  "release": "5.7",
+  "build": "e4668abe7903f8b0",
+  "classes": {
+   "1": "implemented and independently tested (an independent implementation, an exact reference, or the unchanged 5.6 binary agrees)",
+   "2": "implemented and verified by the project's own tests on Linux, or by the Windows programs under Wine",
+   "3": "implemented, awaiting physical hardware validation (never executed on Windows hardware or an NVIDIA GPU)",
+   "4": "not implemented, unsuccessful, or not executed"
+  },
+  "baseline56": {
+   "what": "Verification of the supplied EightMax 5.6 release before any change (Phase 1). Source: branch eightmax-5.6 of the repository named by the user, folder release-5.6.",
+   "archive": {
+    "file": "EightMax-Windows-5.6.zip",
+    "sha256": "7c46e762f6f8ce366c3b06f7efbd7980e35788e7baab286f92deab25a7bbba2b",
+    "expectedSha256": "7c46e762f6f8ce366c3b06f7efbd7980e35788e7baab286f92deab25a7bbba2b",
+    "members": 4262,
+    "expectedMembers": 4262
+   },
+   "manifest": {
+    "entries": 4261,
+    "expectedEntries": 4261,
+    "sha256": "441b00cc28185bd169aed609d0a60fc435651e8dfa0322117f2b329b2c30e179",
+    "mismatches": 0,
+    "checkedWith": "sha256sum -c on a copy extracted into a new empty directory"
+   },
+   "identity": {
+    "version": "5.6",
+    "build": "7ee054b44c409149",
+    "verifyBuildJs": "Verified the executables, interface and source: 7ee054b44c409149"
+   },
+   "executablesShipped": {
+    "EightMax.exe": "170e826f0b560c979d5798ecf54c488a047e6b9f2467fc77cfae4bda12f57bbe",
+    "mwcli.exe": "f78888954f2617a5133ca1ceb1766bfaa6ae5072fae7a24c5fd9417c9327b361",
+    "gpustress.exe": "c55b2924949ae626002b4318db67842a989c6f111f1fdf678c8951e8f4d9caa9"
+   },
+   "executablesExpected": {
+    "EightMax.exe": "170e826f0b560c979d5798ecf54c488a047e6b9f2467fc77cfae4bda12f57bbe",
+    "mwcli.exe": "f78888954f2617a5133ca1ceb1766bfaa6ae5072fae7a24c5fd9417c9327b361",
+    "gpustress.exe": "c55b2924949ae626002b4318db67842a989c6f111f1fdf678c8951e8f4d9caa9"
+   },
+   "rebuiltFromUnmodifiedSource": {
+    "toolchain": "gcc 13.3.0 (Ubuntu 24.04), x86_64-w64-mingw32-g++-posix (GCC) 13-posix, libz-mingw-w64-dev, node v22.23.5, python 3.13.18",
+    "windows": {
+     "EightMax.exe": "170e826f0b560c979d5798ecf54c488a047e6b9f2467fc77cfae4bda12f57bbe",
+     "mwcli.exe": "f78888954f2617a5133ca1ceb1766bfaa6ae5072fae7a24c5fd9417c9327b361",
+     "gpustress.exe": "c55b2924949ae626002b4318db67842a989c6f111f1fdf678c8951e8f4d9caa9"
+    },
+    "linux": {
+     "eightmax": "c24a22156dfbc389da5c356097f8215b635449837063560af8b202f76cffe07a",
+     "mwcli": "3e824466b76abdc7d44d443cd311209ab334fda213df117369e18d58275f5366",
+     "gpustress": "ff6c325c5d9c8d67a992690dfa4cf9db3962d9112331dd58616de45d35028b89"
+    },
+    "shippedLinux": {
+     "eightmax": "c24a22156dfbc389da5c356097f8215b635449837063560af8b202f76cffe07a",
+     "mwcli": "3e824466b76abdc7d44d443cd311209ab334fda213df117369e18d58275f5366",
+     "gpustress": "ff6c325c5d9c8d67a992690dfa4cf9db3962d9112331dd58616de45d35028b89"
+    }
+   },
+   "regressionOnRebuiltLinuxBinaries": {
+    "command": "node --test --test-concurrency=3 --test-reporter=tap source/tests/*.test.js (as validation/5.6/run_final.sh)",
+    "totals": {
+     "tests": 583,
+     "pass": 580,
+     "fail": 2,
+     "skipped": 1
+    },
+    "reportedBy56": {
+     "tests": 583,
+     "pass": 582,
+     "fail": 0,
+     "skipped": 1
+    },
+    "failed": [
+     "4.1 concurrency: repeated simultaneous starts of solve, report and training \u2014 exactly one wins, none stuck",
+     "4.7 dashboard live monitor against the native host: real measurements, continuation identity, stop rules"
+    ],
+    "conditions": "run while compilations, a benchmark and identity checks used the other processors",
+    "rerunAlone": {
+     "v41.test.js": "15 passed, 0 failed (the concurrency test passes on an idle machine: load-sensitive)",
+     "v47.test.js": "12 passed, 1 failed: \"4.7 dashboard live monitor against the native host\" fails again alone, at assert.ok(r.dealsPerSecond > 0)"
+    }
+   },
+   "discrepancies": [
+    {
+     "item": "Regression totals",
+     "reported": "583 tests: 582 passed, 0 failed, 1 skipped",
+     "found": "583 tests: 580 passed, 2 failed, 1 skipped",
+     "explanation": "Two desktop-host tests failed. One (v41, concurrent starts) passes when its file runs alone: it depends on machine load, as 5.6 reported for two other host tests. The other (v47, dashboard live monitor) fails alone too, with the unmodified 5.6 programs, on this machine."
+    },
+    {
+     "item": "v47 dashboard live monitor (a defect of 5.6, not of the test)",
+     "found": "The desktop host reports the elapsed training time of /api/mw/status with three decimals. A training segment shorter than half a millisecond is reported as 0, the dashboard then has no throughput for it (null), and the test requires a positive throughput. 5.6 made training fast enough for the first 100 updates of the three-player river game to take less than that on this machine.",
+     "repairIn57": "server.c reports the elapsed time with six decimals (microseconds). The 5.7 host passes the test."
+    },
+    {
+     "item": "Windows thread check of validate_windows56.ps1 (found by reading the script)",
+     "found": "Section 4 trained golden spec g05-flop6 (8 deals per update) with 1 to N threads. 5.6 used several threads for an update only when state visits per deal times deals per update reached 2,000, which this spec never does after its first update, so the check compared single-threaded runs with each other.",
+     "repairIn57": "validate_windows57.ps1 uses a 64-deal spec with hand groups and forces every update onto all threads (EIGHTMAX_THREAD_CHOICE=fixed); the engine reports the threads used."
+    },
+    {
+     "item": "Thread-count dependence under a very small table budget (5.6 behaviour, documented in 5.7)",
+     "found": "The workers' transient memory comes out of the table budget. With a budget of 1 to 2 MiB the update at which training stops depends on the number of worker threads (for example flop3-kings with 64 deals per update and 2 MiB: 12 updates with 1 to 4 threads, 0 with 8). States are identical for every thread count as long as the budget is not reached.",
+     "repairIn57": "none (behaviour preserved); 5.7 reproduces 5.6 at every thread count, and the 5.7 tests compare stopped trainings at equal thread counts."
+    }
+   ],
+   "identical": {
+    "archiveSha256": true,
+    "manifest": true,
+    "executables": true,
+    "sourceFingerprint": true,
+    "windowsRebuildByteIdentical": true,
+    "linuxRebuildByteIdentical": true
+   }
+  },
+  "regressionLinux": {
+   "tests": 592,
+   "passed": 591,
+   "failed": 0,
+   "skipped": 1,
+   "failedTests": [],
+   "skippedTests": [
+    "4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)"
+   ],
+   "rerunAlone": [],
+   "failedAgainAlone": [],
+   "tests57": 9,
+   "tests57Passed": 9,
+   "effective": {
+    "passed": 591,
+    "failed": 0,
+    "skipped": 1
+   }
+  },
+  "sanitizers": {
+   "asanUbsan53to56": {
+    "tests": 53,
+    "passed": 53,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   },
+   "asanUbsan57": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   },
+   "asanBuildExit": 0,
+   "tsanBuildExit": 0,
+   "sanitizerReports": 0,
+   "threadSanitizerWarnings": 0,
+   "threadSanitizerRuns": [
+    [
+     "study",
+     "0"
+    ],
+    [
+     "cancelled study",
+     "0"
+    ],
+    [
+     "resumed study",
+     "0"
+    ],
+    [
+     "exact study",
+     "0"
+    ],
+    [
+     "river-cross study",
+     "0"
+    ],
+    [
+     "frozen-batch training (default, 4 threads, measured choice)",
+     "0"
+    ],
+    [
+     "frozen-batch training (default, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (default, every update on 8 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (river-cross, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (DCFR, 64 deals, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (Compact hand groups, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (Detailed hand groups, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training (ICM, hand groups, every update on 4 threads)",
+     "0"
+    ],
+    [
+     "frozen-batch training stopped by a 2 MiB table budget (4 threads)",
+     "0"
+    ],
+    [
+     "sampled response gain (4 threads, one path tree per worker)",
+     "0"
+    ],
+    [
+     "parallel exact best response (compact tables, path trees, 4 threads)",
+     "0"
+    ]
+   ],
+   "threadSanitizerNotes": [
+    "EQUIVALENT",
+    "distinct states of the turn4 frozen-batch trainings under ThreadSanitizer (1 expected): 1",
+    "Compact-group state under ThreadSanitizer (4 threads) equals the release build (1 thread): yes"
+   ],
+   "leakSummary": [
+    "leak check exits: study 0, frozen-batch training 0",
+    "validation/5.7/sanitizers/leak-study.log:0",
+    "validation/5.7/sanitizers/leak-frozen-batch.log:0"
+   ]
+  },
+  "identityAgainst56": {
+   "cases": 225,
+   "failures": 0,
+   "trainingRuns": 1782,
+   "seconds": 194.2,
+   "baselineSha256": "3e824466b76abdc7d44d443cd311209ab334fda213df117369e18d58275f5366",
+   "currentSha256": "d878054b08fa0909285e66dfded8860f5f06aa708096f24395179512c593af4d",
+   "deals": 24000,
+   "applicableCases": 225,
+   "identicalCases": 225,
+   "trainingsCompared": 1085,
+   "identicalStates": 1085,
+   "twoPartIdentical": 208,
+   "twoPartNotComparable": 17,
+   "stoppedByTableBudget": 17,
+   "threadCounts": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    16
+   ],
+   "tablePeakDiffers": 116,
+   "different": []
+  },
+  "selftest57Linux": {
+   "passed": 28,
+   "failed": 0,
+   "build": "e4668abe7903f8b0",
+   "seconds": 15.93935839,
+   "failedChecks": []
+  },
+  "selftest57Wine": {
+   "passed": 28,
+   "failed": 0,
+   "build": "e4668abe7903f8b0",
+   "seconds": 36.3980935,
+   "failedChecks": []
+  },
+  "wine": {
+   "tests": {
+    "v56.test": {
+     "tests": 15,
+     "passed": 15,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    },
+    "v57.test": {
+     "tests": 9,
+     "passed": 9,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    }
+   },
+   "notes": "The Windows executables of the final build under Wine 9.0 (validation/5.7/wine57.sh), Linux container. Wine is not Windows: class 2.\n- selftest57-wine.json   mwcli.exe --selftest57: the step \"Run 5.7 Windows validation.bat\" runs first.\n- v57.test.tap           the 5.7 regression file with mwcli.exe and EightMax.exe in place of the Linux programs. Three of its tests compare with the archived 5.6 LINUX binary, which runs natively: they compare the Windows build of 5.7 with the Linux build of 5.6 (frozen-batch states for 1 to 8 threads, sampled and exact evaluations, complete studies).\n- v56.test.tap           the 5.6 regression file, the same way.\nThe whole suite was not run under Wine for 5.7. 5.6 ran it: 514 passed, 68 failed, 1 skipped, every failure also present with the 5.5 Windows programs under the same harness (VALIDATION-5.6.md)."
+  },
+  "ui": {
+   "checksPassed": 20,
+   "checksTotal": 20,
+   "browser": "Chromium 157.0.8103.78",
+   "build": "e4668abe7903f8b0"
+  },
+  "stabilitySixMinutes": {
+   "passed": false,
+   "checks": 11,
+   "checksPassed": 10,
+   "failed": [
+    "E: a 322 s training study stops at its time limit with periodic checkpoints and no write error"
+   ],
+   "explanation": "the tool's long study has a budget of 20,000,000 deals per seed; with 322 s left a seed reached the engine's limit of 10 million updates per training and the study ended with an error instead of at its time limit. The unchanged 5.6 binary fails in the same way with the same command (validation/5.7/stability/README.md)."
+  },
+  "uiWithThe56Tool": {
+   "checksPassed": 19,
+   "checksTotal": 20,
+   "failed": [
+    "the host is 5.6 and announces study checkpoints"
+   ]
+  },
+  "knownDefectsFound": [
+   {
+    "what": "A study whose budget exceeds 10,000,000 deals per seed (one deal per update) fails with \"Iteration count must fit the 10 million iteration limit\" when a seed reaches the limit, instead of being refused when it starts.",
+    "presentIn": [
+     "5.6",
+     "5.7"
+    ],
+    "repaired": false,
+    "evidence": "validation/5.7/stability/README.md",
+    "workaround": "keep study budgets at or below 10,000,000 deals per seed (the shipped fixtures stop at 4,000,000); with frozen batches the limit is 10 million updates, that is 640 million deals at 64 deals per update"
+   }
+  ],
+  "stability": {
+   "passed": true,
+   "checks": 11,
+   "checksPassed": 11,
+   "minutes": 3,
+   "elapsedSeconds": 166.084,
+   "build": "e4668abe7903f8b0",
+   "pauseResumeCycles": 13
+  },
+  "performance": {
+   "frozenBatch": {
+    "games": [
+     "btn25-open",
+     "final8w",
+     "flop3-kings",
+     "flop3-kings-detailed",
+     "flop5",
+     "flop6-jack",
+     "flop6w",
+     "icm8-bb-call",
+     "turn4"
+    ],
+    "speedupOver56At4Threads": {
+     "min": 1.342640311023711,
+     "max": 1.7441181898265665,
+     "median": 1.561975388816306
+    },
+    "scaling1To4Threads57": {
+     "min": 1.4364065944815232,
+     "max": 2.367934912766151,
+     "median": 1.9653063096554286
+    },
+    "scaling1To4Threads56": {
+     "min": 0.8673090926518856,
+     "max": 1.8476348806181841,
+     "median": 1.4208632423489649
+    },
+    "ratioOver56At1Thread": {
+     "min": 0.9276093154310028,
+     "max": 1.0490250206306053,
+     "median": 1.0118082375349127
+    },
+    "identicalStates": true,
+    "repetitions": 5
+   },
+   "defaultTrainerOneThread": {
+    "ratioOver56": {
+     "min": 0.872627581886702,
+     "max": 1.1174852935331292,
+     "median": 0.9777537960723528
+    },
+    "identicalStates": 10,
+    "fixtures": 10
+   },
+   "sampledEvaluation": {
+    "speedup": {
+     "min": 1.2528352740389967,
+     "max": 3.2698429265431046,
+     "median": 1.8074857305140775
+    },
+    "timeSavedPercent": {
+     "min": 20,
+     "max": 69
+    },
+    "cases": 10,
+    "identicalResults": 10
+   },
+   "exactEvaluation": {
+    "speedup": {
+     "min": 0.7889205051329494,
+     "max": 1.0622175821766031,
+     "median": 0.9846782641852623
+    },
+    "timeSavedPercent": {
+     "min": -27,
+     "max": 6
+    },
+    "cases": 6,
+    "identicalResults": 6
+   },
+   "completeStudies": {
+    "wallRatio": {
+     "min": 0.9597700759574517,
+     "max": 1.9428924606826585,
+     "median": 1.3666081909376129
+    },
+    "studies": 8,
+    "identicalMeasurements": 8,
+    "byStudy": {
+     "akq-river exact, standard preset": 1.584,
+     "3-player preflop small, sampled, standard preset": 1.759,
+     "3-player flop small, exact, standard preset": 1.017,
+     "6-player flop, sampled, standard preset": 1.149,
+     "3-player flop, sampled, standard preset": 1.943,
+     "8-handed ICM small, exact, 2 seeds x 2 budgets": 0.96,
+     "6-player flop small, exact, 2 seeds x 2 budgets": 1.034,
+     "8-handed ICM, sampled, standard preset": 1.764
+    }
+   },
+   "smallStudiesRepeated": {
+    "akq-river exact, standard preset": 0.994,
+    "3-player flop small, exact, standard preset": 0.972,
+    "8-handed ICM small, exact, 2 seeds x 2 budgets": 1.091,
+    "6-player flop small, exact, 2 seeds x 2 budgets": 0.998
+   }
+  },
+  "convergence": {
+   "main": {
+    "games": [
+     "hu-river",
+     "hu-turn",
+     "river3-chip",
+     "turn4",
+     "flop6",
+     "final8",
+     "bubble4"
+    ],
+    "seeds": 30,
+    "rows": 2520,
+    "equalDeals": {
+     "default57 vs default56": {
+      "identicalCheckpointFiles": 210,
+      "pairs": 210
+     },
+     "batch57t4 vs batch56t4": {
+      "identicalCheckpointFiles": 210,
+      "pairs": 210
+     }
+    },
+    "equalTime": {
+     "batch57t4 vs batch56t4": {
+      "hu-river": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.047
+      },
+      "hu-turn": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.998
+      },
+      "river3-chip": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.816
+      },
+      "turn4": {
+       "verdict": "better",
+       "ratioOfMeans": 0.313
+      },
+      "flop6": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.701
+      },
+      "final8": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.399
+      },
+      "bubble4": {
+       "verdict": "better",
+       "ratioOfMeans": 0.388
+      }
+     },
+     "batch57t4 vs default57": {
+      "hu-river": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.192
+      },
+      "hu-turn": {
+       "verdict": "worse",
+       "ratioOfMeans": 1.189
+      },
+      "river3-chip": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.066
+      },
+      "turn4": {
+       "verdict": "better",
+       "ratioOfMeans": 0.489
+      },
+      "flop6": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.687
+      },
+      "final8": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.703
+      },
+      "bubble4": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.317
+      }
+     },
+     "default57 vs default56": {
+      "hu-river": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.057
+      },
+      "hu-turn": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.017
+      },
+      "river3-chip": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.872
+      },
+      "turn4": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.087
+      },
+      "flop6": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.999
+      },
+      "final8": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.889
+      },
+      "bubble4": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.828
+      }
+     },
+     "batch56t4 vs default56": {
+      "hu-river": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.203
+      },
+      "hu-turn": {
+       "verdict": "worse",
+       "ratioOfMeans": 1.212
+      },
+      "river3-chip": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.139
+      },
+      "turn4": {
+       "verdict": "worse",
+       "ratioOfMeans": 1.7
+      },
+      "flop6": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.979
+      },
+      "final8": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 1.565
+      },
+      "bubble4": {
+       "verdict": "unresolved",
+       "ratioOfMeans": 0.677
+      }
+     }
+    },
+    "largestTimeBudgetSeconds": 1.0,
+    "promotionRuleMet": false,
+    "newDefaultTrainer": null
+   },
+   "flop6": {
+    "time:0.5": {
+     "default56 vs baseline55": {
+      "verdict": "better",
+      "ratioOfMeans": 0.619,
+      "seedsLower": 121,
+      "seedsHigher": 39,
+      "pairs": 160
+     },
+     "default57 vs baseline55": {
+      "verdict": "better",
+      "ratioOfMeans": 0.6,
+      "seedsLower": 125,
+      "seedsHigher": 35,
+      "pairs": 160
+     },
+     "default57 vs default56": {
+      "verdict": "unresolved",
+      "ratioOfMeans": 0.97,
+      "seedsLower": 93,
+      "seedsHigher": 67,
+      "pairs": 160
+     },
+     "batch57t4 vs default57": {
+      "verdict": "better",
+      "ratioOfMeans": 0.743,
+      "seedsLower": 103,
+      "seedsHigher": 57,
+      "pairs": 160
+     }
+    },
+    "time:2.0": {
+     "default56 vs baseline55": {
+      "verdict": "better",
+      "ratioOfMeans": 0.772,
+      "seedsLower": 96,
+      "seedsHigher": 64,
+      "pairs": 160
+     },
+     "default57 vs baseline55": {
+      "verdict": "better",
+      "ratioOfMeans": 0.75,
+      "seedsLower": 101,
+      "seedsHigher": 59,
+      "pairs": 160
+     },
+     "default57 vs default56": {
+      "verdict": "unresolved",
+      "ratioOfMeans": 0.971,
+      "seedsLower": 80,
+      "seedsHigher": 80,
+      "pairs": 160
+     },
+     "batch57t4 vs default57": {
+      "verdict": "unresolved",
+      "ratioOfMeans": 0.85,
+      "seedsLower": 99,
+      "seedsHigher": 61,
+      "pairs": 160
+     }
+    }
+   },
+   "restricted": {
+    "states": 90,
+    "direction": {
+     "restrictedSeatGainsChecked": 400,
+     "restrictedAboveExact": 0,
+     "sampledSeatGainsChecked": 400,
+     "sampledAboveExactBy4StdErr": 0
+    }
+   }
+  },
+  "windows": {
+   "executablesBuilt": "cross-compiled on Linux with MinGW-w64 GCC 13 (static)",
+   "executedOnWindowsHardware": false,
+   "validateWindows57ps1Executed": false,
+   "powershellAvailableInDevelopment": false,
+   "githubActionsWorkflowRun": false,
+   "whyNot": "no Windows machine; the PowerShell download was refused by the session's permission policy; the session had read-only access to the repository, so no workflow could be started",
+   "staticChecksOfThePowerShellScript": "balanced quoting and bracketing, every called helper defined, no PowerShell 7-only syntax (a Python scanner, not a parser)"
+  },
+  "gpu": {
+   "executedOnNvidiaHardware": false,
+   "cudaCodeChangedIn57": false,
+   "simulatedDriverTestsInRegressionSuite": true,
+   "statement": "No GPU result of any kind exists for 5.7. The CUDA paths ran only against the simulated driver (a test double) inside the Linux regression suite; that is not GPU validation."
+  }
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
