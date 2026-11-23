@@ -1,0 +1,128 @@
+{
+ "archive": "EightMax-Windows-5.6.zip",
+ "archiveBytes": 70680773,
+ "archiveSha256": "7c46e762f6f8ce366c3b06f7efbd7980e35788e7baab286f92deab25a7bbba2b",
+ "version": "5.6",
+ "build": "7ee054b44c409149",
+ "manifestEntries": 4261,
+ "archiveMembers": 4262,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "441b00cc28185bd169aed609d0a60fc435651e8dfa0322117f2b329b2c30e179",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 4937216,
+   "sha256": "170e826f0b560c979d5798ecf54c488a047e6b9f2467fc77cfae4bda12f57bbe"
+  },
+  "mwcli.exe": {
+   "bytes": 2839040,
+   "sha256": "f78888954f2617a5133ca1ceb1766bfaa6ae5072fae7a24c5fd9417c9327b361"
+  },
+  "gpustress.exe": {
+   "bytes": 2271232,
+   "sha256": "c55b2924949ae626002b4318db67842a989c6f111f1fdf678c8951e8f4d9caa9"
+  }
+ },
+ "interfaceSha256": "e6fabeb28b3af290ff8efed2872c94b0eee2cc746f56ef0b0158b0f9b1beffe3",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=7ee054b44c409149",
+   "EightMax.exe": "EightMaxBuild=7ee054b44c409149",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "7ee054b44c409149",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "7ee054b44c409149"
+  },
+  "host": {
+   "build": "7ee054b44c409149",
+   "version": "5.6",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "2749137522bd1e5d386709fcd0a8d8295666887d1b732fc815b1588f720f1b8d",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 28.9
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 2.84,
+     "seconds1024MiB": 2.84,
+     "seconds55Paths1024MiB": 3.22,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 2.58,
+     "seconds1024MiB": 2.53,
+     "seconds55Paths1024MiB": 4.03,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "trainingsDisagree",
+    "bestActionDeclared": false,
+    "warnings": [
+     "trainingsDisagree",
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "passed": true
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
