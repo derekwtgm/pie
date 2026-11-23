@@ -1,0 +1,82 @@
+{
+ "archive": "EightMax-Windows-5.5.zip",
+ "archiveBytes": 60081173,
+ "archiveSha256": "3853b34aa2f97d8087fa619cb12468d9fe98fc17337a1e15679fb350567894c9",
+ "version": "5.5",
+ "build": "abe74607a4a0120b",
+ "manifestEntries": 3939,
+ "archiveMembers": 3940,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "967b495c0e9766ae632e190ad90245fad4e342f2b37c247957ac582f938762a9",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 4892160,
+   "sha256": "c00ee3c6e9b2fc523dd616182ed5534ff16272c658ccf82e35c80e2e50ad51b2"
+  },
+  "mwcli.exe": {
+   "bytes": 2794496,
+   "sha256": "544816b2e5977f0037be48f9665f56d9fa2939de494c6774e730bc2d058af928"
+  },
+  "gpustress.exe": {
+   "bytes": 2227712,
+   "sha256": "28849143a76ecb9125ff41c10d6b61d903ace35ce5cdaef33d7bf057d0e2dcbb"
+  }
+ },
+ "interfaceSha256": "1bcbc9090956faaa8ae63e87224f8f538e6ed06767fa99b1385d6ce1bdccf036",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=abe74607a4a0120b",
+   "EightMax.exe": "EightMaxBuild=abe74607a4a0120b",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "abe74607a4a0120b",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "abe74607a4a0120b"
+  },
+  "host": {
+   "build": "abe74607a4a0120b",
+   "version": "5.5",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "study55": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "44d51fe72cf69eb8a699ca86142f69d93e2244e78e3d7557fc1e6cabe1d26a7e",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "passed": true
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
