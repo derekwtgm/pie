@@ -1,0 +1,894 @@
+{
+ "archive": "EightMax-Windows-5.7.1.zip",
+ "archiveBytes": 86049044,
+ "archiveSha256": "1dd44b552a9f3eafe1c11f6e627d69fc37cd466772b8f17b7b178865d57477ef",
+ "version": "5.7.1",
+ "build": "65e835e6b7060960",
+ "sourceFingerprint": "65e835e6b7060960",
+ "sourceFingerprintNote": "the build identifier is the first 16 hex digits of the SHA-256 over source/VERSION and every file of source/native, web, wasm, tools, tests, studies and the CI workflow (377 files); verify_build.js recomputed it from the extracted source and found it in the three executables and the interface",
+ "manifestEntries": 4638,
+ "archiveMembers": 4639,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "665832ce3d55d631b433a661f84eb5e98fbd2a35acdd3f25ec541454d348596a",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 4982272,
+   "sha256": "884d2d71ca7ca20cbb10cbb451f04e6af5cf76707afd5aacff2dd1fc7ec848cf"
+  },
+  "mwcli.exe": {
+   "bytes": 3045376,
+   "sha256": "a9bafd1789f9541b7d7e0468af656ae885770421095695911fe6c678d29b4a8c"
+  },
+  "gpustress.exe": {
+   "bytes": 2314752,
+   "sha256": "f8d2b7e3f036e109d6b48e46576ce5564586927c7eb0d3d97539d0c9073f5cdd"
+  }
+ },
+ "interfaceSha256": "0a4b16c8ae45e62036938b467c6cf3d1a09e6642aab4753b3d8e3a8dc92684f6",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=65e835e6b7060960",
+   "EightMax.exe": "EightMaxBuild=65e835e6b7060960",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "65e835e6b7060960",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "65e835e6b7060960"
+  },
+  "host": {
+   "build": "65e835e6b7060960",
+   "version": "5.7.1",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "7c6321c689e2f04903329a82c075dd702efe40ddf3c9397ad8268db13a669380",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 28.4
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 3.12,
+     "seconds1024MiB": 2.88,
+     "seconds55Paths1024MiB": 3.04,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 2.52,
+     "seconds1024MiB": 2.5,
+     "seconds55Paths1024MiB": 3.55,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "trainingsDisagree",
+    "bestActionDeclared": false,
+    "warnings": [
+     "trainingsDisagree",
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "checks57": {
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "build": "65e835e6b7060960",
+    "seconds": 40.2,
+    "checks": [
+     "card code equals the 5.6 function for every flop in every order, on every street",
+     "worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller)",
+     "deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals)",
+     "thread choice settles on the fastest measured count",
+     "stage spreading is kept when it is faster and dropped when it is slower",
+     "flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "btn25-open-small-sampled: the trained state is the state of the 5.6 binary",
+     "btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop3-kings-sampled: the trained state is the state of the 5.6 binary",
+     "flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-sampled: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop6-jack-small-exact: the trained state is the state of the 5.6 binary",
+     "flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative)"
+    ]
+   },
+   "frozenBatchThreads": {
+    "1": {
+     "threadsUsed": 1,
+     "wallSeconds": 0.150747,
+     "identicalToThe56State": true
+    },
+    "4": {
+     "threadsUsed": 4,
+     "wallSeconds": 0.14899,
+     "identicalToThe56State": true
+    }
+   },
+   "cpuFallback": {
+    "modes": [
+     "auto",
+     "cpu",
+     "gpu",
+     "hybrid"
+    ],
+    "allOnTheCpu": true,
+    "sameMeasurementsAsCpuOnly": true,
+    "measurementPointsCompared": 16,
+    "trainingDevicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+   },
+   "invalidConfigurations": {
+    "invalidSpec": {
+     "exit": 1,
+     "message": "error: Native engine needs 2 to 8 seats"
+    },
+    "unreadableSpec": {
+     "exit": 2
+    },
+    "unknownStudyOption": {
+     "exit": 2,
+     "message": "error: unknown option 'nonsense'"
+    },
+    "invalidStudyOptionValue": {
+     "exit": 1,
+     "message": "error 400: study options: seeds must be a count from 1 to 64 or an explicit list"
+    },
+    "selftestWithoutArguments": {
+     "exit": 2
+    }
+   }
+  },
+  "checks571": {
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "65e835e6b7060960",
+    "platform": "windows",
+    "seconds": 60.4,
+    "checks": [
+     "checkpoint P: an untouched copy of the checkpoint resumes (positive control)",
+     "checkpoint A: white space changed in both manifests, no value changed: accepted, identical result",
+     "checkpoint B1: a recorded value altered in manifest.json without updating its checksum: detected, the previous manifest used",
+     "checkpoint B2: the same alteration in both manifests: refused, nothing written or changed",
+     "checkpoint C1: the stored checksum of manifest.json altered, its data untouched: detected, the previous manifest used",
+     "checkpoint C2: the stored checksum altered in both manifests: refused, nothing written or changed",
+     "checkpoint D1: one byte of an engine state flipped: the state is discarded by its SHA-256 and the result is unchanged",
+     "checkpoint D2: an engine state truncated to half: the state is discarded by its length and SHA-256 and the result is unchanged",
+     "checkpoint E1: two committed generations, the newest manifest destroyed: the verified previous generation is used",
+     "checkpoint E2: a process killed during the first commit after such a recovery leaves the previous generation intact and resumable",
+     "checkpoint F1: the engine states named by the manifest removed: not treated as present, the seeds retrained",
+     "checkpoint F2: manifest.json removed: the previous manifest is used",
+     "checkpoint F3: both manifests removed, state files left: no checkpoint is assumed and no orphaned state is read",
+     "checkpoint S: the source checkpoint was not modified by any of these checks",
+     "memory E: control: with the automatic budget the same study completes and reports no memory stop",
+     "memory A: a 48 MiB process budget is reached: the study is stopped by it, incomplete and resumable, with a usable checkpoint",
+     "memory B: resumed with the automatic budget: saved work is kept, the study finishes with the measurements of the control",
+     "memory C: memory accounting in the result document and the checkpoint",
+     "memory D1: process budgets outside the supported range are refused and write nothing",
+     "memory D2: a budget below what the process needs before any training stops at once, keeps a valid checkpoint and resumes",
+     "controls N1: a successful resume (exit 0) is not accepted as a refusal",
+     "controls N2: an untouched resume is not accepted as a detection of damage",
+     "controls N3: a resume that needed the previous manifest is not accepted as an intact checkpoint",
+     "controls N4: a study that completed normally is not accepted as a memory stop"
+    ]
+   },
+   "whiteSpaceAccepted": true,
+   "alteredDataFallsBackToThePreviousGeneration": true,
+   "bothManifestsDamagedRefusedWithExit": 5,
+   "previousGenerationKeptIntactByAKilledFirstCommit": true,
+   "memoryStop": {
+    "stoppedByProcessMemory": true,
+    "budgetMiB": 48,
+    "peakRssMiB": 63.72265625,
+    "stoppedPoint": "seed 5211: 18384 of 60000 deals",
+    "resumedEqualsControl": true,
+    "controlStoppedByProcessMemory": false
+   },
+   "failureReporting": {
+    "withEverySaveFailing": {
+     "exit": 1,
+     "passed": 0,
+     "failed": 0,
+     "untested": 17
+    }
+   }
+  },
+  "passed": true
+ },
+ "validationStatus": {
+  "release": "5.7.1",
+  "build": "65e835e6b7060960",
+  "patchOf": {
+   "release": "5.7",
+   "build": "e4668abe7903f8b0"
+  },
+  "classes": {
+   "1": "implemented and independently tested (an independent implementation, an exact reference, or the unchanged 5.7 binary agrees)",
+   "2": "implemented and verified by the project's own tests on Linux, or by the Windows programs under Wine",
+   "3": "implemented, awaiting physical hardware validation (never executed on Windows hardware or an NVIDIA GPU)",
+   "4": "not implemented, unsuccessful, or not executed"
+  },
+  "baseline57": {
+   "what": "Verification of the supplied EightMax 5.7 release before any change (Phase 1). Source: repository derekwtgm/pie, branch eightmax-5.7 (commit d9f2585bf0b1f8318a9e548f1e27e737a77b53f3), folder release-5.7.",
+   "archive": {
+    "file": "EightMax-Windows-5.7.zip",
+    "bytes": 79168498,
+    "sha256": "283df7c4464b37524f9682cf715c8895dc97e16a0493f2f835f36e0293ef9d5e",
+    "identitySha256": "283df7c4464b37524f9682cf715c8895dc97e16a0493f2f835f36e0293ef9d5e",
+    "matchesIdentity": true
+   },
+   "manifest": {
+    "entries": 4534,
+    "filesPresentAndListedAgree": true,
+    "changedFiles": [],
+    "sha256": "347aec3a15778c291744ca2e229a013f3f9f52b51979ec04640eb5193746658a",
+    "identitySha256": "347aec3a15778c291744ca2e229a013f3f9f52b51979ec04640eb5193746658a",
+    "matchesIdentity": true
+   },
+   "identity": {
+    "version": "5.7",
+    "build": "e4668abe7903f8b0"
+   },
+   "executablesShipped": {
+    "EightMax.exe": "83c090cf63defa0444dbae2b324af8d86ff1ccd95c6488c6e88f7b0167e671b9",
+    "mwcli.exe": "eb599ea01702c1bdd487958c030790d4d8cb843b1a9cd6222f8a28cd09db384c",
+    "gpustress.exe": "f8f6f9f34ea3b6dcba990c1e3e77693939455d368d63a3ed8cfc5a51e357c5b1"
+   },
+   "executablesInIdentity": {
+    "EightMax.exe": "83c090cf63defa0444dbae2b324af8d86ff1ccd95c6488c6e88f7b0167e671b9",
+    "mwcli.exe": "eb599ea01702c1bdd487958c030790d4d8cb843b1a9cd6222f8a28cd09db384c",
+    "gpustress.exe": "f8f6f9f34ea3b6dcba990c1e3e77693939455d368d63a3ed8cfc5a51e357c5b1"
+   },
+   "executablesMatchIdentity": true,
+   "buildIdReportedUnderWine": {
+    "mwcli": "EightMaxBuild=e4668abe7903f8b0"
+   },
+   "rebuiltFromUnmodifiedSource": {
+    "toolchain": {
+     "windows": "x86_64-w64-mingw32-g++-posix (GCC) 13-posix",
+     "linux": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+     "node": "v22.23.5",
+     "python": "Python 3.13.18"
+    },
+    "windows": {
+     "EightMax.exe": "83c090cf63defa0444dbae2b324af8d86ff1ccd95c6488c6e88f7b0167e671b9",
+     "mwcli.exe": "eb599ea01702c1bdd487958c030790d4d8cb843b1a9cd6222f8a28cd09db384c",
+     "gpustress.exe": "f8f6f9f34ea3b6dcba990c1e3e77693939455d368d63a3ed8cfc5a51e357c5b1"
+    },
+    "windowsByteIdenticalToShipped": true,
+    "linux": {
+     "mwcli": "d878054b08fa0909285e66dfded8860f5f06aa708096f24395179512c593af4d",
+     "eightmax": "24201e6741e6810394228af590bc644ffd78ac4240e8d5724dd9a7f4d2dc7a59",
+     "gpustress": "05fda8fd699405349bedcd70070e9b82ba5d375ee0c67b298eee731836503b65"
+    },
+    "linuxByteIdenticalToShipped": true,
+    "interfaceSha256": "25215f123a46e68c48f9b2031d78d92088b4f3baa45927d75471f40d0534c324",
+    "interfaceByteIdenticalToShipped": true,
+    "meaning": "the development toolchain of 5.7.1 reproduces the shipped 5.7 programs byte for byte, so a difference between the 5.7 and 5.7.1 programs comes from the source changes alone"
+   },
+   "physicalWindowsRunOf57": {
+    "reports": "validation/5.7.1/windows-5.7-physical",
+    "passed": 81,
+    "failed": 1,
+    "skipped": 0,
+    "untested": 0,
+    "failedCheck": "recovery / damaged manifest refused (exit 0)",
+    "falsePositive": "memory / a too-small process budget stops the study without losing it (stopped by the memory budget: False; peak 8.4 MiB; passed)",
+    "build": "e4668abe7903f8b0"
+   }
+  },
+  "reproductionWithThe57Binary": {
+   "tool": "reproduce57.py",
+   "binary": "validation/5.7/linux-bin/mwcli",
+   "binarySha256": "d878054b08fa0909285e66dfded8860f5f06aa708096f24395179512c593af4d",
+   "build": "EightMaxBuild=e4668abe7903f8b0",
+   "sourceCheckpoint": {
+    "pointsCompleted": 4,
+    "pointsRequested": 6,
+    "files": [
+     "job-0-0.g5.state",
+     "job-0-0.g6.state",
+     "job-0-1.g5.state",
+     "job-0-1.g6.state",
+     "manifest.json",
+     "manifest.prev.json"
+    ]
+   },
+   "A_whiteSpaceEditOfThe57Script": {
+    "edit": "\"resumeCount\": -> \"resumeCount\" : in manifest.json and manifest.prev.json",
+    "expectedByTheScript": "exit not 0 and a message with SHA-256, damaged or no usable manifest",
+    "exit": 0,
+    "stderr": "",
+    "resultWritten": true,
+    "complete": true,
+    "resumedFrom": "manifest.json",
+    "resumeNote": "",
+    "warnings": [],
+    "pointsRestored": 4,
+    "equalsUninterrupted": true
+   },
+   "B_realDamage": {
+    "a recorded value changed in manifest.json": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.prev.json",
+     "resumeNote": "manifest.json was unusable (the manifest body does not match its SHA-256 (damaged or edited)); the previous committed manifest was used",
+     "warnings": [],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    },
+    "a recorded value changed in both manifests": {
+     "exit": 5,
+     "stderr": "error 409: study resume failed: no usable manifest in '/home/user/em/final/repro57/case-value-both' (manifest.json: the manifest body does not match its SHA-256 (damaged or edited); manifest.prev.json: the manifest body does not match its SHA-256 (damaged or edited)). Nothing was changed; start a new study in another directory or pass replaceCheckpoint.",
+     "resultWritten": false,
+     "complete": false,
+     "resumedFrom": null,
+     "resumeNote": null,
+     "warnings": null,
+     "pointsRestored": null,
+     "equalsUninterrupted": false
+    },
+    "the stored checksum changed in manifest.json": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.prev.json",
+     "resumeNote": "manifest.json was unusable (the manifest body does not match its SHA-256 (damaged or edited)); the previous committed manifest was used",
+     "warnings": [],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    },
+    "the stored checksum changed in both manifests": {
+     "exit": 5,
+     "stderr": "error 409: study resume failed: no usable manifest in '/home/user/em/final/repro57/case-checksum-both' (manifest.json: the manifest body does not match its SHA-256 (damaged or edited); manifest.prev.json: the manifest body does not match its SHA-256 (damaged or edited)). Nothing was changed; start a new study in another directory or pass replaceCheckpoint.",
+     "resultWritten": false,
+     "complete": false,
+     "resumedFrom": null,
+     "resumeNote": null,
+     "warnings": null,
+     "pointsRestored": null,
+     "equalsUninterrupted": false
+    },
+    "one byte of an engine state flipped": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.json",
+     "resumeNote": "",
+     "warnings": [
+      "variant baseline seed 1: engine state job-0-0.g6.state does not match its recorded SHA-256 or length (damaged); it is discarded and the seed is retrained from its start (recorded measurements are kept)"
+     ],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    },
+    "an engine state truncated": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.json",
+     "resumeNote": "",
+     "warnings": [
+      "variant baseline seed 1: engine state job-0-0.g6.state does not match its recorded SHA-256 or length (damaged); it is discarded and the seed is retrained from its start (recorded measurements are kept)"
+     ],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    },
+    "an engine state removed": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.json",
+     "resumeNote": "",
+     "warnings": [
+      "variant baseline seed 1: engine state job-0-0.g6.state is missing or unreadable; it is discarded and the seed is retrained from its start (recorded measurements are kept)"
+     ],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    },
+    "manifest.json removed": {
+     "exit": 0,
+     "stderr": "",
+     "resultWritten": true,
+     "complete": true,
+     "resumedFrom": "manifest.prev.json",
+     "resumeNote": "manifest.json was unusable (absent or empty); the previous committed manifest was used",
+     "warnings": [],
+     "pointsRestored": 4,
+     "equalsUninterrupted": true
+    }
+   },
+   "C_memoryCommandOfThe57Script": {
+    "command": "mwcli --study studies/flop3-kings-small.emfix.json mem.json seeds=2 budgets=20000,200000 threads=2 quiet=1 processingMode=cpu checkpoint=<dir> processMemoryMiB=24",
+    "exit": 0,
+    "complete": true,
+    "stoppedByProcessMemory": false,
+    "processPeakRssMiB": 15.53125,
+    "processMemoryBudgetMiB": 24,
+    "largestTableMiB": 0.067,
+    "acceptedBy57Script": "$stopped -or (Study-Complete $d): passed",
+    "memoryStopTested": false
+   },
+   "D_workloadAboveItsBudget": {
+    "tableMiBOfOneSeedAtTheLastBudget": 95.563,
+    "stoppedByProcessMemory": true,
+    "status": "processMemoryLimit",
+    "processPeakRssMiB": 64.16015625,
+    "pointsCompletedBeforeTheStop": 1,
+    "resumeExit": 0,
+    "resumedComplete": true,
+    "resumedEqualsUninterrupted": true
+   },
+   "E_killDuringTheFirstCommitAfterARecovery": {
+    "damage": "a recorded value changed in manifest.json; manifest.prev.json intact",
+    "killedProcessExit": 86,
+    "previousManifestSha256Before": "0c3cebc0595124770457c368aad436bcfa10eb023e8d1b7855f1f8e9015754c3",
+    "previousManifestSha256AfterTheKill": "5258c7f1923b528f560e6cbaaf97329f10947184b5d9d5365ddcae8130e0c3ec",
+    "previousManifestReplacedByTheDamagedOne": true,
+    "previousManifestKeptIntact": false,
+    "resumeAfterTheKill": {
+     "exit": 5,
+     "stderr": "error 409: study resume failed: no usable manifest in '/home/user/em/final/repro57/case-kill' (manifest.json: the manifest body does not match its SHA-256 (damaged or edited); manifest.prev.json: the manifest body does not match its SHA-256 (damaged or edited)). Nothing was changed; start a new study in another directory or pass replaceCheckpoint.",
+     "resultWritten": false,
+     "complete": false,
+     "resumedFrom": null,
+     "resumeNote": null,
+     "warnings": null,
+     "pointsRestored": null,
+     "equalsUninterrupted": false
+    },
+    "checkpointLost": true
+   }
+  },
+  "sameStepsWithThe571Binary": {
+   "build": "EightMaxBuild=65e835e6b7060960",
+   "whiteSpaceAccepted": true,
+   "killDuringTheFirstCommitAfterARecovery": {
+    "killedProcessExit": 86,
+    "previousManifestReplacedByTheDamagedOne": false,
+    "previousManifestKeptIntact": true,
+    "checkpointLost": false
+   }
+  },
+  "regressionLinux": {
+   "tests": 606,
+   "passed": 604,
+   "failed": 1,
+   "skipped": 1,
+   "failedTests": [
+    "disk forecast with compressed expansion preserves predecessor"
+   ],
+   "skippedTests": [
+    "4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)"
+   ],
+   "rerunAlone": [
+    "passed alone (v37.test.js): disk forecast with compressed expansion preserves predecessor"
+   ],
+   "failedAgainAlone": [],
+   "tests571": 14,
+   "tests571Passed": 14,
+   "effective": {
+    "passed": 605,
+    "failed": 0,
+    "skipped": 1
+   },
+   "regression57": {
+    "tests": 592,
+    "passed": 591,
+    "failed": 0,
+    "skipped": 1
+   }
+  },
+  "selftest571Linux": {
+   "passed": 24,
+   "failed": 0,
+   "untested": 0,
+   "build": "65e835e6b7060960",
+   "platform": "linux",
+   "seconds": 36.603951314,
+   "notPassed": []
+  },
+  "selftest57Linux": {
+   "passed": 28,
+   "failed": 0,
+   "untested": null,
+   "build": "65e835e6b7060960",
+   "platform": null,
+   "seconds": 17.417890111,
+   "notPassed": []
+  },
+  "sanitizers": {
+   "asanUbsan55and56": {
+    "tests": 31,
+    "passed": 31,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   },
+   "asanUbsan571CheckpointTests": {
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   },
+   "asanUbsanSelftest571Checkpoint": {
+    "passed": 17,
+    "failed": 0,
+    "untested": 0,
+    "build": "65e835e6b7060960",
+    "platform": "linux",
+    "seconds": 328.35078163,
+    "notPassed": []
+   },
+   "asanBuildExit": 0,
+   "tsanBuildExit": 0,
+   "sanitizerReports": 0,
+   "threadSanitizerWarnings": 0,
+   "threadSanitizerRuns": [
+    [
+     "study",
+     "0"
+    ],
+    [
+     "cancelled study",
+     "0"
+    ],
+    [
+     "study resumed from the previous manifest",
+     "0"
+    ],
+    [
+     "selftest571 (checkpoint mode)",
+     "0"
+    ]
+   ],
+   "threadSanitizerSelftest571Checkpoint": {
+    "passed": 17,
+    "failed": 0,
+    "untested": 0,
+    "build": "tsan",
+    "platform": "linux",
+    "seconds": 461.446595647,
+    "notPassed": []
+   },
+   "threadSanitizerNotes": [
+    "\"resumedFrom\":\"manifest.prev.json\"",
+    "EQUIVALENT"
+   ],
+   "leakSummary": [
+    "leak check exit: study resumed from the previous manifest 0",
+    "0",
+    "\"resumedFrom\":\"manifest.prev.json\""
+   ],
+   "memoryChecksUnderSanitizers": "not run: AddressSanitizer and ThreadSanitizer change the resident set the memory checks measure"
+  },
+  "identityAgainst57": {
+   "cases": 225,
+   "failures": 0,
+   "trainingRuns": 1782,
+   "seconds": 209.4,
+   "baselineSha256": "d878054b08fa0909285e66dfded8860f5f06aa708096f24395179512c593af4d",
+   "currentSha256": "f11e4dda6aa9ee0d40d206d529d6e6d7cc6b6ad906d5f6885fe8d57ee277abb4",
+   "deals": 24000,
+   "applicableCases": 225,
+   "identicalCases": 225,
+   "trainingsCompared": 1085,
+   "identicalStates": 1085,
+   "different": [],
+   "baseline": "validation/5.7/linux-bin/mwcli (the unchanged 5.7 binary)"
+  },
+  "solverStatesInterchangeableWith57": {
+   "cases": 15,
+   "identical": 15,
+   "allIdentical": true,
+   "binary57Sha256": "d878054b08fa0909285e66dfded8860f5f06aa708096f24395179512c593af4d",
+   "binary571Sha256": "f11e4dda6aa9ee0d40d206d529d6e6d7cc6b6ad906d5f6885fe8d57ee277abb4"
+  },
+  "mutations": {
+   "mutations": 6,
+   "detectedExactly": 6,
+   "controlPassed": true,
+   "allAsExpected": true,
+   "rows": [
+    {
+     "id": "M0",
+     "mutation": "none (control): the unmodified 5.7.1 source",
+     "selftestExit": 0,
+     "checksNotPassed": {},
+     "asExpected": true
+    },
+    {
+     "id": "M1",
+     "mutation": "the 5.7.1 repair removed: the current manifest is copied to manifest.prev.json without being verified (the 5.5 to 5.7 behaviour)",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "checkpoint E2": "failed"
+     },
+     "asExpected": true
+    },
+    {
+     "id": "M2",
+     "mutation": "the manifest body is not compared with its SHA-256",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "checkpoint B1": "failed",
+      "checkpoint B2": "failed",
+      "checkpoint C1": "failed",
+      "checkpoint C2": "failed",
+      "checkpoint E2": "failed",
+      "controls N3": "untested"
+     },
+     "asExpected": true
+    },
+    {
+     "id": "M3",
+     "mutation": "an engine state is not compared with its recorded SHA-256 and length (only its presence is checked)",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "checkpoint D1": "failed",
+      "checkpoint D2": "failed"
+     },
+     "asExpected": true
+    },
+    {
+     "id": "M4",
+     "mutation": "no fall-back: a damaged or missing manifest.json is never replaced by manifest.prev.json",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "checkpoint B1": "failed",
+      "checkpoint C1": "failed",
+      "checkpoint E1": "failed",
+      "checkpoint E2": "failed",
+      "checkpoint F2": "failed",
+      "controls N3": "untested"
+     },
+     "asExpected": true
+    },
+    {
+     "id": "M5",
+     "mutation": "the process memory budget is never enforced (every study completes: what the 5.7 script accepted as a pass)",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "memory A": "failed",
+      "memory B": "untested",
+      "memory C": "untested",
+      "memory D2": "failed"
+     },
+     "asExpected": true
+    },
+    {
+     "id": "M6",
+     "mutation": "a memory stop does not save the engine state it interrupts",
+     "selftestExit": 1,
+     "checksNotPassed": {
+      "memory A": "failed",
+      "memory B": "untested",
+      "memory C": "untested",
+      "memory D2": "failed"
+     },
+     "asExpected": true
+    }
+   ]
+  },
+  "wine": {
+   "version": "wine-9.0 (Ubuntu 9.0~repack-4build3)",
+   "buildId": "EightMaxBuild=65e835e6b7060960",
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "65e835e6b7060960",
+    "platform": "windows",
+    "seconds": 50.6665493,
+    "notPassed": []
+   },
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "untested": null,
+    "build": "65e835e6b7060960",
+    "platform": null,
+    "seconds": 53.4307373,
+    "notPassed": []
+   },
+   "tests": {
+    "v571": {
+     "tests": 14,
+     "passed": 14,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    },
+    "v57": {
+     "tests": 9,
+     "passed": 9,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    },
+    "v56": {
+     "tests": 15,
+     "passed": 15,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    },
+    "v55": {
+     "tests": 16,
+     "passed": 15,
+     "failed": 1,
+     "skipped": 0,
+     "failedTests": [
+      "5.5 desktop: studies are checkpointed, listed, resumed after Stop and after the host process is killed, and discarded, without the command line"
+     ],
+     "skippedTests": []
+    }
+   },
+   "rerunAlone": [
+    "FAILED AGAIN ALONE (v55.test.js): 5.5 desktop: studies are checkpointed, listed, resumed after Stop and after the host process is killed, and discarded, without the command line"
+   ],
+   "controlWithThe57Programs": {
+    "what": "The one test of the four regression files that fails with the Windows programs under Wine, run alone from an empty save folder with the unmodified 5.7 Windows programs (build e4668abe7903f8b0) and with the 5.7.1 ones.",
+    "test": "5.5 desktop: studies are checkpointed, listed, resumed after Stop and after the host process is killed, and discarded, without the command line",
+    "with57Programs": {
+     "result": "failed",
+     "test": "5.5 desktop: studies are checkpointed, listed, resumed after Stop and after the host process is killed, and discarded, without the command line",
+     "failedAssertion": "The expression evaluated to a falsy value: assert.ok(fs.existsSync(path.join(dir, 'request.json'))) code: 'ERR_ASSERTION' name: 'AssertionError'"
+    },
+    "with571Programs": {
+     "result": "failed",
+     "test": "5.5 desktop: studies are checkpointed, listed, resumed after Stop and after the host process is killed, and discarded, without the command line",
+     "failedAssertion": "The expression evaluated to a falsy value: assert.ok(fs.existsSync(path.join(dir, 'request.json'))) code: 'ERR_ASSERTION' name: 'AssertionError'"
+    },
+    "sameOutcomeAndSameAssertion": true,
+    "cause": "The test gives the desktop host a private folder through HOME and USERPROFILE and then reads the saved study from that folder on disk. Under Wine the host did not use that folder: the study was found in the Wine profile (drive_c/users/root/Documents/EightMax/studies), and the folder the test reads stayed empty. A second run then also finds the study left by the first (the shared save folder that validation/5.6/wine/per-file.json describes for earlier releases). On Linux the same test passes with the 5.7.1 host, in the full regression run and with the AddressSanitizer build.",
+    "classification": "a limitation of running this test through Wine, present with the 5.7 programs too; not a regression of 5.7.1"
+   },
+   "note": "The Windows executables of the final build under Wine in a Linux container. Wine is not Windows: class 2."
+  },
+  "ui": {
+   "checksPassed": 20,
+   "checksTotal": 20,
+   "browser": "Chromium 157.0.8103.78",
+   "build": "65e835e6b7060960"
+  },
+  "stability": {
+   "passed": true,
+   "checks": 11,
+   "checksPassed": 11,
+   "minutes": 3,
+   "build": "65e835e6b7060960"
+  },
+  "windows": {
+   "executablesBuilt": "cross-compiled on Linux with MinGW-w64 GCC 13 (static), the toolchain that reproduces the shipped 5.7 executables byte for byte",
+   "executedOnWindowsHardware": false,
+   "validateWindows571ps1Executed": false,
+   "powershellAvailableInDevelopment": false,
+   "githubActionsWorkflowRun": false,
+   "whyNot": "no Windows machine; running a downloaded PowerShell was refused by the development session's permission policy; the session had read-only access to the repository, so no workflow could be started",
+   "staticChecksOfThePowerShellScript": {
+    "what": "Static checks of the Windows validation script and its launchers. PowerShell could not be executed in development, so none of this is an execution.",
+    "tool": "source/tools/ps_lint571.py (bracket, quote and here-string balance; syntax newer than Windows PowerShell 5.1; commands that are neither defined nor allowed built-ins; variables read but never assigned) and source/tools/ps_balance.py",
+    "script": "source/tools/validate_windows571.ps1",
+    "scriptSha256": "056de25a35daa4aa27f6288028ef7220c01953618f800a46860c81e2e7144d1b",
+    "findings": [],
+    "findingsInScriptsThatRanOnWindows": {
+     "source/tools/validate_windows57.ps1": [],
+     "source/tools/validate_hardware.ps1": []
+    },
+    "balance": "ok  source/tools/validate_windows571.ps1",
+    "linterSelfTest": "five seeded mistakes (a misspelt variable, an undefined function, a missing brace, a PowerShell 7 operator, an unterminated string) are each reported: source/tests/v571.test.js",
+    "codeLinesOfThe57Script": 459,
+    "codeLinesOfThe571Script": 505,
+    "codeLinesTakenOverUnchangedFromThe57Script": 420,
+    "codeLinesNewOrChanged": 85,
+    "note": "The lines taken over ran on Windows PowerShell 5.1 on the target PC (5.7 report). The new or changed lines have never been executed.",
+    "launchers": {
+     "Run 5.7.1 focused validation.bat": {
+      "bytes": 2608,
+      "crlfLineEnds": true,
+      "ascii": true,
+      "sha256": "277854b42323ecc4346f1f2f3c8a18ddd0de0d3d645f934218331fd975a347c8"
+     },
+     "Run 5.7.1 Windows validation.bat": {
+      "bytes": 3273,
+      "crlfLineEnds": true,
+      "ascii": true,
+      "sha256": "86df9bcadf86ea2f04a759f51f6a4b8e6f2d9a21095b3f0c7c9e00d3923760a8"
+     }
+    }
+   },
+   "launchers": [
+    "Run 5.7.1 focused validation.bat",
+    "Run 5.7.1 Windows validation.bat"
+   ],
+   "physicalRunOf57": "validation/5.7.1/windows-5.7-physical (81 passed, 1 failed, build e4668abe7903f8b0): evidence about 5.7, not about 5.7.1"
+  },
+  "gpu": {
+   "executedOnNvidiaHardware": false,
+   "cudaCodeChangedIn571": false,
+   "statement": "No GPU result exists for the 5.7.1 executables. The CUDA paths of 5.7 ran on an RTX 4060 Ti and matched the CPU (validation/5.7.1/windows-5.7-physical/hardware-validation.json); no CUDA source file was changed, but the executables were rebuilt and have not run on a GPU."
+  }
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
