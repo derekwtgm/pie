@@ -4,7 +4,7 @@ Build `@BUILD@`. Successor of 5.8 (build `d4001e2c0cd77f41`). Windows 11 x64; se
 compiler or runtime to install).
 
 **Status in one paragraph.** 5.9 corrects how the trained-response quality measure reports confidence, makes its
-evaluation 1.5 to 2.7 times faster without changing a bit of its results, gives its evaluation random streams a
+evaluation 1.1 to 2.4 times faster (most on tables that do not fit the processor's caches) without changing a bit of its results, gives its evaluation random streams a
 provable partition, and removes the folder a refused study used to leave behind. **It does not train strategies
 differently**: with the same settings 5.9 writes the states 5.8 wrote, byte for byte, so nothing here is a
 convergence improvement. Everything was built and tested on Linux and, as Windows executables, under Wine. **Nothing

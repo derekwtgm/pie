@@ -188,8 +188,9 @@ For W = 200 BB, six seats and g = 0.05 BB per seat the first condition is about 
 about 1,020,000. The default (204,800 evaluation deals) certifies gains of the size found in strategies trained for
 a few hundred thousand deals; small gains of well-trained strategies need millions of deals. The evaluation is now
 cheap enough for that (PERFORMANCE-5.9.md): prefer `"futureActions": "sample"` with more deals over enumerated
-opponent actions with fewer (the bound protects against rare actions either way, and sampling walks 10 to 20 times
-fewer nodes per deal on the multi-street fixtures).
+opponent actions with fewer. The bound protects against rare actions either way, sampling walks 20 to 70 times
+fewer nodes per deal on the multi-street fixtures, and in the same evaluation time it certified 1.3 and 5.7 times as
+much NashConv on the two fixtures where both were measured (PERFORMANCE-5.9.md, section 2.3).
 
 A bound of 0 means "not enough deals to certify anything at this level", never "the strategy has no weakness".
 
