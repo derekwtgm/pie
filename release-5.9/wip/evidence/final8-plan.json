@@ -1,0 +1,38 @@
+{
+ "kind": "final8",
+ "question": "Does the 5.8 program reproduce its reported normal-interval failure, does 5.9 reproduce 5.8 with the 5.8 streams, and do the 5.9 distribution-free statements hold where the normal interval fails?",
+ "game": "final8",
+ "trainingSeed": 5851,
+ "trainingUpdates": 5000,
+ "responseSeeds": [
+  1,
+  120
+ ],
+ "request": {
+  "responseDeals": 10000,
+  "samples": 204800,
+  "exact": true,
+  "futureActions": "sample",
+  "threads": 1,
+  "parallelSeats": 2
+ },
+ "arms": {
+  "A": "the unchanged 5.8 program",
+  "B": "5.9 with randomStreams 5.8",
+  "C": "5.9 with its own streams"
+ },
+ "expected": {
+  "A": "193 of 960 beyond 4 reported standard errors (MATHEMATICAL-VALIDATION-5.8.md, section 3.5)",
+  "B": "identical to A"
+ },
+ "stoppingRule": "fixed: 120 runs per arm",
+ "old": {
+  "binarySha256": "ef39d1fa24052e6e9fc36321760dcad99b92e5e783c8e5cc0ae49fdbd18d95e5",
+  "build": "EightMaxBuild=d4001e2c0cd77f41"
+ },
+ "environment": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
+ "logicalProcessors": 4,
+ "binarySha256": "26820b51f960c475ac7445fa1efe88d1098f6df097ac61efdf7825d3ba3b659e",
+ "build": "EightMaxBuild=6b83275ca02910ea",
+ "written": "2026-11-24T15:53:38Z"
+}

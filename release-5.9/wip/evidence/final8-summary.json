@@ -1,0 +1,77 @@
+{
+ "kind": "final8",
+ "rows": 360,
+ "errors": 0,
+ "groups": {
+  "A": {
+   "runs": 120,
+   "seatEstimates": 960,
+   "beyond4StdErr": 193,
+   "beyond3StdErr": 205,
+   "largestDistanceInStdErr": 774.9586283033536,
+   "outsideTwoSidedDistributionFree": 0,
+   "normalOneSided95SeatBoundAboveExact": 27,
+   "normalOneSided95SeatMissRate": 0.028125,
+   "legacySumAboveExactSumOfPositiveGains": 0,
+   "legacySumAboveExactNashConv": 0
+  },
+  "B": {
+   "runs": 120,
+   "seatEstimates": 960,
+   "beyond4StdErr": 193,
+   "beyond3StdErr": 205,
+   "largestDistanceInStdErr": 774.9586283033536,
+   "outsideTwoSidedDistributionFree": 0,
+   "normalOneSided95SeatBoundAboveExact": 27,
+   "normalOneSided95SeatMissRate": 0.028125,
+   "legacySumAboveExactSumOfPositiveGains": 0,
+   "legacySumAboveExactNashConv": 0,
+   "seatBoundAboveExact": 0,
+   "runsWithAnySeatViolation": 0,
+   "simultaneousSumAboveExact": 0,
+   "nashConvBoundAboveExactNashConv": 0,
+   "pooledAllSeatsAboveExact": 0,
+   "pooledBestSubsetAboveExact": 0,
+   "pooledNashConvAboveExactNashConv": 0,
+   "printedNumbersDifferFromIndependentRecomputation": 0,
+   "medianExactNashConv": 0.0004350356135454092,
+   "medianShareOfExactNashConv": {
+    "simultaneous": 0.0,
+    "pooledIndependent": 0.0,
+    "legacyNormalSum": 0.17097208665861718,
+    "exactSumOfResponseGains": -2.4700966963452533
+   }
+  },
+  "C": {
+   "runs": 120,
+   "seatEstimates": 960,
+   "beyond4StdErr": 206,
+   "beyond3StdErr": 219,
+   "largestDistanceInStdErr": 2209.4956753601346,
+   "outsideTwoSidedDistributionFree": 0,
+   "normalOneSided95SeatBoundAboveExact": 27,
+   "normalOneSided95SeatMissRate": 0.028125,
+   "legacySumAboveExactSumOfPositiveGains": 1,
+   "legacySumAboveExactNashConv": 0,
+   "seatBoundAboveExact": 0,
+   "runsWithAnySeatViolation": 0,
+   "simultaneousSumAboveExact": 0,
+   "nashConvBoundAboveExactNashConv": 0,
+   "pooledAllSeatsAboveExact": 0,
+   "pooledBestSubsetAboveExact": 0,
+   "pooledNashConvAboveExactNashConv": 0,
+   "printedNumbersDifferFromIndependentRecomputation": 0,
+   "medianExactNashConv": 0.0004350356135454092,
+   "medianShareOfExactNashConv": {
+    "simultaneous": 0.0,
+    "pooledIndependent": 0.0,
+    "legacyNormalSum": 0.1722370439504515,
+    "exactSumOfResponseGains": -2.4700966963452533
+   }
+  }
+ },
+ "armBEqualsArmA": {
+  "runsCompared": 120,
+  "identical": 120
+ }
+}
