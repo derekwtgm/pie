@@ -1,6 +1,6 @@
 # EightMax Windows 5.9
 
-Build `@BUILD@`. Successor of 5.8 (build `d4001e2c0cd77f41`). Windows 11 x64; self-contained (no Python, Node.js,
+Build `00600c81455ead44`. Successor of 5.8 (build `d4001e2c0cd77f41`). Windows 11 x64; self-contained (no Python, Node.js,
 compiler or runtime to install).
 
 **Status in one paragraph.** 5.9 corrects how the trained-response quality measure reports confidence, makes its

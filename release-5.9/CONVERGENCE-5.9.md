@@ -1,6 +1,6 @@
 # EightMax 5.9: convergence
 
-Build `@BUILD@`, compared with the unchanged 5.8 binary (build `d4001e2c0cd77f41`,
+Build `00600c81455ead44`, compared with the unchanged 5.8 binary (build `d4001e2c0cd77f41`,
 `validation/5.8/linux-bin/mwcli`) where a comparison is made.
 
 ## 1. Summary

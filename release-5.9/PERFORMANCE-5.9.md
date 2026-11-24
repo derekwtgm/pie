@@ -1,6 +1,6 @@
 # EightMax 5.9: performance
 
-Build `@BUILD@` against the unchanged 5.8 binary (build `d4001e2c0cd77f41`). Tool:
+Build `00600c81455ead44` against the unchanged 5.8 binary (build `d4001e2c0cd77f41`). Tool:
 `validation/5.9/performance/bench59.py`; plan written before measurement (`plan.json`), results in `result.json`.
 
 **Which build was measured.** The benchmark ran with build `78497bdc80f1ef9c`. The release build differs from it

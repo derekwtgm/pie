@@ -1,6 +1,6 @@
 # EightMax 5.9: final development report
 
-Build `@BUILD@`, successor of 5.8 (build `d4001e2c0cd77f41`). Windows x64 package:
+Build `00600c81455ead44`, successor of 5.8 (build `d4001e2c0cd77f41`). Windows x64 package:
 `EightMax-Windows-5.9.zip`; its SHA-256 is in `EightMax-Windows-5.9.identity.json`, delivered beside it (the archive's
 hash cannot be inside the archive).
 
@@ -14,7 +14,7 @@ This report separates what was **verified** (with where the evidence is) from wh
 | Objective of the 5.9 brief | Outcome |
 |---|---|
 | 1. Correct and strengthen statistical confidence reporting | **Done.** A simultaneous distribution-free lower bound with a proof; per-seat one-sided bounds; a pooled alternative; explicit field names; the 5.8 field kept and deprecated. Class 1 (proofs, exact coverage, independent implementation) and 2 (0 violations in 3,240 runs against exact values). |
-| 2. Trained-response evaluation speed | **Done for the evaluation, not for the response training.** Evaluation walk @EVAL_SPEEDUP_RANGE@ times faster with identical bits; total analysis wall time @WALL_REDUCTION_RANGE@ lower at one thread on the study fixtures; the 20% target is met on @WALL_TARGET_MET@. Response training speed is unchanged. |
+| 2. Trained-response evaluation speed | **Done for the evaluation, not for the response training.** Evaluation walk 1.06 to 2.36 times faster with identical bits; total analysis wall time changed by -2% to -52% at one thread, same request (seven cases); the 20% target is met on 3 of 7 cases (three-player flop fixture; three-player preflop fixture; four-player turn). Response training speed is unchanged. |
 | 3. Strategy-table memory performance | **Partly.** A per-call offset index removes two of four dependent memory reads in the EVALUATION (adopted). A prefetch in the TRAINER's lookup gave no gain and was rejected; a real change there needs a format-level change and was not made. Default training throughput is unchanged. |
 | 4. Convergence | **Investigated; nothing promoted.** Three optional trainers tested against the default under a prespecified rule: two are worse, one is unresolved and slower per deal. No new estimator was implemented. **5.9 does not converge faster than 5.8; six-player flop convergence is not improved.** |
 | 5. Evaluation random streams | **Done.** Counter-based streams with a proven partition; the 5.8 streams selectable and bit-identical. The TRAINING generator was not changed (class 4 for that item). |
@@ -97,24 +97,32 @@ one deal per update), a compact frozen-policy format.
 **Measured** (PERFORMANCE-5.9.md; 4-processor development container; alternating runs; the same numbers from both
 programs, checked bit for bit):
 
-@RESPONSE_TABLE@
+| Case | Seats | Evaluation speed-up | Response training 5.9 / 5.8 | Total wall time | Same numbers |
+|---|---|---|---|---|---|
+| three-player flop fixture | 3 | x2.05 | 0.92 | -47% | yes |
+| six-player flop fixture | 6 | x1.28 | 0.99 | -7% | yes |
+| three-player preflop fixture | 3 | x2.36 | 1.05 | -52% | yes |
+| eight-handed ICM fixture | 3 | x1.22 | 1.01 | -2% | yes |
+| four-player turn | 4 | x1.51 | 0.92 | -30% | yes |
+| five-player flop | 5 | x1.25 | 1.12 | -15% | yes |
+| eight-handed ICM final table | 8 | x1.06 | 1.00 | -5% | yes |
 
-The 20% target for total wall time is met on @WALL_TARGET_MET@ and not on the others, where the unchanged response
-training dominates. By default (all processors, 5.9 streams) the same analyses take @DEFAULT_WALL_RANGE@ of the 5.8
+The 20% target for total wall time is met on 3 of 7 cases (three-player flop fixture; three-player preflop fixture; four-player turn) and not on the others, where the unchanged response
+training dominates. By default (all processors, 5.9 streams) the same analyses take 0.20 to 0.93 of the 5.8
 wall time on four processors; on the 24 logical processors of the target PC the evaluation should scale further, which
 is unmeasured (class 3).
 
 ## 4. Strategy-table memory performance (Phase 4)
 
 * **Adopted (evaluation):** the offset index above. First-level data-cache misses of the evaluation walk
-  (cachegrind): @CACHE_SUMMARY@.
+  (cachegrind): three-player flop fixture: 31,879,414 (5.8 walk) to 26,275,527 (18% fewer); six-player flop fixture: 20,435,903 (5.8 walk) to 16,883,113 (17% fewer).
 * **Rejected (trainer):** a prefetch of the row-number slot beside the key slot in `MW::findRow`. Prespecified rule
   (3% on two of three large fixtures): not met on any; differences inside the run-to-run spread; states identical.
   Removed from the source (`validation/5.9/experiments/prefetch-row-slot.md`).
 * **Not attempted:** a new table layout for the trainer (interleaved key/offset slots, hot/cold separation). It would
   change the memory accounting and with it the point at which a table limit is reached - a format-level change that
   needs its own release and compatibility plan. The 5.8 conclusion stands.
-* Default training throughput: @TRAINING_SUMMARY@ States byte-identical in every run.
+* Default training throughput: 5.9 / 5.8 seconds 0.958 to 1.012 over 7 cases (one deal per update on four fixtures; 64 deals per update with 1, 2 and 4 threads). States byte-identical in every run.
 
 ## 5. Convergence (Phase 5)
 
@@ -144,7 +152,7 @@ error - or the request cannot be stored, or the thread cannot be started - `stud
 at all if a manifest exists, and nothing in a folder it created that holds anything unexpected. It never recurses.
 `/api/study/status` reports `refusedStudyFolder` (`removed` / `kept: reason` / null); the refusal message is unchanged.
 
-`tools/host_refusal59.js`, nine checks, all passed on Linux@HOST_WINE@: an over-limit budget (refused in
+`tools/host_refusal59.js`, nine checks, all passed on Linux and 9 of 9 as `EightMax.exe` under Wine: an over-limit budget (refused in
 milliseconds, no folder); invalid configurations; a pre-existing folder with a user's file (kept byte for byte, the
 host's own request removed); a pre-existing folder with only a request (untouched); an existing checkpoint (409, no
 file changed); eight simultaneous over-limit requests (nothing left); refused requests during a running study (its
@@ -157,19 +165,53 @@ Not done: removing folders that 5.8 left behind on a user's disk (they pre-exist
 
 VALIDATION-5.9.md lists every test with failed, skipped and unavailable checks. Totals:
 
-@VALIDATION_TABLE@
+| Test | Result | Class | Evidence (under `validation/5.9/` unless a full path is given) |
+|---|---|---|---|
+| Baseline: the 5.8 archive, manifest, executables, byte-identical rebuild | all verified | 1 | `validation/5.9/baseline/` |
+| Baseline: regression suite of the rebuilt 5.8 | 621 tests: 620 passed, 0 failed, 1 skipped | 2 | `baseline/regression-of-rebuilt-5.8.tap.gz` |
+| Regression suite of the final 5.9 build (Linux) | 637 tests: 636 passed, 0 failed, 1 skipped | 2 | `tests/full-regression.tap` |
+| Self-test 5.9 (`mwcli --selftest59`), Linux | 32 passed, 0 failed, 0 untested | 2 (its exact and independent references: 1) | `selftest/selftest59-linux.json` |
+| Self-test 5.8, Linux | 33 passed, 0 failed, 0 untested | 2 | `selftest/selftest58-linux.json` |
+| Self-test 5.7.1 (checkpoints, memory budget), Linux | 24 passed, 0 failed, 0 untested | 2 | `selftest/selftest571-linux.json` |
+| Self-test 5.7, Linux | 28 passed, 0 failed, 0 untested | 2 | `selftest/selftest57-linux.json` |
+| Independent Python implementation (generator, streams, bounds, exact coverage) | 5 checks, 0 not passed | 1 | `independent/` |
+| Statistics against exact values (prespecified) | 3,360 runs, 0 failed runs; 0 distribution-free statements violated | 1 / 2 | `statistics/` |
+| Training identity against the unchanged 5.8 binary (prespecified) | 56 of 56 states byte-identical | 1 | `convergence/identity/` |
+| Training identity, trainer options, thread counts, hand groups, table limits (`identity57.py` against 5.8) | 225 cases, 0 failures, 1782 training runs | 1 | `identity/` |
+| Mutation check of the 5.9 self-test | 15 mutants, 15 detected; control clean: True | 2 | `mutation59.json` |
+| Desktop host, refused studies (`host_refusal59.js`), Linux | 9 of 9 checks passed | 2 | `host-refusal59.json` |
+| Desktop interface in a browser (Chromium, Playwright) | 20 of 20 checks passed | 2 | `ui/` |
+| Stability (pause/resume cycles, long training, cancellation; 3 minutes) | passed: True; 12 checks, 0 not passed | 2 | `stability/` |
+| AddressSanitizer + UndefinedBehaviorSanitizer: self-tests 5.9 and 5.8, 5.9 response / stream / host tests | self-test 5.9: 32 passed, 0 failed, 0 untested; self-test 5.8: 33 passed, 0 failed, 0 untested; tests: 12 tests: 12 passed, 0 failed, 0 skipped; sanitizer reports (ERROR: AddressSanitizer / runtime error) in all outputs: 0 | 2 | `sanitizers/` |
+| ThreadSanitizer: parallel seats, evaluation threads, frozen batches, both stream kinds | ThreadSanitizer warnings: 0; response bits of the instrumented program equal the release program: 5.9 streams True 5.8 streams True (6 seats) | 2 | `sanitizers/tsan.log` |
+| LeakSanitizer: complete response, unfinished evaluation, refused study | leak check: --response with parallel seats exit 0 (0 expected), evaluation that cannot finish exit 0 (0 expected), refused over-limit study exit 1 (1 expected); LeakSanitizer reports: 0 | 2 | `sanitizers/leak-*.log` |
+| Windows executables under Wine: self-test 5.9 | 32 passed, 0 failed, 0 untested | 2 | `wine/selftest59-wine.json` |
+| Windows executables under Wine: self-test 5.8 | 33 passed, 0 failed, 0 untested | 2 | `wine/selftest58-wine.json` |
+| Windows executables under Wine: self-test 5.7.1 | 24 passed, 0 failed, 0 untested | 2 | `wine/selftest571-wine.json` |
+| Windows executables under Wine: self-test 5.7 | 28 passed, 0 failed, 0 untested | 2 | `wine/selftest57-wine.json` |
+| Windows executables under Wine: reference responses (5.9 and 5.8 streams) | 14 cases, all identical: True | 2 | `wine/reference-responses-wine.json` |
+| Windows executables under Wine: independent implementation against `mwcli.exe` | exit 0 | 2 | `wine/independent-stats-wine.json` |
+| Windows executables under Wine: desktop host, refused studies | 9 of 9 checks passed | 2 | `wine/host-refusal-wine.json` |
+| Windows executables under Wine: 5.9 regression file | 16 tests: 16 passed, 0 failed, 0 skipped | 2 | `wine/v59.test.tap` |
+| Windows executables under Wine: 5.8 regression file | 15 tests: 15 passed, 0 failed, 0 skipped | 2 | `wine/v58.test.tap` |
+| PowerShell parser on every `.ps1` of the release | test_devices.ps1: 0 parse errors, 901 tokens; test_large_checkpoint.ps1: 0 parse errors, 517 tokens; test_windows.ps1: 0 parse errors, 11554 tokens; validate_hardware.ps1: 0 parse errors, 9180 tokens; validate_windows56.ps1: 0 parse errors, 4945 tokens; validate_windows57.ps1: 0 parse errors, 8671 tokens; validate_windows571.ps1: 0 parse errors, 9591 tokens; validate_windows58.ps1: 0 parse errors, 10900 tokens; validate_windows59.ps1: 0 parse errors, 13516 tokens | 2 | `powershell/parser.txt` |
+| `validate_windows59.ps1 -Focused`, PowerShell 7.4.6, Linux programs | 94 passed, 0 failed, 1 skipped, 0 untested (2 information rows); script ran to its end: True | 2 (the script's logic; not Windows) | `powershell/Windows-focused-validation-5.9.json` |
+| `validate_windows59.ps1` (all sections), same | 187 passed, 0 failed, 2 skipped, 0 untested (24 information rows); script ran to its end: True | 2 (the script's logic; not Windows) | `powershell/Windows-validation-5.9.json` |
+| Native Windows: the executables, the launchers, Windows PowerShell 5.1 | **NOT EXECUTED** | 3 | `WINDOWS-TESTS-5.9.md` |
+| GitHub Actions Windows workflow | **NOT EXECUTED** (updated and statically checked only) | 3 | `.github/workflows/windows.yml` |
+| NVIDIA CUDA: every GPU path | **NOT EXECUTED** (no CUDA code changed) | 3 | `WINDOWS-TESTS-5.9.md` |
 
 ## 9. Windows release engineering (Phase 9)
 
 * `EightMax.exe`, `mwcli.exe`, `gpustress.exe`: cross-compiled with the 5.8 toolchain, static runtime, importing
-  only system DLLs; build id `@BUILD@` embedded; `verify_build.js` confirms executables, interface and source.
+  only system DLLs; build id `00600c81455ead44` embedded; `verify_build.js` confirms executables, interface and source.
   (The cross-compile caught one portability defect during development - a helper named `near`, a macro of the Windows
   headers - before any release build existed.)
 * `validate_windows59.ps1` (17 sections), `Run 5.9 focused validation.bat`, `Run 5.9 Windows validation.bat`,
   `Run 5.9 response example.bat`; machine-readable JSON and text reports; passed / failed / skipped / untested kept
   apart; mandatory failures propagate; a missing report is a failure (launchers and workflow).
 * **For the first time the validation script was executed before release**: PowerShell 7.4 (installed through the
-  .NET SDK) on Linux, against the Linux programs under Windows names: @PS_SUMMARY@. Every `.ps1` of the release
+  .NET SDK) on Linux, against the Linux programs under Windows names: focused mode 94 passed, 0 failed, 1 skipped, 0 untested (2 information rows); script ran to its end: True; all sections 187 passed, 0 failed, 2 skipped, 0 untested (24 information rows); script ran to its end: True. Every `.ps1` of the release
   passes the PowerShell parser. This is evidence about the script's logic; it is not a Windows run.
 * The Windows CI workflow (`.github/workflows/windows.yml`) was updated for 5.9 (self-test 5.9 as a gate, the 5.9
   script, the report artifacts, a missing report fails the job). **It was not executed**: the development session has
@@ -197,18 +239,18 @@ VALIDATION-5.9.md lists every test with failed, skipped and unavailable checks. 
    is distribution-free, and the failure of the normal interval is documented with its reproduction. They are not
    handled more *precisely*: on those games the bounds certify nothing at the default sample count, because their
    NashConv is far below what any distribution-free method can resolve with that many deals.
-5. **Is trained-response evaluation faster?** Yes: the evaluation walk is @EVAL_SPEEDUP_RANGE@ times faster at one
+5. **Is trained-response evaluation faster?** Yes: the evaluation walk is 1.06 to 2.36 times faster at one
    thread with identical bits, and uses all processors by default.
-6. **How much faster are multiway response calculations?** At one thread, same request, same numbers: @MULTIWAY_SUMMARY@
+6. **How much faster are multiway response calculations?** At one thread, same request, same numbers: three-player flop fixture x2.05 in evaluation, -47% total wall time; six-player flop fixture x1.28 in evaluation, -7% total wall time; three-player preflop fixture x2.36 in evaluation, -52% total wall time; eight-handed ICM fixture x1.22 in evaluation, -2% total wall time; four-player turn x1.51 in evaluation, -30% total wall time; five-player flop x1.25 in evaluation, -15% total wall time; eight-handed ICM final table x1.06 in evaluation, -5% total wall time.
    The response TRAINING part is not faster.
 7. **Were strategy-table memory accesses improved?** In the evaluation, yes (two dependent reads instead of four per
    lookup). In the trainer, no: the one candidate that changes nothing else showed no gain and was rejected.
-8. **Did CPU training throughput improve?** No. It is unchanged within measurement noise (@TRAINING_SHORT@).
+8. **Did CPU training throughput improve?** No. It is unchanged within measurement noise (5.9 / 5.8 time 0.958 to 1.012).
 9. **Did six-player flop convergence improve?** No. Training is byte-identical to 5.8.
 10. **Were any experimental algorithms promoted?** No. Three existing optional trainers were tested under a
     prespecified rule; none met it. No new algorithm was added.
 11. **Did the default solver's mathematical results change?** No. Trained states are byte-identical to 5.8
-    (@IDENTITY_SUMMARY@). The only default numbers that differ from 5.8 are the sampled estimates of
+    (56 of 56 states in the prespecified comparison; 225 cases, 0 failures, 1782 training runs in `identity57.py`; the golden states of the 5.5 and 5.7.1 binaries in the regression suite). The only default numbers that differ from 5.8 are the sampled estimates of
     `mwcli --response`, which are computed from other (versioned) random numbers; `"randomStreams": "5.8"` restores
     the 5.8 numbers exactly.
 12. **Are checkpoints still deterministic and recoverable?** Yes: no checkpoint code or format changed; the 5.7.1
@@ -219,7 +261,7 @@ VALIDATION-5.9.md lists every test with failed, skipped and unavailable checks. 
     Three assertions of `v58.test.js` were updated for strings that name the release or the default streams, and its
     reference-response test now asks for the 5.8 streams (VALIDATION-5.9.md, section 3); no test was removed, skipped
     or weakened.
-15. **How many regression tests passed, failed or were skipped?** @REGRESSION_SUMMARY@
+15. **How many regression tests passed, failed or were skipped?** 637 tests: 636 passed, 0 failed, 1 skipped on the final Linux build (621 tests of 5.8 and 16 new ones). The skipped test needs enforced file permissions (the suite runs as root), as in 5.8. Self-tests on Linux: 5.9 32 passed, 0 failed, 0 untested; 5.8 33 passed, 0 failed, 0 untested; 5.7.1 24 passed, 0 failed, 0 untested; 5.7 28 passed, 0 failed, 0 untested. A first run of the same build, made while the sanitizer builds were compiling on the same processors, had 635 passed and 1 failed - a timing-dependent test the project lists as load-sensitive since 5.6; it is kept in the archive beside the run made alone (VALIDATION-5.9.md, section 3). Under Wine and under sanitizers: VALIDATION-5.9.md.
 16. **Which Windows and CUDA checks remain unperformed?** All of them on real hardware: the Windows executables on
     Windows, Windows PowerShell 5.1 running the script, the CI workflow, every CUDA path, performance and thread
     scaling on the i7-13700F, long runs at 16 GB (WINDOWS-TESTS-5.9.md).
@@ -242,7 +284,7 @@ VALIDATION-5.9.md lists every test with failed, skipped and unavailable checks. 
 * GPU use for the response evaluation: not investigated beyond the profile (the walk is pointer-heavy and
   memory-latency-bound; the brief's own criterion - a concrete performance model before any CUDA work - is not met).
 * Native Windows execution, Windows PowerShell 5.1, the CI workflow, every CUDA check: not executed.
-@EXTRA_CLASS4@
+
 
 ## 12. Files
 

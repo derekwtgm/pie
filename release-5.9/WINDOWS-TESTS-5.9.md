@@ -1,6 +1,6 @@
 # EightMax 5.9: the checks that remain to be made on the Windows PC
 
-Build `@BUILD@`. Target: Windows 11 x64, Intel Core i7-13700F (16 cores, 24 logical processors), 16 GB RAM, NVIDIA
+Build `00600c81455ead44`. Target: Windows 11 x64, Intel Core i7-13700F (16 cores, 24 logical processors), 16 GB RAM, NVIDIA
 GeForce RTX 4060 Ti (8 GB).
 
 **What has NOT been done.** No program of 5.9 was executed on Windows hardware, and none on an NVIDIA GPU. Everything
@@ -32,8 +32,9 @@ Double-click **`Run 5.9 focused validation.bat`**.
 | 2 | `validate_windows59.ps1 -Focused`: machine description; every file against `SHA256SUMS.txt`; the 5.8 self-test (33 checks, including the over-limit study refused before training); the 5.9 self-test imported check by check; seven 5.9 reference responses and seven 5.8 reference responses reproduced bit for bit; the desktop host refusing an over-limit study and leaving no folder | `Windows-focused-validation-5.9.json`, `.txt` |
 
 **Expected:** exit status 0, "Every required check of the script passed", 0 failed, 0 untested. On Linux the same
-script gave 94 passed, 0 failed, 1 skipped by option (`validation/5.9/powershell/`); on Windows the count is higher
-by the integrity check and may differ by environment rows.
+script gave 94 passed, 0 failed, 1 skipped by option in focused mode and 187 passed, 0 failed, 2 skipped (the
+integrity pass by option; the GPU section because no NVIDIA device answered), 0 untested with all sections
+(`validation/5.9/powershell/`); on Windows the integrity check runs as well and environment rows may differ.
 
 ## 3. The full validation (20 to 60 minutes)
 
@@ -53,9 +54,10 @@ reached, with its reason; never counted as passed). Classes: `gate` (must pass o
 1 = a gate failed or was not reached; 2 = the script itself did not finish. A missing report is not a pass: the
 launchers turn it into a failure.
 
-**Known Wine-only behaviour that should NOT appear on Windows:** under Wine the 5.7.1 self-test's three
-process-memory checks do not pass (Wine does not report a working set the way Windows does; 21 of 24). On Windows
-all 24 are expected to pass, as 5.7.1's physical run did.
+**What Wine showed, for comparison:** `mwcli.exe` passed all four self-tests under Wine (32, 33, 24 and 28 checks),
+reproduced the 14 reference responses bit for bit, and `EightMax.exe` passed the nine refused-study checks. (5.8
+recorded 21 of 24 for the 5.7.1 self-test under Wine: its three process-memory checks depend on how Wine reports a
+working set. On Windows all 24 are expected to pass, as in 5.7.1's physical run.)
 
 ## 4. What only this PC can show
 

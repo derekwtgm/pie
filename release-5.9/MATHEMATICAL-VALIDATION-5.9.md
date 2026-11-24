@@ -1,6 +1,6 @@
 # EightMax 5.9: mathematical validation
 
-Build `@BUILD@`. Successor of 5.8 (build `d4001e2c0cd77f41`).
+Build `00600c81455ead44`. Successor of 5.8 (build `d4001e2c0cd77f41`).
 
 Classes used throughout (as in 5.8): **1** independently mathematically validated (a proof, an independent
 implementation, an exact reference, or the unchanged 5.8 binary agrees); **2** tested on Linux, under Wine or by

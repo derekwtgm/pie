@@ -1,0 +1,2038 @@
+{
+ "archive": "EightMax-Windows-5.9.zip",
+ "archiveBytes": 101780491,
+ "archiveSha256": "c014d67bb904f875aacfd80cea278a78c8e8ce55966fab36e1a165a09b822633",
+ "version": "5.9",
+ "build": "00600c81455ead44",
+ "sourceFingerprint": "00600c81455ead44",
+ "sourceFingerprintNote": "the build identifier is the first 16 hex digits of the SHA-256 over source/VERSION and every file of source/native, web, wasm, tools, tests, studies and the CI workflow (391 files); verify_build.js recomputed it from the extracted source and found it in the three executables and the interface",
+ "manifestEntries": 5107,
+ "archiveMembers": 5108,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "9630eadb0e7d2f189a4f165ca62d7aecfd0937cd4b0eabebdff574f317e640ba",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 5051904,
+   "sha256": "61778ca352d489a519f02e17d7e0ca95363bd987a7e090bc642780ad2ef6a991"
+  },
+  "mwcli.exe": {
+   "bytes": 3288064,
+   "sha256": "82beb747fec09d71f29d190f65515d679851a101eef02eb40202204a1fbcec30"
+  },
+  "gpustress.exe": {
+   "bytes": 2382336,
+   "sha256": "9372580c60dda0eb3106f2d4375af569dc0fbe57169bb5093f892960be68d502"
+  }
+ },
+ "interfaceSha256": "5d700589c498dc0d72e18da911d1c7490742bc006ef02fe6726d9c10c34dbf79",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=00600c81455ead44",
+   "EightMax.exe": "EightMaxBuild=00600c81455ead44",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "00600c81455ead44",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "00600c81455ead44"
+  },
+  "host": {
+   "build": "00600c81455ead44",
+   "version": "5.9",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "3fad6507666c3b4b2fa5b5633cb3eabea5aa30e80f1d74e2c37f2e107ba46d41",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 27.8
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 2.75,
+     "seconds1024MiB": 2.53,
+     "seconds55Paths1024MiB": 2.67,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 2.54,
+     "seconds1024MiB": 2.53,
+     "seconds55Paths1024MiB": 3.41,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "trainingsDisagree",
+    "bestActionDeclared": false,
+    "warnings": [
+     "trainingsDisagree",
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "checks57": {
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "build": "00600c81455ead44",
+    "seconds": 38.9,
+    "checks": [
+     "card code equals the 5.6 function for every flop in every order, on every street",
+     "worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller)",
+     "deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals)",
+     "thread choice settles on the fastest measured count",
+     "stage spreading is kept when it is faster and dropped when it is slower",
+     "flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "btn25-open-small-sampled: the trained state is the state of the 5.6 binary",
+     "btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop3-kings-sampled: the trained state is the state of the 5.6 binary",
+     "flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-sampled: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop6-jack-small-exact: the trained state is the state of the 5.6 binary",
+     "flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative)"
+    ]
+   },
+   "frozenBatchThreads": {
+    "1": {
+     "threadsUsed": 1,
+     "wallSeconds": 0.130348,
+     "identicalToThe56State": true
+    },
+    "4": {
+     "threadsUsed": 4,
+     "wallSeconds": 0.168599,
+     "identicalToThe56State": true
+    }
+   },
+   "cpuFallback": {
+    "modes": [
+     "auto",
+     "cpu",
+     "gpu",
+     "hybrid"
+    ],
+    "allOnTheCpu": true,
+    "sameMeasurementsAsCpuOnly": true,
+    "measurementPointsCompared": 16,
+    "trainingDevicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+   },
+   "invalidConfigurations": {
+    "invalidSpec": {
+     "exit": 1,
+     "message": "error: Native engine needs 2 to 8 seats"
+    },
+    "unreadableSpec": {
+     "exit": 2
+    },
+    "unknownStudyOption": {
+     "exit": 2,
+     "message": "error: unknown option 'nonsense'"
+    },
+    "invalidStudyOptionValue": {
+     "exit": 1,
+     "message": "error 400: study options: seeds must be a count from 1 to 64 or an explicit list"
+    },
+    "selftestWithoutArguments": {
+     "exit": 2
+    }
+   }
+  },
+  "checks571": {
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "platform": "windows",
+    "seconds": 51.5,
+    "checks": [
+     "checkpoint P: an untouched copy of the checkpoint resumes (positive control)",
+     "checkpoint A: white space changed in both manifests, no value changed: accepted, identical result",
+     "checkpoint B1: a recorded value altered in manifest.json without updating its checksum: detected, the previous manifest used",
+     "checkpoint B2: the same alteration in both manifests: refused, nothing written or changed",
+     "checkpoint C1: the stored checksum of manifest.json altered, its data untouched: detected, the previous manifest used",
+     "checkpoint C2: the stored checksum altered in both manifests: refused, nothing written or changed",
+     "checkpoint D1: one byte of an engine state flipped: the state is discarded by its SHA-256 and the result is unchanged",
+     "checkpoint D2: an engine state truncated to half: the state is discarded by its length and SHA-256 and the result is unchanged",
+     "checkpoint E1: two committed generations, the newest manifest destroyed: the verified previous generation is used",
+     "checkpoint E2: a process killed during the first commit after such a recovery leaves the previous generation intact and resumable",
+     "checkpoint F1: the engine states named by the manifest removed: not treated as present, the seeds retrained",
+     "checkpoint F2: manifest.json removed: the previous manifest is used",
+     "checkpoint F3: both manifests removed, state files left: no checkpoint is assumed and no orphaned state is read",
+     "checkpoint S: the source checkpoint was not modified by any of these checks",
+     "memory E: control: with the automatic budget the same study completes and reports no memory stop",
+     "memory A: a 48 MiB process budget is reached: the study is stopped by it, incomplete and resumable, with a usable checkpoint",
+     "memory B: resumed with the automatic budget: saved work is kept, the study finishes with the measurements of the control",
+     "memory C: memory accounting in the result document and the checkpoint",
+     "memory D1: process budgets outside the supported range are refused and write nothing",
+     "memory D2: a budget below what the process needs before any training stops at once, keeps a valid checkpoint and resumes",
+     "controls N1: a successful resume (exit 0) is not accepted as a refusal",
+     "controls N2: an untouched resume is not accepted as a detection of damage",
+     "controls N3: a resume that needed the previous manifest is not accepted as an intact checkpoint",
+     "controls N4: a study that completed normally is not accepted as a memory stop"
+    ]
+   },
+   "whiteSpaceAccepted": true,
+   "alteredDataFallsBackToThePreviousGeneration": true,
+   "bothManifestsDamagedRefusedWithExit": 5,
+   "previousGenerationKeptIntactByAKilledFirstCommit": true,
+   "memoryStop": {
+    "stoppedByProcessMemory": true,
+    "budgetMiB": 48,
+    "peakRssMiB": 48.140625,
+    "stoppedPoint": "seed 5211: 16336 of 60000 deals",
+    "resumedEqualsControl": true,
+    "controlStoppedByProcessMemory": false
+   },
+   "failureReporting": {
+    "withEverySaveFailing": {
+     "exit": 1,
+     "passed": 0,
+     "failed": 0,
+     "untested": 17
+    }
+   }
+  },
+  "checks58": {
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 76.9,
+    "checks": [
+     "engine E1: evaluation random numbers: SplitMix64 reproduces its published outputs; values lie in [0, 1)",
+     "engine E2: evaluation random numbers: every (seed, seat, block, purpose) has its own stream",
+     "engine E3: ICM: cached prize equities equal the recursion bit for bit (hits, fills and evictions; 2 to 8 seats)",
+     "engine E4: ICM: three-player prize equities equal the finishing-order formula written out",
+     "response life-cycle: a response problem is opened once, finished once, and evaluated only when finished; malformed requests are refused",
+     "response known-akq-river R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response known-akq-river R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response known-akq-river R3: direction: exact gain of the response <= exact best-response gain",
+     "response known-akq-river R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response known-akq-river R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response known-akq-river R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop3-kings-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop3-kings-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop3-kings-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop3-kings-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop3-kings-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop3-kings-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop6-jack-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop6-jack-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop6-jack-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop6-jack-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop6-jack-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop6-jack-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response icm8-bb-call-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response icm8-bb-call-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response icm8-bb-call-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response icm8-bb-call-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response icm8-bb-call-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response icm8-bb-call-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "limits L1: a budget of 10,000,001 deals (one deal per update) is refused when the study is configured, before any training",
+     "limits L2: with 64 deals per update the limit is 640,000,000 deals: 640,000,001 is refused at once",
+     "limits L3: the largest supported budgets (10,000,000 deals; 640,000,000 at 64 deals per update) are accepted",
+     "limits L4: the command-line trainer refuses 10,000,001 updates before it reads its input"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToThe58LinuxBuildWithThe58Streams": 7,
+    "recordedBy": "EightMaxBuild=d4001e2c0cd77f41",
+    "seconds": 44.3
+   },
+   "overLimitBudget": {
+    "exit": 1,
+    "seconds": 2.52,
+    "resultWritten": false,
+    "checkpointCreated": false,
+    "message": "error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports "
+   }
+  },
+  "checks59": {
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 91.6,
+    "checks": [
+     "engine E1: evaluation random numbers: Philox4x64-10 reproduces the three known-answer vectors of its reference implementation",
+     "engine E2: evaluation random numbers: Philox4x64-10 is inverted round by round (a bijection of the counter for a fixed key)",
+     "engine E3: evaluation random numbers: one stream per (seat, block, purpose), a pure function of its address; values lie in [0, 1)",
+     "statistics S1: one-sided empirical-Bernstein half-width and standard-deviation bound equal the independent implementation's numbers",
+     "statistics S2: two-point distributions, exact binomial sums: the distribution-free bound never exceeds the true mean more often than its level",
+     "statistics S3: the same sums show why the 5.8 normal-approximation bound is not a confidence statement: with a rare small value it exceeds the true mean most of the time",
+     "statistics S4: simultaneous statement: reference numbers, error budget alpha / seats, floor at 0, a seat without evaluation, more analyses, a sample outside the proven range",
+     "statistics S5: pooled statement over independent seats: reference numbers, the best subset leaves out the seat whose response loses, a seat without evaluation, one seat alone",
+     "statistics S6: order: no bound exceeds the estimate it bounds; four times the samples or twice the error budget never loosen a bound; more analyses never tighten it",
+     "response known-akq-river R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response known-akq-river R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response known-akq-river R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response known-akq-river R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response known-akq-river R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response known-akq-river R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response incomplete: an evaluation that cannot finish in its time limit is unavailable, never shortened; the summary keeps the trivial bound 0 and claims no sum",
+     "response family: analyses and confidence set the per-seat error budget (1 - confidence) / analyses / seats, and a smaller budget never gives a larger bound",
+     "response requests: malformed confidence, analyses, randomStreams and evaluationSeed, and an unknown field, are usage errors before anything is trained",
+     "response flop3-kings-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop3-kings-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop3-kings-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop3-kings-small R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response flop3-kings-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response flop6-jack-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop6-jack-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop6-jack-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop6-jack-small R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response flop6-jack-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response icm8-bb-call-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response icm8-bb-call-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response icm8-bb-call-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response icm8-bb-call-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToTheLinuxBuild": 7,
+    "summaryBoundsIdentical": 7,
+    "parallelSeatsIdentical": 7,
+    "everyStatementHoldsAgainstExactValues": true,
+    "recordedBy": "EightMaxBuild=00600c81455ead44",
+    "seconds": 67.9
+   },
+   "refusedStudy": {
+    "refusedAfterMilliseconds": 7,
+    "refusedStudyFolder": "removed",
+    "foldersLeft": 0,
+    "message": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was t",
+    "ordinaryStudyAfterwardsComplete": true
+   }
+  },
+  "passed": true
+ },
+ "validationStatus": {
+  "release": "5.9",
+  "build": "00600c81455ead44",
+  "successorOf": {
+   "release": "5.8",
+   "build": "d4001e2c0cd77f41"
+  },
+  "classes": {
+   "1": "independently mathematically validated (a proof, an independent implementation, an exact reference, or the unchanged 5.8 binary agrees)",
+   "2": "tested on Linux, under Wine or by simulation (the project's own tests; the Windows programs under Wine)",
+   "3": "implemented, awaiting physical Windows / GPU validation (never executed on Windows hardware or an NVIDIA GPU)",
+   "4": "unsuccessful, incomplete, not implemented or not executed"
+  },
+  "baseline58": {
+   "what": "Verification of the supplied EightMax 5.8 release before any change (Phase 1 of the 5.9 work).",
+   "source": {
+    "repository": "derekwtgm/pie",
+    "branch": "eightmax-5.8",
+    "commit": "4ef849a6069478ec6349a0595dd1f78122240171",
+    "folder": "release-5.8"
+   },
+   "archive": {
+    "file": "EightMax-Windows-5.8.zip",
+    "bytes": 97640600,
+    "sha256": "2c80ca33734c8d289ea3e73e436ca96ac0098f92d1bcd0b8327aa980e6fc6b41",
+    "expectedSha256": "2c80ca33734c8d289ea3e73e436ca96ac0098f92d1bcd0b8327aa980e6fc6b41",
+    "crcTestOfEveryMember": "passed (Python zipfile.testzip)",
+    "members": 4922,
+    "expectedMembers": 4922
+   },
+   "manifest": {
+    "entries": 4921,
+    "expectedEntries": 4921,
+    "everyListedFileMatches": true,
+    "sha256": "2b39c5523919ea3e5563061a52b2111d681138c9955a2d0d631ddfe52435a317",
+    "tool": "sha256sum -c SHA256SUMS.txt in a fresh extraction"
+   },
+   "identity": {
+    "version": "5.8",
+    "build": "d4001e2c0cd77f41",
+    "buildIdEmbeddedInExecutables": {
+     "EightMax.exe": "EightMaxBuild=d4001e2c0cd77f41",
+     "mwcli.exe": "EightMaxBuild=d4001e2c0cd77f41",
+     "gpustress.exe": "EightMaxBuild=d4001e2c0cd77f41"
+    }
+   },
+   "executablesShipped": {
+    "EightMax.exe": "db1f80dcbbf5efd5edfe124449d5c5d48c5e526852b5d38ff381f3ed62856cbc",
+    "mwcli.exe": "9e0e4975d5f41dade7e888610d1cd1c373f58135634e9001d17930c12e25af14",
+    "gpustress.exe": "54757acb2ef8fa401ad856a74b97510840955a8f44f938d55af9f7e46e89b0d6"
+   },
+   "executablesMatchIdentityFile": true,
+   "rebuiltFromUnmodifiedSource": {
+    "toolchain": {
+     "windows": "x86_64-w64-mingw32-g++-posix (GCC) 13-posix (g++-mingw-w64-x86-64-posix 13.2.0-6ubuntu1+26.1), libz-mingw-w64-dev 1.3.1",
+     "linux": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+     "node": "v22.23.5",
+     "python": "3.13.18"
+    },
+    "artifactsByteIdenticalToShipped": {
+     "EightMax.exe": true,
+     "mwcli.exe": true,
+     "gpustress.exe": true,
+     "linux mwcli": true,
+     "linux eightmax": true,
+     "linux gpustress": true,
+     "EightMax-Offline.html": true
+    },
+    "sourceFingerprintRecomputed": "d4001e2c0cd77f41 (node source/tools/build.js)"
+   },
+   "regressionOfTheRebuilt58": {
+    "command": "node --test --test-concurrency=3 --test-reporter=tap source/tests/*.test.js (Linux programs of the rebuild)",
+    "tests": 621,
+    "passed": 620,
+    "failed": 0,
+    "skipped": 1,
+    "skippedTests": [
+     "4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)"
+    ],
+    "seconds": 1296,
+    "agreesWithTheReported58Totals": true
+   },
+   "selftestsOfTheRebuilt58": {
+    "selftest58": {
+     "passed": 33,
+     "failed": 0,
+     "untested": 0
+    },
+    "selftest571": {
+     "passed": 24,
+     "failed": 0,
+     "untested": 0
+    },
+    "selftest57": {
+     "passed": 28,
+     "failed": 0
+    }
+   },
+   "checkpointCompatibility": "the 5.8 golden training states and the identity checks against 5.7.1 are part of the regression suite above (tests v57, v571, v58) and passed",
+   "physicalWindowsOrGpuEvidenceFor58": "none: the 5.8 Windows executables were never run on Windows hardware or an NVIDIA GPU (FINAL-REPORT-5.8.md); earlier physical evidence concerns 5.7 and is not evidence for 5.8 or 5.9",
+   "untouchedCopyKept": "the archive and a read-only extraction were kept beside the 5.9 work for every comparison in this release; the unchanged 5.8 Linux program is shipped as validation/5.8/linux-bin/mwcli"
+  },
+  "regressionLinux": {
+   "tests": 637,
+   "passed": 636,
+   "failed": 0,
+   "skipped": 1,
+   "failedTests": [],
+   "skippedTests": [
+    "4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)"
+   ]
+  },
+  "selftest59Linux": {
+   "passed": 32,
+   "failed": 0,
+   "untested": 0,
+   "build": "00600c81455ead44",
+   "seconds": 178.889648002,
+   "checks": 32,
+   "notPassed": []
+  },
+  "selftest58Linux": {
+   "passed": 33,
+   "failed": 0,
+   "untested": 0,
+   "build": "00600c81455ead44",
+   "seconds": 119.815703726,
+   "checks": 33,
+   "notPassed": []
+  },
+  "selftest571Linux": {
+   "passed": 24,
+   "failed": 0,
+   "untested": 0,
+   "build": "00600c81455ead44",
+   "seconds": 53.883664639,
+   "checks": 24,
+   "notPassed": []
+  },
+  "selftest57Linux": {
+   "passed": 28,
+   "failed": 0,
+   "untested": null,
+   "build": "00600c81455ead44",
+   "seconds": 57.546145101,
+   "checks": 28,
+   "notPassed": []
+  },
+  "independentImplementation": {
+   "tool": "independent_stats59",
+   "checks": [
+    {
+     "name": "Philox4x64-10 (Python integers) reproduces the three known-answer vectors",
+     "passed": true,
+     "detail": "0 of 3 vectors differ"
+    },
+    {
+     "name": "numpy.random.Philox agrees with the Python implementation",
+     "passed": true,
+     "detail": "0 of 53 blocks differ (numpy 2.5.3)"
+    },
+    {
+     "name": "the engine draws the stream of an address as defined (mwcli --streams59)",
+     "passed": true,
+     "detail": "0 differences in 185 numbers of 5 addresses"
+    },
+    {
+     "name": "two-point distributions: the one-sided empirical-Bernstein bound never misses more often than its level (exact binomial sums)",
+     "passed": true,
+     "detail": "117 cases; largest miss probability / level = 0.0586"
+    },
+    {
+     "name": "two-point distributions: the 5.8 normal-approximation bound does miss far more often than 5% (the reason it is not a confidence statement)",
+     "passed": true,
+     "detail": "n = 1024, P(large value) = 1 - 1e-06: the bound exceeds the true mean with probability 0.999"
+    }
+   ]
+  },
+  "runFinalSteps": [
+   "build EightMaxBuild=00600c81455ead44 2026-11-24T19:24:16Z",
+   "selftest59 (Linux) exit 0",
+   "selftest58 (Linux) exit 0",
+   "selftest571 (Linux) exit 0",
+   "selftest57 (Linux) exit 0",
+   "independent selfcheck exit 0",
+   "exact two-point coverage table exit 0",
+   "desktop host, refused studies exit 0",
+   "5.8 host refusal driver against the 5.9 host exit 0",
+   "interface in a browser exit 0",
+   "stability (3 minutes) exit 0",
+   "identity against 5.8 exit 0",
+   "flop3-kings-detailed batch64-2MiB identical",
+   "flop3-kings-detailed batch8-1MiB identical",
+   "{\"cases\": 225, \"failures\": 0, \"trainingRuns\": 1782, \"seconds\": 1125.7, \"baselineSha256\": \"ef39d1fa24052e6e9fc36321760dcad99b92e5e783c8e5cc0ae49fdbd18d95e5\", \"currentSha256\": \"782c349362602c6dcc5bad6aa27bc4b2f720c0ac4333e1d546be9a1087b4822c\", \"deals\": 24000}",
+   "== done 19:55:02"
+  ],
+  "statistics": {
+   "final8": {
+    "kind": "final8",
+    "rows": 360,
+    "errors": 0,
+    "groups": {
+     "A": {
+      "runs": 120,
+      "seatEstimates": 960,
+      "beyond4StdErr": 193,
+      "beyond3StdErr": 205,
+      "largestDistanceInStdErr": 774.9586283033536,
+      "outsideTwoSidedDistributionFree": 0,
+      "normalOneSided95SeatBoundAboveExact": 27,
+      "normalOneSided95SeatMissRate": 0.028125,
+      "legacySumAboveExactSumOfPositiveGains": 0,
+      "legacySumAboveExactNashConv": 0
+     },
+     "B": {
+      "runs": 120,
+      "seatEstimates": 960,
+      "beyond4StdErr": 193,
+      "beyond3StdErr": 205,
+      "largestDistanceInStdErr": 774.9586283033536,
+      "outsideTwoSidedDistributionFree": 0,
+      "normalOneSided95SeatBoundAboveExact": 27,
+      "normalOneSided95SeatMissRate": 0.028125,
+      "legacySumAboveExactSumOfPositiveGains": 0,
+      "legacySumAboveExactNashConv": 0,
+      "seatBoundAboveExact": 0,
+      "runsWithAnySeatViolation": 0,
+      "simultaneousSumAboveExact": 0,
+      "nashConvBoundAboveExactNashConv": 0,
+      "pooledAllSeatsAboveExact": 0,
+      "pooledBestSubsetAboveExact": 0,
+      "pooledNashConvAboveExactNashConv": 0,
+      "printedNumbersDifferFromIndependentRecomputation": 0,
+      "medianExactNashConv": 0.0004350356135454092,
+      "medianShareOfExactNashConv": {
+       "simultaneous": 0.0,
+       "pooledIndependent": 0.0,
+       "legacyNormalSum": 0.17097208665861718,
+       "exactSumOfResponseGains": -2.4700966963452533
+      }
+     },
+     "C": {
+      "runs": 120,
+      "seatEstimates": 960,
+      "beyond4StdErr": 206,
+      "beyond3StdErr": 219,
+      "largestDistanceInStdErr": 2209.4956753601346,
+      "outsideTwoSidedDistributionFree": 0,
+      "normalOneSided95SeatBoundAboveExact": 27,
+      "normalOneSided95SeatMissRate": 0.028125,
+      "legacySumAboveExactSumOfPositiveGains": 1,
+      "legacySumAboveExactNashConv": 0,
+      "seatBoundAboveExact": 0,
+      "runsWithAnySeatViolation": 0,
+      "simultaneousSumAboveExact": 0,
+      "nashConvBoundAboveExactNashConv": 0,
+      "pooledAllSeatsAboveExact": 0,
+      "pooledBestSubsetAboveExact": 0,
+      "pooledNashConvAboveExactNashConv": 0,
+      "printedNumbersDifferFromIndependentRecomputation": 0,
+      "medianExactNashConv": 0.0004350356135454092,
+      "medianShareOfExactNashConv": {
+       "simultaneous": 0.0,
+       "pooledIndependent": 0.0,
+       "legacyNormalSum": 0.1722370439504515,
+       "exactSumOfResponseGains": -2.4700966963452533
+      }
+     }
+    },
+    "armBEqualsArmA": {
+     "runsCompared": 120,
+     "identical": 120
+    }
+   },
+   "games": {
+    "rows": 3000,
+    "errors": 0,
+    "all": {
+     "runs": 3000,
+     "seatEstimates": 14000,
+     "beyond4StdErr": 549,
+     "beyond3StdErr": 598,
+     "largestDistanceInStdErr": 7775.707564730923,
+     "outsideTwoSidedDistributionFree": 1,
+     "normalOneSided95SeatBoundAboveExact": 663,
+     "normalOneSided95SeatMissRate": 0.047357142857142855,
+     "legacySumAboveExactSumOfPositiveGains": 11,
+     "legacySumAboveExactNashConv": 3,
+     "seatBoundAboveExact": 0,
+     "runsWithAnySeatViolation": 0,
+     "simultaneousSumAboveExact": 0,
+     "nashConvBoundAboveExactNashConv": 0,
+     "pooledAllSeatsAboveExact": 0,
+     "pooledBestSubsetAboveExact": 0,
+     "pooledNashConvAboveExactNashConv": 0,
+     "printedNumbersDifferFromIndependentRecomputation": 0,
+     "medianExactNashConv": 0.7487039158208855,
+     "medianShareOfExactNashConv": {
+      "simultaneous": 0.4910241681381453,
+      "pooledIndependent": 0.667436243405322,
+      "legacyNormalSum": 0.8763068424478593,
+      "exactSumOfResponseGains": 0.9801593423528383
+     }
+    }
+   },
+   "perGame": "validation/5.9/statistics/games/summary.json"
+  },
+  "convergence": {
+   "identityAgainst58": {
+    "comparisons": 56,
+    "identicalStates": 56,
+    "errors": 0,
+    "medianSecondsRatio59Over58": 1.0076307273742047
+   },
+   "optionalTrainers": {
+    "rows": 448,
+    "errors": 0,
+    "family": 42,
+    "promotion": {
+     "terminalBaseline": {
+      "betterAtTheLargerBudget": 0,
+      "ofGames": 7,
+      "worseAnywhere": 0,
+      "unresolved": 14,
+      "medianTimePerDealRelativeToDefault": 1.4543009583958435,
+      "promoted": false
+     },
+     "dcfr": {
+      "betterAtTheLargerBudget": 0,
+      "ofGames": 7,
+      "worseAnywhere": 13,
+      "unresolved": 1,
+      "medianTimePerDealRelativeToDefault": 1.1167349708338783,
+      "promoted": false
+     },
+     "plus": {
+      "betterAtTheLargerBudget": 0,
+      "ofGames": 7,
+      "worseAnywhere": 14,
+      "unresolved": 0,
+      "medianTimePerDealRelativeToDefault": 1.1227443277795903,
+      "promoted": false
+     }
+    }
+   },
+   "flop6Fixture": [
+    {
+     "seed": 5931,
+     "arm": "default",
+     "trainSeconds": 6.106734582999707,
+     "responseSeconds": 14.18710791500007,
+     "rows": 211116,
+     "sumOfSeatGainsEstimate": 0.980471519533443,
+     "simultaneousNashConvLowerBound95": 0.7485364770253682,
+     "pooledNashConvLowerBound95": 0.8688495698098201,
+     "normalSumOfLowerBounds": 0.8931996000150652,
+     "seatGains": [
+      0.14096134536647098,
+      0.16618719001900037,
+      0.20971197000873215,
+      0.14335534801755462,
+      0.19246590216338202,
+      0.1277897639583029
+     ],
+     "seatLowerBounds": [
+      0.10638284213236346,
+      0.12580373312111232,
+      0.1652399644157975,
+      0.10813358450632778,
+      0.15279461554177207,
+      0.090181737307995
+     ]
+    },
+    {
+     "seed": 5931,
+     "arm": "terminalBaseline",
+     "trainSeconds": 9.43392183900005,
+     "responseSeconds": 15.363044764999813,
+     "rows": 209933,
+     "sumOfSeatGainsEstimate": 1.306595679816563,
+     "simultaneousNashConvLowerBound95": 1.0281038090375367,
+     "pooledNashConvLowerBound95": 1.1699415766262329,
+     "normalSumOfLowerBounds": 1.196193525066608,
+     "seatGains": [
+      0.23891779210169678,
+      0.3678691483957268,
+      0.29274381540092387,
+      0.132761833052092,
+      0.1726460014306757,
+      0.10165708943544786
+     ],
+     "seatLowerBounds": [
+      0.19580600297329906,
+      0.31186369283172916,
+      0.2306023908999546,
+      0.0946739776117261,
+      0.13273788343806447,
+      0.06241986128276324
+     ]
+    },
+    {
+     "seed": 5932,
+     "arm": "default",
+     "trainSeconds": 6.628280065000126,
+     "responseSeconds": 13.831601058999695,
+     "rows": 211974,
+     "sumOfSeatGainsEstimate": 1.1334784290073736,
+     "simultaneousNashConvLowerBound95": 0.8624119407492579,
+     "pooledNashConvLowerBound95": 1.002429624324145,
+     "normalSumOfLowerBounds": 1.0267653323563413,
+     "seatGains": [
+      0.13699118103994978,
+      0.1747322880590704,
+      0.27096097567759114,
+      0.12386154370907648,
+      0.24160469861711825,
+      0.18532774190456766
+     ],
+     "seatLowerBounds": [
+      0.08970674046275601,
+      0.1301076444083198,
+      0.22205200757011775,
+      0.08870269017743518,
+      0.19201702622704908,
+      0.13982583190358006
+     ]
+    },
+    {
+     "seed": 5932,
+     "arm": "terminalBaseline",
+     "trainSeconds": 8.91209944000002,
+     "responseSeconds": 15.793054081999799,
+     "rows": 210367,
+     "sumOfSeatGainsEstimate": 1.1384478888420906,
+     "simultaneousNashConvLowerBound95": 0.8858010037532924,
+     "pooledNashConvLowerBound95": 1.0159455436590814,
+     "normalSumOfLowerBounds": 1.0408859687209346,
+     "seatGains": [
+      0.16299216289255283,
+      0.12727913901800794,
+      0.2953979591638209,
+      0.13202593630190307,
+      0.22120215638295448,
+      0.19955053508285134
+     ],
+     "seatLowerBounds": [
+      0.12042224735136053,
+      0.08786383447325975,
+      0.24193612447838372,
+      0.09808417198137281,
+      0.17956623826899276,
+      0.1579283871999227
+     ]
+    },
+    {
+     "seed": 5933,
+     "arm": "default",
+     "trainSeconds": 4.959009033000257,
+     "responseSeconds": 14.72167956200019,
+     "rows": 214054,
+     "sumOfSeatGainsEstimate": 1.4388455859159914,
+     "simultaneousNashConvLowerBound95": 1.1695726400731692,
+     "pooledNashConvLowerBound95": 1.3072014619787256,
+     "normalSumOfLowerBounds": 1.3330235520693692,
+     "seatGains": [
+      0.20316808345160783,
+      0.18169418063049175,
+      0.5331881357875096,
+      0.12456660497701916,
+      0.21067140800179762,
+      0.18555717306756533
+     ],
+     "seatLowerBounds": [
+      0.15641216287792195,
+      0.1342105773402786,
+      0.4730856300704578,
+      0.09063310866195193,
+      0.17137910544065485,
+      0.14385205568190407
+     ]
+    },
+    {
+     "seed": 5933,
+     "arm": "terminalBaseline",
+     "trainSeconds": 9.774851444999967,
+     "responseSeconds": 14.501784079000117,
+     "rows": 208639,
+     "sumOfSeatGainsEstimate": 1.2650433995330634,
+     "simultaneousNashConvLowerBound95": 1.0009287489646088,
+     "pooledNashConvLowerBound95": 1.1377815459761529,
+     "normalSumOfLowerBounds": 1.1617840957417551,
+     "seatGains": [
+      0.1943622086680698,
+      0.20046282886218067,
+      0.28241891264680874,
+      0.15049921224602952,
+      0.20219296634275413,
+      0.23510727076722066
+     ],
+     "seatLowerBounds": [
+      0.14520800240136245,
+      0.1573970134174832,
+      0.237222765381965,
+      0.11254302582343571,
+      0.1577909158322866,
+      0.19076702610807583
+     ]
+    }
+   ],
+   "defaultTrainerChanged": false,
+   "experimentalAlgorithmPromoted": false,
+   "newEstimatorImplemented": false
+  },
+  "identityAgainst58": {
+   "cases": 225,
+   "failures": 0,
+   "trainingRuns": 1782,
+   "seconds": 1125.7,
+   "baselineSha256": "ef39d1fa24052e6e9fc36321760dcad99b92e5e783c8e5cc0ae49fdbd18d95e5",
+   "currentSha256": "782c349362602c6dcc5bad6aa27bc4b2f720c0ac4333e1d546be9a1087b4822c",
+   "deals": 24000
+  },
+  "performance": {
+   "response": [
+    {
+     "fixture": "flop3-kings",
+     "players": 3,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       28.743,
+       27.809
+      ],
+      "new": [
+       15.265,
+       15.071
+      ]
+     },
+     "training": {
+      "old": [
+       2.726854,
+       2.672827
+      ],
+      "new": [
+       2.510436,
+       2.327302
+      ]
+     },
+     "evaluation": {
+      "old": [
+       25.9043,
+       24.7724
+      ],
+      "new": [
+       12.650799999999998,
+       12.6502
+      ]
+     },
+     "peakRssMiB": {
+      "old": 53.3,
+      "new": 41.0
+     },
+     "wallReduction": 0.4689141704067077,
+     "evaluationSpeedup": 2.047641255888956,
+     "trainingRatio": 0.9206345480909502,
+     "default59": {
+      "wallSeconds": 5.81,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0.45968826879721014,
+      "pooledNashConvLowerBound": 0.5339483512322052,
+      "sumOfSeatGains": 0.6509511592846047,
+      "evaluationSeconds": 3.1896
+     },
+     "sampled59": {
+      "wallSeconds": 2.786,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0.3326074760582337,
+      "pooledNashConvLowerBound": 0.4539805687130095,
+      "sumOfSeatGains": 0.6500434361770377,
+      "evaluationSeconds": 0.20660000000000003
+     }
+    },
+    {
+     "fixture": "flop6-jack",
+     "players": 6,
+     "opponentActions": "sampled",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       10.22,
+       10.017
+      ],
+      "new": [
+       9.486,
+       9.077
+      ]
+     },
+     "training": {
+      "old": [
+       7.071097,
+       7.009449
+      ],
+      "new": [
+       7.028893,
+       6.6496580000000005
+      ]
+     },
+     "evaluation": {
+      "old": [
+       2.5852,
+       2.5086
+      ],
+      "new": [
+       2.0183,
+       1.9582
+      ]
+     },
+     "peakRssMiB": {
+      "old": 62.6,
+      "new": 61.8
+     },
+     "wallReduction": 0.0718199608610568,
+     "evaluationSpeedup": 1.280879948471486,
+     "trainingRatio": 0.9940314777183795,
+     "default59": {
+      "wallSeconds": 7.957,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0.18815172176494063,
+      "pooledNashConvLowerBound": 0.6370910264734719,
+      "sumOfSeatGains": 1.0968093864739041,
+      "evaluationSeconds": 0.472
+     },
+     "sampled59": {
+      "wallSeconds": 7.555,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0.18815172176494063,
+      "pooledNashConvLowerBound": 0.6370910264734719,
+      "sumOfSeatGains": 1.0968093864739041,
+      "evaluationSeconds": 0.4562
+     }
+    },
+    {
+     "fixture": "btn25-open",
+     "players": 3,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       43.626,
+       39.856
+      ],
+      "new": [
+       21.104,
+       19.615
+      ]
+     },
+     "training": {
+      "old": [
+       3.20966,
+       3.063837
+      ],
+      "new": [
+       3.38344,
+       3.290138
+      ]
+     },
+     "evaluation": {
+      "old": [
+       38.4312,
+       34.6388
+      ],
+      "new": [
+       16.261200000000002,
+       14.8397
+      ]
+     },
+     "peakRssMiB": {
+      "old": 226.0,
+      "new": 211.7
+     },
+     "wallReduction": 0.5162517764635768,
+     "evaluationSpeedup": 2.363368017120507,
+     "trainingRatio": 1.0541428064031704,
+     "default59": {
+      "wallSeconds": 8.886,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": 0.03899479408351521,
+      "evaluationSeconds": 3.7647
+     },
+     "sampled59": {
+      "wallSeconds": 5.529,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": -0.023882127766777776,
+      "evaluationSeconds": 0.3357
+     }
+    },
+    {
+     "fixture": "icm8-bb-call",
+     "players": 3,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       1.474,
+       1.452
+      ],
+      "new": [
+       1.439,
+       1.32
+      ]
+     },
+     "training": {
+      "old": [
+       1.253825,
+       1.251004
+      ],
+      "new": [
+       1.26177,
+       1.1443780000000001
+      ]
+     },
+     "evaluation": {
+      "old": [
+       0.1639,
+       0.1559
+      ],
+      "new": [
+       0.1348,
+       0.1346
+      ]
+     },
+     "peakRssMiB": {
+      "old": 24.1,
+      "new": 24.3
+     },
+     "wallReduction": 0.023744911804613245,
+     "evaluationSpeedup": 1.2158753709198813,
+     "trainingRatio": 1.0063366099734812,
+     "default59": {
+      "wallSeconds": 1.376,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": -0.003896420950603468,
+      "evaluationSeconds": 0.0556
+     },
+     "sampled59": {
+      "wallSeconds": 1.174,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": -0.004046963836490243,
+      "evaluationSeconds": 0.032600000000000004
+     }
+    },
+    {
+     "fixture": "turn4",
+     "players": 4,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       2.388,
+       2.346
+      ],
+      "new": [
+       1.678,
+       1.621
+      ]
+     },
+     "training": {
+      "old": [
+       0.413403,
+       0.394314
+      ],
+      "new": [
+       0.38182,
+       0.366363
+      ]
+     },
+     "evaluation": {
+      "old": [
+       1.9485999999999999,
+       1.9292
+      ],
+      "new": [
+       1.2935999999999999,
+       1.2517
+      ]
+     },
+     "peakRssMiB": {
+      "old": 20.7,
+      "new": 20.7
+     },
+     "wallReduction": 0.29731993299832493,
+     "evaluationSpeedup": 1.506338899196042,
+     "trainingRatio": 0.9236023928225,
+     "default59": {
+      "wallSeconds": 0.904,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0.00635533640264261,
+      "pooledNashConvLowerBound": 0.005691910742675942,
+      "sumOfSeatGains": 0.06144586252334865,
+      "evaluationSeconds": 0.4353
+     },
+     "sampled59": {
+      "wallSeconds": 0.42,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0.00636011542791317,
+      "pooledNashConvLowerBound": 0.0027874545260630794,
+      "sumOfSeatGains": 0.0597980754711397,
+      "evaluationSeconds": 0.0356
+     }
+    },
+    {
+     "fixture": "flop5",
+     "players": 5,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       2.824,
+       2.598
+      ],
+      "new": [
+       2.412,
+       2.067
+      ]
+     },
+     "training": {
+      "old": [
+       0.556245,
+       0.531337
+      ],
+      "new": [
+       0.620976,
+       0.500068
+      ]
+     },
+     "evaluation": {
+      "old": [
+       2.2441,
+       2.0655
+      ],
+      "new": [
+       1.7894,
+       1.5655999999999999
+      ]
+     },
+     "peakRssMiB": {
+      "old": 20.7,
+      "new": 20.7
+     },
+     "wallReduction": 0.1458923512747875,
+     "evaluationSpeedup": 1.2541075220744382,
+     "trainingRatio": 1.116371383113556,
+     "default59": {
+      "wallSeconds": 1.15,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0.011967551579421136,
+      "pooledNashConvLowerBound": 0.01737168242726647,
+      "sumOfSeatGains": 0.17843998494466043,
+      "evaluationSeconds": 0.5468
+     },
+     "sampled59": {
+      "wallSeconds": 0.679,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": 0.21050614396402,
+      "evaluationSeconds": 0.054299999999999994
+     }
+    },
+    {
+     "fixture": "final8",
+     "players": 8,
+     "opponentActions": "enumerated",
+     "identicalNumbers": true,
+     "wall": {
+      "old": [
+       35.549,
+       34.604
+      ],
+      "new": [
+       33.688,
+       31.909
+      ]
+     },
+     "training": {
+      "old": [
+       1.4404379999999999,
+       1.384476
+      ],
+      "new": [
+       1.439324,
+       1.292384
+      ]
+     },
+     "evaluation": {
+      "old": [
+       34.083800000000004,
+       33.1593
+      ],
+      "new": [
+       32.2448,
+       30.6129
+      ]
+     },
+     "peakRssMiB": {
+      "old": 20.7,
+      "new": 20.7
+     },
+     "wallReduction": 0.05235027708233697,
+     "evaluationSpeedup": 1.0570324517441574,
+     "trainingRatio": 0.9992266241240513,
+     "default59": {
+      "wallSeconds": 9.689,
+      "evaluationThreads": 4,
+      "opponentActions": "enumerated",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": 0.0024602068664713035,
+      "evaluationSeconds": 8.2796
+     },
+     "sampled59": {
+      "wallSeconds": 1.569,
+      "evaluationThreads": 4,
+      "opponentActions": "sampled",
+      "simultaneousNashConvLowerBound": 0,
+      "pooledNashConvLowerBound": 0,
+      "sumOfSeatGains": 0.0024241196002515184,
+      "evaluationSeconds": 0.0994
+     }
+    }
+   ],
+   "training": [
+    {
+     "case": "flop3-kings",
+     "threads": 1,
+     "deals": 250000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       2.652338,
+       2.073607
+      ],
+      "new": [
+       2.685265,
+       2.303621
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 94256.46354273098,
+      "new": 93100.68093838039
+     },
+     "peakRssMiB": {
+      "old": 27.8,
+      "new": 27.8
+     },
+     "ratio59Over58": 1.012414330300286
+    },
+    {
+     "case": "flop6-jack",
+     "threads": 1,
+     "deals": 250000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       6.254905,
+       5.977623
+      ],
+      "new": [
+       6.128047,
+       5.728672
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 39968.632617122086,
+      "new": 40796.03175367291
+     },
+     "peakRssMiB": {
+      "old": 55.7,
+      "new": 55.9
+     },
+     "ratio59Over58": 0.9797186368138284
+    },
+    {
+     "case": "btn25-open",
+     "threads": 1,
+     "deals": 250000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       2.885506,
+       2.628539
+      ],
+      "new": [
+       2.825878,
+       2.693752
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 86639.91688112935,
+      "new": 88468.07965524343
+     },
+     "peakRssMiB": {
+      "old": 175.7,
+      "new": 175.9
+     },
+     "ratio59Over58": 0.979335340144848
+    },
+    {
+     "case": "icm8-bb-call",
+     "threads": 1,
+     "deals": 250000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       0.710412,
+       0.654512
+      ],
+      "new": [
+       0.68081,
+       0.522405
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 351908.4700145831,
+      "new": 367209.6473318547
+     },
+     "peakRssMiB": {
+      "old": 79.5,
+      "new": 79.5
+     },
+     "ratio59Over58": 0.9583312218825132
+    },
+    {
+     "case": "flop6-jack, 64 deals per update",
+     "threads": 1,
+     "deals": 256000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       6.746413,
+       6.444752
+      ],
+      "new": [
+       6.816784,
+       6.44065
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 37946.09075963775,
+      "new": 37554.36581238308
+     },
+     "peakRssMiB": {
+      "old": 79.5,
+      "new": 79.5
+     },
+     "ratio59Over58": 1.0104308763783065
+    },
+    {
+     "case": "flop6-jack, 64 deals per update",
+     "threads": 2,
+     "deals": 256000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       4.415768,
+       4.182906
+      ],
+      "new": [
+       4.425206,
+       3.994181
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 57974.0602314252,
+      "new": 57850.41419540695
+     },
+     "peakRssMiB": {
+      "old": 79.5,
+      "new": 79.5
+     },
+     "ratio59Over58": 1.0021373405486884
+    },
+    {
+     "case": "flop6-jack, 64 deals per update",
+     "threads": 4,
+     "deals": 256000,
+     "identicalStates": true,
+     "seconds": {
+      "old": [
+       2.719348,
+       2.560384
+      ],
+      "new": [
+       2.628224,
+       2.585808
+      ]
+     },
+     "dealsPerSecond": {
+      "old": 94140.21302165078,
+      "new": 97404.17863926363
+     },
+     "peakRssMiB": {
+      "old": 79.5,
+      "new": 79.5
+     },
+     "ratio59Over58": 0.9664904969867777
+    }
+   ],
+   "evaluation": [
+    {
+     "game": "turn4",
+     "measure": "exact best response",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.028722772999572044,
+       0.02101613600007113
+      ],
+      "new": [
+       0.02239834600004542,
+       0.022219225000299048
+      ]
+     },
+     "ratio59Over58": 0.7798114061055019
+    },
+    {
+     "game": "turn4",
+     "measure": "sampled one-decision measure",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.5784566900001664,
+       0.5466911860003165
+      ],
+      "new": [
+       0.5150081829997362,
+       0.48627601400039566
+      ]
+     },
+     "ratio59Over58": 0.8903141616351399
+    },
+    {
+     "game": "flop6",
+     "measure": "exact best response",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.08308286000010412,
+       0.07069164099993941
+      ],
+      "new": [
+       0.09125677999963955,
+       0.07569854100074735
+      ]
+     },
+     "ratio59Over58": 1.0983827470494538
+    },
+    {
+     "game": "flop6",
+     "measure": "sampled one-decision measure",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       1.6938467019999734,
+       1.6529432890001772
+      ],
+      "new": [
+       1.7326284079999823,
+       1.643258006999531
+      ]
+     },
+     "ratio59Over58": 1.022895641001171
+    },
+    {
+     "game": "bubble4",
+     "measure": "exact best response",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       1.1451762540000345,
+       1.078629622000335
+      ],
+      "new": [
+       1.1933664630005296,
+       1.1754150790002313
+      ]
+     },
+     "ratio59Over58": 1.0420810410905479
+    },
+    {
+     "game": "bubble4",
+     "measure": "sampled one-decision measure",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.06535575599991716,
+       0.05009744099970703
+      ],
+      "new": [
+       0.06820909999987634,
+       0.06357825200029765
+      ]
+     },
+     "ratio59Over58": 1.0436586488260162
+    },
+    {
+     "game": "mid3-turn",
+     "measure": "exact best response",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.05323378499997489,
+       0.05287214300005871
+      ],
+      "new": [
+       0.05409516799954872,
+       0.04567613800008985
+      ]
+     },
+     "ratio59Over58": 1.0161811338339786
+    },
+    {
+     "game": "mid3-turn",
+     "measure": "sampled one-decision measure",
+     "identicalValues": true,
+     "seconds": {
+      "old": [
+       0.6476216929995644,
+       0.6107479259999309
+      ],
+      "new": [
+       0.6286518609995255,
+       0.5213192770006572
+      ]
+     },
+     "ratio59Over58": 0.9707084672964288
+    }
+   ],
+   "study": [
+    {
+     "fixture": "known-akq-river",
+     "identicalMeasurements": true,
+     "seconds": {
+      "old": [
+       0.030492107000100077,
+       0.030186957999831066
+      ],
+      "new": [
+       0.026673450999624038,
+       0.026124584000172035
+      ]
+     },
+     "ratio59Over58": 0.8747657549390239
+    },
+    {
+     "fixture": "flop6-jack-small",
+     "identicalMeasurements": true,
+     "seconds": {
+      "old": [
+       2.342215761999796,
+       2.2732808680002563
+      ],
+      "new": [
+       2.582551237000189,
+       2.2362469649997365
+      ]
+     },
+     "ratio59Over58": 1.1026103055489616
+    }
+   ],
+   "cache": [
+    {
+     "fixture": "flop3-kings",
+     "evaluationDeals": 4096,
+     "walk58": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 31879414,
+      "lastLevelDataMisses": 601563,
+      "visits": 5399449,
+      "gainBits": "bfe7e30cab312bf8"
+     },
+     "walk59NoIndex": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 28207266,
+      "lastLevelDataMisses": 404127,
+      "visits": 5399449,
+      "gainBits": "bfe7e30cab312bf8"
+     },
+     "walk59": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 26275527,
+      "lastLevelDataMisses": 444029,
+      "visits": 5399449,
+      "gainBits": "bfe7e30cab312bf8"
+     }
+    },
+    {
+     "fixture": "flop6-jack",
+     "evaluationDeals": 40960,
+     "walk58": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 20435903,
+      "lastLevelDataMisses": 925292,
+      "visits": 2487481,
+      "gainBits": "bfee49ddbdb748d5"
+     },
+     "walk59NoIndex": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 18476727,
+      "lastLevelDataMisses": 900978,
+      "visits": 2487481,
+      "gainBits": "bfee49ddbdb748d5"
+     },
+     "walk59": {
+      "instructions": null,
+      "dataReferences": null,
+      "d1Misses": 16883113,
+      "lastLevelDataMisses": 925554,
+      "visits": 2487481,
+      "gainBits": "bfee49ddbdb748d5"
+     }
+    }
+   ]
+  },
+  "experimentsNotAdopted": [
+   "validation/5.9/experiments/prefetch-row-slot.md"
+  ],
+  "desktopHostRefusedStudies": {
+   "checksPassed": 9,
+   "checksTotal": 9,
+   "passed": true,
+   "checks": [
+    {
+     "name": "A: a study of 20,000,000 deals per seed is refused within a second with the limit in the message, and its folder is gone",
+     "passed": true
+    },
+    {
+     "name": "B: invalid configurations are refused with their reason and leave no folder",
+     "passed": true
+    },
+    {
+     "name": "C: a folder that existed before, with a file of the user's: the folder and the file stay unchanged; the request written into it is removed",
+     "passed": true
+    },
+    {
+     "name": "D: a folder that existed before and holds only a request.json is not removed",
+     "passed": true
+    },
+    {
+     "name": "E: an existing checkpoint with that id: the request is refused with 409 and no file of the checkpoint changes",
+     "passed": true
+    },
+    {
+     "name": "F: eight over-limit requests at once: each is accepted and then refused by the engine, or turned away because one is running; no folder is left",
+     "passed": true
+    },
+    {
+     "name": "G: refused requests arriving while a valid study runs are turned away; the running study's folder is not touched and the study completes",
+     "passed": true
+    },
+    {
+     "name": "H: when the removal fails (simulated) the refusal message is unchanged, the failure is reported, and the files stay",
+     "passed": true
+    },
+    {
+     "name": "I: an ordinary study started after a refusal completes, is listed with its request, and can be discarded",
+     "passed": true
+    }
+   ]
+  },
+  "ui": {
+   "passed": true,
+   "checksPassed": 20,
+   "checksTotal": 20,
+   "browser": "Chromium 158.0.8127.36",
+   "notPassed": []
+  },
+  "stability": {
+   "passed": true,
+   "minutesRequested": 3,
+   "checks": [
+    {
+     "name": "A: a study paused and resumed 201 times completes",
+     "passed": true
+    },
+    {
+     "name": "A: its numbers equal an uninterrupted study and no checkpoint warning was raised",
+     "passed": true
+    },
+    {
+     "name": "A: an interrupted document never claims completion or tolerance",
+     "passed": true
+    },
+    {
+     "name": "B: 25 sequential studies complete with identical numbers; export, reload and re-export are stable",
+     "passed": true
+    },
+    {
+     "name": "B: every study left a complete saved record and none is resumable",
+     "passed": true
+    },
+    {
+     "name": "B: discarding every saved study empties the list",
+     "passed": true
+    },
+    {
+     "name": "D: cancellation during evaluation stops the study and marks it incomplete",
+     "passed": true
+    },
+    {
+     "name": "D: the cancelled evaluation is repeated on resume and the study completes",
+     "passed": true
+    },
+    {
+     "name": "E0: a study of 20,000,000 deals per seed is refused at once by the desktop host, with the limit in the message, and nothing is saved",
+     "passed": true
+    },
+    {
+     "name": "E: a 20 s training study stops at its time limit with periodic checkpoints and no write error",
+     "passed": true
+    },
+    {
+     "name": "E: every engine state named by the final manifest matches its SHA-256",
+     "passed": true
+    },
+    {
+     "name": "C: 130782 concurrent status polls each returned a complete, well-formed document",
+     "passed": true
+    }
+   ]
+  },
+  "sanitizers": {
+   "summary": [
+    "asan build exit 0",
+    "asan selftest59 exit 0",
+    "asan selftest58 exit 0",
+    "asan tests (5.9 file: response, streams, statistics, desktop host, references) exit 0",
+    "tsan build exit 0",
+    "# tests 12 # pass 12 # fail 0 # skipped 0 (v59-asan-ubsan)",
+    "sanitizer reports (ERROR: AddressSanitizer / runtime error) in all outputs: 0",
+    "ThreadSanitizer warnings: 0",
+    "frozen-batch training on four threads exit 0",
+    "six seats, three side by side, four threads each (5.9 streams, offset index) exit 0",
+    "the 5.8 streams, sampled opponent actions, four threads exit 0",
+    "ICM frozen-batch training exit 0",
+    "ICM response, four seats side by side exit 0",
+    "selftest59 (engine) exit 0",
+    "selftest59 (statistics) exit 0",
+    "response bits of the instrumented program equal the release program: 5.9 streams True 5.8 streams True (6 seats)",
+    "leak check: --response with parallel seats exit 0 (0 expected), evaluation that cannot finish exit 0 (0 expected), refused over-limit study exit 1 (1 expected); LeakSanitizer reports: 0"
+   ],
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 936.44905988,
+    "checks": 32,
+    "notPassed": []
+   },
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 484.073561439,
+    "checks": 33,
+    "notPassed": []
+   },
+   "v59": {
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   }
+  },
+  "wine": {
+   "wineVersion": "it looks like wine32 is missing, you should install it.\nmultiarch needs to be enabled first.  as root, please\nexecute \"dpkg --add-architecture i386 && apt-get update &&\napt-get install wine32:i386\"\nwine-9.0 (Ubuntu 9.0~repack-4build3)",
+   "buildId": "EightMaxBuild=00600c81455ead44",
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 120.8390484,
+    "checks": 32,
+    "notPassed": []
+   },
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 127.3408224,
+    "checks": 33,
+    "notPassed": []
+   },
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "00600c81455ead44",
+    "seconds": 46.6662874,
+    "checks": 24,
+    "notPassed": []
+   },
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "untested": null,
+    "build": "00600c81455ead44",
+    "seconds": 71.5938774,
+    "checks": 28,
+    "notPassed": []
+   },
+   "referenceResponses": {
+    "cases": 14,
+    "allIdentical": true
+   },
+   "independentImplementationExit": 0,
+   "hostRefusal": {
+    "checksPassed": 9,
+    "checksTotal": 9,
+    "notPassed": []
+   },
+   "tests": {
+    "v59": {
+     "tests": 16,
+     "passed": 16,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    },
+    "v58": {
+     "tests": 15,
+     "passed": 15,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    }
+   }
+  },
+  "powershell": {
+   "what": "validate_windows59.ps1 executed by PowerShell 7 on LINUX against the Linux programs: the script's logic, not Windows",
+   "version": "7.4.6 on Ubuntu 24.04.5 LTS",
+   "parser": [
+    "test_devices.ps1: 0 parse errors, 901 tokens",
+    "test_large_checkpoint.ps1: 0 parse errors, 517 tokens",
+    "test_windows.ps1: 0 parse errors, 11554 tokens",
+    "validate_hardware.ps1: 0 parse errors, 9180 tokens",
+    "validate_windows56.ps1: 0 parse errors, 4945 tokens",
+    "validate_windows57.ps1: 0 parse errors, 8671 tokens",
+    "validate_windows571.ps1: 0 parse errors, 9591 tokens",
+    "validate_windows58.ps1: 0 parse errors, 10900 tokens",
+    "validate_windows59.ps1: 0 parse errors, 13516 tokens"
+   ],
+   "focused": {
+    "tool": "validate_windows59.ps1",
+    "release": "5.9",
+    "mode": "focused",
+    "scriptCompleted": true,
+    "passed": 94,
+    "failed": 0,
+    "skipped": 1,
+    "untested": 0,
+    "info": 2,
+    "notPassed": [
+     {
+      "section": "integrity",
+      "name": "SHA256SUMS.txt",
+      "status": "skipped",
+      "class": "gate",
+      "detail": "-SkipIntegrity was given"
+     }
+    ]
+   },
+   "full": {
+    "tool": "validate_windows59.ps1",
+    "release": "5.9",
+    "mode": "full",
+    "scriptCompleted": true,
+    "passed": 187,
+    "failed": 0,
+    "skipped": 2,
+    "untested": 0,
+    "info": 24,
+    "notPassed": [
+     {
+      "section": "integrity",
+      "name": "SHA256SUMS.txt",
+      "status": "skipped",
+      "class": "gate",
+      "detail": "-SkipIntegrity was given"
+     },
+     {
+      "section": "GPU",
+      "name": "CUDA validation",
+      "status": "skipped",
+      "class": "hardware",
+      "detail": "no usable NVIDIA CUDA device answered on this PC (NVIDIA driver library not found): nothing about the GPU was tested"
+     }
+    ]
+   }
+  },
+  "windows": {
+   "class": 3,
+   "executedOnWindowsHardware": false,
+   "windowsPowerShell51Executed": false,
+   "ciWorkflowExecuted": false,
+   "why": "The development session had no Windows machine and no access to a Windows CI runner.",
+   "launchers": [
+    "Run 5.9 focused validation.bat",
+    "Run 5.9 Windows validation.bat",
+    "Run 5.9 response example.bat"
+   ],
+   "instructions": "WINDOWS-TESTS-5.9.md"
+  },
+  "gpu": {
+   "class": 3,
+   "cudaCodeChangedIn59": false,
+   "executedOnAnNvidiaGpuFor59": false,
+   "evidenceOf57OnTheTargetPc": "validation/5.7.1/windows-5.7-physical (not evidence for 5.9)"
+  }
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
