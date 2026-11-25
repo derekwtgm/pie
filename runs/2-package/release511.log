@@ -1,0 +1,797 @@
+Verified the executables, interface and source: af452eaa0ea731be
+Verified the executables, interface and source: af452eaa0ea731be
+{
+ "archive": "EightMax-Windows-5.11.zip",
+ "archiveBytes": 103105654,
+ "archiveSha256": "df014e8030a9bda9412632e502fad3986266425123984afcdee4ada02027b002",
+ "version": "5.11",
+ "build": "af452eaa0ea731be",
+ "sourceFingerprint": "af452eaa0ea731be",
+ "sourceFingerprintNote": "the build identifier is the first 16 hex digits of the SHA-256 over source/VERSION and every file of source/native, web, wasm, tools, tests, studies and the CI workflow (415 files); verify_build.js recomputed it from the extracted source and found it in the three executables and the interface",
+ "manifestEntries": 5679,
+ "archiveMembers": 5680,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "eb0cb9ff26f53187c04fed74a9be955dccb1ac27d94006b34144f644d741c5b6",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 5155328,
+   "sha256": "2f86dac83809155a4fa49e0ceacab5ca3d8d88c8bae673d44bcfc7960227cefc"
+  },
+  "mwcli.exe": {
+   "bytes": 3660288,
+   "sha256": "4fe5a916717250eb94afcfdb980d146546ca6ea92ca5ae194fff8cb1579a124c"
+  },
+  "gpustress.exe": {
+   "bytes": 2486784,
+   "sha256": "4e806d59fc5bd84659230bf330d4a0ec0ea63701f2ad89e3a493fe8a91c81c92"
+  }
+ },
+ "interfaceSha256": "8354f97fd230480b95e93fda38c006ed58b28a64a63854a5132fb505938e6b78",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=af452eaa0ea731be",
+   "EightMax.exe": "EightMaxBuild=af452eaa0ea731be",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "af452eaa0ea731be",
+   "callFrequency": 0.5008151819643075,
+   "evGapBB": 0.011798557946346546,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "af452eaa0ea731be"
+  },
+  "host": {
+   "build": "af452eaa0ea731be",
+   "version": "5.11",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "0109e7707b0f1529f5402c040f286d2c7a8ad6e8c8108e60f2af15c2c381d6ea",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 14.6
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 1.8,
+     "seconds1024MiB": 1.82,
+     "seconds55Paths1024MiB": 1.8,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 1.31,
+     "seconds1024MiB": 1.32,
+     "seconds55Paths1024MiB": 2.36,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "insufficientReplication",
+    "bestActionDeclared": false,
+    "warnings": [
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "checks57": {
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "build": "af452eaa0ea731be",
+    "seconds": 22.7,
+    "checks": [
+     "card code equals the 5.6 function for every flop in every order, on every street",
+     "worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller)",
+     "deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals)",
+     "thread choice settles on the fastest measured count",
+     "stage spreading is kept when it is faster and dropped when it is slower",
+     "flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "btn25-open-small-sampled: the trained state is the state of the 5.6 binary",
+     "btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop3-kings-sampled: the trained state is the state of the 5.6 binary",
+     "flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-sampled: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop6-jack-small-exact: the trained state is the state of the 5.6 binary",
+     "flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative)"
+    ]
+   },
+   "frozenBatchThreads": {
+    "1": {
+     "threadsUsed": 1,
+     "wallSeconds": 0.076467,
+     "identicalToThe56State": true
+    },
+    "4": {
+     "threadsUsed": 4,
+     "wallSeconds": 0.071972,
+     "identicalToThe56State": true
+    }
+   },
+   "cpuFallback": {
+    "modes": [
+     "auto",
+     "cpu",
+     "gpu",
+     "hybrid"
+    ],
+    "allOnTheCpu": true,
+    "sameMeasurementsAsCpuOnly": true,
+    "measurementPointsCompared": 16,
+    "trainingDevicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+   },
+   "invalidConfigurations": {
+    "invalidSpec": {
+     "exit": 1,
+     "message": "error: Native engine needs 2 to 8 seats"
+    },
+    "unreadableSpec": {
+     "exit": 2
+    },
+    "unknownStudyOption": {
+     "exit": 2,
+     "message": "error: unknown option 'nonsense'"
+    },
+    "invalidStudyOptionValue": {
+     "exit": 1,
+     "message": "error 400: study options: seeds must be a count from 1 to 64 or an explicit list"
+    },
+    "selftestWithoutArguments": {
+     "exit": 2
+    }
+   }
+  },
+  "checks571": {
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "af452eaa0ea731be",
+    "platform": "windows",
+    "seconds": 39.5,
+    "checks": [
+     "checkpoint P: an untouched copy of the checkpoint resumes (positive control)",
+     "checkpoint A: white space changed in both manifests, no value changed: accepted, identical result",
+     "checkpoint B1: a recorded value altered in manifest.json without updating its checksum: detected, the previous manifest used",
+     "checkpoint B2: the same alteration in both manifests: refused, nothing written or changed",
+     "checkpoint C1: the stored checksum of manifest.json altered, its data untouched: detected, the previous manifest used",
+     "checkpoint C2: the stored checksum altered in both manifests: refused, nothing written or changed",
+     "checkpoint D1: one byte of an engine state flipped: the state is discarded by its SHA-256 and the result is unchanged",
+     "checkpoint D2: an engine state truncated to half: the state is discarded by its length and SHA-256 and the result is unchanged",
+     "checkpoint E1: two committed generations, the newest manifest destroyed: the verified previous generation is used",
+     "checkpoint E2: a process killed during the first commit after such a recovery leaves the previous generation intact and resumable",
+     "checkpoint F1: the engine states named by the manifest removed: not treated as present, the seeds retrained",
+     "checkpoint F2: manifest.json removed: the previous manifest is used",
+     "checkpoint F3: both manifests removed, state files left: no checkpoint is assumed and no orphaned state is read",
+     "checkpoint S: the source checkpoint was not modified by any of these checks",
+     "memory E: control: with the automatic budget the same study completes and reports no memory stop",
+     "memory A: a 48 MiB process budget is reached: the study is stopped by it, incomplete and resumable, with a usable checkpoint",
+     "memory B: resumed with the automatic budget: saved work is kept, the study finishes with the measurements of the control",
+     "memory C: memory accounting in the result document and the checkpoint",
+     "memory D1: process budgets outside the supported range are refused and write nothing",
+     "memory D2: a budget below what the process needs before any training stops at once, keeps a valid checkpoint and resumes",
+     "controls N1: a successful resume (exit 0) is not accepted as a refusal",
+     "controls N2: an untouched resume is not accepted as a detection of damage",
+     "controls N3: a resume that needed the previous manifest is not accepted as an intact checkpoint",
+     "controls N4: a study that completed normally is not accepted as a memory stop"
+    ]
+   },
+   "whiteSpaceAccepted": true,
+   "alteredDataFallsBackToThePreviousGeneration": true,
+   "bothManifestsDamagedRefusedWithExit": 5,
+   "previousGenerationKeptIntactByAKilledFirstCommit": true,
+   "memoryStop": {
+    "stoppedByProcessMemory": true,
+    "budgetMiB": 48,
+    "peakRssMiB": 53.40234375,
+    "stoppedPoint": "seed 5211: 14288 of 60000 deals",
+    "resumedEqualsControl": true,
+    "controlStoppedByProcessMemory": false
+   },
+   "failureReporting": {
+    "withEverySaveFailing": {
+     "exit": 1,
+     "passed": 0,
+     "failed": 0,
+     "untested": 17
+    }
+   }
+  },
+  "checks58": {
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "af452eaa0ea731be",
+    "seconds": 62.3,
+    "checks": [
+     "engine E1: evaluation random numbers: SplitMix64 reproduces its published outputs; values lie in [0, 1)",
+     "engine E2: evaluation random numbers: every (seed, seat, block, purpose) has its own stream",
+     "engine E3: ICM: cached prize equities equal the recursion bit for bit (hits, fills and evictions; 2 to 8 seats)",
+     "engine E4: ICM: three-player prize equities equal the finishing-order formula written out",
+     "response life-cycle: a response problem is opened once, finished once, and evaluated only when finished; malformed requests are refused",
+     "response known-akq-river R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response known-akq-river R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response known-akq-river R3: direction: exact gain of the response <= exact best-response gain",
+     "response known-akq-river R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response known-akq-river R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response known-akq-river R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop3-kings-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop3-kings-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop3-kings-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop3-kings-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop3-kings-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop3-kings-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop6-jack-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop6-jack-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop6-jack-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop6-jack-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop6-jack-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop6-jack-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response icm8-bb-call-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response icm8-bb-call-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response icm8-bb-call-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response icm8-bb-call-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response icm8-bb-call-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response icm8-bb-call-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "limits L1: a budget of 10,000,001 deals (one deal per update) is refused when the study is configured, before any training",
+     "limits L2: with 64 deals per update the limit is 640,000,000 deals: 640,000,001 is refused at once",
+     "limits L3: the largest supported budgets (10,000,000 deals; 640,000,000 at 64 deals per update) are accepted",
+     "limits L4: the command-line trainer refuses 10,000,001 updates before it reads its input"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToThe58LinuxBuildWithThe58Streams": 7,
+    "recordedBy": "EightMaxBuild=d4001e2c0cd77f41",
+    "seconds": 26.9
+   },
+   "overLimitBudget": {
+    "exit": 1,
+    "seconds": 1.29,
+    "resultWritten": false,
+    "checkpointCreated": false,
+    "message": "error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports "
+   }
+  },
+  "checks59": {
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "af452eaa0ea731be",
+    "seconds": 89.4,
+    "checks": [
+     "engine E1: evaluation random numbers: Philox4x64-10 reproduces the three known-answer vectors of its reference implementation",
+     "engine E2: evaluation random numbers: Philox4x64-10 is inverted round by round (a bijection of the counter for a fixed key)",
+     "engine E3: evaluation random numbers: one stream per (seat, block, purpose), a pure function of its address; values lie in [0, 1)",
+     "statistics S1: one-sided empirical-Bernstein half-width and standard-deviation bound equal the independent implementation's numbers",
+     "statistics S2: two-point distributions, exact binomial sums: the distribution-free bound never exceeds the true mean more often than its level",
+     "statistics S3: the same sums show why the 5.8 normal-approximation bound is not a confidence statement: with a rare small value it exceeds the true mean most of the time",
+     "statistics S4: simultaneous statement: reference numbers, error budget alpha / seats, floor at 0, a seat without evaluation, more analyses, a sample outside the proven range",
+     "statistics S5: pooled statement over independent seats: reference numbers, the best subset leaves out the seat whose response loses, a seat without evaluation, one seat alone",
+     "statistics S6: order: no bound exceeds the estimate it bounds; four times the samples or twice the error budget never loosen a bound; more analyses never tighten it",
+     "response known-akq-river R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response known-akq-river R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response known-akq-river R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response known-akq-river R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response known-akq-river R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response known-akq-river R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response incomplete: an evaluation that cannot finish in its time limit is unavailable, never shortened; the summary keeps the trivial bound 0 and claims no sum",
+     "response family: analyses and confidence set the per-seat error budget (1 - confidence) / analyses / seats, and a smaller budget never gives a larger bound",
+     "response requests: malformed confidence, analyses, randomStreams and evaluationSeed, and an unknown field, are usage errors before anything is trained",
+     "response flop3-kings-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop3-kings-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop3-kings-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop3-kings-small R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response flop3-kings-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response flop6-jack-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop6-jack-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop6-jack-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop6-jack-small R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response flop6-jack-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response icm8-bb-call-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response icm8-bb-call-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response icm8-bb-call-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response icm8-bb-call-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToTheLinuxBuild": 7,
+    "summaryBoundsIdentical": 7,
+    "parallelSeatsIdentical": 7,
+    "everyStatementHoldsAgainstExactValues": true,
+    "recordedBy": "EightMaxBuild=00600c81455ead44",
+    "seconds": 41.3
+   },
+   "refusedStudy": {
+    "refusedAfterMilliseconds": 5,
+    "refusedStudyFolder": "removed",
+    "foldersLeft": 0,
+    "message": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was t",
+    "ordinaryStudyAfterwardsComplete": true
+   }
+  },
+  "checks510": {
+   "selftest510": {
+    "passed": 21,
+    "failed": 0,
+    "untested": 0,
+    "build": "af452eaa0ea731be",
+    "seconds": 33.0,
+    "checks": [
+     "estimator X1: known-akq-river: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk)",
+     "estimator X2: known-akq-river: the exact expectation of the estimator's increments equals the brute-force target (sampled terminal children, production walk)",
+     "estimator X3: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk)",
+     "estimator X4: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, reference walk)",
+     "estimator X5: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (sampled terminal children, production walk)",
+     "estimator X6: icm8-bb-call-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (ICM, preflop start))",
+     "estimator X7: btn25-open-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (preflop start, chip EV))",
+     "estimator X8: flop6-jack-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (six players))",
+     "training D1: the default trainer writes the states of 5.9 (SHA-256 of the saved state against the hashes recorded from the unchanged 5.9 program; one deal per update and frozen batches on three threads)",
+     "training D2: Detailed hand groups: the 5.10 key cache of the default trainer on and off gives the same state (one deal per update; frozen batches on three threads)",
+     "training R1: rbes: two runs give the same state; with the key cache switched off the same state; a frozen batch gives the same state on 1 and 3 threads and with the 5.6 batch update",
+     "training R2: rbes: stopped after a third and continued = uninterrupted, byte for byte (one deal per update; frozen batches stopped on 2 threads and continued on 3)",
+     "training R3: rbes: the saved states have the SHA-256 recorded from the Linux build of this release (the estimator is deterministic across platforms and compilers of the release)",
+     "training R4: reference fixtures: the exact NashConv of the strategy trained by the default trainer and by rbes after a fixed budget equals the value recorded at release (a regression check of both trainers; the numbers are one seed each and no convergence claim)",
+     "training R5: the trained response (5.8/5.9) of a state trained by rbes runs, and every confidence statement holds against the exact values of the same responses",
+     "training R6: a decision study with estimator=rbes completes and its result names the algorithm",
+     "checkpoint C1: a state continues only under the algorithm that trained it: every cross-algorithm continuation is refused with a reason, exit 1, and writes nothing",
+     "checkpoint C2: an rbes state names its algorithm in the header and carries its own study identifier (an earlier program version refuses it too); a default state has the 5.9 header",
+     "checkpoint C3: a compressed (EMZ1) rbes state restores and continues to the state of the uninterrupted run",
+     "limits L1: configurations the estimator was not validated for (DCFR, regret matching+, own-hand and river enumeration, terminal baseline, Latin deals, no opponent exploration, a batch schedule), an unknown estimator, and estimator options without the estimator are refused before anything is trained",
+     "limits L2: a table budget the rbes table outgrows: training stops at the limit with a valid state of committed updates only, and continuing it with a larger budget reaches the state of the uninterrupted run"
+    ]
+   },
+   "rbesReferenceState": {
+    "spec": "flop3-kings-rbes-batch64.spec.json",
+    "stateSha256": "1f735090f17f55fb18ca1f33430660125286294388d0e1437f50be80c1c8cfb4",
+    "algorithm": "rbes-5.10-v1",
+    "threads": {
+     "1": {
+      "threadsUsed": 1,
+      "wallSeconds": 0.689236,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     },
+     "4": {
+      "threadsUsed": 4,
+      "wallSeconds": 0.565736,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     }
+    }
+   },
+   "exactEstimatorCheck": {
+    "estimator": "rbes-5.10-v1",
+    "walk": "production",
+    "players": 4,
+    "deals": 20,
+    "seatDeals": 80,
+    "traversalOutcomesEnumerated": 19920,
+    "entriesCompared": 60032,
+    "largestDifferenceOverScale": 2.49811e-17,
+    "largestProductionReferenceDifferenceOverScale": 3.04418e-17,
+    "largestOutcomeProbabilityError": 7.57749e-16,
+    "tolerance": 1e-11,
+    "passed": true
+   },
+   "checkpointRules": {
+    "defaultStateRefusedByRbes": true,
+    "rbesStateRefusedByDefault": true,
+    "nothingWritten": true,
+    "continuedEqualsUninterrupted": true,
+    "messageToTheDefault": "fused (status 409): State was trained by an experimental training algorithm (see its \"estimator\" header field) and cannot be continued by the default trainer; open it with the same \"estimator\" setting"
+   }
+  },
+  "checks511": {
+   "selftest511": {
+    "passed": 26,
+    "failed": 0,
+    "untested": 0,
+    "build": "af452eaa0ea731be",
+    "seconds": 22.9,
+    "studyDefaultStreams": "streams-5.11-philox4x64-v1",
+    "checks": [
+     "streams G1: generator: Philox4x64-10 of the training streams reproduces the three known-answer vectors of its reference implementation",
+     "streams G2: generator: the same 256 bits as the 5.9 evaluation generator (a second source text of the function) for 100,000 random counters and keys",
+     "streams G3: generator: the map counter -> block is inverted in both directions (a bijection of the 256-bit counters for a fixed key); the two multipliers are odd and their inverses modulo 2^64 are exact",
+     "streams A1: address: the numbers of stream (purpose, t, d) are the words of Philox(counter = (j, t, d, purpose), key = (seed, domain)), j = 0, 1, 2, ...; each field has a counter word of its own, up to the largest update index",
+     "streams A2: address: every block of a grid of addresses (3 key domains x 3 purposes x 11 update indices around 10,000,000, 2^32 and the largest x 64 deals x 4 groups) is different from every other",
+     "streams N1: numbers: a million numbers of one stream lie in [0, 1) on the 2^-53 grid, with mean and variance within 4.5 standard errors of 1/2 and 1/12",
+     "streams L1: 5.10 generator: a stream without an address draws the numbers of the 32-bit generator of 5.10 (values computed by the JavaScript reference randomStream and by a Python port)",
+     "streams U1: counter audit: every counter a training hands to the generator is recorded; no counter occurs twice, every stream is j = 0, 1, 2, ... without a gap, every counter is a valid address, one card stream per sampled deal (seven configurations)",
+     "streams U2: counter audit for a state that starts at update 4,294,967,303 (above 2^32), trained in two calls of one engine: no counter twice, no gap, every counter a valid address, 1000 card streams, and the largest update index used is 4,294,968,302",
+     "training D1: a spec with \"trainingStreams\":\"5.10\" writes the states of 5.10 and 5.9 (SHA-256 of the saved state against the hashes recorded from the unchanged 5.9 program, which --selftest510 D1 compares with the spec without the key)",
+     "training W1: philox64: two runs give the same state; a frozen batch gives the same state on 1 and 3 threads and with the 5.6 batch update",
+     "training W2: philox64: stopped after a third and continued = uninterrupted, byte for byte (one deal per update; frozen batches stopped on 2 threads and continued on 3)",
+     "training W3: philox64: the saved states have the SHA-256 recorded from the Linux build of this release (the streams and the training are deterministic across platforms and compilers of the release)",
+     "training W4: the information of a philox64 state names the streams, the seed and the update limit; the 5.10 state of the same spec names none and is another state",
+     "training W5: \"trainingSeed\" is a 64-bit seed: seeds 0x100000001, 0x200000001 and 0x1 (equal in their low 32 bits) train three different states, each reproducibly; the spec's actionSeed written as trainingSeed gives the state of the spec without it",
+     "training W6: reference fixtures: the exact NashConv of the strategy trained with philox64 after a fixed budget equals the value recorded at release (a regression check; the numbers are one seed each and no convergence claim)",
+     "training W7: the trained response (5.8/5.9) of a state trained with philox64 runs with counter-based streams of its own key domain, twice to the same bound, and every confidence statement holds against the exact values of the same responses",
+     "training W8: a decision study records the training streams of its variants (run.trainingStreams and every point's trainer object); trainingStreams=5.10 and trainingStreams=philox64 select them",
+     "checkpoint C1: a state continues only under the streams and the seed that trained it: every other continuation is refused with the reason, exit 1, and writes nothing",
+     "checkpoint C2: a philox64 state names its streams and seed in the header, carries no \"rng\" and no \"actionRng\" (earlier program versions require both and refuse the state) and has its own study identifier; a 5.10 state has the 5.10 header",
+     "checkpoint C3: a compressed (EMZ1) philox64 state restores and continues to the state of the uninterrupted run",
+     "limits L1: a 5.10 state keeps the 10,000,000-update limit: 10,000,001 updates are refused before anything is trained (exit 2, no file), 10,000,000 are trained, and that state is not continued by one more update (exit 1, no file)",
+     "limits L2: a philox64 state has no 10,000,000-update limit: 10,000,100 updates are trained, the state is continued to 10,000,200 and equals the uninterrupted run to 10,000,200, whose SHA-256 is the one recorded from the Linux build",
+     "limits L3: update indices above 2^32: a philox64 state that starts at update 4,294,967,303 trains 3000 updates, stopped after 1000 and continued = uninterrupted, and the state has the SHA-256 recorded from the Linux build",
+     "limits L4: refused before anything is trained: an unknown or malformed trainingStreams or trainingSeed, philox64 for an enumerated spec, a philox64 spec that starts after update 0 with a 32-bit generator state, more than 10,000,000 updates with DCFR, more than 140,737,488,355,327 updates",
+     "limits L5: studies: a budget of 10,000,001 deals at one deal per update is accepted with philox64 (the study starts; its time limit ends it) and refused with trainingStreams=5.10 before any training, with the 5.10 message"
+    ]
+   },
+   "philox64ReferenceState": {
+    "spec": "flop3-kings-philox64-batch64.spec.json",
+    "stateSha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+    "algorithm": "streams-5.11-philox4x64-v1",
+    "threads": {
+     "1": {
+      "threadsUsed": 1,
+      "wallSeconds": 0.061538,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     },
+     "4": {
+      "threadsUsed": 4,
+      "wallSeconds": 0.125694,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     }
+    }
+   },
+   "checkpointRules": {
+    "state510RefusedByPhilox64": true,
+    "philox64StateRefusedByThe510Streams": true,
+    "nothingWritten": true,
+    "continuedEqualsUninterrupted": true,
+    "messageToThe510Streams": "fused (status 409): State was trained with the counter-based training streams (see its \"trainingStreams\" header field) and cannot be continued with the 5.10 streams; open it with \"trainingStreams\":\"philox64\" and its seed"
+   },
+   "updateLimit": {
+    "streams510Refuse10000001Updates": true,
+    "philox64Updates": 10000064,
+    "philox64MaxUpdates": 140737488355327,
+    "seconds": 5.6
+   }
+  },
+  "passed": true
+ },
+ "validationStatus": {
+  "release": "5.11",
+  "build": "af452eaa0ea731be",
+  "successorOf": {
+   "release": "5.10",
+   "build": "7fa0e8c16d6c6ade"
+  },
+  "classes": {
+   "1": "independently validated (a proof, an independent implementation, an exact reference, or the unchanged 5.10 program agrees)",
+   "2": "tested on Linux, under Wine, with PowerShell 7 on Linux, or on a hosted Windows runner (not the target PC)",
+   "3": "implemented, awaiting validation on the target PC / an NVIDIA GPU",
+   "4": "unresolved or not established"
+  },
+  "baseline510": {
+   "what": "Verification of the 5.10 baseline before any change (Phase 1 of the plan, first instruction)",
+   "archive": {
+    "file": "release-5.10/EightMax-Windows-5.10.zip",
+    "branch": "claude/vigilant-lamport-ijdx7n",
+    "commit": "2ba2e807208d43da049b9420c8ca699b4a6583e6",
+    "sha256": "532d6a63a898883102d18fdee1b1bc21b969e27c002fcdc0fa63b737533a25d3",
+    "matchesTheIdentityFile": true,
+    "members": 5488
+   },
+   "version": "5.10",
+   "build": "7fa0e8c16d6c6ade",
+   "rebuild": {
+    "developmentMachine": {
+     "host": "Ubuntu 24.04 container, 2 logical processors, 7 GiB, gcc 13.3.0, Node v22.23.5, Python 3.13.18; no MinGW, Wine or PowerShell and no permission to install packages",
+     "linux/eightmax": "ab0314a4c6acb8eb39f1f9c7d05375549c4f8678d9395a151947f9b6bf1004ec",
+     "linux/mwcli": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+     "linux/gpustress": "440b795a0f604aabc39ce584a4542f8c979b27a4ab2af1b25dc6e230cafa824a",
+     "EightMax-Offline.html": "1f38d0fb227ffe6389286bfebeb9f36c55c0216dd973cc603a549611c534bb07",
+     "identicalToTheShippedFiles": true,
+     "note": "the three Linux programs of validation/5.10/linux-bin and the interface, byte for byte"
+    },
+    "hostedRunner": {
+     "workflowRun": 45618606007,
+     "host": "GitHub Actions ubuntu-24.04, g++-mingw-w64-x86-64-posix 13 and libz-mingw-w64-dev from the distribution (the toolchain of BUILD-5.10.md)",
+     "EightMax.exe": "a14af9c64c3cf58db0675093a80caafe337e4a7c902df2707bc9c36dffc0c4a6",
+     "mwcli.exe": "516649c018ead0c8b954c9465959ff0ff34afe178a0c7664e8af0c2e1106ec0c",
+     "gpustress.exe": "f2b21ee14aaa7924084c97127246833b25dc6d36bd4454f891a0cc2fc067c913",
+     "identicalToTheShippedFiles": true,
+     "note": "the three Windows executables of the delivered archive, byte for byte; the Linux programs and the interface as well"
+    }
+   },
+   "regressionSuite": {
+    "where": "development machine, against the rebuilt Linux programs, in the extracted release tree",
+    "tests": 656,
+    "passed": 653,
+    "failed": 2,
+    "skipped": 1,
+    "releaseRecord": "validation/5.10/tests/full-regression.tap: 656 tests, 655 passed, 0 failed, 1 skipped (4 processors)",
+    "failedHere": [
+     {
+      "test": "4.1 response gains: seats run in parallel with results bit-identical for 1, 2 and 4 threads",
+      "reason": "asserts that three seats ran side by side (2 !== 3): the machine has 2 logical processors"
+     },
+     {
+      "test": "5.10 processing modes: rbes beside the CUDA scoring route (simulated driver)",
+      "reason": "a route decision that depends on measured timings chose 'CPU after measuring CUDA' instead of 'Hybrid' while the convergence experiment and a build were running on the same two processors"
+     }
+    ],
+    "note": "both are properties of this machine under load, on the UNMODIFIED 5.10 program; on the hosted 4-processor runner the 5.11 suite passes both (validation/5.11/tests)"
+   },
+   "selfTests": {
+    "where": "development machine, the rebuilt (byte-identical) 5.10 Linux mwcli, in the extracted release tree",
+    "selftest510": "21 passed, 0 failed, 0 untested",
+    "selftest59": "32 passed, 0 failed, 0 untested",
+    "selftest58": "33 passed, 0 failed, 0 untested",
+    "selftest571": "24 passed, 0 failed, 0 untested",
+    "selftest57": "28 passed, 0 failed",
+    "order": "the regression suite of the baseline (which runs these self-tests too) was started before any source file was changed and finished while development was in progress; this direct run of the five self-tests was made afterwards, with the same unmodified binary in the same unmodified tree"
+   },
+   "notVerifiedHere": "nothing was executed on Windows or a GPU for the baseline; the user's own result for 5.10 (220 passed, 0 failed, CUDA included) is the evidence for that"
+  },
+  "items": [
+   {
+    "item": "no two random numbers of a philox64 training state share a generator input (any number of updates)",
+    "class": 1,
+    "evidence": "MATHEMATICAL-VALIDATION-5.11.md section 4 (proof); selftest511 G1-G3, A1, A2; independent/streams511-selfcheck.json"
+   },
+   {
+    "item": "the program addresses its streams as stated (counter audit)",
+    "class": 2,
+    "evidence": "selftest511 U1, U2: 246,176 counters, none twice"
+   },
+   {
+    "item": "the 5.10 streams are untouched (byte-identical states)",
+    "class": 1,
+    "evidence": "selftest510 D1, selftest511 D1 (14 states); identity/summary.json (225 cases, 0 failures); convergence identity arm 544 of 544"
+   },
+   {
+    "item": "philox64 states are reproducible across threads, stops and platforms",
+    "class": 2,
+    "evidence": "selftest511 W1-W3, L2, L3 on Linux, under Wine and on Windows Server 2025"
+   },
+   {
+    "item": "the 10,000,000-update limit is absent for philox64 states and kept for 5.10 states",
+    "class": 2,
+    "evidence": "selftest511 L1-L5"
+   },
+   {
+    "item": "checkpoint rules of the streams; the 5.10 program refuses philox64 states",
+    "class": 2,
+    "evidence": "selftest511 C1-C3; tests/v511.test.js"
+   },
+   {
+    "item": "convergence no worse than 5.10 (rule written first)",
+    "class": 2,
+    "evidence": "convergence/exact/summary.json",
+    "decisive": {
+     "equalTime": {
+      "seeds": 32,
+      "ratioOfGeometricMeans": 1.030303711185819,
+      "interval": [
+       0.9847125371498328,
+       1.0780057095198243
+      ],
+      "level": 0.025,
+      "sdOfLogRatio": 0.1086890105919262,
+      "tCritical": 2.355568282159912,
+      "verdict": "no worse",
+      "noWorseWithinMargin": true,
+      "lowerInSeeds": 13,
+      "higherInSeeds": 19,
+      "kind": "time",
+      "budget": 2.0,
+      "games": 13
+     },
+     "equalDeals": {
+      "seeds": 32,
+      "ratioOfGeometricMeans": 0.9570835794350661,
+      "interval": [
+       0.9209447942608704,
+       0.9946404863055952
+      ],
+      "level": 0.025,
+      "sdOfLogRatio": 0.09243454347307378,
+      "tCritical": 2.355568282159912,
+      "verdict": "better",
+      "noWorseWithinMargin": true,
+      "lowerInSeeds": 21,
+      "higherInSeeds": 11,
+      "kind": "deals",
+      "budget": 500000,
+      "games": 13
+     }
+    },
+    "rule": {
+     "b_identity": true,
+     "c_decisive": [
+      "no worse",
+      "better"
+     ],
+     "c_bothNoWorse": true,
+     "d_guardIntervalsWorse": 0,
+     "guardIntervals": 59,
+     "guardVerdicts": {
+      "better": 0,
+      "no worse": 14,
+      "unresolved": 44,
+      "worse": 0,
+      "identical": 0,
+      "no data": 0
+     },
+     "e_tableLimitReached": {
+      "s510": 0,
+      "p511": 0,
+      "s510b": 0,
+      "p511b": 0
+     },
+     "e_ok": true,
+     "statisticalConditionsMet": true,
+     "outcome": "conditions (b) to (e) met: philox64 is promoted if (a) holds"
+    }
+   },
+   {
+    "item": "regression suite (Linux, hosted 4-processor runner)",
+    "class": 2,
+    "evidence": "tests/",
+    "result": "668 tests: 668 passed, 0 failed, 0 skipped",
+    "failed": []
+   },
+   {
+    "item": "sanitizers",
+    "class": 2,
+    "evidence": "sanitizers/summary.txt",
+    "result": "0 reports"
+   },
+   {
+    "item": "Windows programs under Wine",
+    "class": 2,
+    "evidence": "wine/summary.txt",
+    "result": "all steps exit 0"
+   },
+   {
+    "item": "Windows validation script, PowerShell 7 on Linux",
+    "class": 2,
+    "evidence": "powershell/",
+    "focused": "54 passed, 0 failed, 1 skipped, 0 untested (35.5 s)",
+    "full": "247 passed, 0 failed, 2 skipped, 0 untested (446.9 s)"
+   },
+   {
+    "item": "both launchers on a hosted Windows runner (pre-release tree)",
+    "class": 2,
+    "evidence": "windows-runner/",
+    "focused": "54 passed, 0 failed, 1 skipped, 0 untested (86.2 s)",
+    "full": "247 passed, 0 failed, 2 skipped, 0 untested (683.7 s)"
+   },
+   {
+    "item": "target PC (Windows 11, i7-13700F, 24 threads)",
+    "class": 3,
+    "evidence": "not run"
+   },
+   {
+    "item": "CUDA with philox64 (Hybrid, GPU-Preferred) on the RTX 4060 Ti",
+    "class": 3,
+    "evidence": "not run; no CUDA code changed"
+   },
+   {
+    "item": "statistical quality of the generator beyond its published record",
+    "class": 4,
+    "evidence": "not established"
+   },
+   {
+    "item": "convergence with hand groups, on large games, or beyond 500,000 deals",
+    "class": 4,
+    "evidence": "not established"
+   },
+   {
+    "item": "equal speed: philox64 costs time per deal",
+    "class": 4,
+    "evidence": "PERFORMANCE-5.11.md: +2 to 3% on fixtures (build machine), 0.89 to 1.01 of the deals per second on hosted runners"
+   }
+  ],
+  "selfTestsLinux": {
+   "511": {
+    "passed": 26,
+    "failed": 0,
+    "untested": 0
+   },
+   "510": {
+    "passed": 21,
+    "failed": 0,
+    "untested": 0
+   },
+   "59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0
+   },
+   "58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0
+   },
+   "571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0
+   },
+   "57": {
+    "passed": 28,
+    "failed": 0,
+    "untested": null
+   }
+  },
+  "studyDefaultStreams": "streams-5.11-philox4x64-v1"
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
+df014e8030a9bda9412632e502fad3986266425123984afcdee4ada02027b002  EightMax-Windows-5.11.zip
