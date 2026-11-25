@@ -1,0 +1,9 @@
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/v511-asan-ubsan.tap:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-checkpoint-asan.stderr:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-limits-asan.stderr:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-training-asan.stderr:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest511-asan.stderr:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-checkpoint-asan.stdout:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-limits-asan.stdout:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest510-training-asan.stdout:0
+/home/runner/work/_temp/t/EightMax/validation/5.11/sanitizers/selftest511-asan.stdout:0
