@@ -1,0 +1,9 @@
+ThreadSanitizer warnings: 0
+selftest511 streams (counter audit from three threads) exit 0
+t3: frozen-batch philox64 training on four threads exit 0
+f3c: frozen-batch philox64 training on four threads exit 0
+icm: frozen-batch philox64 training on four threads exit 0
+t3rb: frozen-batch philox64 training on four threads exit 0
+det: frozen-batch philox64 training on four threads exit 0
+w: frozen-batch philox64 training on four threads exit 0
+states of the instrumented program on four threads equal the release program on one thread: 6 of 6
