@@ -1,0 +1,399 @@
+name: Windows build, release and verification
+# 5.7: how the steps of this workflow are classified. A step of the first class that fails, fails the job: no step
+# below carries continue-on-error. Steps that only collect evidence run with "if: always()" so that the reports of a
+# failed run are uploaded too.
+#   Required release gates (deterministic; must pass on every runner)
+#     build of the interface and of the fresh host; test_windows.ps1; native host and multiway tests; the 4.7, 4.8,
+#     4.9 and 5.7 self-tests of mwcli.exe; EMZ1 resume with an unwritable temporary folder; assembly and
+#     verification of the release (build identity, package smoke tests, the regression suite, packaging);
+#     the concurrency stress; parsing of every PowerShell script; mwcli.exe --selftest571 and --selftest58; validate_windows58.ps1
+#     (its gate checks);
+#     the compiler matrix on Linux.
+#   Environment-specific (reported; they do not decide the result)
+#     inside the regression suite: the tests listed in source/tests/load_sensitive.json, which depend on how fast
+#     the desktop host answers under load. One of them that fails is run again alone; it fails the suite only if it
+#     fails again, and is listed as "passed on retry" otherwise. Inside validate_windows58.ps1: checks of class
+#     "environment" and "information" (throughput, thread scaling, whether the host process ends when stopped).
+#     The deny-ACE note of the EMZ1 step (the runner account may not enforce it).
+#   Hardware-dependent (skipped with the reason on a runner; runners have no NVIDIA GPU)
+#     the GPU section of validate_windows58.ps1 and the CUDA paths of validate_hardware.ps1 (its CPU paths are a gate);
+#     tests that need the Linux CUDA driver test double or an archived Linux binary skip themselves and are listed.
+#   Experimental (none gates a release)
+#     the opt-in estimators (river-shared, river-cross) are covered by regression tests of their own arithmetic;
+#     no workflow step depends on their convergence.
+# 5.7.1: validate_windows571.ps1 replaces validate_windows57.ps1 (two of its checks did not test what they said:
+# see the header of the new script), and mwcli.exe --selftest571 (checkpoint integrity and the process memory
+# budget) is a gate of its own.
+# 5.11: mwcli.exe --selftest511 (the counter-based 64-bit training streams: generator, counter audit, recorded states,
+# checkpoint rules, the update limit) is a gate of its own; validate_windows511.ps1 replaces validate_windows510.ps1
+# (the same sections plus "self-test 5.11" and "streams 5.11": one philox64 state for every thread count and
+# processing mode, the state of the Linux build). The 5.10 script passed on physical Windows 11 (220 of 220 checks);
+# the two 5.11 sections were executed before release with PowerShell 7 on Linux and on a hosted Windows runner
+# (VALIDATION-5.11.md), not on a physical Windows PC.
+# 5.10: mwcli.exe --selftest510 (the experimental estimator "rbes" against exact targets, the default trainer against
+# the states of 5.9, checkpoint rules, refused configurations, the table limit) is a gate of its own;
+# validate_windows510.ps1 replaces validate_windows59.ps1 (the same sections plus "self-test 5.10" and "estimator
+# 5.10": one rbes state for every thread count, the state of the Linux build). The 5.9 script passed on physical
+# Windows 11 (192 of 192 checks); the two 5.10 sections were executed before release with PowerShell 7.4 on Linux
+# against the Linux programs (validation/5.10/powershell) but not on Windows: this job is their first run there.
+# 5.9: mwcli.exe --selftest59 (the confidence statements of the trained response, the counter-based evaluation
+# streams, the response summary against exact values, the evaluation walk) is a gate of its own;
+# validate_windows59.ps1 replaces validate_windows58.ps1 (the same sections plus "self-test 5.9", the 5.9 reference
+# responses and "refused study": the desktop host must leave no folder behind when it refuses a study). Unlike its
+# predecessors the 5.9 script was executed before release - with PowerShell 7.4 on Linux against the Linux programs
+# (validation/5.9/powershell) - but not on Windows: this job is its first run there.
+# 5.8: mwcli.exe --selftest58 (trained response against exact values, the large-study limit refused before training,
+# the ICM cache, the evaluation random numbers) is a gate of its own; validate_windows58.ps1 replaces
+# validate_windows571.ps1 (the same sections plus "self-test 5.8" and "trained response": the Linux build's
+# response gains, bit for bit).
+# WHETHER THIS WORKFLOW RAN FOR A RELEASE IS RECORDED IN THAT RELEASE'S VALIDATION DOCUMENT, NOT HERE. It did not
+# run for 5.7 or 5.7.1. validate_windows57.ps1 ran on a physical Windows 11 PC (81 passed, 1 failed: the defective
+# check); the focused 5.7.1 script ran there too (36 passed). The sections of validate_windows58.ps1 written for
+# 5.8 are built from constructs of sections that have run on Windows, but their first run is also a test of them.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    # 4.8: the full regression suite now runs to completion on the runner (4.7 runs stopped at the
+    # harness defect fixed in 4.8), which needs more than 90 minutes.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build the UI
+        run: |
+          node source/tools/build.js build
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          # 3.3: build.sh runs node (fingerprint check); the MSYS2 shell must see the runner's PATH.
+          path-type: inherit
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-zlib python
+      - name: Identify the release toolchain and its dependencies (5.0)
+        shell: msys2 {0}
+        run: |
+          set -e
+          # the release compiler is MSYS2 UCRT64 GCC; later PowerShell steps use it explicitly
+          { echo '{'
+            echo "  \"msystem\": \"$MSYSTEM\","
+            echo "  \"gcc\": \"$(gcc --version | head -1)\","
+            echo "  \"gxx\": \"$(g++ --version | head -1)\","
+            echo "  \"gxxPath\": \"$(cygpath -m "$(command -v g++)")\","
+            echo "  \"binutils\": \"$(ld --version | head -1)\","
+            echo "  \"zlib\": \"$(pacman -Q mingw-w64-ucrt-x86_64-zlib)\","
+            echo "  \"gccPackage\": \"$(pacman -Q mingw-w64-ucrt-x86_64-gcc)\","
+            echo "  \"msys2Runtime\": \"$(pacman -Q msys2-runtime)\","
+            echo "  \"node\": \"$(node --version)\","
+            echo "  \"python\": \"$(python3 --version 2>&1)\""
+            echo '}'; } > windows-toolchain.json
+          cat windows-toolchain.json
+          echo "EM_TEST_CXX=$(cygpath -w "$(command -v g++)")" >> "$GITHUB_ENV"
+          echo "EM_TEST_CC=$(cygpath -w "$(command -v gcc)")" >> "$GITHUB_ENV"
+          cygpath -w /ucrt64/bin >> "$GITHUB_PATH"
+      - name: Build the CUDA driver test double as a Windows DLL (5.0; simulated driver, not a GPU)
+        shell: msys2 {0}
+        run: |
+          mkdir -p build/fixture
+          g++ -std=c++20 -O2 -shared -static -o build/fixture/nvcuda-fixture.dll source/tests/cuda_driver_fixture.cpp
+          echo "EM_TEST_CUDA_FIXTURE=$(cygpath -w "$PWD/build/fixture/nvcuda-fixture.dll")" >> "$GITHUB_ENV"
+      - name: Compile a fresh native host from the current source
+        shell: msys2 {0}
+        run: CC=gcc CXX=g++ sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/fresh"
+      - name: Test the fresh host on Windows
+        shell: powershell
+        run: |
+          ./source/tools/test_windows.ps1 -Exe ./build/fresh/EightMax.exe -Report fresh-windows.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_host.js build/fresh/EightMax.exe build fresh-windows-host.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/test_native_mw.js build/fresh/EightMax.exe fresh-windows-multiway.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: 4.7 and 4.8 feature self-tests on Windows (no PowerShell; recorded JSON reports)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftests'
+          & ./build/fresh/mwcli.exe --selftest47 validation/4.7/fixtures (Join-Path $w 'st47')
+          $c47 = $LASTEXITCODE
+          & ./build/fresh/mwcli.exe --selftest48 validation/4.8/fixtures (Join-Path $w 'st48')
+          $c48 = $LASTEXITCODE
+          & ./build/fresh/mwcli.exe --selftest49 validation/4.9/fixtures (Join-Path $w 'st49')
+          $c49 = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'st49/selftest49.json') windows-selftest49.json -ErrorAction SilentlyContinue
+          Copy-Item (Join-Path $w 'st47/selftest47.json') windows-selftest47.json -ErrorAction SilentlyContinue
+          Copy-Item (Join-Path $w 'st48/selftest48.json') windows-selftest48.json -ErrorAction SilentlyContinue
+          "selftest47 exit $c47; selftest48 exit $c48; selftest49 exit $c49"
+          if ($c47 -or $c48 -or $c49) { exit 1 }
+      - name: 5.7 self-test on Windows (worker pool, deal queue, thread determinism against the 5.6 states, evaluator path tree)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest57'
+          & ./build/fresh/mwcli.exe --selftest57 validation/5.7/fixtures $w
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest57.json') windows-selftest57.json -ErrorAction SilentlyContinue
+          "selftest57 exit $code"
+          if ($code) { exit $code }
+      - name: 5.7.1 self-test on Windows (checkpoint corruption, previous-generation recovery, process memory budget)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest571'
+          & ./build/fresh/mwcli.exe --selftest571 source/studies $w all
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest571.json') windows-selftest571.json -ErrorAction SilentlyContinue
+          "selftest571 exit $code (0: every check passed; 1: a check failed or could not be made)"
+          if ($code) { exit $code }
+      - name: 5.8 self-test on Windows (trained response, large-study limit, ICM cache, evaluation random numbers)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest58'
+          & ./build/fresh/mwcli.exe --selftest58 source/studies $w all
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest58.json') windows-selftest58.json -ErrorAction SilentlyContinue
+          "selftest58 exit $code (0: every check passed; 1: a check failed or could not be made)"
+          if ($code) { exit $code }
+      - name: 5.9 self-test on Windows (confidence statements, evaluation random streams, response summary against exact values)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest59'
+          & ./build/fresh/mwcli.exe --selftest59 source/studies $w all
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest59.json') windows-selftest59.json -ErrorAction SilentlyContinue
+          "selftest59 exit $code (0: every check passed; 1: a check failed or could not be made)"
+          if ($code) { exit $code }
+          if (-not (Test-Path windows-selftest59.json)) { 'selftest59 wrote no report: that is not a pass'; exit 2 }
+      - name: 5.10 self-test on Windows (the experimental estimator against exact targets, both trainers against recorded states, checkpoint rules, limits)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest510'
+          & ./build/fresh/mwcli.exe --selftest510 source/studies $w all
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest510.json') windows-selftest510.json -ErrorAction SilentlyContinue
+          "selftest510 exit $code (0: every check passed; 1: a check failed or could not be made)"
+          if ($code) { exit $code }
+          if (-not (Test-Path windows-selftest510.json)) { 'selftest510 wrote no report: that is not a pass'; exit 2 }
+      - name: 5.11 self-test on Windows (the counter-based training streams: generator, counter audit, recorded states, checkpoint rules, the update limit)
+        shell: powershell
+        run: |
+          $w = Join-Path $env:RUNNER_TEMP 'selftest511'
+          & ./build/fresh/mwcli.exe --selftest511 source/studies $w all
+          $code = $LASTEXITCODE
+          Copy-Item (Join-Path $w 'selftest511.json') windows-selftest511.json -ErrorAction SilentlyContinue
+          "selftest511 exit $code (0: every check passed; 1: a check failed or could not be made)"
+          if ($code) { exit $code }
+          if (-not (Test-Path windows-selftest511.json)) { 'selftest511 wrote no report: that is not a pass'; exit 2 }
+      - name: 4.9 EMZ1 resume with an unwritable temporary folder (the 4.8 field failure)
+        shell: powershell
+        run: |
+          # 4.8 used msvcrt tmpfile() (drive root) and failed on a standard account. Here TMP/TEMP point
+          # to a folder whose write permission is DENIED; 4.9 must fall back to the checkpoint folder.
+          $w = Join-Path $env:RUNNER_TEMP 'emz49'; New-Item -ItemType Directory -Force $w | Out-Null
+          $deny = Join-Path $w 'no write'; New-Item -ItemType Directory -Force $deny | Out-Null
+          icacls $deny /deny "*S-1-1-0:(W,AD,WD)" | Out-Null
+          $spec = (Resolve-Path validation/4.9/fixtures/icm-final8.spec.json).Path; $cli = (Resolve-Path build/fresh/mwcli.exe).Path
+          & $cli $spec 150 4 (Join-Path $w 'a150.state') 512 | Out-Null
+          & $cli --compress (Join-Path $w 'a150.state') (Join-Path $w 'a150.emz') | Out-Null
+          $denied = $false; try { [IO.File]::WriteAllText((Join-Path $deny 'probe.txt'), 'x') } catch { $denied = $true }
+          $old = $env:TMP, $env:TEMP; $env:TMP = $deny; $env:TEMP = $deny
+          & $cli $spec 150 4 (Join-Path $w 'b300.state') 512 (Join-Path $w 'a150.emz') | Out-Null; $code = $LASTEXITCODE
+          $env:TMP, $env:TEMP = $old
+          $hash = if (Test-Path (Join-Path $w 'b300.state')) { (Get-FileHash (Join-Path $w 'b300.state')).Hash.ToLower() } else { 'missing' }
+          $left = @(Get-ChildItem $w -Filter 'EightMax-emz-*' -ErrorAction SilentlyContinue).Count
+          $r = [ordered]@{ tempFolderWriteDenied = $denied; exitCode = $code; sha256 = $hash; golden = 'aa80974199182afa91d5a47166d32af0eb00ecff3ba334593eb5a359cc2e22b8'; leftoverTempFiles = $left }
+          $r | ConvertTo-Json | Set-Content -Encoding utf8 windows-emz-denied-temp.json; $r | ConvertTo-Json
+          if (-not $denied) { Write-Host "note: the deny ACE was not enforced for the runner account; the fallback was exercised only if TMP was unusable" }
+          if ($code -ne 0 -or $hash -ne $r.golden -or $left -ne 0) { exit 1 }
+      - name: Assemble the release around the fresh host
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          New-Item -ItemType Directory -Force $r | Out-Null
+          Copy-Item build/fresh/EightMax.exe "$r/EightMax.exe"
+          Copy-Item build/fresh/mwcli.exe "$r/mwcli.exe"
+          Copy-Item build/fresh/gpustress.exe "$r/gpustress.exe"
+          Copy-Item build/EightMax-Offline.html "$r/EightMax-Offline.html"
+          Copy-Item build/build-info.json "$r/BUILD-INFO.json"
+          Copy-Item RELEASE-5.11.md, RELEASE-5.10.md, RELEASE-5.9.md, RELEASE-5.8.md, RELEASE-5.7.md, RELEASE-5.6.md, RELEASE-5.5.md, RELEASE-5.4.md, RELEASE-5.3.md, RELEASE-5.1.md, RELEASE-5.0.md, RELEASE-4.9.md, RELEASE-4.8.md, RELEASE-4.7.md, RELEASE-4.6.md, RELEASE-4.5.md, RELEASE-4.4.md, RELEASE-4.3.md, RELEASE-4.2.md, RELEASE-4.1.md, RELEASE-4.0.md, RELEASE-3.9.md, RELEASE-3.8.md, RELEASE-3.7.md, RELEASE-3.6.md, RELEASE-3.5.md, RELEASE-3.4.md, RELEASE-3.3.md, RELEASE-3.2.md, RELEASE-3.1.md, RELEASE-3.0.md, RELEASE-2.9.md, RELEASE-2.8.md, RELEASE-2.7.md, ACCURACY-SUMMARY.md, README.txt, CHANGELOG.md, ROADMAP.md, 'Run self-tests.bat', 'Run 4.7 checks.bat', 'Run 4.8 checks.bat', 'Run 4.9 checks.bat', 'GPU self-test.bat', 'Compare processing modes.bat', 'Validate CUDA hardware.bat', 'Run 5.2 study.bat', 'Run 5.7 Windows validation.bat', 'Run 5.8 Windows validation.bat', 'Run 5.8 focused validation.bat', 'Run 5.8 response example.bat', 'Run 5.9 Windows validation.bat', 'Run 5.9 focused validation.bat', 'Run 5.9 response example.bat' $r
+          Copy-Item -Recurse source, validation, studies, .github $r   # 5.2: studies = the openable study fixtures
+          Remove-Item -Recurse -Force "$r/source/build" -ErrorAction SilentlyContinue
+          Copy-Item fresh-windows.json, fresh-windows-host.json, windows-selftest47.json, windows-selftest48.json, windows-selftest49.json, windows-selftest57.json, windows-selftest571.json, windows-selftest58.json, windows-selftest59.json, windows-selftest510.json, windows-selftest511.json, windows-emz-denied-temp.json "$r/validation/"
+      - name: Verify the assembled release
+        shell: powershell
+        run: |
+          $r = 'release/EightMax'
+          & "$r/source/tools/test_devices.ps1"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/verify_build.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/package_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/mtt_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/checkpoint_ui_smoke.js $r
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./source/tools/test_windows.ps1 -Exe "$r/EightMax.exe" -Report "$r/validation/Windows-release-test.json"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node source/tools/accuracy_report.js "$r/validation"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
+          # 4.0: Windows PowerShell turns native stderr into error records, which stopped
+          # this step on the first stderr line (3.9 runs failed here). Use the
+          # repository runner (per-file pass/fail/skip/timeout totals) and keep going.
+          $ErrorActionPreference = 'Continue'
+          # 5.7: this is the one regression run of the workflow and it is a gate. 5.6 ran the suite a second time in a
+          # step with continue-on-error; that step is gone. --limit=1500 is the per-file limit that step used (a hosted
+          # runner is slow), and --retry-load-sensitive runs a failed test of source/tests/load_sensitive.json again,
+          # alone: it fails the run only if it fails twice, and is listed as passed on retry otherwise.
+          node source/tools/run_tests.js "$r/validation/regression-tests.json" --limit=1500 --retry-load-sensitive 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath "$r/validation/regression-tests.txt"
+          $testExit = $LASTEXITCODE
+          $ErrorActionPreference = 'Stop'
+          if ($testExit) { exit $testExit }
+          $sig = Get-AuthenticodeSignature "$r/EightMax.exe"
+          "EightMax.exe Authenticode status: $($sig.Status)" | Out-File -Encoding utf8 "$r/validation/signature.txt"
+          Push-Location $r
+          Get-ChildItem -Recurse -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object {
+            $rel = (Resolve-Path -Relative $_.FullName).Substring(2).Replace('\','/')
+            '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower(), $rel } | Sort-Object { $_.Substring(66) } | Set-Content -Encoding ascii SHA256SUMS.txt
+          Pop-Location
+          $v = (Get-Content source/VERSION -TotalCount 1).Trim()
+          # 5.2: this archive is assembled on the runner from a FRESH build (MSYS2 compiler) plus runner-generated
+          # evidence files, so it is NOT the shipped download: its executables and its entry count differ from the
+          # shipped ZIP (see validation/5.2/release/README.md). release53.py records the identity of what it packs and
+          # smoke-tests the executables from a clean extraction of that exact file.
+          python source/tools/release53.py $r release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Concurrency stress on Windows (4.1; the 4.0 runner saw intermittent startup-test failures)
+        shell: powershell
+        run: |
+          # Every concurrent-startup, cancellation and job test, 5 times in a row on the
+          # fresh Windows host. A failure in any repetition fails the step; no rerun.
+          $env:EM_TEST_HOST = (Resolve-Path build/fresh/EightMax.exe).Path
+          $env:EM_TEST_MWCLI = (Resolve-Path build/fresh/mwcli.exe).Path
+          $ErrorActionPreference = 'Continue'; $failed = 0; $log = @()
+          for ($i = 1; $i -le 5; $i++) {
+            # TAP reporter: the default reporter on a non-terminal prints no "# pass" totals,
+            # which made the first version of this step pass without checking anything.
+            $out = node --test --test-reporter=tap --test-concurrency=1 --test-name-pattern='startup failure|concurrency|desktop jobs|worker start' source/tests/v34.test.js source/tests/v40.test.js source/tests/v41.test.js 2>&1 | ForEach-Object { "$_" }
+            $code = $LASTEXITCODE
+            $pm = $out | Select-String '^# pass (\d+)' | Select-Object -Last 1; $fm = $out | Select-String '^# fail (\d+)' | Select-Object -Last 1; $sm = $out | Select-String '^# skipped (\d+)' | Select-Object -Last 1
+            $pass = if ($pm) { [int]$pm.Matches[0].Groups[1].Value } else { -1 }; $fail = if ($fm) { [int]$fm.Matches[0].Groups[1].Value } else { -1 }; $skip = if ($sm) { [int]$sm.Matches[0].Groups[1].Value } else { -1 }
+            $log += "repetition $i : pass $pass fail $fail skipped $skip exit $code"; Write-Host "repetition $i : pass $pass fail $fail skipped $skip exit $code"
+            # 3 (v34) + 2 (v40) + 4 (v41) tests match the pattern; require all of them to run and pass
+            if ($code -or $fail -ne 0 -or $pass -lt 9 -or $skip -ne 0) { $failed++; $out | Select-String -Pattern 'not ok|error|# Subtest' | ForEach-Object { Write-Host $_ } }
+          }
+          $log | Set-Content -Encoding utf8 windows-concurrency-stress.txt
+          if ($failed) { exit 1 }
+      - name: Parse every PowerShell script (3.3)
+        shell: powershell
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Filter *.ps1 source/tools | ForEach-Object {
+            $e = $null; [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$e) | Out-Null
+            if ($e) { $e | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" }; $bad++ } }
+          if ($bad) { exit 1 }
+      - name: Hardware validation script on the runner (CPU paths; runners have no NVIDIA GPU)
+        shell: powershell
+        run: |
+          ./release/EightMax/source/tools/validate_hardware.ps1 -Exe release/EightMax/mwcli.exe -Report windows-runner-hardware-validation.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      # 5.7: the checks that development could only run on Linux and under Wine, repeated on real Windows (a hosted
+      # virtual machine: reported as such, without a GPU): the 5.7 self-test, golden states, thread determinism,
+      # exact evaluation with small and large caches, a study, interruption / kill / resume, the checkpoint lock, a
+      # memory-budget stop, CPU-only and GPU-Preferred fallback, invalid configurations, and the desktop host.
+      # The script exits 1 when a check of class "gate" failed or could not be made and 2 when the script itself
+      # failed; either fails this step and the job. 5.6 ran its script with continue-on-error; 5.7 does not.
+      # 5.7.1: the white-space check and the memory check that passed without a memory stop are replaced by the
+      # checks of mwcli --selftest571, which the script imports one by one (see the note at the top of this file).
+      # 5.8: validate_windows58.ps1 adds the 5.8 self-test and the reference response gains of the Linux build.
+      # 5.9: validate_windows59.ps1 adds the 5.9 self-test, the 5.9 reference responses and the refused-study check.
+      # 5.10: validate_windows510.ps1 adds the 5.10 self-test and the estimator section (rbes with every thread count).
+      # 5.11: validate_windows511.ps1 adds the 5.11 self-test and the streams section (philox64 with every thread count).
+      - name: 5.11 Windows validation script on the runner (real Windows, no GPU; a gate)
+        shell: powershell
+        run: |
+          ./release/EightMax/source/tools/validate_windows511.ps1 -Root (Resolve-Path release/EightMax).Path -OutDir (Get-Location).Path -SkipIntegrity
+          $code = $LASTEXITCODE
+          if (Test-Path Windows-validation-5.11.json) {
+            $d = Get-Content Windows-validation-5.11.json -Raw | ConvertFrom-Json
+            $lines = @('### EightMax 5.11 Windows validation on the runner', '', '| class | passed | failed | skipped | untested |', '|---|---|---|---|---|')
+            foreach ($class in @('gate', 'environment', 'hardware', 'information')) {
+              $c = @($d.checks | Where-Object { $_.class -eq $class })
+              $lines += ('| ' + $class + ' | ' + @($c | Where-Object { $_.status -eq 'passed' }).Count + ' | ' + @($c | Where-Object { $_.status -eq 'failed' }).Count + ' | ' + @($c | Where-Object { $_.status -eq 'skipped' }).Count + ' | ' + @($c | Where-Object { $_.status -eq 'untested' }).Count + ' |')
+            }
+            $lines += ''; $lines += ('Script ran to its end: ' + $d.scriptCompleted + '. Exit status ' + $code + ' (0: every gate passed; 1: a gate failed or was not reached; 2: the script failed).')
+            foreach ($c in @($d.checks | Where-Object { $_.status -eq 'failed' -or $_.status -eq 'untested' -or $_.status -eq 'skipped' })) { $lines += ('- ' + $c.status + ' (' + $c.class + '): ' + $c.section + ' / ' + $c.name) }
+            $lines | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          } else { 'validate_windows511.ps1 wrote no report' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8; if (-not $code) { $code = 2 } }
+          if ($code) { exit $code }
+      - name: Upload the release and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: EightMax-Windows-release
+          path: |
+            release/EightMax-Windows-*.zip
+            fresh-windows.json
+            fresh-windows-host.json
+            windows-selftest47.json
+            windows-selftest48.json
+            windows-selftest49.json
+            windows-emz-denied-temp.json
+            windows-toolchain.json
+            windows-runner-hardware-validation.json
+            windows-concurrency-stress.txt
+            windows-selftest57.json
+            windows-selftest571.json
+            windows-selftest58.json
+            windows-selftest59.json
+            windows-selftest510.json
+            windows-selftest511.json
+            Windows-validation-5.11.json
+            Windows-validation-5.11.txt
+            release/EightMax/validation/
+  compilers:
+    # 5.0: supported compiler matrix on Linux (the Windows job above uses MSYS2 UCRT64 GCC for the release)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install the toolchain
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zlib1g-dev clang
+      - name: Identify the toolchain
+        run: |
+          if [ "${{ matrix.compiler }}" = clang ]; then echo "CXX=clang++" >> "$GITHUB_ENV"; echo "CC=clang" >> "$GITHUB_ENV"; else echo "CXX=g++" >> "$GITHUB_ENV"; echo "CC=gcc" >> "$GITHUB_ENV"; fi
+          g++ --version | head -1; clang++ --version | head -1; dpkg -s zlib1g-dev | grep Version
+      - name: Build mwcli with ${{ matrix.compiler }} (C++20, -Wall -Wextra)
+        run: |
+          mkdir -p build/${{ matrix.compiler }} && printf '#define EM_VERSION "ci"\n#define EM_BUILD_ID "ci"\n' > build/bi.h
+          $CC -O2 -c source/native/json.c -o build/json.o
+          $CXX -std=c++20 -O2 -Wall -Wextra -ffp-contract=off -Isource/native -include build/bi.h source/native/mw.cpp source/native/mwcli.cpp build/json.o -lpthread -ldl -lz -o build/${{ matrix.compiler }}/mwcli
+          echo "EM_TEST_MWCLI=$PWD/build/${{ matrix.compiler }}/mwcli" >> "$GITHUB_ENV"
+      - name: Compiler, scheduling, route-reuse and checkpoint tests with the ${{ matrix.compiler }} build
+        run: |
+          EM_TEST_CXX=$CXX EM_TEST_CC=$CC node --test --test-reporter=tap source/tests/v49.test.js source/tests/v50.test.js source/tests/v51.test.js source/tests/v52.test.js source/tests/v53.test.js source/tests/v54.test.js source/tests/v55.test.js source/tests/v56.test.js source/tests/v57.test.js source/tests/v571.test.js source/tests/v58.test.js source/tests/v59.test.js source/tests/v510.test.js source/tests/v511.test.js 2>&1 | tee tests-${{ matrix.compiler }}.tap
+          grep -q '^# fail 0' tests-${{ matrix.compiler }}.tap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compiler-${{ matrix.compiler }}
+          path: tests-${{ matrix.compiler }}.tap
