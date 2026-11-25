@@ -1,0 +1,5 @@
+it looks like wine32 is missing, you should install it.
+multiarch needs to be enabled first.  as root, please
+execute "dpkg --add-architecture i386 && apt-get update &&
+apt-get install wine32:i386"
+wine-9.0 (Ubuntu 9.0~repack-4build3)

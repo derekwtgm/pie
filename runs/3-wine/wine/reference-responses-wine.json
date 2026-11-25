@@ -1,0 +1,48 @@
+{
+ "test": "the 5.9 reference responses with the 5.11 mwcli.exe under Wine: the training state, the sampled and exact gains of every seat and the bounds of the summary, bit for bit as the 5.9 Linux build recorded them",
+ "cases": [
+  {
+   "name": "hu-river",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "river3-chip",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "turn4",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "flop6",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "mid3-turn",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "sidepot3-icm",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  },
+  {
+   "name": "bubble4",
+   "stateIdentical": true,
+   "responseBitsIdentical": true,
+   "summaryBoundsIdentical": true
+  }
+ ],
+ "passed": true
+}

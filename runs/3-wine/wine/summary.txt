@@ -1,0 +1,9 @@
+5.9 reference responses exit 0
+selftest510 exit 0
+selftest511 exit 0
+selftest57 exit 0
+selftest571 exit 0
+selftest58 exit 0
+selftest59 exit 0
+streams section (philox64 states for 1, 2, 4 threads against the Linux build) exit 0
+5.11 regression file (self-test, independent implementation, determinism, limits, studies) with mwcli.exe exit 0

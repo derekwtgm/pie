@@ -1,0 +1,28 @@
+PASS card code equals the 5.6 function for every flop in every order, on every street 43758000 comparisons, 0 differences
+PASS worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller) 36000 dispatches, 0 wrong, helpers slept 54307 times, up to 16 threads
+PASS deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals) 8000 updates, 0 wrong
+PASS thread choice settles on the fastest measured count best of 16 with a minimum at 4: 4; threads only cost: 1; perfect scaling of 8: 8; one thread offered: 1
+PASS stage spreading is kept when it is faster and dropped when it is slower spreading twice as fast: spread; spreading 1.5x slower: serial
+PASS flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update fa8206a4a7361edf5060b73afa94c33d147c5f486d2ddc4c987368d70667138e
+PASS flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted fa8206a4a7361edf5060b73afa94c33d147c5f486d2ddc4c987368d70667138e
+PASS flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update 49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af
+PASS flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted 49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af
+PASS flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update 6567d4c9989bfd82084add143f82be1ece974955219176aa567f9e2b3e235b31
+PASS flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted 6567d4c9989bfd82084add143f82be1ece974955219176aa567f9e2b3e235b31
+PASS icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update 567e3d8492deaff9101eeb842e3627d01cf5c902850d253b8bb7fbd6d941b9d4
+PASS icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted 567e3d8492deaff9101eeb842e3627d01cf5c902850d253b8bb7fbd6d941b9d4
+PASS btn25-open-small-sampled: the trained state is the state of the 5.6 binary 113fc8dad84d2fd82f9e1c770ac21f0c79279a9364fece4e4a649bd82e7967da
+PASS btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded) 2943 characters compared
+PASS btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative) 3 values, all equal
+PASS flop3-kings-sampled: the trained state is the state of the 5.6 binary 779b30093e96048e65dfe5a75e85ab1d193d0920236516a5ccb782c0536c7e3f
+PASS flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded) 3010 characters compared
+PASS flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative) 3 values, all equal
+PASS icm8-bb-call-sampled: the trained state is the state of the 5.6 binary 49e5145f1a155984f8976d5cb61ccdbcaff4a9b495c53e194fc61673c0cb260a
+PASS icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded) 2962 characters compared
+PASS icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative) 3 values, all equal
+PASS flop6-jack-small-exact: the trained state is the state of the 5.6 binary 5af0d16d563145bfc56212c628dbd6a016d831e8adebe761791efe2eb42354da
+PASS flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded) 2134 characters compared
+PASS flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative) 6 values, all equal
+PASS icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary c8e7b185e313525150b048fa63d2609c9b60ae1eabe9733b986da992764d1391
+PASS icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded) 1119 characters compared
+PASS icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative) 3 values, all equal
