@@ -1,0 +1,34 @@
+name: EightMax cross-build (Linux to Windows) with the release toolchain
+# Builds the Windows programs with the toolchain BUILD-5.10.md names (Ubuntu 24.04, g++-mingw-w64-x86-64-posix 13,
+# static zlib) from either the delivered 5.10 archive (baseline check) or the source tree in work/ of this branch.
+on:
+  push:
+    branches: ['claude/eightmax-5.11-crossbuild']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cross:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-mingw-w64-x86-64-posix libz-mingw-w64-dev libssl-dev zlib1g-dev
+          dpkg -l | grep -E 'mingw|libz-mingw' | tee toolchain.txt
+          x86_64-w64-mingw32-g++-posix --version | head -1 | tee -a toolchain.txt
+          gcc --version | head -1 | tee -a toolchain.txt; node --version | tee -a toolchain.txt; python3 --version | tee -a toolchain.txt
+      - name: Build
+        run: bash ci/crossbuild.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: crossbuild
+          path: out/
+          retention-days: 14
