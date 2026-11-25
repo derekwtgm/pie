@@ -1,0 +1,5838 @@
+{
+ "archive": "EightMax-Windows-5.10.zip",
+ "archiveBytes": 100725734,
+ "archiveSha256": "532d6a63a898883102d18fdee1b1bc21b969e27c002fcdc0fa63b737533a25d3",
+ "version": "5.10",
+ "build": "7fa0e8c16d6c6ade",
+ "sourceFingerprint": "7fa0e8c16d6c6ade",
+ "sourceFingerprintNote": "the build identifier is the first 16 hex digits of the SHA-256 over source/VERSION and every file of source/native, web, wasm, tools, tests, studies and the CI workflow (405 files); verify_build.js recomputed it from the extracted source and found it in the three executables and the interface",
+ "manifestEntries": 5487,
+ "archiveMembers": 5488,
+ "manifestVerifiedInExtractedCopy": true,
+ "manifestSha256": "098a86186f6e1db77a5724d3ee3cbbdc6e702509799149c1d82a63e3eaf2817d",
+ "executables": {
+  "EightMax.exe": {
+   "bytes": 5122560,
+   "sha256": "a14af9c64c3cf58db0675093a80caafe337e4a7c902df2707bc9c36dffc0c4a6"
+  },
+  "mwcli.exe": {
+   "bytes": 3466240,
+   "sha256": "516649c018ead0c8b954c9465959ff0ff34afe178a0c7664e8af0c2e1106ec0c"
+  },
+  "gpustress.exe": {
+   "bytes": 2452992,
+   "sha256": "f2b21ee14aaa7924084c97127246833b25dc6d36bd4454f891a0cc2fc067c913"
+  }
+ },
+ "interfaceSha256": "1f38d0fb227ffe6389286bfebeb9f36c55c0216dd973cc603a549611c534bb07",
+ "studyFixtures": [
+  "btn25-open-small.emfix.json",
+  "btn25-open.emfix.json",
+  "flop3-kings-detailed.emfix.json",
+  "flop3-kings-small.emfix.json",
+  "flop3-kings.emfix.json",
+  "flop6-jack-small.emfix.json",
+  "flop6-jack.emfix.json",
+  "icm8-bb-call-small.emfix.json",
+  "icm8-bb-call.emfix.json",
+  "known-akq-river.emfix.json"
+ ],
+ "smokeTest": {
+  "ran": true,
+  "how": "Windows executables under Wine",
+  "windowsExecution": true,
+  "buildIds": {
+   "mwcli.exe": "EightMaxBuild=7fa0e8c16d6c6ade",
+   "EightMax.exe": "EightMaxBuild=7fa0e8c16d6c6ade",
+   "gpustress.exe": "usage printed, exit 2"
+  },
+  "studyKnownGame": {
+   "build": "7fa0e8c16d6c6ade",
+   "callFrequency": 0.5007567480400393,
+   "evGapBB": 0.004740629217670914,
+   "verdict": "unresolved",
+   "closedForm": "call 1/2, EV gap 0"
+  },
+  "selftest49": {
+   "passed": 15,
+   "failed": 0,
+   "build": "7fa0e8c16d6c6ade"
+  },
+  "host": {
+   "build": "7fa0e8c16d6c6ade",
+   "version": "5.10",
+   "studyApi": 1,
+   "studyCheckpoints": 1,
+   "studyTabServed": true,
+   "recoveryPanelInPage": true,
+   "savedStudyListAnswered": true
+  },
+  "studyResume": {
+   "interruptedByTimeLimit": true,
+   "pointsBeforeResume": 2,
+   "resumedEqualsUninterrupted": true,
+   "canonicalSha256": "b5745fff1a234c5b0900826b845ef215a4bed324fb19297d37475feb14861aab",
+   "existingCheckpointRefusedWithoutResume": true,
+   "calculationVersion": "study-5.5-bounded-eb-v1",
+   "evaluationCalibrated": true,
+   "verdict": "unresolved",
+   "engineStateWrites": 2
+  },
+  "checks56": {
+   "goldenStatesIdenticalTo55": {
+    "checked": 11,
+    "identical": 11,
+    "seconds": 28.4
+   },
+   "experimentalEstimators": {
+    "riverSharedVisitsPerDeal": 21.0,
+    "riverVisitsPerDeal": 42.0,
+    "candidatesCoincideOnRiverGame": true,
+    "stateOfAnotherTrainerRefused": true
+   },
+   "exactEvaluation": {
+    "g04-bubble4": {
+     "nashConv": 0.5771548281111227,
+     "seconds32MiB": 3.5,
+     "seconds1024MiB": 3.23,
+     "seconds55Paths1024MiB": 3.27,
+     "relativeDifferenceFrom55Paths": 0.0
+    },
+    "g05-flop6": {
+     "nashConv": 0.8339057825399248,
+     "seconds32MiB": 2.58,
+     "seconds1024MiB": 2.55,
+     "seconds55Paths1024MiB": 4.17,
+     "relativeDifferenceFrom55Paths": 5.325412284556268e-16
+    }
+   },
+   "replication": {
+    "trainings": 3,
+    "minimumTrainings": 8,
+    "verdict": "trainingsDisagree",
+    "bestActionDeclared": false,
+    "warnings": [
+     "trainingsDisagree",
+     "insufficientReplication",
+     "rareTrainingFailuresNotExcluded"
+    ]
+   },
+   "checkpointLock": {
+    "secondProcessRefusedWhileFirstRuns": true,
+    "firstProcessKilled": true,
+    "resumedEqualsUninterrupted": true,
+    "lockFileRemoved": true
+   }
+  },
+  "checks57": {
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 41.5,
+    "checks": [
+     "card code equals the 5.6 function for every flop in every order, on every street",
+     "worker pool: each participant runs exactly once per dispatch (1 to 16 threads, changing participants, sleeping helpers, an exception on the caller)",
+     "deal queue: every deal of an update is handed out exactly once (1 to 8 threads, 1 to 64 deals)",
+     "thread choice settles on the fastest measured count",
+     "stage spreading is kept when it is faster and dropped when it is slower",
+     "flop5-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop5-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-compact-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-compact-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "flop3-kings-detailed-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "flop3-kings-detailed-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "icm8-bb-call-batch64: the state of the 5.6 binary for 1, 2, 4 and 8 threads, the measured choice and the 5.6 update",
+     "icm8-bb-call-batch64: stopped after a third (2 threads) and continued (4 threads) = uninterrupted",
+     "btn25-open-small-sampled: the trained state is the state of the 5.6 binary",
+     "btn25-open-small-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "btn25-open-small-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop3-kings-sampled: the trained state is the state of the 5.6 binary",
+     "flop3-kings-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "flop3-kings-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-sampled: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-sampled: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-sampled: values agree with the 5.6 binary to 1e-12 (relative)",
+     "flop6-jack-small-exact: the trained state is the state of the 5.6 binary",
+     "flop6-jack-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "flop6-jack-small-exact: values agree with the 5.6 binary to 1e-12 (relative)",
+     "icm8-bb-call-small-exact: the trained state is the state of the 5.6 binary",
+     "icm8-bb-call-small-exact: the same seats and summary with and without the path tree (timings excluded)",
+     "icm8-bb-call-small-exact: values agree with the 5.6 binary to 1e-12 (relative)"
+    ]
+   },
+   "frozenBatchThreads": {
+    "1": {
+     "threadsUsed": 1,
+     "wallSeconds": 0.125568,
+     "identicalToThe56State": true
+    },
+    "4": {
+     "threadsUsed": 4,
+     "wallSeconds": 0.151129,
+     "identicalToThe56State": true
+    }
+   },
+   "cpuFallback": {
+    "modes": [
+     "auto",
+     "cpu",
+     "gpu",
+     "hybrid"
+    ],
+    "allOnTheCpu": true,
+    "sameMeasurementsAsCpuOnly": true,
+    "measurementPointsCompared": 16,
+    "trainingDevicePath": "CPU (external sampling traversal; small batch or CPU scoring)"
+   },
+   "invalidConfigurations": {
+    "invalidSpec": {
+     "exit": 1,
+     "message": "error: Native engine needs 2 to 8 seats"
+    },
+    "unreadableSpec": {
+     "exit": 2
+    },
+    "unknownStudyOption": {
+     "exit": 2,
+     "message": "error: unknown option 'nonsense'"
+    },
+    "invalidStudyOptionValue": {
+     "exit": 1,
+     "message": "error 400: study options: seeds must be a count from 1 to 64 or an explicit list"
+    },
+    "selftestWithoutArguments": {
+     "exit": 2
+    }
+   }
+  },
+  "checks571": {
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "platform": "windows",
+    "seconds": 55.2,
+    "checks": [
+     "checkpoint P: an untouched copy of the checkpoint resumes (positive control)",
+     "checkpoint A: white space changed in both manifests, no value changed: accepted, identical result",
+     "checkpoint B1: a recorded value altered in manifest.json without updating its checksum: detected, the previous manifest used",
+     "checkpoint B2: the same alteration in both manifests: refused, nothing written or changed",
+     "checkpoint C1: the stored checksum of manifest.json altered, its data untouched: detected, the previous manifest used",
+     "checkpoint C2: the stored checksum altered in both manifests: refused, nothing written or changed",
+     "checkpoint D1: one byte of an engine state flipped: the state is discarded by its SHA-256 and the result is unchanged",
+     "checkpoint D2: an engine state truncated to half: the state is discarded by its length and SHA-256 and the result is unchanged",
+     "checkpoint E1: two committed generations, the newest manifest destroyed: the verified previous generation is used",
+     "checkpoint E2: a process killed during the first commit after such a recovery leaves the previous generation intact and resumable",
+     "checkpoint F1: the engine states named by the manifest removed: not treated as present, the seeds retrained",
+     "checkpoint F2: manifest.json removed: the previous manifest is used",
+     "checkpoint F3: both manifests removed, state files left: no checkpoint is assumed and no orphaned state is read",
+     "checkpoint S: the source checkpoint was not modified by any of these checks",
+     "memory E: control: with the automatic budget the same study completes and reports no memory stop",
+     "memory A: a 48 MiB process budget is reached: the study is stopped by it, incomplete and resumable, with a usable checkpoint",
+     "memory B: resumed with the automatic budget: saved work is kept, the study finishes with the measurements of the control",
+     "memory C: memory accounting in the result document and the checkpoint",
+     "memory D1: process budgets outside the supported range are refused and write nothing",
+     "memory D2: a budget below what the process needs before any training stops at once, keeps a valid checkpoint and resumes",
+     "controls N1: a successful resume (exit 0) is not accepted as a refusal",
+     "controls N2: an untouched resume is not accepted as a detection of damage",
+     "controls N3: a resume that needed the previous manifest is not accepted as an intact checkpoint",
+     "controls N4: a study that completed normally is not accepted as a memory stop"
+    ]
+   },
+   "whiteSpaceAccepted": true,
+   "alteredDataFallsBackToThePreviousGeneration": true,
+   "bothManifestsDamagedRefusedWithExit": 5,
+   "previousGenerationKeptIntactByAKilledFirstCommit": true,
+   "memoryStop": {
+    "stoppedByProcessMemory": true,
+    "budgetMiB": 48,
+    "peakRssMiB": 49.0546875,
+    "stoppedPoint": "seed 5211: 12240 of 60000 deals",
+    "resumedEqualsControl": true,
+    "controlStoppedByProcessMemory": false
+   },
+   "failureReporting": {
+    "withEverySaveFailing": {
+     "exit": 1,
+     "passed": 0,
+     "failed": 0,
+     "untested": 17
+    }
+   }
+  },
+  "checks58": {
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 93.8,
+    "checks": [
+     "engine E1: evaluation random numbers: SplitMix64 reproduces its published outputs; values lie in [0, 1)",
+     "engine E2: evaluation random numbers: every (seed, seat, block, purpose) has its own stream",
+     "engine E3: ICM: cached prize equities equal the recursion bit for bit (hits, fills and evictions; 2 to 8 seats)",
+     "engine E4: ICM: three-player prize equities equal the finishing-order formula written out",
+     "response life-cycle: a response problem is opened once, finished once, and evaluated only when finished; malformed requests are refused",
+     "response known-akq-river R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response known-akq-river R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response known-akq-river R3: direction: exact gain of the response <= exact best-response gain",
+     "response known-akq-river R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response known-akq-river R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response known-akq-river R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop3-kings-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop3-kings-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop3-kings-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop3-kings-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop3-kings-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop3-kings-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response flop6-jack-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response flop6-jack-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response flop6-jack-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response flop6-jack-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response flop6-jack-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response flop6-jack-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "response icm8-bb-call-small R1: sigma is preserved in the response state (values of policy \"current\" equal the trained state's)",
+     "response icm8-bb-call-small R2: the other seats are frozen (the same best-response value in both profiles of the response state)",
+     "response icm8-bb-call-small R3: direction: exact gain of the response <= exact best-response gain",
+     "response icm8-bb-call-small R4: the estimate from independent deals contains the exact gain in its distribution-free interval",
+     "response icm8-bb-call-small R5: the estimate has the same bits for 1 and 3 evaluation threads",
+     "response icm8-bb-call-small R6: a second run from a fresh load gives the same bits (response training and evaluation)",
+     "limits L1: a budget of 10,000,001 deals (one deal per update) is refused when the study is configured, before any training",
+     "limits L2: with 64 deals per update the limit is 640,000,000 deals: 640,000,001 is refused at once",
+     "limits L3: the largest supported budgets (10,000,000 deals; 640,000,000 at 64 deals per update) are accepted",
+     "limits L4: the command-line trainer refuses 10,000,001 updates before it reads its input"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToThe58LinuxBuildWithThe58Streams": 7,
+    "recordedBy": "EightMaxBuild=d4001e2c0cd77f41",
+    "seconds": 47.4
+   },
+   "overLimitBudget": {
+    "exit": 1,
+    "seconds": 2.53,
+    "resultWritten": false,
+    "checkpointCreated": false,
+    "message": "error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports "
+   }
+  },
+  "checks59": {
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 107.9,
+    "checks": [
+     "engine E1: evaluation random numbers: Philox4x64-10 reproduces the three known-answer vectors of its reference implementation",
+     "engine E2: evaluation random numbers: Philox4x64-10 is inverted round by round (a bijection of the counter for a fixed key)",
+     "engine E3: evaluation random numbers: one stream per (seat, block, purpose), a pure function of its address; values lie in [0, 1)",
+     "statistics S1: one-sided empirical-Bernstein half-width and standard-deviation bound equal the independent implementation's numbers",
+     "statistics S2: two-point distributions, exact binomial sums: the distribution-free bound never exceeds the true mean more often than its level",
+     "statistics S3: the same sums show why the 5.8 normal-approximation bound is not a confidence statement: with a rare small value it exceeds the true mean most of the time",
+     "statistics S4: simultaneous statement: reference numbers, error budget alpha / seats, floor at 0, a seat without evaluation, more analyses, a sample outside the proven range",
+     "statistics S5: pooled statement over independent seats: reference numbers, the best subset leaves out the seat whose response loses, a seat without evaluation, one seat alone",
+     "statistics S6: order: no bound exceeds the estimate it bounds; four times the samples or twice the error budget never loosen a bound; more analyses never tighten it",
+     "response known-akq-river R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response known-akq-river R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response known-akq-river R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response known-akq-river R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response known-akq-river R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response known-akq-river R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response incomplete: an evaluation that cannot finish in its time limit is unavailable, never shortened; the summary keeps the trivial bound 0 and claims no sum",
+     "response family: analyses and confidence set the per-seat error budget (1 - confidence) / analyses / seats, and a smaller budget never gives a larger bound",
+     "response requests: malformed confidence, analyses, randomStreams and evaluationSeed, and an unknown field, are usage errors before anything is trained",
+     "response flop3-kings-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop3-kings-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop3-kings-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop3-kings-small R4: another evaluation seed evaluates the SAME response (exact gain bit for bit) on other deals, and its statements hold as well",
+     "response flop3-kings-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response flop6-jack-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response flop6-jack-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response flop6-jack-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response flop6-jack-small R5: {\"randomStreams\":\"5.8\"} reproduces the sampled gains the 5.8 program printed, bit for bit; the 5.9 streams draw other numbers",
+     "response flop6-jack-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit",
+     "response icm8-bb-call-small R1: every confidence statement holds against the exact values of the same responses (per seat, simultaneous, pooled; NashConv bounds against exact NashConv)",
+     "response icm8-bb-call-small R2: the 5.8 field keeps its value under both names; the bounds follow from the printed per-seat statistics; every seat was given alpha / seats",
+     "response icm8-bb-call-small R3: the same bits with 3 threads and 2 seats side by side (estimates, variances and every bound of the summary)",
+     "response icm8-bb-call-small R6: the 5.8 walk and the 5.9 walk (without its offset index, with it, with look-ahead, default) print the same estimates, variances and visit counts, bit for bit"
+    ]
+   },
+   "referenceResponses": {
+    "checked": 7,
+    "identicalToTheLinuxBuild": 7,
+    "summaryBoundsIdentical": 7,
+    "parallelSeatsIdentical": 7,
+    "everyStatementHoldsAgainstExactValues": true,
+    "recordedBy": "EightMaxBuild=00600c81455ead44",
+    "seconds": 74.0
+   },
+   "refusedStudy": {
+    "refusedAfterMilliseconds": 8,
+    "refusedStudyFolder": "removed",
+    "foldersLeft": 0,
+    "message": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was t",
+    "ordinaryStudyAfterwardsComplete": true
+   }
+  },
+  "checks510": {
+   "selftest510": {
+    "passed": 21,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 53.1,
+    "checks": [
+     "estimator X1: known-akq-river: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk)",
+     "estimator X2: known-akq-river: the exact expectation of the estimator's increments equals the brute-force target (sampled terminal children, production walk)",
+     "estimator X3: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk)",
+     "estimator X4: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, reference walk)",
+     "estimator X5: flop3-kings-small: the exact expectation of the estimator's increments equals the brute-force target (sampled terminal children, production walk)",
+     "estimator X6: icm8-bb-call-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (ICM, preflop start))",
+     "estimator X7: btn25-open-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (preflop start, chip EV))",
+     "estimator X8: flop6-jack-small: the exact expectation of the estimator's increments equals the brute-force target (exact terminal children, production walk (six players))",
+     "training D1: the default trainer writes the states of 5.9 (SHA-256 of the saved state against the hashes recorded from the unchanged 5.9 program; one deal per update and frozen batches on three threads)",
+     "training D2: Detailed hand groups: the 5.10 key cache of the default trainer on and off gives the same state (one deal per update; frozen batches on three threads)",
+     "training R1: rbes: two runs give the same state; with the key cache switched off the same state; a frozen batch gives the same state on 1 and 3 threads and with the 5.6 batch update",
+     "training R2: rbes: stopped after a third and continued = uninterrupted, byte for byte (one deal per update; frozen batches stopped on 2 threads and continued on 3)",
+     "training R3: rbes: the saved states have the SHA-256 recorded from the Linux build of this release (the estimator is deterministic across platforms and compilers of the release)",
+     "training R4: reference fixtures: the exact NashConv of the strategy trained by the default trainer and by rbes after a fixed budget equals the value recorded at release (a regression check of both trainers; the numbers are one seed each and no convergence claim)",
+     "training R5: the trained response (5.8/5.9) of a state trained by rbes runs, and every confidence statement holds against the exact values of the same responses",
+     "training R6: a decision study with estimator=rbes completes and its result names the algorithm",
+     "checkpoint C1: a state continues only under the algorithm that trained it: every cross-algorithm continuation is refused with a reason, exit 1, and writes nothing",
+     "checkpoint C2: an rbes state names its algorithm in the header and carries its own study identifier (an earlier program version refuses it too); a default state has the 5.9 header",
+     "checkpoint C3: a compressed (EMZ1) rbes state restores and continues to the state of the uninterrupted run",
+     "limits L1: configurations the estimator was not validated for (DCFR, regret matching+, own-hand and river enumeration, terminal baseline, Latin deals, no opponent exploration, a batch schedule), an unknown estimator, and estimator options without the estimator are refused before anything is trained",
+     "limits L2: a table budget the rbes table outgrows: training stops at the limit with a valid state of committed updates only, and continuing it with a larger budget reaches the state of the uninterrupted run"
+    ]
+   },
+   "rbesReferenceState": {
+    "spec": "flop3-kings-rbes-batch64.spec.json",
+    "stateSha256": "1f735090f17f55fb18ca1f33430660125286294388d0e1437f50be80c1c8cfb4",
+    "algorithm": "rbes-5.10-v1",
+    "threads": {
+     "1": {
+      "threadsUsed": 1,
+      "wallSeconds": 1.177744,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     },
+     "4": {
+      "threadsUsed": 4,
+      "wallSeconds": 1.033324,
+      "identicalToTheLinuxReferenceState": true,
+      "sampledDeals": 7680
+     }
+    }
+   },
+   "exactEstimatorCheck": {
+    "estimator": "rbes-5.10-v1",
+    "walk": "production",
+    "players": 4,
+    "deals": 20,
+    "seatDeals": 80,
+    "traversalOutcomesEnumerated": 19920,
+    "entriesCompared": 60032,
+    "largestDifferenceOverScale": 2.49811e-17,
+    "largestProductionReferenceDifferenceOverScale": 3.04418e-17,
+    "largestOutcomeProbabilityError": 7.57749e-16,
+    "tolerance": 1e-11,
+    "passed": true
+   },
+   "checkpointRules": {
+    "defaultStateRefusedByRbes": true,
+    "rbesStateRefusedByDefault": true,
+    "nothingWritten": true,
+    "continuedEqualsUninterrupted": true,
+    "messageToTheDefault": "fused (status 409): State was trained by an experimental training algorithm (see its \"estimator\" header field) and cannot be continued by the default trainer; open it with the same \"estimator\" setting"
+   }
+  },
+  "passed": true
+ },
+ "validationStatus": {
+  "release": "5.10",
+  "build": "7fa0e8c16d6c6ade",
+  "successorOf": {
+   "release": "5.9",
+   "build": "00600c81455ead44"
+  },
+  "classes": {
+   "1": "independently mathematically validated (a proof, an exhaustive enumeration, an independent implementation, an exact reference, or the unchanged 5.9 binary agrees)",
+   "2": "tested on Linux, under Wine or by simulation (the project's own tests; the Windows programs under Wine)",
+   "3": "implemented, awaiting physical Windows / GPU validation (never executed on Windows hardware or an NVIDIA GPU)",
+   "4": "unresolved or not established"
+  },
+  "baseline59": {
+   "verified": true,
+   "archive": {
+    "file": "EightMax-Windows-5.9.zip",
+    "bytes": 101780491,
+    "sha256": "c014d67bb904f875aacfd80cea278a78c8e8ce55966fab36e1a165a09b822633",
+    "matchesTheExpectedSha256": true,
+    "matchesTheIdentityFile": true,
+    "crcTestOfEveryMember": "passed (Python zipfile.testzip)",
+    "members": 5108
+   },
+   "manifest": {
+    "entries": 5107,
+    "expectedEntries": 5107,
+    "everyListedFileMatches": true,
+    "nothingUnlistedInTheExtraction": true,
+    "sha256": "9630eadb0e7d2f189a4f165ca62d7aecfd0937cd4b0eabebdff574f317e640ba",
+    "matchesTheIdentityFile": true
+   },
+   "identity": {
+    "version": "5.9",
+    "build": "00600c81455ead44",
+    "versionAndBuildAsExpected": true,
+    "buildIdEmbeddedInExecutables": {
+     "EightMax.exe": "EightMaxBuild=00600c81455ead44",
+     "mwcli.exe": "EightMaxBuild=00600c81455ead44",
+     "gpustress.exe": "EightMaxBuild=00600c81455ead44"
+    },
+    "executablesMatchTheIdentityFile": true
+   },
+   "everyRebuiltArtifactByteIdentical": true,
+   "physicalWindowsValidationOf59": {
+    "folder": "validation/5.10/baseline/windows-5.9-physical",
+    "note": "Evidence for the 5.9 programs (build 00600c81455ead44) on the target PC. It is NOT evidence for the 5.10 programs.",
+    "focused": {
+     "build": "00600c81455ead44",
+     "physicalWindows": true,
+     "scriptCompleted": true,
+     "summary": {
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0,
+      "untested": 0,
+      "gateFailed": 0,
+      "gateUntested": 0,
+      "environmentFailed": 0,
+      "hardwareFailed": 0,
+      "allGatesPassed": true
+     },
+     "machine": {
+      "cpu": "13th Gen Intel(R) Core(TM) i7-13700F",
+      "logicalProcessors": 24,
+      "ramGiB": 15.8
+     }
+    }
+   }
+  },
+  "regressionLinux": {
+   "tests": 656,
+   "passed": 655,
+   "failed": 0,
+   "skipped": 1,
+   "failedTests": [],
+   "skippedTests": [
+    "4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)"
+   ]
+  },
+  "selftest510Linux": {
+   "passed": 21,
+   "failed": 0,
+   "untested": 0,
+   "build": "7fa0e8c16d6c6ade",
+   "seconds": 43.531002529,
+   "checks": 21,
+   "notPassed": []
+  },
+  "selftest59Linux": {
+   "passed": 32,
+   "failed": 0,
+   "untested": 0,
+   "build": "7fa0e8c16d6c6ade",
+   "seconds": 124.426036801,
+   "checks": 32,
+   "notPassed": []
+  },
+  "selftest58Linux": {
+   "passed": 33,
+   "failed": 0,
+   "untested": 0,
+   "build": "7fa0e8c16d6c6ade",
+   "seconds": 81.657198493,
+   "checks": 33,
+   "notPassed": []
+  },
+  "selftest571Linux": {
+   "passed": 24,
+   "failed": 0,
+   "untested": 0,
+   "build": "7fa0e8c16d6c6ade",
+   "seconds": 39.618572624,
+   "checks": 24,
+   "notPassed": []
+  },
+  "selftest57Linux": {
+   "passed": 28,
+   "failed": 0,
+   "untested": null,
+   "build": "7fa0e8c16d6c6ade",
+   "seconds": 33.375543374,
+   "checks": 28,
+   "notPassed": []
+  },
+  "runFinalSteps": [
+   "build EightMaxBuild=7fa0e8c16d6c6ade 2026-11-25T04:20:13Z",
+   "selftest510 (Linux) exit 0",
+   "selftest59 (Linux) exit 0",
+   "selftest58 (Linux) exit 0",
+   "selftest571 (Linux) exit 0",
+   "selftest57 (Linux) exit 0",
+   "independent statistics (5.9) selfcheck exit 0",
+   "desktop host, refused studies exit 0",
+   "interface in a browser exit 0",
+   "stability (3 minutes) exit 0",
+   "identity against 5.9 exit 0",
+   "flop3-kings-detailed batch64-2MiB identical",
+   "flop3-kings-detailed batch8-1MiB identical",
+   "{\"cases\": 225, \"failures\": 0, \"trainingRuns\": 1782, \"seconds\": 1565.0, \"baselineSha256\": \"782c349362602c6dcc5bad6aa27bc4b2f720c0ac4333e1d546be9a1087b4822c\", \"currentSha256\": \"992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183\", \"deals\": 24000}",
+   "== done 04:54:51"
+  ],
+  "estimator": {
+   "build": "EightMaxBuild=7fa0e8c16d6c6ade",
+   "passed": 65,
+   "failed": 0,
+   "byKind": {
+    "conditional": {
+     "passed": 28,
+     "failed": 0,
+     "notPassed": []
+    },
+    "total": {
+     "passed": 11,
+     "failed": 0,
+     "notPassed": []
+    },
+    "sampler": {
+     "passed": 1,
+     "failed": 0,
+     "notPassed": []
+    },
+    "variance": {
+     "passed": 13,
+     "failed": 0,
+     "notPassed": []
+    },
+    "cross47": {
+     "passed": 12,
+     "failed": 0,
+     "notPassed": []
+    }
+   },
+   "exactConditional": {
+    "largestDifferenceOverScale": 9.38959e-17,
+    "largestOutcomeProbabilityError": 1.2129e-15,
+    "traversalOutcomesEnumerated": 4907672,
+    "entriesCompared": 1982802,
+    "players": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     8
+    ]
+   },
+   "exactIndependent": {
+    "largestRegretDifferenceOverScale": 2.796584345976207e-17,
+    "largestAverageDifferenceOverScale": 6.113043168720917e-18,
+    "entriesCompared": 100598
+   },
+   "variance": [
+    {
+     "game": "hu-river",
+     "regretVarianceRatioRbesOverDefault": 0.124945,
+     "averageVarianceRatioRbesOverDefault": 0.120154,
+     "timePerDealRatioRbesOverDefault": 4.111785349340308,
+     "passed": true
+    },
+    {
+     "game": "rg-hu-river",
+     "regretVarianceRatioRbesOverDefault": 0.0194798,
+     "averageVarianceRatioRbesOverDefault": 0.00835727,
+     "timePerDealRatioRbesOverDefault": 18.012009335342363,
+     "passed": true
+    },
+    {
+     "game": "rg-river3",
+     "regretVarianceRatioRbesOverDefault": 0.0396255,
+     "averageVarianceRatioRbesOverDefault": 0.0336779,
+     "timePerDealRatioRbesOverDefault": 8.159676015169063,
+     "passed": true
+    },
+    {
+     "game": "rg-hu-turn",
+     "regretVarianceRatioRbesOverDefault": 0.034897,
+     "averageVarianceRatioRbesOverDefault": 0.0307748,
+     "timePerDealRatioRbesOverDefault": 8.581380055855215,
+     "passed": true
+    },
+    {
+     "game": "rg-turn3",
+     "regretVarianceRatioRbesOverDefault": 0.0558642,
+     "averageVarianceRatioRbesOverDefault": 0.0013157,
+     "timePerDealRatioRbesOverDefault": 4.163164607331037,
+     "passed": true
+    },
+    {
+     "game": "rg-turn4",
+     "regretVarianceRatioRbesOverDefault": 0.128518,
+     "averageVarianceRatioRbesOverDefault": 0.100024,
+     "timePerDealRatioRbesOverDefault": 3.4813670429308887,
+     "passed": true
+    },
+    {
+     "game": "rg-icm3-river",
+     "regretVarianceRatioRbesOverDefault": 0.0199665,
+     "averageVarianceRatioRbesOverDefault": 0.032369,
+     "timePerDealRatioRbesOverDefault": 7.370804676556596,
+     "passed": true
+    },
+    {
+     "game": "rg-bubble4",
+     "regretVarianceRatioRbesOverDefault": 0.207049,
+     "averageVarianceRatioRbesOverDefault": 0.256507,
+     "timePerDealRatioRbesOverDefault": 2.622326018581215,
+     "passed": true
+    },
+    {
+     "game": "rg-flop6c",
+     "regretVarianceRatioRbesOverDefault": 0.352892,
+     "averageVarianceRatioRbesOverDefault": 0.349757,
+     "timePerDealRatioRbesOverDefault": 2.023356071924231,
+     "passed": true
+    },
+    {
+     "game": "flop6-jack-small",
+     "regretVarianceRatioRbesOverDefault": 0.425163,
+     "averageVarianceRatioRbesOverDefault": 0.0262204,
+     "timePerDealRatioRbesOverDefault": 1.739907167376033,
+     "passed": true
+    },
+    {
+     "game": "flop3-kings",
+     "regretVarianceRatioRbesOverDefault": 0.0881468,
+     "averageVarianceRatioRbesOverDefault": 0.384383,
+     "timePerDealRatioRbesOverDefault": 6.8414043242989235,
+     "passed": true
+    },
+    {
+     "game": "flop6-jack",
+     "regretVarianceRatioRbesOverDefault": 0.147883,
+     "averageVarianceRatioRbesOverDefault": 0.124786,
+     "timePerDealRatioRbesOverDefault": 2.731148732294885,
+     "passed": true
+    },
+    {
+     "game": "flop3-kings-detailed",
+     "regretVarianceRatioRbesOverDefault": 0.00807366,
+     "averageVarianceRatioRbesOverDefault": 0.0050289,
+     "timePerDealRatioRbesOverDefault": 16.103808052809395,
+     "passed": true
+    }
+   ],
+   "firstRun": {
+    "folder": "validation/5.10/estimator/first-run",
+    "what": "the first specification of the Monte Carlo comparison flagged rg-turn3 and flop3-kings and the run ended when its last case exhausted memory; kept unaltered",
+    "diagnosis": "consistent with no bias: the flagged differences did not persist"
+   }
+  },
+  "convergence": {
+   "exact": {
+    "planWritten": "2026-11-25T00:40:07Z",
+    "build": "EightMaxBuild=2ac7ac02dd7ca797",
+    "games": 20,
+    "seeds": 20,
+    "rows": 8800,
+    "errors": 0,
+    "resumedAfterInterruptions": 2,
+    "defaultTrainerIdenticalTo59": {
+     "perGame": {
+      "hu-river": {
+       "compared": 100,
+       "identical": 100
+      },
+      "hu-turn": {
+       "compared": 100,
+       "identical": 100
+      },
+      "river3-chip": {
+       "compared": 100,
+       "identical": 100
+      },
+      "turn4": {
+       "compared": 100,
+       "identical": 100
+      },
+      "flop6": {
+       "compared": 100,
+       "identical": 100
+      },
+      "final8": {
+       "compared": 100,
+       "identical": 100
+      },
+      "bubble4": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-hu-river": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-river3": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-hu-turn": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-turn3": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-turn4": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-icm3-river": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-bubble4": {
+       "compared": 100,
+       "identical": 100
+      },
+      "rg-flop6c": {
+       "compared": 100,
+       "identical": 100
+      },
+      "early3-flop": {
+       "compared": 100,
+       "identical": 100
+      },
+      "mid3-turn": {
+       "compared": 100,
+       "identical": 100
+      },
+      "short8-push": {
+       "compared": 100,
+       "identical": 100
+      },
+      "bubble5-icm": {
+       "compared": 100,
+       "identical": 100
+      },
+      "sidepot3-icm": {
+       "compared": 100,
+       "identical": 100
+      }
+     },
+     "compared": 2000,
+     "identical": 2000
+    },
+    "levels": {
+     "primary": 0.0025,
+     "secondary": 0.0003125
+    },
+    "rule": {
+     "classes": {
+      "few hands": {
+       "games": 7,
+       "primaryBetter": 2,
+       "primaryWorse": 0,
+       "primaryUnresolved": 5,
+       "secondaryWorse": 0,
+       "secondaryBetter": 26,
+       "secondaryIntervals": 56,
+       "recommended": false
+      },
+      "ranges": {
+       "games": 8,
+       "primaryBetter": 6,
+       "primaryWorse": 0,
+       "primaryUnresolved": 2,
+       "secondaryWorse": 0,
+       "secondaryBetter": 51,
+       "secondaryIntervals": 64,
+       "recommended": true
+      },
+      "tournament": {
+       "games": 5,
+       "primaryBetter": 3,
+       "primaryWorse": 0,
+       "primaryUnresolved": 2,
+       "secondaryWorse": 0,
+       "secondaryBetter": 28,
+       "secondaryIntervals": 40,
+       "recommended": true
+      }
+     },
+     "tableLimitReached": {
+      "d510": 0,
+      "rbes": 0
+     },
+     "statisticalPartOfR3": false,
+     "defaultReplaced": false,
+     "whyNotReplaced": "R3 also requires the JavaScript reference trainer to implement the estimator, support for every configuration of the default, and a run on physical Windows; none of the three holds in 5.10 (stated in the plan before measurement)."
+    },
+    "primary": {
+     "better": 11,
+     "worse": 0,
+     "unresolved": 9,
+     "perGame": {
+      "hu-river": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.7430872136513135,
+       "interval": [
+        0.584554008779634,
+        0.9446152088578591
+       ]
+      },
+      "hu-turn": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.7920752681315694,
+       "interval": [
+        0.6783782005162406,
+        0.9248281119709679
+       ]
+      },
+      "river3-chip": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 1.3233031044405403,
+       "interval": [
+        0.8541837519295788,
+        2.0500637038180742
+       ]
+      },
+      "turn4": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.8278733605566301,
+       "interval": [
+        0.5215204902959819,
+        1.3141847997771923
+       ]
+      },
+      "flop6": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.8774052542637929,
+       "interval": [
+        0.4947419735505092,
+        1.5560433950751433
+       ]
+      },
+      "final8": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 1.251821031231963,
+       "interval": [
+        0.37646457748866746,
+        4.162558678663008
+       ]
+      },
+      "bubble4": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.4603820568603911,
+       "interval": [
+        0.12845921693896964,
+        1.6499527502156706
+       ]
+      },
+      "rg-hu-river": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.6258644531076655,
+       "interval": [
+        0.5248311502811134,
+        0.7463473032306658
+       ]
+      },
+      "rg-river3": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.42110880049781874,
+       "interval": [
+        0.309693024967873,
+        0.5726077359188438
+       ]
+      },
+      "rg-hu-turn": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.8870813661049726,
+       "interval": [
+        0.7902366455521601,
+        0.9957945566303451
+       ]
+      },
+      "rg-turn3": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.6427805294531311,
+       "interval": [
+        0.6034366890007066,
+        0.6846895731982312
+       ]
+      },
+      "rg-turn4": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.6664171319470593,
+       "interval": [
+        0.5079887265222555,
+        0.8742552158450063
+       ]
+      },
+      "rg-icm3-river": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.3025993410129978,
+       "interval": [
+        0.2426489257581731,
+        0.37736149416444026
+       ]
+      },
+      "rg-bubble4": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.730644778969734,
+       "interval": [
+        0.4513689761524004,
+        1.182717070159215
+       ]
+      },
+      "rg-flop6c": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.8739518593845161,
+       "interval": [
+        0.5358654588282209,
+        1.4253425742197299
+       ]
+      },
+      "early3-flop": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.9190244183504664,
+       "interval": [
+        0.8920335485493283,
+        0.946831969378232
+       ]
+      },
+      "mid3-turn": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.8604252109590599,
+       "interval": [
+        0.771297703072852,
+        0.9598518713389914
+       ]
+      },
+      "short8-push": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 1.2774172734689149,
+       "interval": [
+        0.7355057398769479,
+        2.2186025235231477
+       ]
+      },
+      "bubble5-icm": {
+       "verdict": "unresolved",
+       "ratioOfGeometricMeans": 0.5435287531890797,
+       "interval": [
+        0.19469733410531775,
+        1.517347460872124
+       ]
+      },
+      "sidepot3-icm": {
+       "verdict": "better",
+       "ratioOfGeometricMeans": 0.6308842126307692,
+       "interval": [
+        0.4653850044488196,
+        0.8552378910836117
+       ]
+      }
+     }
+    },
+    "secondary": {
+     "intervals": 160,
+     "better": 105,
+     "worse": 0,
+     "unresolved": 55,
+     "worseCells": []
+    }
+   },
+   "fixtures": {
+    "rows": 32,
+    "errors": 0,
+    "reading": "diagnostics only (lower bounds found by a trained response inside the abstraction); no verdict",
+    "resumedAfterInterruptions": 0,
+    "runs": [
+     {
+      "fixture": "flop3-kings",
+      "seed": 5131,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 2.891117,
+      "rows": 135268,
+      "tableMiB": 14.372,
+      "peakRssMiB": 26.0,
+      "sumOfSeatGainsEstimate": 0.6142561111793858,
+      "simultaneousNashConvLowerBound95": 0.522372902744748
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5131,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 6.178791,
+      "rows": 210214,
+      "tableMiB": 19.799,
+      "peakRssMiB": 55.4,
+      "sumOfSeatGainsEstimate": 1.3017699869823027,
+      "simultaneousNashConvLowerBound95": 1.0234079940145455
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5131,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 2739392,
+      "trainSeconds": 30.00021,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3644638193437445,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5131,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 22.658783,
+      "rows": 258622,
+      "tableMiB": 21.901,
+      "peakRssMiB": 44.6,
+      "sumOfSeatGainsEstimate": -0.356941214240007,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5131,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 1246720,
+      "trainSeconds": 30.000783,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.18288297697703543,
+      "simultaneousNashConvLowerBound95": 0.09201797310208124
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5131,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 327168,
+      "trainSeconds": 30.002226,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3975652422463479,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5131,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 16.742068,
+      "rows": 415383,
+      "tableMiB": 38.321,
+      "peakRssMiB": 80.0,
+      "sumOfSeatGainsEstimate": -0.3114578968860757,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5132,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 17.39058,
+      "rows": 407658,
+      "tableMiB": 37.847,
+      "peakRssMiB": 79.4,
+      "sumOfSeatGainsEstimate": -0.5215204818242637,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5131,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 434240,
+      "trainSeconds": 30.002287,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.6636288776492721,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5132,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 451072,
+      "trainSeconds": 30.00391,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.45310417128256764,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5132,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 23.18265,
+      "rows": 259109,
+      "tableMiB": 21.931,
+      "peakRssMiB": 44.8,
+      "sumOfSeatGainsEstimate": -0.35610381074443254,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5132,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 5.352397,
+      "rows": 215366,
+      "tableMiB": 20.114,
+      "peakRssMiB": 53.9,
+      "sumOfSeatGainsEstimate": 1.1620592226518849,
+      "simultaneousNashConvLowerBound95": 0.8948708729043136
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5132,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 304192,
+      "trainSeconds": 30.000651,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.39641862598215794,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5132,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 2.492696,
+      "rows": 134851,
+      "tableMiB": 14.347,
+      "peakRssMiB": 25.8,
+      "sumOfSeatGainsEstimate": 0.6635321809730215,
+      "simultaneousNashConvLowerBound95": 0.5705974354257426
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5132,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 2449984,
+      "trainSeconds": 30.000785,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.38341226870024525,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5132,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 1268096,
+      "trainSeconds": 30.001635,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3339607244118819,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5133,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 2.799886,
+      "rows": 134586,
+      "tableMiB": 14.331,
+      "peakRssMiB": 25.7,
+      "sumOfSeatGainsEstimate": 0.5336750193851381,
+      "simultaneousNashConvLowerBound95": 0.44976512250076883
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5133,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 5.445678,
+      "rows": 212597,
+      "tableMiB": 19.945,
+      "peakRssMiB": 56.2,
+      "sumOfSeatGainsEstimate": 1.206971997738742,
+      "simultaneousNashConvLowerBound95": 0.9558861707447187
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5133,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 2710144,
+      "trainSeconds": 30.000299,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3389349594398821,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5133,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 23.984483,
+      "rows": 258698,
+      "tableMiB": 21.906,
+      "peakRssMiB": 44.6,
+      "sumOfSeatGainsEstimate": -0.312631525878673,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5133,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 1195904,
+      "trainSeconds": 30.000788,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.27763817392282847,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5133,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 309696,
+      "trainSeconds": 30.005014,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3512271596025183,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5133,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 16.988282,
+      "rows": 412577,
+      "tableMiB": 38.148,
+      "peakRssMiB": 79.8,
+      "sumOfSeatGainsEstimate": -0.4327815455824018,
+      "simultaneousNashConvLowerBound95": 0.020014444832278704
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5134,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 17.496906,
+      "rows": 410973,
+      "tableMiB": 38.051,
+      "peakRssMiB": 79.5,
+      "sumOfSeatGainsEstimate": -0.23548516293747823,
+      "simultaneousNashConvLowerBound95": 0.038253165681432916
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5133,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 379648,
+      "trainSeconds": 30.000217,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.4903854585231776,
+      "simultaneousNashConvLowerBound95": 0.017592206304438314
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5134,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 352384,
+      "trainSeconds": 30.001011,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.4849724768987853,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5134,
+      "arm": "rbes",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 27.364544,
+      "rows": 259223,
+      "tableMiB": 21.938,
+      "peakRssMiB": 44.7,
+      "sumOfSeatGainsEstimate": -0.3881449978211373,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5134,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 5.602709,
+      "rows": 213927,
+      "tableMiB": 20.026,
+      "peakRssMiB": 55.9,
+      "sumOfSeatGainsEstimate": 1.1474321577563578,
+      "simultaneousNashConvLowerBound95": 0.8936098546082101
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5134,
+      "arm": "rbes",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 320256,
+      "trainSeconds": 30.002581,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3513809897548299,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5134,
+      "arm": "d510",
+      "kind": "deals",
+      "budget": 250000,
+      "deals": 250000,
+      "trainSeconds": 2.614738,
+      "rows": 134740,
+      "tableMiB": 14.34,
+      "peakRssMiB": 25.6,
+      "sumOfSeatGainsEstimate": 0.635555338006641,
+      "simultaneousNashConvLowerBound95": 0.5465564770031434
+     },
+     {
+      "fixture": "flop3-kings",
+      "seed": 5134,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 2776448,
+      "trainSeconds": 30.0001,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.3564227337521628,
+      "simultaneousNashConvLowerBound95": 0
+     },
+     {
+      "fixture": "flop6-jack",
+      "seed": 5134,
+      "arm": "d510",
+      "kind": "time",
+      "budget": 30.0,
+      "deals": 1271424,
+      "trainSeconds": 30.000548,
+      "rows": null,
+      "tableMiB": null,
+      "peakRssMiB": null,
+      "sumOfSeatGainsEstimate": -0.25359534369795017,
+      "simultaneousNashConvLowerBound95": 0
+     }
+    ]
+   },
+   "finalBuildReproducesTheExperimentStates": {
+    "tool": "reproduce510.py",
+    "experimentBuild": "EightMaxBuild=2ac7ac02dd7ca797",
+    "experimentBinarySha256": "38efc039cf8f9ceba1b5e8a493d84bbd4e1cd47fbba94d63dfaf274c8717ff09",
+    "releasedBuild": "EightMaxBuild=7fa0e8c16d6c6ade",
+    "releasedBinarySha256": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+    "seeds": [
+     5101,
+     5120
+    ],
+    "budgets": [
+     20000,
+     100000
+    ],
+    "cells": 160,
+    "statesIdentical": 160,
+    "nashConvCompared": 80,
+    "nashConvIdentical": 80,
+    "allIdentical": true,
+    "rows": [
+     {
+      "game": "hu-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "161a0567274f9f8fc6603d341e92e8df36f630256bd885c741461487f951c8bb",
+      "sha256": "161a0567274f9f8fc6603d341e92e8df36f630256bd885c741461487f951c8bb",
+      "stateIdentical": true,
+      "recordedNashConv": 0.2557066865663771,
+      "nashConv": 0.2557066865663771,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "56155db00991c7980a027ea0bcbed3138b37554858aa71baea360296252ff023",
+      "sha256": "56155db00991c7980a027ea0bcbed3138b37554858aa71baea360296252ff023",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "d54ae080e2d2c7cb480dc61c52a6f3fbc0af08a27385530b3aeb5bad308993b4",
+      "sha256": "d54ae080e2d2c7cb480dc61c52a6f3fbc0af08a27385530b3aeb5bad308993b4",
+      "stateIdentical": true,
+      "recordedNashConv": 0.06852906079958299,
+      "nashConv": 0.06852906079958299,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "32e73db29819b6228aaa20276f156f40e4acbb3bf006750f6319705f254f8a82",
+      "sha256": "32e73db29819b6228aaa20276f156f40e4acbb3bf006750f6319705f254f8a82",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "ff03a6cb2277de32d646f5ae42f92c1249d6436d5a4b8e5b97225f09e13963ed",
+      "sha256": "ff03a6cb2277de32d646f5ae42f92c1249d6436d5a4b8e5b97225f09e13963ed",
+      "stateIdentical": true,
+      "recordedNashConv": 0.22764267019423734,
+      "nashConv": 0.22764267019423734,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "6bb79cc0527e9a0922a93de480a673630a9261cb39a9877289d4370318d2c721",
+      "sha256": "6bb79cc0527e9a0922a93de480a673630a9261cb39a9877289d4370318d2c721",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "c3a61a86a8c6cce1233c60fd7afb257be51969f2cbf1a1939fe7594255ae992f",
+      "sha256": "c3a61a86a8c6cce1233c60fd7afb257be51969f2cbf1a1939fe7594255ae992f",
+      "stateIdentical": true,
+      "recordedNashConv": 0.09600533185365645,
+      "nashConv": 0.09600533185365645,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "be9765439e69a2bc1148dbd4be7a4e5bed267eae77cbc961cb0be19afab45689",
+      "sha256": "be9765439e69a2bc1148dbd4be7a4e5bed267eae77cbc961cb0be19afab45689",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "ee43211c6a5f4a9d506545f57bcbfd7800b5c6066462377bce854a3edd30bc95",
+      "sha256": "ee43211c6a5f4a9d506545f57bcbfd7800b5c6066462377bce854a3edd30bc95",
+      "stateIdentical": true,
+      "recordedNashConv": 0.3564207339710652,
+      "nashConv": 0.3564207339710652,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "12a8fea07a8974c5a9f06bc5d572cce6467092c59a94d5e57a16341598a63bd7",
+      "sha256": "12a8fea07a8974c5a9f06bc5d572cce6467092c59a94d5e57a16341598a63bd7",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "b378bf744f423218c2d1ca628f21ba7fd6d3e913ad853ed9f2e50a8d237a6f78",
+      "sha256": "b378bf744f423218c2d1ca628f21ba7fd6d3e913ad853ed9f2e50a8d237a6f78",
+      "stateIdentical": true,
+      "recordedNashConv": 0.16463394053375735,
+      "nashConv": 0.16463394053375735,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "0e86a2d13254b70ec0d509f1f7ca3db719bf1cee6d00fe0fa660d5e9cf98aaa8",
+      "sha256": "0e86a2d13254b70ec0d509f1f7ca3db719bf1cee6d00fe0fa660d5e9cf98aaa8",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "71bb37a894d20ca3590052a7e53fb281c4ef26976d6b600b5fbcd0f55d4b52c9",
+      "sha256": "71bb37a894d20ca3590052a7e53fb281c4ef26976d6b600b5fbcd0f55d4b52c9",
+      "stateIdentical": true,
+      "recordedNashConv": 0.354383966451127,
+      "nashConv": 0.354383966451127,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "cd65dd3a63c6773ee245b0fb68e19a422d32bbbde069322c92badb0e841a74af",
+      "sha256": "cd65dd3a63c6773ee245b0fb68e19a422d32bbbde069322c92badb0e841a74af",
+      "stateIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "d03ae8cc792b753535682a5fe8830645ea1e0c426ac77845c87dfe260c002d2e",
+      "sha256": "d03ae8cc792b753535682a5fe8830645ea1e0c426ac77845c87dfe260c002d2e",
+      "stateIdentical": true,
+      "recordedNashConv": 0.17853359865586826,
+      "nashConv": 0.17853359865586826,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "hu-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "8019526566de51db04574f92e9c7a3c823339db2ae0c1d25c7f0114035bbab8d",
+      "sha256": "8019526566de51db04574f92e9c7a3c823339db2ae0c1d25c7f0114035bbab8d",
+      "stateIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "f84ef539d0018aa79d0513d1f3c302462fce1a722481f59543a531c03323036c",
+      "sha256": "f84ef539d0018aa79d0513d1f3c302462fce1a722481f59543a531c03323036c",
+      "stateIdentical": true,
+      "recordedNashConv": 0.1598783516234613,
+      "nashConv": 0.1598783516234613,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "6683142fbce57262ba200788645fe4670f73287ab8573ea9c86a301be5819cd2",
+      "sha256": "6683142fbce57262ba200788645fe4670f73287ab8573ea9c86a301be5819cd2",
+      "stateIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "b401b5316a5f95ba68c4c58ce0ddee736a22887556742d035d79a6b6ce44ceb9",
+      "sha256": "b401b5316a5f95ba68c4c58ce0ddee736a22887556742d035d79a6b6ce44ceb9",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0793434876008201,
+      "nashConv": 0.0793434876008201,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "8c9f72406594ee9a8b9281657b709e0d2eb2cc0507698734b4f9e82160b64ee3",
+      "sha256": "8c9f72406594ee9a8b9281657b709e0d2eb2cc0507698734b4f9e82160b64ee3",
+      "stateIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "927ad8a7d39905d438e82f582c723549d0ec6b45f4b56c4cd56e0c0d2a0528ff",
+      "sha256": "927ad8a7d39905d438e82f582c723549d0ec6b45f4b56c4cd56e0c0d2a0528ff",
+      "stateIdentical": true,
+      "recordedNashConv": 0.10691282192785029,
+      "nashConv": 0.10691282192785029,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "b3d1607a1a3d3533ea1a1d997b78c3e6542de97b2916ef0d91b2934818135230",
+      "sha256": "b3d1607a1a3d3533ea1a1d997b78c3e6542de97b2916ef0d91b2934818135230",
+      "stateIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "50bab91c84ba62f60d27bdffbb09b391ea0d0a0bbdaf34649eddef9a13abde25",
+      "sha256": "50bab91c84ba62f60d27bdffbb09b391ea0d0a0bbdaf34649eddef9a13abde25",
+      "stateIdentical": true,
+      "recordedNashConv": 0.08159032846084407,
+      "nashConv": 0.08159032846084407,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "river3-chip",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "7475d22e26b80055aebed85c007e893e5722877fc68445cc269a05d0721ae536",
+      "sha256": "7475d22e26b80055aebed85c007e893e5722877fc68445cc269a05d0721ae536",
+      "stateIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "d38c4677c1ed2afb10103745f1ce16521740346377507e04dbc45c8898347075",
+      "sha256": "d38c4677c1ed2afb10103745f1ce16521740346377507e04dbc45c8898347075",
+      "stateIdentical": true,
+      "recordedNashConv": 0.2858997849023496,
+      "nashConv": 0.2858997849023496,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "a59229c75bbfa8223ff0771c8a57050aaf2388dd7b909cd9ccca4ab42599669d",
+      "sha256": "a59229c75bbfa8223ff0771c8a57050aaf2388dd7b909cd9ccca4ab42599669d",
+      "stateIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "6902c24ed1dddc782c97d986fdeee6f38b404f9705ce24ebb387a9ba689fe5b7",
+      "sha256": "6902c24ed1dddc782c97d986fdeee6f38b404f9705ce24ebb387a9ba689fe5b7",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0293393386929181,
+      "nashConv": 0.0293393386929181,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "4c1377878dea4aaf8552f26d4fb4fba932d466804cde52941949b9dfa18bf24a",
+      "sha256": "4c1377878dea4aaf8552f26d4fb4fba932d466804cde52941949b9dfa18bf24a",
+      "stateIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "99d430b006da76345c5fed189a8ba6836f1e0dbc7ffb928a82a8e1ae4e5a1b7f",
+      "sha256": "99d430b006da76345c5fed189a8ba6836f1e0dbc7ffb928a82a8e1ae4e5a1b7f",
+      "stateIdentical": true,
+      "recordedNashConv": 0.049533916972895144,
+      "nashConv": 0.049533916972895144,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "ec2464a2f30ea1477d137f15cf77ab23c707692754acbaa777d4649a1b5ef09d",
+      "sha256": "ec2464a2f30ea1477d137f15cf77ab23c707692754acbaa777d4649a1b5ef09d",
+      "stateIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "df1c1cbda7e393de471b5f3ff473efb83e9eda04c5a65138c4add97edfa2967e",
+      "sha256": "df1c1cbda7e393de471b5f3ff473efb83e9eda04c5a65138c4add97edfa2967e",
+      "stateIdentical": true,
+      "recordedNashConv": 0.014771247309773786,
+      "nashConv": 0.014771247309773786,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "turn4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "e1964daf94a478df4f1d28b6b2d6fe62994792ca461bad2bc5a4b6f19277bca9",
+      "sha256": "e1964daf94a478df4f1d28b6b2d6fe62994792ca461bad2bc5a4b6f19277bca9",
+      "stateIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "bb6d022391bc91b73ac1bd8a85de738bd639ddadca243bdf9daad923964288dd",
+      "sha256": "bb6d022391bc91b73ac1bd8a85de738bd639ddadca243bdf9daad923964288dd",
+      "stateIdentical": true,
+      "recordedNashConv": 0.2992267916898441,
+      "nashConv": 0.2992267916898441,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "85f84eb2f8f066aa157d3ef8d678ac9da8832a8229ee51ba13d9a8f909de414c",
+      "sha256": "85f84eb2f8f066aa157d3ef8d678ac9da8832a8229ee51ba13d9a8f909de414c",
+      "stateIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "385bac11729e4851693433c756528b2160649768405e37dbb6497da35258957e",
+      "sha256": "385bac11729e4851693433c756528b2160649768405e37dbb6497da35258957e",
+      "stateIdentical": true,
+      "recordedNashConv": 0.13945088406091452,
+      "nashConv": 0.13945088406091452,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "4d73a7db78f354298b8920b0124d5a48537901586d9db253bb4c4dd4b530d5b0",
+      "sha256": "4d73a7db78f354298b8920b0124d5a48537901586d9db253bb4c4dd4b530d5b0",
+      "stateIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "471850ffbf6998116af87e156ce63ccdeb76d9757020f3de9922cfb1701a86b4",
+      "sha256": "471850ffbf6998116af87e156ce63ccdeb76d9757020f3de9922cfb1701a86b4",
+      "stateIdentical": true,
+      "recordedNashConv": 0.49254921596608303,
+      "nashConv": 0.49254921596608303,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "b8821a31e11e0d7fff921f5b5bad6d458751b6cd12fa2fdd5cc1d3cc35443860",
+      "sha256": "b8821a31e11e0d7fff921f5b5bad6d458751b6cd12fa2fdd5cc1d3cc35443860",
+      "stateIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "016cf07ea61c40050819e60acc0106c328d2c87a3e4545cd8a41f2220e1c17a1",
+      "sha256": "016cf07ea61c40050819e60acc0106c328d2c87a3e4545cd8a41f2220e1c17a1",
+      "stateIdentical": true,
+      "recordedNashConv": 0.22211722585027188,
+      "nashConv": 0.22211722585027188,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "flop6",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "7f81481ee952c60be3a7f245507eabde9f55d9034714e1ddc70bd6ac07f13974",
+      "sha256": "7f81481ee952c60be3a7f245507eabde9f55d9034714e1ddc70bd6ac07f13974",
+      "stateIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "67a9a5ce8ac8eabcb94c32c73c2c0d061ea08b9999802fac8b46625f7d2526ef",
+      "sha256": "67a9a5ce8ac8eabcb94c32c73c2c0d061ea08b9999802fac8b46625f7d2526ef",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0003677167363065337,
+      "nashConv": 0.0003677167363065337,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "48c8c7ad7a8f04ec7274d639b877531a32000581f567d97f6b41dc9e1d871f3d",
+      "sha256": "48c8c7ad7a8f04ec7274d639b877531a32000581f567d97f6b41dc9e1d871f3d",
+      "stateIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "5a7a5c0d181dbe948e2e1808b33e358d0c2587e72fee298e842dc603207c94f3",
+      "sha256": "5a7a5c0d181dbe948e2e1808b33e358d0c2587e72fee298e842dc603207c94f3",
+      "stateIdentical": true,
+      "recordedNashConv": 0.00028330353822170196,
+      "nashConv": 0.00028330353822170196,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "8ae5c380edf0f4ae142477f27fe8f377554b8b5c77e3fef0597830923c73fa92",
+      "sha256": "8ae5c380edf0f4ae142477f27fe8f377554b8b5c77e3fef0597830923c73fa92",
+      "stateIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "eb519f81a445735e153893e17c8e15d1623e3fc85dcdeaba3f2281bea9fc837b",
+      "sha256": "eb519f81a445735e153893e17c8e15d1623e3fc85dcdeaba3f2281bea9fc837b",
+      "stateIdentical": true,
+      "recordedNashConv": 0.008485633582248298,
+      "nashConv": 0.008485633582248298,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "88cc47d406436aa449a9d89c4fba24050ef91f23bc485aa361390b183d260bc1",
+      "sha256": "88cc47d406436aa449a9d89c4fba24050ef91f23bc485aa361390b183d260bc1",
+      "stateIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "1173c02e62801185bee5a4c9a6b562d49b6b37c5736a89f679c924a17de43159",
+      "sha256": "1173c02e62801185bee5a4c9a6b562d49b6b37c5736a89f679c924a17de43159",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0002349871243012558,
+      "nashConv": 0.0002349871243012558,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "final8",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "6b6cee6e93bbf72228fa7a63032aa1b18908506f9888d1e6f1ef1c6e32c2b2b6",
+      "sha256": "6b6cee6e93bbf72228fa7a63032aa1b18908506f9888d1e6f1ef1c6e32c2b2b6",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "9733007178835c22fd89cef6a5d9aab40868542354bc3961a3030ef35e3331ff",
+      "sha256": "9733007178835c22fd89cef6a5d9aab40868542354bc3961a3030ef35e3331ff",
+      "stateIdentical": true,
+      "recordedNashConv": 0.00016063937008503615,
+      "nashConv": 0.00016063937008503615,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "083bb672d61eaccb46a529f3c339af8c4ed08b37b9800770b510c861c3474190",
+      "sha256": "083bb672d61eaccb46a529f3c339af8c4ed08b37b9800770b510c861c3474190",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "7b2bb83f72e19b9783692f388a92e169c7570bc8bc6f3ec4dfd932f9df9295ca",
+      "sha256": "7b2bb83f72e19b9783692f388a92e169c7570bc8bc6f3ec4dfd932f9df9295ca",
+      "stateIdentical": true,
+      "recordedNashConv": 0.00028437011423676495,
+      "nashConv": 0.00028437011423676495,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "1fb2a5313331f5b3b2eb079ddfa2e14991ed7dce920d4dfd5ca718b73421b6bd",
+      "sha256": "1fb2a5313331f5b3b2eb079ddfa2e14991ed7dce920d4dfd5ca718b73421b6bd",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "785918508046a94cf740e46f04638f894cb3785c476d457c0608c5cafabfbf20",
+      "sha256": "785918508046a94cf740e46f04638f894cb3785c476d457c0608c5cafabfbf20",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0010426449132037163,
+      "nashConv": 0.0010426449132037163,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "8939803a4b7a0cf3c5fe5d62d3eeb4d1d3bf14a1b62d6a468845e8c33f903849",
+      "sha256": "8939803a4b7a0cf3c5fe5d62d3eeb4d1d3bf14a1b62d6a468845e8c33f903849",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "e170bb82fc3c7830df685e08afa4c9194c5e8b36ef9c6c4ccabb8ca588f5ccbe",
+      "sha256": "e170bb82fc3c7830df685e08afa4c9194c5e8b36ef9c6c4ccabb8ca588f5ccbe",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0002065296386142279,
+      "nashConv": 0.0002065296386142279,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "f2b2afeb49360c138149b8fb0fc07334cfcd7e960cd7380e96d54943edffac04",
+      "sha256": "f2b2afeb49360c138149b8fb0fc07334cfcd7e960cd7380e96d54943edffac04",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "e42d6a6bad95b24f62dc038f116e7cb657fd0fa782aaefafdee2e34381023310",
+      "sha256": "e42d6a6bad95b24f62dc038f116e7cb657fd0fa782aaefafdee2e34381023310",
+      "stateIdentical": true,
+      "recordedNashConv": 0.4339378604894337,
+      "nashConv": 0.4339378604894337,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "8ed28a0d0eaa88f4c1a059e3c3ef1954e0460982ed8837984c7764734e34b813",
+      "sha256": "8ed28a0d0eaa88f4c1a059e3c3ef1954e0460982ed8837984c7764734e34b813",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "f11b36786f6a7c74655e1eb4c43196a15ec945999dc5b4d5cb63af4912249f4e",
+      "sha256": "f11b36786f6a7c74655e1eb4c43196a15ec945999dc5b4d5cb63af4912249f4e",
+      "stateIdentical": true,
+      "recordedNashConv": 0.06105364776670008,
+      "nashConv": 0.06105364776670008,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "76b7645a17cf6bff181735a8474e49d2fef9f7cbfbf778a36a4b6776b9868603",
+      "sha256": "76b7645a17cf6bff181735a8474e49d2fef9f7cbfbf778a36a4b6776b9868603",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "f260c1b03a6e52eb410db9af811ed3042cb6120ab9ffb4ab7a95bc928e67ccdf",
+      "sha256": "f260c1b03a6e52eb410db9af811ed3042cb6120ab9ffb4ab7a95bc928e67ccdf",
+      "stateIdentical": true,
+      "recordedNashConv": 0.545745297865563,
+      "nashConv": 0.545745297865563,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "735079f24732a69ce5757a35cee53453dda0195c122adbfd4db60bce580191c0",
+      "sha256": "735079f24732a69ce5757a35cee53453dda0195c122adbfd4db60bce580191c0",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "b94e5bc4ee95ab70b3af16175828e2b007b292a92cc1f4560210095f2a93bb67",
+      "sha256": "b94e5bc4ee95ab70b3af16175828e2b007b292a92cc1f4560210095f2a93bb67",
+      "stateIdentical": true,
+      "recordedNashConv": 0.06623554031068979,
+      "nashConv": 0.06623554031068979,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "05c0a2594ab3c1db56715577f1f889b84ff625819aed28cea1e9be4380590bc8",
+      "sha256": "05c0a2594ab3c1db56715577f1f889b84ff625819aed28cea1e9be4380590bc8",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "dc4aa618ce8ea4c29e252ef05e796c97c0e53276064661a99c082b8d55b1945d",
+      "sha256": "dc4aa618ce8ea4c29e252ef05e796c97c0e53276064661a99c082b8d55b1945d",
+      "stateIdentical": true,
+      "recordedNashConv": 0.22045003643057554,
+      "nashConv": 0.22045003643057554,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "3aab50baa61183f0cf18453563a6c65d2d37dc3f46b050fec050068cd9fd9a20",
+      "sha256": "3aab50baa61183f0cf18453563a6c65d2d37dc3f46b050fec050068cd9fd9a20",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "fe49d84322a3953af2c511a789cbf343fd3d8e50473c889578a17a3a8c98e700",
+      "sha256": "fe49d84322a3953af2c511a789cbf343fd3d8e50473c889578a17a3a8c98e700",
+      "stateIdentical": true,
+      "recordedNashConv": 0.041532703274121174,
+      "nashConv": 0.041532703274121174,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "977d2ff9c9baebedd8e868abc662793fd2a20ef01341ae2aedebad6222c5d95d",
+      "sha256": "977d2ff9c9baebedd8e868abc662793fd2a20ef01341ae2aedebad6222c5d95d",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "f1cb5572d12fe3dd18e810776ee4d8f155e9e8c7b4a786449f110f8a72667dce",
+      "sha256": "f1cb5572d12fe3dd18e810776ee4d8f155e9e8c7b4a786449f110f8a72667dce",
+      "stateIdentical": true,
+      "recordedNashConv": 0.1969698102291701,
+      "nashConv": 0.1969698102291701,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "5482be0f774f77e2e786f2ef10dbf8958d03fe6fa6b8773f2672f2e912177150",
+      "sha256": "5482be0f774f77e2e786f2ef10dbf8958d03fe6fa6b8773f2672f2e912177150",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "2254638b667a1b911ce9ff8e06dab8b272f5d57eca3a7d23a72e0d8c6a5ff521",
+      "sha256": "2254638b667a1b911ce9ff8e06dab8b272f5d57eca3a7d23a72e0d8c6a5ff521",
+      "stateIdentical": true,
+      "recordedNashConv": 0.03775556568142535,
+      "nashConv": 0.03775556568142535,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-river3",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "8cba4c545da3897c7a465f8bee58fcd142a4b69db054d99ecd467fddc62a1c92",
+      "sha256": "8cba4c545da3897c7a465f8bee58fcd142a4b69db054d99ecd467fddc62a1c92",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "342fdd557d6da86ae446700784d2e408ed60ef79c3c8d5399d6814f089a03b81",
+      "sha256": "342fdd557d6da86ae446700784d2e408ed60ef79c3c8d5399d6814f089a03b81",
+      "stateIdentical": true,
+      "recordedNashConv": 0.8367467330146341,
+      "nashConv": 0.8367467330146341,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "dec44327afcf1239df93b215a838a30f6699372de14401d22224522830b97490",
+      "sha256": "dec44327afcf1239df93b215a838a30f6699372de14401d22224522830b97490",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "1510aafe0f4790620f2c5413df3b375d6d4da116c938cd79fcc5f7ad48d5f605",
+      "sha256": "1510aafe0f4790620f2c5413df3b375d6d4da116c938cd79fcc5f7ad48d5f605",
+      "stateIdentical": true,
+      "recordedNashConv": 0.21721535308069617,
+      "nashConv": 0.21721535308069617,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "6af3a8a4562c03e13b0d25335a973005ec8b9ed8ada0579162fea7cc7b4f7881",
+      "sha256": "6af3a8a4562c03e13b0d25335a973005ec8b9ed8ada0579162fea7cc7b4f7881",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "78ef0b0428e1bea544250e70bb0315ccfc1ef11bf87ccb800083aebb2e2d93bc",
+      "sha256": "78ef0b0428e1bea544250e70bb0315ccfc1ef11bf87ccb800083aebb2e2d93bc",
+      "stateIdentical": true,
+      "recordedNashConv": 0.7753451886033256,
+      "nashConv": 0.7753451886033256,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "3af5ace1a14c0d24830c5b31de8cc5cfad6c805ccb48af6d88704b0fa5b991f4",
+      "sha256": "3af5ace1a14c0d24830c5b31de8cc5cfad6c805ccb48af6d88704b0fa5b991f4",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "b10b2f499ef75d8a79cd79f70fa82008670118ce6f40937205fe2e544b7ab3b9",
+      "sha256": "b10b2f499ef75d8a79cd79f70fa82008670118ce6f40937205fe2e544b7ab3b9",
+      "stateIdentical": true,
+      "recordedNashConv": 0.21061001635456522,
+      "nashConv": 0.21061001635456522,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-hu-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "0589f732138702c6b5b57621314a086f9f0672b68ca605769ab316168993b9c9",
+      "sha256": "0589f732138702c6b5b57621314a086f9f0672b68ca605769ab316168993b9c9",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "21bb39137f1f7fe141a3efc373824fc55bc5211abdff27c7959402839f93f3ff",
+      "sha256": "21bb39137f1f7fe141a3efc373824fc55bc5211abdff27c7959402839f93f3ff",
+      "stateIdentical": true,
+      "recordedNashConv": 5.9374638228023,
+      "nashConv": 5.9374638228023,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "97274bea655a67440e35e6e4d5a45e31e5ea0a7a389e48ad69889b7ea0fceb31",
+      "sha256": "97274bea655a67440e35e6e4d5a45e31e5ea0a7a389e48ad69889b7ea0fceb31",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "0b2ab88f74d6838e5fe09702421a80ec0ffa1e819505fc23c48338fc49185f81",
+      "sha256": "0b2ab88f74d6838e5fe09702421a80ec0ffa1e819505fc23c48338fc49185f81",
+      "stateIdentical": true,
+      "recordedNashConv": 1.6941442075339905,
+      "nashConv": 1.6941442075339905,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "7858fdfb7d70313ada8da7c00fc7f9f20662ad9f83d29e42f3a7893c70b19ad1",
+      "sha256": "7858fdfb7d70313ada8da7c00fc7f9f20662ad9f83d29e42f3a7893c70b19ad1",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "b2e6544498f0df5a1dbf3057b1f503dd8c1443d8607a2080d763a25ef3852db5",
+      "sha256": "b2e6544498f0df5a1dbf3057b1f503dd8c1443d8607a2080d763a25ef3852db5",
+      "stateIdentical": true,
+      "recordedNashConv": 5.812583789774227,
+      "nashConv": 5.812583789774227,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "9354f63acc87898f25ca0562aa9aac9e1040613494d09a868e95bc0bfd84839f",
+      "sha256": "9354f63acc87898f25ca0562aa9aac9e1040613494d09a868e95bc0bfd84839f",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "3df374d34720aa3e114f3599ec2eef548c1712090c299ca6a8066be5d18fb9fe",
+      "sha256": "3df374d34720aa3e114f3599ec2eef548c1712090c299ca6a8066be5d18fb9fe",
+      "stateIdentical": true,
+      "recordedNashConv": 1.9335182281349628,
+      "nashConv": 1.9335182281349628,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn3",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "d397a9ee4409c685ccba9d57f027f9a605204b1fd90a2ae82a72c47e84e2b8bc",
+      "sha256": "d397a9ee4409c685ccba9d57f027f9a605204b1fd90a2ae82a72c47e84e2b8bc",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "6724c1be1438e7f006c7f68e13681f5614b7039394a2352b3131bfcab4e463a1",
+      "sha256": "6724c1be1438e7f006c7f68e13681f5614b7039394a2352b3131bfcab4e463a1",
+      "stateIdentical": true,
+      "recordedNashConv": 2.9073153814794037,
+      "nashConv": 2.9073153814794037,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "7013949689e0775b35f85dd2be90ba18cf8374279fe39784b0e4f4ad0d3b7428",
+      "sha256": "7013949689e0775b35f85dd2be90ba18cf8374279fe39784b0e4f4ad0d3b7428",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "5e584024924338de597a1ebb2da5e41e89a065d600e388bb06f285ad1fe7ac39",
+      "sha256": "5e584024924338de597a1ebb2da5e41e89a065d600e388bb06f285ad1fe7ac39",
+      "stateIdentical": true,
+      "recordedNashConv": 0.41386775767319417,
+      "nashConv": 0.41386775767319417,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "1a4bcb3ed14eb0dc703b1e84f82269586edbd418cf465a83c597bb732dab249d",
+      "sha256": "1a4bcb3ed14eb0dc703b1e84f82269586edbd418cf465a83c597bb732dab249d",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "e258317a6537df94a9c86af7f9f32d9bfc3cf1cba9b9090cec3c636e42434235",
+      "sha256": "e258317a6537df94a9c86af7f9f32d9bfc3cf1cba9b9090cec3c636e42434235",
+      "stateIdentical": true,
+      "recordedNashConv": 2.999295015019071,
+      "nashConv": 2.999295015019071,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "5cf266f4b154474c0f6ac697f63817d6755c3b3a7999b25ce43ce3c7e1be8f55",
+      "sha256": "5cf266f4b154474c0f6ac697f63817d6755c3b3a7999b25ce43ce3c7e1be8f55",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "11fb56dd4cd4462c5f5154c27f47d44d2d2dc670dc0af05c33b2ad15b671617f",
+      "sha256": "11fb56dd4cd4462c5f5154c27f47d44d2d2dc670dc0af05c33b2ad15b671617f",
+      "stateIdentical": true,
+      "recordedNashConv": 0.5378882257770662,
+      "nashConv": 0.5378882257770662,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-turn4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "54f433bafa2457a925787ecb67acb709b2da8cc3f947f83b9b5658476669fa30",
+      "sha256": "54f433bafa2457a925787ecb67acb709b2da8cc3f947f83b9b5658476669fa30",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "e344baa705be9459ff2e3942fa91726c83ae3d7be83fab12d9f7378c0196da5e",
+      "sha256": "e344baa705be9459ff2e3942fa91726c83ae3d7be83fab12d9f7378c0196da5e",
+      "stateIdentical": true,
+      "recordedNashConv": 0.6872483333455364,
+      "nashConv": 0.6872483333455364,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "b4808dff8b148e8d16e37cbefdd6c0324ec4f4e7b5f3c8aad734f2ba73600497",
+      "sha256": "b4808dff8b148e8d16e37cbefdd6c0324ec4f4e7b5f3c8aad734f2ba73600497",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "fda91fed9a66ad2e59593a41d6ec8a6879814440f7e891b975aba6251895fca9",
+      "sha256": "fda91fed9a66ad2e59593a41d6ec8a6879814440f7e891b975aba6251895fca9",
+      "stateIdentical": true,
+      "recordedNashConv": 0.03134668588309353,
+      "nashConv": 0.03134668588309353,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "e55c3f4e0ff41568f6541a335529e82051cef29672c1fcc1330e3e517b246898",
+      "sha256": "e55c3f4e0ff41568f6541a335529e82051cef29672c1fcc1330e3e517b246898",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "14a7fc61291b441b07419c1022b409e5f86b414c4ec6e07f85011c53233711ce",
+      "sha256": "14a7fc61291b441b07419c1022b409e5f86b414c4ec6e07f85011c53233711ce",
+      "stateIdentical": true,
+      "recordedNashConv": 0.5705430299454299,
+      "nashConv": 0.5705430299454299,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "def41d85ee9d92aaede5ee8605bbe7c36a12dcae0418e0ffbabe6cf044407e0a",
+      "sha256": "def41d85ee9d92aaede5ee8605bbe7c36a12dcae0418e0ffbabe6cf044407e0a",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "32df34ebc34ed4e31cba7c5e2feb4fa76bf20234c93b8193226217d0ce4236e5",
+      "sha256": "32df34ebc34ed4e31cba7c5e2feb4fa76bf20234c93b8193226217d0ce4236e5",
+      "stateIdentical": true,
+      "recordedNashConv": 0.050203594064019086,
+      "nashConv": 0.050203594064019086,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-icm3-river",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "b4039c579ba5b0d5945c12b79eb13196218dd4f5970f9fab70f100ed23ec9a06",
+      "sha256": "b4039c579ba5b0d5945c12b79eb13196218dd4f5970f9fab70f100ed23ec9a06",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "dd60b742ddab6b84eceb3112df534a357b29705af911465d5243f29d909fc2a2",
+      "sha256": "dd60b742ddab6b84eceb3112df534a357b29705af911465d5243f29d909fc2a2",
+      "stateIdentical": true,
+      "recordedNashConv": 0.16032179695670834,
+      "nashConv": 0.16032179695670834,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "1094c100a4a5afd9fed8e12ee4e4e1b643af68343208e560c70ec23d39a08669",
+      "sha256": "1094c100a4a5afd9fed8e12ee4e4e1b643af68343208e560c70ec23d39a08669",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "81f01cafa732bc21527b2071acc17870aee4aeff451da53d6c0e1d43c20ff355",
+      "sha256": "81f01cafa732bc21527b2071acc17870aee4aeff451da53d6c0e1d43c20ff355",
+      "stateIdentical": true,
+      "recordedNashConv": 0.05072665259047682,
+      "nashConv": 0.05072665259047682,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "48ed4061d760ad5b2429ef257b61e72f426d8ba91b89395050074b78e79ea9e7",
+      "sha256": "48ed4061d760ad5b2429ef257b61e72f426d8ba91b89395050074b78e79ea9e7",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "ff7cc5d71f0ade59f2721a55a24d4e6e8041bfe66ae88e0f6eb6fb7ea6b3aba0",
+      "sha256": "ff7cc5d71f0ade59f2721a55a24d4e6e8041bfe66ae88e0f6eb6fb7ea6b3aba0",
+      "stateIdentical": true,
+      "recordedNashConv": 0.27945959025003475,
+      "nashConv": 0.27945959025003475,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "8e365a9861f27b17d551866797166e1a6ddea892ede9c40a2abc0f235dc0ba99",
+      "sha256": "8e365a9861f27b17d551866797166e1a6ddea892ede9c40a2abc0f235dc0ba99",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "466af96fd0816d2d224766d636f17ff768a398268ca4233ec9f6235a2c824f01",
+      "sha256": "466af96fd0816d2d224766d636f17ff768a398268ca4233ec9f6235a2c824f01",
+      "stateIdentical": true,
+      "recordedNashConv": 0.06889448684982824,
+      "nashConv": 0.06889448684982824,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-bubble4",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "5c0b27cf75c47f4eabe5a1a528eec6855e7536d9895193cccc45c776f007450d",
+      "sha256": "5c0b27cf75c47f4eabe5a1a528eec6855e7536d9895193cccc45c776f007450d",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "755b20b68386c61466cb935ca8143c864ee04a92a73c1ff3a5fd474eb50105c1",
+      "sha256": "755b20b68386c61466cb935ca8143c864ee04a92a73c1ff3a5fd474eb50105c1",
+      "stateIdentical": true,
+      "recordedNashConv": 1.613773404066557,
+      "nashConv": 1.613773404066557,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "ca9ade38419801d4b239980bcd12a187dfea252c5208df263381a0e9461003d2",
+      "sha256": "ca9ade38419801d4b239980bcd12a187dfea252c5208df263381a0e9461003d2",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "65559b14365d2f97d9894a136cbb2d17c15ce53506760c8e94cd3c6a34033311",
+      "sha256": "65559b14365d2f97d9894a136cbb2d17c15ce53506760c8e94cd3c6a34033311",
+      "stateIdentical": true,
+      "recordedNashConv": 0.5738426667176776,
+      "nashConv": 0.5738426667176776,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "011d1929b058118820619e7c655a1c154fc598d9185ed6c96a2dbdba4fb016f9",
+      "sha256": "011d1929b058118820619e7c655a1c154fc598d9185ed6c96a2dbdba4fb016f9",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "3f676c8abeabb335f0119df1bc07cc1e05cc86e9ac3a75aeb2e7d7291e04c111",
+      "sha256": "3f676c8abeabb335f0119df1bc07cc1e05cc86e9ac3a75aeb2e7d7291e04c111",
+      "stateIdentical": true,
+      "recordedNashConv": 1.298032117888375,
+      "nashConv": 1.298032117888375,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "763782efd07c283b0ffbb700973ef5d3783f438ed3be67fc48de711b199326f4",
+      "sha256": "763782efd07c283b0ffbb700973ef5d3783f438ed3be67fc48de711b199326f4",
+      "stateIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "83daa7484509810f1cd00e59ba011f27f18c2690b21db49772a76885fa90237a",
+      "sha256": "83daa7484509810f1cd00e59ba011f27f18c2690b21db49772a76885fa90237a",
+      "stateIdentical": true,
+      "recordedNashConv": 0.5510526889174979,
+      "nashConv": 0.5510526889174979,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "rg-flop6c",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "4bcb23f4b54f21b6915ec2989de1488a68295f58654304d0d0f8c9db620e475d",
+      "sha256": "4bcb23f4b54f21b6915ec2989de1488a68295f58654304d0d0f8c9db620e475d",
+      "stateIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "78a8e2861c817b8cb668bd4af9556e80100e3850e2579bb35ce51363ea08cca2",
+      "sha256": "78a8e2861c817b8cb668bd4af9556e80100e3850e2579bb35ce51363ea08cca2",
+      "stateIdentical": true,
+      "recordedNashConv": 22.818830718797063,
+      "nashConv": 22.818830718797063,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "ce9f512f559f86e1cc6c5d57cf28403741a2607dc941dd392fc42713cb4d5eb8",
+      "sha256": "ce9f512f559f86e1cc6c5d57cf28403741a2607dc941dd392fc42713cb4d5eb8",
+      "stateIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "cd60a346d84dae9272ea5a72061d973acec65bfcfd29373b754b0d5c803ee67f",
+      "sha256": "cd60a346d84dae9272ea5a72061d973acec65bfcfd29373b754b0d5c803ee67f",
+      "stateIdentical": true,
+      "recordedNashConv": 19.6035756760718,
+      "nashConv": 19.6035756760718,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "b32bc47c8556bbf1ed70f0a69acda944b8b4e2126da68cd2b325639f3637cf90",
+      "sha256": "b32bc47c8556bbf1ed70f0a69acda944b8b4e2126da68cd2b325639f3637cf90",
+      "stateIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "3542b07aa1ae93c2ea626452abd46e273e363ba738d212831e7f5c884ceef7ac",
+      "sha256": "3542b07aa1ae93c2ea626452abd46e273e363ba738d212831e7f5c884ceef7ac",
+      "stateIdentical": true,
+      "recordedNashConv": 21.898116970533785,
+      "nashConv": 21.898116970533785,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "db635f771c425f99d29a732d14fa8788bfa0e52e35cc11ed44880371c3ae2ea2",
+      "sha256": "db635f771c425f99d29a732d14fa8788bfa0e52e35cc11ed44880371c3ae2ea2",
+      "stateIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "a6afc259b34e051f169f407b50018cb6abce9ee0c6594e29b515208253ad67ea",
+      "sha256": "a6afc259b34e051f169f407b50018cb6abce9ee0c6594e29b515208253ad67ea",
+      "stateIdentical": true,
+      "recordedNashConv": 19.90812688538237,
+      "nashConv": 19.90812688538237,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "early3-flop",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "b6ad88ae87bf02f88b8e214c0186f9fb9a55a1b87c64e0aff19cde448163467b",
+      "sha256": "b6ad88ae87bf02f88b8e214c0186f9fb9a55a1b87c64e0aff19cde448163467b",
+      "stateIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "8a1b31d034d1ad344d94505dc04bb6362bbc4c150b12e52a7f460b60344dbcbc",
+      "sha256": "8a1b31d034d1ad344d94505dc04bb6362bbc4c150b12e52a7f460b60344dbcbc",
+      "stateIdentical": true,
+      "recordedNashConv": 2.626866481963906,
+      "nashConv": 2.626866481963906,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "1e5641cdc6875e8a1c156e3f491c5eed71f00e601c2240fa17cc228fba5fe778",
+      "sha256": "1e5641cdc6875e8a1c156e3f491c5eed71f00e601c2240fa17cc228fba5fe778",
+      "stateIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "7b65859bf131bb0dead56d2c8ba8e6bc7c54ad38a371c4b191446c38fbab1f25",
+      "sha256": "7b65859bf131bb0dead56d2c8ba8e6bc7c54ad38a371c4b191446c38fbab1f25",
+      "stateIdentical": true,
+      "recordedNashConv": 1.5182759854225187,
+      "nashConv": 1.5182759854225187,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "a530c7c97dbd5d9a978e2f54c15882bd49d5ca799c1a9bb3a3f535fdac6d408e",
+      "sha256": "a530c7c97dbd5d9a978e2f54c15882bd49d5ca799c1a9bb3a3f535fdac6d408e",
+      "stateIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "20699f2e3e7e1d3cccf135b7edb2a7311c8ee2871695e38aa2b2decf43a76cde",
+      "sha256": "20699f2e3e7e1d3cccf135b7edb2a7311c8ee2871695e38aa2b2decf43a76cde",
+      "stateIdentical": true,
+      "recordedNashConv": 2.8273654493893283,
+      "nashConv": 2.8273654493893283,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "6bbd337a97795348686c965116f76847134941711f4c3bb351b579837340fbd9",
+      "sha256": "6bbd337a97795348686c965116f76847134941711f4c3bb351b579837340fbd9",
+      "stateIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "f944f2176891e17fd43f3c4235a145604d8b011790501eac83d93f27ec98a797",
+      "sha256": "f944f2176891e17fd43f3c4235a145604d8b011790501eac83d93f27ec98a797",
+      "stateIdentical": true,
+      "recordedNashConv": 1.588232693311849,
+      "nashConv": 1.588232693311849,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "mid3-turn",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "d0cd2633f511459f1e11f0898cea34b235b8c65f3a2bceb30c182743714675e0",
+      "sha256": "d0cd2633f511459f1e11f0898cea34b235b8c65f3a2bceb30c182743714675e0",
+      "stateIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "bd527805ed886870453bba87597a4b92a8ae38d8c21f4b227c56d99ebac067ad",
+      "sha256": "bd527805ed886870453bba87597a4b92a8ae38d8c21f4b227c56d99ebac067ad",
+      "stateIdentical": true,
+      "recordedNashConv": 0.07917294841882291,
+      "nashConv": 0.07917294841882291,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "a1250622f0acbc85028d9d09c5fb8f34c8f2a5a0416d26c2c826c43aa1a6abce",
+      "sha256": "a1250622f0acbc85028d9d09c5fb8f34c8f2a5a0416d26c2c826c43aa1a6abce",
+      "stateIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "9bba703037bb540c4fcd612c96ef53972ec22dc3cd60f7d04e8502559fca8289",
+      "sha256": "9bba703037bb540c4fcd612c96ef53972ec22dc3cd60f7d04e8502559fca8289",
+      "stateIdentical": true,
+      "recordedNashConv": 0.11019473154635032,
+      "nashConv": 0.11019473154635032,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "2064c8ee7aabde763b6e5ed137e4c9269aa4b6998cc7e5ead1437844181581f4",
+      "sha256": "2064c8ee7aabde763b6e5ed137e4c9269aa4b6998cc7e5ead1437844181581f4",
+      "stateIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "baafb1638104666d0c6504b803c44d58008b0d231af0b8a9c39853928f678526",
+      "sha256": "baafb1638104666d0c6504b803c44d58008b0d231af0b8a9c39853928f678526",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0884457781760328,
+      "nashConv": 0.0884457781760328,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "e93de083ec48c8991a6d301dec44edce20a3f13b36a46e992332a603396e38c6",
+      "sha256": "e93de083ec48c8991a6d301dec44edce20a3f13b36a46e992332a603396e38c6",
+      "stateIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "8bb582125379c7f69d6941d80618e10848c1680875fc0d32d01c576166467ecd",
+      "sha256": "8bb582125379c7f69d6941d80618e10848c1680875fc0d32d01c576166467ecd",
+      "stateIdentical": true,
+      "recordedNashConv": 0.06404512362026826,
+      "nashConv": 0.06404512362026826,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "short8-push",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "2a08f28d5fd09a83db0545cd52868b7eb1be562d9750600508eaeb36572ee51d",
+      "sha256": "2a08f28d5fd09a83db0545cd52868b7eb1be562d9750600508eaeb36572ee51d",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "a4163395cb2853d6866fc7ff615cc3f4bcab7dd3c55b69828901a41402dfc97f",
+      "sha256": "a4163395cb2853d6866fc7ff615cc3f4bcab7dd3c55b69828901a41402dfc97f",
+      "stateIdentical": true,
+      "recordedNashConv": 0.003666362895048181,
+      "nashConv": 0.003666362895048181,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "0307bca24bdec05f3371efc7d7547e7a6049077b2229e2f02c0da9e41b8fe85a",
+      "sha256": "0307bca24bdec05f3371efc7d7547e7a6049077b2229e2f02c0da9e41b8fe85a",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "ac4672a671a4f595ac624badcfb871bcbc93eb6996feb72d1059e0585eca34ed",
+      "sha256": "ac4672a671a4f595ac624badcfb871bcbc93eb6996feb72d1059e0585eca34ed",
+      "stateIdentical": true,
+      "recordedNashConv": 0.00033888291977568485,
+      "nashConv": 0.00033888291977568485,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "89cd9056306e84f39b01f25e5a9405d5b56cb316bbb1108993c76c0c89ea95ad",
+      "sha256": "89cd9056306e84f39b01f25e5a9405d5b56cb316bbb1108993c76c0c89ea95ad",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "7fed31bb97d8d28d977b75af4c2da5fe584973265f5b3bb0080f244d6d7db0fe",
+      "sha256": "7fed31bb97d8d28d977b75af4c2da5fe584973265f5b3bb0080f244d6d7db0fe",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0021355464242880373,
+      "nashConv": 0.0021355464242880373,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "43e0a16492533c3b1089a451e26642a4a674f67406a6f503975575d1bd9ce51e",
+      "sha256": "43e0a16492533c3b1089a451e26642a4a674f67406a6f503975575d1bd9ce51e",
+      "stateIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "8d0096928bd51196a371dba4423cab23a77eec9f9ecf5551b764edd8e3cd4548",
+      "sha256": "8d0096928bd51196a371dba4423cab23a77eec9f9ecf5551b764edd8e3cd4548",
+      "stateIdentical": true,
+      "recordedNashConv": 5.017832494758068e-05,
+      "nashConv": 5.017832494758068e-05,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "bubble5-icm",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "ffe596f07fb7cfd5ffd0d4a19c35b1bfe7766aa950b969840eed8fe3a1922e35",
+      "sha256": "ffe596f07fb7cfd5ffd0d4a19c35b1bfe7766aa950b969840eed8fe3a1922e35",
+      "stateIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "335cb045f40fb2633f08eadc408e3cc0c2d2fb08d24ab7e2c40cb1a28ac08033",
+      "sha256": "335cb045f40fb2633f08eadc408e3cc0c2d2fb08d24ab7e2c40cb1a28ac08033",
+      "stateIdentical": true,
+      "recordedNashConv": 0.29513879913682217,
+      "nashConv": 0.29513879913682217,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5101,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "da7499d34bffd83d80933c2dc8e74180f9abde2e970c95abae3e256776711b29",
+      "sha256": "da7499d34bffd83d80933c2dc8e74180f9abde2e970c95abae3e256776711b29",
+      "stateIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "0c78eae21fa386a100e417ec58e6aa99e384afbe70fa55d74fc629960d81de55",
+      "sha256": "0c78eae21fa386a100e417ec58e6aa99e384afbe70fa55d74fc629960d81de55",
+      "stateIdentical": true,
+      "recordedNashConv": 0.07623817493949048,
+      "nashConv": 0.07623817493949048,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5101,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "705c1394c03dbdef0180d4251b6d7a42fb9fd2f4783393b84d7818f8eef359ba",
+      "sha256": "705c1394c03dbdef0180d4251b6d7a42fb9fd2f4783393b84d7818f8eef359ba",
+      "stateIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 20000,
+      "recordedSha256": "62cc4ef3d999485c30c7118c8ec0e6d9af6fa614e3c4c6a38689017b6252ef63",
+      "sha256": "62cc4ef3d999485c30c7118c8ec0e6d9af6fa614e3c4c6a38689017b6252ef63",
+      "stateIdentical": true,
+      "recordedNashConv": 0.2901411113704775,
+      "nashConv": 0.2901411113704775,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5120,
+      "arm": "d510",
+      "budget": 100000,
+      "recordedSha256": "f83c71acaf93dea16d7f49dcd339ba180c67def5f53e29474e6012154f1da69d",
+      "sha256": "f83c71acaf93dea16d7f49dcd339ba180c67def5f53e29474e6012154f1da69d",
+      "stateIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 20000,
+      "recordedSha256": "b73292bfbf3ca0c05352386ce0f4aef8b024f264529650e5cf090f5ecced4ab2",
+      "sha256": "b73292bfbf3ca0c05352386ce0f4aef8b024f264529650e5cf090f5ecced4ab2",
+      "stateIdentical": true,
+      "recordedNashConv": 0.0767447879173595,
+      "nashConv": 0.0767447879173595,
+      "nashConvIdentical": true
+     },
+     {
+      "game": "sidepot3-icm",
+      "seed": 5120,
+      "arm": "rbes",
+      "budget": 100000,
+      "recordedSha256": "da7edc79e711efb293174db030653b34755ac86fc7b6154c1d148b02eb710505",
+      "sha256": "da7edc79e711efb293174db030653b34755ac86fc7b6154c1d148b02eb710505",
+      "stateIdentical": true
+     }
+    ]
+   },
+   "decision": {
+    "defaultTrainerChanged": false,
+    "defaultTrainerStatesIdenticalTo59": true,
+    "experimentalAlgorithm": "rbes-5.10-v1",
+    "experimentalAlgorithmPromotedToDefault": false,
+    "recommendedForClasses": [
+     "ranges",
+     "tournament"
+    ],
+    "why": "the prespecified rule of validation/5.10/convergence/convergence510.py (R3) names three conditions that do not hold in 5.10: the JavaScript reference trainer does not implement the estimator, it refuses configurations the default supports, and it has not run on physical Windows"
+   }
+  },
+  "identityAgainst59": {
+   "cases": 225,
+   "failures": 0,
+   "trainingRuns": 1782,
+   "seconds": 1565.0,
+   "baselineSha256": "782c349362602c6dcc5bad6aa27bc4b2f720c0ac4333e1d546be9a1087b4822c",
+   "currentSha256": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+   "deals": 24000
+  },
+  "performance": {
+   "plan": {
+    "tool": "bench510.py",
+    "environment": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "logicalProcessors": 4,
+    "old": {
+     "build": "EightMaxBuild=00600c81455ead44",
+     "binarySha256": "782c349362602c6dcc5bad6aa27bc4b2f720c0ac4333e1d546be9a1087b4822c"
+    },
+    "new": {
+     "build": "EightMaxBuild=7fa0e8c16d6c6ade",
+     "binarySha256": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183"
+    },
+    "written": "2026-11-25T05:59:52Z",
+    "dryRun": false,
+    "repetitions": 5,
+    "note": "alternating repetitions (old, new, old, new ...); median and minimum of the wall seconds of the training call"
+   },
+   "defaultTrainer": [
+    {
+     "fixture": "flop6-jack",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 120000,
+     "seconds59": [
+      2.568362,
+      2.765981,
+      2.666086,
+      3.028444,
+      3.256824
+     ],
+     "seconds510": [
+      2.760116,
+      2.72547,
+      2.605874,
+      2.9965,
+      2.878534
+     ],
+     "median59": 2.765981,
+     "median510": 2.760116,
+     "min59": 2.568362,
+     "min510": 2.605874,
+     "ratioOfMedians510Over59": 0.9978795949791412,
+     "ratioOfMinima510Over59": 1.0146054177721053,
+     "dealsPerSecond510": 43476.43359916757,
+     "statesIdentical": true,
+     "rows": 167537,
+     "tableMiB": 17.193
+    },
+    {
+     "fixture": "flop3-kings",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 300000,
+     "seconds59": [
+      3.377212,
+      3.566341,
+      4.366373,
+      3.010479,
+      3.449972
+     ],
+     "seconds510": [
+      3.564629,
+      3.250449,
+      3.641455,
+      3.335972,
+      3.279405
+     ],
+     "median59": 3.449972,
+     "median510": 3.335972,
+     "min59": 3.010479,
+     "min510": 3.250449,
+     "ratioOfMedians510Over59": 0.966956253558,
+     "ratioOfMinima510Over59": 1.0797115674947408,
+     "dealsPerSecond510": 89928.81235214205,
+     "statesIdentical": true,
+     "rows": 142355,
+     "tableMiB": 14.805
+    },
+    {
+     "fixture": "flop3-kings-detailed",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 150000,
+     "seconds59": [
+      3.580876,
+      3.627792,
+      3.78861,
+      3.932043,
+      4.069174
+     ],
+     "seconds510": [
+      3.555431,
+      3.505981,
+      3.544079,
+      3.562687,
+      3.267704
+     ],
+     "median59": 3.78861,
+     "median510": 3.544079,
+     "min59": 3.580876,
+     "min510": 3.267704,
+     "ratioOfMedians510Over59": 0.9354562755205735,
+     "ratioOfMinima510Over59": 0.9125431877562921,
+     "dealsPerSecond510": 42324.11297829422,
+     "statesIdentical": true,
+     "rows": 1781997,
+     "tableMiB": 190.906
+    },
+    {
+     "fixture": "btn25-open",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 300000,
+     "seconds59": [
+      3.13225,
+      3.206315,
+      3.211226,
+      3.223777,
+      2.989326
+     ],
+     "seconds510": [
+      3.248991,
+      3.17097,
+      3.184015,
+      3.188538,
+      3.059124
+     ],
+     "median59": 3.206315,
+     "median510": 3.184015,
+     "min59": 2.989326,
+     "min510": 3.059124,
+     "ratioOfMedians510Over59": 0.9930449753065435,
+     "ratioOfMinima510Over59": 1.0233490760124524,
+     "dealsPerSecond510": 94220.66164889299,
+     "statesIdentical": true,
+     "rows": 1230895,
+     "tableMiB": 136.226
+    },
+    {
+     "fixture": "icm8-bb-call",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 1000000,
+     "seconds59": [
+      2.762903,
+      3.183207,
+      3.847674,
+      2.931637,
+      2.655305
+     ],
+     "seconds510": [
+      2.988322,
+      3.369822,
+      3.321088,
+      2.795269,
+      2.600177
+     ],
+     "median59": 2.931637,
+     "median510": 2.988322,
+     "min59": 2.655305,
+     "min510": 2.600177,
+     "ratioOfMedians510Over59": 1.0193356135155889,
+     "ratioOfMinima510Over59": 0.9792385432181991,
+     "dealsPerSecond510": 334635.95957865316,
+     "statesIdentical": true,
+     "rows": 1014,
+     "tableMiB": 18.545
+    },
+    {
+     "fixture": "flop6-jack-small",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 400000,
+     "seconds59": [
+      2.115094,
+      2.349092,
+      1.912635,
+      2.112082,
+      2.264037
+     ],
+     "seconds510": [
+      2.457027,
+      2.39624,
+      2.04594,
+      2.324809,
+      2.217514
+     ],
+     "median59": 2.115094,
+     "median510": 2.324809,
+     "min59": 1.912635,
+     "min510": 2.04594,
+     "ratioOfMedians510Over59": 1.0991516216300552,
+     "ratioOfMinima510Over59": 1.0696970409931847,
+     "dealsPerSecond510": 172057.14533968165,
+     "statesIdentical": true,
+     "rows": 1097,
+     "tableMiB": 0.24
+    },
+    {
+     "fixture": "rg-hu-river",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 2000000,
+     "seconds59": [
+      1.774495,
+      1.580613,
+      1.606573,
+      1.610636,
+      1.580833
+     ],
+     "seconds510": [
+      1.624133,
+      1.614257,
+      1.549408,
+      1.552201,
+      1.526581
+     ],
+     "median59": 1.606573,
+     "median510": 1.552201,
+     "min59": 1.580613,
+     "min510": 1.526581,
+     "ratioOfMedians510Over59": 0.9661565331920803,
+     "ratioOfMinima510Over59": 0.9658157942519768,
+     "dealsPerSecond510": 1288492.9206977705,
+     "statesIdentical": true,
+     "rows": 468,
+     "tableMiB": 0.091
+    },
+    {
+     "fixture": "final8",
+     "dealsPerUpdate": 1,
+     "threads": 1,
+     "sampledDeals": 600000,
+     "seconds59": [
+      2.687155,
+      2.655283,
+      2.490052,
+      2.588206,
+      2.702336
+     ],
+     "seconds510": [
+      2.681536,
+      2.594716,
+      2.545485,
+      2.700855,
+      2.525522
+     ],
+     "median59": 2.655283,
+     "median510": 2.594716,
+     "min59": 2.490052,
+     "min510": 2.525522,
+     "ratioOfMedians510Over59": 0.9771900019696583,
+     "ratioOfMinima510Over59": 1.0142446824403668,
+     "dealsPerSecond510": 231239.17993337227,
+     "statesIdentical": true,
+     "rows": 350,
+     "tableMiB": 0.095
+    },
+    {
+     "fixture": "flop6-jack",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 192000,
+     "seconds59": [
+      4.605994,
+      4.543181,
+      4.504508,
+      5.080658,
+      4.57482
+     ],
+     "seconds510": [
+      4.802241,
+      4.473866,
+      4.688296,
+      4.984199,
+      4.431559
+     ],
+     "median59": 4.57482,
+     "median510": 4.688296,
+     "min59": 4.504508,
+     "min510": 4.431559,
+     "ratioOfMedians510Over59": 1.0248044731814585,
+     "ratioOfMinima510Over59": 0.9838053345670603,
+     "dealsPerSecond510": 40953.04562681196,
+     "statesIdentical": true,
+     "rows": 204545,
+     "tableMiB": 25.696
+    },
+    {
+     "fixture": "flop6-jack",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 192000,
+     "seconds59": [
+      2.578195,
+      2.825948,
+      2.701976,
+      2.701071,
+      2.78156
+     ],
+     "seconds510": [
+      3.023197,
+      2.896508,
+      2.655931,
+      2.738036,
+      2.77674
+     ],
+     "median59": 2.701976,
+     "median510": 2.77674,
+     "min59": 2.578195,
+     "min510": 2.655931,
+     "ratioOfMedians510Over59": 1.02767011994185,
+     "ratioOfMinima510Over59": 1.0301513268003388,
+     "dealsPerSecond510": 69145.83288316515,
+     "statesIdentical": true,
+     "rows": 204545,
+     "tableMiB": 25.696
+    },
+    {
+     "fixture": "flop6-jack",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 192000,
+     "seconds59": [
+      1.742721,
+      1.888546,
+      1.730774,
+      1.782792,
+      1.873822
+     ],
+     "seconds510": [
+      1.670196,
+      1.798974,
+      1.65687,
+      1.723467,
+      1.853956
+     ],
+     "median59": 1.782792,
+     "median510": 1.723467,
+     "min59": 1.730774,
+     "min510": 1.65687,
+     "ratioOfMedians510Over59": 0.9667235437448677,
+     "ratioOfMinima510Over59": 0.957300028773254,
+     "dealsPerSecond510": 111403.35150020279,
+     "statesIdentical": true,
+     "rows": 204545,
+     "tableMiB": 25.696
+    },
+    {
+     "fixture": "flop3-kings",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 384000,
+     "seconds59": [
+      3.886901,
+      4.278384,
+      3.851353,
+      4.167601,
+      4.083692
+     ],
+     "seconds510": [
+      3.972165,
+      3.749812,
+      4.36364,
+      4.308316,
+      4.170384
+     ],
+     "median59": 4.083692,
+     "median510": 4.170384,
+     "min59": 3.851353,
+     "min510": 3.749812,
+     "ratioOfMedians510Over59": 1.0212288292065121,
+     "ratioOfMinima510Over59": 0.9736349797071314,
+     "dealsPerSecond510": 92077.85182371695,
+     "statesIdentical": true,
+     "rows": 150724,
+     "tableMiB": 19.916
+    },
+    {
+     "fixture": "flop3-kings",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 384000,
+     "seconds59": [
+      2.871547,
+      2.655602,
+      2.848164,
+      3.133644,
+      2.697737
+     ],
+     "seconds510": [
+      2.829959,
+      2.757226,
+      2.713042,
+      2.770899,
+      2.702341
+     ],
+     "median59": 2.848164,
+     "median510": 2.757226,
+     "min59": 2.655602,
+     "min510": 2.702341,
+     "ratioOfMedians510Over59": 0.9680713610592648,
+     "ratioOfMinima510Over59": 1.0176001524324805,
+     "dealsPerSecond510": 139270.41163836405,
+     "statesIdentical": true,
+     "rows": 150724,
+     "tableMiB": 19.916
+    },
+    {
+     "fixture": "flop3-kings",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 384000,
+     "seconds59": [
+      1.755989,
+      1.802534,
+      1.818674,
+      2.052977,
+      1.80078
+     ],
+     "seconds510": [
+      1.733906,
+      1.89005,
+      1.727917,
+      1.926356,
+      1.816323
+     ],
+     "median59": 1.802534,
+     "median510": 1.816323,
+     "min59": 1.755989,
+     "min510": 1.727917,
+     "ratioOfMedians510Over59": 1.0076497863563183,
+     "ratioOfMinima510Over59": 0.9840135672831662,
+     "dealsPerSecond510": 211416.14129204993,
+     "statesIdentical": true,
+     "rows": 150724,
+     "tableMiB": 19.916
+    },
+    {
+     "fixture": "flop3-kings-detailed",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 192000,
+     "seconds59": [
+      5.103276,
+      4.976677,
+      5.336896,
+      5.45389,
+      5.141264
+     ],
+     "seconds510": [
+      4.602023,
+      4.450573,
+      5.124045,
+      5.038166,
+      4.761979
+     ],
+     "median59": 5.141264,
+     "median510": 4.761979,
+     "min59": 4.976677,
+     "min510": 4.450573,
+     "ratioOfMedians510Over59": 0.9262272857414053,
+     "ratioOfMinima510Over59": 0.8942860868808646,
+     "dealsPerSecond510": 40319.371420999545,
+     "statesIdentical": true,
+     "rows": 2186902,
+     "tableMiB": 333.493
+    },
+    {
+     "fixture": "flop3-kings-detailed",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 192000,
+     "seconds59": [
+      3.379699,
+      3.575051,
+      3.298885,
+      3.302203,
+      3.5327
+     ],
+     "seconds510": [
+      2.976632,
+      3.2407,
+      3.233671,
+      3.236217,
+      3.492225
+     ],
+     "median59": 3.379699,
+     "median510": 3.236217,
+     "min59": 3.298885,
+     "min510": 2.976632,
+     "ratioOfMedians510Over59": 0.9575459234683324,
+     "ratioOfMinima510Over59": 0.9023145699228678,
+     "dealsPerSecond510": 59328.53081236518,
+     "statesIdentical": true,
+     "rows": 2186902,
+     "tableMiB": 333.493
+    },
+    {
+     "fixture": "flop3-kings-detailed",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 192000,
+     "seconds59": [
+      2.599704,
+      2.262512,
+      2.661564,
+      2.202798,
+      2.544827
+     ],
+     "seconds510": [
+      2.23261,
+      2.592463,
+      2.553984,
+      2.208347,
+      2.272743
+     ],
+     "median59": 2.544827,
+     "median510": 2.272743,
+     "min59": 2.202798,
+     "min510": 2.208347,
+     "ratioOfMedians510Over59": 0.8930834984067679,
+     "ratioOfMinima510Over59": 1.0025190689296066,
+     "dealsPerSecond510": 84479.4154024454,
+     "statesIdentical": true,
+     "rows": 2186902,
+     "tableMiB": 333.493
+    },
+    {
+     "fixture": "btn25-open",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 384000,
+     "seconds59": [
+      4.640371,
+      4.496022,
+      4.423987,
+      4.329926,
+      4.333552
+     ],
+     "seconds510": [
+      4.678206,
+      4.678201,
+      4.364515,
+      4.114603,
+      5.064019
+     ],
+     "median59": 4.423987,
+     "median510": 4.678201,
+     "min59": 4.329926,
+     "min510": 4.114603,
+     "ratioOfMedians510Over59": 1.0574626462509946,
+     "ratioOfMinima510Over59": 0.95027097460788,
+     "dealsPerSecond510": 82082.83483330451,
+     "statesIdentical": true,
+     "rows": 1599092,
+     "tableMiB": 208.59
+    },
+    {
+     "fixture": "btn25-open",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 384000,
+     "seconds59": [
+      3.03494,
+      3.105226,
+      3.001575,
+      3.020631,
+      3.224281
+     ],
+     "seconds510": [
+      3.209833,
+      3.010533,
+      3.41694,
+      2.948922,
+      3.171064
+     ],
+     "median59": 3.03494,
+     "median510": 3.171064,
+     "min59": 3.001575,
+     "min510": 2.948922,
+     "ratioOfMedians510Over59": 1.044852287030386,
+     "ratioOfMinima510Over59": 0.982458209440044,
+     "dealsPerSecond510": 121095.00155152971,
+     "statesIdentical": true,
+     "rows": 1599092,
+     "tableMiB": 208.59
+    },
+    {
+     "fixture": "btn25-open",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 384000,
+     "seconds59": [
+      2.073468,
+      2.041337,
+      2.229408,
+      2.3277,
+      2.257915
+     ],
+     "seconds510": [
+      2.172421,
+      2.116597,
+      2.352978,
+      2.131569,
+      2.195769
+     ],
+     "median59": 2.229408,
+     "median510": 2.172421,
+     "min59": 2.041337,
+     "min510": 2.116597,
+     "ratioOfMedians510Over59": 0.9744385056481363,
+     "ratioOfMinima510Over59": 1.0368679938687244,
+     "dealsPerSecond510": 176761.31836324543,
+     "statesIdentical": true,
+     "rows": 1599092,
+     "tableMiB": 208.59
+    }
+   ],
+   "estimator": [
+    {
+     "game": "flop6-jack",
+     "trainer": "default",
+     "sampledDeals": 120000,
+     "secondsMedian": 2.938033,
+     "secondsMin": 2.880938,
+     "dealsPerSecond": 40843.65287932436,
+     "stateVisitsPerDeal": 246.31461666666667,
+     "rows": 167537,
+     "tableMiB": 17.193,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.3351,
+      "traverse": 2.3771,
+      "merge": 0.185,
+      "profiledUpdates": 0.1852,
+      "scoreInProfiledUpdates": 0.0016
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "rbes",
+     "sampledDeals": 120000,
+     "secondsMedian": 8.631698,
+     "secondsMin": 8.446548,
+     "dealsPerSecond": 13902.247275101608,
+     "stateVisitsPerDeal": 279.65155833333336,
+     "rows": 361789,
+     "tableMiB": 35.047,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.6428,
+      "traverse": 7.2887,
+      "merge": 0.7449,
+      "profiledUpdates": 0.5605,
+      "scoreInProfiledUpdates": 0.002
+     },
+     "handsPerSeatWalk": 45.97,
+     "rowIncrementsPerDeal": 226.56021666666666,
+     "keyCacheMiB": 13.426,
+     "limitReached": false
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "default",
+     "sampledDeals": 60000,
+     "secondsMedian": 0.608921,
+     "secondsMin": 0.578076,
+     "dealsPerSecond": 98534.9495254721,
+     "stateVisitsPerDeal": 121.51833333333333,
+     "rows": 87926,
+     "tableMiB": 8.481,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.072,
+      "traverse": 0.504,
+      "merge": 0.1158,
+      "profiledUpdates": 0.0441,
+      "scoreInProfiledUpdates": 0.0005
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "rbes",
+     "sampledDeals": 60000,
+     "secondsMedian": 5.876164,
+     "secondsMin": 5.857885,
+     "dealsPerSecond": 10210.742926848196,
+     "stateVisitsPerDeal": 177.9661,
+     "rows": 230184,
+     "tableMiB": 20.166,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.3896,
+      "traverse": 4.8279,
+      "merge": 0.805,
+      "profiledUpdates": 0.3807,
+      "scoreInProfiledUpdates": 0.0007
+     },
+     "handsPerSeatWalk": 180.193,
+     "rowIncrementsPerDeal": 556.60775,
+     "keyCacheMiB": 15.635,
+     "limitReached": false
+    },
+    {
+     "game": "flop3-kings-detailed",
+     "trainer": "default",
+     "sampledDeals": 30000,
+     "secondsMedian": 0.571772,
+     "secondsMin": 0.559364,
+     "dealsPerSecond": 52468.466451662556,
+     "stateVisitsPerDeal": 117.48476666666667,
+     "rows": 437775,
+     "tableMiB": 53.21,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.2241,
+      "traverse": 0.3132,
+      "merge": 0.0919,
+      "profiledUpdates": 0.0399,
+      "scoreInProfiledUpdates": 0.0003
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "flop3-kings-detailed",
+     "trainer": "rbes",
+     "sampledDeals": 16832,
+     "secondsMedian": 11.613751,
+     "secondsMin": 11.602086,
+     "dealsPerSecond": 1449.3164180978222,
+     "stateVisitsPerDeal": 162.65987404942965,
+     "rows": 16772629,
+     "tableMiB": 1460.939,
+     "processPeakRssMiB": 1503.8,
+     "stageSeconds": {
+      "deal": 2.0816,
+      "traverse": 5.5476,
+      "merge": 2.4328,
+      "profiledUpdates": 0.638,
+      "scoreInProfiledUpdates": 0.0003
+     },
+     "handsPerSeatWalk": 180.288,
+     "rowIncrementsPerDeal": 3265.623158269962,
+     "keyCacheMiB": 0.0,
+     "limitReached": true
+    },
+    {
+     "game": "btn25-open",
+     "trainer": "default",
+     "sampledDeals": 3000,
+     "secondsMedian": 0.027476,
+     "secondsMin": 0.023544,
+     "dealsPerSecond": 109186.19886446353,
+     "stateVisitsPerDeal": 56.943333333333335,
+     "rows": 22697,
+     "tableMiB": 3.531,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.0098,
+      "traverse": 0.0123,
+      "merge": 0.0032,
+      "profiledUpdates": 0.0016,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "btn25-open",
+     "trainer": "rbes",
+     "sampledDeals": 3000,
+     "secondsMedian": 5.806138,
+     "secondsMin": 5.732912,
+     "dealsPerSecond": 516.6945739147089,
+     "stateVisitsPerDeal": 106.59933333333333,
+     "rows": 3880735,
+     "tableMiB": 347.653,
+     "processPeakRssMiB": 379.0,
+     "stageSeconds": {
+      "deal": 2.7321,
+      "traverse": 1.8965,
+      "merge": 1.5229,
+      "profiledUpdates": 0.3885,
+      "scoreInProfiledUpdates": 0.0001
+     },
+     "handsPerSeatWalk": 903.0,
+     "rowIncrementsPerDeal": 4215.167666666666,
+     "keyCacheMiB": 0.011,
+     "limitReached": false
+    },
+    {
+     "game": "icm8-bb-call",
+     "trainer": "default",
+     "sampledDeals": 6000,
+     "secondsMedian": 0.026279,
+     "secondsMin": 0.022569,
+     "dealsPerSecond": 228319.19022793864,
+     "stateVisitsPerDeal": 16.639666666666667,
+     "rows": 1003,
+     "tableMiB": 2.189,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.0173,
+      "traverse": 0.0065,
+      "merge": 0.0019,
+      "profiledUpdates": 0.0017,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "icm8-bb-call",
+     "trainer": "rbes",
+     "sampledDeals": 6000,
+     "secondsMedian": 6.600006,
+     "secondsMin": 6.511786,
+     "dealsPerSecond": 909.0900826453794,
+     "stateVisitsPerDeal": 18.5185,
+     "rows": 1014,
+     "tableMiB": 18.049,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 5.1373,
+      "traverse": 1.6847,
+      "merge": 0.0649,
+      "profiledUpdates": 0.4308,
+      "scoreInProfiledUpdates": 0.0001
+     },
+     "handsPerSeatWalk": 903.0,
+     "rowIncrementsPerDeal": 504.8183333333333,
+     "keyCacheMiB": 0.011,
+     "limitReached": false
+    },
+    {
+     "game": "rg-hu-river",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 0.338119,
+     "secondsMin": 0.313266,
+     "dealsPerSecond": 1183015.447224202,
+     "stateVisitsPerDeal": 14.2499475,
+     "rows": 468,
+     "tableMiB": 0.091,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1055,
+      "traverse": 0.2596,
+      "merge": 0.0692,
+      "profiledUpdates": 0.0303,
+      "scoreInProfiledUpdates": 0.001
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-hu-river",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 5.512685,
+     "secondsMin": 5.480458,
+     "dealsPerSecond": 72559.92315904137,
+     "stateVisitsPerDeal": 20.4175925,
+     "rows": 468,
+     "tableMiB": 0.091,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1306,
+      "traverse": 3.5652,
+      "merge": 1.9241,
+      "profiledUpdates": 0.3586,
+      "scoreInProfiledUpdates": 0.001
+     },
+     "handsPerSeatWalk": 50.428,
+     "rowIncrementsPerDeal": 214.9024475,
+     "keyCacheMiB": 0.001,
+     "limitReached": false
+    },
+    {
+     "game": "rg-river3",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 0.551602,
+     "secondsMin": 0.532235,
+     "dealsPerSecond": 725160.5324128629,
+     "stateVisitsPerDeal": 26.815355,
+     "rows": 752,
+     "tableMiB": 0.12,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.2014,
+      "traverse": 0.4435,
+      "merge": 0.1,
+      "profiledUpdates": 0.0507,
+      "scoreInProfiledUpdates": 0.001
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-river3",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 4.288547,
+     "secondsMin": 4.23497,
+     "dealsPerSecond": 93271.68385935843,
+     "stateVisitsPerDeal": 35.84996,
+     "rows": 752,
+     "tableMiB": 0.12,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1546,
+      "traverse": 3.1038,
+      "merge": 1.2,
+      "profiledUpdates": 0.2852,
+      "scoreInProfiledUpdates": 0.0011
+     },
+     "handsPerSeatWalk": 23.737,
+     "rowIncrementsPerDeal": 128.36575,
+     "keyCacheMiB": 0.001,
+     "limitReached": false
+    },
+    {
+     "game": "rg-hu-turn",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 0.390275,
+     "secondsMin": 0.382344,
+     "dealsPerSecond": 1024918.3268208315,
+     "stateVisitsPerDeal": 18.502505,
+     "rows": 6016,
+     "tableMiB": 0.602,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1162,
+      "traverse": 0.2945,
+      "merge": 0.0856,
+      "profiledUpdates": 0.0341,
+      "scoreInProfiledUpdates": 0.002
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-hu-turn",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 3.288617,
+     "secondsMin": 3.148693,
+     "dealsPerSecond": 121631.6767808474,
+     "stateVisitsPerDeal": 19.8741075,
+     "rows": 6016,
+     "tableMiB": 0.602,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1468,
+      "traverse": 2.2114,
+      "merge": 1.0866,
+      "profiledUpdates": 0.2209,
+      "scoreInProfiledUpdates": 0.0026
+     },
+     "handsPerSeatWalk": 27.824,
+     "rowIncrementsPerDeal": 123.8241775,
+     "keyCacheMiB": 0.028,
+     "limitReached": false
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "default",
+     "sampledDeals": 200000,
+     "secondsMedian": 0.689873,
+     "secondsMin": 0.652006,
+     "dealsPerSecond": 289908.43242161965,
+     "stateVisitsPerDeal": 49.892815,
+     "rows": 71163,
+     "tableMiB": 7.396,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.0866,
+      "traverse": 0.5894,
+      "merge": 0.0937,
+      "profiledUpdates": 0.0505,
+      "scoreInProfiledUpdates": 0.0018
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "rbes",
+     "sampledDeals": 200000,
+     "secondsMedian": 3.584546,
+     "secondsMin": 3.362267,
+     "dealsPerSecond": 55795.07139816311,
+     "stateVisitsPerDeal": 62.503105,
+     "rows": 86194,
+     "tableMiB": 8.314,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1008,
+      "traverse": 2.551,
+      "merge": 0.8566,
+      "profiledUpdates": 0.2235,
+      "scoreInProfiledUpdates": 0.0017
+     },
+     "handsPerSeatWalk": 17.487,
+     "rowIncrementsPerDeal": 176.244895,
+     "keyCacheMiB": 0.034,
+     "limitReached": false
+    },
+    {
+     "game": "rg-turn4",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 1.009722,
+     "secondsMin": 0.991302,
+     "dealsPerSecond": 396148.6428937866,
+     "stateVisitsPerDeal": 43.62389,
+     "rows": 26836,
+     "tableMiB": 2.436,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.2033,
+      "traverse": 0.8215,
+      "merge": 0.1646,
+      "profiledUpdates": 0.0799,
+      "scoreInProfiledUpdates": 0.0033
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-turn4",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 3.289317,
+     "secondsMin": 3.20093,
+     "dealsPerSecond": 121605.79232710012,
+     "stateVisitsPerDeal": 54.883845,
+     "rows": 33178,
+     "tableMiB": 3.573,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.2351,
+      "traverse": 2.6039,
+      "merge": 0.6934,
+      "profiledUpdates": 0.2276,
+      "scoreInProfiledUpdates": 0.004
+     },
+     "handsPerSeatWalk": 7.949,
+     "rowIncrementsPerDeal": 64.39604,
+     "keyCacheMiB": 0.035,
+     "limitReached": false
+    },
+    {
+     "game": "rg-icm3-river",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 0.644069,
+     "secondsMin": 0.617973,
+     "dealsPerSecond": 621051.4711933038,
+     "stateVisitsPerDeal": 27.0954175,
+     "rows": 752,
+     "tableMiB": 0.12,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1413,
+      "traverse": 0.5863,
+      "merge": 0.1096,
+      "profiledUpdates": 0.0568,
+      "scoreInProfiledUpdates": 0.0011
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-icm3-river",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 4.495613,
+     "secondsMin": 4.428418,
+     "dealsPerSecond": 88975.6302421939,
+     "stateVisitsPerDeal": 36.70122,
+     "rows": 752,
+     "tableMiB": 0.12,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1588,
+      "traverse": 3.2694,
+      "merge": 1.1866,
+      "profiledUpdates": 0.2951,
+      "scoreInProfiledUpdates": 0.001
+     },
+     "handsPerSeatWalk": 23.737,
+     "rowIncrementsPerDeal": 128.443705,
+     "keyCacheMiB": 0.001,
+     "limitReached": false
+    },
+    {
+     "game": "rg-bubble4",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 0.649075,
+     "secondsMin": 0.646862,
+     "dealsPerSecond": 616261.603050495,
+     "stateVisitsPerDeal": 29.6177525,
+     "rows": 70,
+     "tableMiB": 0.065,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1558,
+      "traverse": 0.4533,
+      "merge": 0.0582,
+      "profiledUpdates": 0.0423,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-bubble4",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 1.443305,
+     "secondsMin": 1.377564,
+     "dealsPerSecond": 277141.69908647164,
+     "stateVisitsPerDeal": 29.851165,
+     "rows": 70,
+     "tableMiB": 0.065,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1646,
+      "traverse": 1.1519,
+      "merge": 0.1177,
+      "profiledUpdates": 0.0903,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": 3.638,
+     "rowIncrementsPerDeal": 14.5528275,
+     "keyCacheMiB": 0.0,
+     "limitReached": false
+    },
+    {
+     "game": "rg-flop6c",
+     "trainer": "default",
+     "sampledDeals": 200000,
+     "secondsMedian": 1.108831,
+     "secondsMin": 1.082702,
+     "dealsPerSecond": 180370.13755928542,
+     "stateVisitsPerDeal": 145.47749,
+     "rows": 1188,
+     "tableMiB": 0.274,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.2534,
+      "traverse": 0.8472,
+      "merge": 0.0986,
+      "profiledUpdates": 0.0785,
+      "scoreInProfiledUpdates": 0.0022
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "rg-flop6c",
+     "trainer": "rbes",
+     "sampledDeals": 200000,
+     "secondsMedian": 2.163631,
+     "secondsMin": 2.019544,
+     "dealsPerSecond": 92437.20394096775,
+     "stateVisitsPerDeal": 157.47514,
+     "rows": 1198,
+     "tableMiB": 0.275,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.3315,
+      "traverse": 1.657,
+      "merge": 0.1913,
+      "profiledUpdates": 0.1404,
+      "scoreInProfiledUpdates": 0.0025
+     },
+     "handsPerSeatWalk": 3.076,
+     "rowIncrementsPerDeal": 24.186975,
+     "keyCacheMiB": 4.324,
+     "limitReached": false
+    },
+    {
+     "game": "hu-river",
+     "trainer": "default",
+     "sampledDeals": 1000000,
+     "secondsMedian": 0.600031,
+     "secondsMin": 0.594522,
+     "dealsPerSecond": 1666580.5600043999,
+     "stateVisitsPerDeal": 15.041678,
+     "rows": 48,
+     "tableMiB": 0.062,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1936,
+      "traverse": 0.5654,
+      "merge": 0.1751,
+      "profiledUpdates": 0.0663,
+      "scoreInProfiledUpdates": 0.0025
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "hu-river",
+     "trainer": "rbes",
+     "sampledDeals": 1000000,
+     "secondsMedian": 2.146473,
+     "secondsMin": 2.051501,
+     "dealsPerSecond": 465880.53984373435,
+     "stateVisitsPerDeal": 22.235787,
+     "rows": 48,
+     "tableMiB": 0.062,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1995,
+      "traverse": 1.6065,
+      "merge": 0.696,
+      "profiledUpdates": 0.1681,
+      "scoreInProfiledUpdates": 0.0025
+     },
+     "handsPerSeatWalk": 5.576,
+     "rowIncrementsPerDeal": 25.606155,
+     "keyCacheMiB": 0.0,
+     "limitReached": false
+    },
+    {
+     "game": "final8",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 1.724152,
+     "secondsMin": 1.721289,
+     "dealsPerSecond": 231998.10689544774,
+     "stateVisitsPerDeal": 108.3222125,
+     "rows": 343,
+     "tableMiB": 0.094,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1579,
+      "traverse": 1.4806,
+      "merge": 0.0743,
+      "profiledUpdates": 0.1077,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "final8",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 2.793697,
+     "secondsMin": 2.793441,
+     "dealsPerSecond": 143179.45002625554,
+     "stateVisitsPerDeal": 114.22855,
+     "rows": 324,
+     "tableMiB": 0.092,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1851,
+      "traverse": 2.6011,
+      "merge": 0.0965,
+      "profiledUpdates": 0.1864,
+      "scoreInProfiledUpdates": 0.0
+     },
+     "handsPerSeatWalk": 1.0,
+     "rowIncrementsPerDeal": 8.00397,
+     "keyCacheMiB": 0.0,
+     "limitReached": false
+    },
+    {
+     "game": "flop6",
+     "trainer": "default",
+     "sampledDeals": 400000,
+     "secondsMedian": 1.233055,
+     "secondsMin": 1.190194,
+     "dealsPerSecond": 324397.53295676183,
+     "stateVisitsPerDeal": 88.025,
+     "rows": 379,
+     "tableMiB": 0.088,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1539,
+      "traverse": 1.1529,
+      "merge": 0.1886,
+      "profiledUpdates": 0.1004,
+      "scoreInProfiledUpdates": 0.0042
+     },
+     "handsPerSeatWalk": null,
+     "rowIncrementsPerDeal": null,
+     "keyCacheMiB": null,
+     "limitReached": false
+    },
+    {
+     "game": "flop6",
+     "trainer": "rbes",
+     "sampledDeals": 400000,
+     "secondsMedian": 2.022506,
+     "secondsMin": 2.004129,
+     "dealsPerSecond": 197774.44417964644,
+     "stateVisitsPerDeal": 97.34311,
+     "rows": 384,
+     "tableMiB": 0.088,
+     "processPeakRssMiB": 341.9,
+     "stageSeconds": {
+      "deal": 0.1845,
+      "traverse": 1.8813,
+      "merge": 0.2604,
+      "profiledUpdates": 0.1532,
+      "scoreInProfiledUpdates": 0.0048
+     },
+     "handsPerSeatWalk": 1.893,
+     "rowIncrementsPerDeal": 13.66946,
+     "keyCacheMiB": 1.754,
+     "limitReached": false
+    }
+   ],
+   "threadScaling": [
+    {
+     "game": "flop6-jack",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 288000,
+     "secondsMedian": 7.17673,
+     "secondsMin": 7.008239,
+     "dealsPerSecond": 40129.69695111841,
+     "batchStages": {
+      "deal": 0.3736,
+      "prepare": 0.3129,
+      "fixup": 0.0116,
+      "traverse": 5.9938,
+      "resolve": 0.0679,
+      "accumulate": 0.3228,
+      "apply": 0.051,
+      "updates": 4500,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 454,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 288000,
+     "secondsMedian": 4.190193,
+     "secondsMin": 4.120618,
+     "dealsPerSecond": 68731.91759902229,
+     "batchStages": {
+      "deal": 0.3804,
+      "prepare": 0.1893,
+      "fixup": 0.0132,
+      "traverse": 3.312,
+      "resolve": 0.0781,
+      "accumulate": 0.4044,
+      "apply": 0.0792,
+      "updates": 4500,
+      "updatesOnSeveralThreads": 4500,
+      "dealsPreparedInOrder": 454,
+      "dispatches": 18000,
+      "workerParks": 110
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 288000,
+     "secondsMedian": 2.638168,
+     "secondsMin": 2.586352,
+     "dealsPerSecond": 109166.66413966056,
+     "batchStages": {
+      "deal": 0.3607,
+      "prepare": 0.1093,
+      "fixup": 0.0129,
+      "traverse": 1.6318,
+      "resolve": 0.0717,
+      "accumulate": 0.275,
+      "apply": 0.0528,
+      "updates": 4500,
+      "updatesOnSeveralThreads": 4500,
+      "dealsPreparedInOrder": 454,
+      "dispatches": 18000,
+      "workerParks": 457
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 96000,
+     "secondsMedian": 6.620309,
+     "secondsMin": 6.61898,
+     "dealsPerSecond": 14500.833722413863,
+     "batchStages": {
+      "deal": 0.1188,
+      "prepare": 0.1034,
+      "fixup": 0.1692,
+      "traverse": 5.2801,
+      "resolve": 0.103,
+      "accumulate": 0.6347,
+      "apply": 0.1566,
+      "updates": 1500,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 83,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 96000,
+     "secondsMedian": 4.316999,
+     "secondsMin": 4.101005,
+     "dealsPerSecond": 22237.67019635631,
+     "batchStages": {
+      "deal": 0.1257,
+      "prepare": 0.0668,
+      "fixup": 0.1713,
+      "traverse": 2.9586,
+      "resolve": 0.1134,
+      "accumulate": 0.7213,
+      "apply": 0.1331,
+      "updates": 1500,
+      "updatesOnSeveralThreads": 1500,
+      "dealsPreparedInOrder": 83,
+      "dispatches": 6000,
+      "workerParks": 315
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop6-jack",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 96000,
+     "secondsMedian": 2.69192,
+     "secondsMin": 2.612324,
+     "dealsPerSecond": 35662.27822520729,
+     "batchStages": {
+      "deal": 0.1266,
+      "prepare": 0.0449,
+      "fixup": 0.177,
+      "traverse": 1.5844,
+      "resolve": 0.1152,
+      "accumulate": 0.5375,
+      "apply": 0.087,
+      "updates": 1500,
+      "updatesOnSeveralThreads": 1500,
+      "dealsPreparedInOrder": 83,
+      "dispatches": 6000,
+      "workerParks": 977
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 115200,
+     "secondsMedian": 1.115331,
+     "secondsMin": 1.100969,
+     "dealsPerSecond": 103287.72355471156,
+     "batchStages": {
+      "deal": 0.0377,
+      "prepare": 0.0622,
+      "fixup": 0.0028,
+      "traverse": 0.9006,
+      "resolve": 0.0243,
+      "accumulate": 0.0684,
+      "apply": 0.0151,
+      "updates": 1800,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 459,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 115200,
+     "secondsMedian": 0.840547,
+     "secondsMin": 0.792631,
+     "dealsPerSecond": 137053.60913785902,
+     "batchStages": {
+      "deal": 0.0389,
+      "prepare": 0.0385,
+      "fixup": 0.0035,
+      "traverse": 0.5697,
+      "resolve": 0.0274,
+      "accumulate": 0.1185,
+      "apply": 0.0306,
+      "updates": 1800,
+      "updatesOnSeveralThreads": 1800,
+      "dealsPreparedInOrder": 459,
+      "dispatches": 7200,
+      "workerParks": 21
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 115200,
+     "secondsMedian": 0.605667,
+     "secondsMin": 0.581685,
+     "dealsPerSecond": 190203.52768105248,
+     "batchStages": {
+      "deal": 0.0414,
+      "prepare": 0.0301,
+      "fixup": 0.004,
+      "traverse": 0.3381,
+      "resolve": 0.0287,
+      "accumulate": 0.0999,
+      "apply": 0.0226,
+      "updates": 1800,
+      "updatesOnSeveralThreads": 1800,
+      "dealsPreparedInOrder": 459,
+      "dispatches": 7200,
+      "workerParks": 136
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 38400,
+     "secondsMedian": 3.667432,
+     "secondsMin": 3.52144,
+     "dealsPerSecond": 10470.541785096493,
+     "batchStages": {
+      "deal": 0.013,
+      "prepare": 0.0219,
+      "fixup": 0.208,
+      "traverse": 2.5888,
+      "resolve": 0.0545,
+      "accumulate": 0.4679,
+      "apply": 0.1363,
+      "updates": 600,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 78,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 38400,
+     "secondsMedian": 2.389369,
+     "secondsMin": 2.372556,
+     "dealsPerSecond": 16071.188669477173,
+     "batchStages": {
+      "deal": 0.0137,
+      "prepare": 0.0155,
+      "fixup": 0.2242,
+      "traverse": 1.4722,
+      "resolve": 0.0615,
+      "accumulate": 0.589,
+      "apply": 0.1166,
+      "updates": 600,
+      "updatesOnSeveralThreads": 600,
+      "dealsPreparedInOrder": 78,
+      "dispatches": 2400,
+      "workerParks": 263
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "flop3-kings",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 38400,
+     "secondsMedian": 1.673473,
+     "secondsMin": 1.596814,
+     "dealsPerSecond": 22946.291933004,
+     "batchStages": {
+      "deal": 0.0131,
+      "prepare": 0.0101,
+      "fixup": 0.2068,
+      "traverse": 0.7445,
+      "resolve": 0.0572,
+      "accumulate": 0.4284,
+      "apply": 0.0715,
+      "updates": 600,
+      "updatesOnSeveralThreads": 600,
+      "dealsPreparedInOrder": 78,
+      "dispatches": 2400,
+      "workerParks": 771
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 576000,
+     "secondsMedian": 2.108153,
+     "secondsMin": 2.038006,
+     "dealsPerSecond": 273224.95094046777,
+     "batchStages": {
+      "deal": 0.0994,
+      "prepare": 0.0526,
+      "fixup": 0.0004,
+      "traverse": 1.7734,
+      "resolve": 0.0271,
+      "accumulate": 0.1409,
+      "apply": 0.0436,
+      "updates": 9000,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 576000,
+     "secondsMedian": 1.643234,
+     "secondsMin": 1.642905,
+     "dealsPerSecond": 350528.2875110909,
+     "batchStages": {
+      "deal": 0.1029,
+      "prepare": 0.0513,
+      "fixup": 0.0006,
+      "traverse": 1.1295,
+      "resolve": 0.029,
+      "accumulate": 0.2449,
+      "apply": 0.062,
+      "updates": 9000,
+      "updatesOnSeveralThreads": 9000,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 36000,
+      "workerParks": 11
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "default",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 576000,
+     "secondsMedian": 1.043926,
+     "secondsMin": 0.99095,
+     "dealsPerSecond": 551763.2475865148,
+     "batchStages": {
+      "deal": 0.1011,
+      "prepare": 0.0451,
+      "fixup": 0.001,
+      "traverse": 0.6333,
+      "resolve": 0.0325,
+      "accumulate": 0.1789,
+      "apply": 0.0446,
+      "updates": 9000,
+      "updatesOnSeveralThreads": 9000,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 36000,
+      "workerParks": 136
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 1,
+     "sampledDeals": 192000,
+     "secondsMedian": 3.239758,
+     "secondsMin": 3.090125,
+     "dealsPerSecond": 59263.68574442906,
+     "batchStages": {
+      "deal": 0.037,
+      "prepare": 0.0207,
+      "fixup": 0.0057,
+      "traverse": 2.4741,
+      "resolve": 0.0218,
+      "accumulate": 0.5453,
+      "apply": 0.1161,
+      "updates": 3000,
+      "updatesOnSeveralThreads": 0,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 0,
+      "workerParks": 0
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 2,
+     "sampledDeals": 192000,
+     "secondsMedian": 2.450927,
+     "secondsMin": 2.38211,
+     "dealsPerSecond": 78337.70650859858,
+     "batchStages": {
+      "deal": 0.0373,
+      "prepare": 0.0205,
+      "fixup": 0.006,
+      "traverse": 1.3637,
+      "resolve": 0.0241,
+      "accumulate": 0.7473,
+      "apply": 0.1868,
+      "updates": 3000,
+      "updatesOnSeveralThreads": 3000,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 12000,
+      "workerParks": 29
+     },
+     "oneStateForEveryThreadCount": true
+    },
+    {
+     "game": "rg-turn3",
+     "trainer": "rbes",
+     "dealsPerUpdate": 64,
+     "threads": 4,
+     "sampledDeals": 192000,
+     "secondsMedian": 1.726749,
+     "secondsMin": 1.669001,
+     "dealsPerSecond": 111191.6092031905,
+     "batchStages": {
+      "deal": 0.0421,
+      "prepare": 0.0173,
+      "fixup": 0.0077,
+      "traverse": 0.7426,
+      "resolve": 0.0238,
+      "accumulate": 0.6083,
+      "apply": 0.1315,
+      "updates": 3000,
+      "updatesOnSeveralThreads": 3000,
+      "dealsPreparedInOrder": 0,
+      "dispatches": 12000,
+      "workerParks": 182
+     },
+     "oneStateForEveryThreadCount": true
+    }
+   ],
+   "response": [
+    {
+     "game": "flop3-kings-small",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 0.43522657900030026,
+     "responseTrainingSeconds": 0.092665,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.1487837119422857,
+     "simultaneousNashConvLowerBound95": 0.057479912905487034,
+     "exactSumOfSeatGains": 0.1459307125357605,
+     "exactNashConv": 0.15952848749223314,
+     "shareOfExactNashConvFound": 0.91476271623816,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings-small",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 0.40074890599862556,
+     "responseTrainingSeconds": 0.11125,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.1487837119422857,
+     "simultaneousNashConvLowerBound95": 0.057479912905487034,
+     "exactSumOfSeatGains": 0.1459307125357605,
+     "exactNashConv": 0.15952848749223314,
+     "shareOfExactNashConvFound": 0.91476271623816,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings-small",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 0.5246650830013095,
+     "responseTrainingSeconds": 0.196814,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.16002103417236474,
+     "simultaneousNashConvLowerBound95": 0.06560494605367279,
+     "exactSumOfSeatGains": 0.15826054521937083,
+     "exactNashConv": 0.15952848749223314,
+     "shareOfExactNashConvFound": 0.9920519382287503,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings-small",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 12500,
+     "evaluationSamples": 102400,
+     "wallSeconds": 0.3571001009986503,
+     "responseTrainingSeconds": 0.055406,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.15476845878869552,
+     "simultaneousNashConvLowerBound95": 0.06211463363514102,
+     "exactSumOfSeatGains": 0.1490593086648344,
+     "exactNashConv": 0.15952848749223314,
+     "shareOfExactNashConvFound": 0.9343742362760856,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack-small",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 3.157595101998595,
+     "responseTrainingSeconds": 0.33811599999999997,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.45137699068672305,
+     "simultaneousNashConvLowerBound95": 0.11739590507429219,
+     "exactSumOfSeatGains": 0.4665789114912928,
+     "exactNashConv": 0.6084458190298457,
+     "shareOfExactNashConvFound": 0.7668372382527721,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack-small",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 3.0031464869971387,
+     "responseTrainingSeconds": 0.349316,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.45137699068672305,
+     "simultaneousNashConvLowerBound95": 0.11739590507429219,
+     "exactSumOfSeatGains": 0.4665789114912928,
+     "exactNashConv": 0.6084458190298457,
+     "shareOfExactNashConvFound": 0.7668372382527721,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack-small",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 3.345316594997712,
+     "responseTrainingSeconds": 0.560741,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.5240297676160698,
+     "simultaneousNashConvLowerBound95": 0.15374957422433644,
+     "exactSumOfSeatGains": 0.5607956570394842,
+     "exactNashConv": 0.6084458190298457,
+     "shareOfExactNashConvFound": 0.9216854475779968,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack-small",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 12500,
+     "evaluationSamples": 102400,
+     "wallSeconds": 2.9004164660000242,
+     "responseTrainingSeconds": 0.177546,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.32799811925408257,
+     "simultaneousNashConvLowerBound95": 0.10564439619326574,
+     "exactSumOfSeatGains": 0.372946553858267,
+     "exactNashConv": 0.6084458190298457,
+     "shareOfExactNashConvFound": 0.6129494889995671,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "icm8-bb-call-small",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 31.112137978001556,
+     "responseTrainingSeconds": 0.070165,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.01835326853953294,
+     "simultaneousNashConvLowerBound95": 0.0025340361057885254,
+     "exactSumOfSeatGains": 0.018363571748787777,
+     "exactNashConv": 0.026129336733589525,
+     "shareOfExactNashConvFound": 0.7027951737167986,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "icm8-bb-call-small",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 30.984565529000974,
+     "responseTrainingSeconds": 0.072489,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.01835326853953294,
+     "simultaneousNashConvLowerBound95": 0.0025340361057885254,
+     "exactSumOfSeatGains": 0.018363571748787777,
+     "exactNashConv": 0.026129336733589525,
+     "shareOfExactNashConvFound": 0.7027951737167986,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "icm8-bb-call-small",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 31.937312915000803,
+     "responseTrainingSeconds": 0.136525,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.026565714221832817,
+     "simultaneousNashConvLowerBound95": 0.0043085729425920575,
+     "exactSumOfSeatGains": 0.025555840262986962,
+     "exactNashConv": 0.026129336733589525,
+     "shareOfExactNashConvFound": 0.9780516254029009,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "icm8-bb-call-small",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 12500,
+     "evaluationSamples": 102400,
+     "wallSeconds": 33.11495864400058,
+     "responseTrainingSeconds": 0.037223,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.020652599057697604,
+     "simultaneousNashConvLowerBound95": 0.0020796369621515504,
+     "exactSumOfSeatGains": 0.019733955531966885,
+     "exactNashConv": 0.026129336733589525,
+     "shareOfExactNashConvFound": 0.7552413493373785,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "rg-turn4",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 11.29388450999977,
+     "responseTrainingSeconds": 0.20450000000000002,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.005098576380023246,
+     "simultaneousNashConvLowerBound95": 0,
+     "exactSumOfSeatGains": 0.0002925971017810336,
+     "exactNashConv": 0.7828319371864163,
+     "shareOfExactNashConvFound": 0.0003737674561830725,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "rg-turn4",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 9.59638680399803,
+     "responseTrainingSeconds": 0.184533,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.005098576380023246,
+     "simultaneousNashConvLowerBound95": 0,
+     "exactSumOfSeatGains": 0.0002925971017810336,
+     "exactNashConv": 0.7828319371864163,
+     "shareOfExactNashConvFound": 0.0003737674561830725,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "rg-turn4",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 50000,
+     "evaluationSamples": 102400,
+     "wallSeconds": 9.650816577999649,
+     "responseTrainingSeconds": 0.5004219999999999,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.5569082423987711,
+     "simultaneousNashConvLowerBound95": 0.3529976747818329,
+     "exactSumOfSeatGains": 0.5802199415538714,
+     "exactNashConv": 0.7828319371864163,
+     "shareOfExactNashConvFound": 0.7411807234631297,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "rg-turn4",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 12500,
+     "evaluationSamples": 102400,
+     "wallSeconds": 9.686582846999954,
+     "responseTrainingSeconds": 0.169389,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.1962954129526612,
+     "simultaneousNashConvLowerBound95": 0.04387379492343843,
+     "exactSumOfSeatGains": 0.20394184464921897,
+     "exactNashConv": 0.7828319371864163,
+     "shareOfExactNashConvFound": 0.2605180434796877,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 4.868668858001911,
+     "responseTrainingSeconds": 1.494432,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.14243458372379408,
+     "simultaneousNashConvLowerBound95": 0.1434185373464974,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 4.348262554998655,
+     "responseTrainingSeconds": 1.335287,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.14243458372379408,
+     "simultaneousNashConvLowerBound95": 0.1434185373464974,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 12.760163117000047,
+     "responseTrainingSeconds": 9.922891,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 1.836691265762701,
+     "simultaneousNashConvLowerBound95": 1.6602912936507543,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop3-kings",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 25000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 6.156072652000148,
+     "responseTrainingSeconds": 3.155944,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 1.3486890294045761,
+     "simultaneousNashConvLowerBound95": 1.2026749396191634,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack",
+     "program": "5.9 default",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 14.884222316999512,
+     "responseTrainingSeconds": 3.736174,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.08849423999943531,
+     "simultaneousNashConvLowerBound95": 0.021084282574743193,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack",
+     "program": "5.10 default",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 15.463687644998572,
+     "responseTrainingSeconds": 3.921541,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 0.08849423999943531,
+     "simultaneousNashConvLowerBound95": 0.021084282574743193,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack",
+     "program": "5.10 rbes",
+     "responseDealsPerSeat": 100000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 21.89723314299772,
+     "responseTrainingSeconds": 9.640109,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 2.7440387914681095,
+     "simultaneousNashConvLowerBound95": 2.292564853958127,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    },
+    {
+     "game": "flop6-jack",
+     "program": "5.10 rbes, a quarter of the response deals",
+     "responseDealsPerSeat": 25000,
+     "evaluationSamples": 204800,
+     "wallSeconds": 15.540342111999053,
+     "responseTrainingSeconds": 3.532007,
+     "evaluationSeconds": 0,
+     "sampledSumOfSeatGains": 1.4338441721484008,
+     "simultaneousNashConvLowerBound95": 1.0259517145452577,
+     "exactSumOfSeatGains": null,
+     "exactNashConv": null,
+     "shareOfExactNashConvFound": null,
+     "defaultResponseBitsIdentical59And510": true
+    }
+   ],
+   "study": [
+    {
+     "fixture": "flop3-kings",
+     "program": "5.9 default",
+     "seeds": 2,
+     "budgets": [
+      20000,
+      100000
+     ],
+     "wallSeconds": 98.27723344300102,
+     "trainingSecondsAtTheLastBudget": [
+      1.012811833,
+      0.968807017
+     ],
+     "evaluationSeconds": 96.264868547,
+     "rowsAtTheLastBudget": [
+      103755,
+      103261
+     ],
+     "processPeakRssMiB": 341.8828125,
+     "complete": true
+    },
+    {
+     "fixture": "flop3-kings",
+     "program": "5.10 default",
+     "seeds": 2,
+     "budgets": [
+      20000,
+      100000
+     ],
+     "wallSeconds": 99.28693519700028,
+     "trainingSecondsAtTheLastBudget": [
+      1.122346252,
+      0.9655180070000002
+     ],
+     "evaluationSeconds": 97.165007195,
+     "rowsAtTheLastBudget": [
+      103755,
+      103261
+     ],
+     "processPeakRssMiB": 341.8828125,
+     "complete": true
+    },
+    {
+     "fixture": "flop3-kings",
+     "program": "5.10 estimator=rbes",
+     "seeds": 2,
+     "budgets": [
+      20000,
+      100000
+     ],
+     "wallSeconds": 128.1635899369976,
+     "trainingSecondsAtTheLastBudget": [
+      8.881724016999993,
+      9.229672488
+     ],
+     "evaluationSeconds": 109.715647311,
+     "rowsAtTheLastBudget": [
+      242116,
+      242386
+     ],
+     "processPeakRssMiB": 341.8828125,
+     "complete": true
+    }
+   ]
+  },
+  "desktopHostRefusedStudies": {
+   "checksPassed": 9,
+   "checksTotal": 9,
+   "passed": true,
+   "checks": [
+    {
+     "name": "A: a study of 20,000,000 deals per seed is refused within a second with the limit in the message, and its folder is gone",
+     "passed": true
+    },
+    {
+     "name": "B: invalid configurations are refused with their reason and leave no folder",
+     "passed": true
+    },
+    {
+     "name": "C: a folder that existed before, with a file of the user's: the folder and the file stay unchanged; the request written into it is removed",
+     "passed": true
+    },
+    {
+     "name": "D: a folder that existed before and holds only a request.json is not removed",
+     "passed": true
+    },
+    {
+     "name": "E: an existing checkpoint with that id: the request is refused with 409 and no file of the checkpoint changes",
+     "passed": true
+    },
+    {
+     "name": "F: eight over-limit requests at once: each is accepted and then refused by the engine, or turned away because one is running; no folder is left",
+     "passed": true
+    },
+    {
+     "name": "G: refused requests arriving while a valid study runs are turned away; the running study's folder is not touched and the study completes",
+     "passed": true
+    },
+    {
+     "name": "H: when the removal fails (simulated) the refusal message is unchanged, the failure is reported, and the files stay",
+     "passed": true
+    },
+    {
+     "name": "I: an ordinary study started after a refusal completes, is listed with its request, and can be discarded",
+     "passed": true
+    }
+   ]
+  },
+  "ui": {
+   "passed": true,
+   "checksPassed": 20,
+   "checksTotal": 20,
+   "browser": "Chromium 158.0.8127.36",
+   "notPassed": []
+  },
+  "stability": {
+   "passed": true,
+   "minutesRequested": 3,
+   "checks": [
+    {
+     "name": "A: a study paused and resumed 24 times completes",
+     "passed": true
+    },
+    {
+     "name": "A: its numbers equal an uninterrupted study and no checkpoint warning was raised",
+     "passed": true
+    },
+    {
+     "name": "A: an interrupted document never claims completion or tolerance",
+     "passed": true
+    },
+    {
+     "name": "B: 25 sequential studies complete with identical numbers; export, reload and re-export are stable",
+     "passed": true
+    },
+    {
+     "name": "B: every study left a complete saved record and none is resumable",
+     "passed": true
+    },
+    {
+     "name": "B: discarding every saved study empties the list",
+     "passed": true
+    },
+    {
+     "name": "D: cancellation during evaluation stops the study and marks it incomplete",
+     "passed": true
+    },
+    {
+     "name": "D: the cancelled evaluation is repeated on resume and the study completes",
+     "passed": true
+    },
+    {
+     "name": "E0: a study of 20,000,000 deals per seed is refused at once by the desktop host, with the limit in the message, and nothing is saved",
+     "passed": true
+    },
+    {
+     "name": "E: a 122 s training study stops at its time limit with periodic checkpoints and no write error",
+     "passed": true
+    },
+    {
+     "name": "E: every engine state named by the final manifest matches its SHA-256",
+     "passed": true
+    },
+    {
+     "name": "C: 112646 concurrent status polls each returned a complete, well-formed document",
+     "passed": true
+    }
+   ]
+  },
+  "sanitizers": {
+   "summary": [
+    "asan build exit 0",
+    "asan selftest510 exit 0",
+    "asan tests (5.10 file: exact estimator checks, 4.7 cross-check, default trainer, determinism, checkpoints, limits, processing modes with the simulated CUDA driver, response, study) exit 0",
+    "tsan build exit 0",
+    "# tests 10 # pass 10 # fail 0 # skipped 0 (v510-asan-ubsan)",
+    "sanitizer reports (ERROR: AddressSanitizer / runtime error) in all outputs: 0",
+    "ThreadSanitizer warnings: 0",
+    "t3: frozen-batch training on four threads exit 0",
+    "f3c: frozen-batch training on four threads exit 0",
+    "b4: frozen-batch training on four threads exit 0",
+    "det-rbes: frozen-batch training on four threads exit 0",
+    "det-default: frozen-batch training on four threads exit 0",
+    "w-rbes: frozen-batch training on four threads exit 0",
+    "response trained by rbes, three seats side by side exit 0",
+    "states of the instrumented program on four threads equal the release program on one thread: 6 of 6",
+    "response bits of the instrumented program equal the release program: True (3 seats)",
+    "leak check: rbes training exit 0 (0 expected), training stopped by a 6 MiB table limit exit 0 (0 expected), refused configuration exit 1 (1 expected), refused checkpoint exit 1 (1 expected), exact check exit 0 (0 expected); LeakSanitizer reports: 0"
+   ],
+   "selftest510": {
+    "passed": 21,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 270.040802926,
+    "checks": 21,
+    "notPassed": []
+   },
+   "v510": {
+    "tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "failedTests": [],
+    "skippedTests": []
+   }
+  },
+  "wine": {
+   "wineVersion": "it looks like wine32 is missing, you should install it.\nas root, please execute \"apt-get install wine32:i386\"\nwine-9.0 (Ubuntu 9.0~repack-4build3)",
+   "buildId": "EightMaxBuild=7fa0e8c16d6c6ade",
+   "selftest510": {
+    "passed": 21,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 56.293893,
+    "checks": 21,
+    "notPassed": []
+   },
+   "selftest59": {
+    "passed": 32,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 144.0244186,
+    "checks": 32,
+    "notPassed": []
+   },
+   "selftest58": {
+    "passed": 33,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 85.1624931,
+    "checks": 33,
+    "notPassed": []
+   },
+   "selftest571": {
+    "passed": 24,
+    "failed": 0,
+    "untested": 0,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 41.7955977,
+    "checks": 24,
+    "notPassed": []
+   },
+   "selftest57": {
+    "passed": 28,
+    "failed": 0,
+    "untested": null,
+    "build": "7fa0e8c16d6c6ade",
+    "seconds": 55.0976279,
+    "checks": 28,
+    "notPassed": []
+   },
+   "estimatorSection": {
+    "passed": true,
+    "threads": [
+     {
+      "threads": 1,
+      "exit": 0,
+      "sha256": "1f735090f17f55fb18ca1f33430660125286294388d0e1437f50be80c1c8cfb4",
+      "equalsTheLinuxBuild": true
+     },
+     {
+      "threads": 2,
+      "exit": 0,
+      "sha256": "1f735090f17f55fb18ca1f33430660125286294388d0e1437f50be80c1c8cfb4",
+      "equalsTheLinuxBuild": true
+     },
+     {
+      "threads": 4,
+      "exit": 0,
+      "sha256": "1f735090f17f55fb18ca1f33430660125286294388d0e1437f50be80c1c8cfb4",
+      "equalsTheLinuxBuild": true
+     }
+    ],
+    "exactCheckPassed": true
+   },
+   "referenceResponses59": {
+    "cases": [
+     {
+      "name": "hu-river",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "river3-chip",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "turn4",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "flop6",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "mid3-turn",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "sidepot3-icm",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     },
+     {
+      "name": "bubble4",
+      "stateIdentical": true,
+      "responseBitsIdentical": true,
+      "summaryBoundsIdentical": true
+     }
+    ],
+    "passed": true
+   },
+   "tests": {
+    "v510": {
+     "tests": 9,
+     "passed": 9,
+     "failed": 0,
+     "skipped": 0,
+     "failedTests": [],
+     "skippedTests": []
+    }
+   }
+  },
+  "powershell": {
+   "what": "validate_windows510.ps1 executed by PowerShell 7 on LINUX against the Linux programs: the script's logic, not Windows",
+   "version": "7.4.6 on Ubuntu 24.04.5 LTS",
+   "parser": [
+    "test_devices.ps1: 0 parse errors, 901 tokens",
+    "test_large_checkpoint.ps1: 0 parse errors, 517 tokens",
+    "test_windows.ps1: 0 parse errors, 11554 tokens",
+    "validate_hardware.ps1: 0 parse errors, 9180 tokens",
+    "validate_windows510.ps1: 0 parse errors, 15431 tokens",
+    "validate_windows56.ps1: 0 parse errors, 4945 tokens",
+    "validate_windows57.ps1: 0 parse errors, 8671 tokens",
+    "validate_windows571.ps1: 0 parse errors, 9591 tokens",
+    "validate_windows58.ps1: 0 parse errors, 10900 tokens",
+    "validate_windows59.ps1: 0 parse errors, 13516 tokens"
+   ],
+   "focused": {
+    "tool": "validate_windows510.ps1",
+    "release": "5.10",
+    "mode": "focused",
+    "scriptCompleted": true,
+    "passed": 50,
+    "failed": 0,
+    "skipped": 1,
+    "untested": 0,
+    "info": 6,
+    "notPassed": [
+     {
+      "section": "integrity",
+      "name": "SHA256SUMS.txt",
+      "status": "skipped",
+      "class": "gate",
+      "detail": "-SkipIntegrity was given"
+     }
+    ]
+   },
+   "full": {
+    "tool": "validate_windows510.ps1",
+    "release": "5.10",
+    "mode": "full",
+    "scriptCompleted": true,
+    "passed": 215,
+    "failed": 0,
+    "skipped": 2,
+    "untested": 0,
+    "info": 27,
+    "notPassed": [
+     {
+      "section": "integrity",
+      "name": "SHA256SUMS.txt",
+      "status": "skipped",
+      "class": "gate",
+      "detail": "-SkipIntegrity was given"
+     },
+     {
+      "section": "GPU",
+      "name": "CUDA validation",
+      "status": "skipped",
+      "class": "hardware",
+      "detail": "no usable NVIDIA CUDA device answered on this PC (NVIDIA driver library not found): nothing about the GPU was tested"
+     }
+    ]
+   }
+  },
+  "windows": {
+   "class": 3,
+   "executedOnWindowsHardware": false,
+   "windowsPowerShell51Executed": false,
+   "ciWorkflow": {
+    "executedBeforePackaging": false,
+    "note": "a hosted Windows runner can only test the packaged archive, so its result cannot be inside the archive or its identity file; whether it ran is recorded beside the ZIP (WINDOWS-CI-5.10.md)"
+   },
+   "why": "The development session had no Windows machine; the owner of the target PC was not available for testing.",
+   "launchers": [
+    "Run 5.10 focused validation.bat",
+    "Run 5.10 Windows validation.bat"
+   ],
+   "instructions": "WINDOWS-TESTS-5.10.md",
+   "evidenceOf59OnTheTargetPc": "validation/5.10/baseline/windows-5.9-physical (95 of 95 focused and 192 of 192 full checks with the 5.9 programs; not evidence for 5.10)"
+  },
+  "gpu": {
+   "class": 3,
+   "cudaCodeChangedIn510": false,
+   "trainingOnTheGpu": false,
+   "executedOnAnNvidiaGpuFor510": false,
+   "evidenceOf59OnTheTargetPc": "validation/5.10/baseline/windows-5.9-physical/Windows-validation-5.9.txt (GPU section; not evidence for 5.10)"
+  }
+ },
+ "note": "Every check after the hash was made on a copy extracted from this exact file into a new empty directory."
+}
