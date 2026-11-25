@@ -167,7 +167,9 @@ are noted for Phase 4. With the 5.10 streams the cost is that of 5.10.
 * Whether the stream coincidences of 5.10 ever harmed a training: not seen in this experiment, not excluded.
 * Equal time: "no worse within 10%" is established; "as fast" is not, and on small games it is not true.
 * The interactive panel, DCFR and response training keep a 10,000,000-update bound.
-* The archive is within 4% of the size limit; later phases need a decision about old evidence in the ZIP.
+* The archive is at the 100 MiB limit of the repository (the first packaging came out at 100.68 MiB and was
+  refused; the Linux host and stress programs of 5.11 were moved beside the ZIP). Phase 2 needs a decision about old
+  evidence in the ZIP before it can add anything.
 * The in-tree MSYS2 workflow was updated and not run (as for 5.10).
 
 ## 10. What to run, and what to send back
@@ -182,5 +184,5 @@ on the i7-13700F.
 
 In the archive: this report, RELEASE-5.11.md, WINDOWS-TESTS-5.11.md, MATHEMATICAL-VALIDATION-5.11.md,
 CONVERGENCE-5.11.md, PERFORMANCE-5.11.md, VALIDATION-5.11.md, BUILD-5.11.md, the two launchers, `validation/5.11/`
-(evidence, runners, the CI definitions, the 5.11 Linux programs). Beside the archive: the identity file,
+(evidence, runners, the CI definitions, the 5.11 Linux mwcli). Beside the archive: the identity file,
 `SHA256SUMS-delivery.txt`, copies of the reports, WINDOWS-CI-5.11.md and the raw log of the Windows run.

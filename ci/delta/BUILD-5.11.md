@@ -80,8 +80,8 @@ file, no evaluator and no interface file changed.
 | `gpustress.exe` | 2,486,784 | `4e806d59fc5bd84659230bf330d4a0ec0ea63701f2ad89e3a493fe8a91c81c92` |
 | `EightMax-Offline.html` | 1,224,106 | `8354f97fd230480b95e93fda38c006ed58b28a64a63854a5132fb505938e6b78` |
 | `validation/5.11/linux-bin/mwcli` | 2,757,176 | `c31652d291cbcc3ac480d1bccc3a8384e2978ec4f4322be73b00d75db4766b06` |
-| `validation/5.11/linux-bin/eightmax` | 4,239,704 | `17febb0fc77a9ecc9c3fdd0c4d2925d1ce08ed6a234ba95d88dd9d24e8a420a4` |
-| `validation/5.11/linux-bin/gpustress` | 1,644,384 | `03fbf3f0119020f43174bd7cde0403fcc713615c5914efccb05b0dbf098d6c9d` |
+| `linux-bin/eightmax (beside the ZIP)` | 4,239,704 | `17febb0fc77a9ecc9c3fdd0c4d2925d1ce08ed6a234ba95d88dd9d24e8a420a4` |
+| `linux-bin/gpustress (beside the ZIP)` | 1,644,384 | `03fbf3f0119020f43174bd7cde0403fcc713615c5914efccb05b0dbf098d6c9d` |
 
 Build identifier embedded in all three executables and in `BUILD-INFO.json`: `af452eaa0ea731be` (version 5.11).
 

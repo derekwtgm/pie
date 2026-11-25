@@ -105,8 +105,9 @@ program, and 544 states of the experiment, all identical.
   any generator).
 * The interactive panel, DCFR and the training of a response keep a 10,000,000-update bound.
 * The browser-only edition (EightMax-Offline.html) trains in JavaScript with the 32-bit streams.
-* The archive is within 4% of the 100 MiB limit of the repository that distributes it; later phases will have to
-  move old evidence out of the archive.
+* The archive is at the 100 MiB limit of the repository that distributes it (99 MiB): the Linux host and stress
+  programs of 5.11 and the screenshots of the interface test are beside the ZIP or left out for that reason, and the
+  next phase has to move old evidence out of the archive.
 
 ## Files of this release
 

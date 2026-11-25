@@ -25,7 +25,7 @@ no percentage of GTO is ever stated; proven, tested and untested-on-the-target-P
   16-bit limbs) and a decision about states that are handed between the two engines.
 * **The generator's cost** (2 to 3% of a deal on the fixtures, more on small games). Seven rounds, or 32-bit action
   samples, would each be a new stream algorithm; a subject for Phase 4.
-* **The archive is within 4% of the 100 MiB limit** of the repository that distributes it. Evidence of old releases
+* **The archive is at the 100 MiB limit** of the repository that distributes it. Evidence of old releases
   (validation/5.2 to 5.8: 55 MB compressed) will have to move out of the ZIP in one of the next phases.
 * **DCFR** keeps 32-bit per-row discount counters and therefore the 10,000,000-update bound.
 * Still open from earlier lists: an upper bound of NashConv for games too large to enumerate; code signing.

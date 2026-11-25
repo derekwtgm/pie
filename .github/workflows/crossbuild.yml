@@ -12,6 +12,7 @@ name: EightMax 5.11 work in progress - build with the release toolchain and vali
 on:
   push:
     branches: ['claude/eightmax-5.11-crossbuild']
+    paths: ['ci/validate.trigger']
   workflow_dispatch:
 permissions:
   contents: write

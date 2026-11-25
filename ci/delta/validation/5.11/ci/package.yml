@@ -29,7 +29,7 @@ jobs:
           CC=x86_64-w64-mingw32-gcc-posix CXX=x86_64-w64-mingw32-g++-posix sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/windows" 2> /dev/null
           sh source/native/build.sh linux "$PWD/build/native.html" "$PWD/build/linux" 2> /dev/null
           cp build/windows/*.exe build/EightMax-Offline.html .; cp build/build-info.json BUILD-INFO.json
-          mkdir -p validation/5.11/linux-bin; cp build/linux/* validation/5.11/linux-bin/
+          mkdir -p validation/5.11/linux-bin "$RUNNER_TEMP/lb"; cp build/linux/mwcli validation/5.11/linux-bin/; cp build/linux/* "$RUNNER_TEMP/lb/"   # the archive holds mwcli only (size limit of the repository)
           sha256sum EightMax.exe mwcli.exe gpustress.exe EightMax-Offline.html | tee "$RUNNER_TEMP/built.sha256"
           # the programs must be the ones the validation jobs ran (ci/expected.sha256, written from the published build)
           sha256sum -c "$GITHUB_WORKSPACE/ci/expected.sha256"
@@ -37,7 +37,7 @@ jobs:
           export WINEPREFIX="$RUNNER_TEMP/wineprefix" EM_WINE_HOME="$RUNNER_TEMP"; mkdir -p "$WINEPREFIX"
           python3 validation/5.11/release511.py . "$GITHUB_WORKSPACE/out" --wine > "$GITHUB_WORKSPACE/out/release511.log" 2>&1 || { tail -60 "$GITHUB_WORKSPACE/out/release511.log"; exit 1; }
           tail -3 "$GITHUB_WORKSPACE/out/release511.log"; ls -la "$GITHUB_WORKSPACE/out"; cp SHA256SUMS.txt "$GITHUB_WORKSPACE/out/"
-          mkdir -p "$GITHUB_WORKSPACE/out/linux-bin"; cp validation/5.11/linux-bin/* "$GITHUB_WORKSPACE/out/linux-bin/"
+          mkdir -p "$GITHUB_WORKSPACE/out/linux-bin"; cp "$RUNNER_TEMP/lb"/* "$GITHUB_WORKSPACE/out/linux-bin/"; ls -l "$GITHUB_WORKSPACE/out"; test $(stat -c %s "$GITHUB_WORKSPACE"/out/*.zip) -lt 104000000
       - name: Publish
         if: always()
         env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
