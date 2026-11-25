@@ -1,0 +1,177 @@
+{
+ "tool": "host_refusal59",
+ "checks": [
+  {
+   "name": "A: a study of 20,000,000 deals per seed is refused within a second with the limit in the message, and its folder is gone",
+   "passed": true,
+   "detail": {
+    "httpStatusOfStart": 200,
+    "checkpointIdGiven": "flop6-jack-small-1259080",
+    "statusError": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports is 10000000 sampled deals per seed; frozen batches (trainer batchDeals up to 64) raise it to 640,000,000. (5.11: this is the limit of the 5.10 training streams, which this study asked for; the counter-based streams, trainingStreams=philox64, have no such limit.)",
+    "refusedStudyFolder": "removed",
+    "checkpointIdAfterwards": null,
+    "milliseconds": 7,
+    "foldersLeft": []
+   }
+  },
+  {
+   "name": "B: invalid configurations are refused with their reason and leave no folder",
+   "passed": true,
+   "detail": [
+    {
+     "what": "an unknown variant",
+     "httpStatusOfStart": 200,
+     "start": "{\"ok\":true,\"checkpointId\":\"flop6-jack-small-1259088\",\"resumed\":false}",
+     "error": "study options: no variant named \"no-such-variant\" in this fixture",
+     "refusedStudyFolder": "removed",
+     "foldersLeft": []
+    },
+    {
+     "what": "seeds that are not numbers",
+     "httpStatusOfStart": 200,
+     "start": "{\"ok\":true,\"checkpointId\":\"flop6-jack-small-1259092\",\"resumed\":false}",
+     "error": "study seeds must be a list of whole numbers from 0 to 4294967295",
+     "refusedStudyFolder": "removed",
+     "foldersLeft": []
+    },
+    {
+     "what": "a budget of zero deals",
+     "httpStatusOfStart": 200,
+     "start": "{\"ok\":true,\"checkpointId\":\"flop6-jack-small-1259098\",\"resumed\":false}",
+     "error": "study budgets must be a list of sampled-deal counts from 1 to 2,000,000,000",
+     "refusedStudyFolder": "removed",
+     "foldersLeft": []
+    }
+   ]
+  },
+  {
+   "name": "C: a folder that existed before, with a file of the user's: the folder and the file stay unchanged; the request written into it is removed",
+   "passed": true,
+   "detail": {
+    "httpStatusOfStart": 200,
+    "error": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports is 10000000 sampled deals per seed; frozen batches (trainer batchDeals up to 64) raise it to 640,000,000. (5.11: this is the limit of the 5.10 training streams, which this study asked for; the counter-based streams, trainingStreams=philox64, have no such limit.)",
+    "refusedStudyFolder": "kept: the folder existed before this request; the request written into it was removed",
+    "filesBefore": {
+     "notes.txt": "aecae38c3a7542a3dbc9c472a5701eae7efdff3c3a5ef5fef6fda97acb1128cd"
+    },
+    "filesAfter": {
+     "notes.txt": "aecae38c3a7542a3dbc9c472a5701eae7efdff3c3a5ef5fef6fda97acb1128cd"
+    }
+   }
+  },
+  {
+   "name": "D: a folder that existed before and holds only a request.json is not removed",
+   "passed": true,
+   "detail": {
+    "httpStatusOfStart": 200,
+    "refusedStudyFolder": null,
+    "files": [
+     "request.json"
+    ]
+   }
+  },
+  {
+   "name": "E: an existing checkpoint with that id: the request is refused with 409 and no file of the checkpoint changes",
+   "passed": true,
+   "detail": {
+    "firstStudyError": null,
+    "files": [
+     "manifest.json",
+     "manifest.prev.json",
+     "request.json"
+    ],
+    "secondStart": 409,
+    "secondBody": "{\"error\":\"A study checkpoint with that id already exists; resume it or choose another id\"}",
+    "thirdStart": 409,
+    "unchanged": true,
+    "statusErrorAfterwards": null
+   }
+  },
+  {
+   "name": "F: eight over-limit requests at once: each is accepted and then refused by the engine, or turned away because one is running; no folder is left",
+   "passed": true,
+   "detail": {
+    "accepted": 4,
+    "turnedAwayBecauseOneWasRunning": 4,
+    "other": [],
+    "foldersLeft": []
+   }
+  },
+  {
+   "name": "G: refused requests arriving while a valid study runs are turned away; the running study's folder is not touched and the study completes",
+   "passed": true,
+   "detail": {
+    "runningStudy": "flop6-jack-small-1260923",
+    "statusesOfRequestsDuringTheRun": [
+     409,
+     409,
+     409,
+     409,
+     409,
+     409
+    ],
+    "foldersDuringTheRun": [
+     {
+      "folder": "flop6-jack-small-1260923",
+      "files": [
+       "manifest.json",
+       "request.json",
+       "study.lock"
+      ]
+     }
+    ],
+    "error": null,
+    "complete": true,
+    "files": [
+     "manifest.json",
+     "manifest.prev.json",
+     "request.json"
+    ]
+   }
+  },
+  {
+   "name": "H: when the removal fails (simulated) the refusal message is unchanged, the failure is reported, and the files stay",
+   "passed": true,
+   "detail": {
+    "statusError": "study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports is 10000000 sampled deals per seed; frozen batches (trainer batchDeals up to 64) raise it to 640,000,000. (5.11: this is the limit of the 5.10 training streams, which this study asked for; the counter-based streams, trainingStreams=philox64, have no such limit.)",
+    "refusedStudyFolder": "kept: request.json could not be removed (simulated failure)",
+    "foldersLeft": [
+     {
+      "folder": "flop6-jack-small-1262931",
+      "files": [
+       "request.json"
+      ]
+     }
+    ],
+    "checkpointId": "flop6-jack-small-1262931"
+   }
+  },
+  {
+   "name": "I: an ordinary study started after a refusal completes, is listed with its request, and can be discarded",
+   "passed": true,
+   "detail": {
+    "error": null,
+    "refusedStudyFolderOfTheValidStudy": null,
+    "complete": true,
+    "listed": [
+     "flop6-jack-small-1262994"
+    ],
+    "files": [
+     "manifest.json",
+     "manifest.prev.json",
+     "request.json"
+    ],
+    "discard": 200,
+    "foldersAfterDiscard": []
+   }
+  }
+ ],
+ "build": "af452eaa0ea731be",
+ "version": "5.11",
+ "studyFolderReportedByTheHost": "/tmp/em59-refusal-xZsjQS/EightMax/studies",
+ "studyFolderInsideThePrivateHome": true,
+ "passed": true,
+ "checksPassed": 9,
+ "checksTotal": 9,
+ "generated": "2026-11-25T16:11:04.084Z"
+}

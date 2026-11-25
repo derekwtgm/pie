@@ -1,0 +1,165 @@
+{
+ "tool": "study_ui56",
+ "generated": "2026-11-25T15:55:58.564Z",
+ "host": "Linux build",
+ "executable": "eightmax",
+ "build": "af452eaa0ea731be",
+ "version": "5.11",
+ "browser": "Chromium 158.0.8127.36",
+ "checks": [
+  {
+   "name": "the host is 5.11 and announces study checkpoints",
+   "passed": true,
+   "detail": {
+    "version": "5.11",
+    "studyCheckpoints": 1
+   }
+  },
+  {
+   "name": "the Study Accuracy and Recovery panel is shown with an empty saved-study list",
+   "passed": true
+  },
+  {
+   "name": "while running: measurement and seed counts, stage, checkpoint, memory and processing mode are shown",
+   "passed": true,
+   "detail": "Measurements complete0 of 6 (0% of the planned measurements; this is a count, not a time estimate)Training seeds complete0 of 3StagetrainingCheckpoint1 commits; last successful 0 s agoMemory10 MiB in use, peak 16 MiB, budget 5616 MiBProcessingfixture requestedQuality and confidencereported when a budget has been evaluated; until then no estimate is shown"
+  },
+  {
+   "name": "no completion time is invented: the only percentage is the share of planned measurements",
+   "passed": true
+  },
+  {
+   "name": "after Stop: the result is marked incomplete and resumable, not successful",
+   "passed": true,
+   "detail": "Incomplete study (cancelled): 0 of 6 measurements. INCOMPLETE: some requested measurements are missing; no ranking or tolerance claim is made for budgets with missing seeds It can be resumed below."
+  },
+  {
+   "name": "after Stop: evaluation is shown incomplete and no tolerance is met",
+   "passed": true,
+   "detail": "VariantTrainingEvaluationConfidence calibratedBest action supportedTolerance metQuality metricCheckpointCan resume\n        baselineincompleteincompleteunknownunknown (pre-5.5 document)nonoDatanorestricted (sampled one-decision gain)savedyes\n        "
+  },
+  {
+   "name": "the stopped study is listed as a saved study with Resume enabled",
+   "passed": true,
+   "detail": "flop6-jackflop6-jack-10988284cancelled0 of 611/25/2026, 8:55:59 AM0 sResume Discard"
+  },
+  {
+   "name": "after the host process was killed: the study is still listed and resumable in a new host process",
+   "passed": true,
+   "detail": "flop6-jackflop6-jack-10988284running1 of 611/25/2026, 8:56:02 AM2 sResume Discard"
+  },
+  {
+   "name": "resumed to completion: 6 of 6 measurements, resumed flag, no checkpoint warnings",
+   "passed": true,
+   "detail": {
+    "completion": {
+     "complete": true,
+     "status": "complete",
+     "pointsCompleted": 6,
+     "pointsRequested": 6,
+     "resumable": false,
+     "meaning": "every requested seed reached every requested budget and finished every required evaluation"
+    },
+    "checkpoint": {
+     "enabled": true,
+     "directory": "/tmp/em55-ui-zVcyyQ/EightMax/studies/flop6-jack-10988284",
+     "resumed": true,
+     "resumeCount": 2,
+     "resumedFrom": "manifest.json",
+     "resumeNote": "",
+     "pointsRestored": 1,
+     "staleFilesRemovedOnResume": 0,
+     "intervalSeconds": 60,
+     "intervalUpdates": 0,
+     "atStageBoundaries": true,
+     "commits": 11,
+     "engineStateWrites": 4,
+     "engineStateMiBWritten": 18.117796897888184,
+     "secondsWriting": 0.25729417599999993,
+     "priorSessionsElapsedSeconds": 2.1535532600000002,
+     "studyFingerprint": "a0556007c7b59eb28793cdef3c415ad8da5e919fd28fdefcef608e36ebbc2c2b",
+     "finalStatus": "complete",
+     "resumable": false,
+     "warnings": []
+    }
+   }
+  },
+  {
+   "name": "the panel shows the stored calibration status and verdict",
+   "passed": true,
+   "detail": "VariantTrainingEvaluationConfidence calibratedBest action supportedTolerance metQuality metricCheckpointCan resume\n        baselineat 60,000 dealscompletecompleteyesempirical Bernstein bounded payoffnounresolvedacross trainings: insufficientReplication (3 trainings, 7 needed)norestricted (sampled one-decision gain)savedno\n        "
+  },
+  {
+   "name": "the quality metric is labelled restricted (sampled) and the warning list says it is not exploitability",
+   "passed": true
+  },
+  {
+   "name": "5.6: the result carries the replication verdict; three trainings declare no best action",
+   "passed": true,
+   "detail": {
+    "calculation": "study-5.6-replication-v1",
+    "trainings": 3,
+    "minimumTrainingsForStatementAboutTypicalTraining": 7,
+    "sufficient": false,
+    "family": 2,
+    "familyMeaning": "the number of (variant, budget) cells of this study: each can carry at most one best-action declaration, and the 0.05 error is shared among them",
+    "signTestLevel": 0.010000000000000002,
+    "perTrainingIntervalLevel": 0.0008333333333333335,
+    "trainingsCertifyingLeaderByMargin": 0,
+    "trainingsCertifyingPositiveEdge": 0,
+    "trainingsCertifyingAnotherAction": 0,
+    "trainingsWithoutCalibratedEvaluation": 0,
+    "signTestPMargin": 1,
+    "signTestPPositive": 1,
+    "medianGapInterval": null,
+    "undetectableFailureRate": 0.6315968501359612,
+    "undetectableFailureRateMeaning": "a failure mode affecting fewer than this fraction of trainings has more than a 1 in 20 chance of not appearing among the trainings that were run",
+    "verdict": "insufficientReplication",
+    "verdictText": "3 independent trainings cannot support a distribution-free statement about the typical training at this confidence and comparison family (at least 7 are needed, all agreeing)",
+    "estimand": "the median independent training at this budget (more than half of all trainings); not the mean over trainings and not a prediction for one further training"
+   }
+  },
+  {
+   "name": "5.6: the panel says \"no\", names the across-trainings verdict and the trainings needed",
+   "passed": true,
+   "detail": "nounresolvedacross trainings: insufficientReplication (3 trainings, 7 needed)"
+  },
+  {
+   "name": "5.6: the warning list states the insufficient replication and the failure rate that could hide",
+   "passed": true,
+   "detail": "baseline: variant baseline, 60000 deals: 3 independent trainings were evaluated; at least 7 (all agreeing) are needed before anything can be said about trainings in general at 95% confidence (shared among this study's 2 variant-budget cells). Results describe the measured strategies only.baseline: variant baseline, 60000 deals: a training failure affecting fewer than 63% of trainings would probably (more than 1 chance in 20) not have appeared among 3 trainings.baseline: Quality is a sampled one-decision deviation gain: restricted, a lower bound, not exploitability, and not calibrated."
+  },
+  {
+   "name": "5.6: the headline never recommends an action that is not declared",
+   "passed": true,
+   "detail": "VariantHeroResultFrequenciesEV gap between the leading actionsBudget usedTraining timePeak RAMTolerance\n      baselineUTG+1 AdJsUnresolvedCheck 47%, Bet to 4.224 30%, Bet to 8.448 24%Bet to 8.448 − Check = +0.179 BB, measured strategies (calibrated 95%) [−8.578, +8.936], across trainings (model-base"
+  },
+  {
+   "name": "the finished study is listed complete and can no longer be resumed",
+   "passed": true,
+   "detail": "flop6-jackflop6-jack-10988284complete6 of 611/25/2026, 8:56:08 AM8 sResume Discard"
+  },
+  {
+   "name": "the stopped, killed and resumed desktop study has the numbers of an uninterrupted command-line study",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "Discard removes the saved study",
+   "passed": true
+  },
+  {
+   "name": "a 5.4 result: calibration shown as NO with the reason, no best action supported",
+   "passed": true,
+   "detail": "baseline: variant baseline, 60000 deals: 3 independent trainings were evaluated; at least 7 (all agreeing) are needed before anything can be said about trainings in general at 95% confidence (shared among this study's 2 variant-budget cells). Results describe the measured strategies only.baseline: v"
+  },
+  {
+   "name": "no JavaScript error was raised in the page",
+   "passed": true,
+   "detail": []
+  }
+ ],
+ "passed": true,
+ "checksPassed": 20,
+ "checksTotal": 20
+}

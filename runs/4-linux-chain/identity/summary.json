@@ -1,0 +1,9 @@
+{
+ "cases": 225,
+ "failures": 0,
+ "trainingRuns": 1782,
+ "seconds": 158.7,
+ "baselineSha256": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+ "currentSha256": "c31652d291cbcc3ac480d1bccc3a8384e2978ec4f4322be73b00d75db4766b06",
+ "deals": 24000
+}
