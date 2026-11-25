@@ -1,0 +1,25 @@
+{
+ "test": "the streams section of validate_windows511.ps1 with mwcli.exe under Wine",
+ "expectedSha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+ "threads": [
+  {
+   "threads": 1,
+   "exit": 0,
+   "sha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+   "equalsTheLinuxBuild": true
+  },
+  {
+   "threads": 2,
+   "exit": 0,
+   "sha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+   "equalsTheLinuxBuild": true
+  },
+  {
+   "threads": 4,
+   "exit": 0,
+   "sha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+   "equalsTheLinuxBuild": true
+  }
+ ],
+ "passed": true
+}
