@@ -1,0 +1,1125 @@
+{
+    "tool":  "validate_windows511.ps1",
+    "release":  "5.11",
+    "mode":  "focused",
+    "started":  "2026-11-25T14:07:57.4581414+00:00",
+    "root":  "D:\\a\\_temp\\t\\EightMax",
+    "quick":  false,
+    "scriptCompleted":  true,
+    "environment":  {
+                        "windows":  "Microsoft Windows Server 2025 Datacenter",
+                        "windowsVersion":  "10.0.26100",
+                        "build":  "26100",
+                        "architecture":  "64-bit",
+                        "is64BitProcess":  true,
+                        "is64BitOperatingSystem":  true,
+                        "cpu":  "AMD EPYC 7763 64-Core Processor",
+                        "physicalCores":  2,
+                        "logicalProcessors":  4,
+                        "ramGiB":  16,
+                        "gpus":  [
+                                     {
+                                         "name":  "Microsoft Hyper-V Video",
+                                         "driver":  "10.0.26100.1150",
+                                         "adapterRamMiBAtMost4GiBField":  0
+                                     }
+                                 ],
+                        "nvidiaSmi":  null,
+                        "manufacturer":  "Microsoft Corporation",
+                        "model":  "Virtual Machine",
+                        "wineDetected":  false,
+                        "virtualMachineIndicators":  true,
+                        "hardwareQueriesAnswered":  true,
+                        "powershell":  "5.1.26100.33822"
+                    },
+    "physicalWindows":  false,
+    "finished":  "2026-11-25T14:08:50.4457158+00:00",
+    "seconds":  53,
+    "summary":  {
+                    "passed":  54,
+                    "failed":  0,
+                    "skipped":  1,
+                    "untested":  0,
+                    "gateFailed":  0,
+                    "gateUntested":  0,
+                    "environmentFailed":  0,
+                    "hardwareFailed":  0,
+                    "allGatesPassed":  true
+                },
+    "sections":  [
+                     {
+                         "section":  "environment",
+                         "seconds":  1.69,
+                         "error":  null
+                     },
+                     {
+                         "section":  "integrity",
+                         "seconds":  0.19,
+                         "error":  null
+                     },
+                     {
+                         "section":  "golden states",
+                         "seconds":  0.89,
+                         "error":  null
+                     },
+                     {
+                         "section":  "threads",
+                         "seconds":  0.76,
+                         "error":  null
+                     },
+                     {
+                         "section":  "self-test 5.11",
+                         "seconds":  30.16,
+                         "error":  null
+                     },
+                     {
+                         "section":  "streams 5.11",
+                         "seconds":  18.28,
+                         "error":  null
+                     }
+                 ],
+    "checks":  [
+                   {
+                       "section":  "environment",
+                       "name":  "machine",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "Microsoft Windows Server 2025 Datacenter; AMD EPYC 7763 64-Core Processor; 4 logical processors; 16 GiB RAM; GPU: Microsoft Hyper-V Video",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "environment",
+                       "name":  "64-bit Windows",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "64-bit operating system: True 64-bit",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "environment",
+                       "name":  "physical hardware",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "Wine or a virtual machine was detected, or the hardware queries did not answer: this report does NOT count as physical Windows validation",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "mwcli.exe present",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "D:\\a\\_temp\\t\\EightMax\\mwcli.exe",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "EightMax.exe present",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "D:\\a\\_temp\\t\\EightMax\\EightMax.exe",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "gpustress.exe present",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "D:\\a\\_temp\\t\\EightMax\\gpustress.exe",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "BUILD-INFO.json version",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "5.11",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "mwcli.exe build id",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 0: EightMaxBuild=924dd7f7bfc862fc",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "EightMax.exe build id",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 0: EightMaxBuild=924dd7f7bfc862fc",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "gpustress.exe starts",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 2 (it prints its usage and exits when given no arguments)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "integrity",
+                       "name":  "SHA256SUMS.txt",
+                       "status":  "skipped",
+                       "class":  "gate",
+                       "detail":  "-SkipIntegrity was given",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g00-hu-river",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.04 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g01-hu-turn",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.051 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g02-river3-chip",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.05 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g03-turn4",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.078 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g04-bubble4",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.065 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g05-flop6",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.076 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g06-final8",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.097 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g07-flop6w",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.087 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g08-hu-turn",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.051 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g09-flop5",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.081 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "golden state g10-turn4",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "identical to the 5.5 trainer (0.062 s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "golden states",
+                       "name":  "every golden state reproduced",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "11 of 11",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "threads",
+                       "name":  "identical state for every thread count",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "1, 2, 4 threads and the measured choice: 1 distinct state(s)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "threads",
+                       "name":  "state equals the 5.6 binary",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af (expected 49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "threads",
+                       "name":  "thread scaling on this PC",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "1 threads (every update on all threads): 0.103876 s; 2 threads (every update on all threads): 0.060726 s; 4 threads (every update on all threads): 0.045370 s; 4 threads (measured thread choice): 0.059036 s",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "self-test 5.11",
+                       "name":  "mwcli --selftest511 ran and wrote its report",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 0, 30.073 s; report file written: True; passed 26, failed 0, untested 0",
+                       "evidence":  {
+                                        "process":  "mwcli --selftest511",
+                                        "exitCode":  0,
+                                        "timedOut":  false,
+                                        "seconds":  30.073,
+                                        "standardOutput":  "{\"tool\":\"mwcli selftest511\",\"build\":\"924dd7f7bfc862fc\",\"section\":\"all\",\"passed\":26,\"failed\":0,\"untested\":0,\"report\":\"C:\\\\Users\\\\runneradmin\\\\AppData\\\\Local\\\\Temp\\\\EightMax-5.11-validation-bc61f5addf2e4c47af0572c58c6aa629\\\\st511\\\\selftest511.json\"}\r\n",
+                                        "standardError":  "[passed] streams G1: generator: Philox4x64-10 of the training streams reproduces the three known-answer vectors of its reference implementation -- 0 of 12 output words differ; computed: 16554d9eca36314c db20fe9d672d0fdc d7e772cee186176b 7e68b68aec7ba23b; 87b092c3013fe90b 438c3c67be8d0224 9cc7d7c69cd777b6 a09caebf594f0ba0; a528f45403e61d95 38c72dbd566e9788 a5a1610e72fd18b5 57bd43b5e52b7fe6\r\n[passed] streams G2: generator: the same 256 bits as the 5.9 evaluation generator (a second source text of the function) for 100,000 random counters and keys -- 0 of 100000 blocks differ\r\n[passed] streams G3: generator: the map counter -\u003e block is inverted in both directions (a bijection of the 256-bit counters for a fixed key); the two multipliers are odd and their inverses modulo 2^64 are exact -- inverse after forward: 0 failures; forward after inverse: 0 failures of 100000; M0*I0 = 1, M1*I1 = 1\r\n[passed] streams A1: address: the numbers of stream (purpose, t, d) are the words of Philox(counter = (j, t, d, purpose), key = (seed, domain)), j = 0, 1, 2, ...; each field has a counter word of its own, up to the largest update index -- 0 of 40000 numbers differ\r\n[passed] streams A2: address: every block of a grid of addresses (3 key domains x 3 purposes x 11 update indices around 10,000,000, 2^32 and the largest x 64 deals x 4 groups) is different from every other -- 25344 distinct of 25344 blocks\r\n[passed] streams N1: numbers: a million numbers of one stream lie in [0, 1) on the 2^-53 grid, with mean and variance within 4.5 standard errors of 1/2 and 1/12 -- 0 numbers outside [0, 1) or off the 2^-53 grid; mean 0.500175846 (z 0.61), variance 0.083313056 (z -0.27), smallest 1.19e-07, largest 1 - 2.87e-06\r\n[passed] streams L1: 5.10 generator: a stream without an address draws the numbers of the 32-bit generator of 5.10 (values computed by the JavaScript reference randomStream and by a Python port) -- 3fe5ab3719000000 3fc8a8fb64000000 3fe10118d2800000 3fecaf7e7a600000\r\n[passed] streams\n...[5638 characters omitted]...\nd run\r\n[passed] limits L1: a 5.10 state keeps the 10,000,000-update limit: 10,000,001 updates are refused before anything is trained (exit 2, no file), 10,000,000 are trained, and that state is not continued by one more update (exit 1, no file) -- 10,000,001 updates: exit 2, nothing written; 10,000,000 updates: trained; one more: exit 1, nothing written [error: training failed: Iteration count must fit the 10 million iteration limit (nothing was written to \u0027C:\\Users\\runner]\r\n[passed] limits L2: a philox64 state has no 10,000,000-update limit: 10,000,100 updates are trained, the state is continued to 10,000,200 and equals the uninterrupted run to 10,000,200, whose SHA-256 is the one recorded from the Linux build -- updates in the header 10000200; continued = uninterrupted; state 18ea9ee82f6e5f22 = recorded\r\n[passed] limits L3: update indices above 2^32: a philox64 state that starts at update 4,294,967,303 trains 3000 updates, stopped after 1000 and continued = uninterrupted, and the state has the SHA-256 recorded from the Linux build -- updates in the header 4294970303; continued = uninterrupted; state 390042ca0ad53e65 = recorded\r\n[passed] limits L4: refused before anything is trained: an unknown or malformed trainingStreams or trainingSeed, philox64 for an enumerated spec, a philox64 spec that starts after update 0 with a 32-bit generator state, more than 10,000,000 updates with DCFR, more than 140,737,488,355,327 updates -- 11 of 11 refused with the expected exit status and no output; engine bounds: philox64 140,737,488,355,327, philox64 with DCFR 10,000,000\r\n[passed] limits L5: studies: a budget of 10,000,001 deals at one deal per update is accepted with philox64 (the study starts; its time limit ends it) and refused with trainingStreams=5.10 before any training, with the 5.10 message -- philox64: exit 0, result written ; 5.10: exit 1, nothing written [error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant ]\r\n"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "G1: generator: Philox4x64-10 of the training streams reproduces the three known-answer vectors of its reference implementation",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "0 of 12 output words differ; computed: 16554d9eca36314c db20fe9d672d0fdc d7e772cee186176b 7e68b68aec7ba23b; 87b092c3013fe90b 438c3c67be8d0224 9cc7d7c69cd777b6 a09caebf594f0ba0; a528f45403e61d95 38c72dbd566e9788 a5a1610e72fd18b5 57bd43b5e52b7fe6",
+                       "evidence":  {
+                                        "id":  "G1"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "G2: generator: the same 256 bits as the 5.9 evaluation generator (a second source text of the function) for 100,000 random counters and keys",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "0 of 100000 blocks differ",
+                       "evidence":  {
+                                        "id":  "G2"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "G3: generator: the map counter -\u003e block is inverted in both directions (a bijection of the 256-bit counters for a fixed key); the two multipliers are odd and their inverses modulo 2^64 are exact",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "inverse after forward: 0 failures; forward after inverse: 0 failures of 100000; M0*I0 = 1, M1*I1 = 1",
+                       "evidence":  {
+                                        "id":  "G3"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "A1: address: the numbers of stream (purpose, t, d) are the words of Philox(counter = (j, t, d, purpose), key = (seed, domain)), j = 0, 1, 2, ...; each field has a counter word of its own, up to the largest update index",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "0 of 40000 numbers differ",
+                       "evidence":  {
+                                        "id":  "A1"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "A2: address: every block of a grid of addresses (3 key domains x 3 purposes x 11 update indices around 10,000,000, 2^32 and the largest x 64 deals x 4 groups) is different from every other",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "25344 distinct of 25344 blocks",
+                       "evidence":  {
+                                        "id":  "A2"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "N1: numbers: a million numbers of one stream lie in [0, 1) on the 2^-53 grid, with mean and variance within 4.5 standard errors of 1/2 and 1/12",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "0 numbers outside [0, 1) or off the 2^-53 grid; mean 0.500175846 (z 0.61), variance 0.083313056 (z -0.27), smallest 1.19e-07, largest 1 - 2.87e-06",
+                       "evidence":  {
+                                        "id":  "N1"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "L1: 5.10 generator: a stream without an address draws the numbers of the 32-bit generator of 5.10 (values computed by the JavaScript reference randomStream and by a Python port)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "3fe5ab3719000000 3fc8a8fb64000000 3fe10118d2800000 3fecaf7e7a600000",
+                       "evidence":  {
+                                        "id":  "L1"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "U1: counter audit: every counter a training hands to the generator is recorded; no counter occurs twice, every stream is j = 0, 1, 2, ... without a gap, every counter is a valid address, one card stream per sampled deal (seven configurations)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "7 of 7 configurations, 240263 counters in all; known-akq-river (one deal per update, two players, river): 20000 deals, 40000 counters, 40000 distinct, 0 gaps, 0 invalid, card streams 20000; flop3-kings-small (frozen batches of 64 on three threads): 12800 deals, 79137 counters, 79137 distinct, 0 gaps, 0 invalid, card streams 12800; icm8-bb-call-small (ICM, preflop start): 3000 deals, 15370 counters, 15370 distinct, 0 gaps, 0 invalid, card streams 3000; btn25-open-small (chip EV, preflop start): 3000 deals, 16569 counters, 16569 distinct, 0 gaps, 0 invalid, card streams 3000; flop6-jack-small (six players, the rbes estimator): 1500 deals, 29034 counters, 29034 distinct, 0 gaps, 0 invalid, card streams 1500; flop3-kings-small (Latin deals): 3000 deals, 20618 counters, 20618 distinct, 0 gaps, 0 invalid, card streams 3000; flop3-kings (Compact hand groups, frozen batches on three threads): 2560 deals, 39535 counters, 39535 distinct, 0 gaps, 0 invalid, card streams 2560; ",
+                       "evidence":  {
+                                        "id":  "U1"
+                                    }
+                   },
+                   {
+                       "section":  "streams 5.11 (self-test)",
+                       "name":  "U2: counter audit for a state that starts at update 4,294,967,303 (above 2^32), trained in two calls of one engine: no counter twice, no gap, every counter a valid address, 1000 card streams, and the largest update index used is 4,294,968,302",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "5913 counters, 5913 distinct, 0 gaps, 0 invalid, card streams 1000, largest update index 4294968302 ",
+                       "evidence":  {
+                                        "id":  "U2"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "D1: a spec with \"trainingStreams\":\"5.10\" writes the states of 5.10 and 5.9 (SHA-256 of the saved state against the hashes recorded from the unchanged 5.9 program, which --selftest510 D1 compares with the spec without the key)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "14 of 14 states identical",
+                       "evidence":  {
+                                        "id":  "D1"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W1: philox64: two runs give the same state; a frozen batch gives the same state on 1 and 3 threads and with the 5.6 batch update",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "5 of 5 configurations (exact cards, six players, ICM preflop, Compact hand groups, the rbes estimator)",
+                       "evidence":  {
+                                        "id":  "W1"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W2: philox64: stopped after a third and continued = uninterrupted, byte for byte (one deal per update; frozen batches stopped on 2 threads and continued on 3)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "5 of 5 configurations",
+                       "evidence":  {
+                                        "id":  "W2"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W3: philox64: the saved states have the SHA-256 recorded from the Linux build of this release (the streams and the training are deterministic across platforms and compilers of the release)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "15 of 15 states identical",
+                       "evidence":  {
+                                        "id":  "W3"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W4: the information of a philox64 state names the streams, the seed and the update limit; the 5.10 state of the same spec names none and is another state",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "trainingStreams streams-5.11-philox4x64-v1, trainingSeed 000000007138ab95 (the spec\u0027s actionSeed is 000000007138ab95), maxUpdates 140737488355327; 5.10 state differs ",
+                       "evidence":  {
+                                        "id":  "W4"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W5: \"trainingSeed\" is a 64-bit seed: seeds 0x100000001, 0x200000001 and 0x1 (equal in their low 32 bits) train three different states, each reproducibly; the spec\u0027s actionSeed written as trainingSeed gives the state of the spec without it",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "three seeds: three states; repeated: same; explicit default seed: the default state; reported seed 0000000100000001 ",
+                       "evidence":  {
+                                        "id":  "W5"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W6: reference fixtures: the exact NashConv of the strategy trained with philox64 after a fixed budget equals the value recorded at release (a regression check; the numbers are one seed each and no convergence claim)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "4 of 4 fixtures reproduce the recorded value; known-akq-river after 20000 deals: exact NashConv 0.0443; flop3-kings-small after 20000 deals: exact NashConv 0.171; icm8-bb-call-small after 20000 deals: exact NashConv 0.0246; flop6-jack-small after 10000 deals: exact NashConv 1.09; ",
+                       "evidence":  {
+                                        "id":  "W6"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W7: the trained response (5.8/5.9) of a state trained with philox64 runs with counter-based streams of its own key domain, twice to the same bound, and every confidence statement holds against the exact values of the same responses",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 0; exact NashConv 0.171; simultaneous bound 0.0336 (second run the same bits); statements hold: yes ",
+                       "evidence":  {
+                                        "id":  "W7"
+                                    }
+                   },
+                   {
+                       "section":  "training 5.11 (self-test)",
+                       "name":  "W8: a decision study records the training streams of its variants (run.trainingStreams and every point\u0027s trainer object); trainingStreams=5.10 and trainingStreams=philox64 select them",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "3 of 3 studies; no option: streams-5.11-philox4x64-v1; trainingStreams=philox64: streams-5.11-philox4x64-v1; trainingStreams=5.10: 5.10 (32-bit); ",
+                       "evidence":  {
+                                        "id":  "W8"
+                                    }
+                   },
+                   {
+                       "section":  "checkpoint 5.11 (self-test)",
+                       "name":  "C1: a state continues only under the streams and the seed that trained it: every other continuation is refused with the reason, exit 1, and writes nothing",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "4 of 4 refused; a 5.10 state under philox64: exit 1, nothing written; a philox64 state under the 5.10 streams: exit 1, nothing written; a philox64 state under another seed: exit 1, nothing written; a state of that seed under the default seed: exit 1, nothing written; ",
+                       "evidence":  {
+                                        "id":  "C1"
+                                    }
+                   },
+                   {
+                       "section":  "checkpoint 5.11 (self-test)",
+                       "name":  "C2: a philox64 state names its streams and seed in the header, carries no \"rng\" and no \"actionRng\" (earlier program versions require both and refuse the state) and has its own study identifier; a 5.10 state has the 5.10 header",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "5.10 state: trainingStreams absent, rng 847820172, study \"9371aad10db523c9\"; philox64 state: \"streams-5.11-philox4x64-v1\", seed \"000000007138ab95\", rng absent, study \"c8866ae1a556f5db\"; other seed: \"0000000000005eed\"",
+                       "evidence":  {
+                                        "id":  "C2"
+                                    }
+                   },
+                   {
+                       "section":  "checkpoint 5.11 (self-test)",
+                       "name":  "C3: a compressed (EMZ1) philox64 state restores and continues to the state of the uninterrupted run",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "compress exit 0; continued from the compressed state: identical to the uninterrupted run",
+                       "evidence":  {
+                                        "id":  "C3"
+                                    }
+                   },
+                   {
+                       "section":  "limits 5.11 (self-test)",
+                       "name":  "L1: a 5.10 state keeps the 10,000,000-update limit: 10,000,001 updates are refused before anything is trained (exit 2, no file), 10,000,000 are trained, and that state is not continued by one more update (exit 1, no file)",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "10,000,001 updates: exit 2, nothing written; 10,000,000 updates: trained; one more: exit 1, nothing written [error: training failed: Iteration count must fit the 10 million iteration limit (nothing was written to \u0027C:\\Users\\runner]",
+                       "evidence":  {
+                                        "id":  "L1"
+                                    }
+                   },
+                   {
+                       "section":  "limits 5.11 (self-test)",
+                       "name":  "L2: a philox64 state has no 10,000,000-update limit: 10,000,100 updates are trained, the state is continued to 10,000,200 and equals the uninterrupted run to 10,000,200, whose SHA-256 is the one recorded from the Linux build",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "updates in the header 10000200; continued = uninterrupted; state 18ea9ee82f6e5f22 = recorded",
+                       "evidence":  {
+                                        "id":  "L2"
+                                    }
+                   },
+                   {
+                       "section":  "limits 5.11 (self-test)",
+                       "name":  "L3: update indices above 2^32: a philox64 state that starts at update 4,294,967,303 trains 3000 updates, stopped after 1000 and continued = uninterrupted, and the state has the SHA-256 recorded from the Linux build",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "updates in the header 4294970303; continued = uninterrupted; state 390042ca0ad53e65 = recorded",
+                       "evidence":  {
+                                        "id":  "L3"
+                                    }
+                   },
+                   {
+                       "section":  "limits 5.11 (self-test)",
+                       "name":  "L4: refused before anything is trained: an unknown or malformed trainingStreams or trainingSeed, philox64 for an enumerated spec, a philox64 spec that starts after update 0 with a 32-bit generator state, more than 10,000,000 updates with DCFR, more than 140,737,488,355,327 updates",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "11 of 11 refused with the expected exit status and no output; engine bounds: philox64 140,737,488,355,327, philox64 with DCFR 10,000,000",
+                       "evidence":  {
+                                        "id":  "L4"
+                                    }
+                   },
+                   {
+                       "section":  "limits 5.11 (self-test)",
+                       "name":  "L5: studies: a budget of 10,000,001 deals at one deal per update is accepted with philox64 (the study starts; its time limit ends it) and refused with trainingStreams=5.10 before any training, with the 5.10 message",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "philox64: exit 0, result written ; 5.10: exit 1, nothing written [error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant ]",
+                       "evidence":  {
+                                        "id":  "L5"
+                                    }
+                   },
+                   {
+                       "section":  "self-test 5.11",
+                       "name":  "every expected 5.11 check is in the report",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "26 of 26 expected checks reported; missing: none",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "self-test 5.11",
+                       "name":  "the 5.11 report agrees with the exit status of mwcli",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "exit 0; checks not passed in the report: 0 (failed 0, untested 0)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "identical philox64 state for every thread count",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "1, 2, 4 threads and the measured choice: 1 distinct state(s); streams named by the program: streams-5.11-philox4x64-v1",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "philox64 state equals the Linux build",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb (expected 515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "philox64 thread scaling on this PC",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "1 threads (every update on all threads): 0.074950 s; 2 threads (every update on all threads): 0.048164 s; 4 threads (every update on all threads): 0.037982 s; 4 threads (measured thread choice): 0.046911 s",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "philox64: every processing mode writes the same state",
+                       "status":  "passed",
+                       "class":  "gate",
+                       "detail":  "cpu, auto, hybrid, gpu: 1 distinct state(s); 515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb (expected 515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "philox64 processing modes on this PC",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "cpu: CPU Only requested (CUDA opened: False); auto: CPU without opening CUDA (CUDA opened: False); hybrid: CPU (CUDA opened: True); gpu: CPU (CUDA opened: True)",
+                       "evidence":  null
+                   },
+                   {
+                       "section":  "streams 5.11",
+                       "name":  "training throughput with the 5.10 streams and with philox64 on this PC",
+                       "status":  "info",
+                       "class":  "information",
+                       "detail":  "flop6-jack, streams510, 1 thread(s) offered: 45430 sampled deals per second; flop6-jack, streams510, 4 thread(s) offered: 105301 sampled deals per second; flop6-jack, philox64, 1 thread(s) offered: 45930 sampled deals per second; flop6-jack, philox64, 4 thread(s) offered: 102934 sampled deals per second; flop3-kings, streams510, 1 thread(s) offered: 98581 sampled deals per second; flop3-kings, streams510, 4 thread(s) offered: 204810 sampled deals per second; flop3-kings, philox64, 1 thread(s) offered: 96351 sampled deals per second; flop3-kings, philox64, 4 thread(s) offered: 204256 sampled deals per second; known-akq-river, streams510, 1 thread(s) offered: 2082376 sampled deals per second; known-akq-river, philox64, 1 thread(s) offered: 2051560 sampled deals per second",
+                       "evidence":  null
+                   }
+               ],
+    "build":  "924dd7f7bfc862fc",
+    "version":  "5.11",
+    "goldenStates":  [
+                         {
+                             "name":  "g00-hu-river",
+                             "exit":  0,
+                             "seconds":  0.04,
+                             "identical":  true,
+                             "sha256":  "e1e09be035ba31966fb62961fc8390c370ac5a6e03f68c3f26d0a3b7a9f46320",
+                             "expected":  "e1e09be035ba31966fb62961fc8390c370ac5a6e03f68c3f26d0a3b7a9f46320",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g01-hu-turn",
+                             "exit":  0,
+                             "seconds":  0.051,
+                             "identical":  true,
+                             "sha256":  "ce5609601ba51ca0fcbc70cd6675d1c3ede2123b04fb507590529ff3b1e5d0ba",
+                             "expected":  "ce5609601ba51ca0fcbc70cd6675d1c3ede2123b04fb507590529ff3b1e5d0ba",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g02-river3-chip",
+                             "exit":  0,
+                             "seconds":  0.05,
+                             "identical":  true,
+                             "sha256":  "1bbcf277a7e1a3896a9c06bf476e268be92c3c7ec633e341eb20f500374d720b",
+                             "expected":  "1bbcf277a7e1a3896a9c06bf476e268be92c3c7ec633e341eb20f500374d720b",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g03-turn4",
+                             "exit":  0,
+                             "seconds":  0.078,
+                             "identical":  true,
+                             "sha256":  "85c3e2897b50aa86f595cc65d81a5377f3c1be533841e1efa2391d740725157d",
+                             "expected":  "85c3e2897b50aa86f595cc65d81a5377f3c1be533841e1efa2391d740725157d",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g04-bubble4",
+                             "exit":  0,
+                             "seconds":  0.065,
+                             "identical":  true,
+                             "sha256":  "7a90dc053274cfa50feefc513be3ee500c6578c8aba045def0eed2b14484f423",
+                             "expected":  "7a90dc053274cfa50feefc513be3ee500c6578c8aba045def0eed2b14484f423",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g05-flop6",
+                             "exit":  0,
+                             "seconds":  0.076,
+                             "identical":  true,
+                             "sha256":  "d34b83f8859f6630c83d5427d99485634874ecfb33bf922bea2901676b37820b",
+                             "expected":  "d34b83f8859f6630c83d5427d99485634874ecfb33bf922bea2901676b37820b",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g06-final8",
+                             "exit":  0,
+                             "seconds":  0.097,
+                             "identical":  true,
+                             "sha256":  "87a2bfda800e357a9b3b2738cbf532c65a8db62de3706ad5067fea5dc3fc298f",
+                             "expected":  "87a2bfda800e357a9b3b2738cbf532c65a8db62de3706ad5067fea5dc3fc298f",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g07-flop6w",
+                             "exit":  0,
+                             "seconds":  0.087,
+                             "identical":  true,
+                             "sha256":  "a49c6c237ddec8e9f5ef5aca6f6821862ff9140c4cb4c0dbd95ba7bf55660a83",
+                             "expected":  "a49c6c237ddec8e9f5ef5aca6f6821862ff9140c4cb4c0dbd95ba7bf55660a83",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g08-hu-turn",
+                             "exit":  0,
+                             "seconds":  0.051,
+                             "identical":  true,
+                             "sha256":  "3036a53713b0e1c19590dd2c4dfe4ec9a9ea81eaa0eeec33c11cfdd03a878f10",
+                             "expected":  "3036a53713b0e1c19590dd2c4dfe4ec9a9ea81eaa0eeec33c11cfdd03a878f10",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g09-flop5",
+                             "exit":  0,
+                             "seconds":  0.081,
+                             "identical":  true,
+                             "sha256":  "fa8206a4a7361edf5060b73afa94c33d147c5f486d2ddc4c987368d70667138e",
+                             "expected":  "fa8206a4a7361edf5060b73afa94c33d147c5f486d2ddc4c987368d70667138e",
+                             "error":  ""
+                         },
+                         {
+                             "name":  "g10-turn4",
+                             "exit":  0,
+                             "seconds":  0.062,
+                             "identical":  true,
+                             "sha256":  "f7aeeee5e84a69b536037cdb2c030d46c8e41de3ce4d2d09bf984fda794c8127",
+                             "expected":  "f7aeeee5e84a69b536037cdb2c030d46c8e41de3ce4d2d09bf984fda794c8127",
+                             "error":  ""
+                         }
+                     ],
+    "threadScaling":  [
+                          {
+                              "threads":  1,
+                              "mode":  "every update on all threads",
+                              "exit":  0,
+                              "wallSeconds":  0.103876,
+                              "threadsUsed":  1,
+                              "sha256":  "49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af"
+                          },
+                          {
+                              "threads":  2,
+                              "mode":  "every update on all threads",
+                              "exit":  0,
+                              "wallSeconds":  0.060726,
+                              "threadsUsed":  2,
+                              "sha256":  "49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af"
+                          },
+                          {
+                              "threads":  4,
+                              "mode":  "every update on all threads",
+                              "exit":  0,
+                              "wallSeconds":  0.045370,
+                              "threadsUsed":  4,
+                              "sha256":  "49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af"
+                          },
+                          {
+                              "threads":  4,
+                              "mode":  "measured thread choice",
+                              "exit":  0,
+                              "wallSeconds":  0.059036,
+                              "threadsChosen":  4,
+                              "sha256":  "49a85891f13552d0ac9e01ace04cbdec952d0de42efaa34bf7d8c786c86021af"
+                          }
+                      ],
+    "selftest511":  {
+                        "tool":  "mwcli selftest511",
+                        "version":  "5.11",
+                        "build":  "924dd7f7bfc862fc",
+                        "section":  "all",
+                        "studyDefaultStreams":  "streams-5.11-philox4x64-v1",
+                        "passed":  26,
+                        "failed":  0,
+                        "untested":  0,
+                        "seconds":  30.053064500000001,
+                        "checks":  [
+                                       {
+                                           "section":  "streams",
+                                           "id":  "G1",
+                                           "name":  "generator: Philox4x64-10 of the training streams reproduces the three known-answer vectors of its reference implementation",
+                                           "status":  "passed",
+                                           "detail":  "0 of 12 output words differ; computed: 16554d9eca36314c db20fe9d672d0fdc d7e772cee186176b 7e68b68aec7ba23b; 87b092c3013fe90b 438c3c67be8d0224 9cc7d7c69cd777b6 a09caebf594f0ba0; a528f45403e61d95 38c72dbd566e9788 a5a1610e72fd18b5 57bd43b5e52b7fe6"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "G2",
+                                           "name":  "generator: the same 256 bits as the 5.9 evaluation generator (a second source text of the function) for 100,000 random counters and keys",
+                                           "status":  "passed",
+                                           "detail":  "0 of 100000 blocks differ"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "G3",
+                                           "name":  "generator: the map counter -\u003e block is inverted in both directions (a bijection of the 256-bit counters for a fixed key); the two multipliers are odd and their inverses modulo 2^64 are exact",
+                                           "status":  "passed",
+                                           "detail":  "inverse after forward: 0 failures; forward after inverse: 0 failures of 100000; M0*I0 = 1, M1*I1 = 1"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "A1",
+                                           "name":  "address: the numbers of stream (purpose, t, d) are the words of Philox(counter = (j, t, d, purpose), key = (seed, domain)), j = 0, 1, 2, ...; each field has a counter word of its own, up to the largest update index",
+                                           "status":  "passed",
+                                           "detail":  "0 of 40000 numbers differ"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "A2",
+                                           "name":  "address: every block of a grid of addresses (3 key domains x 3 purposes x 11 update indices around 10,000,000, 2^32 and the largest x 64 deals x 4 groups) is different from every other",
+                                           "status":  "passed",
+                                           "detail":  "25344 distinct of 25344 blocks"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "N1",
+                                           "name":  "numbers: a million numbers of one stream lie in [0, 1) on the 2^-53 grid, with mean and variance within 4.5 standard errors of 1/2 and 1/12",
+                                           "status":  "passed",
+                                           "detail":  "0 numbers outside [0, 1) or off the 2^-53 grid; mean 0.500175846 (z 0.61), variance 0.083313056 (z -0.27), smallest 1.19e-07, largest 1 - 2.87e-06"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "L1",
+                                           "name":  "5.10 generator: a stream without an address draws the numbers of the 32-bit generator of 5.10 (values computed by the JavaScript reference randomStream and by a Python port)",
+                                           "status":  "passed",
+                                           "detail":  "3fe5ab3719000000 3fc8a8fb64000000 3fe10118d2800000 3fecaf7e7a600000"
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "U1",
+                                           "name":  "counter audit: every counter a training hands to the generator is recorded; no counter occurs twice, every stream is j = 0, 1, 2, ... without a gap, every counter is a valid address, one card stream per sampled deal (seven configurations)",
+                                           "status":  "passed",
+                                           "detail":  "7 of 7 configurations, 240263 counters in all; known-akq-river (one deal per update, two players, river): 20000 deals, 40000 counters, 40000 distinct, 0 gaps, 0 invalid, card streams 20000; flop3-kings-small (frozen batches of 64 on three threads): 12800 deals, 79137 counters, 79137 distinct, 0 gaps, 0 invalid, card streams 12800; icm8-bb-call-small (ICM, preflop start): 3000 deals, 15370 counters, 15370 distinct, 0 gaps, 0 invalid, card streams 3000; btn25-open-small (chip EV, preflop start): 3000 deals, 16569 counters, 16569 distinct, 0 gaps, 0 invalid, card streams 3000; flop6-jack-small (six players, the rbes estimator): 1500 deals, 29034 counters, 29034 distinct, 0 gaps, 0 invalid, card streams 1500; flop3-kings-small (Latin deals): 3000 deals, 20618 counters, 20618 distinct, 0 gaps, 0 invalid, card streams 3000; flop3-kings (Compact hand groups, frozen batches on three threads): 2560 deals, 39535 counters, 39535 distinct, 0 gaps, 0 invalid, card streams 2560; "
+                                       },
+                                       {
+                                           "section":  "streams",
+                                           "id":  "U2",
+                                           "name":  "counter audit for a state that starts at update 4,294,967,303 (above 2^32), trained in two calls of one engine: no counter twice, no gap, every counter a valid address, 1000 card streams, and the largest update index used is 4,294,968,302",
+                                           "status":  "passed",
+                                           "detail":  "5913 counters, 5913 distinct, 0 gaps, 0 invalid, card streams 1000, largest update index 4294968302 "
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "D1",
+                                           "name":  "a spec with \"trainingStreams\":\"5.10\" writes the states of 5.10 and 5.9 (SHA-256 of the saved state against the hashes recorded from the unchanged 5.9 program, which --selftest510 D1 compares with the spec without the key)",
+                                           "status":  "passed",
+                                           "detail":  "14 of 14 states identical"
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W1",
+                                           "name":  "philox64: two runs give the same state; a frozen batch gives the same state on 1 and 3 threads and with the 5.6 batch update",
+                                           "status":  "passed",
+                                           "detail":  "5 of 5 configurations (exact cards, six players, ICM preflop, Compact hand groups, the rbes estimator)"
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W2",
+                                           "name":  "philox64: stopped after a third and continued = uninterrupted, byte for byte (one deal per update; frozen batches stopped on 2 threads and continued on 3)",
+                                           "status":  "passed",
+                                           "detail":  "5 of 5 configurations"
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W3",
+                                           "name":  "philox64: the saved states have the SHA-256 recorded from the Linux build of this release (the streams and the training are deterministic across platforms and compilers of the release)",
+                                           "status":  "passed",
+                                           "detail":  "15 of 15 states identical"
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W4",
+                                           "name":  "the information of a philox64 state names the streams, the seed and the update limit; the 5.10 state of the same spec names none and is another state",
+                                           "status":  "passed",
+                                           "detail":  "trainingStreams streams-5.11-philox4x64-v1, trainingSeed 000000007138ab95 (the spec\u0027s actionSeed is 000000007138ab95), maxUpdates 140737488355327; 5.10 state differs "
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W5",
+                                           "name":  "\"trainingSeed\" is a 64-bit seed: seeds 0x100000001, 0x200000001 and 0x1 (equal in their low 32 bits) train three different states, each reproducibly; the spec\u0027s actionSeed written as trainingSeed gives the state of the spec without it",
+                                           "status":  "passed",
+                                           "detail":  "three seeds: three states; repeated: same; explicit default seed: the default state; reported seed 0000000100000001 "
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W6",
+                                           "name":  "reference fixtures: the exact NashConv of the strategy trained with philox64 after a fixed budget equals the value recorded at release (a regression check; the numbers are one seed each and no convergence claim)",
+                                           "status":  "passed",
+                                           "detail":  "4 of 4 fixtures reproduce the recorded value; known-akq-river after 20000 deals: exact NashConv 0.0443; flop3-kings-small after 20000 deals: exact NashConv 0.171; icm8-bb-call-small after 20000 deals: exact NashConv 0.0246; flop6-jack-small after 10000 deals: exact NashConv 1.09; "
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W7",
+                                           "name":  "the trained response (5.8/5.9) of a state trained with philox64 runs with counter-based streams of its own key domain, twice to the same bound, and every confidence statement holds against the exact values of the same responses",
+                                           "status":  "passed",
+                                           "detail":  "exit 0; exact NashConv 0.171; simultaneous bound 0.0336 (second run the same bits); statements hold: yes "
+                                       },
+                                       {
+                                           "section":  "training",
+                                           "id":  "W8",
+                                           "name":  "a decision study records the training streams of its variants (run.trainingStreams and every point\u0027s trainer object); trainingStreams=5.10 and trainingStreams=philox64 select them",
+                                           "status":  "passed",
+                                           "detail":  "3 of 3 studies; no option: streams-5.11-philox4x64-v1; trainingStreams=philox64: streams-5.11-philox4x64-v1; trainingStreams=5.10: 5.10 (32-bit); "
+                                       },
+                                       {
+                                           "section":  "checkpoint",
+                                           "id":  "C1",
+                                           "name":  "a state continues only under the streams and the seed that trained it: every other continuation is refused with the reason, exit 1, and writes nothing",
+                                           "status":  "passed",
+                                           "detail":  "4 of 4 refused; a 5.10 state under philox64: exit 1, nothing written; a philox64 state under the 5.10 streams: exit 1, nothing written; a philox64 state under another seed: exit 1, nothing written; a state of that seed under the default seed: exit 1, nothing written; "
+                                       },
+                                       {
+                                           "section":  "checkpoint",
+                                           "id":  "C2",
+                                           "name":  "a philox64 state names its streams and seed in the header, carries no \"rng\" and no \"actionRng\" (earlier program versions require both and refuse the state) and has its own study identifier; a 5.10 state has the 5.10 header",
+                                           "status":  "passed",
+                                           "detail":  "5.10 state: trainingStreams absent, rng 847820172, study \"9371aad10db523c9\"; philox64 state: \"streams-5.11-philox4x64-v1\", seed \"000000007138ab95\", rng absent, study \"c8866ae1a556f5db\"; other seed: \"0000000000005eed\""
+                                       },
+                                       {
+                                           "section":  "checkpoint",
+                                           "id":  "C3",
+                                           "name":  "a compressed (EMZ1) philox64 state restores and continues to the state of the uninterrupted run",
+                                           "status":  "passed",
+                                           "detail":  "compress exit 0; continued from the compressed state: identical to the uninterrupted run"
+                                       },
+                                       {
+                                           "section":  "limits",
+                                           "id":  "L1",
+                                           "name":  "a 5.10 state keeps the 10,000,000-update limit: 10,000,001 updates are refused before anything is trained (exit 2, no file), 10,000,000 are trained, and that state is not continued by one more update (exit 1, no file)",
+                                           "status":  "passed",
+                                           "detail":  "10,000,001 updates: exit 2, nothing written; 10,000,000 updates: trained; one more: exit 1, nothing written [error: training failed: Iteration count must fit the 10 million iteration limit (nothing was written to \u0027C:\\Users\\runner]"
+                                       },
+                                       {
+                                           "section":  "limits",
+                                           "id":  "L2",
+                                           "name":  "a philox64 state has no 10,000,000-update limit: 10,000,100 updates are trained, the state is continued to 10,000,200 and equals the uninterrupted run to 10,000,200, whose SHA-256 is the one recorded from the Linux build",
+                                           "status":  "passed",
+                                           "detail":  "updates in the header 10000200; continued = uninterrupted; state 18ea9ee82f6e5f22 = recorded"
+                                       },
+                                       {
+                                           "section":  "limits",
+                                           "id":  "L3",
+                                           "name":  "update indices above 2^32: a philox64 state that starts at update 4,294,967,303 trains 3000 updates, stopped after 1000 and continued = uninterrupted, and the state has the SHA-256 recorded from the Linux build",
+                                           "status":  "passed",
+                                           "detail":  "updates in the header 4294970303; continued = uninterrupted; state 390042ca0ad53e65 = recorded"
+                                       },
+                                       {
+                                           "section":  "limits",
+                                           "id":  "L4",
+                                           "name":  "refused before anything is trained: an unknown or malformed trainingStreams or trainingSeed, philox64 for an enumerated spec, a philox64 spec that starts after update 0 with a 32-bit generator state, more than 10,000,000 updates with DCFR, more than 140,737,488,355,327 updates",
+                                           "status":  "passed",
+                                           "detail":  "11 of 11 refused with the expected exit status and no output; engine bounds: philox64 140,737,488,355,327, philox64 with DCFR 10,000,000"
+                                       },
+                                       {
+                                           "section":  "limits",
+                                           "id":  "L5",
+                                           "name":  "studies: a budget of 10,000,001 deals at one deal per update is accepted with philox64 (the study starts; its time limit ends it) and refused with trainingStreams=5.10 before any training, with the 5.10 message",
+                                           "status":  "passed",
+                                           "detail":  "philox64: exit 0, result written ; 5.10: exit 1, nothing written [error 400: study budget too large: 10000001 sampled deals per seed need 10000001 training updates for variant ]"
+                                       }
+                                   ]
+                    },
+    "wideThreadScaling":  [
+                              {
+                                  "threads":  1,
+                                  "mode":  "every update on all threads",
+                                  "exit":  0,
+                                  "wallSeconds":  0.074950,
+                                  "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb"
+                              },
+                              {
+                                  "threads":  2,
+                                  "mode":  "every update on all threads",
+                                  "exit":  0,
+                                  "wallSeconds":  0.048164,
+                                  "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb"
+                              },
+                              {
+                                  "threads":  4,
+                                  "mode":  "every update on all threads",
+                                  "exit":  0,
+                                  "wallSeconds":  0.037982,
+                                  "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb"
+                              },
+                              {
+                                  "threads":  4,
+                                  "mode":  "measured thread choice",
+                                  "exit":  0,
+                                  "wallSeconds":  0.046911,
+                                  "threadsChosen":  4,
+                                  "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb"
+                              }
+                          ],
+    "wideProcessingModes":  [
+                                {
+                                    "mode":  "cpu",
+                                    "exit":  0,
+                                    "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+                                    "decision":  "CPU Only requested",
+                                    "cudaOpened":  false
+                                },
+                                {
+                                    "mode":  "auto",
+                                    "exit":  0,
+                                    "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+                                    "decision":  "CPU without opening CUDA",
+                                    "cudaOpened":  false
+                                },
+                                {
+                                    "mode":  "hybrid",
+                                    "exit":  0,
+                                    "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+                                    "decision":  "CPU",
+                                    "cudaOpened":  true
+                                },
+                                {
+                                    "mode":  "gpu",
+                                    "exit":  0,
+                                    "sha256":  "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb",
+                                    "decision":  "CPU",
+                                    "cudaOpened":  true
+                                }
+                            ],
+    "streamsThroughput":  [
+                              {
+                                  "fixture":  "flop6-jack",
+                                  "streams":  "streams510",
+                                  "threadsOffered":  1,
+                                  "deals":  96000,
+                                  "wallSeconds":  2.113130,
+                                  "dealsPerSecond":  45430,
+                                  "rows":  164281,
+                                  "processPeakRssMiB":  44.8
+                              },
+                              {
+                                  "fixture":  "flop6-jack",
+                                  "streams":  "streams510",
+                                  "threadsOffered":  4,
+                                  "deals":  96000,
+                                  "wallSeconds":  0.911671,
+                                  "dealsPerSecond":  105301,
+                                  "rows":  164281,
+                                  "processPeakRssMiB":  46.9
+                              },
+                              {
+                                  "fixture":  "flop6-jack",
+                                  "streams":  "philox64",
+                                  "threadsOffered":  1,
+                                  "deals":  96000,
+                                  "wallSeconds":  2.090120,
+                                  "dealsPerSecond":  45930,
+                                  "rows":  160358,
+                                  "processPeakRssMiB":  44.5
+                              },
+                              {
+                                  "fixture":  "flop6-jack",
+                                  "streams":  "philox64",
+                                  "threadsOffered":  4,
+                                  "deals":  96000,
+                                  "wallSeconds":  0.932632,
+                                  "dealsPerSecond":  102934,
+                                  "rows":  160358,
+                                  "processPeakRssMiB":  46.3
+                              },
+                              {
+                                  "fixture":  "flop3-kings",
+                                  "streams":  "streams510",
+                                  "threadsOffered":  1,
+                                  "deals":  192000,
+                                  "wallSeconds":  1.947628,
+                                  "dealsPerSecond":  98581,
+                                  "rows":  126811,
+                                  "processPeakRssMiB":  21.4
+                              },
+                              {
+                                  "fixture":  "flop3-kings",
+                                  "streams":  "streams510",
+                                  "threadsOffered":  4,
+                                  "deals":  192000,
+                                  "wallSeconds":  0.937456,
+                                  "dealsPerSecond":  204810,
+                                  "rows":  126811,
+                                  "processPeakRssMiB":  23.3
+                              },
+                              {
+                                  "fixture":  "flop3-kings",
+                                  "streams":  "philox64",
+                                  "threadsOffered":  1,
+                                  "deals":  192000,
+                                  "wallSeconds":  1.992722,
+                                  "dealsPerSecond":  96351,
+                                  "rows":  127180,
+                                  "processPeakRssMiB":  21.3
+                              },
+                              {
+                                  "fixture":  "flop3-kings",
+                                  "streams":  "philox64",
+                                  "threadsOffered":  4,
+                                  "deals":  192000,
+                                  "wallSeconds":  0.939997,
+                                  "dealsPerSecond":  204256,
+                                  "rows":  127180,
+                                  "processPeakRssMiB":  23.5
+                              },
+                              {
+                                  "fixture":  "known-akq-river",
+                                  "streams":  "streams510",
+                                  "threadsOffered":  1,
+                                  "deals":  4000000,
+                                  "wallSeconds":  1.920883,
+                                  "dealsPerSecond":  2082376,
+                                  "rows":  6,
+                                  "processPeakRssMiB":  4.6
+                              },
+                              {
+                                  "fixture":  "known-akq-river",
+                                  "streams":  "philox64",
+                                  "threadsOffered":  1,
+                                  "deals":  4000000,
+                                  "wallSeconds":  1.949736,
+                                  "dealsPerSecond":  2051560,
+                                  "rows":  6,
+                                  "processPeakRssMiB":  4.6
+                              }
+                          ]
+}
