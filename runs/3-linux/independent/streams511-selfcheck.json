@@ -1,0 +1,26 @@
+{
+ "tool": "independent_streams511.py",
+ "checks": [
+  {
+   "id": "K",
+   "name": "Philox4x64-10: the three known-answer vectors of the reference implementation",
+   "passed": true,
+   "detail": "0 of 3 vectors differ"
+  },
+  {
+   "id": "B",
+   "name": "the inverse of ten rounds returns the counter, in both directions, for 2000 random counters and keys",
+   "passed": true,
+   "detail": "0 failures"
+  },
+  {
+   "id": "S",
+   "name": "the numbers of 300 random stream addresses printed by the program are the bits computed here (37 numbers each: ten counters)",
+   "passed": true,
+   "detail": "11100 numbers compared, 0 addresses differ"
+  }
+ ],
+ "passed": 3,
+ "failed": 0,
+ "allPassed": true
+}

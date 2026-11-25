@@ -1,0 +1,19 @@
+build EightMaxBuild=924dd7f7bfc862fc 2026-11-25T14:07:16Z
+selftest511 (Linux) exit 0
+selftest510 (Linux) exit 0
+selftest59 (Linux) exit 0
+selftest58 (Linux) exit 0
+selftest571 (Linux) exit 0
+selftest57 (Linux) exit 0
+recorded tables of selftest511: recording exit 0, 3 of 3 files identical to the shipped ones
+independent training streams (5.11) selfcheck exit 0
+independent statistics (5.9) selfcheck exit 0
+coincidences of the 5.10 streams (arithmetic) exit 0
+desktop host, refused studies exit 0
+interface in a browser exit 1
+stability (3 minutes) exit 0
+identity against 5.10 exit 0
+flop3-kings-detailed batch64-2MiB identical
+flop3-kings-detailed batch8-1MiB identical
+{"cases": 225, "failures": 0, "trainingRuns": 1782, "seconds": 186.1, "baselineSha256": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183", "currentSha256": "d74542e37d16a25bd1ee1c8877ceddb6f8bf3d0c25e3a510f782eddbe3b78d15", "deals": 24000}
+== done 14:19:28

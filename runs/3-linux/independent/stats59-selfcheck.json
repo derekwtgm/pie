@@ -1,0 +1,30 @@
+{
+ "tool": "independent_stats59",
+ "checks": [
+  {
+   "name": "Philox4x64-10 (Python integers) reproduces the three known-answer vectors",
+   "passed": true,
+   "detail": "0 of 3 vectors differ"
+  },
+  {
+   "name": "numpy.random.Philox agrees with the Python implementation",
+   "passed": null,
+   "detail": "numpy is not installed: not checked"
+  },
+  {
+   "name": "the engine draws the stream of an address as defined (mwcli --streams59)",
+   "passed": true,
+   "detail": "0 differences in 185 numbers of 5 addresses"
+  },
+  {
+   "name": "two-point distributions: the one-sided empirical-Bernstein bound never misses more often than its level (exact binomial sums)",
+   "passed": true,
+   "detail": "117 cases; largest miss probability / level = 0.0586"
+  },
+  {
+   "name": "two-point distributions: the 5.8 normal-approximation bound does miss far more often than 5% (the reason it is not a confidence statement)",
+   "passed": true,
+   "detail": "n = 1024, P(large value) = 1 - 1e-06: the bound exceeds the true mean with probability 0.999"
+  }
+ ]
+}

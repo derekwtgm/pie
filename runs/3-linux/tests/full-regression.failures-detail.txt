@@ -1,0 +1,203 @@
+  ...
+# Subtest: 4.8 Windows harness: End-Section takes an untyped error so a completed section is not recorded as failed; Error-Text never returns an empty string
+not ok 476 - 4.8 Windows harness: End-Section takes an untyped error so a completed section is not recorded as failed; Error-Text never returns an empty string
+  ---
+  duration_ms: 0.989886
+  type: 'test'
+  location: '/home/runner/work/_temp/t/EightMax/source/tests/v48.test.js:259:1'
+  failureType: 'testCodeFailure'
+  error: 'workflow copies RELEASE-5.11.md'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/_temp/t/EightMax/source/tests/v48.test.js:266:68)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: 4.9 --selftest49: compressed-checkpoint restoration in every temporary-directory situation (15 checks)
+ok 477 - 4.9 --selftest49: compressed-checkpoint restoration in every temporary-directory situation (15 checks)
+  ---
+  duration_ms: 6963.962578
+  type: 'test'
+  ...
+# Subtest: 4.9 EMZ1 restoration falls back to the checkpoint folder when TMPDIR is unusable, refuses cleanly when no temporary file can be created, and enforces the size limit
+ok 478 - 4.9 EMZ1 restoration falls back to the checkpoint folder when TMPDIR is unusable, refuses cleanly when no temporary file can be created, and enforces the size limit
+  ---
+  duration_ms: 337.748726
+  type: 'test'
+  ...
+# Subtest: 4.9 compressed and uncompressed restoration give the same canonical state for every inspection command (--state-info, --verify)
+ok 479 - 4.9 compressed and uncompressed restoration give the same canonical state for every inspection command (--state-info, --verify)
+  ---
+  duration_ms: 39.012249
+  type: 'test'
+  ...
+# Subtest: 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)
+ok 480 - 4.9 a checkpoint save into a read-only folder fails with exit 4 and leaves the input untouched (POSIX permissions)
+--
+  ...
+# Subtest: 5.2 independent reference: hero EVs recomputed by hand from the trained strategies of the known game equal the evaluator's values
+not ok 539 - 5.2 independent reference: hero EVs recomputed by hand from the trained strategies of the known game equal the evaluator's values
+  ---
+  duration_ms: 42.062873
+  type: 'test'
+  location: '/home/runner/work/_temp/t/EightMax/source/tests/v52.test.js:102:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + -0.16488408559573953
+    - 0.06249956237574134
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0.06249956237574134
+  actual: -0.16488408559573953
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/_temp/t/EightMax/source/tests/v52.test.js:117:59)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: 5.2 study seeds: the runner's per-seed game equals the application's game for that seed (manual train + evaluate gives the same numbers)
+not ok 540 - 5.2 study seeds: the runner's per-seed game equals the application's game for that seed (manual train + evaluate gives the same numbers)
+  ---
+  duration_ms: 98.489973
+  type: 'test'
+  location: '/home/runner/work/_temp/t/EightMax/source/tests/v52.test.js:119:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    +   3.178628352032594,
+    +   3.895662867804552,
+    +   3.729226476233386,
+    +   2.808792747872108
+    -   4.257571061428603,
+    -   5.341553914481602,
+    -   5.882054265882278,
+    -   6.691927500667429
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 4.257571061428603
+    1: 5.341553914481602
+    2: 5.882054265882278
+    3: 6.691927500667429
+  actual:
+    0: 3.178628352032594
+    1: 3.895662867804552
+    2: 3.729226476233386
+    3: 2.808792747872108
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/_temp/t/EightMax/source/tests/v52.test.js:129:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+--
+  ...
+# Subtest: 5.7 against the archived 5.6 binary: complete studies (sampled and exact evaluation, chip EV and ICM) give the same measurements
+not ok 614 - 5.7 against the archived 5.6 binary: complete studies (sampled and exact evaluation, chip EV and ICM) give the same measurements
+  ---
+  duration_ms: 27.565484
+  type: 'test'
+  location: '/home/runner/work/_temp/t/EightMax/source/tests/v57.test.js:153:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    known-akq-river
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        {
+          budget: 1000,
+          deals: 1000,
+          ev: [
+            0,
+    +       -0.8193759850034152
+    -       -0.19944169194445968
+          ],
+          evSamples: 0,
+          evStdErr: [
+            0,
+            0
+    ...
+          frequency: [
+    +       0.47990823124696874,
+    +       0.5200917687530313
+    -       0.5070170143269178,
+    -       0.49298298567308224
+          ],
+          pairedDiffStdErr: [
+            [
+              0,
+              0
+    ...
+          ],
+    +     quality: 0.39759153512750434,
+    -     quality: 0.4537504777028203,
+          qualitySeed: 204959160,
+          qualityStdErr: 0,
+--
+  ...
+# Subtest: 5.7.1 against the unchanged 5.7 binary: studies give the same measurements; a 5.7 study checkpoint is refused with the reason and left untouched
+not ok 629 - 5.7.1 against the unchanged 5.7 binary: studies give the same measurements; a 5.7 study checkpoint is refused with the reason and left untouched
+  ---
+  duration_ms: 117771.373728
+  type: 'test'
+  location: '/home/runner/work/_temp/t/EightMax/source/tests/v571.test.js:249:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /resume refused: the checkpoint was written by build e4668abe7903f8b0; this is build/. Input:
+    
+    'error 409: study resume refused: the checkpoint belongs to a different study (fixture, seeds, budgets, variants, trainer, evaluation settings or memory budget differ)\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    error 409: study resume refused: the checkpoint belongs to a different study (fixture, seeds, budgets, variants, trainer, evaluation settings or memory budget differ)
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/home/runner/work/_temp/t/EightMax/source/tests/v571.test.js:268:118)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: 5.8 self-test: every check passes, the report lists each of them once, and the exit status says the same
+ok 630 - 5.8 self-test: every check passes, the report lists each of them once, and the exit status says the same
+  ---
+  duration_ms: 90576.623587
+  type: 'test'
+  ...
+# Subtest: 5.8 self-test: sections can be run alone; a wrong section or a missing folder is a usage error
+ok 631 - 5.8 self-test: sections can be run alone; a wrong section or a missing folder is a usage error
+  ---
+  duration_ms: 496.201053
+  type: 'test'
+  ...
+# Subtest: 5.8 self-test: without its fixtures every dependent check is untested or failed, none is passed, and the exit status is 1
+ok 632 - 5.8 self-test: without its fixtures every dependent check is untested or failed, none is passed, and the exit status is 1

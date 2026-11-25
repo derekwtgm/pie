@@ -1,0 +1,192 @@
+{
+ "tool": "stability59 (stability55.js with the largest supported budget in step E and the refusal check E0)",
+ "generated": "2026-11-25T14:13:36.725Z",
+ "host": "Linux build",
+ "build": "924dd7f7bfc862fc",
+ "version": "5.11",
+ "minutesRequested": 3,
+ "checks": [
+  {
+   "name": "A: a study paused and resumed 13 times completes",
+   "passed": true,
+   "detail": {
+    "cycles": 13,
+    "completion": {
+     "complete": true,
+     "status": "complete",
+     "pointsCompleted": 9,
+     "pointsRequested": 9,
+     "resumable": false,
+     "meaning": "every requested seed reached every requested budget and finished every required evaluation"
+    }
+   }
+  },
+  {
+   "name": "A: its numbers equal an uninterrupted study and no checkpoint warning was raised",
+   "passed": true,
+   "detail": {
+    "warnings": [],
+    "resumeCount": 13
+   }
+  },
+  {
+   "name": "A: an interrupted document never claims completion or tolerance",
+   "passed": true
+  },
+  {
+   "name": "B: 25 sequential studies complete with identical numbers; export, reload and re-export are stable",
+   "passed": true,
+   "detail": {
+    "okSeq": 25
+   }
+  },
+  {
+   "name": "B: every study left a complete saved record and none is resumable",
+   "passed": true,
+   "detail": {
+    "saved": 26
+   }
+  },
+  {
+   "name": "B: discarding every saved study empties the list",
+   "passed": true
+  },
+  {
+   "name": "D: cancellation during evaluation stops the study and marks it incomplete",
+   "passed": true,
+   "detail": {
+    "sawEval": true,
+    "latencyMs": 27,
+    "statuses": [
+     [
+      "cancelled"
+     ],
+     [
+      "cancelled"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "D: the cancelled evaluation is repeated on resume and the study completes",
+   "passed": true,
+   "detail": {
+    "complete": true,
+    "status": "complete",
+    "pointsCompleted": 2,
+    "pointsRequested": 2,
+    "resumable": false,
+    "meaning": "every requested seed reached every requested budget and finished every required evaluation"
+   }
+  },
+  {
+   "name": "E0: a study of 20,000,000 deals per seed is refused at once by the desktop host, with the limit in the message, and nothing is saved",
+   "passed": true,
+   "detail": {
+    "httpStatusOfStart": 200,
+    "start": "{\"ok\":true,\"checkpointId\":\"flop6-jack-458127\",\"resumed\":false}",
+    "statusAfter": "{\"running\":false,\"hasResult\":true,\"stopRequested\":false,\"elapsedSeconds\":0.002,\"error\":\"study budget too large: 20000000 sampled deals per seed need 20000000 training updates for variant baseline (1 deal per update), above the 10 million iteration limit of one engine state. Nothing was trained. The largest budget this trainer supports is 10000000 sampled deals per seed; frozen batches (trainer batchDeals up to 64) raise it to 640,000,000. (5.11: this is the limit of the 5.10 training streams, wh",
+    "milliseconds": 30,
+    "savedStudiesBefore": 1,
+    "after": 1
+   }
+  },
+  {
+   "name": "E: a 138 s training study stops at its time limit with periodic checkpoints and no write error",
+   "passed": true,
+   "detail": {
+    "commits": 60,
+    "engineStateWrites": 56,
+    "MiB": 800.1676301956177,
+    "secondsWriting": 9.182120641000001,
+    "deals": 3889824,
+    "peakRssMiB": 212.96875
+   }
+  },
+  {
+   "name": "E: every engine state named by the final manifest matches its SHA-256",
+   "passed": true,
+   "detail": {
+    "states": 2
+   }
+  },
+  {
+   "name": "C: 159106 concurrent status polls each returned a complete, well-formed document",
+   "passed": true,
+   "detail": {
+    "polls": 159106,
+    "badPolls": 0,
+    "phases": [
+     "beforeTraining",
+     "training",
+     "evaluating",
+     "actionEvaluated",
+     "evaluated",
+     "checkpoint"
+    ]
+   }
+  }
+ ],
+ "cancelDuringEvaluationLatencyMs": 27,
+ "longTraining": {
+  "seconds": 138.085,
+  "commits": 60,
+  "engineStateWrites": 56,
+  "engineStateMiBWritten": 800.1676301956177,
+  "secondsWriting": 9.182120641000001,
+  "largestSampledDeals": 3889824,
+  "processPeakRssMiB": 212.96875
+ },
+ "hostResidentMiB": {
+  "samples": 83,
+  "first": [
+   0,
+   6
+  ],
+  "last": [
+   164,
+   213
+  ],
+  "max": 213,
+  "series": [
+   [
+    0,
+    6
+   ],
+   [
+    20,
+    100
+   ],
+   [
+    40,
+    147
+   ],
+   [
+    60,
+    201
+   ],
+   [
+    80,
+    205
+   ],
+   [
+    100,
+    208
+   ],
+   [
+    120,
+    210
+   ],
+   [
+    140,
+    211
+   ],
+   [
+    160,
+    213
+   ]
+  ]
+ },
+ "elapsedSeconds": 166.072,
+ "passed": true
+}

@@ -1,0 +1,36 @@
+{
+ "tool": "make_reference511.py",
+ "build": "EightMaxBuild=0000000000000000",
+ "algorithm": "streams-5.11-philox4x64-v1",
+ "threads": {
+  "spec": "flop3-kings-philox64-batch64.spec.json",
+  "updates": 120,
+  "memoryMiB": 512,
+  "sampledDeals": 7680,
+  "rows": 34580,
+  "stateSha256": "515fa40cffde1c86e04efaca3b447064f2a8eafd31ac86156930e5eb399fe5eb"
+ },
+ "throughput": [
+  {
+   "name": "flop6-jack",
+   "batch": true,
+   "updates": 1500,
+   "streams510Spec": "flop6-jack-streams510-batch64.spec.json",
+   "philox64Spec": "flop6-jack-philox64-batch64.spec.json"
+  },
+  {
+   "name": "flop3-kings",
+   "batch": true,
+   "updates": 3000,
+   "streams510Spec": "flop3-kings-streams510-batch64.spec.json",
+   "philox64Spec": "flop3-kings-philox64-batch64.spec.json"
+  },
+  {
+   "name": "known-akq-river",
+   "batch": false,
+   "updates": 4000000,
+   "streams510Spec": "known-akq-river-streams510.spec.json",
+   "philox64Spec": "known-akq-river-philox64.spec.json"
+  }
+ ]
+}

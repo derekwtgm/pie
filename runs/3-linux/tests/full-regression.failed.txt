@@ -1,0 +1,5 @@
+not ok 476 - 4.8 Windows harness: End-Section takes an untyped error so a completed section is not recorded as failed; Error-Text never returns an empty string
+not ok 539 - 5.2 independent reference: hero EVs recomputed by hand from the trained strategies of the known game equal the evaluator's values
+not ok 540 - 5.2 study seeds: the runner's per-seed game equals the application's game for that seed (manual train + evaluate gives the same numbers)
+not ok 614 - 5.7 against the archived 5.6 binary: complete studies (sampled and exact evaluation, chip EV and ICM) give the same measurements
+not ok 629 - 5.7.1 against the unchanged 5.7 binary: studies give the same measurements; a 5.7 study checkpoint is refused with the reason and left untouched
