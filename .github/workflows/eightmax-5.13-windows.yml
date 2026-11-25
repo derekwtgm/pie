@@ -1,15 +1,15 @@
-name: EightMax 5.12 - the launchers on a hosted Windows runner
+name: EightMax 5.13 - the launchers on a hosted Windows runner
 # Runs the two launchers a user double-clicks, with Windows PowerShell 5.1, on a hosted Windows runner.
-#   * If release-5.12/EightMax-Windows-5.12.zip is in the branch, it is the DELIVERED archive that runs: it is checked
+#   * If release-5.13/EightMax-Windows-5.13.zip is in the branch, it is the DELIVERED archive that runs: it is checked
 #     against its identity file and extracted into an empty folder.
-#   * Otherwise ci/EightMax-5.12-prerelease.zip runs: the executables, the fixtures, the scripts and the reference
+#   * Otherwise ci/EightMax-5.13-prerelease.zip runs: the executables, the fixtures, the scripts and the reference
 #     files the launchers read, taken from the tree before packaging (no SHA256SUMS.txt: the integrity pass is skipped).
 # A hosted runner is a virtual machine without an NVIDIA GPU: the GPU section reports itself as skipped, and nothing
 # here is evidence about the target PC or about CUDA.
 on:
   push:
     branches: ['ccr-f7bda3fe-idkcb2']
-    paths: ['release-5.12/EightMax-Windows-5.12.zip', 'ci/EightMax-5.12-prerelease.zip', '.github/workflows/eightmax-5.12-windows.yml']
+    paths: ['release-5.13/EightMax-Windows-5.13.zip', 'ci/EightMax-5.13-prerelease.zip', '.github/workflows/eightmax-5.13-windows.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,35 +21,35 @@ jobs:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            release-5.12
+            release-5.13
             ci
       - name: Which archive; identity; extraction
         shell: powershell
         run: |
-          $rel = 'release-5.12/EightMax-Windows-5.12.zip'
+          $rel = 'release-5.13/EightMax-Windows-5.13.zip'
           if (Test-Path $rel) {
-            $id = Get-Content release-5.12/EightMax-Windows-5.12.identity.json -Raw | ConvertFrom-Json
+            $id = Get-Content release-5.13/EightMax-Windows-5.13.identity.json -Raw | ConvertFrom-Json
             $h = (Get-FileHash $rel -Algorithm SHA256).Hash.ToLower()
             "DELIVERED archive: sha256 $h; identity file $($id.archiveSha256); build $($id.build)"
             if ($h -ne $id.archiveSha256) { 'the archive is not the one the identity file describes'; exit 1 }
             $zip = $rel
           } else {
-            $zip = 'ci/EightMax-5.12-prerelease.zip'
+            $zip = 'ci/EightMax-5.13-prerelease.zip'
             "PRE-RELEASE tree: sha256 " + (Get-FileHash $zip -Algorithm SHA256).Hash.ToLower()
           }
-          Expand-Archive $zip -DestinationPath $env:RUNNER_TEMP\em512
+          Expand-Archive $zip -DestinationPath $env:RUNNER_TEMP\em513
           Get-CimInstance Win32_OperatingSystem | ForEach-Object { $_.Caption + ' ' + $_.Version }
           Get-CimInstance Win32_Processor | ForEach-Object { $_.Name + '; ' + $_.NumberOfLogicalProcessors + ' logical processors' }
           'RAM GiB: ' + [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1)
           $PSVersionTable.PSVersion.ToString()
-          & "$env:RUNNER_TEMP\em512\EightMax\mwcli.exe" --build-id
-      - name: Run 5.12 focused validation.bat
+          & "$env:RUNNER_TEMP\em513\EightMax\mwcli.exe" --build-id
+      - name: Run 5.13 focused validation.bat
         shell: cmd
         env:
           EIGHTMAX_NO_PAUSE: '1'
         run: |
-          cd /d "%RUNNER_TEMP%\em512\EightMax"
-          call "Run 5.12 focused validation.bat"
+          cd /d "%RUNNER_TEMP%\em513\EightMax"
+          call "Run 5.13 focused validation.bat"
           echo focused launcher exit status %errorlevel% > focused-exit.txt
           type focused-exit.txt
           exit /b 0
@@ -57,15 +57,15 @@ jobs:
         if: always()
         shell: powershell
         run: |
-          cd "$env:RUNNER_TEMP\em512\EightMax"
-          if (Test-Path Windows-focused-validation-5.12.txt) { Get-Content Windows-focused-validation-5.12.txt } else { 'no focused report was written' }
-      - name: Run 5.12 Windows validation.bat (no GPU on the runner)
+          cd "$env:RUNNER_TEMP\em513\EightMax"
+          if (Test-Path Windows-focused-validation-5.13.txt) { Get-Content Windows-focused-validation-5.13.txt } else { 'no focused report was written' }
+      - name: Run 5.13 Windows validation.bat (no GPU on the runner)
         shell: cmd
         env:
           EIGHTMAX_NO_PAUSE: '1'
         run: |
-          cd /d "%RUNNER_TEMP%\em512\EightMax"
-          call "Run 5.12 Windows validation.bat"
+          cd /d "%RUNNER_TEMP%\em513\EightMax"
+          call "Run 5.13 Windows validation.bat"
           echo full launcher exit status %errorlevel% > full-exit.txt
           type full-exit.txt
           exit /b 0
@@ -73,23 +73,23 @@ jobs:
         if: always()
         shell: powershell
         run: |
-          cd "$env:RUNNER_TEMP\em512\EightMax"
-          if (Test-Path Windows-validation-5.12.txt) { Get-Content Windows-validation-5.12.txt } else { 'no full report was written' }
+          cd "$env:RUNNER_TEMP\em513\EightMax"
+          if (Test-Path Windows-validation-5.13.txt) { Get-Content Windows-validation-5.13.txt } else { 'no full report was written' }
       - name: Collect the reports
         if: always()
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force reports | Out-Null
-          Copy-Item "$env:RUNNER_TEMP\em512\EightMax\Windows-*.json", "$env:RUNNER_TEMP\em512\EightMax\Windows-*.txt", "$env:RUNNER_TEMP\em512\EightMax\*-exit.txt", "$env:RUNNER_TEMP\em512\EightMax\hardware-validation.json" reports -ErrorAction SilentlyContinue
+          Copy-Item "$env:RUNNER_TEMP\em513\EightMax\Windows-*.json", "$env:RUNNER_TEMP\em513\EightMax\Windows-*.txt", "$env:RUNNER_TEMP\em513\EightMax\*-exit.txt", "$env:RUNNER_TEMP\em513\EightMax\hardware-validation.json" reports -ErrorAction SilentlyContinue
           Get-ChildItem reports | ForEach-Object { $_.Name + ' ' + $_.Length }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: EightMax-5.12-windows-runner-reports
+          name: EightMax-5.13-windows-runner-reports
           path: reports/
       - name: Result (fails the job if a launcher did not return 0)
         shell: powershell
         run: |
-          $f = Get-Content "$env:RUNNER_TEMP\em512\EightMax\focused-exit.txt" -ErrorAction SilentlyContinue; $a = Get-Content "$env:RUNNER_TEMP\em512\EightMax\full-exit.txt" -ErrorAction SilentlyContinue
+          $f = Get-Content "$env:RUNNER_TEMP\em513\EightMax\focused-exit.txt" -ErrorAction SilentlyContinue; $a = Get-Content "$env:RUNNER_TEMP\em513\EightMax\full-exit.txt" -ErrorAction SilentlyContinue
           "$f"; "$a"
           if ("$f" -notmatch 'status 0\s*$' -or "$a" -notmatch 'status 0\s*$') { exit 1 }
