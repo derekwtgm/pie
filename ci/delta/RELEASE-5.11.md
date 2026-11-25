@@ -1,6 +1,6 @@
 # EightMax Windows 5.11
 
-Build `@BUILD@`. Successor of 5.10 (`7fa0e8c16d6c6ade`). This is **Phase 1** of the ten-phase plan: the 64-bit
+Build `af452eaa0ea731be`. Successor of 5.10 (`7fa0e8c16d6c6ade`). This is **Phase 1** of the ten-phase plan: the 64-bit
 training generator. One thing changed in the trainer; nothing else did.
 
 First thing to do on your PC: **WINDOWS-TESTS-5.11.md** (`Run 5.11 focused validation.bat`, 5 to 12 minutes; then
@@ -41,13 +41,20 @@ bound; it was 10,000,000). The self-test trains a state to 10,000,200 updates an
 The decision rule was written before anything was measured. 17 reference games with exact NashConv, 32 seeds, the
 unchanged 5.10 program against 5.11 with philox64.
 
-@CONVERGENCE@
+| Comparison | NashConv with philox64 / with the 5.10 streams | Interval | Verdict by the rule |
+|---|---:|---|---|
+| equal training time, 2 s (primary) | 1.030 | 0.985 to 1.078 | no worse (margin 10%) |
+| equal sampled deals, 500,000 | 0.957 | 0.921 to 0.995 | better - recorded, not claimed as an improvement |
+| frozen batches of 64, 512,000 deals (where the 5.10 streams coincide) | 1.008 | 0.977 to 1.039 | no worse |
 
-**What it costs.** The new generator does more arithmetic per number. @COST@
+The 5.11 program with the 5.10 streams wrote the states of the 5.10 program in 544 of 544 cases. None of the 58
+single cells is worse. The rule is met.
+
+**What it costs.** The new generator does more arithmetic per number. Per sampled deal, measured: about 2 to 3% more time on the study fixtures and 5 to 15% on small reference games in an alternating benchmark on the build machine; 0.89 to 1.01 of the deals per second in single runs on two hosted runners (PERFORMANCE-5.11.md). That is why the equal-time result is "no worse within 10%" and not "equal". With `trainingStreams=5.10` the speed is that of 5.10.
 
 ### 4. Which streams are used
 
-* **New studies** (Study tab, `mwcli --study`) train with **@DEFAULT@**@DEFAULTWHY@. `trainingStreams=5.10` selects the
+* **New studies** (Study tab, `mwcli --study`) train with **the counter-based 64-bit streams (philox64)**, because the rule of section 3 was met. `trainingStreams=5.10` selects the
   streams of 5.10, and then a 5.11 study gives the measurements of 5.10 and earlier, number for number (tested against
   the archived 5.6 and 5.7 programs).
 * **A spec decides for the command-line trainer.** A spec without `"trainingStreams"` - every spec written by 5.10 or

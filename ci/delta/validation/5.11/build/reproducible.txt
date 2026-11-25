@@ -1,0 +1,1 @@
+second build: all 7 artifacts byte-identical

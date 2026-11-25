@@ -1,6 +1,6 @@
 # EightMax 5.11: the checks that remain to be made on the Windows PC
 
-Build `@BUILD@`. Target: Windows 11 x64, Intel Core i7-13700F (24 logical processors), 16 GB RAM, NVIDIA GeForce
+Build `af452eaa0ea731be`. Target: Windows 11 x64, Intel Core i7-13700F (24 logical processors), 16 GB RAM, NVIDIA GeForce
 RTX 4060 Ti (8 GB).
 
 **What has NOT been done.** No program of 5.11 was executed on the target PC, and none on an NVIDIA GPU. The Windows
@@ -31,7 +31,7 @@ Double-click **`Run 5.11 focused validation.bat`**.
 | 2 | `validate_windows511.ps1 -Focused`: machine; every file against `SHA256SUMS.txt`; **golden states** and **threads** (the 5.10-stream trainer against the recorded states with 1, 2, 4, 8 and 24 threads); the import of step 1's report; **streams 5.11**: a frozen-batch philox64 training with 1, 2, 4, 8 and 24 threads and with CPU Only, Automatic, Hybrid and GPU-Preferred - one state, the state of the Linux build (`515fa40c...9fe5eb`) - and deals per second with both kinds of streams. | `Windows-focused-validation-5.11.json`, `.txt` |
 
 **Expected:** exit status 0, "Every required check of the script passed", 0 failed, 0 untested. On the hosted Windows
-runner: @FOCUSED@ (the skipped check there was the integrity check, which the pre-release tree could not make; in the
+runner: 54 passed, 0 failed, 1 skipped, 0 untested (86.2 s) (the skipped check there was the integrity check, which the pre-release tree could not make; in the
 delivered archive it runs: see WINDOWS-CI-5.11.md beside the ZIP).
 
 **What only your PC can show** in this step: the philox64 state with 8 and 24 threads; **Hybrid and GPU-Preferred with
@@ -45,7 +45,7 @@ Double-click **`Run 5.11 Windows validation.bat`**. Steps 1 to 6 are `mwcli.exe 
 script with all 21 sections: the 19 sections of the 5.10 script, unchanged in what they test, plus "self-test 5.11"
 and "streams 5.11". One request changed: the over-limit study of "refused study" asks for the 5.10 streams by name.
 
-**Expected:** exit status 0. On the hosted Windows runner: @FULL@. On your PC the integrity check and the GPU section
+**Expected:** exit status 0. On the hosted Windows runner: 247 passed, 0 failed, 2 skipped, 0 untested (683.7 s). On your PC the integrity check and the GPU section
 run as well, so the count of passed checks is higher (5.10: 216 on the runner, 220 on your PC).
 
 Options (append to the `.bat` line): `-Quick` (skips throughput, shortens recovery), `-SkipGpu`, `-SkipIntegrity`.
@@ -84,7 +84,7 @@ the window says why a step could not start.
 
 | What you start | Streams in 5.11 | Limit of one training state |
 |---|---|---|
-| A study (Study tab, `mwcli --study`, the study launchers) | @DEFAULT@ | @DEFAULTLIMIT@ |
+| A study (Study tab, `mwcli --study`, the study launchers) | the counter-based 64-bit streams (philox64) | 2,000,000,000 deals per seed (the study's own bound) |
 | ... with `trainingStreams=5.10` (option) | the 32-bit streams of 5.10: the numbers 5.10 trained with | 10,000,000 updates |
 | ... with `trainingStreams=philox64` | counter-based 64-bit | 2,000,000,000 deals per seed (the study's own bound) |
 | `mwcli spec.json ...` with a spec that says `"trainingStreams":"philox64"` | counter-based 64-bit | 140,737,488,355,327 updates |

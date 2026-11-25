@@ -1,0 +1,19 @@
+asan build exit 0
+asan selftest511 exit 0
+asan selftest510 checkpoint exit 0
+asan selftest510 limits exit 0
+asan selftest510 training exit 0
+asan tests (5.11 file: independent implementation, 5.10 streams untouched, determinism, checkpoints, limits, studies) exit 0
+tsan build exit 0
+# tests 6 # pass 6 # fail 0 # skipped 0 (v511-asan-ubsan)
+sanitizer reports (ERROR: AddressSanitizer / runtime error) in all outputs: 0
+ThreadSanitizer warnings: 0
+selftest511 streams (counter audit from three threads) exit 0
+t3: frozen-batch philox64 training on four threads exit 0
+f3c: frozen-batch philox64 training on four threads exit 0
+icm: frozen-batch philox64 training on four threads exit 0
+t3rb: frozen-batch philox64 training on four threads exit 0
+det: frozen-batch philox64 training on four threads exit 0
+w: frozen-batch philox64 training on four threads exit 0
+states of the instrumented program on four threads equal the release program on one thread: 6 of 6
+leak check: philox64 training exit 0 (0 expected), refused setting exit 1 (1 expected), refused checkpoint exit 1 (1 expected); LeakSanitizer reports: 0

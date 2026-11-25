@@ -1,0 +1,10 @@
+not ok 363 - 4.1 response gains: seats run in parallel with results bit-identical for 1, 2 and 4 threads (exact, restricted, sampled)
+not ok 520 - 5.10 processing modes: rbes beside the CUDA scoring route (simulated driver): CPU Only, Automatic, Hybrid and GPU-Preferred write one state; the driver is opened when it is for the default trainer and nothing leaks
+# tests 656
+# suites 0
+# pass 653
+# fail 2
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 5576540.705793

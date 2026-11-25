@@ -1,0 +1,11 @@
+test_devices.ps1: 0 parse errors, 901 tokens
+test_large_checkpoint.ps1: 0 parse errors, 517 tokens
+test_windows.ps1: 0 parse errors, 11554 tokens
+validate_hardware.ps1: 0 parse errors, 9180 tokens
+validate_windows510.ps1: 0 parse errors, 15431 tokens
+validate_windows511.ps1: 0 parse errors, 17247 tokens
+validate_windows56.ps1: 0 parse errors, 4945 tokens
+validate_windows57.ps1: 0 parse errors, 8671 tokens
+validate_windows571.ps1: 0 parse errors, 9591 tokens
+validate_windows58.ps1: 0 parse errors, 10900 tokens
+validate_windows59.ps1: 0 parse errors, 13516 tokens

@@ -1,0 +1,62 @@
+{
+ "what": "Verification of the 5.10 baseline before any change (Phase 1 of the plan, first instruction)",
+ "archive": {
+  "file": "release-5.10/EightMax-Windows-5.10.zip",
+  "branch": "claude/vigilant-lamport-ijdx7n",
+  "commit": "2ba2e807208d43da049b9420c8ca699b4a6583e6",
+  "sha256": "532d6a63a898883102d18fdee1b1bc21b969e27c002fcdc0fa63b737533a25d3",
+  "matchesTheIdentityFile": true,
+  "members": 5488
+ },
+ "version": "5.10",
+ "build": "7fa0e8c16d6c6ade",
+ "rebuild": {
+  "developmentMachine": {
+   "host": "Ubuntu 24.04 container, 2 logical processors, 7 GiB, gcc 13.3.0, Node v22.23.5, Python 3.13.18; no MinGW, Wine or PowerShell and no permission to install packages",
+   "linux/eightmax": "ab0314a4c6acb8eb39f1f9c7d05375549c4f8678d9395a151947f9b6bf1004ec",
+   "linux/mwcli": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+   "linux/gpustress": "440b795a0f604aabc39ce584a4542f8c979b27a4ab2af1b25dc6e230cafa824a",
+   "EightMax-Offline.html": "1f38d0fb227ffe6389286bfebeb9f36c55c0216dd973cc603a549611c534bb07",
+   "identicalToTheShippedFiles": true,
+   "note": "the three Linux programs of validation/5.10/linux-bin and the interface, byte for byte"
+  },
+  "hostedRunner": {
+   "workflowRun": 45618606007,
+   "host": "GitHub Actions ubuntu-24.04, g++-mingw-w64-x86-64-posix 13 and libz-mingw-w64-dev from the distribution (the toolchain of BUILD-5.10.md)",
+   "EightMax.exe": "a14af9c64c3cf58db0675093a80caafe337e4a7c902df2707bc9c36dffc0c4a6",
+   "mwcli.exe": "516649c018ead0c8b954c9465959ff0ff34afe178a0c7664e8af0c2e1106ec0c",
+   "gpustress.exe": "f2b21ee14aaa7924084c97127246833b25dc6d36bd4454f891a0cc2fc067c913",
+   "identicalToTheShippedFiles": true,
+   "note": "the three Windows executables of the delivered archive, byte for byte; the Linux programs and the interface as well"
+  }
+ },
+ "regressionSuite": {
+  "where": "development machine, against the rebuilt Linux programs, in the extracted release tree",
+  "tests": 656,
+  "passed": 653,
+  "failed": 2,
+  "skipped": 1,
+  "releaseRecord": "validation/5.10/tests/full-regression.tap: 656 tests, 655 passed, 0 failed, 1 skipped (4 processors)",
+  "failedHere": [
+   {
+    "test": "4.1 response gains: seats run in parallel with results bit-identical for 1, 2 and 4 threads",
+    "reason": "asserts that three seats ran side by side (2 !== 3): the machine has 2 logical processors"
+   },
+   {
+    "test": "5.10 processing modes: rbes beside the CUDA scoring route (simulated driver)",
+    "reason": "a route decision that depends on measured timings chose 'CPU after measuring CUDA' instead of 'Hybrid' while the convergence experiment and a build were running on the same two processors"
+   }
+  ],
+  "note": "both are properties of this machine under load, on the UNMODIFIED 5.10 program; on the hosted 4-processor runner the 5.11 suite passes both (validation/5.11/tests)"
+ },
+ "selfTests": {
+  "where": "development machine, the rebuilt (byte-identical) 5.10 Linux mwcli, in the extracted release tree",
+  "selftest510": "21 passed, 0 failed, 0 untested",
+  "selftest59": "32 passed, 0 failed, 0 untested",
+  "selftest58": "33 passed, 0 failed, 0 untested",
+  "selftest571": "24 passed, 0 failed, 0 untested",
+  "selftest57": "28 passed, 0 failed",
+  "order": "the regression suite of the baseline (which runs these self-tests too) was started before any source file was changed and finished while development was in progress; this direct run of the five self-tests was made afterwards, with the same unmodified binary in the same unmodified tree"
+ },
+ "notVerifiedHere": "nothing was executed on Windows or a GPU for the baseline; the user's own result for 5.10 (220 passed, 0 failed, CUDA included) is the evidence for that"
+}

@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: 5.11 streams: an independent implementation in Python integers computes the numbers the program prints (tools/independent_streams511.py)
+ok 1 - 5.11 streams: an independent implementation in Python integers computes the numbers the program prints (tools/independent_streams511.py)
+  ---
+  duration_ms: 5003.224115
+  type: 'test'
+  ...
+# Subtest: 5.11 the 5.10 streams are untouched: a spec without the key and a spec that says "5.10" write the same state, with the 5.10 header and the 5.10 limit
+ok 2 - 5.11 the 5.10 streams are untouched: a spec without the key and a spec that says "5.10" write the same state, with the 5.10 header and the 5.10 limit
+  ---
+  duration_ms: 715.916439
+  type: 'test'
+  ...
+# Subtest: 5.11 philox64: reproducible, the same state for 1, 2 and 3 threads and with the 5.6 batch update, stopped and continued byte for byte; the header names the streams and carries no generator state
+ok 3 - 5.11 philox64: reproducible, the same state for 1, 2 and 3 threads and with the 5.6 batch update, stopped and continued byte for byte; the header names the streams and carries no generator state
+  ---
+  duration_ms: 8890.803191
+  type: 'test'
+  ...
+# Subtest: 5.11 checkpoints: a state continues only under its own streams and seed, in both directions; the unchanged 5.10 program refuses a philox64 state
+ok 4 - 5.11 checkpoints: a state continues only under its own streams and seed, in both directions; the unchanged 5.10 program refuses a philox64 state
+  ---
+  duration_ms: 557.465363
+  type: 'test'
+  ...
+# Subtest: 5.11 limits: 10,000,000 updates for the 5.10 streams and for DCFR, 140,737,488,355,327 for philox64; malformed stream settings are refused before anything is trained
+ok 5 - 5.11 limits: 10,000,000 updates for the 5.10 streams and for DCFR, 140,737,488,355,327 for philox64; malformed stream settings are refused before anything is trained
+  ---
+  duration_ms: 88555.125392
+  type: 'test'
+  ...
+# Subtest: 5.11 studies: the result records the training streams of every variant; the option selects them; the 5.10 limit applies to the 5.10 streams only
+ok 6 - 5.11 studies: the result records the training streams of every variant; the option selects them; the 5.10 limit applies to the 5.10 streams only
+  ---
+  duration_ms: 1590.452817
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 192725.285321

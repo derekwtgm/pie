@@ -1,0 +1,269 @@
+{
+ "release": "5.11",
+ "build": "af452eaa0ea731be",
+ "successorOf": {
+  "release": "5.10",
+  "build": "7fa0e8c16d6c6ade"
+ },
+ "classes": {
+  "1": "independently validated (a proof, an independent implementation, an exact reference, or the unchanged 5.10 program agrees)",
+  "2": "tested on Linux, under Wine, with PowerShell 7 on Linux, or on a hosted Windows runner (not the target PC)",
+  "3": "implemented, awaiting validation on the target PC / an NVIDIA GPU",
+  "4": "unresolved or not established"
+ },
+ "baseline510": {
+  "what": "Verification of the 5.10 baseline before any change (Phase 1 of the plan, first instruction)",
+  "archive": {
+   "file": "release-5.10/EightMax-Windows-5.10.zip",
+   "branch": "claude/vigilant-lamport-ijdx7n",
+   "commit": "2ba2e807208d43da049b9420c8ca699b4a6583e6",
+   "sha256": "532d6a63a898883102d18fdee1b1bc21b969e27c002fcdc0fa63b737533a25d3",
+   "matchesTheIdentityFile": true,
+   "members": 5488
+  },
+  "version": "5.10",
+  "build": "7fa0e8c16d6c6ade",
+  "rebuild": {
+   "developmentMachine": {
+    "host": "Ubuntu 24.04 container, 2 logical processors, 7 GiB, gcc 13.3.0, Node v22.23.5, Python 3.13.18; no MinGW, Wine or PowerShell and no permission to install packages",
+    "linux/eightmax": "ab0314a4c6acb8eb39f1f9c7d05375549c4f8678d9395a151947f9b6bf1004ec",
+    "linux/mwcli": "992285be8441c47dff8be40f6dc3a1797ccb54eb5d140a22132b9b272a4c0183",
+    "linux/gpustress": "440b795a0f604aabc39ce584a4542f8c979b27a4ab2af1b25dc6e230cafa824a",
+    "EightMax-Offline.html": "1f38d0fb227ffe6389286bfebeb9f36c55c0216dd973cc603a549611c534bb07",
+    "identicalToTheShippedFiles": true,
+    "note": "the three Linux programs of validation/5.10/linux-bin and the interface, byte for byte"
+   },
+   "hostedRunner": {
+    "workflowRun": 45618606007,
+    "host": "GitHub Actions ubuntu-24.04, g++-mingw-w64-x86-64-posix 13 and libz-mingw-w64-dev from the distribution (the toolchain of BUILD-5.10.md)",
+    "EightMax.exe": "a14af9c64c3cf58db0675093a80caafe337e4a7c902df2707bc9c36dffc0c4a6",
+    "mwcli.exe": "516649c018ead0c8b954c9465959ff0ff34afe178a0c7664e8af0c2e1106ec0c",
+    "gpustress.exe": "f2b21ee14aaa7924084c97127246833b25dc6d36bd4454f891a0cc2fc067c913",
+    "identicalToTheShippedFiles": true,
+    "note": "the three Windows executables of the delivered archive, byte for byte; the Linux programs and the interface as well"
+   }
+  },
+  "regressionSuite": {
+   "where": "development machine, against the rebuilt Linux programs, in the extracted release tree",
+   "tests": 656,
+   "passed": 653,
+   "failed": 2,
+   "skipped": 1,
+   "releaseRecord": "validation/5.10/tests/full-regression.tap: 656 tests, 655 passed, 0 failed, 1 skipped (4 processors)",
+   "failedHere": [
+    {
+     "test": "4.1 response gains: seats run in parallel with results bit-identical for 1, 2 and 4 threads",
+     "reason": "asserts that three seats ran side by side (2 !== 3): the machine has 2 logical processors"
+    },
+    {
+     "test": "5.10 processing modes: rbes beside the CUDA scoring route (simulated driver)",
+     "reason": "a route decision that depends on measured timings chose 'CPU after measuring CUDA' instead of 'Hybrid' while the convergence experiment and a build were running on the same two processors"
+    }
+   ],
+   "note": "both are properties of this machine under load, on the UNMODIFIED 5.10 program; on the hosted 4-processor runner the 5.11 suite passes both (validation/5.11/tests)"
+  },
+  "selfTests": {
+   "where": "development machine, the rebuilt (byte-identical) 5.10 Linux mwcli, in the extracted release tree",
+   "selftest510": "21 passed, 0 failed, 0 untested",
+   "selftest59": "32 passed, 0 failed, 0 untested",
+   "selftest58": "33 passed, 0 failed, 0 untested",
+   "selftest571": "24 passed, 0 failed, 0 untested",
+   "selftest57": "28 passed, 0 failed",
+   "order": "the regression suite of the baseline (which runs these self-tests too) was started before any source file was changed and finished while development was in progress; this direct run of the five self-tests was made afterwards, with the same unmodified binary in the same unmodified tree"
+  },
+  "notVerifiedHere": "nothing was executed on Windows or a GPU for the baseline; the user's own result for 5.10 (220 passed, 0 failed, CUDA included) is the evidence for that"
+ },
+ "items": [
+  {
+   "item": "no two random numbers of a philox64 training state share a generator input (any number of updates)",
+   "class": 1,
+   "evidence": "MATHEMATICAL-VALIDATION-5.11.md section 4 (proof); selftest511 G1-G3, A1, A2; independent/streams511-selfcheck.json"
+  },
+  {
+   "item": "the program addresses its streams as stated (counter audit)",
+   "class": 2,
+   "evidence": "selftest511 U1, U2: 246,176 counters, none twice"
+  },
+  {
+   "item": "the 5.10 streams are untouched (byte-identical states)",
+   "class": 1,
+   "evidence": "selftest510 D1, selftest511 D1 (14 states); identity/summary.json (225 cases, 0 failures); convergence identity arm 544 of 544"
+  },
+  {
+   "item": "philox64 states are reproducible across threads, stops and platforms",
+   "class": 2,
+   "evidence": "selftest511 W1-W3, L2, L3 on Linux, under Wine and on Windows Server 2025"
+  },
+  {
+   "item": "the 10,000,000-update limit is absent for philox64 states and kept for 5.10 states",
+   "class": 2,
+   "evidence": "selftest511 L1-L5"
+  },
+  {
+   "item": "checkpoint rules of the streams; the 5.10 program refuses philox64 states",
+   "class": 2,
+   "evidence": "selftest511 C1-C3; tests/v511.test.js"
+  },
+  {
+   "item": "convergence no worse than 5.10 (rule written first)",
+   "class": 2,
+   "evidence": "convergence/exact/summary.json",
+   "decisive": {
+    "equalTime": {
+     "seeds": 32,
+     "ratioOfGeometricMeans": 1.030303711185819,
+     "interval": [
+      0.9847125371498328,
+      1.0780057095198243
+     ],
+     "level": 0.025,
+     "sdOfLogRatio": 0.1086890105919262,
+     "tCritical": 2.355568282159912,
+     "verdict": "no worse",
+     "noWorseWithinMargin": true,
+     "lowerInSeeds": 13,
+     "higherInSeeds": 19,
+     "kind": "time",
+     "budget": 2.0,
+     "games": 13
+    },
+    "equalDeals": {
+     "seeds": 32,
+     "ratioOfGeometricMeans": 0.9570835794350661,
+     "interval": [
+      0.9209447942608704,
+      0.9946404863055952
+     ],
+     "level": 0.025,
+     "sdOfLogRatio": 0.09243454347307378,
+     "tCritical": 2.355568282159912,
+     "verdict": "better",
+     "noWorseWithinMargin": true,
+     "lowerInSeeds": 21,
+     "higherInSeeds": 11,
+     "kind": "deals",
+     "budget": 500000,
+     "games": 13
+    }
+   },
+   "rule": {
+    "b_identity": true,
+    "c_decisive": [
+     "no worse",
+     "better"
+    ],
+    "c_bothNoWorse": true,
+    "d_guardIntervalsWorse": 0,
+    "guardIntervals": 59,
+    "guardVerdicts": {
+     "better": 0,
+     "no worse": 14,
+     "unresolved": 44,
+     "worse": 0,
+     "identical": 0,
+     "no data": 0
+    },
+    "e_tableLimitReached": {
+     "s510": 0,
+     "p511": 0,
+     "s510b": 0,
+     "p511b": 0
+    },
+    "e_ok": true,
+    "statisticalConditionsMet": true,
+    "outcome": "conditions (b) to (e) met: philox64 is promoted if (a) holds"
+   }
+  },
+  {
+   "item": "regression suite (Linux, hosted 4-processor runner)",
+   "class": 2,
+   "evidence": "tests/",
+   "result": "668 tests: 668 passed, 0 failed, 0 skipped",
+   "failed": []
+  },
+  {
+   "item": "sanitizers",
+   "class": 2,
+   "evidence": "sanitizers/summary.txt",
+   "result": "0 reports"
+  },
+  {
+   "item": "Windows programs under Wine",
+   "class": 2,
+   "evidence": "wine/summary.txt",
+   "result": "all steps exit 0"
+  },
+  {
+   "item": "Windows validation script, PowerShell 7 on Linux",
+   "class": 2,
+   "evidence": "powershell/",
+   "focused": "54 passed, 0 failed, 1 skipped, 0 untested (35.5 s)",
+   "full": "247 passed, 0 failed, 2 skipped, 0 untested (446.9 s)"
+  },
+  {
+   "item": "both launchers on a hosted Windows runner (pre-release tree)",
+   "class": 2,
+   "evidence": "windows-runner/",
+   "focused": "54 passed, 0 failed, 1 skipped, 0 untested (86.2 s)",
+   "full": "247 passed, 0 failed, 2 skipped, 0 untested (683.7 s)"
+  },
+  {
+   "item": "target PC (Windows 11, i7-13700F, 24 threads)",
+   "class": 3,
+   "evidence": "not run"
+  },
+  {
+   "item": "CUDA with philox64 (Hybrid, GPU-Preferred) on the RTX 4060 Ti",
+   "class": 3,
+   "evidence": "not run; no CUDA code changed"
+  },
+  {
+   "item": "statistical quality of the generator beyond its published record",
+   "class": 4,
+   "evidence": "not established"
+  },
+  {
+   "item": "convergence with hand groups, on large games, or beyond 500,000 deals",
+   "class": 4,
+   "evidence": "not established"
+  },
+  {
+   "item": "equal speed: philox64 costs time per deal",
+   "class": 4,
+   "evidence": "PERFORMANCE-5.11.md: +2 to 3% on fixtures (build machine), 0.89 to 1.01 of the deals per second on hosted runners"
+  }
+ ],
+ "selfTestsLinux": {
+  "511": {
+   "passed": 26,
+   "failed": 0,
+   "untested": 0
+  },
+  "510": {
+   "passed": 21,
+   "failed": 0,
+   "untested": 0
+  },
+  "59": {
+   "passed": 32,
+   "failed": 0,
+   "untested": 0
+  },
+  "58": {
+   "passed": 33,
+   "failed": 0,
+   "untested": 0
+  },
+  "571": {
+   "passed": 24,
+   "failed": 0,
+   "untested": 0
+  },
+  "57": {
+   "passed": 28,
+   "failed": 0,
+   "untested": null
+  }
+ },
+ "studyDefaultStreams": "streams-5.11-philox4x64-v1"
+}

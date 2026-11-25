@@ -1,0 +1,212 @@
+name: EightMax 5.11 work in progress - build with the release toolchain and validate
+# The tree under test is the delivered 5.10 archive (release-5.10/) with ci/delta laid over it (ci/tree.sh).
+# build     Ubuntu 24.04 with g++-mingw-w64-x86-64-posix 13: the Windows programs (cross-compiled, as every release
+#           since 5.3) and the Linux programs. The same job rebuilt the 5.10 programs byte for byte (run 1).
+# linux-suite, linux-chain   the regression suite; the validation chain against the Linux programs
+# sanitize  AddressSanitizer, UndefinedBehaviorSanitizer, ThreadSanitizer, LeakSanitizer
+# pwsh      the Windows validation script with PowerShell 7 on Linux against the Linux programs
+# wine      the Windows programs under Wine
+# windows   the Windows programs on a hosted Windows runner (a virtual machine without an NVIDIA GPU), by the two
+#           launchers a user double-clicks, with Windows PowerShell 5.1
+# Every job publishes its evidence to the branch claude/eightmax-5.11-ci-results (ci/publish.sh).
+on:
+  push:
+    branches: ['claude/eightmax-5.11-crossbuild']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Toolchain
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q g++-mingw-w64-x86-64-posix libz-mingw-w64-dev libssl-dev zlib1g-dev
+          mkdir -p bin; { dpkg -l | grep -E 'mingw|libz-mingw' | awk '{print $2, $3}'; x86_64-w64-mingw32-g++-posix --version | head -1; gcc --version | head -1; node --version; python3 --version; } | tee bin/toolchain.txt
+      - name: Tree and build
+        run: |
+          bash ci/tree.sh "$RUNNER_TEMP/t"; cd "$RUNNER_TEMP/t/EightMax"
+          node source/tools/build.js build
+          CC=x86_64-w64-mingw32-gcc-posix CXX=x86_64-w64-mingw32-g++-posix sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/windows" 2> "$GITHUB_WORKSPACE/bin/windows-build.log"
+          sh source/native/build.sh linux "$PWD/build/native.html" "$PWD/build/linux" 2> "$GITHUB_WORKSPACE/bin/linux-build.log"
+          B="$GITHUB_WORKSPACE/bin"; mkdir -p "$B/linux"; cp build/windows/*.exe build/EightMax-Offline.html build/native.html build/build-info.json "$B/"; cp build/build-info.json "$B/BUILD-INFO.json"; cp build/linux/* "$B/linux/"
+          ( cd "$B" && sha256sum *.exe EightMax-Offline.html linux/* | tee SHA256.txt ); cat build/build-info.json | head -4
+          # a second build of the same tree in another directory must give the same bytes
+          bash "$GITHUB_WORKSPACE/ci/tree.sh" "$RUNNER_TEMP/t2" > /dev/null; cd "$RUNNER_TEMP/t2/EightMax"; node source/tools/build.js build > /dev/null
+          CC=x86_64-w64-mingw32-gcc-posix CXX=x86_64-w64-mingw32-g++-posix sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/windows" 2> /dev/null
+          sh source/native/build.sh linux "$PWD/build/native.html" "$PWD/build/linux" 2> /dev/null
+          ( cd build/windows && sha256sum *.exe; cd ../linux && sha256sum * | sed 's|  |  linux/|'; cd .. && sha256sum EightMax-Offline.html ) | sort -k2 > "$B/SHA256-second-build.txt"
+          if diff <(sort -k2 "$B/SHA256.txt") "$B/SHA256-second-build.txt"; then echo "second build: all 7 artifacts byte-identical" | tee "$B/reproducible.txt"; else echo "second build DIFFERS" | tee "$B/reproducible.txt"; exit 1; fi
+      - uses: actions/upload-artifact@v4
+        with: { name: bin, path: bin/, retention-days: 14 }
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh bin build
+  linux-chain:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: Validation chain (self-tests, independent implementations, desktop host, interface, stability, identity against 5.10)
+        run: |
+          sudo apt-get update -q; sudo apt-get install -y -q libssl-dev zlib1g-dev > /dev/null
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"; mkdir -p "$GITHUB_WORKSPACE/ev"
+          nproc; node source/tools/verify_build.js . | tee "$GITHUB_WORKSPACE/ev/verify-build.txt" || true
+          cp validation/5.10/linux-bin/mwcli "$RUNNER_TEMP/mwcli510"; chmod +x "$RUNNER_TEMP/mwcli510"
+          bash validation/5.11/run_final511.sh . "$RUNNER_TEMP/mwcli510" "$RUNNER_TEMP/final" || true
+          for d in selftest independent ui stability identity; do cp -r validation/5.11/$d "$GITHUB_WORKSPACE/ev/" 2>/dev/null || true; done
+          cp validation/5.11/host-refusal59-* validation/5.11/run-final511-steps.txt "$GITHUB_WORKSPACE/ev/" 2>/dev/null || true
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev linux-chain
+  linux-suite:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: Regression suite
+        run: |
+          sudo apt-get update -q; sudo apt-get install -y -q libssl-dev zlib1g-dev > /dev/null
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"; mkdir -p validation/5.11/tests "$GITHUB_WORKSPACE/ev"; T=validation/5.11/tests
+          { nproc; grep -m1 'model name' /proc/cpuinfo; free -g | sed -n 2p; node --version; g++ --version | head -1; python3 --version; (google-chrome --version || chromium --version) 2>/dev/null; } | tee $T/environment.txt
+          ( EM_TEST_MWCLI=$PWD/build/linux/mwcli EM_TEST_HOST=$PWD/build/linux/eightmax node --test --test-concurrency=1 --test-reporter=tap source/tests/*.test.js > $T/full-regression.tap 2>&1; echo "regression exit $?" | tee $T/full-regression.exit ) || true
+          grep -E '^# (tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)' $T/full-regression.tap | tee $T/full-regression.summary.txt
+          grep -E '^not ok' $T/full-regression.tap | tee $T/full-regression.failed.txt || true
+          grep -A45 -E '^not ok [0-9]+ - ' $T/full-regression.tap | head -600 > $T/full-regression.failures-detail.txt || true
+          grep -E '^ok .*# SKIP|# SKIP' $T/full-regression.tap | head -40 > $T/full-regression.skipped.txt || true
+          gzip -9 $T/full-regression.tap; cp -r $T "$GITHUB_WORKSPACE/ev/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev linux-suite
+  sanitize:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: Sanitizers
+        run: |
+          sudo apt-get update -q; sudo apt-get install -y -q libssl-dev zlib1g-dev > /dev/null
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"
+          bash validation/5.11/sanitize511.sh . "$RUNNER_TEMP/san" || true
+          mkdir -p "$GITHUB_WORKSPACE/ev"; cp -r validation/5.11/sanitizers "$GITHUB_WORKSPACE/ev/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev sanitize
+  pwsh:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: The Windows validation script with PowerShell 7 on Linux
+        run: |
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"
+          bash validation/5.11/powershell511.sh . "$(command -v pwsh)" "$RUNNER_TEMP/ps" || true
+          mkdir -p "$GITHUB_WORKSPACE/ev"; cp -r validation/5.11/powershell "$GITHUB_WORKSPACE/ev/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev pwsh
+  wine:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: The Windows programs under Wine
+        run: |
+          sudo apt-get update -q; sudo apt-get install -y -q wine wine64 > /dev/null 2>&1 || sudo apt-get install -y -q wine
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; R="$RUNNER_TEMP/t/EightMax"; W="$RUNNER_TEMP/wr"; mkdir -p "$W" "$RUNNER_TEMP/wineprefix"
+          for exe in mwcli EightMax; do
+            printf '%s\n' '#!/bin/sh' "vars=\$(env | grep -E '^(EM_[A-Za-z0-9_]*|EIGHTMAX_[A-Za-z0-9_]*|USERPROFILE)=' | sed \"s/'/'\\\\\\\\''/g; s/^\\([^=]*\\)=\\(.*\\)\$/\\1='\\2'/\" | tr '\\n' ' ')" "eval exec env -i HOME=$RUNNER_TEMP PATH=/usr/bin:/bin WINEPREFIX=$RUNNER_TEMP/wineprefix WINEDEBUG=-all WINEARCH=win64 EIGHTMAX_GPU=off \"\$vars\" wine $R/$exe.exe '\"\$@\"'" > "$W/$exe-wine"; chmod +x "$W/$exe-wine"
+          done
+          cat "$W/mwcli-wine"; "$W/mwcli-wine" --build-id
+          cd "$R"; bash validation/5.11/wine511.sh . "$W" "$RUNNER_TEMP/wk" || true
+          mkdir -p "$GITHUB_WORKSPACE/ev"; cp -r validation/5.11/wine "$GITHUB_WORKSPACE/ev/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev wine
+  windows:
+    needs: build
+    runs-on: windows-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: Tree
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/t"; cd "$RUNNER_TEMP/t"; unzip -q "$GITHUB_WORKSPACE/release-5.10/EightMax-Windows-5.10.zip"
+          cp -r "$GITHUB_WORKSPACE/ci/delta/." EightMax/; rm -f EightMax/SHA256SUMS.txt
+          cp "$GITHUB_WORKSPACE"/bin/*.exe "$GITHUB_WORKSPACE"/bin/EightMax-Offline.html "$GITHUB_WORKSPACE"/bin/BUILD-INFO.json EightMax/
+          EightMax/mwcli.exe --build-id
+      - name: Machine
+        shell: powershell
+        run: |
+          Get-CimInstance Win32_OperatingSystem | ForEach-Object { $_.Caption + ' ' + $_.Version }
+          Get-CimInstance Win32_Processor | ForEach-Object { $_.Name + '; ' + $_.NumberOfLogicalProcessors + ' logical processors' }
+          $PSVersionTable.PSVersion.ToString()
+      - name: Run 5.11 focused validation.bat
+        shell: cmd
+        env: { EIGHTMAX_NO_PAUSE: '1' }
+        run: |
+          cd /d "%RUNNER_TEMP%\t\EightMax"
+          call "Run 5.11 focused validation.bat" -SkipIntegrity
+          echo focused launcher exit status %errorlevel% > focused-exit.txt
+          type focused-exit.txt
+          if exist Windows-focused-validation-5.11.txt type Windows-focused-validation-5.11.txt
+          exit /b 0
+      - name: Run 5.11 Windows validation.bat (no GPU on the runner)
+        shell: cmd
+        env: { EIGHTMAX_NO_PAUSE: '1' }
+        run: |
+          cd /d "%RUNNER_TEMP%\t\EightMax"
+          call "Run 5.11 Windows validation.bat" -SkipIntegrity
+          echo full launcher exit status %errorlevel% > full-exit.txt
+          type full-exit.txt
+          if exist Windows-validation-5.11.txt type Windows-validation-5.11.txt
+          exit /b 0
+      - name: Collect
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p ev; cd "$RUNNER_TEMP/t/EightMax"; cp Windows-*.json Windows-*.txt *-exit.txt hardware-validation.json "$GITHUB_WORKSPACE/ev/" 2>/dev/null || true; ls -la "$GITHUB_WORKSPACE/ev"
+      - name: Publish
+        if: always()
+        shell: bash
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev windows

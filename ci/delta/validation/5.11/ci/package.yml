@@ -1,0 +1,44 @@
+name: EightMax 5.11 - package the release (ZIP, manifest, identity; smoke tests of the Windows programs under Wine)
+# Rebuilds the programs from the tree (they must have the fingerprints the validated build published), then runs
+# validation/5.11/release511.py --wine and publishes the archive and its identity file to the results branch.
+on:
+  push:
+    branches: ['claude/eightmax-5.11-crossbuild']
+    paths: ['ci/package.trigger']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Toolchain and Wine
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q g++-mingw-w64-x86-64-posix libz-mingw-w64-dev libssl-dev zlib1g-dev > /dev/null
+          sudo apt-get install -y -q wine wine64 > /dev/null 2>&1 || sudo apt-get install -y -q wine
+          wine --version
+      - name: Tree, build, package
+        run: |
+          bash ci/tree.sh "$RUNNER_TEMP/t"; cd "$RUNNER_TEMP/t/EightMax"
+          node source/tools/build.js build
+          CC=x86_64-w64-mingw32-gcc-posix CXX=x86_64-w64-mingw32-g++-posix sh source/native/build.sh windows "$PWD/build/native.html" "$PWD/build/windows" 2> /dev/null
+          sh source/native/build.sh linux "$PWD/build/native.html" "$PWD/build/linux" 2> /dev/null
+          cp build/windows/*.exe build/EightMax-Offline.html .; cp build/build-info.json BUILD-INFO.json
+          mkdir -p validation/5.11/linux-bin; cp build/linux/* validation/5.11/linux-bin/
+          sha256sum EightMax.exe mwcli.exe gpustress.exe EightMax-Offline.html | tee "$RUNNER_TEMP/built.sha256"
+          # the programs must be the ones the validation jobs ran (ci/expected.sha256, written from the published build)
+          sha256sum -c "$GITHUB_WORKSPACE/ci/expected.sha256"
+          rm -rf build; mkdir -p "$GITHUB_WORKSPACE/out"
+          export WINEPREFIX="$RUNNER_TEMP/wineprefix" EM_WINE_HOME="$RUNNER_TEMP"; mkdir -p "$WINEPREFIX"
+          python3 validation/5.11/release511.py . "$GITHUB_WORKSPACE/out" --wine > "$GITHUB_WORKSPACE/out/release511.log" 2>&1 || { tail -60 "$GITHUB_WORKSPACE/out/release511.log"; exit 1; }
+          tail -3 "$GITHUB_WORKSPACE/out/release511.log"; ls -la "$GITHUB_WORKSPACE/out"; cp SHA256SUMS.txt "$GITHUB_WORKSPACE/out/"
+          mkdir -p "$GITHUB_WORKSPACE/out/linux-bin"; cp validation/5.11/linux-bin/* "$GITHUB_WORKSPACE/out/linux-bin/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh out package
