@@ -1,0 +1,495 @@
+{
+ "tool": "bench511.py",
+ "build": "EightMaxBuild=af452eaa0ea731be",
+ "processor": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalProcessors": 2,
+ "threads": 1,
+ "repeats": 5,
+ "medianTimeRatio": {
+  "reference": 1.074701901360203,
+  "fixture": 1.0258883852466598,
+  "fixture, batches of 64": 1.022834369602208
+ },
+ "rows": [
+  {
+   "game": "hu-river",
+   "kind": "reference",
+   "deals": 2000000,
+   "seconds510": 1.557636,
+   "secondsPhilox64": 1.489534,
+   "nsPerDeal510": 778.818,
+   "nsPerDealPhilox64": 744.7669999999999,
+   "timeRatio": 0.9562786170838372,
+   "allRuns510": [
+    1.631646,
+    1.719247,
+    1.573281,
+    1.673288,
+    1.557636
+   ],
+   "allRunsPhilox64": [
+    1.503513,
+    1.901883,
+    1.489534,
+    1.673306,
+    1.618372
+   ]
+  },
+  {
+   "game": "rg-hu-turn",
+   "kind": "reference",
+   "deals": 1000000,
+   "seconds510": 1.011246,
+   "secondsPhilox64": 1.06151,
+   "nsPerDeal510": 1011.2460000000002,
+   "nsPerDealPhilox64": 1061.51,
+   "timeRatio": 1.049705017374605,
+   "allRuns510": [
+    1.225423,
+    1.055666,
+    1.18633,
+    1.011246,
+    1.041775
+   ],
+   "allRunsPhilox64": [
+    1.17519,
+    1.105119,
+    1.135003,
+    1.06151,
+    1.138111
+   ]
+  },
+  {
+   "game": "rg-river3",
+   "kind": "reference",
+   "deals": 1000000,
+   "seconds510": 1.38193,
+   "secondsPhilox64": 1.484494,
+   "nsPerDeal510": 1381.93,
+   "nsPerDealPhilox64": 1484.494,
+   "timeRatio": 1.0742179415744646,
+   "allRuns510": [
+    1.519668,
+    1.521354,
+    1.76305,
+    1.38193,
+    1.468291
+   ],
+   "allRunsPhilox64": [
+    1.586688,
+    1.942201,
+    1.609619,
+    1.484494,
+    1.588191
+   ]
+  },
+  {
+   "game": "turn4",
+   "kind": "reference",
+   "deals": 600000,
+   "seconds510": 1.068338,
+   "secondsPhilox64": 1.32398,
+   "nsPerDeal510": 1780.5633333333333,
+   "nsPerDealPhilox64": 2206.633333333333,
+   "timeRatio": 1.2392894383612676,
+   "allRuns510": [
+    1.221646,
+    1.165593,
+    1.211575,
+    1.068338,
+    1.229516
+   ],
+   "allRunsPhilox64": [
+    1.32398,
+    1.375165,
+    1.440607,
+    1.446515,
+    1.573979
+   ]
+  },
+  {
+   "game": "rg-turn4",
+   "kind": "reference",
+   "deals": 600000,
+   "seconds510": 1.61526,
+   "secondsPhilox64": 1.713547,
+   "nsPerDeal510": 2692.1,
+   "nsPerDealPhilox64": 2855.9116666666664,
+   "timeRatio": 1.0608490274011615,
+   "allRuns510": [
+    1.781506,
+    1.681891,
+    1.985275,
+    1.779434,
+    1.61526
+   ],
+   "allRunsPhilox64": [
+    1.748063,
+    1.801217,
+    2.296349,
+    1.960476,
+    1.713547
+   ]
+  },
+  {
+   "game": "flop6",
+   "kind": "reference",
+   "deals": 400000,
+   "seconds510": 1.366555,
+   "secondsPhilox64": 1.50351,
+   "nsPerDeal510": 3416.3875,
+   "nsPerDealPhilox64": 3758.7749999999996,
+   "timeRatio": 1.1002191642487862,
+   "allRuns510": [
+    1.48256,
+    1.366555,
+    1.453934,
+    1.546941,
+    1.379271
+   ],
+   "allRunsPhilox64": [
+    1.621867,
+    1.512656,
+    1.601342,
+    1.50351,
+    1.513043
+   ]
+  },
+  {
+   "game": "rg-flop6c",
+   "kind": "reference",
+   "deals": 300000,
+   "seconds510": 1.926407,
+   "secondsPhilox64": 2.196093,
+   "nsPerDeal510": 6421.356666666667,
+   "nsPerDealPhilox64": 7320.3099999999995,
+   "timeRatio": 1.1399943002698807,
+   "allRuns510": [
+    2.228342,
+    2.20786,
+    2.11343,
+    2.013312,
+    1.926407
+   ],
+   "allRunsPhilox64": [
+    2.196093,
+    2.278471,
+    2.214577,
+    2.373362,
+    2.282683
+   ]
+  },
+  {
+   "game": "rg-icm3-river",
+   "kind": "reference",
+   "deals": 800000,
+   "seconds510": 1.388252,
+   "secondsPhilox64": 1.433628,
+   "nsPerDeal510": 1735.315,
+   "nsPerDealPhilox64": 1792.0349999999999,
+   "timeRatio": 1.0326857083584247,
+   "allRuns510": [
+    1.41134,
+    1.703602,
+    1.388252,
+    1.409021,
+    1.848627
+   ],
+   "allRunsPhilox64": [
+    1.851471,
+    1.917912,
+    1.47032,
+    1.433628,
+    1.784456
+   ]
+  },
+  {
+   "game": "final8",
+   "kind": "reference",
+   "deals": 800000,
+   "seconds510": 3.893498,
+   "secondsPhilox64": 4.186234,
+   "nsPerDeal510": 4866.8725,
+   "nsPerDealPhilox64": 5232.7925,
+   "timeRatio": 1.0751858611459413,
+   "allRuns510": [
+    4.306279,
+    3.893498,
+    4.216979,
+    4.076029,
+    4.173428
+   ],
+   "allRunsPhilox64": [
+    4.874571,
+    4.186234,
+    4.576531,
+    4.54481,
+    4.929088
+   ]
+  },
+  {
+   "game": "mid3-turn",
+   "kind": "reference",
+   "deals": 600000,
+   "seconds510": 1.626339,
+   "secondsPhilox64": 1.797053,
+   "nsPerDeal510": 2710.565,
+   "nsPerDealPhilox64": 2995.088333333333,
+   "timeRatio": 1.1049682753718628,
+   "allRuns510": [
+    1.662261,
+    1.872971,
+    1.724007,
+    1.626339,
+    1.638419
+   ],
+   "allRunsPhilox64": [
+    1.869944,
+    1.932918,
+    1.797402,
+    2.13361,
+    1.797053
+   ]
+  },
+  {
+   "game": "flop3-kings",
+   "kind": "fixture",
+   "deals": 30000,
+   "seconds510": 0.280309,
+   "secondsPhilox64": 0.302432,
+   "nsPerDeal510": 9343.633333333333,
+   "nsPerDealPhilox64": 10081.066666666666,
+   "timeRatio": 1.0789236164375742,
+   "allRuns510": [
+    0.295365,
+    0.282925,
+    0.295228,
+    0.280309,
+    0.323499
+   ],
+   "allRunsPhilox64": [
+    0.310498,
+    0.303216,
+    0.381829,
+    0.304449,
+    0.302432
+   ]
+  },
+  {
+   "game": "flop3-kings",
+   "kind": "fixture, batches of 64",
+   "deals": 29952,
+   "seconds510": 0.310891,
+   "secondsPhilox64": 0.31799,
+   "nsPerDeal510": 10379.640758547008,
+   "nsPerDealPhilox64": 10616.653311965812,
+   "timeRatio": 1.022834369602208,
+   "allRuns510": [
+    0.336714,
+    0.31359,
+    0.343564,
+    0.310891,
+    0.330038
+   ],
+   "allRunsPhilox64": [
+    0.418694,
+    0.340526,
+    0.362663,
+    0.333633,
+    0.31799
+   ]
+  },
+  {
+   "game": "flop6-jack",
+   "kind": "fixture",
+   "deals": 20000,
+   "seconds510": 0.501636,
+   "secondsPhilox64": 0.493116,
+   "nsPerDeal510": 25081.8,
+   "nsPerDealPhilox64": 24655.8,
+   "timeRatio": 0.9830155730449969,
+   "allRuns510": [
+    0.512809,
+    0.545862,
+    0.501636,
+    0.52663,
+    0.502211
+   ],
+   "allRunsPhilox64": [
+    0.493116,
+    0.495042,
+    0.517428,
+    0.598418,
+    0.561615
+   ]
+  },
+  {
+   "game": "flop6-jack",
+   "kind": "fixture, batches of 64",
+   "deals": 19968,
+   "seconds510": 0.494769,
+   "secondsPhilox64": 0.551972,
+   "nsPerDeal510": 24778.094951923074,
+   "nsPerDealPhilox64": 27642.828525641027,
+   "timeRatio": 1.1156155700943269,
+   "allRuns510": [
+    0.537072,
+    0.603309,
+    0.494769,
+    0.534338,
+    0.506502
+   ],
+   "allRunsPhilox64": [
+    0.565399,
+    0.555707,
+    0.5597,
+    0.551972,
+    0.568064
+   ]
+  },
+  {
+   "game": "flop3-kings-detailed",
+   "kind": "fixture",
+   "deals": 20000,
+   "seconds510": 0.378355,
+   "secondsPhilox64": 0.38815,
+   "nsPerDeal510": 18917.75,
+   "nsPerDealPhilox64": 19407.5,
+   "timeRatio": 1.0258883852466598,
+   "allRuns510": [
+    0.378355,
+    0.396765,
+    0.410537,
+    0.502294,
+    0.423803
+   ],
+   "allRunsPhilox64": [
+    0.42088,
+    0.38815,
+    0.472277,
+    0.421947,
+    0.585095
+   ]
+  },
+  {
+   "game": "flop3-kings-detailed",
+   "kind": "fixture, batches of 64",
+   "deals": 19968,
+   "seconds510": 0.420154,
+   "secondsPhilox64": 0.407119,
+   "nsPerDeal510": 21041.366185897437,
+   "nsPerDealPhilox64": 20388.57171474359,
+   "timeRatio": 0.9689756613051405,
+   "allRuns510": [
+    0.485436,
+    0.467217,
+    0.427299,
+    0.420154,
+    0.453809
+   ],
+   "allRunsPhilox64": [
+    0.418237,
+    0.447142,
+    0.577852,
+    0.593682,
+    0.407119
+   ]
+  },
+  {
+   "game": "icm8-bb-call",
+   "kind": "fixture",
+   "deals": 30000,
+   "seconds510": 0.108213,
+   "secondsPhilox64": 0.110324,
+   "nsPerDeal510": 3607.1000000000004,
+   "nsPerDealPhilox64": 3677.466666666667,
+   "timeRatio": 1.0195078225351852,
+   "allRuns510": [
+    0.114661,
+    0.108316,
+    0.108213,
+    0.119624,
+    0.112324
+   ],
+   "allRunsPhilox64": [
+    0.110324,
+    0.112259,
+    0.118098,
+    0.111554,
+    0.115448
+   ]
+  },
+  {
+   "game": "icm8-bb-call",
+   "kind": "fixture, batches of 64",
+   "deals": 29952,
+   "seconds510": 0.093827,
+   "secondsPhilox64": 0.099592,
+   "nsPerDeal510": 3132.5787927350425,
+   "nsPerDealPhilox64": 3325.053418803419,
+   "timeRatio": 1.0614428682575379,
+   "allRuns510": [
+    0.098624,
+    0.097519,
+    0.093827,
+    0.104815,
+    0.096879
+   ],
+   "allRunsPhilox64": [
+    0.099884,
+    0.102069,
+    0.102209,
+    0.099592,
+    0.1049
+   ]
+  },
+  {
+   "game": "btn25-open",
+   "kind": "fixture",
+   "deals": 20000,
+   "seconds510": 0.159036,
+   "secondsPhilox64": 0.16344,
+   "nsPerDeal510": 7951.800000000001,
+   "nsPerDealPhilox64": 8172.000000000001,
+   "timeRatio": 1.0276918433562212,
+   "allRuns510": [
+    0.159036,
+    0.165256,
+    0.164684,
+    0.164906,
+    0.168417
+   ],
+   "allRunsPhilox64": [
+    0.168804,
+    0.177042,
+    0.16344,
+    0.170703,
+    0.173171
+   ]
+  },
+  {
+   "game": "btn25-open",
+   "kind": "fixture, batches of 64",
+   "deals": 19968,
+   "seconds510": 0.156214,
+   "secondsPhilox64": 0.157635,
+   "nsPerDeal510": 7823.217147435897,
+   "nsPerDealPhilox64": 7894.381009615384,
+   "timeRatio": 1.0090964958326398,
+   "allRuns510": [
+    0.159921,
+    0.167139,
+    0.178858,
+    0.156214,
+    0.156354
+   ],
+   "allRunsPhilox64": [
+    0.158952,
+    0.157635,
+    0.214079,
+    0.171552,
+    0.169196
+   ]
+  }
+ ]
+}

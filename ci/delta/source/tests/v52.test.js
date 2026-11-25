@@ -113,12 +113,12 @@ test('5.2 independent reference: hero EVs recomputed by hand from the trained st
   const ev = JSON.parse(run(['--ev', spec, st, q]).stdout).hands[0];
   assert.ok(Math.abs(ev.ev[1] - evCall) < 1e-9, 'evaluator ' + ev.ev[1] + ' vs closed form ' + evCall); assert.equal(ev.ev[0], 0);
   // and the study reports exactly these numbers for this seed and budget
-  const { doc } = study(dir, 'known-akq-river', ['seeds=' + seed + ',' + (seed + 1), 'budgets=' + deals]);
+  const { doc } = study(dir, 'known-akq-river', ['seeds=' + seed + ',' + (seed + 1), 'budgets=' + deals, 'trainingStreams=5.10']);   // 5.11: the manual training above uses the fixture's spec, that is the 5.10 streams; the study is asked for the same
   const p = doc.variants[0].perSeed[0].budgets[0]; assert.equal(p.ev[1], ev.ev[1]); assert.deepEqual(p.frequency, ev.strategy); assert.equal(p.deals, deals);
 });
 test('5.2 study seeds: the runner\'s per-seed game equals the application\'s game for that seed (manual train + evaluate gives the same numbers)', { skip: cliSkip, timeout: 600000 }, t => {
   const dir = tmp(t), f = fixture('flop3-kings-small'), v = f.variants[2], seed = f.study.seeds[1], deals = 3000;
-  const { doc } = study(dir, 'flop3-kings-small', ['variants=added-size', 'seeds=' + f.study.seeds[0] + ',' + seed, 'budgets=1000,' + deals]);
+  const { doc } = study(dir, 'flop3-kings-small', ['variants=added-size', 'seeds=' + f.study.seeds[0] + ',' + seed, 'budgets=1000,' + deals, 'trainingStreams=5.10']);   // 5.11: as above
   const spec = path.join(dir, 's.json'), st = path.join(dir, 's.state'), q = path.join(dir, 'q.json');
   fs.writeFileSync(spec, JSON.stringify(E.MultiwayGame({ ...v.game, privateSeed: seed }).nativeSpec()));
   assert.equal(run([spec, 1000, 2, st, 512]).status, 0); assert.equal(run([spec, deals - 1000, 1, st, 512, st]).status, 0);

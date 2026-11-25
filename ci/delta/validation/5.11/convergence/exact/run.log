@@ -1,0 +1,43 @@
+40/544 units, 780 s
+80/544 units, 1516 s
+120/544 units, 2224 s
+160/544 units, 2889 s
+200/544 units, 3623 s
+240/544 units, 4140 s
+280/544 units, 4510 s
+320/544 units, 4900 s
+360/544 units, 5269 s
+400/544 units, 5632 s
+440/544 units, 6063 s
+480/544 units, 6400 s
+520/544 units, 6936 s
+--- stopped by the 2-hour limit of the background task at 532 complete units; resumed with --resume:
+done: 12 units in 153 s; analysis:
+{
+ "b_identity": true,
+ "c_decisive": [
+  "no worse",
+  "better"
+ ],
+ "c_bothNoWorse": true,
+ "d_guardIntervalsWorse": 0,
+ "guardIntervals": 59,
+ "guardVerdicts": {
+  "better": 0,
+  "no worse": 14,
+  "unresolved": 44,
+  "worse": 0,
+  "identical": 0,
+  "no data": 0
+ },
+ "e_tableLimitReached": {
+  "s510": 0,
+  "p511": 0,
+  "s510b": 0,
+  "p511b": 0
+ },
+ "e_ok": true,
+ "statisticalConditionsMet": true,
+ "outcome": "conditions (b) to (e) met: philox64 is promoted if (a) holds"
+}
+exit 0

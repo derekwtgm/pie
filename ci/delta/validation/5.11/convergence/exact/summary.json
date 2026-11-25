@@ -1,0 +1,1668 @@
+{
+ "rows": 4256,
+ "errorCount": 0,
+ "errors": [],
+ "margin": 1.1,
+ "dryRun": false,
+ "identity": {
+  "compared": 544,
+  "identical": 544,
+  "expected": 544
+ },
+ "guardLevel": 0.0008620689655172415,
+ "cells": [
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.968030268179422,
+   "interval": [
+    0.8458312649459285,
+    1.1078836157367964
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.20697900057221488,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "hu-river",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.11746806082937988,
+    "s510": 0.11763647899960228
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.966815902299986,
+   "interval": [
+    0.8531718770198128,
+    1.0955975157142097
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.1917997133629908,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "hu-turn",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.15968482395698835,
+    "s510": 0.16480657307497437
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9660454518326576,
+   "interval": [
+    0.7555675769471627,
+    1.2351559853551337
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.37692349735636455,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 20,
+   "higherInSeeds": 12,
+   "game": "river3-chip",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.053100673640703644,
+    "s510": 0.05567392422820644
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.969539605895435,
+   "interval": [
+    0.6591736616100696,
+    1.4260385421102142
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.5918004081939844,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "turn4",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.0018374629056667527,
+    "s510": 0.0017043042099626241
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9883478852348854,
+   "interval": [
+    0.6539746029931701,
+    1.4936842161414514
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.6334159015150087,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "flop6",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.09327501376412833,
+    "s510": 0.07955760607279755
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.050867152197472,
+   "interval": [
+    0.37769251000141646,
+    2.9238646314788803
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.5695436302862016,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "final8",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 3.2410682493377863e-06,
+    "s510": 2.96161552260088e-06
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0117164152877407,
+   "interval": [
+    0.26009928587663983,
+    3.9353053258598183
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 2.083449438940373,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "bubble4",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 3.6461536261356287e-06,
+    "s510": 2.6047926224848084e-06
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0156619004660195,
+   "interval": [
+    0.9487089366542335,
+    1.087339916598901
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.10459694637122074,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "rg-hu-river",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.20567981696027848,
+    "s510": 0.20649472391330925
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9927261279888664,
+   "interval": [
+    0.8484540176970727,
+    1.161530436106234
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.24086947092982813,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "rg-river3",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.07260906018920826,
+    "s510": 0.07752312830841426
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0022255993199354,
+   "interval": [
+    0.9683556780037114,
+    1.0372801799468083
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.05273112379321522,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "rg-hu-turn",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.3087372954812866,
+    "s510": 0.30531408624117895
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.00749749828357,
+   "interval": [
+    0.9638223895252075,
+    1.0531517218101571
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.06797549598815776,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "rg-turn3",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 2.632242127742349,
+    "s510": 2.6275874653158766
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9695490392773741,
+   "interval": [
+    0.8911145255663211,
+    1.0548872368187177
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.12939014950900032,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "rg-turn4",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.6003374622000328,
+    "s510": 0.6275991187189516
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9965937876823963,
+   "interval": [
+    0.878878035597628,
+    1.1300762306248555
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.19279676552550962,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "rg-icm3-river",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.20278899798955763,
+    "s510": 0.20772771765171427
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0444869655585296,
+   "interval": [
+    0.8668071502096303,
+    1.2585879349954907
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.2860031251464985,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 12,
+   "higherInSeeds": 20,
+   "game": "rg-flop6c",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.4551117969130373,
+    "s510": 0.4486438646708384
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0393602931807844,
+   "interval": [
+    0.9499666435597163,
+    1.1371660535288455
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.13794231317684597,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 11,
+   "higherInSeeds": 21,
+   "game": "mid3-turn",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 1.4409480570171236,
+    "s510": 1.3806350863194454
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.4124547319109109,
+   "interval": [
+    0.4015863728504939,
+    4.967868694190602
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.9290269117200507,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "bubble5-icm",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 8.197875652093956e-06,
+    "s510": 6.668490168948438e-06
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.946260068392325,
+   "interval": [
+    0.7671946468707073,
+    1.1671198706692067
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.3217600235598499,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 20,
+   "higherInSeeds": 12,
+   "game": "sidepot3-icm",
+   "kind": "deals",
+   "budget": 100000,
+   "medianNashConv": {
+    "p511": 0.13937793174756763,
+    "s510": 0.1522772518822233
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9448052141136598,
+   "interval": [
+    0.7176595369746519,
+    1.2438445343866273
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.42177523332598266,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "hu-river",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.05035453109913268,
+    "s510": 0.054616944752761576
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9938371197656207,
+   "interval": [
+    0.91209383132548,
+    1.0829063707060205
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.13164848421480813,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "hu-turn",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.07234772099208864,
+    "s510": 0.07436565296038555
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0049822785559828,
+   "interval": [
+    0.7943988388559413,
+    1.2713882886159773
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.3606617459792303,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "river3-chip",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.023427238689931434,
+    "s510": 0.02336168308779127
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9664370514618896,
+   "interval": [
+    0.6545813453478346,
+    1.4268670824128622
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.597607449912147,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "turn4",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 7.18988965874858e-05,
+    "s510": 6.641489346401344e-05
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.6579974506110928,
+   "interval": [
+    0.3973571110369255,
+    1.089600847662856
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.7736061803173155,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 21,
+   "higherInSeeds": 11,
+   "game": "flop6",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.032809071396099246,
+    "s510": 0.05409404469005946
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0508339380832,
+   "interval": [
+    0.37768296558008374,
+    2.9237536930780674
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.5695339116660005,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "final8",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 1.2961611695061492e-07,
+    "s510": 1.1845430059054252e-07
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0119990507505356,
+   "interval": [
+    0.26027922344091475,
+    3.934782289499465
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 2.082817135612221,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "bubble4",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 1.4586430019392083e-07,
+    "s510": 1.0392890903432317e-07
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0211722742566045,
+   "interval": [
+    0.9485594072712343,
+    1.0993437055358053
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.11313781373509585,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "game": "rg-hu-river",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.07848210773182829,
+    "s510": 0.07906757668421904
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.014319378660351,
+   "interval": [
+    0.872203538926811,
+    1.1795914095829574
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.2315305896944355,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "rg-river3",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.025870078319953943,
+    "s510": 0.025537860532761025
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9852284670755472,
+   "interval": [
+    0.9464349175994609,
+    1.0256121306238941
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.06161562915325077,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 20,
+   "higherInSeeds": 12,
+   "game": "rg-hu-turn",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.12332642385304005,
+    "s510": 0.1252377155920794
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.006205898143549,
+   "interval": [
+    0.9730655430679362,
+    1.0404749368339112
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.051368491062172374,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "rg-turn3",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 1.1361668409868915,
+    "s510": 1.1434023481684787
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.019365445128036,
+   "interval": [
+    0.8400061091681715,
+    1.237021849460201
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.2968347360350948,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "rg-turn4",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.15351140127570392,
+    "s510": 0.14812999597885262
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.965508386605462,
+   "interval": [
+    0.8528129549648421,
+    1.0930960173370177
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.19036938153221472,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 20,
+   "higherInSeeds": 12,
+   "game": "rg-icm3-river",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.07343241317258986,
+    "s510": 0.07822983227633706
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9880842057509602,
+   "interval": [
+    0.7563849147449068,
+    1.2907586846622525
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.4098636171230328,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "rg-flop6c",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.24560014295401278,
+    "s510": 0.2481465416579532
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9690937309767242,
+   "interval": [
+    0.885913670883807,
+    1.0600837195361013
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.13764781916479368,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 22,
+   "higherInSeeds": 10,
+   "game": "mid3-turn",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.6582075576906103,
+    "s510": 0.6901764767353621
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.4131868675213288,
+   "interval": [
+    0.40198118164843943,
+    4.968135857367935
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.9283145571486937,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "bubble5-icm",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 3.280351705825524e-07,
+    "s510": 2.666729068678819e-07
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9409464103762218,
+   "interval": [
+    0.780003384582974,
+    1.1350978273937398
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.2877261361703782,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "sidepot3-icm",
+   "kind": "deals",
+   "budget": 500000,
+   "medianNashConv": {
+    "p511": 0.062703170384939,
+    "s510": 0.06686751141730696
+   }
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.1413465467054669,
+   "interval": [
+    0.869578258593162,
+    1.4980502637957032
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.4171311056433604,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 11,
+   "higherInSeeds": 21,
+   "game": "hu-river",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.024488020731678883,
+    "s510": 0.02191577458318905
+   },
+   "medianDeals": {
+    "p511": 1424384.0,
+    "s510": 1654016.0
+   },
+   "dealsRatio": 0.8611670020120724
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9971165333310344,
+   "interval": [
+    0.8852930960425984,
+    1.1230646499859964
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.1824461749767911,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 12,
+   "higherInSeeds": 20,
+   "game": "hu-turn",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.04083459264437583,
+    "s510": 0.04111252241055108
+   },
+   "medianDeals": {
+    "p511": 1161568.0,
+    "s510": 1310272.0
+   },
+   "dealsRatio": 0.8865090607141113
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0071332721418729,
+   "interval": [
+    0.7593340841697995,
+    1.3357986280362697
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.4331835970467352,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "river3-chip",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.018019493081061988,
+    "s510": 0.01815285835212402
+   },
+   "medianDeals": {
+    "p511": 800128.0,
+    "s510": 951584.0
+   },
+   "dealsRatio": 0.8408380132494871
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.155622865421976,
+   "interval": [
+    0.7190057511983132,
+    1.8573762516647188
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.7278365928254706,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "game": "turn4",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 5.23578085726909e-05,
+    "s510": 4.33636271019983e-05
+   },
+   "medianDeals": {
+    "p511": 532832.0,
+    "s510": 662016.0
+   },
+   "dealsRatio": 0.8048627223511214
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.912053010020996,
+   "interval": [
+    0.5307788656987882,
+    1.5672076392740557
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.8303375400784477,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "flop6",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.0511331074121614,
+    "s510": 0.045267967458155166
+   },
+   "medianDeals": {
+    "p511": 277952.0,
+    "s510": 302880.0
+   },
+   "dealsRatio": 0.9176967776016904
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.4622104246455965,
+   "interval": [
+    0.5306646621417869,
+    4.029021486588066
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.5546405684301285,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "game": "final8",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 8.939865480783737e-06,
+    "s510": 6.431032528730896e-06
+   },
+   "medianDeals": {
+    "p511": 242176.0,
+    "s510": 289536.0
+   },
+   "dealsRatio": 0.8364279398762158
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.2767814649985387,
+   "interval": [
+    0.3214022312570036,
+    5.072058470123929
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 2.115758059518791,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "bubble4",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 8.295803315405692e-07,
+    "s510": 1.0995455319573466e-06
+   },
+   "medianDeals": {
+    "p511": 897024.0,
+    "s510": 791168.0
+   },
+   "dealsRatio": 1.1337971202070862
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0482707902628288,
+   "interval": [
+    0.9652624346813609,
+    1.138417502055801
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.12653586602595576,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 12,
+   "higherInSeeds": 20,
+   "game": "rg-hu-river",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.04669714961525129,
+    "s510": 0.04034341123070395
+   },
+   "medianDeals": {
+    "p511": 1491744.0,
+    "s510": 1586016.0
+   },
+   "dealsRatio": 0.940560498759155
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.999088430038272,
+   "interval": [
+    0.8539968178501507,
+    1.1688306913708988
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.24068064701119504,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 19,
+   "higherInSeeds": 13,
+   "game": "rg-river3",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.018434765635630512,
+    "s510": 0.0161830022619735
+   },
+   "medianDeals": {
+    "p511": 838976.0,
+    "s510": 1039360.0
+   },
+   "dealsRatio": 0.8072044334975369
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0554548468378815,
+   "interval": [
+    0.9786668230181119,
+    1.1382678021904902
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.1158583689313747,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 10,
+   "higherInSeeds": 22,
+   "game": "rg-hu-turn",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.0785560722152514,
+    "s510": 0.06990289973464292
+   },
+   "medianDeals": {
+    "p511": 1240064.0,
+    "s510": 1485120.0
+   },
+   "dealsRatio": 0.8349924585218703
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.058992099012857,
+   "interval": [
+    0.9989924757420611,
+    1.1225953077760895
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.08946103566633233,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 7,
+   "higherInSeeds": 25,
+   "game": "rg-turn3",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 1.2715396733832958,
+    "s510": 1.1986290905308068
+   },
+   "medianDeals": {
+    "p511": 419712.0,
+    "s510": 450816.0
+   },
+   "dealsRatio": 0.9310051107325383
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0461866377534192,
+   "interval": [
+    0.8641797431877523,
+    1.2665264253665929
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.2931533223627134,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 17,
+   "higherInSeeds": 15,
+   "game": "rg-turn4",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.15496161167205574,
+    "s510": 0.1602969431554282
+   },
+   "medianDeals": {
+    "p511": 612928.0,
+    "s510": 628288.0
+   },
+   "dealsRatio": 0.9755526128145054
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0989234628495288,
+   "interval": [
+    0.9622848422239169,
+    1.254963940209496
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.20365420399538342,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "game": "rg-icm3-river",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.06435997440041774,
+    "s510": 0.05456968060450329
+   },
+   "medianDeals": {
+    "p511": 847616.0,
+    "s510": 1027136.0
+   },
+   "dealsRatio": 0.8252227553118574
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0166494954632554,
+   "interval": [
+    0.8133045320240312,
+    1.2708354078065707
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.34229047334972834,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "rg-flop6c",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.34083061238329326,
+    "s510": 0.33845752402594886
+   },
+   "medianDeals": {
+    "p511": 240768.0,
+    "s510": 271072.0
+   },
+   "dealsRatio": 0.8882068232794239
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0164447981385076,
+   "interval": [
+    0.9261604165883517,
+    1.1155303219161843
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.14267421235757435,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 14,
+   "higherInSeeds": 18,
+   "game": "mid3-turn",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.6875379778891095,
+    "s510": 0.6712418634451169
+   },
+   "medianDeals": {
+    "p511": 550016.0,
+    "s510": 614432.0
+   },
+   "dealsRatio": 0.8951617103275871
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.7907935869152078,
+   "interval": [
+    0.5163232345012871,
+    6.211112451745848
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 1.9075831462411956,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 14,
+   "higherInSeeds": 18,
+   "game": "bubble5-icm",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 5.007755489394583e-06,
+    "s510": 2.482428590688812e-06
+   },
+   "medianDeals": {
+    "p511": 715264.0,
+    "s510": 778496.0
+   },
+   "dealsRatio": 0.9187767181848077
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0139966225570445,
+   "interval": [
+    0.8055645471918454,
+    1.2763584918692181
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.3529496753088368,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "game": "sidepot3-icm",
+   "kind": "time",
+   "budget": 2.0,
+   "medianNashConv": {
+    "p511": 0.05288707451429353,
+    "s510": 0.05350001756380962
+   },
+   "medianDeals": {
+    "p511": 806144.0,
+    "s510": 942816.0
+   },
+   "dealsRatio": 0.8550385228931202
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0322122691032234,
+   "interval": [
+    0.9261645374529556,
+    1.1504026826781253
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.16627791956340662,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "rg-hu-river",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9779410994921556,
+   "interval": [
+    0.8153420381508892,
+    1.1729663740200014
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.27891251356456553,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 15,
+   "higherInSeeds": 17,
+   "game": "rg-river3",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0193009335133063,
+   "interval": [
+    0.9773804009375154,
+    1.0630194672048883
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.06441489107553801,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 10,
+   "higherInSeeds": 22,
+   "game": "rg-hu-turn",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.001897524534698,
+   "interval": [
+    0.9572355015967823,
+    1.0486433568273434
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.06994459094368415,
+   "tCritical": 3.688081972175633,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "game": "rg-turn3",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.942338891347787,
+   "interval": [
+    0.7896923590252164,
+    1.1244918049387136
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.27105901361576107,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "rg-turn4",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0368991599414408,
+   "interval": [
+    0.9151765491915869,
+    1.1748114271907413
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.1915326630241218,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 14,
+   "higherInSeeds": 18,
+   "game": "rg-icm3-river",
+   "kind": "batch",
+   "budget": 512000
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0465936227595574,
+   "interval": [
+    0.7670036117879805,
+    1.4281004605018206
+   ],
+   "level": 0.0008620689655172415,
+   "sdOfLogRatio": 0.47671817354454016,
+   "tCritical": 3.688081972175633,
+   "verdict": "unresolved",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "game": "rg-flop6c",
+   "kind": "batch",
+   "budget": 512000
+  }
+ ],
+ "decisive": {
+  "equalTime": {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.030303711185819,
+   "interval": [
+    0.9847125371498328,
+    1.0780057095198243
+   ],
+   "level": 0.025,
+   "sdOfLogRatio": 0.1086890105919262,
+   "tCritical": 2.355568282159912,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 13,
+   "higherInSeeds": 19,
+   "kind": "time",
+   "budget": 2.0,
+   "games": 13
+  },
+  "equalDeals": {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9570835794350661,
+   "interval": [
+    0.9209447942608704,
+    0.9946404863055952
+   ],
+   "level": 0.025,
+   "sdOfLogRatio": 0.09243454347307378,
+   "tCritical": 2.355568282159912,
+   "verdict": "better",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 21,
+   "higherInSeeds": 11,
+   "kind": "deals",
+   "budget": 500000,
+   "games": 13
+  }
+ },
+ "pooledOther": [
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9921834668172032,
+   "interval": [
+    0.9631660285720609,
+    1.0220751175006297
+   ],
+   "level": 0.05,
+   "sdOfLogRatio": 0.08232750826224525,
+   "tCritical": 2.0395134463964064,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 18,
+   "higherInSeeds": 14,
+   "kind": "deals",
+   "budget": 100000,
+   "games": 13
+  },
+  {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.0075708505664156,
+   "interval": [
+    0.9772934608653959,
+    1.038786259771112
+   ],
+   "level": 0.05,
+   "sdOfLogRatio": 0.08462519999656447,
+   "tCritical": 2.0395134463964064,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 14,
+   "higherInSeeds": 18,
+   "kind": "batch",
+   "budget": 512000,
+   "games": 7
+  }
+ ],
+ "pooledByClass": {
+  "few hands": {
+   "equalTime": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 1.011154730170541,
+    "interval": [
+     0.9222457158588558,
+     1.108635009916096
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.2552753071534947,
+    "tCritical": 2.0395134463964064,
+    "verdict": "unresolved",
+    "noWorseWithinMargin": false,
+    "lowerInSeeds": 16,
+    "higherInSeeds": 16,
+    "kind": "time",
+    "budget": 2.0,
+    "games": 4
+   },
+   "equalDeals": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 0.8876873426113362,
+    "interval": [
+     0.8107259115718645,
+     0.9719546482788428
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.251539209260169,
+    "tCritical": 2.0395134463964064,
+    "verdict": "better",
+    "noWorseWithinMargin": true,
+    "lowerInSeeds": 21,
+    "higherInSeeds": 11,
+    "kind": "deals",
+    "budget": 500000,
+    "games": 4
+   }
+  },
+  "ranges": {
+   "equalTime": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 1.045805915000231,
+    "interval": [
+     1.0081612096790542,
+     1.0848562723392725
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.10168045020621795,
+    "tCritical": 2.0395134463964064,
+    "verdict": "worse",
+    "noWorseWithinMargin": true,
+    "lowerInSeeds": 13,
+    "higherInSeeds": 19,
+    "kind": "time",
+    "budget": 2.0,
+    "games": 7
+   },
+   "equalDeals": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 0.999795243364185,
+    "interval": [
+     0.9679596584828853,
+     1.03267788062608
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.08975489398401622,
+    "tCritical": 2.0395134463964064,
+    "verdict": "no worse",
+    "noWorseWithinMargin": true,
+    "lowerInSeeds": 18,
+    "higherInSeeds": 14,
+    "kind": "deals",
+    "budget": 500000,
+    "games": 7
+   }
+  },
+  "tournament": {
+   "equalTime": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 1.0152199723843713,
+    "interval": [
+     0.9409984395689114,
+     1.095295750756285
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.21057146292905984,
+    "tCritical": 2.0395134463964064,
+    "verdict": "no worse",
+    "noWorseWithinMargin": true,
+    "lowerInSeeds": 17,
+    "higherInSeeds": 15,
+    "kind": "time",
+    "budget": 2.0,
+    "games": 2
+   },
+   "equalDeals": {
+    "seeds": 32,
+    "ratioOfGeometricMeans": 0.9549163667466637,
+    "interval": [
+     0.8994639852707024,
+     1.0137874138520555
+    ],
+    "level": 0.05,
+    "sdOfLogRatio": 0.16593167543113777,
+    "tCritical": 2.0395134463964064,
+    "verdict": "no worse",
+    "noWorseWithinMargin": true,
+    "lowerInSeeds": 22,
+    "higherInSeeds": 10,
+    "kind": "deals",
+    "budget": 500000,
+    "games": 2
+   }
+  }
+ },
+ "pooledAllGamesNotPartOfTheRule": {
+  "equalTime": {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 1.107753996823649,
+   "interval": [
+    1.0236244670193941,
+    1.1987979547342327
+   ],
+   "level": 0.05,
+   "sdOfLogRatio": 0.21907458652640283,
+   "tCritical": 2.0395134463964064,
+   "verdict": "worse",
+   "noWorseWithinMargin": false,
+   "lowerInSeeds": 10,
+   "higherInSeeds": 22,
+   "kind": "time",
+   "budget": 2.0,
+   "games": 17
+  },
+  "equalDeals": {
+   "seeds": 32,
+   "ratioOfGeometricMeans": 0.9884775277613764,
+   "interval": [
+    0.9072593056989575,
+    1.0769664380973079
+   ],
+   "level": 0.05,
+   "sdOfLogRatio": 0.23780433486055144,
+   "tCritical": 2.0395134463964064,
+   "verdict": "no worse",
+   "noWorseWithinMargin": true,
+   "lowerInSeeds": 16,
+   "higherInSeeds": 16,
+   "kind": "deals",
+   "budget": 500000,
+   "games": 17
+  }
+ },
+ "exactEquilibriumShare": {
+  "turn4": {
+   "deals 100000": {
+    "p511": 0.0,
+    "s510": 0.0
+   },
+   "deals 500000": {
+    "p511": 0.875,
+    "s510": 0.8125
+   },
+   "time 2.0": {
+    "p511": 0.78125,
+    "s510": 0.8125
+   }
+  },
+  "final8": {
+   "deals 100000": {
+    "p511": 1.0,
+    "s510": 1.0
+   },
+   "deals 500000": {
+    "p511": 1.0,
+    "s510": 1.0
+   },
+   "time 2.0": {
+    "p511": 0.90625,
+    "s510": 0.96875
+   }
+  },
+  "bubble4": {
+   "deals 100000": {
+    "p511": 1.0,
+    "s510": 1.0
+   },
+   "deals 500000": {
+    "p511": 1.0,
+    "s510": 1.0
+   },
+   "time 2.0": {
+    "p511": 1.0,
+    "s510": 1.0
+   }
+  },
+  "bubble5-icm": {
+   "deals 100000": {
+    "p511": 0.9375,
+    "s510": 1.0
+   },
+   "deals 500000": {
+    "p511": 1.0,
+    "s510": 1.0
+   },
+   "time 2.0": {
+    "p511": 0.96875,
+    "s510": 1.0
+   }
+  }
+ },
+ "throughput": {
+  "dealsInEqualTimeRatioMedianOverGames": 0.8865090607141113,
+  "min": 0.8048627223511214,
+  "max": 1.1337971202070862
+ },
+ "rule": {
+  "b_identity": true,
+  "c_decisive": [
+   "no worse",
+   "better"
+  ],
+  "c_bothNoWorse": true,
+  "d_guardIntervalsWorse": 0,
+  "guardIntervals": 59,
+  "guardVerdicts": {
+   "better": 0,
+   "no worse": 14,
+   "unresolved": 44,
+   "worse": 0,
+   "identical": 0,
+   "no data": 0
+  },
+  "e_tableLimitReached": {
+   "s510": 0,
+   "p511": 0,
+   "s510b": 0,
+   "p511b": 0
+  },
+  "e_ok": true,
+  "statisticalConditionsMet": true,
+  "outcome": "conditions (b) to (e) met: philox64 is promoted if (a) holds"
+ }
+}

@@ -2,7 +2,7 @@ name: EightMax 5.11 work in progress - build with the release toolchain and vali
 # The tree under test is the delivered 5.10 archive (release-5.10/) with ci/delta laid over it (ci/tree.sh).
 # build     Ubuntu 24.04 with g++-mingw-w64-x86-64-posix 13: the Windows programs (cross-compiled, as every release
 #           since 5.3) and the Linux programs. The same job rebuilt the 5.10 programs byte for byte (run 1).
-# linux     the regression suite and the validation chain against the Linux programs
+# linux-suite, linux-chain   the regression suite; the validation chain against the Linux programs
 # sanitize  AddressSanitizer, UndefinedBehaviorSanitizer, ThreadSanitizer, LeakSanitizer
 # pwsh      the Windows validation script with PowerShell 7 on Linux against the Linux programs
 # wine      the Windows programs under Wine
@@ -48,32 +48,54 @@ jobs:
         if: always()
         env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: bash ci/publish.sh bin build
-  linux:
+  linux-chain:
     needs: build
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
       - uses: actions/download-artifact@v4
         with: { name: bin, path: bin }
-      - name: Regression suite and validation chain
+      - name: Validation chain (self-tests, independent implementations, desktop host, interface, stability, identity against 5.10)
         run: |
           sudo apt-get update -q; sudo apt-get install -y -q libssl-dev zlib1g-dev > /dev/null
-          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"; mkdir -p validation/5.11/tests "$GITHUB_WORKSPACE/ev"
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"; mkdir -p "$GITHUB_WORKSPACE/ev"
           nproc; node source/tools/verify_build.js . | tee "$GITHUB_WORKSPACE/ev/verify-build.txt" || true
           cp validation/5.10/linux-bin/mwcli "$RUNNER_TEMP/mwcli510"; chmod +x "$RUNNER_TEMP/mwcli510"
           bash validation/5.11/run_final511.sh . "$RUNNER_TEMP/mwcli510" "$RUNNER_TEMP/final" || true
-          ( EM_TEST_MWCLI=$PWD/build/linux/mwcli EM_TEST_HOST=$PWD/build/linux/eightmax node --test --test-concurrency=1 --test-reporter=tap source/tests/*.test.js > validation/5.11/tests/full-regression.tap 2>&1; echo "regression exit $?" | tee validation/5.11/tests/full-regression.exit ) || true
-          grep -E '^# (tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)' validation/5.11/tests/full-regression.tap | tee validation/5.11/tests/full-regression.summary.txt
-          grep -E '^not ok' validation/5.11/tests/full-regression.tap | tee validation/5.11/tests/full-regression.failed.txt || true
-          grep -B2 -A40 -E '^not ok [0-9]+ - [^s]' validation/5.11/tests/full-regression.tap | head -400 > validation/5.11/tests/full-regression.failures-detail.txt || true
-          gzip -9 validation/5.11/tests/full-regression.tap; rm -rf validation/5.11/linux-bin; cp -r validation/5.11/. "$GITHUB_WORKSPACE/ev/"
+          for d in selftest independent ui stability identity; do cp -r validation/5.11/$d "$GITHUB_WORKSPACE/ev/" 2>/dev/null || true; done
+          cp validation/5.11/host-refusal59-* validation/5.11/run-final511-steps.txt "$GITHUB_WORKSPACE/ev/" 2>/dev/null || true
       - name: Publish
         if: always()
         env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
-        run: bash ci/publish.sh ev linux
+        run: bash ci/publish.sh ev linux-chain
+  linux-suite:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/download-artifact@v4
+        with: { name: bin, path: bin }
+      - name: Regression suite
+        run: |
+          sudo apt-get update -q; sudo apt-get install -y -q libssl-dev zlib1g-dev > /dev/null
+          bash ci/tree.sh "$RUNNER_TEMP/t" "$GITHUB_WORKSPACE/bin"; cd "$RUNNER_TEMP/t/EightMax"; mkdir -p validation/5.11/tests "$GITHUB_WORKSPACE/ev"; T=validation/5.11/tests
+          { nproc; grep -m1 'model name' /proc/cpuinfo; free -g | sed -n 2p; node --version; g++ --version | head -1; python3 --version; (google-chrome --version || chromium --version) 2>/dev/null; } | tee $T/environment.txt
+          ( EM_TEST_MWCLI=$PWD/build/linux/mwcli EM_TEST_HOST=$PWD/build/linux/eightmax node --test --test-concurrency=1 --test-reporter=tap source/tests/*.test.js > $T/full-regression.tap 2>&1; echo "regression exit $?" | tee $T/full-regression.exit ) || true
+          grep -E '^# (tests|suites|pass|fail|cancelled|skipped|todo|duration_ms)' $T/full-regression.tap | tee $T/full-regression.summary.txt
+          grep -E '^not ok' $T/full-regression.tap | tee $T/full-regression.failed.txt || true
+          grep -A45 -E '^not ok [0-9]+ - ' $T/full-regression.tap | head -600 > $T/full-regression.failures-detail.txt || true
+          grep -E '^ok .*# SKIP|# SKIP' $T/full-regression.tap | head -40 > $T/full-regression.skipped.txt || true
+          gzip -9 $T/full-regression.tap; cp -r $T "$GITHUB_WORKSPACE/ev/"
+      - name: Publish
+        if: always()
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: bash ci/publish.sh ev linux-suite
   sanitize:
     needs: build
     runs-on: ubuntu-24.04

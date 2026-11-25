@@ -27,6 +27,7 @@ const train = (spec, updates, state, threads = 1, input = null, env = {}, mem = 
 const trainOk = (...a) => { const r = train(...a); assert.equal(r.status, 0, r.stderr); return JSON.parse(r.stdout); };
 const header = f => { const b = fs.readFileSync(f); assert.equal(b.subarray(0, 5).toString('latin1'), 'EMMW4'); return JSON.parse(b.subarray(12, 12 + b.readUInt32LE(8)).toString('utf8')); };
 const python = () => ['python3', 'python'].find(p => cp.spawnSync(p, ['-c', 'import sys; sys.exit(0 if sys.version_info >= (3, 8) else 1)']).status === 0);
+const hostSkip = !(process.env.EM_TEST_HOST || build.host().exe) && (build.host().why || 'no native host');
 const compilerSkip = process.platform === 'win32' && !process.env.EM_TEST_CC ? 'needs a C compiler (set EM_TEST_CC)' : false;
 const IDS = ['streams G1', 'streams G2', 'streams G3', 'streams A1', 'streams A2', 'streams N1', 'streams L1', 'streams U1', 'streams U2',
   'training D1', 'training W1', 'training W2', 'training W3', 'training W4', 'training W5', 'training W6', 'training W7', 'training W8',
@@ -122,6 +123,11 @@ test('5.11 checkpoints: a state continues only under its own streams and seed, i
   for (const [spec, input, why] of [[wide, sl, /5\.10 training streams/], [legacy, sw, /counter-based training streams/], [seeded, sw, /different training seed/], [wide, ss, /different training seed/]]) {
     const r = train(spec, 10, out, 1, input); assert.equal(r.status, 1); assert.match(r.stderr, /was refused/); assert.match(r.stderr, why); assert.ok(!fs.existsSync(out), 'nothing written');
   }
+  // a header that names the counter-based streams and also carries a 32-bit generator state was not written by this program
+  { const raw = fs.readFileSync(sw), len = raw.readUInt32LE(8), h = JSON.parse(raw.subarray(12, 12 + len).toString('utf8')), forged = Buffer.from(JSON.stringify({ rng: 1, ...h })), head = Buffer.alloc(12); raw.copy(head, 0, 0, 8); head.writeUInt32LE(forged.length, 8);
+    const f = path.join(d, 'forged.state'); fs.writeFileSync(f, Buffer.concat([head, forged, raw.subarray(12 + len)])); const r = train(wide, 10, out, 1, f); assert.equal(r.status, 1); assert.match(r.stderr, /32-bit generator state/); assert.ok(!fs.existsSync(out));
+    // the same bytes with the header rewritten but unchanged in content still load (the forgery is refused for its content, not for being rewritten)
+    const same = Buffer.from(JSON.stringify(h)), head2 = Buffer.alloc(12); raw.copy(head2, 0, 0, 8); head2.writeUInt32LE(same.length, 8); fs.writeFileSync(f, Buffer.concat([head2, same, raw.subarray(12 + len)])); assert.equal(trainOk(wide, 10, out, 1, f).iterations, 2010); fs.unlinkSync(out); }
   // the right pairs continue
   for (const [spec, input] of [[wide, sw], [legacy, sl], [seeded, ss]]) { assert.equal(trainOk(spec, 10, out, 1, input).iterations, 2010); fs.unlinkSync(out); }
   const old = path.join(root, 'validation/5.10/linux-bin/mwcli');
@@ -161,6 +167,28 @@ test('5.11 studies: the result records the training streams of every variant; th
   const big = run(['--study', fx, path.join(d, 'big.json'), 'quiet=1', 'seeds=1', 'budgets=10000001', 'trainingStreams=5.10']); assert.equal(big.status, 1); assert.match(big.stderr, /10 million iteration limit/); assert.match(big.stderr, /trainingStreams=philox64/);
   const ok = run(['--study', fx, path.join(d, 'ok.json'), 'quiet=1', 'seeds=1', 'budgets=10000001', 'trainingStreams=philox64', 'timeLimitSeconds=0.2', 'checkpoint=off', 'evaluationSamples=64', 'qualitySamples=64']); assert.equal(ok.status, 0, ok.stderr);
   assert.equal(JSON.parse(fs.readFileSync(path.join(d, 'ok.json'), 'utf8')).variants[0].perSeed[0].budgets[0].budgetDeals, 10000001);
+});
+
+// ---------------- the desktop host ----------------
+test('5.11 desktop host: a philox64 spec trains through /api/mw to the state mwcli writes, its information names the streams, and the interactive bound of 10,000,000 updates is unchanged', { skip: hostSkip, timeout: 600000 }, async t => {
+  const { withHost, home } = require('./checkpoint_host'); const d = tmp(t);
+  const spec = { ...games.spec('rg-turn4', 5), ...WIDE }, legacy = games.spec('rg-turn4', 5), f = path.join(d, 'w.json'), fl = path.join(d, 'l.json'), sw = path.join(d, 'w.state'), sl = path.join(d, 'l.state');
+  fs.writeFileSync(f, JSON.stringify(spec)); fs.writeFileSync(fl, JSON.stringify(legacy)); trainOk(f, 600, sw); trainOk(fl, 600, sl);
+  const json = async r => { const text = await r.text(); try { return { http: r.status, ...JSON.parse(text) }; } catch { return { http: r.status, text }; } };
+  const until = async (fn, ms = 60000) => { const t0 = Date.now(); for (;;) { const v = await fn(); if (v) return v; if (Date.now() - t0 > ms) throw Error('timeout'); await new Promise(r => setTimeout(r, 10)); } };
+  await withHost(home(t), {}, async api => {
+    for (const [body, state, wide] of [[spec, sw, true], [legacy, sl, false]]) {
+      const init = await json(await api('mw/init', JSON.stringify(body))); assert.equal(init.http, 200, JSON.stringify(init).slice(0, 300));
+      assert.equal(init.engine.trainingStreams, wide ? ALGORITHM : undefined); assert.equal(init.engine.maxUpdates, wide ? MAX : undefined);
+      assert.equal((await api('mw/train', { iterations: 600, threads: 1 })).status, 200); await until(async () => !(await json(await api('mw/status'))).running);
+      const st = await json(await api('mw/status')); assert.equal(st.iterations, 600); assert.equal(st.engine.trainingStreams, wide ? ALGORITHM : undefined);
+      const bytes = Buffer.from(await (await api('mw/state')).arrayBuffer()); assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), sha(state), wide ? 'philox64: the host trains the state of mwcli' : '5.10 streams: the host trains the state of mwcli');
+      // the interactive route keeps its own bound for both kinds of streams
+      assert.equal((await json(await api('mw/train', { iterations: 10000001, threads: 1 }))).http, 400);
+      // a state of the other kind of streams is not imported into this engine
+      const other = fs.readFileSync(wide ? sl : sw), imp = await json(await api('mw/import', other)); assert.notEqual(imp.http, 200, 'a state of the other streams must be refused'); assert.equal((await json(await api('mw/status'))).iterations, 600, 'the engine is unchanged by a refused import');
+    }
+  });
 });
 
 // ---------------- the experiment runner and the Windows validation script ----------------

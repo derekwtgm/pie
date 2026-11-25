@@ -1,0 +1,10 @@
+{
+ "environment": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+ "processor": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "logicalProcessors": 2,
+ "parallelJobs": 2,
+ "written": "2026-11-25T15:34:31Z",
+ "rowsBefore": 4158,
+ "rowsKept": 4158,
+ "unitsComplete": 532
+}

@@ -1,0 +1,14 @@
+{
+ "tool": "reproduce511.py",
+ "releaseBuild": "EightMaxBuild=af452eaa0ea731be",
+ "experimentBuild": "EightMaxBuild=0000000000000000",
+ "experimentBinarySha256": "92bf63188a587fd765a972add3bb58a71c62317da383b294fee5fa3d67301d24",
+ "seeds": [
+  5201,
+  5217,
+  5232
+ ],
+ "compared": 72,
+ "identical": 72,
+ "different": []
+}
