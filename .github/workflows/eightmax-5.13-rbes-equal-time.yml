@@ -1,0 +1,35 @@
+name: EightMax 5.13 - rbes equal-time tool, quick trial on a hosted Windows runner
+on:
+  push:
+    paths:
+      - 'release-5.13/rbes-equal-time/EightMax-5.13-rbes-equal-time.zip'
+      - '.github/workflows/eightmax-5.13-rbes-equal-time.yml'
+jobs:
+  quick-trial:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract into a folder with a space in its name
+        shell: powershell
+        run: |
+          $d = Join-Path $env:RUNNER_TEMP 'rbes kit'
+          Expand-Archive -LiteralPath 'release-5.13/rbes-equal-time/EightMax-5.13-rbes-equal-time.zip' -DestinationPath $d
+          (Get-FileHash 'release-5.13/rbes-equal-time/EightMax-5.13-rbes-equal-time.zip' -Algorithm SHA256).Hash
+          Get-CimInstance Win32_Processor | ForEach-Object { "$($_.Name); $($_.NumberOfLogicalProcessors) logical processors" }
+      - name: Quick trial (as the .bat runs it, without the pause)
+        shell: cmd
+        run: |
+          cd /d "%RUNNER_TEMP%\rbes kit"
+          eqtime513.exe run --quick
+          echo quick trial exit status %ERRORLEVEL%
+      - name: Quick trial again (resume path) and the result files
+        shell: cmd
+        run: |
+          cd /d "%RUNNER_TEMP%\rbes kit"
+          eqtime513.exe run --quick --jobs 2 --out "%RUNNER_TEMP%\rbes kit\second out"
+          echo second run exit status %ERRORLEVEL%
+          dir rbes-equal-time-quick
+          type rbes-equal-time-quick\machine.txt
+          findstr /C:"PASSED" rbes-equal-time-quick\summary.txt
+          findstr /C:"PASSED" "second out\summary.txt"
