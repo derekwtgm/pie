@@ -1,0 +1,25 @@
+name: EightMax 5.15 - diagnostic (self-test 5.15, training section, repeated)
+on:
+  push:
+    branches: ['ccr-f7bda3fe-idkcb2']
+    paths: ['.github/workflows/eightmax-5.15-diagnostic.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  repeat:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ci
+      - name: training section, six times
+        shell: powershell
+        run: |
+          Expand-Archive ci/EightMax-5.15-prerelease.zip -DestinationPath $env:RUNNER_TEMP\em515
+          cd "$env:RUNNER_TEMP\em515\EightMax"
+          & .\mwcli.exe --build-id
+          for ($i = 1; $i -le 6; $i++) { "== run $i"; & .\mwcli.exe --selftest515 studies "$env:RUNNER_TEMP\w$i" training 2>&1 | Select-String -Pattern 'T2|"tool"' | ForEach-Object { $_.Line } }
+          exit 0
