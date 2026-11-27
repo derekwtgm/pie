@@ -9,7 +9,7 @@ permissions:
 jobs:
   repeat:
     runs-on: windows-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,10 +18,10 @@ jobs:
       - name: extract
         shell: powershell
         run: Expand-Archive ci/EightMax-5.15-prerelease.zip -DestinationPath $env:RUNNER_TEMP\em515
-      - name: training section, six times
+      - name: training section, twelve times
         shell: cmd
         run: |
           cd /d "%RUNNER_TEMP%\em515\EightMax"
           mwcli.exe --build-id
-          for /L %%i in (1,1,6) do ( echo == run %%i & mwcli.exe --selftest515 studies "%RUNNER_TEMP%\w%%i" training 2>&1 | findstr /C:"T2" /C:"tool" )
+          for /L %%i in (1,1,12) do ( echo == run %%i & mwcli.exe --selftest515 studies "%RUNNER_TEMP%\w%%i" training 2>&1 | findstr /C:"T2" /C:"tool" )
           exit /b 0
